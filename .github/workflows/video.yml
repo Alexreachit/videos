@@ -32,6 +32,8 @@ jobs:
 
       - name: Bilder erzeugen
         if: inputs.modus == 'bilder'
+        env:
+          POLLINATIONS_KEY: ${{ secrets.POLLINATIONS_KEY }}
         run: python generate_images.py --max "${{ inputs.max_bilder }}"
 
       - name: Neue Bilder im Repo speichern

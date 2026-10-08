@@ -1,6 +1,6 @@
 # Video-Pipeline
 
-Aus Skript und Bildprompts entsteht automatisch ein Video mit Sprecherstimme und Wort-für-Wort-Untertiteln. Die Bilder erzeugt ein kostenloser Bilddienst, alles läuft auf GitHub.
+Aus Skript und Bildprompts entsteht automatisch ein Video mit Sprecherstimme und Wort-für-Wort-Untertiteln. Die Bilder erzeugt der Bilddienst Pollinations (braucht einen API-Key), alles läuft auf GitHub.
 
 ## Dateien
 
@@ -12,6 +12,12 @@ Aus Skript und Bildprompts entsteht automatisch ein Video mit Sprecherstimme und
 | `generate_images.py` | Holt die Bilder vom Gratis-Bilddienst (macht dort weiter, wo es aufgehört hat) |
 | `build_video.py` | Baut aus Bildern, Stimme und Untertiteln das Video |
 | `bilder/` | Die fertigen Bilder `01.jpg`, `02.jpg`, ... |
+
+## Einmalig: API-Key hinterlegen
+
+1. Auf enter.pollinations.ai/keys ein Konto anlegen und einen Key erstellen (beginnt mit `sk_`).
+2. Im Repo auf **Settings**, links **Secrets and variables**, **Actions**, **New repository secret**.
+3. Name: `POLLINATIONS_KEY`, Wert: dein Key. Speichern. Den Key niemals in eine Datei oder in einen Chat schreiben.
 
 ## So läuft ein Video
 
@@ -33,5 +39,7 @@ Sag Claude das Thema. Es ersetzt `script.txt`, `prompts.txt` und bei Bedarf `sti
 
 - Die Stimme kommt von edge-tts. Fällt der Dienst aus, nimmt das Programm automatisch Piper (offline, klingt etwas robotischer).
 - Die Wort-Timings werden aus der Sprechdauer berechnet, nicht gemessen. Sie passen meist gut.
-- Der Gratis-Bilddienst kann die Figur leicht unterschiedlich zeichnen und hat Tageslimits.
+- Der Bilddienst rechnet über ein Guthaben ab. Ist es leer, stoppt das Skript und macht beim nächsten Lauf dort weiter.
+- Liefert der Dienst drei fast gleich große Bilder hintereinander, bricht das Skript ab, weil das meist ein Ersatzbild ist. Dann Bilder ansehen.
+- Die Figur kann von Bild zu Bild leicht anders aussehen.
 - Das Repo ist öffentlich, damit GitHub die Rechenzeit gratis stellt.

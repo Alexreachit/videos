@@ -12,6 +12,7 @@ Eingaben:  stil.txt (Stil-Block), prompts.txt (eine Zeile pro Szene)
 Ausgabe:   bilder/01.jpg, bilder/02.jpg, ...
 """
 import argparse
+import os
 import sys
 import time
 import urllib.error
@@ -21,10 +22,11 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 IMAGES = ROOT / "bilder"
-BASE_URL = "https://image.pollinations.ai/prompt/"
+BASE_URL = "https://gen.pollinations.ai/image/"
+API_KEY = os.environ.get("POLLINATIONS_KEY", "").strip()
 WIDTH, HEIGHT = 1280, 720
 SEED = 42                # gleicher Startwert für alle Bilder hilft der Figurenkonsistenz
-MODEL = "flux"
+MODEL = os.environ.get("POLLINATIONS_MODEL", "").strip()  # leer = Standardmodell des Dienstes
 PAUSE_SECONDS = 4        # Pause zwischen zwei Bildern, schont den Gratis-Dienst
 MAX_TRIES = 4
 MAX_FAILS_IN_A_ROW = 3   # danach Abbruch: Limit erreicht, morgen weitermachen
@@ -46,19 +48,39 @@ def existing_image(i: int):
     return None
 
 
+class OutOfBudget(Exception):
+    """Konto/Key hat kein Guthaben mehr (HTTP 402) oder der Key ist ungültig."""
+
+
 def fetch(prompt: str) -> bytes:
-    query = urllib.parse.urlencode({
-        "width": WIDTH, "height": HEIGHT, "seed": SEED,
-        "model": MODEL, "nologo": "true", "safe": "true",
+    params = {"width": WIDTH, "height": HEIGHT, "seed": SEED, "nologo": "true"}
+    if MODEL:
+        params["model"] = MODEL
+    url = BASE_URL + urllib.parse.quote(prompt, safe="") + "?" + urllib.parse.urlencode(params)
+    req = urllib.request.Request(url, headers={
+        "User-Agent": "video-pipeline/1.0",
+        "Authorization": f"Bearer {API_KEY}",
     })
-    url = BASE_URL + urllib.parse.quote(prompt, safe="") + "?" + query
-    req = urllib.request.Request(url, headers={"User-Agent": "video-pipeline/1.0"})
-    with urllib.request.urlopen(req, timeout=180) as resp:
-        ctype = resp.headers.get("Content-Type", "")
-        data = resp.read()
+    try:
+        with urllib.request.urlopen(req, timeout=180) as resp:
+            ctype = resp.headers.get("Content-Type", "")
+            data = resp.read()
+    except urllib.error.HTTPError as e:
+        if e.code in (401, 402, 403):
+            raise OutOfBudget(f"HTTP {e.code}: Key ungültig oder Guthaben aufgebraucht") from e
+        raise
     if not ctype.startswith("image/") or len(data) < 5000:
         raise RuntimeError(f"Keine gültige Bildantwort (Typ {ctype!r}, {len(data)} Bytes)")
     return data
+
+
+def looks_like_same_fallback(sizes):
+    """Drei Bilder in Folge mit fast gleicher Dateigröße sind sehr verdächtig:
+    Der Dienst liefert dann meist ein Ersatzbild statt der Szene."""
+    if len(sizes) < 3:
+        return False
+    a, b, c = sizes[-3:]
+    return max(a, b, c) - min(a, b, c) < 0.005 * max(a, b, c)
 
 
 def main():
@@ -66,6 +88,10 @@ def main():
     ap.add_argument("--max", type=int, default=0, help="höchstens so viele neue Bilder (0 = alle)")
     ap.add_argument("--only", type=int, nargs="*", help="nur diese Szenennummern (überschreibt vorhandene)")
     args = ap.parse_args()
+
+    if not API_KEY:
+        sys.exit("Der Key fehlt. Lege ihn bei GitHub unter Settings, Secrets and variables, "
+                 "Actions als POLLINATIONS_KEY an.")
 
     style = " ".join(read_lines("stil.txt")) if (ROOT / "stil.txt").exists() else ""
     prompts = read_lines("prompts.txt")
@@ -82,6 +108,7 @@ def main():
         todo = todo[:args.max]
 
     made = fails_in_row = 0
+    sizes = []
     for i in todo:
         prompt = f"{style} Scene: {prompts[i - 1]}".strip()
         ok = False
@@ -91,14 +118,25 @@ def main():
                 (IMAGES / f"{i:02d}.jpg").write_bytes(data)
                 ok = True
                 break
+            except OutOfBudget as e:
+                print(f"Stopp: {e}. Bereits erzeugte Bilder bleiben erhalten, mache morgen weiter.")
+                todo = []
+                break
             except (urllib.error.URLError, RuntimeError, TimeoutError) as e:
                 wait = 10 * attempt
                 print(f"  Szene {i}, Versuch {attempt}/{MAX_TRIES} fehlgeschlagen: {e}. Warte {wait}s.")
                 time.sleep(wait)
+        if not todo:
+            break
         if ok:
             made += 1
             fails_in_row = 0
-            print(f"Szene {i:02d} fertig ({made}/{len(todo)})")
+            sizes.append((IMAGES / f"{i:02d}.jpg").stat().st_size)
+            print(f"Szene {i:02d} fertig ({made})")
+            if looks_like_same_fallback(sizes):
+                print("Achtung: Die letzten drei Bilder sind fast gleich groß. Vermutlich liefert der "
+                      "Dienst ein Ersatzbild. Ich höre auf. Prüfe die Bilder, bevor du weitermachst.")
+                break
         else:
             fails_in_row += 1
             print(f"Szene {i:02d} aufgegeben.")
