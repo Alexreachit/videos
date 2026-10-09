@@ -1,4 +1,8 @@
-Video 2: "Was verdient ein Pilot wirklich?" (52 Szenen, ca. 7-8 Minuten)
+Video 2: "Macht dich ein Kaffee pro Tag zum Millionaer?" (Finanzen/Investieren, 56 Szenen, ca. 8 Min)
 Stand: Skript (script.txt) und Bildprompts (prompts.txt) fertig. Zeile N in prompts.txt = Szene N.
+Hauptfigur: gleiche Figur wie Video 1, aber Hoodie statt Pilotenuniform (Konto-Umstellung auf Finanzen).
 Noch offen: englisches Skript, Bilder in Gemini erzeugen (PC mit Chrome noetig), Build.
-Zahlen im Skript sind absichtlich grob. Vor dem Upload gegenpruefen (Quellen waren aelter, z.B. 2014/2020).
+Rechenbasis: 7 % Rendite p.a., monatlicher Sparplan (Annahme, keine Garantie). 4 EUR Kaffee/Tag ~ 122 EUR/Monat.
+Ergebnisse: 100 EUR/Monat -> ~117.000 EUR nach 30 J., ~247.000 EUR nach 40 J. Kaffeegeld -> ~142.000 (30 J.), ~301.000 (40 J.).
+Fuer 1 Mio. in 40 J. braucht man ca. 405 EUR/Monat (7 %), ca. 675 EUR (5 %).
+Vor Upload: Aussagen zu Inflation/Steuern/ETF-Kosten gegenpruefen, Hinweis "keine Anlageberatung" ist im Skript enthalten.

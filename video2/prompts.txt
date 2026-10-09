@@ -1,53 +1,54 @@
-# Bildprompts Video 2, eine Zeile pro Szene (Zeile N+1 = Szene N), Stil siehe ../stil.txt
-Main character in a casual t-shirt standing in front of a huge pile of gold coins with a question mark above his head, the older gray-haired captain (beige round head, four gold stripes) smiling beside him
-Main character in navy pilot uniform and cap at a desk with a calculator and a stack of blank papers, a thoughtful face, a small model airplane on the desk
-Two pilots in an airliner cockpit, main character in the right seat and the older gray-haired captain in the left seat, two different small stacks of coins floating above each of them
-Phase one title scene: a big red negative balance bar going down like a thermometer, main character standing next to it looking worried, no numbers
-Main character standing in front of a large flight school building holding a thick invoice paper (blank lines only), wide shocked eyes
-A giant price tag hanging from a small plane, main character in casual clothes looking up at it, no digits on the tag
-A bank clerk (round head, suit) handing a thick loan folder to the main character at a desk, calm office
-Main character sitting at a table doing homework with empty pockets turned out, a coin jar almost empty beside him
-A family at a kitchen table (parents with round heads and the main character) with a piggy bank and loan papers between them, serious faces
-Main character standing at the bottom of a steep mountain with a backpack, a tiny airplane icon at the very top
-Phase two title scene: main character walking toward a small regional airplane on the apron wearing a freshly ironed uniform with two gold stripes, proud face
-Main character in right seat of an airliner cockpit with two gold stripes, the older gray-haired captain in the left seat explaining something, friendly mood
-Two airplanes side by side on an apron, one small budget airline plane and one large traditional airline plane, main character between them looking at both
-A small budget airplane with a thin wallet icon floating above it, main character shrugging
-A big traditional airliner with a thick wallet icon floating above it, main character smiling widely
-Main character at a window seat of a hotel crew room looking at the stars at night, small moon and stars icons, slightly tired
-A pilot (main character) walking through an airport at night with a small suitcase, a weekend calendar with moon icon behind him
-Main character pointing at a progress bar with segments filling up, a stopwatch beside him, cockpit in background
-Phase three title scene: a gold coin being cut in half by big scissors, one half labeled with a tax symbol (no text), main character watching
-Main character holding a paycheck paper (blank lines) with a large chunk torn off, surprised face
-A big piggy bank with a small mouth open and coins flowing out to a tax building symbol, no text
-A neat uniform on a hanger, a cap and a small training book beside it, main character reaching to pay with coins
-A monthly loan payment drawn as a small chain attached to main character's ankle with a weight, casual office background
-Main character sitting at a table with a calculator and a small leftover pile of coins, friends (round heads) looking at him curiously from the side
-Phase four title scene: a golden staircase of ten steps going up into the clouds, main character standing at the bottom
-Main character climbing the golden stairs with each step showing a small gold stripe more on his sleeve
-A large calendar with year pages flying away and a coin growing bigger on every page, no digits
-Main character stepping from a small plane to a larger plane via a jet bridge with excited face
-The empty-looking cockpit door with a golden glow, main character standing before it with a fourth stripe on his sleeve, nervous but proud
-Phase five title scene: main character in the left seat of the cockpit with four gold stripes and cap, strong confident posture, first officer with brown round head at his right
-Main character as captain holding a heavy golden key labeled with a shield symbol, thinking face, aircraft behind him
-Cabin of an airplane with calm passengers while the captain's silhouette with cap can be seen through the open cockpit door
-A large stack of gold coins next to the captain, main character smiling, simple airport apron background
-A small airline airplane next to a big airline airplane, captain standing between them comparing, thoughtful face
-Main character at a table with a calendar of flight hours, a stopwatch and a coin jar, working to earn coins
-Phase six title scene: a hotel room at night with city lights, main character in uniform sitting on the bed, a suitcase beside him
-Main character in front of a calendar with many holiday icons crossed out, friends celebrating in the distance (small round heads)
-A doctor with a stethoscope examining main character in uniform, a calendar circled once a year on the wall
-A shield-shaped umbrella protecting main character from rain, an insurance symbol in the sky, no text
-Main character sitting at a desk with a laptop and a thoughtful smile surrounded by small icons of coins, a heart, and a clock
-Phase seven title scene: three different airplanes (small, medium, large) in a row on the apron, main character standing at the front
-A group of pilots (round heads, uniforms) standing together holding a flag with a plane symbol, union meeting, room with chairs
-A budget airline plane with many small flight icons circling it, main character in cockpit looking energetic
-Main character at a desk filling in forms with a laptop and a small coin jar, tax and insurance icons around him, self-employed look
-A world map with different colored coins on several countries, main character pointing at one of them with a smile, no labels
-Phase eight title scene: a balance scale with a pile of coins on one side and a heart-shaped airplane on the other, main character standing before it
-Main character calculating with a calculator and a notebook, thinking, a small airplane model above him
-Main character at an airport looking at a plane taking off with a mixture of joy and worry
-A stormy cloud with a cracked airplane icon and a coin falling out, main character watching worried through a window
-Experienced older gray-haired pilot (beige round head, four stripes) talking to the young main character at a bench, calm conversation, sunset behind them
-Main character happily looking at a plane through a window with sparkling eyes, a coin and a heart icon floating beside him
-Main character in navy uniform waving at the camera with a big smile and thumbs up, a small bell icon and thumbs up icon beside him
+# Bildprompts Video 2 (Finanzen), eine Zeile pro Szene (Zeile N+1 = Szene N). Keine Ziffern/Texte auf Bildern.
+Main character in a casual hoodie holding a coffee cup in one hand and a small golden coin tower in the other, a question mark above his head
+Main character looking skeptically at a glowing golden bar made of coins floating above a coffee cup, one eyebrow raised
+Main character at a desk with a laptop and a calculator, doing a careful calculation, thoughtful face
+Main character in a hoodie standing between a coffee cup on the left and a piggy bank on the right, deciding
+Phase title scene: a big coffee cup with coins spilling out of it onto a table, main character watching
+A wall calendar with a coffee cup icon on every day page and a coin falling out of each cup, main character counting on his fingers
+A small coin jar next to a tall stack of coffee cups, main character comparing them with a raised eyebrow
+Main character putting a coin into a piggy bank while a coffee cup stands unused behind him, proud smile
+A simple trophy-like staircase of coins going slowly upward, main character standing next to it with a pencil, no numbers
+A sign with a lightning bolt and a falling red arrow next to a small rising green arrow, main character looking at both, no text
+Phase title scene: a snowball rolling down a hill growing bigger and bigger, main character in a scarf watching it
+A small snowball at the top of a snowy hill, main character pushing it gently, bright winter day
+Main character looking at a tiny coin that becomes two coins, then four coins, drawn as a doubling row of coins, no digits
+A flat line of coins that suddenly curves upward like a hockey stick, main character pointing at the bend
+Main character relaxing in a hammock while a coin tree grows by itself behind him, sunny day
+Phase title scene: three plants of different sizes in pots, main character looking at them with a watering can
+A small sprout next to a small stack of coins, main character smiling in a hoodie
+A medium plant with a medium stack of coins, main character holding a watering can proudly
+A large leafy tree with a bigger stack of coins, main character leaning against its trunk, content
+A giant ancient tree with a huge golden coin pile at its roots, main character looking up in awe
+A big balance scale: on the left a stack of coins, on the right a gold bar, almost balanced, main character puzzled
+Phase title scene: main character standing in front of a tall golden gate with a long stone path leading up to it
+Main character holding a gold coin and looking from it to a distant tiny mountain with a golden peak
+Two paths splitting: a short path with a small stack of coins and a long path to a huge golden mountain, main character at the fork
+A thermometer filling slowly with gold coins, main character holding a clipboard
+Main character holding up a calendar with a much longer timeline and an arrow forward, calm confident face
+Phase title scene: main character putting a single coin into a piggy bank, a glowing check mark above it
+A piggy bank bigger than the main character, he stands on its back looking at the horizon
+Main character pushing a heavy cart of coins up a hill with small sweat drops, determined look
+A bright light bulb above main character's head and a stack of coins turning into a small house icon, idea moment
+Main character sitting at a table looking at a big jar full of coins with a satisfied smile, nothing else in the room
+Phase title scene: three large arrows pointing in different directions with a clock, a plus sign and a shield symbol, main character studying them
+Main character starting a race early while another round-headed person is still tying his shoes far behind, small coin trophy ahead
+Main character putting more coins into a jar with a small up arrow above, joyful face
+Main character holding steady in a storm of red falling arrows while holding a coin jar tightly, calm determined face
+Phase title scene: a storm cloud raining coins away from a pile on the ground, main character holding an umbrella
+A balloon floating up and shrinking a coin below it, main character watching, thoughtful
+A tax office building symbol with a hand taking a few coins from a pile, main character shrugging
+A rollercoaster of coins going up and down with main character in the wagon, nervous smile
+Main character holding on to a handrail on a wobbling bridge made of coins, calm focused face
+Phase title scene: a simple world globe filled with tiny houses and plants, held by main character like a ball
+A globe filled with thousands of tiny colorful houses and factories, main character looking at it through a magnifying glass
+Main character buying the whole basket of colorful fruits instead of one single fruit, smiling
+A machine dropping a coin into a jar every month with calendar pages flipping beside it, main character watching happily
+A safety net with a coin pouch under main character, he stands comfortably on a ledge with a thumbs up
+Main character cutting a small frightened round debt monster with scissors next to a coin pile
+Main character holding a shield symbol and a calculator, honest friendly face
+Phase title scene: main character standing at a finish line with a small golden trophy, confetti falling
+Main character shaking his head at a coffee cup then nodding with a smile at a growing coin tree behind him
+Main character holding a golden key shaped like a coin, standing at a small door with sunlight behind it
+Main character walking peacefully on a path with a coin tree on each side, sunny sky
+Main character at a laptop typing, a speech bubble icon with a coin inside, friendly mood
+Main character waving at the camera in a casual hoodie with a big smile, a bell icon and thumbs up icon beside him
