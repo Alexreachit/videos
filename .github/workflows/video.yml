@@ -11,6 +11,8 @@ on:
           - bilder
           - video
           - testlauf
+          - stimmen
+          - video_en
       max_bilder:
         description: "Nur bei 'bilder': so viele neue Bilder pro Lauf (0 = alle fehlenden)"
         type: string
@@ -62,11 +64,17 @@ jobs:
           sudo apt-get install -y ffmpeg fonts-dejavu-core
           pip install edge-tts piper-tts
 
+      - name: Hörproben der Stimmen
+        if: inputs.modus == 'stimmen'
+        run: python voices_test.py
+
       - name: Video bauen
-        if: inputs.modus != 'bilder'
+        if: inputs.modus != 'bilder' && inputs.modus != 'stimmen'
         run: |
           if [ "${{ inputs.modus }}" = "testlauf" ]; then
             python build_video.py --dry-run
+          elif [ "${{ inputs.modus }}" = "video_en" ]; then
+            python build_video.py --lang en --scenes "${{ inputs.max_szenen }}"
           else
             python build_video.py --scenes "${{ inputs.max_szenen }}"
           fi
@@ -76,5 +84,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: video
-          path: output/*.mp4
+          path: |
+            output/*.mp4
+            output/stimmen/*.mp3
           retention-days: 14

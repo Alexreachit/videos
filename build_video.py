@@ -30,8 +30,14 @@ OUT = ROOT / "output"
 
 WIDTH, HEIGHT, FPS = 1920, 1080, 30
 PAD_SECONDS = 0.35          # kurze Pause nach jeder Szene
-VOICE = "de-DE-ConradNeural"  # andere Stimmen: de-DE-KatjaNeural, de-DE-KillianNeural
-VOICE_RATE = "-5%"            # etwas langsamer sprechen
+VOICES = {"de": "de-DE-FlorianMultilingualNeural", "en": "en-US-AndrewMultilingualNeural"}
+VOICE_RATE = "-4%"            # etwas langsamer sprechen
+VOICE_PITCH = "+0Hz"
+VOICE = VOICES["de"]
+LANG = "de"
+PHASE_NUMBERS = {"eins": 1, "zwei": 2, "drei": 3, "vier": 4, "fünf": 5, "sechs": 6, "sieben": 7,
+                 "acht": 8, "neun": 9, "zehn": 10, "one": 1, "two": 2, "three": 3, "four": 4,
+                 "five": 5, "six": 6, "seven": 7, "eight": 8, "nine": 9, "ten": 10}
 WORDS_PER_CHUNK = 7           # so viele Wörter stehen max. gleichzeitig im Bild
 SUB_FONT = "DejaVu Sans"
 SUB_SIZE = 84
@@ -58,7 +64,7 @@ def duration_of(path: Path) -> float:
 
 def read_scenes():
     if not SCRIPT.exists():
-        sys.exit("script.txt fehlt.")
+        sys.exit(f"{SCRIPT.name} fehlt.")
     scenes = [l.strip() for l in SCRIPT.read_text(encoding="utf-8").splitlines()
               if l.strip() and not l.strip().startswith("#")]
     if not scenes:
@@ -77,11 +83,25 @@ def find_image(i: int):
 # ---------- Sprache ----------
 
 def tts_edge(text: str, mp3: Path):
+    """Erzeugt die Sprache und liefert die gemessenen Wortzeiten [(Wort, Start, Ende)]."""
     import edge_tts
 
     async def go():
-        await edge_tts.Communicate(text, VOICE, rate=VOICE_RATE).save(str(mp3))
-    asyncio.run(go())
+        try:
+            comm = edge_tts.Communicate(text, VOICE, rate=VOICE_RATE, pitch=VOICE_PITCH,
+                                        boundary="WordBoundary")
+        except TypeError:  # ältere Version: WordBoundary ist dort Standard
+            comm = edge_tts.Communicate(text, VOICE, rate=VOICE_RATE, pitch=VOICE_PITCH)
+        bounds = []
+        with open(mp3, "wb") as f:
+            async for chunk in comm.stream():
+                if chunk["type"] == "audio":
+                    f.write(chunk["data"])
+                elif chunk["type"] == "WordBoundary":
+                    st = chunk["offset"] / 1e7
+                    bounds.append((chunk["text"], st, st + chunk["duration"] / 1e7))
+        return bounds
+    return asyncio.run(go())
 
 
 def ensure_piper_model() -> Path:
@@ -101,8 +121,8 @@ def tts_piper(text: str, wav: Path):
         input=text.encode("utf-8"))
 
 
-def make_speech(text: str, i: int, dry_run: bool) -> Path:
-    """Liefert eine WAV-Datei (44,1 kHz mono) mit der gesprochenen Szene."""
+def make_speech(text: str, i: int, dry_run: bool):
+    """Liefert (WAV-Datei 44,1 kHz mono, gemessene Wortzeiten oder [])."""
     raw = WORK / f"speech_{i:02d}"
     wav = WORK / f"speech_{i:02d}.wav"
     if dry_run:
@@ -110,10 +130,11 @@ def make_speech(text: str, i: int, dry_run: bool) -> Path:
         secs = max(1.5, len(text.split()) / 2.6)
         run(["ffmpeg", "-y", "-loglevel", "error", "-f", "lavfi", "-i",
              "anullsrc=r=44100:cl=mono", "-t", f"{secs:.2f}", str(wav)])
-        return wav
+        return wav, []
+    bounds = []
     try:
         mp3 = raw.with_suffix(".mp3")
-        tts_edge(text, mp3)
+        bounds = tts_edge(text, mp3)
         run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(mp3),
              "-ar", "44100", "-ac", "1", str(wav)])
     except Exception as e:  # edge-tts kann auf Servern geblockt sein
@@ -122,7 +143,7 @@ def make_speech(text: str, i: int, dry_run: bool) -> Path:
         tts_piper(text, tmp)
         run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(tmp),
              "-ar", "44100", "-ac", "1", str(wav)])
-    return wav
+    return wav, bounds
 
 
 # ---------- Untertitel ----------
@@ -152,15 +173,60 @@ def escape_ass(s: str) -> str:
     return s.replace("\\", "").replace("{", "(").replace("}", ")")
 
 
-def subtitle_events(text: str, start: float, speech_len: float):
+def norm(w: str) -> str:
+    return re.sub(r"\W", "", w).lower()
+
+
+def measured_times(words, bounds):
+    """Ordnet die gemessenen Wortzeiten den Wörtern des Skripts zu (über Zeichenpositionen)."""
+    if not bounds:
+        return None
+    b_lens = [len(norm(t)) for t, _, _ in bounds]
+    s_lens = [len(norm(w)) for w in words]
+    if abs(sum(b_lens) - sum(s_lens)) > 0.15 * max(1, sum(s_lens)):
+        return None
+    b_start, pos = [], 0
+    for n in b_lens:
+        b_start.append(pos)
+        pos += n
+
+    def at(char_pos):
+        idx = 0
+        for k, st in enumerate(b_start):
+            if st <= char_pos:
+                idx = k
+        return idx
+    times, pos = [], 0
+    for n in s_lens:
+        first = at(min(pos, max(0, sum(b_lens) - 1)))
+        last = at(min(pos + max(n, 1) - 1, max(0, sum(b_lens) - 1)))
+        times.append((bounds[first][1], bounds[last][2]))
+        pos += n
+    return times
+
+
+def phase_title(text: str):
+    m = re.match(r"^\s*Phase\s+(\w+)\s*:\s*(.+?)\s*$", text, re.IGNORECASE)
+    if not m or m.group(1).lower() not in PHASE_NUMBERS:
+        return None
+    return PHASE_NUMBERS[m.group(1).lower()], m.group(2).rstrip(".")
+
+
+def subtitle_events(text: str, start: float, speech_len: float, bounds=None):
     words = text.split()
-    weights = word_weights(words)
-    total = sum(weights)
-    times, t = [], start
-    for w in weights:
-        d = speech_len * w / total
-        times.append((t, t + d))
-        t += d
+    rel = measured_times(words, bounds)
+    if rel is None:
+        weights = word_weights(words)
+        total = sum(weights)
+        rel, t = [], 0.0
+        for w in weights:
+            d = speech_len * w / total
+            rel.append((t, t + d))
+            t += d
+    times = [(start + a, start + b) for a, b in rel]
+    # Lücken zwischen Wörtern schließen, damit nichts flackert
+    for k in range(len(times) - 1):
+        times[k] = (times[k][0], max(times[k][1], times[k + 1][0]))
     events = []
     for c0 in range(0, len(words), WORDS_PER_CHUNK):
         chunk = list(range(c0, min(c0 + WORDS_PER_CHUNK, len(words))))
@@ -176,6 +242,14 @@ def subtitle_events(text: str, start: float, speech_len: float):
             end = times[wi][1] if pos < len(chunk) - 1 else times[wi][1] + 0.15
             events.append((times[wi][0], end, " ".join(parts)))
     return events
+
+
+def title_events(num: int, title: str, start: float, length: float):
+    t = escape_ass(title).upper()
+    return [(start, start + length,
+             "{\\an5\\pos(960,450)\\fs150\\c%s\\fad(300,300)}PHASE %d" % (COLOR_HIGHLIGHT, num)),
+            (start, start + length,
+             "{\\an5\\pos(960,620)\\fs82\\fad(300,300)}%s" % t)]
 
 
 def write_ass(path: Path, events):
@@ -212,7 +286,17 @@ def main():
                     help="Test ohne Stimme: stille Tonspur, fehlende Bilder werden ersetzt")
     ap.add_argument("--scenes", type=int, default=0,
                     help="nur die ersten N Szenen bauen (Vorschau), 0 = alle")
+    ap.add_argument("--lang", choices=["de", "en"], default="de",
+                    help="Sprache: de = script.txt, en = script_en.txt")
+    ap.add_argument("--voice", default="", help="Stimme überschreiben, z. B. de-DE-KatjaNeural")
     args = ap.parse_args()
+
+    global VOICE, SCRIPT, LANG
+    LANG = args.lang
+    VOICE = args.voice or VOICES[LANG]
+    if LANG == "en":
+        SCRIPT = ROOT / "script_en.txt"
+    print(f"Sprache: {LANG}, Stimme: {VOICE}")
 
     if WORK.exists():
         shutil.rmtree(WORK)
@@ -243,17 +327,23 @@ def main():
 
     # Sprache, Dauer, Untertitel
     events, wavs, durations = [], [], []
+    phase_scenes = set()
     t = 0.0
     for i, text in enumerate(scenes, start=1):
         print(f"Szene {i}/{len(scenes)}: {text[:60]}")
-        wav = make_speech(text, i, args.dry_run)
+        wav, bounds = make_speech(text, i, args.dry_run)
         speech_len = duration_of(wav)
         scene_len = speech_len + PAD_SECONDS
         padded = WORK / f"scene_{i:02d}.wav"
         run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(wav),
              "-af", f"apad=pad_dur={PAD_SECONDS}", "-ar", "44100", "-ac", "1",
              str(padded)])
-        events += subtitle_events(text, t, speech_len)
+        phase = phase_title(text)
+        if phase:   # Titelkarte statt Wort-für-Wort-Untertitel
+            events += title_events(phase[0], phase[1], t, scene_len)
+            phase_scenes.add(i - 1)
+        else:
+            events += subtitle_events(text, t, speech_len, bounds)
         wavs.append(padded)
         durations.append(scene_len)
         t += scene_len
@@ -283,7 +373,9 @@ def main():
         clip = WORK / f"clip_{n + 1:02d}.mp4"
         run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(img),
              "-vf", (f"scale=3840:2160:force_original_aspect_ratio=increase,crop=3840:2160,"
-                     f"zoompan={zp}:d={frames}:s={WIDTH}x{HEIGHT}:fps={FPS},format=yuv420p"),
+                     f"zoompan={zp}:d={frames}:s={WIDTH}x{HEIGHT}:fps={FPS},"
+                     + ("eq=brightness=-0.28:saturation=0.85," if n in phase_scenes else "")
+                     + "format=yuv420p"),
              "-frames:v", str(frames), "-c:v", "libx264", "-preset", "veryfast", "-crf", "18",
              str(clip)])
         clips.append(clip)
@@ -292,6 +384,8 @@ def main():
 
     vf = f"format=yuv420p,subtitles=work/subs.ass"
     out = OUT / ("test.mp4" if args.dry_run else ("vorschau.mp4" if args.scenes else "video.mp4"))
+    if LANG == "en" and not args.dry_run:
+        out = out.with_name(out.stem + "_en.mp4")
     print("Baue Video ...")
     run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0",
          "-i", str(img_list), "-i", str(WORK / "audio.wav"),
