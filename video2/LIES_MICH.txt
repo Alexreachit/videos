@@ -1,0 +1,4 @@
+Video 2: "Was verdient ein Pilot wirklich?" (52 Szenen, ca. 7-8 Minuten)
+Stand: Skript (script.txt) und Bildprompts (prompts.txt) fertig. Zeile N in prompts.txt = Szene N.
+Noch offen: englisches Skript, Bilder in Gemini erzeugen (PC mit Chrome noetig), Build.
+Zahlen im Skript sind absichtlich grob. Vor dem Upload gegenpruefen (Quellen waren aelter, z.B. 2014/2020).
