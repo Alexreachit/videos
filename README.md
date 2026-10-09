@@ -1,45 +1,35 @@
 # Video-Pipeline
 
-Aus Skript und Bildprompts entsteht automatisch ein Video mit Sprecherstimme und Wort-für-Wort-Untertiteln. Die Bilder erzeugt der Bilddienst Pollinations (braucht einen API-Key), alles läuft auf GitHub.
+Aus Skript und Bildern entsteht automatisch ein Video mit Sprecherstimme, Wort-für-Wort-Untertiteln, Phasen-Titelkarten und sanften Zooms. Alles läuft kostenlos auf GitHub.
 
 ## Dateien
 
 | Datei | Wofür |
 |-------|-------|
-| `script.txt` | Der Sprechertext. Eine Zeile = eine Szene = ein Bild |
-| `prompts.txt` | Ein Bildprompt pro Szene, gleiche Zeilennummer wie in `script.txt` |
-| `stil.txt` | Stil und Figurenbeschreibung, wird jedem Prompt vorangestellt |
-| `generate_images.py` | Holt die Bilder vom Gratis-Bilddienst (macht dort weiter, wo es aufgehört hat) |
+| `script.txt` / `script_en.txt` | Sprechertext deutsch / englisch. Eine Zeile = eine Szene = ein Bild |
+| `prompts.txt` | Bildprompt pro Szene (gleiche Zeilennummer wie im Skript) |
+| `stil.txt` | Stil- und Figurenbeschreibung |
+| `bilder/` | Die fertigen Bilder `01.jpg`, `02.jpg`, ... (1280x720). Sie entstehen in Gemini (im Chrome des Nutzers) |
 | `build_video.py` | Baut aus Bildern, Stimme und Untertiteln das Video |
-| `bilder/` | Die fertigen Bilder `01.jpg`, `02.jpg`, ... |
+| `voices_test.py` | Erzeugt Hörproben mit mehreren Gratis-Stimmen |
 
-## Einmalig: API-Key hinterlegen
+## Video bauen
 
-1. Auf enter.pollinations.ai/keys ein Konto anlegen und einen Key erstellen (beginnt mit `sk_`).
-2. Im Repo auf **Settings**, links **Secrets and variables**, **Actions**, **New repository secret**.
-3. Name: `POLLINATIONS_KEY`, Wert: dein Key. Speichern. Den Key niemals in eine Datei oder in einen Chat schreiben.
+Auf GitHub unter **Actions**, links **Video bauen**, rechts **Run workflow**. Optionen bei *Was soll passieren?*:
 
-## So läuft ein Video
+- **video**: deutsches Video (Stimme Florian). Fertige Datei unten im Lauf unter **Artifacts**.
+- **video_en**: englisches Video (Stimme Andrew), gleiche Bilder.
+- **testlauf**: Probe mit stiller Tonspur und Platzhalterbildern.
+- **stimmen**: Hörproben von 12 Stimmen.
+- *max_szenen*: nur die ersten N Szenen bauen (Vorschau), `0` = ganzes Video.
 
-Alles startet unter **Actions**, links **Video bauen**, rechts **Run workflow**. Dort wählst du bei *Was soll passieren?*:
+## Wie es gemacht ist
 
-1. **bilder**: Erzeugt bis zu 37 fehlende Bilder (Wert bei *max_bilder*) und speichert sie im Ordner `bilder/`. Reicht das Tageslimit nicht, starte es später noch einmal. Es macht dort weiter, wo es aufgehört hat. Die zweite Hälfte also gern am nächsten Tag.
-2. **video**: Baut das echte Video, sobald alle Bilder da sind. Fertige `video.mp4` unten im Lauf unter **Artifacts** herunterladen.
-3. **testlauf**: Baut ein Probevideo mit stiller Tonspur und Platzhalterbildern, falls etwas schiefläuft.
-
-## Einzelne Bilder austauschen
-
-Gefällt dir ein Bild nicht, lösche `bilder/NN.jpg` im Repo (Datei öffnen, Papierkorb) und starte **bilder** noch einmal. Oder lade ein eigenes Bild mit demselben Namen hoch.
+- Die Wort-Timings der Untertitel kommen aus den gemessenen Wortgrenzen der Stimme (edge-tts). Fehlen sie, wird geschätzt.
+- Szenen, die mit `Phase <Zahl>:` beginnen, werden zu einer abgedunkelten Titelkarte.
+- Jede Szene bekommt abwechselnd Zoom hinein, Zoom heraus oder Schwenk.
+- Das Repo ist öffentlich, damit GitHub die Rechenzeit gratis stellt.
 
 ## Neues Video
 
-Sag Claude das Thema. Es ersetzt `script.txt`, `prompts.txt` und bei Bedarf `stil.txt`. Lösche vorher den Inhalt von `bilder/` (außer `LIES_MICH.txt`).
-
-## Grenzen
-
-- Die Stimme kommt von edge-tts. Fällt der Dienst aus, nimmt das Programm automatisch Piper (offline, klingt etwas robotischer).
-- Die Wort-Timings werden aus der Sprechdauer berechnet, nicht gemessen. Sie passen meist gut.
-- Der Bilddienst rechnet über ein Guthaben ab. Ist es leer, stoppt das Skript und macht beim nächsten Lauf dort weiter.
-- Liefert der Dienst drei fast gleich große Bilder hintereinander, bricht das Skript ab, weil das meist ein Ersatzbild ist. Dann Bilder ansehen.
-- Die Figur kann von Bild zu Bild leicht anders aussehen.
-- Das Repo ist öffentlich, damit GitHub die Rechenzeit gratis stellt.
+Neues `script.txt` (und `script_en.txt`), `prompts.txt` und bei Bedarf `stil.txt` schreiben, `bilder/` leeren, Bilder erzeugen, bauen.
