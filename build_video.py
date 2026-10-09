@@ -262,16 +262,31 @@ def main():
     run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0",
          "-i", str(audio_list), "-c", "copy", str(WORK / "audio.wav")])
 
+    # Jede Szene wird zu einem kurzen Clip mit sanftem Zoom bzw. Schwenk
+    # (abwechselnd, damit das Video lebendig wirkt)
+    clips = []
+    for n, (img, d) in enumerate(zip(images, durations)):
+        frames = max(2, int(round(d * FPS)))
+        mode = n % 4
+        if mode == 0:    # langsam hineinzoomen
+            zp = f"z='1+0.10*on/{frames}':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)'"
+        elif mode == 1:  # langsam herauszoomen
+            zp = f"z='1.10-0.10*on/{frames}':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)'"
+        elif mode == 2:  # Schwenk von links nach rechts
+            zp = f"z='1.08':x='(iw-iw/zoom)*on/{frames}':y='ih/2-(ih/zoom/2)'"
+        else:            # Schwenk von rechts nach links
+            zp = f"z='1.08':x='(iw-iw/zoom)*(1-on/{frames})':y='ih/2-(ih/zoom/2)'"
+        clip = WORK / f"clip_{n + 1:02d}.mp4"
+        run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(img),
+             "-vf", (f"scale=3840:2160:force_original_aspect_ratio=increase,crop=3840:2160,"
+                     f"zoompan={zp}:d={frames}:s={WIDTH}x{HEIGHT}:fps={FPS},format=yuv420p"),
+             "-frames:v", str(frames), "-c:v", "libx264", "-preset", "veryfast", "-crf", "18",
+             str(clip)])
+        clips.append(clip)
     img_list = WORK / "images.txt"
-    with img_list.open("w") as f:
-        for img, d in zip(images, durations):
-            f.write(f"file '{img.resolve()}'\nduration {d:.3f}\n")
-        f.write(f"file '{images[-1].resolve()}'\n")  # ffmpeg-Eigenheit: letztes Bild wiederholen
+    img_list.write_text("".join(f"file '{c.resolve()}'\n" for c in clips))
 
-    vf = (f"scale={WIDTH}:{HEIGHT}:force_original_aspect_ratio=decrease,"
-          f"pad={WIDTH}:{HEIGHT}:(ow-iw)/2:(oh-ih)/2:color=black,"
-          f"fps={FPS},format=yuv420p,"
-          f"subtitles=work/subs.ass")
+    vf = f"format=yuv420p,subtitles=work/subs.ass"
     out = OUT / ("test.mp4" if args.dry_run else "video.mp4")
     print("Baue Video ...")
     run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0",
