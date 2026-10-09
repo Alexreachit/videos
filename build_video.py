@@ -238,9 +238,15 @@ def subtitle_events(text: str, start: float, speech_len: float, bounds=None):
                     parts.append("{\\c%s}%s{\\c%s}" % (COLOR_HIGHLIGHT, w, COLOR_NORMAL))
                 else:
                     parts.append(w)
-            # letztes Wort des Blocks bleibt bis zum Blockende stehen
-            end = times[wi][1] if pos < len(chunk) - 1 else times[wi][1] + 0.15
-            events.append((times[wi][0], end, " ".join(parts)))
+            # letztes Wort des Blocks bleibt kurz stehen, aber nie in den nächsten Block hinein
+            if pos < len(chunk) - 1:
+                end = times[wi][1]
+            else:
+                nxt = times[chunk[-1] + 1][0] if chunk[-1] + 1 < len(words) else None
+                end = times[wi][1] + 0.15
+                if nxt is not None:
+                    end = min(end, nxt)
+            events.append((times[wi][0], max(end, times[wi][0] + 0.05), " ".join(parts)))
     return events
 
 
