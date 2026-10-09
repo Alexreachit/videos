@@ -16,6 +16,11 @@ on:
         type: string
         default: "37"
 
+      max_szenen:
+        description: "Nur bei 'video': nur die ersten N Szenen bauen (Vorschau), 0 = alles"
+        type: string
+        default: "0"
+
 permissions:
   contents: write
 
@@ -63,7 +68,7 @@ jobs:
           if [ "${{ inputs.modus }}" = "testlauf" ]; then
             python build_video.py --dry-run
           else
-            python build_video.py
+            python build_video.py --scenes "${{ inputs.max_szenen }}"
           fi
 
       - name: Video zum Download bereitstellen

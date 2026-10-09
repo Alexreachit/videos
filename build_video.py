@@ -210,6 +210,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true",
                     help="Test ohne Stimme: stille Tonspur, fehlende Bilder werden ersetzt")
+    ap.add_argument("--scenes", type=int, default=0,
+                    help="nur die ersten N Szenen bauen (Vorschau), 0 = alle")
     args = ap.parse_args()
 
     if WORK.exists():
@@ -218,6 +220,8 @@ def main():
     OUT.mkdir(exist_ok=True)
 
     scenes = read_scenes()
+    if args.scenes:
+        scenes = scenes[:args.scenes]
     print(f"{len(scenes)} Szenen gefunden.")
 
     # Bilder prüfen
@@ -287,7 +291,7 @@ def main():
     img_list.write_text("".join(f"file '{c.resolve()}'\n" for c in clips))
 
     vf = f"format=yuv420p,subtitles=work/subs.ass"
-    out = OUT / ("test.mp4" if args.dry_run else "video.mp4")
+    out = OUT / ("test.mp4" if args.dry_run else ("vorschau.mp4" if args.scenes else "video.mp4"))
     print("Baue Video ...")
     run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0",
          "-i", str(img_list), "-i", str(WORK / "audio.wav"),
