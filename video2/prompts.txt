@@ -1,8 +1,8 @@
 # Bildprompts Video 2 (Finanzen), eine Zeile pro Szene (Zeile N+1 = Szene N). Keine Ziffern/Texte auf Bildern.
-Main character in a casual hoodie holding a coffee cup in one hand and a small golden coin tower in the other, a question mark above his head
+Main character in a green hoodie holding a coffee cup in one hand and a small golden coin tower in the other, a question mark above his head
 Main character looking skeptically at a glowing golden bar made of coins floating above a coffee cup, one eyebrow raised
 Main character at a desk with a laptop and a calculator, doing a careful calculation, thoughtful face
-Main character in a hoodie standing between a coffee cup on the left and a piggy bank on the right, deciding
+Main character in a green hoodie standing between a coffee cup on the left and a piggy bank on the right, deciding
 Phase title scene: a big coffee cup with coins spilling out of it onto a table, main character watching
 A wall calendar with a coffee cup icon on every day page and a coin falling out of each cup, main character counting on his fingers
 A small coin jar next to a tall stack of coffee cups, main character comparing them with a raised eyebrow
@@ -15,7 +15,7 @@ Main character looking at a tiny coin that becomes two coins, then four coins, d
 A flat line of coins that suddenly curves upward like a hockey stick, main character pointing at the bend
 Main character relaxing in a hammock while a coin tree grows by itself behind him, sunny day
 Phase title scene: three plants of different sizes in pots, main character looking at them with a watering can
-A small sprout next to a small stack of coins, main character smiling in a hoodie
+A small sprout next to a small stack of coins, main character smiling in a green hoodie
 A medium plant with a medium stack of coins, main character holding a watering can proudly
 A large leafy tree with a bigger stack of coins, main character leaning against its trunk, content
 A giant ancient tree with a huge golden coin pile at its roots, main character looking up in awe
@@ -54,4 +54,4 @@ Main character shaking his head at a coffee cup then nodding with a smile at a g
 Main character holding a golden key shaped like a coin, standing at a small door with sunlight behind it
 Main character walking peacefully on a path with a coin tree on each side, sunny sky
 Main character at a laptop typing, a speech bubble icon with a coin inside, friendly mood
-Main character waving at the camera in a casual hoodie with a big smile, a bell icon and thumbs up icon beside him
+Main character waving at the camera in a green hoodie with a big smile, a bell icon and thumbs up icon beside him

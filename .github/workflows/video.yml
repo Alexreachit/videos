@@ -18,6 +18,11 @@ on:
         type: string
         default: "37"
 
+      projekt:
+        description: "Unterordner des Videos (leer = Video 1, z. B. video2)"
+        type: string
+        default: ""
+
       max_szenen:
         description: "Nur bei 'video': nur die ersten N Szenen bauen (Vorschau), 0 = alles"
         type: string
@@ -74,9 +79,9 @@ jobs:
           if [ "${{ inputs.modus }}" = "testlauf" ]; then
             python build_video.py --dry-run
           elif [ "${{ inputs.modus }}" = "video_en" ]; then
-            python build_video.py --lang en --scenes "${{ inputs.max_szenen }}"
+            python build_video.py --lang en --scenes "${{ inputs.max_szenen }}" --project "${{ inputs.projekt }}"
           else
-            python build_video.py --scenes "${{ inputs.max_szenen }}"
+            python build_video.py --scenes "${{ inputs.max_szenen }}" --project "${{ inputs.projekt }}"
           fi
 
       - name: Video zum Download bereitstellen

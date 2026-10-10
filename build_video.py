@@ -295,13 +295,16 @@ def main():
     ap.add_argument("--lang", choices=["de", "en"], default="de",
                     help="Sprache: de = script.txt, en = script_en.txt")
     ap.add_argument("--voice", default="", help="Stimme überschreiben, z. B. de-DE-KatjaNeural")
+    ap.add_argument("--project", default="",
+                    help="Unterordner mit script.txt und bilder/ (z. B. video2); leer = Hauptordner")
     args = ap.parse_args()
 
-    global VOICE, SCRIPT, LANG
+    global VOICE, SCRIPT, LANG, IMAGES
     LANG = args.lang
     VOICE = args.voice or VOICES[LANG]
-    if LANG == "en":
-        SCRIPT = ROOT / "script_en.txt"
+    proj = ROOT / args.project if args.project else ROOT
+    SCRIPT = proj / ("script_en.txt" if LANG == "en" else "script.txt")
+    IMAGES = proj / "bilder"
     print(f"Sprache: {LANG}, Stimme: {VOICE}")
 
     if WORK.exists():
@@ -389,7 +392,8 @@ def main():
     img_list.write_text("".join(f"file '{c.resolve()}'\n" for c in clips))
 
     vf = f"format=yuv420p,subtitles=work/subs.ass"
-    out = OUT / ("test.mp4" if args.dry_run else ("vorschau.mp4" if args.scenes else "video.mp4"))
+    base = args.project or "video"
+    out = OUT / ("test.mp4" if args.dry_run else (f"vorschau_{base}.mp4" if args.scenes else f"{base}.mp4"))
     if LANG == "en" and not args.dry_run:
         out = out.with_name(out.stem + "_en.mp4")
     print("Baue Video ...")
