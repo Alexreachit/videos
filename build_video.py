@@ -22,6 +22,9 @@ import sys
 import urllib.request
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import anim_char
+
 ROOT = Path(__file__).resolve().parent
 SCRIPT = ROOT / "script.txt"
 IMAGES = ROOT / "bilder"
@@ -382,44 +385,36 @@ def main():
     for n, (img, d) in enumerate(zip(images, durations)):
         frames = max(2, int(round(d * FPS)))
         F = frames
-        p = f"(on/{F})"
-        e = f"(3*pow({p},2)-2*pow({p},3))"          # weiches Anfahren/Abbremsen
-        breathe = f"0.006*sin(on/{FPS}*2*PI*0.4)"    # sanftes Atmen
-        bob = f"10*sin(on/{FPS}*2*PI*0.3)"           # sanftes Wippen (Pixel im 4K-Bild)
         mode = n % 8
-        cx, cy = "iw/2-(iw/zoom/2)", "ih/2-(ih/zoom/2)"
-        if mode == 0:    # Push-in
-            zp = f"z='1+0.12*{e}+{breathe}':x='{cx}':y='{cy}+{bob}'"
-        elif mode == 1:  # Pull-out
-            zp = f"z='1.12-0.12*{e}+{breathe}':x='{cx}+{bob}':y='{cy}'"
-        elif mode == 2:  # Schwenk links -> rechts
-            zp = f"z='1.10+{breathe}':x='(iw-iw/zoom)*{e}':y='{cy}+{bob}'"
-        elif mode == 3:  # Schwenk rechts -> links
-            zp = f"z='1.10+{breathe}':x='(iw-iw/zoom)*(1-{e})':y='{cy}+{bob}'"
-        elif mode == 4:  # Diagonal nach oben rechts hineinzoomen
-            zp = f"z='1.02+0.10*{e}+{breathe}':x='(iw-iw/zoom)*(0.3+0.4*{e})':y='(ih-ih/zoom)*(0.7-0.5*{e})'"
-        elif mode == 5:  # Schwenk von oben nach unten
-            zp = f"z='1.10+{breathe}':x='{cx}+{bob}':y='(ih-ih/zoom)*{e}'"
-        elif mode == 6:  # Diagonal nach unten links hineinzoomen
-            zp = f"z='1.02+0.10*{e}+{breathe}':x='(iw-iw/zoom)*(0.7-0.4*{e})':y='(ih-ih/zoom)*(0.3+0.4*{e})'"
-        else:            # Schwenk von unten nach oben
-            zp = f"z='1.10+{breathe}':x='{cx}+{bob}':y='(ih-ih/zoom)*(1-{e})'"
+        Wd, Hd = WIDTH, HEIGHT
+
+        def camera(prog, mode=mode):
+            e = prog * prog * (3 - 2 * prog)
+            if mode == 0:   z, fx, fy = 1.00 + 0.12 * e, 0.5, 0.5
+            elif mode == 1: z, fx, fy = 1.12 - 0.12 * e, 0.5, 0.5
+            elif mode == 2: z, fx, fy = 1.10, e, 0.5
+            elif mode == 3: z, fx, fy = 1.10, 1 - e, 0.5
+            elif mode == 4: z, fx, fy = 1.02 + 0.10 * e, 0.3 + 0.4 * e, 0.7 - 0.5 * e
+            elif mode == 5: z, fx, fy = 1.10, 0.5, e
+            elif mode == 6: z, fx, fy = 1.02 + 0.10 * e, 0.7 - 0.4 * e, 0.3 + 0.4 * e
+            else:           z, fx, fy = 1.10, 0.5, 1 - e
+            hw, hh = Wd / 2 / z, Hd / 2 / z
+            return z, hw + fx * (Wd - 2 * hw), hh + fy * (Hd - 2 * hh)
         phase = n in phase_scenes
         clip = WORK / f"clip_{n + 1:02d}.mp4"
-        base = (f"scale=3840:2160:force_original_aspect_ratio=increase,crop=3840:2160,"
-                f"zoompan={zp}:d={frames}:s={WIDTH}x{HEIGHT}:fps={FPS}"
-                + (",eq=brightness=-0.28:saturation=0.85" if phase else ""))
+        grade = ",eq=brightness=-0.28:saturation=0.85" if phase else ""
         tail = (f"vignette=PI/4.5,"
                 f"fade=t=in:st=0:d=0.18,fade=t=out:st={max(0.0, d - 0.18):.3f}:d=0.18,format=yuv420p")
-        cmd = ["ffmpeg", "-y", "-loglevel", "error", "-i", str(img)]
+        cmd = ["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "bgr24",
+               "-s", f"{WIDTH}x{HEIGHT}", "-r", str(FPS), "-i", "-"]
+        use_coins = (not args.static) and (not phase) and bool(money_re.search(scenes[n]))
         if args.static:
-            fg = f"[0:v]{base},format=yuv420p[v]"
+            fg = f"[0:v]format=yuv420p{grade}[v]"
         else:
             cmd += ["-stream_loop", "-1", "-i", str(fx_dir / "dust.mov")]
-            use_coins = (not phase) and bool(money_re.search(scenes[n]))
             if use_coins:
                 cmd += ["-stream_loop", "-1", "-i", str(fx_dir / "coins.mov")]
-            fg = f"[0:v]{base}[b];[b][1:v]overlay=shortest=1[o]"
+            fg = f"[0:v]format=yuv420p{grade}[b];[b][1:v]overlay=shortest=1[o]"
             last = "o"
             if use_coins:
                 fg += ";[o][2:v]overlay=shortest=1[o2]"
@@ -427,7 +422,13 @@ def main():
             fg += f";[{last}]{tail}[v]"
         cmd += ["-filter_complex", fg, "-map", "[v]", "-frames:v", str(frames),
                 "-c:v", "libx264", "-preset", "veryfast", "-crf", "20", str(clip)]
-        run(cmd)
+        rig = anim_char.Rig(img, seed=n)
+        pr = subprocess.Popen(cmd, stdin=subprocess.PIPE)
+        for f in range(frames):
+            pr.stdin.write(rig.frame(f / FPS, camera(f / max(1, frames - 1))).tobytes())
+        pr.stdin.close()
+        if pr.wait() != 0:
+            sys.exit("ffmpeg-Fehler bei Szene %d" % (n + 1))
         clips.append(clip)
     img_list = WORK / "images.txt"
     img_list.write_text("".join(f"file '{c.resolve()}'\n" for c in clips))
