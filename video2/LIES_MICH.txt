@@ -1,8 +1,9 @@
 Video 2: "Macht dich ein Kaffee pro Tag zum Millionaer?" (Finanzen/Investieren, 56 Szenen, ca. 8 Min)
 Stand: Skript (script.txt) und Bildprompts (prompts.txt) fertig. Zeile N in prompts.txt = Szene N.
-Hauptfigur: gleiche Figur wie Video 1, aber Hoodie statt Pilotenuniform (Konto-Umstellung auf Finanzen).
+Hauptfigur: exakt gleiche Figur wie Video 1 (runder cremefarbener Kopf, blauer Pullover), keine Haartolle.
 Noch offen: englisches Skript, Bilder in Gemini erzeugen (PC mit Chrome noetig), Build.
 Rechenbasis: 7 % Rendite p.a., monatlicher Sparplan (Annahme, keine Garantie). 4 EUR Kaffee/Tag ~ 122 EUR/Monat.
 Ergebnisse: 100 EUR/Monat -> ~117.000 EUR nach 30 J., ~247.000 EUR nach 40 J. Kaffeegeld -> ~142.000 (30 J.), ~301.000 (40 J.).
 Fuer 1 Mio. in 40 J. braucht man ca. 405 EUR/Monat (7 %), ca. 675 EUR (5 %).
 Vor Upload: Aussagen zu Inflation/Steuern/ETF-Kosten gegenpruefen, Hinweis "keine Anlageberatung" ist im Skript enthalten.
+Stand 11.10. 14:50: Szenen 1-25 liegen in bilder/ (Screenshot-Methode). Neu zu erzeugen: Szene 5 (zwei Figuren -> nur eine Figur), Szene 25 (Wort LEVEL auf Bild -> ohne Text), Szenen 26-56. Gemini-Limit bis 16:34.
