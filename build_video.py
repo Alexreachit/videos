@@ -33,6 +33,7 @@ OUT = ROOT / "output"
 
 WIDTH, HEIGHT, FPS = 1920, 1080, 30
 PAD_SECONDS = 0.35          # kurze Pause nach jeder Szene
+SHOT_SECONDS = 4.2          # Ziel-Takt für Bildausschnitt-Wechsel (Retention-Empfehlung 3-5 s)
 VOICES = {"de": "de-DE-FlorianMultilingualNeural", "en": "en-US-AndrewMultilingualNeural"}
 VOICE_RATE = "-4%"            # etwas langsamer sprechen
 VOICE_PITCH = "+0Hz"
@@ -388,7 +389,10 @@ def main():
         mode = n % 8
         Wd, Hd = WIDTH, HEIGHT
 
-        def camera(prog, mode=mode):
+        # Bildwechsel-Takt: lange Szenen werden in Teilschnitte (ca. alle SHOT_SECONDS s) zerlegt,
+        # jeder mit anderem Bildausschnitt/Kamera. Das bricht das Bild oft genug, ohne neue Bilder.
+        segs = 1 if n in phase_scenes else max(1, int(round(d / SHOT_SECONDS)))
+        def one(prog, mode):
             e = prog * prog * (3 - 2 * prog)
             if mode == 0:   z, fx, fy = 1.00 + 0.12 * e, 0.5, 0.5
             elif mode == 1: z, fx, fy = 1.12 - 0.12 * e, 0.5, 0.5
@@ -397,9 +401,22 @@ def main():
             elif mode == 4: z, fx, fy = 1.02 + 0.10 * e, 0.3 + 0.4 * e, 0.7 - 0.5 * e
             elif mode == 5: z, fx, fy = 1.10, 0.5, e
             elif mode == 6: z, fx, fy = 1.02 + 0.10 * e, 0.7 - 0.4 * e, 0.3 + 0.4 * e
-            else:           z, fx, fy = 1.10, 0.5, 1 - e
+            elif mode == 7: z, fx, fy = 1.10, 0.5, 1 - e
+            elif mode == 8:  z, fx, fy = 1.22 + 0.05 * e, 0.15 + 0.1 * e, 0.4   # Nahaufnahme links
+            elif mode == 9:  z, fx, fy = 1.22 + 0.05 * e, 0.85 - 0.1 * e, 0.4   # Nahaufnahme rechts
+            elif mode == 10: z, fx, fy = 1.28 - 0.06 * e, 0.5, 0.25 + 0.1 * e   # Nahaufnahme oben/Mitte
+            else:            z, fx, fy = 1.25 + 0.06 * e, 0.5, 0.6               # Nahaufnahme unten/Mitte
             hw, hh = Wd / 2 / z, Hd / 2 / z
             return z, hw + fx * (Wd - 2 * hw), hh + fy * (Hd - 2 * hh)
+
+        def camera(prog, mode=mode, segs=segs, n=n):
+            if segs == 1:
+                return one(prog, mode)
+            k = min(segs - 1, int(prog * segs))
+            p = prog * segs - k
+            # erster Teilschnitt: Weitwinkel (Original-Kamera), danach wechselnde Nahaufnahmen
+            m = mode if k == 0 else 8 + ((n * 3 + k * 5) % 4)
+            return one(min(1.0, p), m)
         phase = n in phase_scenes
         clip = WORK / f"clip_{n + 1:02d}.mp4"
         grade = ",eq=brightness=-0.28:saturation=0.85" if phase else ""
