@@ -54,6 +54,7 @@ VOICE_RATE = "-4%"            # etwas langsamer sprechen
 VOICE_PITCH = "+0Hz"
 VOICE = VOICES["de"]
 LANG = "de"
+PIPER_USED = 0
 PHASE_NUMBERS = {"eins": 1, "zwei": 2, "drei": 3, "vier": 4, "fünf": 5, "sechs": 6, "sieben": 7,
                  "acht": 8, "neun": 9, "zehn": 10, "one": 1, "two": 2, "three": 3, "four": 4,
                  "five": 5, "six": 6, "seven": 7, "eight": 8, "nine": 9, "ten": 10}
@@ -64,9 +65,11 @@ SUB_SIZE = 62
 COLOR_HIGHLIGHT = "&H00C5D14F&"
 COLOR_NORMAL = "&H00FFFFFF&"
 
-PIPER_MODEL = "de_DE-thorsten-medium"
-PIPER_URL = ("https://huggingface.co/rhasspy/piper-voices/resolve/main/"
-             "de/de_DE/thorsten/medium/" + PIPER_MODEL)
+PIPER_MODELS = {
+    "de": ("de_DE-thorsten-medium", "de/de_DE/thorsten/medium/"),
+    "en": ("en_US-ryan-high", "en/en_US/ryan/high/"),
+}
+PIPER_BASE = "https://huggingface.co/rhasspy/piper-voices/resolve/main/"
 
 
 def run(cmd, **kw):
@@ -126,12 +129,13 @@ def tts_edge(text: str, mp3: Path):
 def ensure_piper_model() -> Path:
     model_dir = WORK / "piper"
     model_dir.mkdir(parents=True, exist_ok=True)
+    name, sub = PIPER_MODELS.get(LANG, PIPER_MODELS["en"])
     for suffix in (".onnx", ".onnx.json"):
-        target = model_dir / (PIPER_MODEL + suffix)
+        target = model_dir / (name + suffix)
         if not target.exists():
             print(f"Lade Piper-Stimme {target.name} ...")
-            urllib.request.urlretrieve(PIPER_URL + suffix, target)
-    return model_dir / (PIPER_MODEL + ".onnx")
+            urllib.request.urlretrieve(PIPER_BASE + sub + name + suffix, target)
+    return model_dir / (name + ".onnx")
 
 
 def tts_piper(text: str, wav: Path):
@@ -154,7 +158,7 @@ def make_speech(text: str, i: int, dry_run: bool):
     try:
         mp3 = raw.with_suffix(".mp3")
         last_err = None
-        for attempt in range(6):  # edge-tts hakt manchmal: mehrfach versuchen
+        for attempt in range(3):  # edge-tts hakt manchmal: mehrfach versuchen
             try:
                 bounds = tts_edge(text, mp3)
                 last_err = None
@@ -169,10 +173,9 @@ def make_speech(text: str, i: int, dry_run: bool):
              "-ar", "44100", "-ac", "1", str(wav)])
     except Exception as e:  # edge-tts kann auf Servern geblockt sein
         print(f"edge-tts ging bei Szene {i} nicht ({e}).")
-        if LANG != "de":
-            # Die Ersatzstimme ist deutsch: nie damit fremdsprachigen Text vorlesen lassen.
-            raise SystemExit(f"Abbruch: Stimme fuer '{LANG}' nicht verfuegbar (Szene {i}).")
-        print("Nehme Piper.")
+        print(f"Nehme Piper-Ersatzstimme fuer Sprache '{LANG}'.")
+        global PIPER_USED
+        PIPER_USED += 1
         tmp = raw.with_suffix(".piper.wav")
         tts_piper(text, tmp)
         run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(tmp),
@@ -487,6 +490,8 @@ def main():
     out = OUT / ("test.mp4" if args.dry_run else (f"vorschau_{base}.mp4" if args.scenes else f"{base}.mp4"))
     if LANG == "en" and not args.dry_run:
         out = out.with_name(out.stem + "_en.mp4")
+    if PIPER_USED and not args.dry_run:
+        out = out.with_name(out.stem + f"_ERSATZSTIMME{PIPER_USED}.mp4")
     print("Baue Video ...")
     run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0",
          "-i", str(img_list), "-i", str(WORK / "audio.wav"),
