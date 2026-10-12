@@ -17,3 +17,7 @@ jobs:
         run: |
           pip install -U "git+https://github.com/rany2/edge-tts.git"
           python probe_tts.py
+      - name: Neues Protokoll
+        run: |
+          pip install -U edge-tts certifi
+          python probe_new.py
