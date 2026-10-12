@@ -32,13 +32,15 @@ class PlainRig:
     """Nur Kamerafahrt (Zoom/Schwenk), keine Figurenverformung."""
     def __init__(self, path):
         src = cv2.imread(str(path))
-        self.src = cv2.resize(src, (anim_char.W, anim_char.H), interpolation=cv2.INTER_CUBIC)
+        up = cv2.resize(src, (anim_char.W, anim_char.H), interpolation=cv2.INTER_LANCZOS4)
+        blur = cv2.GaussianBlur(up, (0, 0), 1.4)
+        self.src = cv2.addWeighted(up, 1.6, blur, -0.6, 0)   # leichtes Nachschaerfen gegen Weichheit
 
     def frame(self, t, cam):
         z, cx, cy = cam
         W, H = anim_char.W, anim_char.H
         M = anim_char.np.float32([[z, 0, W / 2 - z * cx], [0, z, H / 2 - z * cy]])
-        return cv2.warpAffine(self.src, M, (W, H), flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE)
+        return cv2.warpAffine(self.src, M, (W, H), flags=cv2.INTER_LANCZOS4, borderMode=cv2.BORDER_REPLICATE)
 
 ROOT = Path(__file__).resolve().parent
 SCRIPT = ROOT / "script.txt"
@@ -438,10 +440,10 @@ def main():
             elif mode == 5: z, fx, fy = 1.10, 0.5, e
             elif mode == 6: z, fx, fy = 1.02 + 0.10 * e, 0.7 - 0.4 * e, 0.3 + 0.4 * e
             elif mode == 7: z, fx, fy = 1.10, 0.5, 1 - e
-            elif mode == 8:  z, fx, fy = 1.22 + 0.05 * e, 0.15 + 0.1 * e, 0.4   # Nahaufnahme links
-            elif mode == 9:  z, fx, fy = 1.22 + 0.05 * e, 0.85 - 0.1 * e, 0.4   # Nahaufnahme rechts
-            elif mode == 10: z, fx, fy = 1.28 - 0.06 * e, 0.5, 0.25 + 0.1 * e   # Nahaufnahme oben/Mitte
-            else:            z, fx, fy = 1.25 + 0.06 * e, 0.5, 0.6               # Nahaufnahme unten/Mitte
+            elif mode == 8:  z, fx, fy = 1.14 + 0.04 * e, 0.15 + 0.1 * e, 0.4   # Nahaufnahme links
+            elif mode == 9:  z, fx, fy = 1.14 + 0.04 * e, 0.85 - 0.1 * e, 0.4   # Nahaufnahme rechts
+            elif mode == 10: z, fx, fy = 1.17 - 0.04 * e, 0.5, 0.25 + 0.1 * e   # Nahaufnahme oben/Mitte
+            else:            z, fx, fy = 1.14 + 0.05 * e, 0.5, 0.6               # Nahaufnahme unten/Mitte
             hw, hh = Wd / 2 / z, Hd / 2 / z
             return z, hw + fx * (Wd - 2 * hw), hh + fy * (Hd - 2 * hh)
 
@@ -473,7 +475,7 @@ def main():
                 last = "o2"
             fg += f";[{last}]{tail}[v]"
         cmd += ["-filter_complex", fg, "-map", "[v]", "-frames:v", str(frames),
-                "-c:v", "libx264", "-preset", "veryfast", "-crf", "20", str(clip)]
+                "-c:v", "libx264", "-preset", "fast", "-crf", "14", str(clip)]
         rig = anim_char.Rig(img, seed=n) if args.rig else PlainRig(img)
         pr = subprocess.Popen(cmd, stdin=subprocess.PIPE)
         for f in range(frames):
@@ -495,8 +497,8 @@ def main():
     print("Baue Video ...")
     run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0",
          "-i", str(img_list), "-i", str(WORK / "audio.wav"),
-         "-vf", vf, "-c:v", "libx264", "-preset", "medium", "-crf", "20",
-         "-c:a", "aac", "-b:a", "160k", "-shortest", "-movflags", "+faststart",
+         "-vf", vf, "-c:v", "libx264", "-preset", "slow", "-crf", "16",
+         "-c:a", "aac", "-b:a", "192k", "-shortest", "-movflags", "+faststart",
          str(out)], cwd=ROOT)
     print(f"Fertig: {out}  ({t:.0f} Sekunden)")
 
