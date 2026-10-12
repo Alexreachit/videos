@@ -57,6 +57,9 @@ VOICE_PITCH = "+0Hz"
 VOICE = VOICES["de"]
 LANG = "de"
 PIPER_USED = 0
+KOKORO_USED = 0
+EDGE_DEAD = False
+KOKORO_BASE = "https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/"
 PHASE_NUMBERS = {"eins": 1, "zwei": 2, "drei": 3, "vier": 4, "fünf": 5, "sechs": 6, "sieben": 7,
                  "acht": 8, "neun": 9, "zehn": 10, "one": 1, "two": 2, "three": 3, "four": 4,
                  "five": 5, "six": 6, "seven": 7, "eight": 8, "nine": 9, "ten": 10}
@@ -140,6 +143,26 @@ def ensure_piper_model() -> Path:
     return model_dir / (name + ".onnx")
 
 
+_KOKORO = None
+
+
+def tts_kokoro(text: str, wav: Path):
+    """Natuerliche englische Ersatzstimme (Kokoro, laeuft ohne Internet-Dienst)."""
+    global _KOKORO
+    import soundfile as sf
+    if _KOKORO is None:
+        from kokoro_onnx import Kokoro
+        d = WORK / "kokoro"
+        d.mkdir(parents=True, exist_ok=True)
+        for n in ("kokoro-v1.0.int8.onnx", "voices-v1.0.bin"):
+            if not (d / n).exists():
+                print(f"Lade {n} ...")
+                urllib.request.urlretrieve(KOKORO_BASE + n, d / n)
+        _KOKORO = Kokoro(str(d / "kokoro-v1.0.int8.onnx"), str(d / "voices-v1.0.bin"))
+    samples, sr = _KOKORO.create(text, voice="am_michael", speed=0.97, lang="en-us")
+    sf.write(str(wav), samples, sr)
+
+
 def tts_piper(text: str, wav: Path):
     model = ensure_piper_model()
     run([sys.executable, "-m", "piper", "-m", str(model), "-f", str(wav)],
@@ -157,9 +180,12 @@ def make_speech(text: str, i: int, dry_run: bool):
              "anullsrc=r=44100:cl=mono", "-t", f"{secs:.2f}", str(wav)])
         return wav, []
     bounds = []
+    global EDGE_DEAD, KOKORO_USED
     try:
         mp3 = raw.with_suffix(".mp3")
         last_err = None
+        if EDGE_DEAD:
+            raise RuntimeError("edge-tts war schon gesperrt")
         for attempt in range(3):  # edge-tts hakt manchmal: mehrfach versuchen
             try:
                 bounds = tts_edge(text, mp3)
@@ -174,12 +200,22 @@ def make_speech(text: str, i: int, dry_run: bool):
         run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(mp3),
              "-ar", "44100", "-ac", "1", str(wav)])
     except Exception as e:  # edge-tts kann auf Servern geblockt sein
+        EDGE_DEAD = True
         print(f"edge-tts ging bei Szene {i} nicht ({e}).")
-        print(f"Nehme Piper-Ersatzstimme fuer Sprache '{LANG}'.")
-        global PIPER_USED
-        PIPER_USED += 1
-        tmp = raw.with_suffix(".piper.wav")
-        tts_piper(text, tmp)
+        tmp = raw.with_suffix(".fallback.wav")
+        done = False
+        if LANG == "en":
+            try:
+                tts_kokoro(text, tmp)
+                KOKORO_USED += 1
+                done = True
+            except Exception as e2:
+                print(f"Kokoro ging nicht ({e2}).")
+        if not done:
+            print(f"Nehme Piper-Ersatzstimme fuer Sprache '{LANG}'.")
+            global PIPER_USED
+            PIPER_USED += 1
+            tts_piper(text, tmp)
         run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(tmp),
              "-ar", "44100", "-ac", "1", str(wav)])
     return wav, bounds
@@ -492,6 +528,8 @@ def main():
     out = OUT / ("test.mp4" if args.dry_run else (f"vorschau_{base}.mp4" if args.scenes else f"{base}.mp4"))
     if LANG == "en" and not args.dry_run:
         out = out.with_name(out.stem + "_en.mp4")
+    if KOKORO_USED and not PIPER_USED and not args.dry_run:
+        out = out.with_name(out.stem + "_KOKORO.mp4")
     if PIPER_USED and not args.dry_run:
         out = out.with_name(out.stem + f"_ERSATZSTIMME{PIPER_USED}.mp4")
     print("Baue Video ...")

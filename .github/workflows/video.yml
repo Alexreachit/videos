@@ -67,7 +67,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y ffmpeg fonts-dejavu-core
-          pip install edge-tts piper-tts numpy pillow opencv-python-headless
+          pip install edge-tts piper-tts kokoro-onnx soundfile numpy pillow opencv-python-headless
 
       - name: Hörproben der Stimmen
         if: inputs.modus == 'stimmen'
