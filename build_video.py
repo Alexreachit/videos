@@ -301,6 +301,7 @@ def main():
     ap.add_argument("--voice", default="", help="Stimme überschreiben, z. B. de-DE-KatjaNeural")
     ap.add_argument("--project", default="",
                     help="Unterordner mit script.txt und bilder/ (z. B. video2); leer = Hauptordner")
+    ap.add_argument("--fx", action="store_true", help="Staub- und Muenzen-Overlay einschalten (Standard: aus)")
     ap.add_argument("--static", action="store_true",
                     help="alte Variante ohne Film-Animation (nur Zoom/Schwenk)")
     args = ap.parse_args()
@@ -374,7 +375,8 @@ def main():
     # Jede Szene wird zu einem Clip mit Kamerafahrt (weich ein-/ausgeblendet), leichtem
     # Atmen/Wippen, schwebendem Staub und bei Geld-Szenen fallenden Muenzen.
     fx_dir = WORK / "fx"
-    if not args.static:
+    use_fx = bool(args.fx) and not args.static   # Staub/Muenzen nur noch mit --fx
+    if use_fx:
         import anim_fx
         fx_dir.mkdir(parents=True, exist_ok=True)
         anim_fx.make_dust(fx_dir / "dust.mov")
@@ -424,9 +426,9 @@ def main():
                 f"fade=t=in:st=0:d=0.18,fade=t=out:st={max(0.0, d - 0.18):.3f}:d=0.18,format=yuv420p")
         cmd = ["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "bgr24",
                "-s", f"{WIDTH}x{HEIGHT}", "-r", str(FPS), "-i", "-"]
-        use_coins = (not args.static) and (not phase) and bool(money_re.search(scenes[n]))
-        if args.static:
-            fg = f"[0:v]format=yuv420p{grade}[v]"
+        use_coins = use_fx and (not phase) and bool(money_re.search(scenes[n]))
+        if not use_fx:
+            fg = f"[0:v]format=yuv420p{grade},{tail}[v]"
         else:
             cmd += ["-stream_loop", "-1", "-i", str(fx_dir / "dust.mov")]
             if use_coins:
