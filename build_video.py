@@ -58,7 +58,7 @@ PHASE_NUMBERS = {"eins": 1, "zwei": 2, "drei": 3, "vier": 4, "fünf": 5, "sechs"
                  "five": 5, "six": 6, "seven": 7, "eight": 8, "nine": 9, "ten": 10}
 WORDS_PER_CHUNK = 7           # so viele Wörter stehen max. gleichzeitig im Bild
 SUB_FONT = "DejaVu Sans"
-SUB_SIZE = 84
+SUB_SIZE = 62
 # ASS-Farben sind BGR: &H00BBGGRR. Aktuelles Wort in Türkis.
 COLOR_HIGHLIGHT = "&H00C5D14F&"
 COLOR_NORMAL = "&H00FFFFFF&"
@@ -285,7 +285,7 @@ WrapStyle: 0
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Main,{SUB_FONT},{SUB_SIZE},{COLOR_NORMAL},{COLOR_NORMAL},&H00000000&,&H00000000&,-1,0,0,0,100,100,0,0,1,6,2,2,160,160,110,1
+Style: Main,{SUB_FONT},{SUB_SIZE},{COLOR_NORMAL},{COLOR_NORMAL},&H00000000&,&H00000000&,-1,0,0,0,100,100,0,0,1,4,1,2,160,160,95,1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
