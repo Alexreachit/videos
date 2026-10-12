@@ -25,3 +25,8 @@
 2. Kapitel (Zeitstempel) in Beschreibung (YouTube macht daraus Kapitel).
 3. Thumbnails mit stärkerem Ausdruck/Kontrast + 2-3 Wörter Text.
 4. Nächste Themen (Du-Perspektive, jeweils 'Every Rank'): Mafia-/Kartell-/Geheimdienst-/Imperiums-Reihen sind bewiesen; zuerst Themen, die dort noch fehlen (Quelle: Kanalliste).
+
+## Zusatz: deine Finanz-Referenzen (Stand 12.10.2026)
+- Ollie Finance (@Olliee_Finance): 5,6k Abos, 11 Videos, alle 20-24 Min, Titel "POV: You ...". Views der letzten drei: 184k ("Quietly Built a Portfolio That Pays More Than Your 9-to-5", 21:19), 10,7k, 15,4k -> ein Ausreißer, Rest ~10-15k.
+- Ronnie Finance (ubxQLASBL5s): 3,4k Abos, "From $0 to Your First $100,000" 129k Views, Verkauf eines Buchs über Gumroad im Beschreibungstext.
+- Gemeinsam: lange Videos (20+ Min), starke "Du/POV"-Titel mit konkretem Versprechen/Gefühl, kleiner Kanal kann mit EINEM Treffer groß werden (Suchintention + emotionaler Titel).
