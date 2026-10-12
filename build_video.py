@@ -19,6 +19,7 @@ import re
 import shutil
 import subprocess
 import sys
+import time
 import urllib.request
 from pathlib import Path
 
@@ -152,11 +153,26 @@ def make_speech(text: str, i: int, dry_run: bool):
     bounds = []
     try:
         mp3 = raw.with_suffix(".mp3")
-        bounds = tts_edge(text, mp3)
+        last_err = None
+        for attempt in range(6):  # edge-tts hakt manchmal: mehrfach versuchen
+            try:
+                bounds = tts_edge(text, mp3)
+                last_err = None
+                break
+            except Exception as e:
+                last_err = e
+                print(f"edge-tts Versuch {attempt + 1} bei Szene {i} fehlgeschlagen: {e}")
+                time.sleep(3 + 4 * attempt)
+        if last_err is not None:
+            raise last_err
         run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(mp3),
              "-ar", "44100", "-ac", "1", str(wav)])
     except Exception as e:  # edge-tts kann auf Servern geblockt sein
-        print(f"edge-tts ging bei Szene {i} nicht ({e}). Nehme Piper.")
+        print(f"edge-tts ging bei Szene {i} nicht ({e}).")
+        if LANG != "de":
+            # Die Ersatzstimme ist deutsch: nie damit fremdsprachigen Text vorlesen lassen.
+            raise SystemExit(f"Abbruch: Stimme fuer '{LANG}' nicht verfuegbar (Szene {i}).")
+        print("Nehme Piper.")
         tmp = raw.with_suffix(".piper.wav")
         tts_piper(text, tmp)
         run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(tmp),
