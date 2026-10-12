@@ -112,6 +112,15 @@ def find_image(i: int):
 def tts_edge(text: str, mp3: Path):
     """Erzeugt die Sprache und liefert die gemessenen Wortzeiten [(Wort, Start, Ende)]."""
     import edge_tts
+    # Seit 10.10.2026 nutzt Microsoft einen neuen Endpunkt (alter liefert 403).
+    # Der Token ist der öffentliche Client-Token der edge-tts-Bibliothek (kein Geheimnis).
+    try:
+        import edge_tts.communicate as _ec
+        from edge_tts.constants import TRUSTED_CLIENT_TOKEN as _tok
+        _ec.WSS_URL = ("wss://api.msedgeservices.com/tts/cognitiveservices/websocket/v1"
+                       "?Ocp-Apim-Subscription-Key=" + _tok)
+    except Exception:
+        pass
 
     async def go():
         try:

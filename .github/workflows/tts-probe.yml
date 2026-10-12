@@ -21,3 +21,5 @@ jobs:
         run: |
           pip install -U edge-tts certifi
           python probe_new.py
+      - name: Patch-Test
+        run: python probe_patch.py
