@@ -3,16 +3,17 @@ on:
   workflow_dispatch:
 jobs:
   probe:
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest, ubuntu-24.04-arm]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install -U edge-tts
-      - run: python probe_tts.py
+      - run: pip install -U edge-tts && pip list | grep -i edge
+      - name: PyPI-Version
+        run: python probe_tts.py
+      - name: Entwicklerversion (git main)
+        run: |
+          pip install -U "git+https://github.com/rany2/edge-tts.git"
+          python probe_tts.py
