@@ -24,6 +24,20 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import anim_char
+import cv2
+
+
+class PlainRig:
+    """Nur Kamerafahrt (Zoom/Schwenk), keine Figurenverformung."""
+    def __init__(self, path):
+        src = cv2.imread(str(path))
+        self.src = cv2.resize(src, (anim_char.W, anim_char.H), interpolation=cv2.INTER_CUBIC)
+
+    def frame(self, t, cam):
+        z, cx, cy = cam
+        W, H = anim_char.W, anim_char.H
+        M = anim_char.np.float32([[z, 0, W / 2 - z * cx], [0, z, H / 2 - z * cy]])
+        return cv2.warpAffine(self.src, M, (W, H), flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE)
 
 ROOT = Path(__file__).resolve().parent
 SCRIPT = ROOT / "script.txt"
@@ -302,6 +316,7 @@ def main():
     ap.add_argument("--project", default="",
                     help="Unterordner mit script.txt und bilder/ (z. B. video2); leer = Hauptordner")
     ap.add_argument("--fx", action="store_true", help="Staub- und Muenzen-Overlay einschalten (Standard: aus)")
+    ap.add_argument("--rig", action="store_true", help="Figurenanimation (Kopfnicken, Blinzeln) einschalten (Standard: aus)")
     ap.add_argument("--static", action="store_true",
                     help="alte Variante ohne Film-Animation (nur Zoom/Schwenk)")
     args = ap.parse_args()
@@ -422,8 +437,7 @@ def main():
         phase = n in phase_scenes
         clip = WORK / f"clip_{n + 1:02d}.mp4"
         grade = ",eq=brightness=-0.28:saturation=0.85" if phase else ""
-        tail = (f"vignette=PI/4.5,"
-                f"fade=t=in:st=0:d=0.18,fade=t=out:st={max(0.0, d - 0.18):.3f}:d=0.18,format=yuv420p")
+        tail = (f"fade=t=in:st=0:d=0.18,fade=t=out:st={max(0.0, d - 0.18):.3f}:d=0.18,format=yuv420p")
         cmd = ["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "bgr24",
                "-s", f"{WIDTH}x{HEIGHT}", "-r", str(FPS), "-i", "-"]
         use_coins = use_fx and (not phase) and bool(money_re.search(scenes[n]))
@@ -441,7 +455,7 @@ def main():
             fg += f";[{last}]{tail}[v]"
         cmd += ["-filter_complex", fg, "-map", "[v]", "-frames:v", str(frames),
                 "-c:v", "libx264", "-preset", "veryfast", "-crf", "20", str(clip)]
-        rig = anim_char.Rig(img, seed=n)
+        rig = anim_char.Rig(img, seed=n) if args.rig else PlainRig(img)
         pr = subprocess.Popen(cmd, stdin=subprocess.PIPE)
         for f in range(frames):
             pr.stdin.write(rig.frame(f / FPS, camera(f / max(1, frames - 1))).tobytes())
