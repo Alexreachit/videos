@@ -20,3 +20,10 @@
 ## Entscheidung Laenge
 - Video 3 ca. 8 Min (Alex). Ab Video 4 mindestens 12 Min (Alex).
 - Pacing: Video 3 = 1208 Woerter -> 7:35 (ca. 160 W/Min). 12 Min = ca. 1950 Woerter. Bei ~65 Bildern -> ca. 30 Woerter pro Bild (2 Saetze pro Szene), Kamerafahrten halten es lebendig.
+
+## Neue Lehren (Nacht 13.10., Video 4)
+- Langer Gemini-Chat = Kontaminierung: Objekte frueherer Prompts (Kasse, Pizzakarton, Datum "12-Oct-2026") tauchen in spaeteren Bildern auf, Prompts werden ab ca. Bild 12 pro Chat zunehmend ignoriert, Raeume wiederholen sich. => pro Block von ca. 10-12 Szenen NEUEN Chat mit Referenzbild starten; Prompts ohne wiederkehrende Requisiten (keine Pizza/Kasse in mehreren Szenen) schreiben; Zusatz "no calendar numbers, no dates".
+- Nach Neuladen von Gemini enthaelt das DOM nur ~8 letzte Bilder (Historie virtualisiert) => Bilder VOR jedem Neuladen extrahieren, Tab nicht neu laden.
+- Tab-Sichtbarkeit: document.visibilityState 'hidden' => Screenshots haengen. Klick auf "+"/Uploads kann nativen Dateidialog oeffnen (nicht klicken). Referenzbild stattdessen per JS (File aus Base64 + paste/drop-Event) anhaengen.
+- Gemini-Limit: ca. 45-50 Bilder pro 5-h-Fenster; Reset 03:34 und 08:34 Ortszeit.
+- Video 4: Bilder 1-12 ok (Redo-Kandidaten: 5 Roboterarm, 8 Figur klein, 11 Datumstext). Szenen 13-24 aus langem Chat verworfen (kontaminiert), neu erzeugen.
