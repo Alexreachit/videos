@@ -49,7 +49,7 @@ WORK = ROOT / "work"
 OUT = ROOT / "output"
 
 WIDTH, HEIGHT, FPS = 1920, 1080, 30
-PAD_SECONDS = 0.35          # kurze Pause nach jeder Szene
+PAD_SECONDS = 0.55          # kurze Pause nach jeder Szene
 SHOT_SECONDS = 4.2          # Ziel-Takt für Bildausschnitt-Wechsel (Retention-Empfehlung 3-5 s)
 VOICES = {"de": "de-DE-FlorianMultilingualNeural", "en": "en-US-AndrewMultilingualNeural"}
 VOICE_RATE = "-4%"            # etwas langsamer sprechen
