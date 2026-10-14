@@ -1,0 +1,73 @@
+# Bildprompts Video 6 (Schlaf), eine Zeile pro Szene, 72 Szenen. Regeln: Figur gross, Kniehoehe aufwaerts, zur Kamera gewandt; keine Schilder, kein Text, keine Symbole.
+Main character sitting at a desk in a dark bedroom at night with burning tired eyes, a glowing laptop and a clock showing two in the morning with no numbers visible, shown from the waist up, facing the viewer, no text
+Main character standing at the start of a long winding path made of seven glowing stepping stones that lead from a cozy bed into a foggy dark forest, shown from the knees up, facing the viewer, curious look, no text
+Main character lying awake in a big bed under a starry window with a glowing moon, thoughtful, a sleeping dog and a sleeping cat nearby, shown from the waist up, facing the viewer, no text
+Main character sitting calmly on a sofa holding a mug in a warm living room, friendly honest smile, a blank notepad beside him, shown from the waist up, facing the viewer, no text
+Main character standing in front of a wall of thick science books and glowing blank charts in a quiet library, thoughtful, shown from the knees up, facing the viewer, no text
+Main character asleep in bed with a transparent dreamy view of his brain as a tidy little workshop where tiny workers sort boxes and repair things, shown from the waist up, face visible and relaxed, facing the viewer, no text
+Main character standing in front of a big glowing cartoon brain while a gentle wave of clear liquid washes dust and small dark clumps away, amazed, shown from the knees up, facing the viewer, no text
+Main character standing before a huge old hourglass in a dark room with glowing sand, curious and slightly nervous, shown from the knees up, facing the viewer, no text
+Main character standing next to a wall of eleven big glowing circles, impressed and amazed, shown from the knees up, facing the viewer, no text
+Main character standing at a bright doorway with a clock face above it, dawn light behind him, determined, shown from the knees up, facing the viewer, no text
+Main character in a kitchen at midnight pouring a coffee while scrolling a phone with a cheerful but tired smile, shown from the waist up, facing the viewer, no text
+Main character at his desk in the morning light, blinking tiredly while small cartoon sparks of attention flicker and fade above his head, shown from the waist up, facing the viewer, no text
+Main character standing at a bright afternoon street corner, a faint dizzy swirl around his head, looking a little drunk but sober, shown from the knees up, facing the viewer, no text
+Main character sitting in a parked car holding the car keys with a worried face, a seat belt and a dashboard, shown from the waist up, facing the viewer, no text
+Main character trying to catch a ball and missing it clumsily, a blurry swirl around him, afternoon park, shown from the knees up, facing the viewer, no text
+Main character in a classroom with a leaking sieve-shaped head icon above him, papers and names floating away, confused, shown from the waist up, facing the viewer, no text
+Main character staring at a book page with the same paragraph repeated three times, confused face, a lamp glowing beside him, shown from the waist up, facing the viewer, no text
+Main character standing in front of a giant clock face, half in daylight and half in night, the tired face of a very long day, shown from the knees up, facing the viewer, no text
+Main character standing in a dim room with a red warning light glowing and a small heart pounding in a bubble above his head, shown from the waist up, facing the viewer, no text
+Main character standing in front of an open fridge at night, drooling slightly at cake and pizza, tired but tempted, shown from the knees up, facing the viewer, no text
+Main character shivering in a warm living room wrapped in a blanket while a small thermometer sits on a table, shown from the waist up, facing the viewer, no text
+Main character at a breakfast table snapping grumpily at a coffee cup while a small stormy cloud floats above his head, shown from the waist up, facing the viewer, no text
+Main character blowing his nose in an office surrounded by tissues and tiny cartoon germs, a sleeping coworker's desk behind him, shown from the waist up, facing the viewer, no text
+Main character with heavy eyelids nodding off for one second at his desk with a tiny dream bubble floating beside him, shown from the waist up, facing the viewer, no text
+Main character sitting in a car at the wheel on an empty highway at dusk, eyes drooping, a long road stretching ahead, shown from the waist up, facing the viewer, no text
+Main character standing at the center of a dark dreamy room where walls waver and soft purple fog fills the space, a tired but alert stare, shown from the knees up, facing the viewer, no text
+Main character walking through a dim street at night, strange shadows with glowing eyes watching at the edges of the scene, uneasy, shown from the knees up, facing the viewer, no text
+Main character as a radio host in a retro glass booth on a busy city square at night with a microphone, tired and wired, a crowd far in the background, shown from the waist up, facing the viewer, no text
+Main character as a worn out man in a hotel room looking at his shoes where tiny cartoon spiders crawl, a doctor in a white coat standing nearby, shown from the waist up, facing the viewer, no text
+Main character trying to solve a simple puzzle with building blocks that tumble down, frustrated, shown from the waist up, facing the viewer, no text
+Main character crying and laughing at the same time while watching a plain blank screen, big dramatic emotions, shown from the waist up, facing the viewer, no text
+Main character standing in front of a split cartoon brain, one half dark and one half glowing with a few bright rooms, shown from the knees up, facing the viewer, no text
+Main character in a quiet hospital hallway at dawn forced to sit down and close his eyes, exhausted and ready to sleep, shown from the waist up, facing the viewer, no text
+Main character standing on a winner's podium in a dim hall under a single spotlight with a glowing golden record medal in his hand, tired but proud, shown from the knees up, facing the viewer, no text
+Main character as a seventeen year old high school student in a cozy garage workshop at night with a poster board of blank graphs, determined, shown from the knees up, facing the viewer, no text
+Main character as a teenager playing basketball in a driveway at night with two friends and a mature researcher in a jacket watching, shown from the knees up, facing the viewer, no text
+Main character as a teenager looking sick, rubbing his stomach and forehead at a kitchen table with a pencil and a puzzled face, shown from the waist up, facing the viewer, no text
+Main character as a teenager standing in a hospital room with a navy doctor and many cartoon reporters outside the window, tired smile, shown from the knees up, facing the viewer, no text
+Main character asleep in a hospital bed with a cozy blanket and soft morning light, a doctor smiling nearby, shown from the waist up, face visible and peaceful, facing the viewer, no text
+Main character as a teenager playing a pinball machine in an arcade with a grin while an older man looks surprised, shown from the waist up, facing the viewer, no text
+Main character standing in front of a giant golden trophy locked behind a glass case with a heavy chain, shown from the knees up, facing the viewer, no text
+Main character as an adult lying awake in bed at night, thinking, a bright moon outside the window, shown from the waist up, facing the viewer, no text
+Main character standing at the edge of a deep misty canyon at dusk looking down, very serious, shown from the knees up, facing the viewer, no text
+Main character as a gentle scientist in a lab coat looking into a cage with a tired white rat in a quiet lab, concerned, shown from the waist up, facing the viewer, no text
+Main character watching a tired white rat eating a big pile of food while a small weighing scale shows it getting thinner, worried, shown from the waist up, facing the viewer, no text
+Main character standing next to a thermometer shaped like a tired body that is wobbling, and a cartoon immune shield cracking, worried, shown from the knees up, facing the viewer, no text
+Main character looking at a glowing DNA strand twisting above a family tree with a few dark branches, thoughtful and serious, shown from the waist up, facing the viewer, no text
+Main character looking at a cartoon brain with a small dark glowing spot slowly spreading across it, an unsettled look, shown from the waist up, facing the viewer, no text
+Main character standing very small in a vast dark field with only a few little glowing lanterns in the distance, solemn, shown from the knees up, facing the viewer, no text
+Main character standing at a crossroad with a safe glowing path home on one side and a dark path on the other, serious but hopeful, shown from the knees up, facing the viewer, no text
+Main character standing in a quiet morning kitchen with a bright new day behind the window, clearly tired and determined, shown from the knees up, facing the viewer, no text
+Main character in a bedroom setting the alarm clock late at night, eyes heavy, pages of a calendar flying away behind him, shown from the waist up, facing the viewer, no text
+Main character in a doctor's office looking at a chart with a small beating heart, a blood pressure cuff and a sugar cube, worried, shown from the waist up, facing the viewer, no text
+Main character standing next to a cartoon scale tipping slightly, a few hours on one side and a pile of early years on the other, thoughtful, shown from the knees up, facing the viewer, no text
+Main character sitting in a car on a road at night, headlights glaring, shocked and awake, shown from the waist up, facing the viewer, no text
+Main character sleeping on a big sofa on a sunny Sunday morning, a small piggy bank with a few coins beside him, relaxed, shown from the waist up, facing the viewer, no text
+Main character walking with a swagger, a small tired cloud above his head, proudly confident but obviously wobbly, shown from the knees up, facing the viewer, no text
+Main character studying in a quiet library, and then asleep in bed, with a glowing notebook between the two scenes, shown from the waist up, facing the viewer, no text
+Main character standing at a bright dawn doorway, a rising sun, a warm smile, a healthy heartbeat shape floating beside him, shown from the knees up, facing the viewer, no text
+Main character sitting up in a comfortable bed in the morning, stretching happily in warm sun, a cozy bedroom, shown from the waist up, facing the viewer, no text
+Main character standing in a tidy kitchen holding a clock and a green check shape, steady and calm, shown from the knees up, facing the viewer, no text
+Main character standing on a balcony in bright morning sunshine with a coffee cup in his hand, relaxed and refreshed, shown from the knees up, facing the viewer, no text
+Main character in a cool, dark, quiet bedroom with a phone left on a table outside the bed, a cozy blanket, a small thermometer on the wall, shown from the waist up, facing the viewer, no text
+Main character relaxing in the evening with dimmed lights and warm shower steam, a towel on his shoulder, shown from the waist up, facing the viewer, no text
+Main character holding a coffee cup in the late afternoon with a small clock beside him, a gentle thoughtful look, shown from the waist up, facing the viewer, no text
+Main character taking a short nap in a comfy chair on a sunny afternoon with a tiny cartoon timer glowing near him, shown from the waist up, facing the viewer, no text
+Main character sitting in a doctor's office talking calmly with a kind doctor, a tired but relieved face, shown from the waist up, facing the viewer, no text
+Main character standing between two doors, one slightly open to a sunny morning and one dark, a small pillow in his hands, thoughtful, shown from the knees up, facing the viewer, no text
+Main character standing in a quiet night street under a glowing moon, calm and amazed at the stars, shown from the knees up, facing the viewer, no text
+Main character holding a fluffy pillow like a precious treasure with a happy smile, soft evening light, shown from the waist up, facing the viewer, no text
+Main character pointing a friendly finger at the viewer, a bright blank speech bubble floating beside him, a warm sunset behind him, shown from the knees up, facing the viewer, no text
+Main character waving goodbye from a cozy bed with a pillow and a night lamp, warm friendly smile, shown from the waist up and large in the foreground, facing the viewer, no text
