@@ -13,6 +13,7 @@ import anim_char
 from anim_char import W, H, Rig, cream_mask
 
 _PIPE = None
+LIPSYNC = bool(os.environ.get("ANIM2_LIPSYNC"))   # Erzaehler-Stil: Figuren sprechen nicht, standardmaessig aus
 
 
 def _depth_model():
@@ -144,7 +145,7 @@ class Anim2Rig(Rig):
         self.cream_col = tuple(int(v) for v in np.median(col, axis=0)) if len(col) else (200, 225, 240)
 
     def _speak(self, t):
-        if self.speaker is None:
+        if not LIPSYNC or self.speaker is None:
             return None
         i = min(len(self.env) - 1, int(t * self.fps))
         o = float(self.env[i])
