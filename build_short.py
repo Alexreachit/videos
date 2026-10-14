@@ -10,7 +10,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import build_video as bv
 
 W, H, FPS = 1080, 1920, 30
-PAD = 0.35
+PAD = 0.12
+RATE = "+25%"
+PROJ = {"v2": "video2", "v3": "video3", "v4": "video4", "v5": "video5", "v6": "video6"}
 BOX_Y, BOX_H = 560, 608          # Bildbereich (Bild in voller Breite, 16:9)
 
 
@@ -26,7 +28,8 @@ def parse(spec: Path):
             shorts.append(cur)
         else:
             n, text = [x.strip() for x in line.split("|", 1)]
-            cur["scenes"].append((int(n), text))
+            pj, num = n.split(":")
+            cur["scenes"].append((pj, int(num), text))
     return shorts
 
 
@@ -39,8 +42,8 @@ WrapStyle: 0
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Cap,DejaVu Sans,86,&H00FFFFFF&,&H00FFFFFF&,&H00000000&,&H00000000&,-1,0,0,0,100,100,0,0,1,6,2,8,70,70,1260,1
-Style: Hook,DejaVu Sans,92,&H0028D7FF&,&H0028D7FF&,&H00000000&,&H00000000&,-1,0,0,0,100,100,0,0,1,7,2,8,60,60,170,1
+Style: Cap,DejaVu Sans,104,&H00FFFFFF&,&H00FFFFFF&,&H00000000&,&H00000000&,-1,0,0,0,100,100,0,0,1,6,2,8,70,70,1260,1
+Style: Hook,DejaVu Sans,96,&H0028D7FF&,&H0028D7FF&,&H00000000&,&H00000000&,-1,0,0,0,100,100,0,0,1,7,2,8,60,60,170,1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
@@ -65,14 +68,14 @@ def make_bg(img):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--spec", required=True)
-    ap.add_argument("--project", required=True)
+    ap.add_argument("--project", default="")
     ap.add_argument("--only", default="")
     ap.add_argument("--dry-run", action="store_true")
     a = ap.parse_args()
     bv.LANG = "en"
     bv.VOICE = bv.VOICES["en"]
-    bv.WORDS_PER_CHUNK = 4
-    bv.IMAGES = bv.ROOT / a.project / "bilder"
+    bv.WORDS_PER_CHUNK = 3
+    bv.VOICE_RATE = RATE
     bv.OUT.mkdir(exist_ok=True)
     for sh in parse(bv.ROOT / a.spec):
         if a.only and sh["name"] != a.only:
@@ -82,7 +85,7 @@ def main():
         bv.WORK.mkdir(parents=True)
         events, wavs, durs, imgs = [], [], [], []
         t = 0.0
-        for i, (num, text) in enumerate(sh["scenes"], start=1):
+        for i, (pj, num, text) in enumerate(sh["scenes"], start=1):
             wav, bounds = bv.make_speech(text, i, a.dry_run)
             sp = bv.duration_of(wav)
             pad = PAD
@@ -91,6 +94,7 @@ def main():
                     "-ar", "44100", "-ac", "1", str(padded)])
             events += bv.subtitle_events(text, t, sp, bounds)
             wavs.append(padded); durs.append(sp + pad); t += sp + pad
+            bv.IMAGES = bv.ROOT / PROJ[pj] / "bilder"
             p = bv.find_image(num)
             if p is None:
                 sys.exit(f"Bild {num} fehlt")
@@ -112,7 +116,7 @@ def main():
             n = max(2, int(round(d * FPS)))
             for f in range(n):
                 prog = f / (n - 1)
-                z = 1.0 + 0.07 * (prog if k % 2 == 0 else 1 - prog)
+                z = 1.0 + 0.12 * (prog if k % 2 == 0 else 1 - prog)
                 M = np.float32([[z, 0, W / 2 - z * W / 2], [0, z, BOX_H / 2 - z * BOX_H / 2]])
                 box = cv2.warpAffine(fg, M, (W, BOX_H), flags=cv2.INTER_LANCZOS4, borderMode=cv2.BORDER_REPLICATE)
                 fr = bg.copy()

@@ -1,0 +1,31 @@
+# Neue Shorts (schnell gesprochen, schnelle Schnitte). Format: "=== name | Titeltext", dann "projekt:bildnr | Sprechtext". Zahlen wie in den Hauptvideos (Beispielwerte, keine Beratung).
+=== kurz1 | 95 HOURS A WEEK
+v4:17 | Ninety five hours a week.
+v4:34 | That is how long first year investment bankers reportedly work.
+v4:12 | Some nights, home at three in the morning.
+v4:36 | The pay? About one hundred ten thousand dollars base.
+v4:21 | Plus a bonus of seventy to one hundred ten thousand.
+v4:45 | Reach managing director, and total pay can pass one million six hundred thousand.
+v4:59 | Would you do it?
+=== kurz2 | 1 IN 100
+v5:8 | Fewer than one in a hundred academy kids become professional footballers.
+v5:23 | Every few months, coaches decide who stays.
+v5:25 | In one English study, only three in ten scholars got a pro contract.
+v5:46 | Make it to the Premier League, and the average salary is over three million pounds a year.
+v5:60 | But the average career lasts only about eight years.
+v5:66 | And a former players group estimated, around six in ten hit serious money trouble within five years.
+v5:72 | Still dreaming?
+=== kurz3 | HOW MUCH FOR A MILLION?
+v2:25 | How much do you need to become a millionaire?
+v2:26 | In forty years at seven percent, about four hundred euros a month.
+v2:27 | Only five percent return? Then about six hundred seventy five a month.
+v2:30 | Want it in thirty years? About eight hundred fifty a month at seven percent.
+v2:29 | So a million is not about coffee.
+v2:27 | It is about time and savings rate.
+=== kurz4 | HOW BANKS MAKE MONEY
+v4:3 | An investment bank does not keep your savings.
+v4:5 | It advises companies that want to buy another company, sell themselves, or raise huge amounts of money.
+v4:45 | For every deal, the bank charges a fee, often millions of dollars.
+v4:36 | That fee pays every salary.
+v4:17 | That is why they want their people working day and night.
+v4:6 | A toll booth on the biggest deals in the economy.
