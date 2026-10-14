@@ -188,45 +188,23 @@ def make_speech(text: str, i: int, dry_run: bool):
         run(["ffmpeg", "-y", "-loglevel", "error", "-f", "lavfi", "-i",
              "anullsrc=r=44100:cl=mono", "-t", f"{secs:.2f}", str(wav)])
         return wav, []
-    bounds = []
-    global EDGE_DEAD, KOKORO_USED
-    try:
-        mp3 = raw.with_suffix(".mp3")
-        last_err = None
-        if EDGE_DEAD:
-            raise RuntimeError("edge-tts war schon gesperrt")
-        for attempt in range(3):  # edge-tts hakt manchmal: mehrfach versuchen
-            try:
-                bounds = tts_edge(text, mp3)
-                last_err = None
-                break
-            except Exception as e:
-                last_err = e
-                print(f"edge-tts Versuch {attempt + 1} bei Szene {i} fehlgeschlagen: {e}")
-                time.sleep(3 + 4 * attempt)
-        if last_err is not None:
-            raise last_err
-        run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(mp3),
-             "-ar", "44100", "-ac", "1", str(wav)])
-    except Exception as e:  # edge-tts kann auf Servern geblockt sein
-        EDGE_DEAD = True
-        print(f"edge-tts ging bei Szene {i} nicht ({e}).")
-        tmp = raw.with_suffix(".fallback.wav")
-        done = False
-        if LANG == "en":
-            try:
-                tts_kokoro(text, tmp)
-                KOKORO_USED += 1
-                done = True
-            except Exception as e2:
-                print(f"Kokoro ging nicht ({e2}).")
-        if not done:
-            print(f"Nehme Piper-Ersatzstimme fuer Sprache '{LANG}'.")
-            global PIPER_USED
-            PIPER_USED += 1
-            tts_piper(text, tmp)
-        run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(tmp),
-             "-ar", "44100", "-ac", "1", str(wav)])
+    # Nur Andrew (edge-tts). Keine Ersatzstimme: ist er gesperrt, wird gewartet
+    # und weiter probiert; klappt es bis zum Zeitlimit nicht, bricht der Lauf ab.
+    mp3 = raw.with_suffix(".mp3")
+    t0 = time.time()
+    attempt = 0
+    while True:
+        attempt += 1
+        try:
+            bounds = tts_edge(text, mp3)
+            break
+        except Exception as e:
+            print(f"edge-tts Versuch {attempt} bei Szene {i} fehlgeschlagen: {e}")
+            if time.time() - t0 > 4.5 * 3600:
+                raise RuntimeError("Andrew dauerhaft nicht erreichbar - Abbruch, kein Ersatzstimmen-Video")
+            time.sleep(min(60, 5 + 5 * attempt))
+    run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(mp3),
+         "-ar", "44100", "-ac", "1", str(wav)])
     return wav, bounds
 
 
