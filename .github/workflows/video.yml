@@ -13,6 +13,7 @@ on:
           - testlauf
           - stimmen
           - video_en
+          - shorts
       max_bilder:
         description: "Nur bei 'bilder': so viele neue Bilder pro Lauf (0 = alle fehlenden)"
         type: string
@@ -74,7 +75,7 @@ jobs:
         run: python voices_test.py
 
       - name: Video bauen
-        if: inputs.modus != 'bilder' && inputs.modus != 'stimmen'
+        if: inputs.modus != 'bilder' && inputs.modus != 'stimmen' && inputs.modus != 'shorts'
         run: |
           if [ "${{ inputs.modus }}" = "testlauf" ]; then
             python build_video.py --dry-run
@@ -83,6 +84,10 @@ jobs:
           else
             python build_video.py --scenes "${{ inputs.max_szenen }}" --project "${{ inputs.projekt }}"
           fi
+
+      - name: Shorts bauen
+        if: inputs.modus == 'shorts'
+        run: python build_short.py --spec "shorts/${{ inputs.projekt }}.txt" --project "${{ inputs.projekt }}"
 
       - name: Video zum Download bereitstellen
         if: inputs.modus != 'bilder'

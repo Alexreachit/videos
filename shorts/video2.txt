@@ -1,0 +1,22 @@
+# Shorts aus Video 2 (Kaffee-Mathe). Format: "=== name | Titeltext", danach pro Zeile "Bildnummer | Sprechtext".
+# Alle Zahlen sind Beispielrechnungen mit 7 Prozent Rendite pro Jahr (wie im Hauptvideo), keine Anlageberatung.
+=== short1 | ONE COFFEE A DAY = MILLIONAIRE?
+1 | You have probably heard this one: skip your coffee, invest the money, and you will become a millionaire.
+20 | After forty years, you land at about three hundred thousand euros.
+21 | That is strong. But it is not a million yet.
+52 | Does one coffee a day make you a millionaire? No. Not on its own, not in twenty years, and not without patience.
+=== short2 | 100 EUROS A MONTH FOR 30 YEARS
+29 | One hundred euros a month is realistic for many people.
+30 | After thirty years at seven percent, that is almost one hundred and seventeen thousand euros. You paid in only thirty-six thousand.
+32 | So the gain is many times what you put in yourself. That is the magic of time.
+33 | But it does not make you rich. Above all, it makes you free, flexible and independent.
+=== short3 | THE 8TH WONDER OF THE WORLD
+12 | Einstein supposedly called it the eighth wonder of the world.
+13 | Your money earns a return. And next year, that return earns a return of its own. This is called compound interest.
+14 | At the start it feels ridiculously slow. After a few years your portfolio looks barely different from a piggy bank.
+15 | But at some point it tips. Then your money works harder than you do.
+=== short4 | 3 THINGS THAT MATTER MOST
+35 | Many people hunt for the perfect stock. But three things matter far more.
+36 | First: how early you start. If you start at nineteen, you have a ten-year head start on someone who starts at twenty-nine.
+37 | Second: how much you invest. If you raise your savings rate when your salary rises, it changes everything.
+38 | Third: how long you stay in. Anyone who sells at every crash almost always loses.
