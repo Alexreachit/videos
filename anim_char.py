@@ -132,12 +132,16 @@ class Rig:
         k = (t + self.rnd_off) % per if hasattr(self, "rnd_off") else t % per
         return k < 0.14
 
-    def frame(self, t, cam):
-        """cam = (zoom, cx, cy) in Ausgabekoordinaten (Bildmitte des Ausschnitts)."""
+    def compose(self, t, src_override=None):
+        """Figuren (Nicken, Neigen, Blinzeln) ins Bild rechnen, ohne Kamerafahrt."""
         if not hasattr(self, "rnd_off"):
             self.rnd_off = 0.0
-        base = self.blink_img if self.blink_state(t) and self.blinking_parts else self.src
-        img = self.src.copy() if base is self.src else self.blink_img.copy()
+        if src_override is not None:
+            base = src_override
+            img = src_override.copy()
+        else:
+            base = self.blink_img if self.blink_state(t) and self.blinking_parts else self.src
+            img = self.src.copy() if base is self.src else self.blink_img.copy()
         for p in self.parts:
             amp = 1.0 if p.kind == "head" else 0.6
             ty = amp * 0.05 * p.r * math.sin(2 * math.pi * p.f * t + p.ph)
@@ -153,6 +157,11 @@ class Rig:
             my = (p.gy + p.w * (sy - p.gy)).astype(np.float32)
             roi = cv2.remap(base, mx, my, cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE)
             img[y0:y1, x0:x1] = roi
+        return img
+
+    def frame(self, t, cam):
+        """cam = (zoom, cx, cy) in Ausgabekoordinaten (Bildmitte des Ausschnitts)."""
+        img = self.compose(t)
         z, cx, cy = cam
         M = np.float32([[z, 0, W / 2 - z * cx], [0, z, H / 2 - z * cy]])
         return cv2.warpAffine(img, M, (W, H), flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE)

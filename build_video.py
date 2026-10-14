@@ -368,6 +368,7 @@ def main():
                     help="Unterordner mit script.txt und bilder/ (z. B. video2); leer = Hauptordner")
     ap.add_argument("--fx", action="store_true", help="Staub- und Muenzen-Overlay einschalten (Standard: aus)")
     ap.add_argument("--rig", action="store_true", help="Figurenanimation (Kopfnicken, Blinzeln) einschalten (Standard: aus)")
+    ap.add_argument("--anim2", action="store_true", help="Tiefen-Parallax + Lippensynchronisation")
     ap.add_argument("--static", action="store_true",
                     help="alte Variante ohne Film-Animation (nur Zoom/Schwenk)")
     args = ap.parse_args()
@@ -506,7 +507,11 @@ def main():
             fg += f";[{last}]{tail}[v]"
         cmd += ["-filter_complex", fg, "-map", "[v]", "-frames:v", str(frames),
                 "-c:v", "libx264", "-preset", "fast", "-crf", "14", str(clip)]
-        rig = anim_char.Rig(img, seed=n) if args.rig else PlainRig(img)
+        if args.anim2:
+            import anim2
+            rig = anim2.Anim2Rig(img, wavs[n], seed=n, workdir=WORK, fps=FPS)
+        else:
+            rig = anim_char.Rig(img, seed=n) if args.rig else PlainRig(img)
         pr = subprocess.Popen(cmd, stdin=subprocess.PIPE)
         for f in range(frames):
             pr.stdin.write(rig.frame(f / FPS, camera(f / max(1, frames - 1))).tobytes())
