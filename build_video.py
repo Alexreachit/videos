@@ -49,10 +49,10 @@ WORK = ROOT / "work"
 OUT = ROOT / "output"
 
 WIDTH, HEIGHT, FPS = 1920, 1080, 30
-PAD_SECONDS = 0.55          # kurze Pause nach jeder Szene
-SHOT_SECONDS = 4.2          # Ziel-Takt für Bildausschnitt-Wechsel (Retention-Empfehlung 3-5 s)
+PAD_SECONDS = 0.40          # kurze Pause nach jeder Szene
+SHOT_SECONDS = 3.4          # Ziel-Takt für Bildausschnitt-Wechsel (Retention-Empfehlung 3-5 s)
 VOICES = {"de": "de-DE-FlorianMultilingualNeural", "en": "en-US-AndrewMultilingualNeural"}
-VOICE_RATE = "-4%"            # etwas langsamer sprechen
+VOICE_RATE = "+10%"           # neuer, schnellerer Stil (Alex 15.10.)
 VOICE_PITCH = "+0Hz"
 VOICE = VOICES["de"]
 LANG = "de"
@@ -97,6 +97,12 @@ def read_scenes():
     if not scenes:
         sys.exit("script.txt ist leer.")
     return scenes
+
+
+def find_clip(i: int):
+    """Optionaler KI-Videoclip fuer eine Szene: bilder/NN.mp4 (z.B. aus Google Flow)."""
+    p = IMAGES / f"{i:02d}.mp4"
+    return p if p.exists() else None
 
 
 def find_image(i: int):
@@ -396,6 +402,9 @@ def main():
     missing = []
     for i in range(1, len(scenes) + 1):
         img = find_image(i)
+        if img is None and find_clip(i) is not None:
+            img = WORK / f"clipframe_{i:02d}.png"
+            run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(find_clip(i)), "-frames:v", "1", str(img)])
         if img is None:
             if args.dry_run:
                 img = WORK / f"placeholder_{i:02d}.png"
@@ -507,6 +516,18 @@ def main():
             fg += f";[{last}]{tail}[v]"
         cmd += ["-filter_complex", fg, "-map", "[v]", "-frames:v", str(frames),
                 "-c:v", "libx264", "-preset", "fast", "-crf", "14", str(clip)]
+        vclip = find_clip(n + 1)
+        if vclip is not None and not phase:
+            # echter Videoclip: auf Szenenlaenge strecken (bis 1.3x), Rest letztes Bild halten
+            cd = duration_of(vclip)
+            stretch = min(1.3, max(1.0, d / cd)) if cd > 0 else 1.0
+            vf2 = (f"scale={WIDTH}:{HEIGHT}:force_original_aspect_ratio=increase,crop={WIDTH}:{HEIGHT},"
+                   f"fps={FPS},setpts={stretch:.4f}*PTS,tpad=stop_mode=clone:stop_duration={d:.3f},"
+                   f"trim=duration={d:.3f},fade=t=in:st=0:d=0.12,fade=t=out:st={max(0.0, d - 0.18):.3f}:d=0.18,format=yuv420p")
+            run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(vclip), "-vf", vf2, "-an",
+                 "-c:v", "libx264", "-preset", "fast", "-crf", "14", str(clip)])
+            clips.append(clip)
+            continue
         if args.anim2:
             import anim2
             rig = anim2.Anim2Rig(img, wavs[n], seed=n, workdir=WORK, fps=FPS)
