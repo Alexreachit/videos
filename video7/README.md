@@ -14,3 +14,6 @@
 - Keyframes 1-8 fertig (keyframes/NN.jpg, 1280x720). 9-20 wurden im langen Gemini-Chat stilistisch abgedriftet (Steampunk, Uhren, Roboter, Lesbarer Text) -> neu erzeugen in frischen Chats mit vollem Stilsatz.
 - Gemini-Bildlimit erreicht, Reset 20:34 Uhr. Flow-Guthaben leer.
 - Neuer Stilsatz fuer Regeneration: modern, kein Steampunk, keine Zahnraeder/Uhren/Roboter, kein lesbarer Text.
+
+## Flow-Budget (15 Okt)
+Flow gibt täglich 50 Credits (unverbrauchte verfallen). 1 Clip (8 s) = 10 Credits → 5 Clips/Tag → 53 Clips ≈ 11 Tage. Jeden Tag 5 Clips erzeugen (status.tsv pflegen). Keyframes 51–53 fehlen noch (Gemini-Limit).
