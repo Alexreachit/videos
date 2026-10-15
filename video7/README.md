@@ -9,3 +9,8 @@
 - Schnitt: Szenenwechsel an Satzgrenzen, Bewegungsrichtung der Clips passt zum naechsten (Match Cut), Tempo variieren, kurze Ueberblendungen nur wo sie Sinn haben.
 - Ton: Andrew-Stimme, dezente Musik unter der Stimme, gezielte Soundeffekte (Piepton, Papier, Muenzen) synchron zum Bild.
 - Einblendungen: wenige, saubere Schlagworte/Zahlen passend zur Szene, nicht dauerhaft.
+
+## Stand 15.10. nachmittags
+- Keyframes 1-8 fertig (keyframes/NN.jpg, 1280x720). 9-20 wurden im langen Gemini-Chat stilistisch abgedriftet (Steampunk, Uhren, Roboter, Lesbarer Text) -> neu erzeugen in frischen Chats mit vollem Stilsatz.
+- Gemini-Bildlimit erreicht, Reset 20:34 Uhr. Flow-Guthaben leer.
+- Neuer Stilsatz fuer Regeneration: modern, kein Steampunk, keine Zahnraeder/Uhren/Roboter, kein lesbarer Text.
