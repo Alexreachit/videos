@@ -1,0 +1,17 @@
+{
+ "title": "TikTok 1: Where your $5 coffee money actually goes (Kurzfassung)",
+ "size": [1080, 1920], "fps": 30, "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural", "rate": "+10%",
+ "gap": 0.3, "tail": 1.6,
+ "lines": [
+  {"text": "You pay five dollars for a coffee.", "min_start": 0.5},
+  {"text": "Let's follow every cent.", "min_start": 5.3},
+  {"text": "Beans, milk and the cup are only a small slice."},
+  {"text": "Rent for a busy corner is often the biggest cost."},
+  {"text": "Staff, taxes and training take another big slice."},
+  {"text": "Power, the machine and card fees add up too."},
+  {"text": "What is left is profit. Only a few cents."},
+  {"text": "So you pay for the corner, the people and the time."},
+  {"text": "Which part do you think costs the most?"}
+ ]
+}

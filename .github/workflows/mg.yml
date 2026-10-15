@@ -1,0 +1,38 @@
+name: Motion Graphics bauen
+
+on:
+  workflow_dispatch:
+    inputs:
+      projekt:
+        description: "Projekt in mg/ (z. B. tt01)"
+        type: string
+        default: "tt01"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Programme installieren
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg fonts-dejavu-core fonts-liberation
+          pip install edge-tts numpy playwright
+          python -m playwright install --with-deps chromium
+      - name: Video bauen (Stimme Andrew, Animation, Ton)
+        run: python mg/produce.py "${{ inputs.projekt }}" --workers 4
+      - name: Fertiges Video bereitstellen
+        uses: actions/upload-artifact@v4
+        with:
+          name: mg-${{ inputs.projekt }}
+          path: |
+            output/*_final.mp4
+            output/mg_*/timeline.json
+          retention-days: 14

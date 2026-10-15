@@ -1,0 +1,112 @@
+<!doctype html><meta charset=utf-8><style>
+html,body{margin:0;background:#05070f}#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:radial-gradient(120% 80% at 50% 30%,#1a2240,#0a0f20 55%,#04060d)}
+#bokeh i{position:absolute;border-radius:50%;filter:blur(26px)}
+#cam{position:absolute;left:0;top:0;width:1080px;height:1920px;perspective:2000px;transform-origin:540px 960px}
+.abs{position:absolute}
+#term{left:260px;top:560px;width:560px;height:920px;transform-style:preserve-3d;border-radius:70px;background:linear-gradient(145deg,#3b4358,#161b28 55%,#0d111b);box-shadow:inset 0 3px 0 #6b7690,inset 0 -8px 30px #000a,0 60px 120px #000c,0 0 0 3px #0b0e17}
+#scr{left:50px;top:60px;width:460px;height:340px;border-radius:30px;background:linear-gradient(160deg,#0e1b3a,#07101f);box-shadow:inset 0 0 0 4px #090d17,0 0 60px var(--g,#2a6bff55)}
+#scr .amt{position:absolute;left:0;right:0;top:110px;text-align:center;font:800 110px Arial,Helvetica,sans-serif;color:#eaf2ff}
+#scr .lbl{position:absolute;left:0;right:0;top:48px;text-align:center;font:600 34px Arial,Helvetica,sans-serif;color:#7f93c9;letter-spacing:4px}
+#scr .ok{position:absolute;left:0;right:0;top:100px;text-align:center;opacity:0}
+.key{position:absolute;width:132px;height:84px;border-radius:22px;background:linear-gradient(160deg,#2a3142,#141926);box-shadow:inset 0 2px 0 #55607a,0 6px 10px #0008}
+#card{left:280px;top:626px;width:520px;height:328px;border-radius:34px;transform-style:preserve-3d;background:linear-gradient(135deg,#0fb5a6 0%,#2a5cff 55%,#7a3cff 100%);box-shadow:0 40px 80px #000b,inset 0 2px 0 #ffffff66,inset 0 -6px 20px #0004;overflow:hidden}
+#card .chip{position:absolute;left:44px;top:96px;width:78px;height:60px;border-radius:12px;background:linear-gradient(135deg,#ffe8a3,#d99a2b);box-shadow:inset 0 0 0 3px #b9791a}
+#card .dots{position:absolute;left:44px;bottom:44px;font:700 36px 'Courier New',monospace;color:#ffffffcc;letter-spacing:6px}
+#card .sheen{position:absolute;top:-40%;bottom:-40%;width:90px;background:linear-gradient(90deg,transparent,#ffffff55,transparent);transform:rotate(20deg)}
+.ring{position:absolute;left:50%;top:50%;border-radius:50%;border:6px solid #7fb2ff}
+#flash{position:absolute;inset:0;background:radial-gradient(circle at 50% 38%,#fff,#bcd4ff 40%,#2a4cc0 80%);opacity:0}
+#vig{position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 45%,#000b 100%);pointer-events:none}
+#grain{position:absolute;inset:-40px;opacity:.10;mix-blend-mode:overlay}
+#s2{position:absolute;inset:0;opacity:0}
+</style>
+<div id=stage><div id=bokeh></div>
+<div id=cam><div id=term class=abs><div id=scr class=abs><div class=lbl>PAY</div><div class=amt>$5.00</div><div class=ok><svg width=200 height=200 viewBox="0 0 100 100"><circle cx=50 cy=50 r=44 fill=none stroke="#35e08a" stroke-width=7 /><path d="M28,52 L44,67 L73,34" fill=none stroke="#35e08a" stroke-width=9 stroke-linecap=round stroke-linejoin=round /></svg></div></div><div id=keys></div></div>
+<div id=card class=abs><div class=chip></div><svg class=abs style="right:36px;top:36px" width=70 height=70 viewBox="0 0 24 24" fill=none stroke="#fff" stroke-width=2 stroke-linecap=round><path d="M8 7a7 7 0 0 1 0 10M12 4.5a11 11 0 0 1 0 15M4.5 9.5a3.2 3.2 0 0 1 0 5"/></svg><div class=dots>•••• •••• ••••</div><div class=sheen id=sheen></div></div>
+<div id=rings></div></div>
+<div id=flash></div>
+<svg id=s2 width=1080 height=1920 viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg"><defs>
+<filter id=gl x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="10" result=b /><feMerge><feMergeNode in=b /><feMergeNode in=SourceGraphic /></feMerge></filter>
+<linearGradient id=gold x1=0 y1=0 x2=1 y2=1><stop offset=0 stop-color="#ffe08a"/><stop offset=1 stop-color="#f0a020"/></linearGradient></defs>
+<g id=dust></g><g id=pie transform="translate(540,900)"></g><g id=coin></g><g id=cap></g></svg>
+<div id=vig></div>
+<svg id=grain width=1160 height=2000><filter id=nz><feTurbulence id=tb type=fractalNoise baseFrequency=".9" numOctaves=2 seed=1 /></filter><rect width=100% height=100% filter="url(#nz)"/></svg></div>
+<script>
+
+const NS='http://www.w3.org/2000/svg',$=id=>document.getElementById(id);
+const ez=t=>t<0?0:t>1?1:1-Math.pow(1-t,3), bo=t=>{t=Math.max(0,Math.min(1,t));const c=1.9;return 1+(c+1)*Math.pow(t-1,3)+c*Math.pow(t-1,2)};
+const cl=(t,a,b)=>Math.max(0,Math.min(1,(t-a)/(b-a)));
+const SEG=[{n:'Ingredients',v:1.25,c:'#34d399',t:3.2,ic:'bean'},{n:'Rent',v:1.40,c:'#60a5fa',t:5.4,ic:'house'},{n:'Staff',v:1.35,c:'#f472b6',t:7.6,ic:'person'},{n:'Costs & fees',v:.75,c:'#fbbf24',t:9.8,ic:'bolt'},{n:'Profit',v:.25,c:'#f87171',t:12.0,ic:'coin'}];
+for(let i=0;i<60;i++){const c=document.createElementNS(NS,'circle');c.setAttribute('cx',(i*263)%1080);c.setAttribute('cy',(i*149+40)%1920);c.setAttribute('r',1+(i%3));c.setAttribute('fill','#9fc0ff');c.setAttribute('opacity',.25);$('dust').appendChild(c)}
+const R=330,r0=200;let a0=-90,tot=5;
+SEG.forEach(s=>{s.a0=a0;s.a1=a0+s.v/tot*360;a0=s.a1;s.mid=(s.a0+s.a1)/2});
+const pt=(r,a)=>[r*Math.cos(a*Math.PI/180),r*Math.sin(a*Math.PI/180)];
+function arc(a0,a1,ro,ri){const [x0,y0]=pt(ro,a0),[x1,y1]=pt(ro,a1),[x2,y2]=pt(ri,a1),[x3,y3]=pt(ri,a0),L=(a1-a0)>180?1:0;return `M${x0},${y0} A${ro},${ro} 0 ${L} 1 ${x1},${y1} L${x2},${y2} A${ri},${ri} 0 ${L} 0 ${x3},${y3} Z`}
+function icon(k,c){const g={bean:`<ellipse rx=26 ry=36 transform="rotate(30)" fill="${c}"/><path d="M-10,-26 C14,-8 -14,8 10,26" stroke="#0b1020" stroke-width=6 fill=none transform="rotate(30)"/>`,house:`<path d="M-34,6 L0,-30 L34,6 Z" fill="${c}"/><rect x=-24 y=6 width=48 height=34 fill="${c}"/><rect x=-7 y=16 width=14 height=24 fill="#0b1020"/>`,person:`<circle cy=-20 r=16 fill="${c}"/><path d="M-30,38 C-30,6 30,6 30,38 Z" fill="${c}"/>`,bolt:`<path d="M6,-40 L-24,6 L-2,6 L-10,40 L26,-8 L4,-8 Z" fill="${c}"/>`,coin:`<circle r=32 fill="${c}"/><text y=14 text-anchor="middle" font-size=40 font-weight=800 fill="#0b1020" font-family="Arial">$</text>`};return g[k]}
+function drawPie(t){
+ // pie
+ let h='';
+ SEG.forEach((s,i)=>{const p=ez(cl(t,s.t,s.t+1.0)),pop=bo(cl(t,s.t,s.t+.7));if(p<=0)return;const a1=s.a0+(s.a1-s.a0)*p,m=s.mid,[dx,dy]=pt(26*pop,m);
+  h+=`<g transform="translate(${dx},${dy})"><path d="${arc(s.a0,Math.max(s.a0+.1,a1),R,r0)}" fill="${s.c}" opacity=".95" filter="url(#gl)"/>`;
+  const lp=cl(t,s.t+.6,s.t+1.3);if(lp>0){const [ix,iy]=pt((R+r0)/2,m),[lx,ly]=pt(R+150,m);h+=`<g transform="translate(${ix},${iy}) scale(${.9*bo(lp)})">${icon(s.ic,'#0b1020')}</g>`;
+   h+=`<g transform="translate(${lx},${ly})" opacity="${ez(lp)}"><text text-anchor="middle" y=-4 font-size=46 font-weight=800 fill="${s.c}" font-family="Arial,Helvetica,sans-serif">$${s.v.toFixed(2)}</text><text text-anchor="middle" y=40 font-size=34 font-weight=600 fill="#dfe7ff" font-family="Arial,Helvetica,sans-serif">${s.n}</text></g>`}h+='</g>'});
+ $('pie').innerHTML=h;
+ // coin: big at start, moves into the pie centre
+ const pin=bo(cl(t,0,.8)),mv=ez(cl(t,2.0,3.2)),x=540,y=900+(960-900)*0+(-0)*mv, sc=(1.9-1.05*mv)*pin;
+ const cy=900+(0)*mv;
+ $('coin').innerHTML=`<g transform="translate(540,${900}) scale(${sc})" filter="url(#gl)"><circle r=150 fill="url(#gold)" stroke="#fff3c4" stroke-width=8 /><circle r=122 fill=none stroke="#b87400" stroke-width=6 /><text y=40 text-anchor="middle" font-size=130 font-weight=900 fill="#7a4a00" font-family="Arial,Helvetica,sans-serif">$5</text></g>`;
+ // hook title
+ 
+}
+
+
+// ---- scene 1: card tap ----
+const bk=$('bokeh');[[150,300,320,'#ff9f4a55'],[860,260,260,'#ffcf7a44'],[200,1500,380,'#ff7a5a33'],[900,1400,300,'#7ab2ff33'],[520,120,240,'#ffb86a44'],[980,820,220,'#ff9f4a33']].forEach((b,i)=>{const e=document.createElement('i');e.style.cssText=`left:${b[0]-b[2]/2}px;top:${b[1]-b[2]/2}px;width:${b[2]}px;height:${b[2]}px;background:${b[3]}`;e.dataset.x=b[0];e.dataset.y=b[1];bk.appendChild(e)});
+for(let r=0;r<4;r++)for(let c=0;c<3;c++){const k=document.createElement('div');k.className='key';k.style.left=(50+c*148)+'px';k.style.top=(450+r*108)+'px';$('keys').appendChild(k)}
+const lerp=(a,b,t)=>a+(b-a)*t;const T0=5.0;let TL=null;
+function draw(t){
+
+ // camera
+ const push=ez(cl(t,0,4.4)),shake=Math.max(0,1-t/4.5);
+ const sx=(7*Math.sin(t*6.1)+4*Math.sin(t*13.7))*shake,sy=(6*Math.sin(t*5.3+1)+3*Math.sin(t*11.1))*shake;
+ const sc=lerp(1,1.55,push),ty=lerp(0,230,push);
+ $('cam').style.transform=`translate(${sx}px,${sy+ty}px) scale(${sc})`;
+ const rx=lerp(20,10,push),ry=lerp(-24,-6,push),rz=lerp(3,0,push);
+ $('term').style.transform=`rotateX(${rx}deg) rotateY(${ry}deg) rotateZ(${rz}deg)`;
+ // card path
+ const a=ez(cl(t,0.5,2.1)),back=ez(cl(t,2.6,3.6)),tapb=Math.sin(Math.PI*cl(t,2.0,2.35))*-14;
+ const cx=lerp(lerp(420,0,a),170,back),cy=lerp(lerp(640,-14,a),470,back)+tapb,cz=lerp(lerp(260,30,a),160,back)+tapb*-1;
+ const rot=lerp(lerp(-18,0,a),-10,back);
+ const spd=Math.abs(a-cl(t-.03,0.5,2.1)/1)*30;
+ $('card').style.transform=`translate3d(${cx}px,${cy}px,${cz}px) rotateZ(${rot}deg) rotateX(${lerp(40,8,a)}deg) rotateY(${lerp(-25,0,a)}deg)`;
+ $('card').style.opacity=cl(t,0.35,0.8);$('card').style.filter=`blur(${Math.min(5,spd*40)}px)`;
+ $('sheen').style.left=(-120+700*cl(t,0.6,2.0))+'px';
+ // rings at tap
+ let rg='';for(let i=0;i<3;i++){const p=cl(t,2.15+i*.18,3.0+i*.18);if(p>0&&p<1){const d=lerp(120,760,ez(p));rg+=`<div class=ring style="width:${d}px;height:${d}px;margin:${-d/2}px 0 0 ${-d/2}px;opacity:${1-p};"></div>`}}
+ $('rings').innerHTML=rg;
+ // screen state
+ const ap=cl(t,2.25,2.5);$('scr').querySelector('.amt').style.opacity=1-ap;$('scr').querySelector('.lbl').style.opacity=1-ap;$('scr').querySelector('.ok').style.opacity=ap;
+ $('scr').querySelector('.ok').style.transform=`scale(${bo(cl(t,2.25,2.75))})`;
+ $('stage').style.setProperty('--g',ap>0?'#35e08a99':'#2a6bff55');$('scr').style.setProperty('--g',ap>0?'#35e08a99':'#2a6bff55');
+ // bokeh drift
+ [...bk.children].forEach((e,i)=>{e.style.transform=`translate(${Math.sin(t*.6+i)*30}px,${Math.cos(t*.5+i*2)*24}px)`;e.style.opacity=1-cl(t,T0-.4,T0+.4)});
+ // transition flash through the screen
+ const fl=ez(cl(t,3.9,4.7))*(1-ez(cl(t,4.8,5.5)));$('flash').style.opacity=fl;
+ const tv=1-ez(cl(t,4.2,4.9));$('cam').style.opacity=tv;
+ // scene 2
+ $('s2').style.opacity=ez(cl(t,T0-.2,T0+.2));
+ if(t>=T0-.3)drawPie(t-T0);
+ // hook title (scene 1)
+ let h='';if(t<4.2){const q=ez(cl(t,0.2,.7))*(1-ez(cl(t,3.6,4.1)));h=`<div style="position:absolute;left:0;right:0;top:170px;text-align:center;font:900 86px Arial,Helvetica,sans-serif;color:#fff;opacity:${q};text-shadow:0 6px 30px #000">WHERE DOES IT<br><span style="color:#ffd166">ACTUALLY GO?</span></div>`}
+ // unified captions from timeline
+ if(TL){TL.lines.forEach((l,i)=>{if(t>=l.start-.05&&t<l.end+.3){const q=ez(cl(t,l.start-.05,l.start+.2))*(1-ez(cl(t,l.end+.1,l.end+.3)));const big=i==TL.lines.length-1;
+  h+=`<div style="position:absolute;left:60px;width:960px;top:${big?1500:1580}px;min-height:140px;border-radius:30px;background:#000a;opacity:${q};transform:translateY(${(1-q)*16}px);display:flex;align-items:center;justify-content:center;padding:18px 30px;box-sizing:border-box;text-align:center;font:800 ${big?54:46}px/1.2 Arial,Helvetica,sans-serif;color:${big?'#ffd166':'#fff'}">${l.text}</div>`}})}
+ let hb=document.getElementById('hk');if(!hb){hb=document.createElement('div');hb.id='hk';hb.className='abs';hb.style.cssText='left:0;top:0;width:1080px;height:1920px;pointer-events:none';$('stage').insertBefore(hb,$('vig'))}hb.innerHTML=h;
+ // closing: gentle breathing of the pie
+ if(TL){const e=TL.lines[7].start;if(t>e){$('pie').style.filter=`brightness(${1+.18*Math.sin((t-e)*4)})`}else $('pie').style.filter=''}
+ $('tb').setAttribute('seed',1+Math.floor(t*30)%40);
+}
+window.setTimeline=tl=>{TL=tl;SEG.forEach((g,i)=>{g.t=tl.lines[2+i].start-.15-T0})};
+window.sfxEvents=()=>{const e=[{k:'whoosh',t:.5,d:1.6},{k:'tap',t:2.14},{k:'beep',t:2.3,f:1568},{k:'beep',t:2.4,f:2093},{k:'chime',t:2.5},{k:'riser',t:3.3,d:1.7},{k:'impact',t:5.0},{k:'shimmer',t:5.1}];
+ SEG.forEach(g=>{e.push({k:'pop',t:g.t+T0+.03})});const n=TL.lines.length-1;e.push({k:'ding',t:TL.lines[n].start});return e};
+window.draw=draw;draw(0);
+</script>
