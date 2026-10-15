@@ -105,7 +105,26 @@ def find_clip(i: int):
     return p if p.exists() else None
 
 
+def _image_map():
+    """Optional bilder/map.txt: 'Szene Bildnummer' je Zeile; mehrere Szenen teilen sich ein Bild."""
+    m = {}
+    f = IMAGES / "map.txt"
+    if f.exists():
+        for ln in f.read_text().splitlines():
+            ln = ln.split("#")[0].split()
+            if len(ln) == 2:
+                m[int(ln[0])] = int(ln[1])
+    return m
+
+
+_IMG_MAP = None
+
+
 def find_image(i: int):
+    global _IMG_MAP
+    if _IMG_MAP is None:
+        _IMG_MAP = _image_map()
+    i = _IMG_MAP.get(i, i)
     for ext in ("png", "jpg", "jpeg", "webp"):
         p = IMAGES / f"{i:02d}.{ext}"
         if p.exists():
