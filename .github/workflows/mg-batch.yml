@@ -1,0 +1,83 @@
+name: Motion Graphics Warteschlange
+
+# Rendert alle Projekte aus mg/render_queue.txt parallel (je ein Job) und legt die fertigen
+# Videos im Branch "renders" unter renders/<projekt>/ ab. Start: Push, der mg/render_queue.txt aendert.
+on:
+  push:
+    branches: [main]
+    paths: ["mg/render_queue.txt"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      list: ${{ steps.q.outputs.list }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: q
+        run: |
+          L=$(grep -v '^#' mg/render_queue.txt | awk 'NF{print $1}' | python3 -c "import sys,json;print(json.dumps([l.strip() for l in sys.stdin if l.strip()]))")
+          echo "list=$L" >> "$GITHUB_OUTPUT"; echo "$L"
+
+  build:
+    needs: plan
+    if: needs.plan.outputs.list != '[]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix:
+        projekt: ${{ fromJson(needs.plan.outputs.list) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Programme installieren
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg fonts-dejavu-core fonts-liberation
+          pip install edge-tts numpy playwright
+          python -m playwright install --with-deps chromium
+      - name: Video bauen (Stimme Andrew, Animation, Ton)
+        run: python mg/produce.py "${{ matrix.projekt }}" --workers 4 2>&1 | tee build.log
+      - name: Groesse pruefen (GitHub-Grenze 100 MB)
+        run: |
+          F=output/${{ matrix.projekt }}_final.mp4
+          S=$(stat -c%s "$F"); echo "Groesse $S"
+          if [ "$S" -gt 95000000 ]; then
+            ffmpeg -y -loglevel error -i "$F" -c:v libx264 -crf 24 -preset slow -c:a copy small.mp4 && mv small.mp4 "$F"
+            echo "neu: $(stat -c%s $F)"
+          fi
+      - name: In Branch renders ablegen
+        run: |
+          P=${{ matrix.projekt }}
+          git config --global user.name "mg-bot"; git config --global user.email "mg-bot@users.noreply.github.com"
+          for k in 1 2 3 4 5 6 7 8; do
+            rm -rf rb
+            if git ls-remote --exit-code --heads origin renders >/dev/null; then
+              git clone --depth 1 --branch renders "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" rb
+            else
+              mkdir rb && cd rb && git init -q -b renders && git remote add origin "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" && cd ..
+            fi
+            mkdir -p rb/renders/$P
+            cp output/${P}_final.mp4 rb/renders/$P/
+            cp output/mg_${P}/timeline.json rb/renders/$P/ || true
+            cp build.log rb/renders/$P/ || true
+            cd rb && git add -A && git commit -qm "render $P (${{ github.sha }})" && git push -q origin renders && cd .. && exit 0
+            cd ..; sleep $((k*7))
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mg-${{ matrix.projekt }}
+          path: |
+            output/*_final.mp4
+            build.log
+          retention-days: 14

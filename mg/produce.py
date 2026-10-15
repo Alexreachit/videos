@@ -22,7 +22,8 @@ def dur_of(path):
 
 
 def tts_andrew(text, mp3, voice, rate, tries=40):
-    """Nur Andrew (kein Ersatz). Wiederholt, bis der Dienst erreichbar ist; wechselt den Endpunkt."""
+    """Nur Andrew (kein Ersatz). Wiederholt, bis der Dienst erreichbar ist; wechselt den Endpunkt.
+    Liefert die Wortzeiten [(Wort, Start, Ende)] relativ zum Zeilenanfang (fuer Untertitel mit Wort-Hervorhebung)."""
     import edge_tts
     import edge_tts.communicate as ec
     orig = getattr(ec, "WSS_URL", None)
@@ -35,17 +36,24 @@ def tts_andrew(text, mp3, voice, rate, tries=40):
                                                       "?Ocp-Apim-Subscription-Key=" + tok)
         except Exception:
             pass
+        bounds = []
 
         async def go():
-            comm = edge_tts.Communicate(text, voice, rate=rate)
+            try:
+                comm = edge_tts.Communicate(text, voice, rate=rate, boundary="WordBoundary")
+            except TypeError:
+                comm = edge_tts.Communicate(text, voice, rate=rate)
             with open(mp3, "wb") as f:
                 async for ch in comm.stream():
                     if ch["type"] == "audio":
                         f.write(ch["data"])
+                    elif ch["type"] == "WordBoundary":
+                        st = ch["offset"] / 1e7
+                        bounds.append((ch["text"], st, st + ch["duration"] / 1e7))
         try:
             asyncio.run(go())
             if Path(mp3).exists() and Path(mp3).stat().st_size > 2000:
-                return
+                return bounds
         except Exception as e:
             last = e
             print(f"TTS Versuch {k+1} fehlgeschlagen: {e}", flush=True)
@@ -56,6 +64,8 @@ def tts_andrew(text, mp3, voice, rate, tries=40):
 def fake_tts(text, mp3):
     d = max(1.0, len(text.split()) / 2.9)
     run(["ffmpeg", "-y", "-loglevel", "error", "-f", "lavfi", "-i", f"anullsrc=r={SR}:cl=mono", "-t", f"{d:.2f}", "-q:a", "9", str(mp3)])
+    ws = text.split(); step = d / max(1, len(ws))
+    return [(w, i * step, (i + 1) * step) for i, w in enumerate(ws)]
 
 
 def render_range(args):
@@ -66,6 +76,7 @@ def render_range(args):
         pg = br.new_page(viewport={"width": size[0], "height": size[1]})
         pg.goto("file://" + str((HERE / proj / "scene.html").resolve()))
         pg.evaluate("tl=>window.setTimeline(tl)", json.load(open(out / "timeline.json")))
+        pg.wait_for_function("window.ready===undefined||window.ready===true", timeout=120000)
         for i in range(a, b):
             pg.evaluate(f"draw({i/fps})")
             pg.screenshot(path=str(out / "fr" / f"{i:05d}.jpg"), type="jpeg", quality=90)
@@ -73,6 +84,68 @@ def render_range(args):
 
 
 # ---------- Ton ----------
+
+MUSIC = {}
+CHORDS = {"minor": [(57, 60, 64), (53, 57, 60), (48, 52, 55), (55, 59, 62)],      # Am F C G
+          "major": [(48, 52, 55), (55, 59, 62), (57, 60, 64), (53, 57, 60)],      # C G Am F
+          "tense": [(57, 60, 64), (57, 60, 65), (53, 57, 60), (52, 56, 59)]}      # Am Am(b6) F E
+
+
+def music_bed(dur, cfg):
+    """Selbst synthetisiertes Musikbett: Pad-Akkorde, Bass, Kick/Hi-Hat, Pluck-Arpeggio. Frei von Rechten."""
+    bpm = cfg.get("bpm", 100); mood = cfg.get("mood", "minor"); energy = cfg.get("energy", .7)
+    n = int(SR * dur); y = np.zeros(n); tt = np.arange(n) / SR; beat = 60 / bpm; bar = beat * 4
+    rng = np.random.default_rng(7)
+    mid = lambda m: 440 * 2 ** ((m - 69) / 12)
+    prog = CHORDS.get(mood, CHORDS["minor"])
+
+    def put(sig, t0, g=1.0):
+        i = int(t0 * SR); m = min(len(sig), n - i)
+        if m > 0 and i >= 0: y[i:i+m] += sig[:m] * g
+
+    def osc(f, l, kind="saw"):
+        t = np.arange(int(l * SR)) / SR
+        if kind == "sine": return np.sin(2 * np.pi * f * t)
+        return sum(np.sin(2 * np.pi * f * h * t) / h * (1 if h < 4 else .5) for h in range(1, 7))
+
+    def lowpass(x, k):
+        c = np.cumsum(np.insert(x, 0, 0)); z = (c[k:] - c[:-k]) / k
+        return np.concatenate([np.zeros(k - 1), z])
+
+    nb = int(dur / bar) + 1
+    for b in range(nb):
+        t0 = b * bar; ch = prog[b % len(prog)]
+        # Pad
+        l = bar + .3; env = np.minimum(np.arange(int(l*SR))/SR/.6, 1) * np.minimum((l - np.arange(int(l*SR))/SR)/.5, 1)
+        pad = sum(lowpass(osc(mid(m), l) * .5 + osc(mid(m) * 1.003, l) * .5, 30) for m in ch) * env * .10
+        put(pad, t0)
+        # Bass (Grundton, Achtel-Puls)
+        for k in range(8):
+            l2 = beat / 2 * .9; e2 = np.exp(-np.arange(int(l2*SR))/SR * 6)
+            put(osc(mid(ch[0] - 24), l2, "sine") * e2 * .32 * energy, t0 + k * beat / 2)
+        # Pluck-Arpeggio (16tel, ab Takt 2)
+        if b >= 1:
+            for k in range(16):
+                if rng.random() < .25: continue
+                m = ch[k % 3] + 12 * (1 + (k // 3) % 2); l3 = .35; e3 = np.exp(-np.arange(int(l3*SR))/SR * 14)
+                put(osc(mid(m), l3, "sine") * e3 * .07 * energy, t0 + k * beat / 4)
+        # Drums (ab Takt 2): Kick 1+3, Snare-artig 2+4 (leise), Hats auf Achteln
+        if b >= 1 and energy > .3:
+            for k in range(4):
+                tk = t0 + k * beat
+                if k % 2 == 0:
+                    lk = .3; tq = np.arange(int(lk*SR))/SR; f = 45 + 90 * np.exp(-tq * 30)
+                    put(np.sin(2*np.pi*np.cumsum(f)/SR) * np.exp(-tq * 9) * .55 * energy, tk)
+                else:
+                    ls = .2; nz = rng.normal(0, 1, int(ls*SR)); nz = nz - lowpass(nz, 6)
+                    put(nz * np.exp(-np.arange(len(nz))/SR * 22) * .10 * energy, tk)
+                for hh in (0, .5):
+                    lh = .05; nz = rng.normal(0, 1, int(lh*SR)); nz = nz - lowpass(nz, 3)
+                    put(nz * np.exp(-np.arange(len(nz))/SR * 80) * .05 * energy, tk + hh * beat)
+    fade = np.minimum(tt / 1.5, 1) * np.clip((dur - tt) / 2.0, 0, 1)
+    return y * fade
+
+
 def synth(events, dur, music=True):
     n = int(SR * dur)
     rng = np.random.default_rng(3)
@@ -96,16 +169,7 @@ def synth(events, dur, music=True):
         t = np.arange(int(l * SR)) / SR
         return sum(np.sin(2 * np.pi * f * h * t) / h for h in harm) * env(l, a, r) * g
 
-    bedL = np.zeros(n)
-    if music:
-        bed = (np.sin(2*np.pi*55*tt)*.5 + np.sin(2*np.pi*82.4*tt)*.3 + np.sin(2*np.pi*110*tt + np.sin(tt*.7))*.2) * (0.25 + 0.15*np.sin(tt*.9)**2)
-        bed *= np.minimum(tt/2, 1) * np.clip(np.minimum((dur-tt)/1.5, 1), 0, 1)
-        bedL = bed
-    music_arr = np.zeros(n)
-    for k in np.arange(0.2, dur - 0.3, 0.5):
-        i = int(k * SR); s = tone(48, .35, .55, .004, .12); m = min(len(s), n - i)
-        if m > 0: music_arr[i:i+m] += s[:m]
-    music_arr += bedL
+    music_arr = music_bed(dur, MUSIC) if music else np.zeros(n)
     for e in events:
         k, t = e["k"], e["t"]
         if k == "whoosh":
@@ -129,6 +193,22 @@ def synth(events, dur, music=True):
             tq = np.arange(int(.25*SR)) / SR; f = 700*np.exp(-tq*9) + 200
             add(np.sin(2*np.pi*np.cumsum(f)/SR) * np.exp(-tq*14) * .9, t)
             for i, ff in enumerate((1568, 2349)): add(tone(ff, .5, .25, .003, .3), t + .05 + i*.06)
+        elif k == "tick":
+            add(tone(e.get("f", 2400), .04, .35, .001, .02), t)
+        elif k == "cash":
+            add(np.diff(lp(rng.normal(0, 1, int(.06*SR)), 2), prepend=0) * .8, t)
+            for i, f in enumerate((2093, 2637)): add(tone(f, .7, .35, .002, .4, (1, 2, 3)), t + .06 + i * .09)
+        elif k == "error":
+            for i in range(2): add(tone(180, .16, .5, .003, .14, (1, 3, 5)), t + i * .19)
+        elif k == "thud":
+            add(tone(70, .5, 1.0, .002, .2), t); add(lp(rng.normal(0, 1, int(.12*SR)), 20) * env(.12, .001, .05) * .9, t)
+        elif k == "swish":
+            d = e.get("d", .45); w = rng.normal(0, 1, int(d*SR)); x = w - lp(w, 12)
+            add(x * np.sin(np.linspace(0, np.pi, len(x)))**3 * .35, t, e.get("pan", 0))
+        elif k == "type":
+            for i in range(int(e.get("n", 8))): add(np.diff(lp(rng.normal(0, 1, int(.012*SR)), 2), prepend=0) * .5, t + i * .07 + rng.random() * .02)
+        elif k == "heartbeat":
+            for i in range(int(e.get("n", 2))): add(tone(55, .25, 1, .003, .1), t + i * .8); add(tone(50, .25, .7, .003, .1), t + i * .8 + .22)
         elif k == "ding":
             for i, f in enumerate((1318.5, 1760, 2637)): add(tone(f, 1.2, .3, .003, .7, (1, 2)), t + i*.05)
     return L, R, music_arr
@@ -147,20 +227,36 @@ def main():
     out = Path("output") / ("mg_" + proj); shutil.rmtree(out, ignore_errors=True)
     (out / "fr").mkdir(parents=True); (out / "voice").mkdir()
     size, fps = cfg["size"], cfg["fps"]
+    MUSIC.update(cfg.get("music", {}))
     # 1) Stimme
-    t = 0.3; lines = []
+    t = cfg.get("lead", 0.3); lines = []
     for i, ln in enumerate(cfg["lines"]):
         mp3 = out / "voice" / f"{i:02d}.mp3"
-        if fake: fake_tts(ln["text"], mp3)
-        else: tts_andrew(ln["text"], mp3, cfg["voice"], cfg["rate"])
+        if fake: words = fake_tts(ln["text"], mp3)
+        else: words = tts_andrew(ln["text"], mp3, cfg["voice"], cfg["rate"])
         d = dur_of(mp3)
         start = max(t, ln.get("min_start", 0))
-        lines.append({"text": ln["text"], "start": round(start, 3), "end": round(start + d, 3), "file": str(mp3)})
+        lines.append({"text": ln["text"], "start": round(start, 3), "end": round(start + d, 3), "file": str(mp3),
+                      "spec": ln.get("spec"), "words": [[w, round(a, 3), round(b, 3)] for w, a, b in words]})
         t = start + d + cfg.get("gap", .3)
         print(f"Zeile {i}: {start:.2f}-{start+d:.2f}  {ln['text']}", flush=True)
     total = round(lines[-1]["end"] + cfg.get("tail", 1.5), 2)
     tl = {"lines": [{k: v for k, v in l.items() if k != "file"} for l in lines], "dur": total}
+    if "--limit" in sys.argv:  # nur die ersten N Sekunden rendern (Test)
+        lim = float(sys.argv[sys.argv.index("--limit") + 1]); total = min(total, lim); tl["dur"] = total
     json.dump(tl, open(out / "timeline.json", "w"), ensure_ascii=False)
+    if "--stills" in sys.argv:  # nur Einzelbilder zu Zeitpunkten (schneller Test): --stills 1,5.5,12
+        ts = [float(x) for x in sys.argv[sys.argv.index("--stills") + 1].split(",")]
+        from playwright.sync_api import sync_playwright
+        with sync_playwright() as p:
+            br = p.chromium.launch(); pg = br.new_page(viewport={"width": size[0], "height": size[1]})
+            pg.goto("file://" + str((HERE / proj / cfg["scene"]).resolve())); pg.evaluate("tl=>window.setTimeline(tl)", tl)
+            pg.wait_for_function("window.ready===undefined||window.ready===true", timeout=120000)
+            print("SFX:", pg.evaluate("window.sfxEvents()")[:40])
+            for x in ts:
+                pg.evaluate(f"draw({x})"); pg.screenshot(path=str(out / f"still_{x:06.2f}.jpg"), type="jpeg", quality=85)
+            br.close()
+        print("STILLS", out, f"Gesamtdauer {total}s"); return
     # 2) Ereignisse (SFX) aus der Szene
     from playwright.sync_api import sync_playwright
     with sync_playwright() as p:
@@ -174,7 +270,7 @@ def main():
     with Pool(workers) as pool: pool.map(render_range, jobs)
     print(f"{nfr} Frames in {time.time()-t0:.0f}s", flush=True)
     run(["ffmpeg", "-y", "-loglevel", "error", "-framerate", str(fps), "-i", str(out / "fr" / "%05d.jpg"),
-         "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "17", str(out / "video.mp4")])
+         "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", str(cfg.get("crf", 19)), "-preset", "slow", str(out / "video.mp4")])
     # 4) Ton: SFX+Musik synthetisieren, Stimme platzieren, mischen (Musik unter der Stimme abgesenkt)
     L, R, music = synth(events, total)
     wavwrite(out / "sfx.wav", L, R)
