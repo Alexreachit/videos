@@ -1,0 +1,55 @@
+# Video 7: Where your money really goes after you tap your card (fully animated, one 8 s Flow clip per line)
+# One line = one scene = one clip. Numbers are rough and differ by country; not financial advice.
+It is a rainy Monday, you order a coffee for four fifty, hold your phone to the reader, and it beeps. Three seconds. But your money just started a long journey.
+Nothing in that moment moved real cash. What you sent was a tiny message, and the whole story of modern money hides inside that message.
+First stop is the card reader. It wraps your payment in a secure code, so that nobody along the way can read your card number or change the amount.
+Then the message leaves the cafe through the internet, and within a fraction of a second it reaches a company you have probably never thought about.
+That company is the payment processor. Think of it as a switchboard operator that serves thousands of shops and decides where each message has to go next.
+From there the message goes to the card network, the famous names printed on every card. They own no money at all. They own the roads the messages travel on.
+The network now has one job: find your bank. It reads the first digits of your card, which work like a postal code, and sends the message straight there.
+Your bank receives the question: does this person have enough money, and is this really them? It has about one second to answer, and it asks several things at once.
+First check: is the balance big enough. Second check: does this purchase fit your usual habits. A coffee in your home town does. A watch in another country at night does not.
+Third check: is your phone really your phone. Your fingerprint, your face, or your code proves it, and this is why a stolen card number alone is far less useful than it used to be.
+All three checks pass. Your bank puts a hold on four fifty from your balance, sends back a single word, approved, and the answer races all the way back the same way.
+The terminal beeps. You pick up your cup and walk away, thinking the payment is finished. But right now, not a single cent has actually moved between banks.
+What really happened is a promise. Your bank promised the cafe's bank that the money will arrive, and promises like this are written into a giant ledger all day long.
+Money in a bank is not a pile of coins with your name on it. It is a number in a database, and a payment is simply that number going down here and up there.
+At the end of the day, millions of these promises are collected into a single batch, and the banks settle up with each other in one go, usually overnight.
+Banks do not need to send money for every coffee. If your bank owes the cafe's bank one thousand and is owed nine hundred back, only the difference of one hundred moves.
+That final difference travels through the central bank, the bank of banks. Every commercial bank keeps an account there, and these accounts are where the real settlement happens.
+Now the cafe's bank receives its share. Here is the first surprise: the cafe does not get four fifty. It gets noticeably less, because everyone along the road takes a small cut.
+The biggest cut is called the interchange fee, and it goes to your bank. In Europe it is capped at a fraction of a percent. In the United States it is often far higher.
+Then the card network takes a few cents for the roads, and the processor takes a few more for the switchboard. Altogether, the cafe may lose between one and three percent.
+That sounds tiny, but a cafe sells hundreds of coffees every week. Those cents add up to a real bill, and it is often one of the biggest costs after rent and wages.
+So who pays for it? You do, in a hidden way. Shops raise prices a little for everyone, even people who pay in cash, to cover what cards cost.
+And some of that cut returns to you as rewards, cashback or points. Those perks are not free gifts. They are paid out of the fee, which the cafe financed through its prices.
+Back in the cafe, the money that survives lands in the owner's account. Now it faces a second journey, because a cafe is a machine that turns coffee money into everyone else's income.
+The largest branch goes to the people who work there. Wages are paid to the barista, the cook, and the cleaner, and each of them will spend that money again within days.
+The next branch goes to the landlord. Rent in a good location is huge, often a quarter of a cafe's income, and that money does not stay in the neighborhood for long.
+Another branch pays for beans, milk and cups. The milk comes from a dairy, the beans from a trader, and behind each of them stand farmers who finally see a small piece of your coffee money.
+Far away, a farmer on a green hillside receives a few cents of your four fifty. That is the end of a chain that started with a tap on your phone ten seconds ago.
+Meanwhile the government takes its part too. Value added tax was already inside the price you paid, and the cafe collects it for the state and passes it on every month.
+Wages are taxed as well, and so are profits. By the time the owner takes home a personal salary, a big part of that coffee has already paid for roads, schools and hospitals.
+Then there is the cafe's own bank loan. Many shops borrowed money to buy the espresso machine, and every month a slice of your coffee goes to pay it off, with interest.
+What does the bank do with that interest and repayment? It lends the money out again. Here is where the story gets really interesting, because banks do not just store money.
+When you deposit money, the bank is allowed to lend most of it to someone else. That borrower spends it, the seller deposits it, and the bank can lend a part of it again.
+This is how a single deposit supports many times its size in loans. It is also why banks can be fragile: if too many people ask for their cash at once, it simply is not there.
+That is called a bank run, and it has toppled banks many times. To prevent it, most countries guarantee deposits up to a limit, in the European Union one hundred thousand euros per person.
+Now follow your coffee money one step further. The barista takes her wage and pays her own rent, buys groceries, and puts a little into a savings account.
+The grocery store pays its suppliers and wages, and the savings account lends to a stranger who starts a small business. One coffee has now fed a dozen different pockets.
+Economists call this the multiplier. Every euro spent becomes someone else's income, and each person keeps some of it and passes the rest on, round after round.
+But money also leaks out of the loop. Some goes into savings, some into taxes, and some goes abroad when you buy something made in another country.
+This is why a local shop matters more than it looks. More of its money tends to stay nearby, paying neighbors, who spend it at other local shops, again and again.
+Now zoom out and ask the other big question: where did the four fifty come from in the first place? From your paycheck, which began at your employer and was earned from customers.
+In other words, the same coin travels in a circle. A customer pays a company, the company pays you, and you pay the cafe, whose people pay everyone else.
+But the circle can also stop. When people get scared, they spend less, shops earn less, workers lose hours, and then they spend even less. This is how a recession feeds itself.
+That is why central banks and governments try to keep the circle moving. They lower interest rates, cut taxes, or spend more themselves, to coax people back into shops.
+There is a cost, too. If too much money chases too few goods, prices rise. Your four fifty coffee becomes five, then six, and the same wage buys a little less each year.
+This is inflation, and it is the slow tax on everyone who just leaves cash sitting around. It does not feel dramatic, but ten years of it quietly eats a large share of your savings.
+Not every payment follows the same path, of course. Cash skips almost all of this. The cafe gets the full amount, immediately, with no fees, but must count it, guard it and carry it to the bank.
+Newer systems like instant bank transfers cut the waiting time too. In some countries, money now moves between banks in seconds, any hour of the day, even on a Sunday.
+So what should you take from all this? First, a card payment is a message and a promise, not a trip of physical money, and this is why it is fast and also why fees exist.
+Second, every purchase is also a small vote. The place where you spend decides who gets paid, which neighbors keep their jobs, and which businesses grow and which quietly disappear.
+Third, small habits move big amounts. Paying with a card that charges you no fees, keeping your savings where prices are low, and watching for subscriptions you forgot, adds up over the years.
+And finally, remember the farmer on the hill. Behind every simple tap, there is a chain of real people, and understanding that chain is the first step to controlling your own money.
+Next time you hold your phone to a terminal and hear that beep, you will know what really happens. Subscribe if you want to follow more journeys like this one.
