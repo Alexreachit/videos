@@ -1,0 +1,106 @@
+{
+ "agents": {
+  "Chief Orchestrator": {
+   "status": "arbeitet",
+   "task": "verteilt 8-h-Produktion: 10 TikToks + YT-Remaster",
+   "since": 1792103225.9424255
+  },
+  "TikTok Production Agent": {
+   "status": "arbeitet",
+   "task": "baut Folge 2+3 (Overbooking, Gratis-Apps)",
+   "since": 1792103225.9716222
+  },
+  "TikTok Trend Research Agent": {
+   "status": "arbeitet",
+   "task": "recherchiert Fakten Folge 4+5 (Tickets, Benzin)",
+   "since": 1792103226.000147
+  },
+  "TikTok Format Development Agent": {
+   "status": "arbeitet",
+   "task": "baut Folge 6+7 (Sparkonto, Streaming)",
+   "since": 1792103226.0288959
+  },
+  "TikTok Competitor Analysis Agent": {
+   "status": "arbeitet",
+   "task": "baut Folge 8+9 (Hotdog, Buy now pay later)",
+   "since": 1792103226.0563583
+  },
+  "TikTok Experiment Manager": {
+   "status": "arbeitet",
+   "task": "baut Folge 10 + Langfassung Folge 1",
+   "since": 1792103226.0833278
+  },
+  "YouTube Production Agent": {
+   "status": "arbeitet",
+   "task": "Remaster Video 2: Bilder + gecodete Animation",
+   "since": 1792103226.110325
+  },
+  "YouTube Script Agent": {
+   "status": "arbeitet",
+   "task": "Szenenplan Video 2 (56 Zeilen)",
+   "since": 1792103226.1375563
+  },
+  "Quality Assurance Agent": {
+   "status": "arbeitet",
+   "task": "prüft Stills aller Projekte",
+   "since": 1792103226.1718864
+  }
+ },
+ "log": [
+  {
+   "id": "1792103225.942-Chief Orchestrator",
+   "agent": "Chief Orchestrator",
+   "msg": "startet: verteilt 8-h-Produktion: 10 TikToks + YT-Remaster",
+   "ts": 1792103225.9424255
+  },
+  {
+   "id": "1792103225.972-TikTok Production Agent",
+   "agent": "TikTok Production Agent",
+   "msg": "startet: baut Folge 2+3 (Overbooking, Gratis-Apps)",
+   "ts": 1792103225.9716222
+  },
+  {
+   "id": "1792103226.000-TikTok Trend Research Agent",
+   "agent": "TikTok Trend Research Agent",
+   "msg": "startet: recherchiert Fakten Folge 4+5 (Tickets, Benzin)",
+   "ts": 1792103226.000147
+  },
+  {
+   "id": "1792103226.029-TikTok Format Development Agent",
+   "agent": "TikTok Format Development Agent",
+   "msg": "startet: baut Folge 6+7 (Sparkonto, Streaming)",
+   "ts": 1792103226.0288959
+  },
+  {
+   "id": "1792103226.056-TikTok Competitor Analysis Agent",
+   "agent": "TikTok Competitor Analysis Agent",
+   "msg": "startet: baut Folge 8+9 (Hotdog, Buy now pay later)",
+   "ts": 1792103226.0563583
+  },
+  {
+   "id": "1792103226.083-TikTok Experiment Manager",
+   "agent": "TikTok Experiment Manager",
+   "msg": "startet: baut Folge 10 + Langfassung Folge 1",
+   "ts": 1792103226.0833278
+  },
+  {
+   "id": "1792103226.110-YouTube Production Agent",
+   "agent": "YouTube Production Agent",
+   "msg": "startet: Remaster Video 2: Bilder + gecodete Animation",
+   "ts": 1792103226.110325
+  },
+  {
+   "id": "1792103226.138-YouTube Script Agent",
+   "agent": "YouTube Script Agent",
+   "msg": "startet: Szenenplan Video 2 (56 Zeilen)",
+   "ts": 1792103226.1375563
+  },
+  {
+   "id": "1792103226.172-Quality Assurance Agent",
+   "agent": "Quality Assurance Agent",
+   "msg": "startet: prüft Stills aller Projekte",
+   "ts": 1792103226.1718864
+  }
+ ],
+ "updated": 1792103226.1718864
+}
