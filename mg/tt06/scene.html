@@ -1,0 +1,371 @@
+<!doctype html><meta charset=utf-8><style>
+html,body{margin:0;background:#03050b}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:#05080f}
+.L{position:absolute;left:0;top:0;width:1080px;height:1920px}
+#bg{background:#070b18}
+.blob{position:absolute;border-radius:50%}
+#layers>div{position:absolute;left:0;top:0;width:1080px;height:1920px;transform-origin:540px 900px;will-change:transform}
+#fx{pointer-events:none}
+</style>
+<div id=stage>
+ <div id=bg class=L></div>
+ <div id=blobs class=L></div>
+ <div id=layers class=L></div>
+ <div id=fx class=L></div>
+ <div id=hud class=L></div>
+ <div id=cap class=L></div>
+</div>
+<svg width=0 height=0 style="position:absolute"><defs>
+ <linearGradient id=gBill x1=0 y1=0 x2=1 y2=1><stop offset=0 stop-color="#48d68e"/><stop offset=.55 stop-color="#2aa866"/><stop offset=1 stop-color="#1b7d4b"/></linearGradient>
+ <linearGradient id=gGold x1=0 y1=0 x2=1 y2=1><stop offset=0 stop-color="#fff0b0"/><stop offset=.5 stop-color="#ffd166"/><stop offset=1 stop-color="#d98c12"/></linearGradient>
+ <linearGradient id=gBrass x1=0 y1=0 x2=0 y2=1><stop offset=0 stop-color="#e7c27a"/><stop offset=.5 stop-color="#b98d3e"/><stop offset=1 stop-color="#7a5a22"/></linearGradient>
+ <linearGradient id=gSteel x1=0 y1=0 x2=1 y2=1><stop offset=0 stop-color="#7f8aa3"/><stop offset=.5 stop-color="#3d4659"/><stop offset=1 stop-color="#1c2230"/></linearGradient>
+ <linearGradient id=gWall x1=0 y1=0 x2=1 y2=0><stop offset=0 stop-color="#141a28"/><stop offset=.5 stop-color="#232b3d"/><stop offset=1 stop-color="#121722"/></linearGradient>
+ <linearGradient id=gCar x1=0 y1=0 x2=0 y2=1><stop offset=0 stop-color="#8cc3ff"/><stop offset=1 stop-color="#2f6fd0"/></linearGradient>
+ <linearGradient id=gCard x1=0 y1=0 x2=1 y2=1><stop offset=0 stop-color="#ff7a7a"/><stop offset=.5 stop-color="#d0306a"/><stop offset=1 stop-color="#6b1fa8"/></linearGradient>
+ <linearGradient id=gScreen x1=0 y1=0 x2=0 y2=1><stop offset=0 stop-color="#13234a"/><stop offset=1 stop-color="#0a1226"/></linearGradient>
+ <radialGradient id=gLight><stop offset=0 stop-color="#fff6d8"/><stop offset=.35 stop-color="#ffd166" stop-opacity=".85"/><stop offset=1 stop-color="#ffd166" stop-opacity="0"/></radialGradient>
+ <radialGradient id=gSpot><stop offset=0 stop-color="#ffffff" stop-opacity=".35"/><stop offset=1 stop-color="#ffffff" stop-opacity="0"/></radialGradient>
+ <filter id=glow x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="10" result=b /><feMerge><feMergeNode in=b /><feMergeNode in=SourceGraphic /></feMerge></filter>
+ <filter id=sh x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx=0 dy=18 stdDeviation=16 flood-color="#000" flood-opacity=".65"/></filter>
+</defs></svg>
+<script src="../lib/core.js"></script>
+<script>
+const {cl,ez,ei,bo,lerp}=MG, $=MG.$;
+const N=13, TR=.6, PI=Math.PI;
+const ENTER=['','flash','push','zoom','up','push','wipe','push','zoom','up','push','wipe','zoom'];
+const ACC=['#ffd166','#35e08a','#ffd166','#ff5d5d','#60a5fa','#ffd166','#60a5fa','#ff5d5d','#ffd166','#ffd166','#a78bfa','#60a5fa','#ffd166'];
+const A=i=>i<=0?0:MG.L(i).start-.35, B=i=>i>=N-1?1e9:A(i+1);
+const D=i=>MG.L(i).end-MG.L(i).start;
+function wt(i,re,fb){const l=MG.L(i);const w=(l.words||[]).find(w=>re.test(w[0].toLowerCase()));return w?w[1]:(fb==null?.3:fb)*(l.end-l.start)}
+
+// ---------- drawing helpers ----------
+const FF='Arial,Helvetica,sans-serif';
+function T(x,y,s,str,o={}){return `<text x="${x}" y="${y}" font-family="${o.f||FF}" font-weight="${o.w||900}" font-size="${s}" fill="${o.c||'#fff'}" text-anchor="${o.a||'middle'}" opacity="${o.o==null?1:o.o}" ${o.ls?`letter-spacing="${o.ls}"`:''} ${o.ex||''}>${str}</text>`}
+function head(lt,kick,num,col,tn,o={}){
+ const k=ez(cl(lt,-.15,.35)),p=cl(lt,tn-.05,tn+.5),s=bo(p);
+ let h=`<g opacity="${k}" transform="translate(0,${(1-k)*24})">${T(540,240,o.ks||40,kick,{c:'#b9c6e6',ls:4,w:800})}<rect x="${540-70*k}" y=266 width="${140*k}" height=7 rx=3.5 fill="${col}"/></g>`;
+ if(num!=null&&p>0)h+=`<g transform="translate(540,${o.y||455}) scale(${s})" filter="url(#glow)">${T(0,0,o.size||190,num,{c:col})}</g>`;
+ return h}
+function bill(x,y,w,rot=0,o=1){const h=w*.46;return `<g transform="translate(${x},${y}) rotate(${rot})" opacity="${o}"><rect x="${-w/2}" y="${-h/2}" width="${w}" height="${h}" rx="${w*.04}" fill="url(#gBill)" stroke="#0e5a33" stroke-width="${w*.014}"/><rect x="${-w/2+w*.045}" y="${-h/2+w*.045}" width="${w-w*.09}" height="${h-w*.09}" rx="${w*.025}" fill="none" stroke="#c9f7da" stroke-opacity=".6" stroke-width="${w*.009}"/><ellipse rx="${h*.3}" ry="${h*.34}" fill="#1f8a52" stroke="#c9f7da" stroke-opacity=".7" stroke-width="${w*.009}"/>${T(0,h*.14,h*.38,'$',{c:'#e4ffef'})}${T(-w/2+w*.1,-h/2+h*.3,h*.2,'100',{c:'#e4ffef',a:'start'})}${T(w/2-w*.1,h/2-h*.12,h*.2,'100',{c:'#e4ffef',a:'end'})}</g>`}
+function bundle(x,y,w,rot=0,band=true){const h=w*.46;let s=`<g transform="translate(${x},${y}) rotate(${rot})" filter="url(#sh)">`;for(let k=4;k>=1;k--)s+=`<rect x="${-w/2+k*3}" y="${-h/2+k*7}" width="${w}" height="${h}" rx="${w*.04}" fill="${k%2?'#1a7344':'#239058'}"/>`;s+=bill(0,0,w);if(band)s+=`<rect x="${-w*.09}" y="${-h/2-6}" width="${w*.18}" height="${h+30}" rx=6 fill="#f4e6bf" stroke="#c8a860" stroke-width=3 />`+T(0,h*.08,w*.06,'$1,000',{c:'#6b4b12',ex:`transform="rotate(-90)"`});return s+'</g>'}
+function coin(x,y,r,lab='$',o=1,sq=1){return `<g transform="translate(${x},${y}) scale(1,${sq})" opacity="${o}"><circle r="${r}" fill="url(#gGold)" stroke="#fff3c4" stroke-width="${r*.08}"/><circle r="${r*.78}" fill="none" stroke="#b87400" stroke-width="${r*.07}"/>${T(0,r*.33,r*.9,lab,{c:'#7a4a00'})}</g>`}
+function bank(x,y,s,c='#dfe7ff'){return `<g transform="translate(${x},${y}) scale(${s})"><path d="M-70,-30 L0,-72 L70,-30 Z" fill="${c}"/><rect x=-66 y=-28 width=132 height=10 fill="${c}"/>${[-48,-16,16,48].map(v=>`<rect x="${v-8}" y=-14 width=16 height=56 fill="${c}"/>`).join('')}<rect x=-74 y=44 width=148 height=14 rx=3 fill="${c}"/></g>`}
+function person(x,y,s,c){return `<g transform="translate(${x},${y}) scale(${s})"><circle cy=-30 r=22 fill="${c}"/><path d="M-38,48 C-38,4 38,4 38,48 Z" fill="${c}"/></g>`}
+function car(x,y,s,wr){const wh=(cx)=>`<g transform="translate(${cx},44) rotate(${wr})"><circle r=50 fill="#151a26"/><circle r=30 fill="#9aa6bf"/>${[0,60,120].map(a=>`<rect x=-4 y=-28 width=8 height=56 fill="#4a5470" transform="rotate(${a})"/>`).join('')}<circle r=9 fill="#dfe7ff"/></g>`;
+ return `<g transform="translate(${x},${y}) scale(${s})" filter="url(#sh)"><path d="M-250,40 L-250,-20 Q-246,-58 -200,-64 L-130,-70 L-70,-140 Q-60,-150 -40,-150 L90,-150 Q112,-150 124,-136 L180,-70 L226,-62 Q256,-54 256,-20 L256,40 Z" fill="url(#gCar)"/><path d="M-110,-74 L-58,-132 L10,-132 L10,-74 Z M28,-74 L28,-132 L92,-132 Q104,-132 112,-120 L150,-74 Z" fill="#cfe6ff" opacity=".85"/><rect x=-250 y=4 width=506 height=12 fill="#1e4f9a" opacity=".6"/><rect x=226 y=-44 width=30 height=18 rx=6 fill="#fff4c2"/><rect x=-250 y=-40 width=20 height=16 rx=5 fill="#ff6b6b"/>${wh(-150)}${wh(150)}</g>`}
+function phoneI(x,y,s,c){return `<g transform="translate(${x},${y}) scale(${s})"><rect x=-24 y=-40 width=48 height=80 rx=10 fill="${c}"/><rect x=-17 y=-30 width=34 height=54 rx=3 fill="#0b1020"/><circle cy=32 r=4 fill="#0b1020"/></g>`}
+function xI(x,y,s,c){return `<g transform="translate(${x},${y}) scale(${s})" stroke="${c}" stroke-width=14 stroke-linecap=round><path d="M-26,-26 L26,26 M26,-26 L-26,26"/></g>`}
+const hexA=(h)=>[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];
+const mix=(a,b,t)=>{const x=hexA(a),y=hexA(b);return `rgb(${x.map((v,i)=>Math.round(v+(y[i]-v)*t)).join(',')})`};
+
+// ---------- scenes ----------
+const S=[];
+// 0: cinematic intro – bundle slides into deposit slot, camera dives through, vault door opens
+S[0]=(t)=>{
+ const a1=Math.max(3.5,A(1)), s=t*5.6/a1;
+ let h='';
+ // --- part A: wall with deposit slot
+ if(s<3.5){
+  const dive=cl(s,2.25,3.35), k=Math.pow(70,ei(dive)), fadeA=1-cl(s,3.1,3.4);
+  h+=`<g opacity="${fadeA}" transform="translate(540,920) scale(${k}) translate(-540,-920)">`;
+  h+=`<rect width=1080 height=1920 fill="url(#gWall)"/>`;
+  for(let i=1;i<6;i++)h+=`<rect x="${i*180-2}" y=0 width=4 height=1920 fill="#0a0e17" opacity=".7"/><rect x="${i*180+2}" y=0 width=2 height=1920 fill="#3a4560" opacity=".35"/>`;
+  for(let i=0;i<6;i++)for(let j=0;j<11;j++)h+=`<circle cx="${i*180+30}" cy="${j*180+40}" r=6 fill="#3b4660"/>`;
+  h+=`<ellipse cx=540 cy=900 rx=520 ry=420 fill="url(#gSpot)"/>`;
+  const glowS=.35+.65*Math.sin(PI*cl(s,1.5,2.5));
+  h+=`<g filter="url(#sh)"><rect x=230 y=740 width=620 height=330 rx=30 fill="url(#gBrass)"/><rect x=246 y=756 width=588 height=298 rx=22 fill="none" stroke="#f6dc9c" stroke-opacity=".6" stroke-width=3 /></g>`;
+  h+=T(540,835,46,'DEPOSIT',{c:'#5a4214',ls:14});
+  h+=`<rect x=290 y=896 width=500 height=48 rx=12 fill="#ffd166" opacity="${.25*glowS}" filter="url(#glow)"/><rect x=300 y=900 width=480 height=40 rx=10 fill="#040404"/><rect x=300 y=900 width=480 height=6 fill="#ffd166" opacity="${.5*glowS}"/>`;
+  for(const q of [[270,770],[810,770],[270,1040],[810,1040]])h+=`<circle cx="${q[0]}" cy="${q[1]}" r=9 fill="#6e5320"/>`;
+  // bundle
+  const a=ez(cl(s,.15,1.45)), ins=ei(cl(s,1.45,2.35));
+  const bx=lerp(620,540,a), by=lerp(1760,1060,a)-ins*300, br=lerp(16,0,a), bs=lerp(1.25,1,a);
+  h+=`<clipPath id=slotc><rect x=0 y=922 width=1080 height=1100 /></clipPath><g clip-path="url(#slotc)"><g transform="translate(${bx},${by}) scale(${bs}) translate(${-bx},${-by})">${bundle(bx,by,440,br)}</g></g>`;
+  h+=`</g>`;
+ }
+ // --- part B: vault corridor
+ if(s>3.05){
+  const fb=cl(s,3.05,3.45), push=ei(cl(s,3.1,5.7)), sc=1+.18*push;
+  h+=`<g opacity="${fb}" transform="translate(540,880) scale(${sc}) translate(-540,-880)"><rect width=1080 height=1920 fill="#06080e"/>`;
+  // corridor planes
+  h+=`<path d="M0,1920 L250,1260 L830,1260 L1080,1920 Z" fill="#141a27"/><path d="M0,0 L250,470 L830,470 L1080,0 Z" fill="#0c111c"/><path d="M0,0 L250,470 L250,1260 L0,1920 Z" fill="#101624"/><path d="M1080,0 L830,470 L830,1260 L1080,1920 Z" fill="#0f1522"/>`;
+  for(let i=0;i<6;i++){const y=1260+Math.pow(i/5,1.6)*660;const x0=lerp(250,0,(y-1260)/660),x1=lerp(830,1080,(y-1260)/660);h+=`<line x1="${x0}" y1="${y}" x2="${x1}" y2="${y}" stroke="#25304a" stroke-width="${2+i}"/>`}
+  for(const xx of [-1,1])for(let i=0;i<5;i++){const u=i/5;h+=`<line x1="${540+xx*lerp(290,540,u)}" y1="${lerp(470,0,u)}" x2="${540+xx*lerp(290,540,u)}" y2="${lerp(1260,1920,u)}" stroke="#1d2638" stroke-width="${3+i*2}"/>`}
+  // door
+  const spin=ei(cl(s,4.0,4.7)), op=ei(cl(s,4.65,5.5)), th=op*1.35;
+  const cx=540, cy=865, R=270, light=cl(s,4.7,5.6);
+  h+=`<circle cx=${cx} cy=${cy} r=${R+30} fill="#05070c"/><circle cx=${cx} cy=${cy} r=${R} fill="url(#gLight)" opacity="${light}"/>`;
+  h+=`<circle cx=${cx} cy=${cy} r=${R+30} fill="none" stroke="url(#gSteel)" stroke-width=26 />`;
+  const dx=cx-R, w=Math.cos(th);
+  if(w>0.02){
+   h+=`<g transform="translate(${dx},0) scale(${w},1) translate(${-dx},0)"><circle cx=${cx} cy=${cy} r=${R} fill="url(#gSteel)" stroke="#9aa6c2" stroke-width=6 filter="url(#sh)"/><circle cx=${cx} cy=${cy} r=${R*.82} fill="none" stroke="#1a1f2b" stroke-width=10 />`;
+   for(let i=0;i<12;i++){const q=i/12*2*PI;h+=`<circle cx="${cx+Math.cos(q)*R*.91}" cy="${cy+Math.sin(q)*R*.91}" r=10 fill="#aab4cc"/>`}
+   h+=`<g transform="translate(${cx},${cy}) rotate(${spin*240})"><circle r=40 fill="#c8d0e2"/>${[0,60,120].map(a=>`<g transform="rotate(${a})"><rect x=-150 y=-10 width=300 height=20 rx=10 fill="#c8d0e2"/><circle cx=-150 r=20 fill="#e6ecf8"/><circle cx=150 r=20 fill="#e6ecf8"/></g>`).join('')}</g></g>`;
+  }
+  // bundle drops in and floats into the light
+  const dr=bo(cl(s,3.3,4.0)), into=ei(cl(s,4.95,5.7));
+  const by=lerp(-300,1180,dr)-into*320, bsc=lerp(.62,.18,into);
+  h+=`<ellipse cx=540 cy=1290 rx=${170*(1-into)} ry=24 fill="#000" opacity="${.5*cl(s,3.6,4.0)}"/>`;
+  h+=`<g opacity="${1-cl(s,5.5,5.75)}" transform="translate(540,${by}) scale(${bsc}) translate(-540,${-by})">${bundle(540,by,440,0)}</g>`;
+  h+=`</g>`;
+ }
+ return h};
+
+// 1: savings rate gauge 0.4%
+S[1]=(lt)=>{const i=1,tn=Math.max(1.1,wt(i,/0\.4|percent/,.55)),c='#35e08a';
+ const v1=3.2*ez(cl(lt,.15,.95)), v=lerp(v1,.4,MG.el(cl(lt,tn-.25,tn+.9)));
+ const fin=cl(lt,tn-.25,tn+.2), col=fin>.5?c:'#ffffff';
+ let h=`<g opacity="${ez(cl(lt,-.15,.35))}">${T(540,240,40,'TYPICAL US SAVINGS RATE',{c:'#b9c6e6',ls:4,w:800})}<rect x=470 y=266 width=140 height=7 rx=3.5 fill="${c}"/></g>`;
+ const np=cl(lt,tn-.05,tn+.45);
+ h+=np>0?`<g filter="url(#glow)" transform="translate(540,455) scale(${bo(np)})">${T(0,0,190,'0.4%',{c:c})}</g>`:`<g opacity="${ez(cl(lt,.1,.5))}">${T(540,455,190,'?',{c:'#ffffff',o:.55})}</g>`;
+ const cx=540,cy=1120,R=360,ang=v1>0?180+v/10*180:180,g=ez(cl(lt,-.2,.5));
+ const P=(r,a)=>[cx+r*Math.cos(a*PI/180),cy+r*Math.sin(a*PI/180)];
+ const arcP=(r,a0,a1)=>{const p0=P(r,a0),p1=P(r,a1);return `M${p0[0]},${p0[1]} A${r},${r} 0 ${a1-a0>180?1:0} 1 ${p1[0]},${p1[1]}`};
+ h+=`<g opacity="${g}" transform="translate(0,${(1-g)*60})"><path d="${arcP(R,180,360)}" fill="none" stroke="#1d2a44" stroke-width=60 stroke-linecap=round />`;
+ h+=`<path d="${arcP(R,180,Math.max(180.5,ang))}" fill="none" stroke="${c}" stroke-width=60 stroke-linecap=round filter="url(#glow)"/>`;
+ for(let k=0;k<=10;k++){const a=180+k*18,p0=P(R-60,a),p1=P(R-(k%5?82:100),a);h+=`<line x1="${p0[0]}" y1="${p0[1]}" x2="${p1[0]}" y2="${p1[1]}" stroke="#7d8db3" stroke-width="${k%5?4:7}"/>`;if(k%5==0){const pl=P(R-150,a);h+=T(pl[0],pl[1]+14,42,k+'%',{c:'#8fa0c6',w:800})}}
+ const pn=P(R-40,ang);h+=`<line x1=${cx} y1=${cy} x2="${pn[0]}" y2="${pn[1]}" stroke="#ffffff" stroke-width=14 stroke-linecap=round filter="url(#sh)"/><circle cx=${cx} cy=${cy} r=34 fill="#e7edf9"/><circle cx=${cx} cy=${cy} r=14 fill="#0b1020"/>`;
+ h+=T(540,1240,46,'per year',{c:'#9fb0d6',w:800,o:cl(lt,tn,tn+.4)})+`</g>`;
+ return h};
+
+// 2: $4 a year – coins drip from the $1,000 bundle into a small jar
+S[2]=(lt)=>{const i=2,d=D(i),c='#ffd166';const t0=.35,st=Math.min(.42,(d-1)/5);
+ let n=0;for(let j=0;j<4;j++)if(lt>t0+j*st+.5)n++;
+ let h=head(lt,'ON $1,000, PER YEAR','$'+n,c,t0+.45,{});
+ const g=ez(cl(lt,-.2,.4));
+ h+=`<g opacity="${g}">${bundle(330,880,400,-4)}${T(330,1080,44,'YOUR $1,000',{c:'#cfe0ff',w:800})}`;
+ // jar back
+ const jx=790,jy=990;
+ h+=`<ellipse cx=${jx} cy=${jy+150} rx=150 ry=26 fill="#000" opacity=".45"/><path d="M${jx-120},${jy-150} L${jx-120},${jy+120} Q${jx-120},${jy+150} ${jx-90},${jy+150} L${jx+90},${jy+150} Q${jx+120},${jy+150} ${jx+120},${jy+120} L${jx+120},${jy-150} Z" fill="#9fc0ff" opacity=".10"/>`;
+ for(let j=0;j<4;j++){const ts=t0+j*st,p=cl(lt,ts,ts+.5);if(p<=0)continue;
+  const fy=jy+118-j*30;let x,y,sq;
+  if(p<1){x=lerp(400,jx,p);y=lerp(830,fy,p)-Math.sin(PI*p)*330;sq=lerp(1,.35,ez(cl(p,.7,1)))}else{x=jx;y=fy;sq=.35}
+  h+=coin(x,y,58,'$',1,sq)}
+ h+=`<path d="M${jx-120},${jy-150} L${jx-120},${jy+120} Q${jx-120},${jy+150} ${jx-90},${jy+150} L${jx+90},${jy+150} Q${jx+120},${jy+150} ${jx+120},${jy+120} L${jx+120},${jy-150}" fill="none" stroke="#cfe2ff" stroke-width=7 opacity=".8"/><ellipse cx=${jx} cy=${jy-150} rx=120 ry=20 fill="none" stroke="#cfe2ff" stroke-width=6 opacity=".7"/><rect x=${jx-96} y=${jy-110} width=16 height=200 rx=8 fill="#fff" opacity=".22"/>`;
+ h+=T(jx,1080+120,44,'YOUR INTEREST',{c:c,w:800})+`</g>`;
+ return h};
+
+// 3: vault opens – your money is not there
+S[3]=(lt)=>{const i=3,c='#ff5d5d';const tn=Math.max(1.7,wt(i,/^not$/,.3));
+ let h=head(lt,'WHERE IS YOUR MONEY?','NOT HERE',c,tn,{size:150,y:440});
+ const cx=540,cy=900,R=320,g=ez(cl(lt,-.2,.3));
+ h+=`<g opacity="${g}"><rect x=150 y=560 width=780 height=700 rx=24 fill="#0b101c" stroke="#26314a" stroke-width=6 />`;
+ // deposit boxes
+ for(let r=0;r<5;r++)for(let k=0;k<6;k++){const x=190+k*118,y=600+r*104,op=(r*6+k)%7==3?1:0;h+=`<rect x=${x} y=${y} width=104 height=88 rx=8 fill="${op?'#05070c':'#3a4560'}" stroke="#56627f" stroke-width=3 />`+(op?'':`<circle cx=${x+52} cy=${y+44} r=9 fill="#141a28"/>`)}
+ // spotlight sweep + empty tray
+ const sw=ei(cl(lt,1.0,1.9)),sx=lerp(250,540,sw);
+ h+=`<path d="M540,560 L${sx-160},1250 L${sx+160},1250 Z" fill="#fff6d0" opacity="${.18*cl(lt,.9,1.2)}"/><ellipse cx=${sx} cy=1170 rx=190 ry=60 fill="url(#gSpot)" opacity="${cl(lt,.9,1.2)}"/>`;
+ const tr=cl(lt,1.6,2.0);
+ h+=`<g opacity="${tr}"><rect x=360 y=1085 width=360 height=140 rx=14 fill="none" stroke="#ffffff" stroke-width=5 stroke-dasharray="20 14" opacity=".75"/>${T(540,1180,90,'?',{c:'#ffffff',o:.85})}<rect x=470 y=1238 width=140 height=48 rx=10 fill="${c}"/>${T(540,1274,32,'YOU',{c:'#2a0a0a'})}</g>`;
+ // round door swinging open (hinge left)
+ const spin=ei(cl(lt,0,.6)),op=ei(cl(lt,.5,1.3)),w=Math.cos(op*1.45),dx=cx-R;
+ if(w>.03){h+=`<g transform="translate(${dx},0) scale(${w},1) translate(${-dx},0)" filter="url(#sh)"><circle cx=${cx} cy=${cy} r=${R} fill="url(#gSteel)" stroke="#9aa6c2" stroke-width=8 /><circle cx=${cx} cy=${cy} r=${R*.8} fill="none" stroke="#1a1f2b" stroke-width=12 /><g transform="translate(${cx},${cy}) rotate(${spin*200})"><circle r=44 fill="#c8d0e2"/>${[0,60,120].map(a=>`<g transform="rotate(${a})"><rect x=-170 y=-11 width=340 height=22 rx=11 fill="#c8d0e2"/><circle cx=-170 r=22 fill="#e6ecf8"/><circle cx=170 r=22 fill="#e6ecf8"/></g>`).join('')}</g></g>`}
+ h+=`</g>`;
+ return h};
+
+// 4: keep a slice, lend out the rest
+S[4]=(lt)=>{const i=4,c='#60a5fa';const ts=Math.max(.7,wt(i,/slice/,.3)),tl=Math.max(ts+.5,wt(i,/lends/,.6));
+ let h=head(lt,'WHAT THE BANK DOES WITH IT','LENT OUT',c,tl,{size:150,y:440});
+ const g=ez(cl(lt,-.2,.3));h+=`<g opacity="${g}">`;
+ // boxes
+ const bxL=270,bxR=790,by=1110;
+ h+=`<g filter="url(#sh)"><rect x=${bxL-160} y=${by-90} width=320 height=200 rx=22 fill="#1a2238" stroke="#ffd166" stroke-width=5 /><rect x=${bxR-180} y=${by-90} width=360 height=200 rx=22 fill="#13243f" stroke="${c}" stroke-width=5 /></g>`;
+ h+=T(bxL,by+175,42,'KEPT READY',{c:'#ffd166',w:900})+T(bxR,by+175,42,'LOANS',{c:c,w:900});
+ h+=`<g opacity="${cl(lt,ts+.4,ts+.7)}">${T(bxL,by+225,32,'for withdrawals',{c:'#9fb0d6',w:700})}</g><g opacity="${cl(lt,tl+.3,tl+.6)}">${T(bxR,by+225,32,'cars, homes, cards',{c:'#9fb0d6',w:700})}</g>`;
+ // icons in loan box
+ const ic=[n=>car(bxR-110,by+10,.26*n,0),n=>bank(bxR+5,by+18,.0001+.0*n,'#000'),n=>''];
+ const ip=k=>bo(cl(lt,tl+.55+k*.15,tl+.95+k*.15));
+ h+=`<g transform="translate(${bxR-108},${by+12}) scale(${ip(0)})">${car(0,0,.2,0)}</g>`;
+ h+=`<g transform="translate(${bxR+12},${by+6}) scale(${.8*ip(1)})"><path d="M-50,0 L0,-46 L50,0 Z" fill="#9cc8ff"/><rect x=-38 y=0 width=76 height=52 fill="#9cc8ff"/><rect x=-10 y=18 width=20 height=34 fill="#13243f"/></g>`;
+ h+=`<g transform="translate(${bxR+115},${by+10}) scale(${.85*ip(2)})"><rect x=-46 y=-30 width=92 height=60 rx=8 fill="url(#gCard)"/><rect x=-34 y=-12 width=20 height=14 rx=3 fill="#ffe08a"/></g>`;
+ // 10 bills fan, then fly
+ for(let k=0;k<10;k++){const a=bo(cl(lt,k*.05,k*.05+.4));if(a<=0)continue;
+  const x0=540+(k-4.5)*44,y0=700-Math.abs(k-4.5)*8,r0=(k-4.5)*5;
+  let x=x0,y=y0,r=r0,sc=a,o=1;
+  if(k==0){const p=ei(cl(lt,ts,ts+.6));x=lerp(x0,bxL,p);y=lerp(y0,by+5,p)-Math.sin(PI*p)*80;r=lerp(r0,0,p);sc=lerp(1,.9,p)}
+  else{const st=tl+(k-1)*.07,p=ei(cl(lt,st,st+.6));x=lerp(x0,bxR+(k-5)*6,p);y=lerp(y0,by-30+(k%3)*4,p)-Math.sin(PI*p)*160;r=lerp(r0,-6+k,p);o=1-cl(lt,st+.45,st+.65)}
+  h+=`<g transform="translate(${x},${y}) scale(${sc}) translate(${-x},${-y})">${bill(x,y,200,r,o)}</g>`}
+ return h+'</g>'};
+
+// 5: reserve rule 0% since 2020
+S[5]=(lt)=>{const i=5,c='#ffd166';const tn=Math.max(1.3,wt(i,/2020/,.8));
+ const v=lerp(10,0,ei(cl(lt,.3,1.3)));
+ let h=`<g opacity="${ez(cl(lt,-.15,.35))}">${T(540,240,40,'US MINIMUM RESERVE RULE',{c:'#b9c6e6',ls:4,w:800})}<rect x=470 y=266 width=140 height=7 rx=3.5 fill="${c}"/></g>`;
+ h+=`<g filter="url(#glow)" transform="translate(540,455) scale(${1+.12*Math.sin(PI*cl(lt,1.25,1.6))})">${T(0,0,190,Math.round(v)+'%',{c:v<.5?c:'#fff'})}</g>`;
+ const g=ez(cl(lt,-.2,.45));
+ h+=`<g opacity="${g}" transform="translate(540,${930+(1-g)*80}) rotate(-3)"><g filter="url(#sh)"><rect x=-290 y=-340 width=580 height=680 rx=18 fill="#eef1f7"/></g><rect x=-290 y=-340 width=580 height=110 rx=18 fill="#d9dfeb"/>${T(0,-268,40,'RESERVE REQUIREMENT',{c:'#24304a'})}`;
+ for(let k=0;k<4;k++)h+=`<rect x=-230 y="${-190+k*42}" width="${k==3?300:460}" height=16 rx=8 fill="#c3cad9"/>`;
+ h+=T(-230,40,34,'Required share of deposits',{c:'#3a4560',a:'start',w:800});
+ h+=`<rect x=-230 y=70 width=460 height=60 rx=12 fill="#d6dce8"/><rect x=-230 y=70 width="${460*v/10}" height=60 rx=12 fill="#ff5d5d"/>`;
+ h+=T(-230,180,30,'before 2020: up to 10%',{c:'#6a7590',a:'start',w:700});
+ for(let k=0;k<2;k++)h+=`<rect x=-230 y="${230+k*42}" width="${k?240:400}" height=16 rx=8 fill="#c3cad9"/>`;
+ // stamp
+ const sp=cl(lt,tn-.1,tn+.25);if(sp>0){const ss=lerp(2.4,1,ez(sp));h+=`<g transform="translate(60,-60) rotate(-14) scale(${ss})" opacity="${ez(sp)}"><rect x=-230 y=-80 width=460 height=160 rx=18 fill="none" stroke="#e63b3b" stroke-width=12 />${T(0,-12,40,'NO MINIMUM',{c:'#e63b3b'})}${T(0,48,52,'SINCE 2020',{c:'#e63b3b'})}</g>`}
+ return h+'</g>'};
+
+// 6: car loan ~6%
+S[6]=(lt)=>{const i=6,c='#60a5fa';const tn=Math.min(1.5,Math.max(1.0,wt(i,/six/,.65)));
+ let h=head(lt,'TYPICAL NEW CAR LOAN, PER YEAR','≈6%',c,tn);
+ const g=ez(cl(lt,-.2,.3));
+ h+=`<g opacity="${g}"><path d="M-40,1240 L1120,1240 L1120,1300 L-40,1300 Z" fill="#141c2e"/>`;
+ for(let k=0;k<8;k++){const x=((k*190-lt*260)%1520+1520)%1520-200;h+=`<rect x="${x}" y=1266 width=110 height=10 rx=5 fill="#3b4866"/>`}
+ // bank on left
+ h+=bank(190,700,1.25,'#dfe7ff')+T(190,820,34,'BANK',{c:'#dfe7ff',w:800,ls:3});
+ const dr=ez(cl(lt,0,1.3)),cx=lerp(-320,620,dr),wr=cx/50*57.3;
+ h+=`<ellipse cx=${cx} cy=1252 rx=230 ry=16 fill="#000" opacity=".55"/>`+car(cx,1150,1,wr);
+ // bill flies from bank to car
+ const p=ei(cl(lt,1.1,1.8));if(p>0&&p<1)h+=bill(lerp(190,cx,p),lerp(760,1030,p)-Math.sin(PI*p)*200,180,lerp(-10,20,p));
+ // hanging tag
+ const tg=cl(lt,1.7,2.4);if(tg>0){const sw=Math.sin(lt*3)*4*(1-cl(lt,2.4,4))+MG.el(tg)*0;h+=`<g transform="translate(${cx+120},880) rotate(${lerp(40,0,MG.el(tg))+sw})"><line x1=0 y1=0 x2=0 y2=60 stroke="#dfe7ff" stroke-width=4 /><g transform="translate(0,60)"><path d="M-80,0 L80,0 L80,90 L-80,90 Z" fill="${c}"/><circle cx=0 cy=18 r=8 fill="#0b1020"/>${T(0,72,40,'LOAN',{c:'#0b1020'})}</g></g>`}
+ return h+'</g>'};
+
+// 7: credit card ~20%
+S[7]=(lt)=>{const i=7,c='#ff5d5d';const tn=Math.min(1.6,Math.max(1.1,wt(i,/twenty/,.7)));
+ const v=20*ez(cl(lt,tn-.1,tn+.7));
+ let h=head(lt,'CREDIT CARD BALANCE, PER YEAR','≈'+Math.round(v)+'%',c,tn);
+ const f=ei(cl(lt,0,.9)),ang=lerp(-180,0,f),w=Math.cos(ang*PI/180),front=Math.abs(ang)<90;
+ const cy=lerp(820,760,f);
+ h+=`<g transform="translate(540,${cy}) rotate(${lerp(-12,-4,f)}) scale(${w},1)" filter="url(#sh)"><rect x=-270 y=-170 width=540 height=340 rx=34 fill="${front?'url(#gCard)':'#3a1650'}"/>`;
+ if(front)h+=`<rect x=-220 y=-70 width=86 height=66 rx=12 fill="url(#gGold)"/><path d="M190,-120 a40,40 0 0 1 0,60 M210,-140 a60,60 0 0 1 0,100" stroke="#fff" stroke-width=7 fill="none" opacity=".9"/>${T(-220,100,40,'•••• •••• •••• 4821',{c:'#ffffffd0',a:'start',f:"'Courier New',monospace",w:700})}<rect x=-270 y=-170 width=540 height=340 rx=34 fill="none" stroke="#ffffff55" stroke-width=3 />`;
+ else h+=`<rect x=-270 y=-110 width=540 height=64 fill="#120818"/>`;
+ h+=`</g>`;
+ // comparison bars
+ const b=ez(cl(lt,.6,1.2)),y1=1070,y2=1190,sc=30;
+ h+=`<g opacity="${b}">${T(120,y1+16,38,'CAR LOAN',{c:'#9cc8ff',a:'start',w:900})}<rect x=380 y="${y1-26}" width="${6*sc*b}" height=52 rx=12 fill="#60a5fa"/>${T(120,y2+16,38,'CARD',{c:'#ffb0b0',a:'start',w:900})}<rect x=380 y="${y2-26}" width="${Math.max(10,v*sc)}" height=52 rx=12 fill="${c}" filter="url(#glow)"/></g>`;
+ return h};
+
+// 8: the spread
+S[8]=(lt)=>{const i=8,c='#ffd166';const tn=Math.min(2.0,Math.max(1.3,wt(i,/spread/,.85)));
+ let h=head(lt,'WHAT THE BANK KEEPS','THE SPREAD',c,tn,{size:140,y:440});
+ const base=1250,b=ez(cl(lt,0,1.0)),Hr=560*b,Hl=Math.max(16,22*b);
+ const lx=270,rx=810,bw=190;
+ h+=`<rect x=80 y=${base} width=920 height=6 rx=3 fill="#3b4866"/>`;
+ h+=`<rect x=${lx-bw/2} y=${base-Hl} width=${bw} height=${Hl} rx=12 fill="#35e08a" filter="url(#glow)"/><rect x=${rx-bw/2} y=${base-Hr} width=${bw} height=${Hr} rx=14 fill="#ff5d5d"/>`;
+ h+=T(lx,base+64,38,'YOU GET',{c:'#35e08a'})+T(rx,base+64,38,'BORROWERS PAY',{c:'#ff8a8a'});
+ const dl=cl(lt,.9,1.4),top=base-560;
+ h+=`<g opacity="${dl}"><line x1=${lx+bw/2} y1=${base-Hl} x2=${lerp(lx+bw/2,rx-bw/2,dl)} y2=${base-Hl} stroke="#dfe7ff" stroke-width=5 stroke-dasharray="16 12"/><line x1=${lx-bw/2} y1=${top} x2=${rx-bw/2} y2=${top} stroke="#dfe7ff" stroke-width=5 stroke-dasharray="16 12" opacity="${dl}"/></g>`;
+ const gf=ez(cl(lt,tn-.1,tn+.5));
+ if(gf>0){const y0=base-Hl,yh=top+(y0-top)*(1-gf);
+  h+=`<rect x=${lx+bw/2+40} y=${yh} width=${rx-lx-bw-80} height=${y0-yh} rx=12 fill="url(#gGold)" opacity=".9" filter="url(#glow)"/>`;
+  h+=`<g opacity="${cl(lt,tn+.3,tn+.6)}">${T(540,(top+y0)/2-10,46,'BANK',{c:'#4a2e00'})}${T(540,(top+y0)/2+44,46,'KEEPS',{c:'#4a2e00'})}</g>`}
+ return h};
+
+// 9: 3 cents per dollar
+S[9]=(lt)=>{const i=9,c='#ffd166';const tn=Math.max(1.5,wt(i,/three/,.4));
+ let h=head(lt,'US BANKS, ON AVERAGE','3¢',c,tn);
+ h+=`<g opacity="${cl(lt,tn+.2,tn+.6)}">${T(540,540,44,'per $1 per year',{c:'#dfe7ff',w:800})}</g>`;
+ const sp=ei(cl(lt,.55,1.25)),g=ez(cl(lt,-.2,.3));
+ // big coin shrinks/dissolves into 100 cents
+ if(sp<1)h+=`<g opacity="${g*(1-sp)}" transform="translate(540,930) scale(${(1-sp*.3)*bo(cl(lt,-.2,.35))})">${coin(0,0,230,'$1')}</g>`;
+ const lift=ez(cl(lt,tn,tn+.6));
+ for(let k=0;k<100;k++){const r=k/10|0,q=k%10,gx=540+(q-4.5)*52,gy=920+(r-4.5)*52;
+  const ra=MG.rnd(k)*2*PI,rr=Math.sqrt(MG.rnd(k+50))*200,sx=540+Math.cos(ra)*rr,sy=930+Math.sin(ra)*rr;
+  const p=ei(cl(lt,.55+MG.rnd(k+9)*.3,1.15+MG.rnd(k+9)*.3));if(p<=0)continue;
+  const gold=k==44||k==45||k==55,x=lerp(sx,gx,p),y=lerp(sy,gy,p)-(gold?lift*40:0);
+  h+=`<circle cx=${x} cy=${y} r="${gold?20+6*lift:20}" fill="${gold&&lift>0?c:'#8ea0c8'}" opacity="${gold?1:1-.55*lift}" ${gold&&lift>0?'filter="url(#glow)"':''}/>`}
+ h+=`<g opacity="${cl(lt,.9,1.4)}">${T(540,1250,40,'every dollar = 100 cents',{c:'#9fb0d6',w:800})}</g>`;
+ return h};
+
+// 10: where the spread goes – tower of costs, profit on top
+S[10]=(lt)=>{const i=10;const ks=[[/branches/,'BRANCHES','#60a5fa','bank'],[/staff/,'STAFF','#a78bfa','person'],[/apps/,'APPS','#22d3ee','phone'],[/loans/,'BAD LOANS','#ff5d5d','x'],[/profit/,'PROFIT','#ffd166','coin']];
+ let tp=-1;const times=ks.map((k,j)=>{let v=Math.max(wt(i,k[0],.15+j*.17),tp+.35);tp=v;return v});
+ const pf=cl(lt,times[4],times[4]+.4);
+ let h=`<g opacity="${ez(cl(lt,-.15,.35))}">${T(540,240,40,'WHERE THE SPREAD GOES',{c:'#b9c6e6',ls:4,w:800})}<rect x=470 y=266 width=140 height=7 rx=3.5 fill="#a78bfa"/></g>`;
+ h+=`<g opacity="${1-pf}">${T(540,430,120,'COSTS FIRST',{c:'#ffffff'})}</g><g opacity="${pf}" transform="translate(540,430) scale(${.8+.2*bo(pf)})" filter="url(#glow)">${T(0,0,120,'THEN PROFIT',{c:'#ffd166'})}</g>`;
+ const base=1290,bh=128,bw=660;
+ ks.forEach((k,j)=>{const p=cl(lt,times[j]-.1,times[j]+.35);if(p<=0)return;const fall=1-MG.bo(p);const y=base-(j+1)*bh-fall*700,x=540-bw/2+(j%2?8:-8);
+  const prof=j==4,col=k[2];
+  h+=`<g opacity="${cl(p,0,.3)}" ${prof?'filter="url(#glow)"':''}><rect x=${x} y=${y+6} width=${bw} height=${bh-12} rx=20 fill="${prof?'url(#gGold)':'#141c2e'}" stroke="${col}" stroke-width=6 />`;
+  const ix=x+80,iy=y+bh/2;
+  h+=k[3]=='bank'?bank(ix,iy+6,.55,col):k[3]=='person'?person(ix,iy,.85,col):k[3]=='phone'?phoneI(ix,iy,.85,col):k[3]=='x'?xI(ix,iy,.85,col):coin(ix,iy,36,'$');
+  h+=T(x+150,iy+20,56,k[1],{c:prof?'#4a2e00':'#ffffff',a:'start'})+'</g>'});
+ return h};
+
+// 11: deposit insurance $250,000
+S[11]=(lt)=>{const i=11,c='#60a5fa';const tn=Math.max(1.0,wt(i,/250/,.55));
+ const v=250000*ez(cl(lt,tn-.1,tn+.9));
+ let h=head(lt,'INSURED, PER PERSON, PER BANK','$'+MG.fmt(Math.round(v/1000)*1000),c,tn,{size:150,y:440});
+ const g=ez(cl(lt,-.2,.35));
+ h+=`<g opacity="${g}">${bundle(540,960,380,-3)}`;
+ const sp=`M540,600 L800,700 L800,950 Q800,1170 540,1290 Q280,1170 280,950 L280,700 Z`;
+ const dr=cl(lt,.25,1.25),L=2100;
+ h+=`<path d="${sp}" fill="${c}" opacity="${.18*cl(lt,1.1,1.5)}"/><path d="${sp}" fill="none" stroke="${c}" stroke-width=16 stroke-linejoin=round stroke-dasharray="${L}" stroke-dashoffset="${L*(1-ez(dr))}" filter="url(#glow)"/>`;
+ const ck=cl(lt,1.3,1.7);if(ck>0)h+=`<g transform="translate(720,1180) scale(${bo(ck)})"><circle r=62 fill="#35e08a"/><path d="M-28,2 L-6,24 L30,-20" fill="none" stroke="#06210f" stroke-width=14 stroke-linecap=round stroke-linejoin=round /></g>`;
+ h+=`<g opacity="${cl(lt,tn+.4,tn+.8)}">${T(540,1320,32,'at federally insured US banks',{c:'#9fb0d6',w:700})}</g>`;
+ return h+'</g>'};
+
+// 12: question – what does your account pay?
+S[12]=(lt)=>{const c='#ffd166';
+ let h=head(lt,'YOUR TURN','?',c,.35,{size:210,y:470});
+ const p=ez(cl(lt,0,.8)),y=lerp(1500,880,p);
+ h+=`<g transform="translate(540,${y})" filter="url(#sh)"><rect x=-230 y=-400 width=460 height=820 rx=60 fill="#0d1220" stroke="#3a4560" stroke-width=8 /><rect x=-205 y=-372 width=410 height=764 rx=42 fill="url(#gScreen)"/><rect x=-50 y=-358 width=100 height=20 rx=10 fill="#0d1220"/>`;
+ h+=T(-170,-270,40,'Savings',{c:'#ffffff',a:'start'})+T(-170,-190,30,'Balance',{c:'#8fa0c6',a:'start',w:700})+T(-170,-130,64,'$1,000',{c:'#ffffff',a:'start'});
+ h+=`<rect x=-175 y=-70 width=350 height=4 fill="#24345c"/>`+T(-170,0,30,'Interest rate',{c:'#8fa0c6',a:'start',w:700});
+ const blink=Math.floor(lt*2.2)%2==0;
+ h+=`<rect x=-178 y=30 width=356 height=120 rx=20 fill="#ffd16622" stroke="${c}" stroke-width=4 />`+T(0,115,76,'?.??%',{c:c})+(blink?`<rect x=150 y=50 width=6 height=80 fill="${c}"/>`:'');
+ h+=`<rect x=-170 y=200 width=340 height=90 rx=45 fill="#1d2a48"/>`+T(0,258,32,'per year',{c:'#8fa0c6',w:800})+`</g>`;
+ return h};
+
+// ---------- engine ----------
+const lay=[];for(let i=0;i<N;i++){const d=document.createElement('div');d.style.display='none';$('layers').appendChild(d);lay.push(d)}
+const blobs=[];for(let k=0;k<4;k++){const b=document.createElement('div');b.className='blob';$('blobs').appendChild(b);blobs.push(b)}
+MG.finish($('stage'),1080,1920,.07);
+function trans(i,t){const a=A(i),b=B(i);if(t<a-.01||t>b+TR)return null;
+ const e=ei(cl(t,a,a+TR)),x=ei(cl(t,b,b+TR));let tf='perspective(1800px) ',op=1,clip='';
+ if(i>0&&e<1){switch(ENTER[i]){case'push':tf+=`translateX(${(1-e)*1080}px) rotateY(${-(1-e)*28}deg) `;break;case'up':tf+=`translateY(${(1-e)*1920}px) `;break;case'zoom':tf+=`scale(${.55+.45*e}) `;op*=e;break;case'wipe':clip=`circle(${e*1400}px at 540px 900px)`;break;case'flash':tf+=`scale(${1.15-.15*e}) `;op*=e;break}}
+ if(i<N-1&&x>0){switch(ENTER[i+1]){case'push':tf+=`translateX(${-x*1080}px) rotateY(${x*28}deg) `;break;case'up':tf+=`translateY(${-x*1920}px) scale(${1-.1*x}) `;break;case'zoom':tf+=`scale(${1+1.3*x}) `;op*=1-x;break;case'wipe':tf+=`scale(${1-.08*x}) `;op*=1-.5*x;break;case'flash':op*=1-x;break}}
+ return {tf,op,clip}}
+function draw(t){
+ // background tint follows the current scene accent
+ let ci=0;for(let i=0;i<N;i++)if(t>=A(i))ci=i;const ni=Math.min(N-1,ci+1),bl=ci<N-1?ei(cl(t,B(ci),B(ci)+TR)):0;
+ const ac=mix(ACC[ci],ACC[ni],bl);
+ $('bg').style.background=`radial-gradient(70% 45% at 50% 62%,${ac.replace('rgb','rgba').replace(')',',.16)')},transparent 70%),radial-gradient(120% 70% at 50% 35%,#16203c,#0a0f20 55%,#04060d)`;
+ blobs.forEach((b,k)=>{const x=[180,880,260,820][k]+Math.sin(t*.3+k*2)*60,y=[320,600,1500,1200][k]+Math.cos(t*.25+k)*50,r=[420,360,460,380][k];b.style.cssText=`left:${x-r}px;top:${y-r}px;width:${2*r}px;height:${2*r}px;background:radial-gradient(circle,${k%2?ac.replace('rgb','rgba').replace(')',',.10)'):'rgba(96,130,255,.10)'},transparent 70%)`});
+ for(let i=0;i<N;i++){const s=trans(i,t),el=lay[i];if(!s){el.style.display='none';continue}
+  el.style.display='block';el.style.transform=s.tf;el.style.opacity=s.op;el.style.clipPath=s.clip||'none';
+  const lt=i==0?t:t-MG.L(i).start,push=i==0?1:1+.035*cl(lt,0,D(i)+1);
+  el.innerHTML=`<svg width=1080 height=1920 viewBox="0 0 1080 1920"><g transform="translate(540,900) scale(${push}) translate(-540,-900)">${S[i](lt)}</g></svg>`}
+ // flash at the intro -> scene 1 cut
+ const fa=A(1)+TR*.5,fl=Math.max(0,1-Math.abs(t-fa)/.28);
+ $('fx').style.background=`radial-gradient(circle at 50% 46%,#fff,#ffe9b0 45%,#ffd16600 85%)`;$('fx').style.opacity=fl*.95;
+ // hook title over the intro
+ let hk='';const a1=A(1);if(t<a1+.2){const lines=[['YOUR SAVINGS','#ffffff'],['MAKE MONEY','#ffffff'],['FOR THE BANK','#ffd166']];
+  lines.forEach((L,k)=>{const p=bo(cl(t,.15+k*.28,.6+k*.28)),o=cl(t,.15+k*.28,.4+k*.28)*(1-cl(t,a1-.5,a1-.1));hk+=`<div style="position:absolute;left:0;width:1080px;top:${150+k*108}px;text-align:center;font:900 ${k==2?104:92}px/1 Arial Black,Arial,Helvetica,sans-serif;color:${L[1]};opacity:${o};transform:scale(${p});text-shadow:0 8px 34px #000,${MG.outline(4)}">${L[0]}</div>`})}
+ $('hud').innerHTML=hk;
+ const last=MG.cur(t)==N-1;
+ $('cap').innerHTML=MG.captions(t,{y:1380,size:64,maxWords:4,hl:last?'#ffd166':'#ffd166'});
+ MG.grainTick(t)}
+window.setTimeline=tl=>{MG.TL=tl};
+window.sfxEvents=()=>{const k=5.6/Math.max(3.5,A(1)),e=[];const at=(s)=>s/k;
+ e.push({k:'whoosh',t:at(.2),d:1.3},{k:'swish',t:at(1.5),d:.7,pan:0},{k:'thud',t:at(2.3)},{k:'riser',t:at(2.2),d:1.2},{k:'impact',t:at(3.3)},{k:'thud',t:at(3.85)},{k:'tick',t:at(4.05),f:1400},{k:'tick',t:at(4.3),f:1400},{k:'tick',t:at(4.55),f:1400},{k:'whoosh',t:at(4.7),d:.9},{k:'shimmer',t:at(5.0)},{k:'impact',t:A(1)+TR*.5});
+ const tr={push:'swish',up:'whoosh',zoom:'whoosh',wipe:'shimmer',flash:'impact'};
+ for(let i=2;i<N;i++){const kk=tr[ENTER[i]];e.push(kk=='swish'?{k:'swish',t:A(i)+.05,d:.45,pan:i%2?.4:-.4}:kk=='whoosh'?{k:'whoosh',t:A(i)+.02,d:.55}:{k:kk,t:A(i)+.05})}
+ const s=i=>MG.L(i).start;
+ // 1 gauge
+ for(let j=0;j<4;j++)e.push({k:'tick',t:s(1)+.2+j*.17,f:900+j*200});e.push({k:'pop',t:s(1)+Math.max(1.1,wt(1,/0\.4|percent/,.55))});
+ // 2 coins
+ {const d=D(2),st=Math.min(.42,(d-1)/5);for(let j=0;j<4;j++)e.push({k:'tick',t:s(2)+.35+j*st+.5,f:2200});e.push({k:'cash',t:s(2)+.35+3*st+.65})}
+ // 3 vault
+ e.push({k:'tick',t:s(3)+.1,f:700},{k:'tick',t:s(3)+.35,f:700},{k:'whoosh',t:s(3)+.55,d:.7},{k:'thud',t:s(3)+Math.max(1.7,wt(3,/^not$/,.3))});
+ // 4 slice and loans
+ {const ts=Math.max(.7,wt(4,/slice/,.3)),tl=Math.max(ts+.5,wt(4,/lends/,.6));e.push({k:'pop',t:s(4)+.05},{k:'tap',t:s(4)+ts+.55},{k:'swish',t:s(4)+tl,d:.8,pan:.5},{k:'chime',t:s(4)+tl+.6})}
+ // 5 rule
+ e.push({k:'tick',t:s(5)+.4,f:1200},{k:'tick',t:s(5)+.75,f:1000},{k:'tick',t:s(5)+1.1,f:800},{k:'thud',t:s(5)+Math.max(1.3,wt(5,/2020/,.8))+.1});
+ // 6 car
+ e.push({k:'whoosh',t:s(6)+.1,d:1.0},{k:'swish',t:s(6)+1.1,d:.5,pan:.3},{k:'pop',t:s(6)+Math.min(1.5,Math.max(1.0,wt(6,/six/,.65)))},{k:'tap',t:s(6)+1.8});
+ // 7 card
+ e.push({k:'swish',t:s(7)+.1,d:.6,pan:-.2},{k:'riser',t:s(7)+.6,d:.7},{k:'pop',t:s(7)+Math.min(1.6,Math.max(1.1,wt(7,/twenty/,.7)))});
+ // 8 spread
+ e.push({k:'riser',t:s(8),d:1.0},{k:'tap',t:s(8)+1.0},{k:'shimmer',t:s(8)+Math.min(2.0,Math.max(1.3,wt(8,/spread/,.85)))});
+ // 9 cents
+ e.push({k:'pop',t:s(9)+.05},{k:'shimmer',t:s(9)+.6},{k:'ding',t:s(9)+Math.max(1.5,wt(9,/three/,.4))});
+ // 10 tower
+ {let tp=-1;[/branches/,/staff/,/apps/,/loans/,/profit/].forEach((r,j)=>{let v=Math.max(wt(10,r,.15+j*.17),tp+.35);tp=v;e.push(j==4?{k:'cash',t:s(10)+v+.1}:{k:'thud',t:s(10)+v+.15})})}
+ // 11 shield
+ e.push({k:'riser',t:s(11)+.25,d:1.0},{k:'chime',t:s(11)+1.35},{k:'pop',t:s(11)+Math.max(1.0,wt(11,/250/,.55))});
+ // 12 question
+ e.push({k:'pop',t:s(12)+.35},{k:'type',t:s(12)+.6,n:4},{k:'ding',t:MG.L(12).end+.2});
+ return e.sort((a,b)=>a.t-b.t)};
+window.draw=draw;
+</script>

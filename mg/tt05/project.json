@@ -1,0 +1,67 @@
+{
+ "title": "TikTok 5: Why gas prices jump up fast and fall slowly",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+10%",
+ "lead": 0.4,
+ "gap": 0.25,
+ "tail": 1.8,
+ "music": {
+  "bpm": 96,
+  "mood": "tense",
+  "energy": 0.6
+ },
+ "lines": [
+  {
+   "text": "Oil gets cheaper, so why is the pump price still high a week later?",
+   "min_start": 0.6
+  },
+  {
+   "text": "Economists even have a name for it: rockets and feathers."
+  },
+  {
+   "text": "Prices shoot up like a rocket, and drift down like a feather."
+  },
+  {
+   "text": "Crude oil is roughly half of what you pay for a gallon."
+  },
+  {
+   "text": "A ten dollar jump per barrel adds about twenty-five cents per gallon."
+  },
+  {
+   "text": "When oil rises, stations raise prices fast, because their thin margin disappears overnight."
+  },
+  {
+   "text": "When costs fall, nobody is in a hurry."
+  },
+  {
+   "text": "Studies find prices typically fall about twice as slowly as they rose."
+  },
+  {
+   "text": "One reason is you."
+  },
+  {
+   "text": "When prices climb, drivers hunt for the cheapest station, so stations must keep up."
+  },
+  {
+   "text": "When prices drop, most of us stop comparing, and stations enjoy fatter margins for a few weeks."
+  },
+  {
+   "text": "Nobody wants to cut first either, because rivals would just match the price."
+  },
+  {
+   "text": "After a couple of months it usually evens out, but those weeks add up."
+  },
+  {
+   "text": "So when oil drops, keep checking prices, because shopping around speeds up the feather."
+  },
+  {
+   "text": "Do you check gas prices before you fill up, or just pull in?"
+  }
+ ]
+}

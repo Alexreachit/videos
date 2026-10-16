@@ -1,0 +1,22 @@
+{
+ "title": "TikTok 1: Where your $5 coffee money actually goes (Langfassung)",
+ "size": [1080, 1920], "fps": 30, "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural", "rate": "+10%",
+ "lead": 0.4, "gap": 0.3, "tail": 2.0,
+ "music": {"bpm": 96, "mood": "major", "energy": 0.6},
+ "lines": [
+  {"text": "You pay five dollars for a coffee.", "min_start": 0.5},
+  {"text": "Where does that money actually go? Let's follow every cent.", "min_start": 5.2},
+  {"text": "The beans, the milk and the cup usually cost well under a third of the price."},
+  {"text": "Roasting, shipping and the farmer's share are all packed into that small slice."},
+  {"text": "But a café doesn't just sell coffee. It sells a seat, a warm room and ten quiet minutes."},
+  {"text": "Rent for a busy corner is one of the biggest single costs."},
+  {"text": "Then the barista. Wages, taxes and training are often the biggest slice of all."},
+  {"text": "Add electricity, the machine, cleaning, and the card fee you paid just by tapping."},
+  {"text": "Whatever is left is the owner's profit, often only a few cents on the dollar."},
+  {"text": "Slow mornings make it worse, because rent and staff cost the same when the line is empty."},
+  {"text": "That's why the pastry sits next to the till. Extra items cover fixed costs far better than coffee."},
+  {"text": "So you're not really paying for the coffee. You're paying for the corner, the people and the time."},
+  {"text": "Next time you pay five dollars, which part do you think costs the most?"}
+ ]
+}

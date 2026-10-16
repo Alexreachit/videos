@@ -1,0 +1,307 @@
+<!doctype html><meta charset=utf-8><style>
+html,body{margin:0;background:#05070f}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:#070a14}
+#bg{position:absolute;inset:0}
+#intro{position:absolute;inset:0;transform-origin:540px 900px}
+#room{position:absolute;inset:0;background:radial-gradient(700px 600px at 50% 46%,#2a3a7a,transparent 70%),radial-gradient(600px 500px at 80% 80%,#6b3cff44,transparent 70%),linear-gradient(180deg,#0b1024,#070a16)}
+#persp{position:absolute;inset:0;perspective:1500px;perspective-origin:540px 860px}
+#rig{position:absolute;left:540px;top:830px;width:0;height:0;transform-style:preserve-3d}
+#phone{position:absolute;left:-250px;top:-500px;width:500px;height:1000px;border-radius:74px;transform-style:preserve-3d;
+ background:linear-gradient(150deg,#4a5571,#1a1f2e 40%,#0b0e17);box-shadow:inset 0 0 0 4px #6b7690,inset 0 0 0 14px #0b0e17,0 60px 140px #000c}
+#scr{position:absolute;left:18px;top:18px;width:464px;height:964px;border-radius:58px;overflow:hidden;background:#f4f6fb}
+#scr svg{display:block}
+.tile{position:absolute;left:-120px;top:-80px;width:240px;height:160px;border-radius:30px;display:flex;align-items:center;justify-content:center;
+ font:900 84px 'Arial Black',Arial,Helvetica,sans-serif;color:#05070f;background:linear-gradient(135deg,#ffe9a8,#ffc145 55%,#d98a12);box-shadow:inset 0 3px 0 #fff8,0 30px 60px #0009}
+#hook{position:absolute;left:0;right:0;top:150px;text-align:center;font:900 84px/1.08 'Arial Black',Arial,Helvetica,sans-serif;color:#fff;text-shadow:0 6px 30px #000,0 0 4px #000}
+#main{position:absolute;left:0;top:0}
+#flash{position:absolute;inset:0;background:radial-gradient(circle at 50% 46%,#fff,#ffe9a8 35%,#6b3cff 80%,#120a30);opacity:0;pointer-events:none}
+#cap{position:absolute;inset:0;pointer-events:none;z-index:80}
+</style>
+<div id=stage>
+<svg width=0 height=0 style="position:absolute"><defs id=gdefs></defs></svg>
+<div id=bg></div>
+<div id=intro>
+ <div id=room></div>
+ <div id=persp><div id=rig>
+  <div id=phone><div id=scr><svg id=scrsvg width=464 height=964 viewBox="0 0 464 964"></svg></div></div>
+  <div class=tile id=t0>$25</div><div class=tile id=t1>$25</div><div class=tile id=t2>$25</div><div class=tile id=t3>$25</div>
+ </div></div>
+ <div id=hook></div>
+</div>
+<svg id=main width=1080 height=1920 viewBox="0 0 1080 1920"><defs id=defs></defs><g id=content></g></svg>
+<div id=flash></div>
+<div id=cap></div>
+</div>
+<script src="../lib/core.js"></script>
+<script src="fx.js"></script>
+<script>
+const M=MG,$=M.$,cl=M.cl,ez=M.ez,ei=M.ei,bo=M.bo,lerp=M.lerp,T=X.T;
+$('gdefs').innerHTML=X.defs;
+$('defs').innerHTML=`<clipPath id="clipTop"><rect x="0" y="0" width="1080" height="1300"/></clipPath>`;
+
+// ---------- Bausteine ----------
+const jacket=(c='#3b7be0')=>`<g>
+ <path d="M-70,-150 L-150,-110 L-200,60 L-150,80 L-120,-20 L-120,170 L120,170 L120,-20 L150,80 L200,60 L150,-110 L70,-150 Q0,-90 -70,-150 Z" fill="${c}" stroke="#05070f" stroke-width="6" stroke-linejoin="round"/>
+ <path d="M-70,-150 Q0,-60 70,-150 L40,-150 Q0,-110 -40,-150 Z" fill="#1b2133"/>
+ <line x1="0" y1="-95" x2="0" y2="170" stroke="#05070f" stroke-width="5"/>
+ ${[-60,-10,40,90,140].map(y=>`<circle cx="14" cy="${y}" r="6" fill="#ffd166"/>`).join('')}
+ <rect x="-100" y="60" width="60" height="10" rx="5" fill="#05070f55"/><rect x="40" y="60" width="60" height="10" rx="5" fill="#05070f55"/></g>`;
+const store=(lit=1)=>`<g>
+ <rect x="-220" y="-200" width="440" height="320" rx="10" fill="url(#gSteel)"/>
+ <path d="M-250,-200 L250,-200 L250,-140 ${[...Array(10)].map((_,i)=>`Q${225-i*50},-100 ${200-i*50},-140`).join(' ')} L-250,-140 Z" fill="#ff5d5d"/>
+ ${[0,2,4,6,8].map(i=>`<path d="M${250-i*50},-200 L${200-i*50},-200 L${200-i*50},-140 Q${225-i*50},-100 ${250-i*50},-140 Z" fill="#f4f6fb"/>`).join('')}
+ <rect x="-180" y="-100" width="200" height="150" rx="8" fill="#ffd166" opacity="${.25+.6*lit}"/><rect x="60" y="-100" width="110" height="220" rx="8" fill="#ffd166" opacity="${.2+.5*lit}"/>
+ <rect x="-160" y="0" width="160" height="40" rx="6" fill="#05070f44"/>
+ <rect x="-260" y="118" width="520" height="14" rx="7" fill="#5d6a8c"/></g>`;
+const bank=(c='#a78bfa')=>`<g>
+ <path d="M-200,-120 L0,-220 L200,-120 Z" fill="${c}"/><rect x="-200" y="-126" width="400" height="22" fill="${c}"/>
+ ${[-150,-75,0,75,150].map(x=>`<rect x="${x-18}" y="-96" width="36" height="190" rx="6" fill="#dfe7ff"/>`).join('')}
+ <rect x="-220" y="94" width="440" height="30" rx="6" fill="${c}"/>
+ <circle cx="0" cy="-160" r="26" fill="#0d1428"/>${T(0,-148,'%',34,c)}</g>`;
+const chip=(txt,fill,tc='#05070f',w=180,h=110)=>`<g><rect x="${-w/2}" y="${-h/2}" width="${w}" height="${h}" rx="26" fill="${fill}" filter="url(#sh)"/>${T(0,h*.2,txt,h*.5,tc)}</g>`;
+const coin=(s=1)=>`<g transform="scale(${s})"><circle r="40" fill="url(#gGold)" stroke="#fff3c4" stroke-width="4"/><circle r="30" fill="none" stroke="#b87400" stroke-width="4"/>${T(0,15,'$',42,'#7a4a00')}</g>`;
+const labelU=(x,y,s,c='#dfe7ff',op=1)=>T(x,y,s,40,c,{op,st:'#05070f',sw:7});
+
+// ---------- Schritte ----------
+const PAL=[['#6b3cff','#60a5fa'],['#6b3cff','#ffd166'],['#60a5fa','#35e08a'],['#35e08a','#a78bfa'],['#ff5d5d','#ffd166'],['#ffd166','#a78bfa'],['#60a5fa','#ff5d5d'],['#ffd166','#60a5fa'],['#60a5fa','#ffd166'],['#35e08a','#60a5fa'],['#ffd166','#35e08a'],['#ff5d5d','#6b3cff'],['#ff5d5d','#ffd166'],['#ff5d5d','#60a5fa'],['#ffd166','#ff5d5d'],['#a78bfa','#60a5fa'],['#60a5fa','#ff5d5d'],['#ffd166','#6b3cff']];
+const S=[];
+S.push({a:0,tr:'cut',f:()=>''});
+
+// 1: Wer zahlt? Suchscheinwerfer ueber drei Kandidaten
+S.push({a:1,tr:'fade',f:(t,s)=>{
+ const u=t-s.ls,d=M.L(1).end-s.ls; let h=X.kick('WHO PAYS FOR THE LOAN?',cl(u,-.2,.3),'#ffd166',250,58);
+ const C=[[200,'YOU',X.person('#dfe7ff'),2.6],[540,'THE SHOP',store(),.62],[880,'THE LENDER',bank(),.62]];
+ const sweep=Math.sin(u*2.6)*1.15, sx=540+sweep*310;
+ h+=`<path d="M540,330 L${sx-150},1120 L${sx+150},1120 Z" fill="url(#gCone)" opacity=".75"/><ellipse cx="${sx}" cy="1120" rx="160" ry="30" fill="#fff6d0" opacity=".18"/>`;
+ C.forEach((c,i)=>{const q=bo(cl(u,-.1+i*.15,.35+i*.15));if(q<=0)return;const lit=Math.max(0,1-Math.abs(sx-c[0])/240);
+  h+=`<g transform="translate(${c[0]},${i==0?1110:1010}) scale(${c[3]*q})" opacity="${.55+.45*lit}">${c[2]}</g>`+labelU(c[0],1200,c[1],lit>.4?'#ffd166':'#dfe7ff',cl(u,.2+i*.15,.5+i*.15))});
+ const qp=cl(u,d*.35,d*.35+.4);
+ h+=`<g transform="translate(540,560) scale(${bo(qp)}) rotate(${Math.sin(u*3)*6})" opacity="${cl(qp,0,.3)}"><g filter="url(#blur18)" opacity=".5">${T(0,90,'?',300,'#ffd166')}</g>${T(0,90,'?',300,'#ffd166',{st:'#05070f',sw:16})}</g>`;
+ return h},sfx:s=>{const d=M.L(1).end-s.ls;return[{k:'whoosh',t:s.ls,d:1.2},{k:'pop',t:s.ls+d*.35}]}});
+
+// 2: Zeitstrahl 6 Wochen, 4 Raten
+S.push({a:2,tr:'left',f:(t,s)=>{
+ const u=t-s.ls,d=M.L(2).end-s.ls; let h=X.kick('PAY IN 4',cl(u,-.1,.4),'#60a5fa',250,64);
+ const x0=150,x1=930,y=820,lp=ez(cl(u,0,.7));
+ h+=`<rect x="${x0}" y="${y-6}" width="${(x1-x0)*lp}" height="12" rx="6" fill="#5d6a8c"/>`;
+ for(let w=0;w<=6;w++){const x=x0+(x1-x0)*w/6,q=cl(u,w*.08,w*.08+.3);h+=`<rect x="${x-3}" y="${y-22}" width="6" height="44" rx="3" fill="#9fb0d0" opacity="${q}"/>`+T(x,y+80,'W'+w,34,'#9fb0d0',{op:q})}
+ const sT=X.wordT(2,/six/,.7);
+ for(let k=0;k<4;k++){const x=x0+(x1-x0)*k*2/6,tk=.35+k*(Math.max(1.4,sT-s.ls-.2))/4,q=cl(u,tk,tk+.35);if(q<=0)continue;const fall=(1-ez(q))*-300;
+  h+=`<g transform="translate(${x},${y-120+fall})" opacity="${cl(q,0,.3)}">${chip('$25',k==0?'url(#gGreen)':'url(#gGold)','#05070f',170,104)}</g><circle cx="${x}" cy="${y}" r="${14*bo(q)}" fill="${k==0?'#35e08a':'#ffd166'}"/>`}
+ h+=X.big(540,1130,'6 WEEKS',140,'#60a5fa',cl(t,sT-.1,sT+.35));
+ return h},sfx:s=>{const sT=X.wordT(2,/six/,.7),e=[];for(let k=0;k<4;k++)e.push({k:'pop',t:s.ls+.35+k*(Math.max(1.4,sT-s.ls-.2))/4+.25});e.push({k:'impact',t:sT});return e}});
+
+// 3: 0 % Zinsen -> Kreditgeber braucht anderen Weg
+S.push({a:3,tr:'zoom',f:(t,s)=>{
+ const u=t-s.ls,lT=X.wordT(3,/lender/,.5),ph=ei(cl(t,lT-.3,lT+.4)); let h='';
+ h+=`<g transform="translate(540,${lerp(640,470,ph)}) scale(${lerp(1,.62,ph)})">`+X.big(0,80,'0%',300,'#35e08a',cl(u,-.1,.3))+T(0,170,'INTEREST',64,'#ffffff',{op:cl(u,.2,.5),st:'#05070f',sw:10})+'</g>';
+ if(ph>0){h+=`<g transform="translate(540,${lerp(1300,1000,ph)}) scale(.8)" opacity="${ph}">${bank()}</g>`;
+  const cq=cl(t,lT+.5,lT+1.1);for(let k=0;k<3;k++){const a=u*1.4+k*2.094,x=540+Math.cos(a)*260,y=900+Math.sin(a)*70;h+=`<g transform="translate(${x},${y}) scale(${.8*bo(cl(cq,k*.2,k*.2+.6))})" opacity="${cl(cq,k*.2,k*.2+.3)*(Math.sin(a)>-.2?1:.5)}">${coin()}${T(36,-26,'?',44,'#ffd166',{st:'#05070f',sw:6})}</g>`}}
+ return h},sfx:s=>{const lT=X.wordT(3,/lender/,.5);return[{k:'ding',t:s.ls+.1},{k:'swish',t:lT-.3,d:.5},{k:'shimmer',t:lT+.5}]}});
+
+// 4: Der Laden zahlt
+S.push({a:4,tr:'left',f:(t,s)=>{
+ const u=t-s.ls,sT=X.wordT(4,/store/,.6),on=cl(t,sT-.1,sT+.05); let h=X.kick('MOSTLY, THE SHOP PAYS',cl(u,-.1,.4),'#ff5d5d',250,58);
+ h+=X.cone(400,320,80,560,760,on*.9)+`<g transform="translate(400,960) scale(${1+.04*bo(cl(t,sT,sT+.4))})">${store(on)}</g>`;
+ h+=`<g transform="translate(860,1000) scale(.5)">${bank()}</g>`+labelU(860,1140,'LENDER','#a78bfa');
+ for(let k=0;k<5;k++){const q=((u-.4-sT+s.ls)*.9+k*.2)%1;if(u-.4<sT-s.ls||q<0)continue;const x=lerp(560,820,q),y=880-Math.sin(q*Math.PI)*170;h+=`<g transform="translate(${x},${y}) scale(.55)" opacity="${Math.sin(q*Math.PI)}">${coin()}</g>`}
+ return h},sfx:s=>{const sT=X.wordT(4,/store/,.6);return[{k:'thud',t:sT-.1},{k:'cash',t:sT+.5}]}});
+
+// 5: Gebuehr 2-8 % pro Verkauf (Ring mit wanderndem Anteil)
+function arcP(cx,cy,r,a0,a1){const p=a=>[cx+r*Math.cos((a-90)*Math.PI/180),cy+r*Math.sin((a-90)*Math.PI/180)],A=p(a0),B=p(a1);return `M${A[0]},${A[1]} A${r},${r} 0 ${a1-a0>180?1:0} 1 ${B[0]},${B[1]}`}
+S.push({a:5,tr:'zoom',f:(t,s)=>{
+ const u=t-s.ls,d=M.L(5).end-s.ls,nT=X.wordT(5,/^2$/,.75); let h=X.kick('THE LENDER\'S CUT OF EACH SALE',cl(u,-.1,.4),'#ffd166',250,50);
+ const pa=ei(cl(u,0,.7));h+=`<path d="${arcP(540,740,250,0,Math.max(.1,359.9*pa))}" stroke="url(#gBlue)" stroke-width="110" fill="none"/>`;
+ const sw=.5-.5*Math.cos(Math.max(0,t-nT)*2.2),pct=lerp(2,8,sw),sp=cl(t,nT-.6,nT);
+ if(sp>0)h+=`<g filter="url(#glow)"><path d="${arcP(540,740,250,360-3.6*pct*ez(sp),359.9)}" stroke="#ff5d5d" stroke-width="128" fill="none"/></g>`;
+ h+=T(540,720,'$100',96,'#ffffff',{op:cl(u,.3,.6)})+T(540,790,'SALE',46,'#9cc6ff',{op:cl(u,.4,.7)});
+ h+=X.big(540,1230,'2–8%',150,'#ff5d5d',cl(t,nT-.1,nT+.35));
+ return h},sfx:s=>{const nT=X.wordT(5,/^2$/,.75);return[{k:'swish',t:s.ls,d:.6},{k:'impact',t:nT}]}});
+
+// 6: Kartenzahlung 2-3 % vs. BNPL
+S.push({a:6,tr:'up',f:(t,s)=>{
+ const u=t-s.ls,nT=X.wordT(6,/^2$/,.7); let h=X.kick('VS. A REGULAR CARD',cl(u,-.1,.4),'#60a5fa',250,58);
+ const x0=170,k=90,ga=ez(cl(u,.1,.8)),gb=ez(cl(t,nT-.3,nT+.4));
+ h+=labelU(x0,560,'PAY LATER','#ff9a9a').replace('text-anchor="middle"','text-anchor="start"');
+ h+=`<rect x="${x0}" y="590" width="${2*k*ga}" height="96" rx="14" fill="#ff5d5d"/><rect x="${x0+2*k*ga}" y="590" width="${6*k*ga}" height="96" rx="14" fill="url(#hatch)" stroke="#ff5d5d" stroke-width="5"/>`+T(x0+8*k*ga+20,662,'8%',52,'#ff5d5d',{a:'start',op:ga});
+ h+=labelU(x0,800,'CARD','#9cc6ff',cl(t,nT-.5,nT)).replace('text-anchor="middle"','text-anchor="start"');
+ h+=`<rect x="${x0}" y="830" width="${2*k*gb}" height="96" rx="14" fill="#60a5fa"/><rect x="${x0+2*k*gb}" y="830" width="${1*k*gb}" height="96" rx="14" fill="#60a5fa88"/>`;
+ for(let p=0;p<=8;p++)h+=`<rect x="${x0+p*k-1}" y="950" width="2" height="18" fill="#9fb0d0"/>`+T(x0+p*k,1000,p+'%',26,'#9fb0d0');
+ h+=X.big(540,1200,'2–3%',140,'#60a5fa',cl(t,nT,nT+.4));
+ return h},sfx:s=>{const nT=X.wordT(6,/^2$/,.7);return[{k:'swish',t:s.ls+.1,d:.6},{k:'pop',t:nT}]}});
+
+// 7: Warum mehr zahlen? Drehendes Fragezeichen ueber dem Laden
+S.push({a:7,tr:'zoom',f:(t,s)=>{
+ const u=t-s.ls; let h=X.kick('WHY PAY MORE?',cl(u,-.1,.4),'#ffd166',250,66);
+ h+=`<g transform="translate(540,1060) scale(.9)">${store(.6)}</g>`;
+ const spin=Math.cos(u*3.2),q=bo(cl(u,0,.5));
+ h+=`<g transform="translate(540,640) scale(${(q*Math.abs(spin)*1+.04).toFixed(3)},${q})"><g filter="url(#blur18)" opacity=".5">${T(0,110,'?',340,'#ffd166')}</g>${T(0,110,'?',340,spin>0?'#ffd166':'#ffb020',{st:'#05070f',sw:16})}</g>`;
+ return h},sfx:s=>[{k:'whoosh',t:s.ls,d:.7},{k:'tick',t:s.ls+.5,f:1800},{k:'tick',t:s.ls+1.0,f:1800}]});
+
+// 8: $100 Jacke fuehlt sich an wie $25
+S.push({a:8,tr:'left',f:(t,s)=>{
+ const u=t-s.ls,qT=X.wordT(8,/\$25/,.7),f=cl(t,qT-.3,qT+.1),sx=Math.abs(Math.cos(Math.PI*f)),bk=f>=.5;
+ let h=X.cone(540,300,100,640,900,.7)+`<ellipse cx="540" cy="1180" rx="280" ry="40" fill="#000" opacity=".4"/>`;
+ h+=`<g transform="translate(470,${880+Math.sin(u*1.6)*6}) scale(1.35)" filter="url(#sh)">${jacket()}</g>`;
+ h+=`<path d="M680,520 Q720,560 760,600" stroke="#dfe7ff" stroke-width="4" fill="none"/>`;
+ h+=`<g transform="translate(790,620) rotate(${12+Math.sin(u*2)*4}) scale(${sx*1.05},1.05)">${bk?X.tag('$25',340,190):`<g>${X.tag('$100',340,190)}</g>`}</g>`;
+ if(bk){h+=T(790,800,'× 4',72,'#ffd166',{op:cl(f,.5,1),st:'#05070f',sw:10})}
+ if(!bk&&f>0)h+=`<line x1="640" y1="620" x2="940" y2="620" stroke="#ff5d5d" stroke-width="12" stroke-linecap="round" opacity="${cl(f,0,.4)}"/>`;
+ h+=X.kick(bk?'FEELS LIKE':'PRICE',1,bk?'#35e08a':'#ffffff',250,64);
+ return h},sfx:s=>{const qT=X.wordT(8,/\$25/,.7);return[{k:'pop',t:s.ls+.1},{k:'swish',t:qT-.3,d:.4},{k:'chime',t:qT+.05}]}});
+
+// 9: mehr Kaeufe, weniger Abbrueche, groessere Koerbe
+S.push({a:9,tr:'up',f:(t,s)=>{
+ const u=t-s.ls; let h=X.kick('WHAT THE SHOP GETS',cl(u,-.1,.4),'#35e08a',250,60);
+ const R=[[/check/i,'MORE CHECKOUTS'],[/abandon/i,'FEWER EMPTY CARTS'],[/basket/i,'BIGGER BASKETS']];
+ R.forEach((r,i)=>{const tT=X.wordT(9,r[0],.2+i*.3),q=cl(t,tT-.3,tT+.2),y=470+i*270;if(q<=0)return;const e=ez(q);
+  h+=`<g opacity="${cl(q,0,.4)}" transform="translate(${(1-e)*-200},0)"><rect x="110" y="${y}" width="860" height="220" rx="40" fill="#0d1428cc" stroke="#35e08a55" stroke-width="4"/>`;
+  const qq=cl(t,tT,tT+.8),cx=250,cy=y+110;
+  if(i==0){h+=`<g transform="translate(${cx},${cy})"><rect x="-70" y="-60" width="140" height="120" rx="20" fill="url(#gGreen)"/>${[0,1,2].map(k=>`<rect x="-46" y="${-38+k*30}" width="${50+k*10}" height="12" rx="6" fill="#05070f66"/>`).join('')}</g><g transform="translate(${cx+70},${cy-60})">${X.arrowUp('#35e08a',.9*bo(qq))}</g>`}
+  if(i==1){h+=`<g transform="translate(${cx},${cy+10}) scale(.6)"><path d="M-110,-70 L110,-70 L90,40 L-90,40 Z" fill="none" stroke="#cfdcf5" stroke-width="12"/><circle cx="-60" cy="70" r="16" fill="#cfdcf5"/><circle cx="60" cy="70" r="16" fill="#cfdcf5"/></g><g transform="translate(${cx+70},${cy-55}) rotate(180)">${X.arrowUp('#35e08a',.9*bo(qq))}</g>`}
+  if(i==2){const g=lerp(.5,1,ez(qq));h+=`<g transform="translate(${cx},${cy+60}) scale(${g})"><path d="M-90,-110 L90,-110 L70,0 L-70,0 Z" fill="#ffd166"/><path d="M-60,-110 Q0,-190 60,-110" fill="none" stroke="#ffd166" stroke-width="12"/></g><g transform="translate(${cx+80},${cy-60})">${X.arrowUp('#35e08a',.9*bo(qq))}</g>`}
+  h+=T(410,y+128,r[1],50,'#ffffff',{a:'start'})+'</g>'});
+ return h},sfx:s=>[/check/i,/abandon/i,/basket/i].map((r,i)=>({k:'pop',t:X.wordT(9,r,.2+i*.3)-.1}))});
+
+// 10: Waage: kleine Gebuehr gegen groesseren Verkauf
+S.push({a:10,tr:'zoom',f:(t,s)=>{
+ const u=t-s.ls,bT=X.wordT(10,/bigger/,.7),tilt=14*ei(cl(t,bT-.2,bT+.5))-8*ez(cl(u,0,.6))*(1-ei(cl(t,bT-.2,bT+.5)));
+ let h=X.kick('A SMALL FEE, A BIGGER SALE',cl(u,-.1,.4),'#ffd166',250,54);
+ h+=`<path d="M500,1180 L580,1180 L560,700 L520,700 Z" fill="url(#gSteel)"/><rect x="420" y="1170" width="240" height="30" rx="12" fill="#5d6a8c"/><circle cx="540" cy="690" r="22" fill="#ffd166"/>`;
+ const a=tilt*Math.PI/180,L=330,lx=540-L*Math.cos(a),ly=690-L*Math.sin(a),rx=540+L*Math.cos(a),ry=690+L*Math.sin(a);
+ h+=`<line x1="${lx}" y1="${ly}" x2="${rx}" y2="${ry}" stroke="#cfdcf5" stroke-width="16" stroke-linecap="round"/>`;
+ const pan=(x,y,inner,lab,c)=>`<line x1="${x}" y1="${y}" x2="${x-90}" y2="${y+170}" stroke="#9fb0d0" stroke-width="4"/><line x1="${x}" y1="${y}" x2="${x+90}" y2="${y+170}" stroke="#9fb0d0" stroke-width="4"/><path d="M${x-120},${y+170} L${x+120},${y+170} Q${x+100},${y+220} ${x},${y+220} Q${x-100},${y+220} ${x-120},${y+170} Z" fill="#5d6a8c"/>${inner}${labelU(x,y+280,lab,c)}`;
+ h+=pan(lx,ly,`<g transform="translate(${lx},${ly+140}) scale(.6)">${coin()}</g>`,'THE FEE','#ff9a9a');
+ const bag=bo(cl(t,bT-.1,bT+.4));
+ h+=pan(rx,ry,`<g transform="translate(${rx},${ry+168}) scale(${.4+.6*bag})"><path d="M-80,0 Q-100,-120 -30,-140 L30,-140 Q100,-120 80,0 Z" fill="url(#gGold)" stroke="#b87400" stroke-width="5"/><path d="M-30,-140 L-50,-175 L50,-175 L30,-140" fill="#d98a12"/>${T(0,-40,'$',90,'#7a4a00')}</g>`,'BIGGER SALE','#35e08a');
+ return h},sfx:s=>{const bT=X.wordT(10,/bigger/,.7);return[{k:'tick',t:s.ls+.3,f:1200},{k:'thud',t:bT+.4},{k:'cash',t:bT+.5}]}});
+
+// 11: Dann kommen die Spaetgebuehren – Kalender + LATE-Stempel
+S.push({a:11,tr:'drop',f:(t,s)=>{
+ const u=t-s.ls,d=M.L(11).end-s.ls,sp=cl(u,d*.45,d*.45+.25); let h='';
+ h+=`<g transform="translate(540,780) rotate(-4)" filter="url(#sh)"><rect x="-300" y="-300" width="600" height="600" rx="40" fill="#f4f6fb"/><rect x="-300" y="-300" width="600" height="130" rx="40" fill="#ff5d5d"/><rect x="-300" y="-210" width="600" height="40" fill="#ff5d5d"/>${T(0,-208,'DUE DATE',62,'#fff')}
+ ${[...Array(15)].map((_,i)=>{const c=i%5,r=Math.floor(i/5);return `<rect x="${-250+c*104}" y="${-130+r*130}" width="84" height="100" rx="14" fill="${i==7?'#ffd16655':'#dfe6f2'}"/>`}).join('')}</g>`;
+ if(sp>0){const k=lerp(2.6,1,ez(sp));h+=`<g transform="translate(540,800) rotate(-14) scale(${k})" opacity="${cl(sp,0,.3)}"><rect x="-260" y="-90" width="520" height="170" rx="20" fill="#ff5d5d22" stroke="#ff5d5d" stroke-width="14"/>${T(0,40,'LATE',130,'#ff5d5d',{ls:10})}</g>`}
+ return h},sfx:s=>{const d=M.L(11).end-s.ls;return[{k:'thud',t:s.ls+d*.45+.25},{k:'error',t:s.ls+d*.45+.35}]}});
+
+// 12: Rate verpasst -> Gebuehr haengt sich an
+S.push({a:12,tr:'left',f:(t,s)=>{
+ const u=t-s.ls,mT=X.wordT(12,/Miss/,.1),fT=X.wordT(12,/fee/,.7); let h=X.kick('MISS ONE PAYMENT',cl(u,-.1,.4),'#ff5d5d',250,60);
+ for(let k=0;k<4;k++){const x=540+(k-1.5)*215,miss=k==2,q=bo(cl(u,k*.1,.3+k*.1)),red=miss?cl(t,mT+.2,mT+.5):0,done=k<2;
+  const sh=miss&&red>0&&red<1?Math.sin(red*40)*10*(1-red):0;
+  h+=`<g transform="translate(${x+sh},700) scale(${q})">${chip('$25',red>.5?'url(#gRed)':(done?'url(#gGreen)':'url(#gGold)'),'#05070f',190,120)}</g>`;
+  if(done)h+=`<g transform="translate(${x+70},630)">${X.check('#35e08a',.55*bo(cl(u,.4+k*.15,.8+k*.15)))}</g>`;
+  if(miss&&red>.5)h+=`<g transform="translate(${x+70},630)">${X.cross('#ff5d5d',.55*bo(cl(red,.5,1)))}</g>`}
+ const fp=cl(t,fT-.3,fT+.2);
+ if(fp>0){const y=lerp(1250,930,ez(fp));h+=`<path d="M540,770 L540,${y-60}" stroke="#ff5d5d" stroke-width="6" stroke-dasharray="12 10" opacity="${fp}"/><g transform="translate(540,${y}) scale(${bo(fp)})">${chip('+ $ FEE','url(#gRed)','#fff',360,140)}</g>`}
+ h+=T(540,1190,'A FLAT FEE OF A FEW DOLLARS',44,'#ff9a9a',{op:cl(t,fT+.2,fT+.6),st:'#05070f',sw:8});
+ return h},sfx:s=>{const mT=X.wordT(12,/Miss/,.1),fT=X.wordT(12,/fee/,.7);return[{k:'error',t:mT+.25},{k:'thud',t:fT}]}});
+
+// 13: 1 von 8 zahlte eine Spaetgebuehr
+S.push({a:13,tr:'zoom',f:(t,s)=>{
+ const u=t-s.ls,eT=X.wordT(13,/eight/,.6); let h='';
+ for(let k=0;k<8;k++){const c=k%4,r=Math.floor(k/4),x=540+(c-1.5)*190,y=640+r*270,q=bo(cl(u,k*.07,.35+k*.07)),red=k==5?cl(t,eT-.2,eT+.2):0;
+  h+=`<g transform="translate(${x},${y+60}) scale(${1.9*q})" opacity="${red>0?1:lerp(1,.55,cl(t,eT-.2,eT+.2))}">${X.person(red>.5?'#ff5d5d':'#dfe7ff')}</g>`;
+  if(red>0)h+=`<g transform="translate(${x+60},${y-90})">${chip('FEE','url(#gRed)','#fff',110,60).replace('filter="url(#sh)"','')}</g>`}
+ h+=X.big(540,380,'1 IN 8',150,'#ff5d5d',cl(t,eT-.1,eT+.35))+T(540,460,'BORROWERS PAID A LATE FEE',42,'#ffffff',{op:cl(t,eT+.1,eT+.5),st:'#05070f',sw:8});
+ h+=T(540,1190,'US GOVERNMENT STUDY',36,'#9fb0d0',{op:cl(u,.2,.6),ls:3});
+ return h},sfx:s=>{const eT=X.wordT(13,/eight/,.6);return[{k:'pop',t:s.ls+.1},{k:'impact',t:eT}]}});
+
+// 14: Haendlergebuehren ~9x Spaetgebuehren – Bloecke stapeln
+S.push({a:14,tr:'up',f:(t,s)=>{
+ const u=t-s.ls,d=M.L(14).end-s.ls,nT=X.wordT(14,/nine/,.5); let h=X.kick('WHERE LENDERS EARN MORE',cl(u,-.1,.4),'#ffd166',250,56);
+ const base=1150; h+=`<rect x="160" y="${base}" width="760" height="10" rx="5" fill="#5d6a8c"/>`;
+ for(let k=0;k<9;k++){const tk=.1+k*Math.max(.12,(nT-s.ls+.2)/9),q=cl(u,tk,tk+.3);if(q<=0)continue;const y=base-(k+1)*68,fall=(1-q*q)*-500;
+  h+=`<rect x="250" y="${y+fall+4}" width="260" height="62" rx="12" fill="url(#gGold)" stroke="#b87400" stroke-width="3"/>`}
+ const rq=cl(u,.4,.7);if(rq>0)h+=`<rect x="590" y="${base-64+(1-rq*rq)*-500}" width="260" height="62" rx="12" fill="url(#gRed)"/>`;
+ h+=labelU(380,base+60,'STORE FEES','#ffd166')+labelU(720,base+60,'LATE FEES','#ff9a9a');
+ h+=X.big(720,700,'≈ 9×',170,'#ffd166',cl(t,nT,nT+.4));
+ return h},sfx:s=>{const nT=X.wordT(14,/nine/,.5),e=[];for(let k=0;k<9;k++)e.push({k:'tick',t:s.ls+.1+k*Math.max(.12,(nT-s.ls+.2)/9)+.3,f:1400+k*90});e.push({k:'impact',t:nT});return e}});
+
+// 15: Zinsen auf lange Plaene + Werbung in der App
+S.push({a:15,tr:'left',f:(t,s)=>{
+ const u=t-s.ls,aT=X.wordT(15,/ads/,.7),iT=X.wordT(15,/interest/,.3); let h=X.kick('EXTRA MONEY MAKERS',cl(u,-.1,.4),'#a78bfa',250,58);
+ const pp=ez(cl(u,0,.6));
+ h+=`<g transform="translate(540,${lerp(1100,800,pp)})" filter="url(#sh)"><rect x="-230" y="-430" width="460" height="860" rx="64" fill="#1b2133" stroke="#5d6a8c" stroke-width="6"/><rect x="-206" y="-406" width="412" height="812" rx="46" fill="#f4f6fb"/>`;
+ const ip=cl(t,iT-.2,iT+.3);
+ h+=`<g opacity="${ip}"><rect x="-176" y="-80" width="352" height="200" rx="26" fill="#ede9fe"/>${T(-150,-20,'12-MONTH PLAN',34,'#4c1d95',{a:'start'})}${[...Array(12)].map((_,i)=>`<rect x="${-150+i*25}" y="10" width="18" height="40" rx="5" fill="${i<Math.round(12*ez(cl(t,iT,iT+1.2)))?'#a78bfa':'#d8d0fb'}"/>`).join('')}
+  <g transform="translate(120,-80) scale(${bo(cl(t,iT+.2,iT+.6))})"><circle r="44" fill="#ff5d5d"/>${T(0,17,'%',50,'#fff')}</g>${T(-150,100,'+ INTEREST',34,'#d83a3a',{a:'start'})}</g>`;
+ const ap=ez(cl(t,aT-.3,aT+.2));
+ h+=`<g transform="translate(${lerp(500,0,ap)},0)"><rect x="-176" y="-360" width="352" height="210" rx="26" fill="url(#gGold)"/><rect x="-150" y="-330" width="80" height="34" rx="8" fill="#05070f"/>${T(-110,-304,'AD',26,'#ffd166')}${T(0,-210,'SALE −30%',48,'#3a2300')}</g>`;
+ h+=[0,1,2].map(i=>`<rect x="-176" y="${170+i*70}" width="${352-i*60}" height="44" rx="12" fill="#dfe6f2"/>`).join('')+'</g>';
+ return h},sfx:s=>{const aT=X.wordT(15,/ads/,.7),iT=X.wordT(15,/interest/,.3);return[{k:'pop',t:iT+.2},{k:'swish',t:aT-.3,d:.45,pan:-.3},{k:'beep',t:aT+.1,f:1760}]}});
+
+// 16: Wer zahlt wirklich: Laden (gross) + du (klein)
+S.push({a:16,tr:'zoom',f:(t,s)=>{
+ const u=t-s.ls,yT=X.wordT(16,/you/,.85); let h=X.kick('WHO REALLY PAYS',cl(u,-.1,.4),'#ffd166',250,60);
+ const g=ez(cl(u,.1,1.0)),y=760,x0=120,W=840,ws=W*.86;
+ h+=`<rect x="${x0}" y="${y}" width="${ws*g}" height="170" rx="30" fill="url(#gBlue)"/>`;
+ h+=`<g transform="translate(${x0+ws*g/2},${y+85}) scale(.32)">${store()}</g>`+labelU(x0+ws/2,y-30,'THE SHOP','#9cc6ff',cl(u,.6,1));
+ const yp=cl(t,yT-.3,yT+.2);
+ if(yp>0)h+=`<g transform="translate(0,${(1-ez(yp))*-200})" opacity="${yp}"><rect x="${x0+ws+12}" y="${y}" width="${W-ws-12}" height="170" rx="30" fill="url(#gRed)"/><g transform="translate(${x0+ws+12+(W-ws-12)/2},${y+150}) scale(1.2)">${X.person('#fff')}</g></g>`+labelU(x0+ws+(W-ws)/2,y+230,'YOU','#ff9a9a',yp);
+ h+=T(540,1150,'THE "FREE" LOAN',70,'#ffffff',{op:cl(u,.3,.7),st:'#05070f',sw:10});
+ return h},sfx:s=>{const yT=X.wordT(16,/you/,.85);return[{k:'riser',t:s.ls,d:1.0},{k:'thud',t:yT}]}});
+
+// 17: Frage
+S.push({a:17,tr:'up',f:(t,s)=>{
+ const u=t-s.ls; let h='';
+ h+=X.big(540,330,'EVER BOUGHT IT',90,'#ffffff',cl(u,-.1,.35),false)+X.big(540,450,'JUST TO SPLIT IN 4?',90,'#ffd166',cl(u,.15,.55),false);
+ for(let k=0;k<4;k++){const x=540+(k-1.5)*215,q=bo(cl(u,.3+k*.12,.7+k*.12)),fl=Math.sin(u*2.4+k*.9)*8;h+=`<g transform="translate(${x},${770+fl}) scale(${q})">${chip('$25','url(#gGold)','#05070f',190,120)}</g>`}
+ const pulse=k=>{const ph=(u*1.2+k*.5)%1;return 1+.06*Math.max(0,Math.sin(ph*Math.PI*2))};
+ [['YES','#35e08a',300,0],['NO','#ff5d5d',780,1]].forEach(b=>{const q=bo(cl(u,.8+b[3]*.15,1.2+b[3]*.15));if(q<=0)return;h+=`<g transform="translate(${b[2]},1100) scale(${q*pulse(b[3])})"><rect x="-190" y="-70" width="380" height="140" rx="70" fill="${b[1]}" filter="url(#sh)"/>${T(0,28,b[0],80,'#05070f')}</g>`});
+ return h},sfx:s=>[{k:'ding',t:s.ls+.1},{k:'pop',t:s.ls+.4},{k:'pop',t:s.ls+.55},{k:'pop',t:s.ls+.85},{k:'pop',t:s.ls+1.0}]});
+X.steps=S;
+
+// ---------- Intro: Smartphone-Checkout in 3D ----------
+let IT={};
+function introTimes(){IT.te=S[1].t0;IT.tap=Math.max(1.0,X.wordT(0,/Four/,.1)+.25);IT.split=IT.tap+.35}
+function screen(t){
+ const pr=cl(t,IT.tap-.08,IT.tap)*(1-cl(t,IT.tap+.08,IT.tap+.25)),ok=cl(t,IT.tap+.1,IT.tap+.3);
+ let h=`<rect width="464" height="964" fill="#f4f6fb"/><rect width="464" height="120" fill="#e3e8f2"/>
+ <rect x="30" y="58" width="40" height="8" rx="4" fill="#5d6a8c"/><rect x="30" y="74" width="40" height="8" rx="4" fill="#5d6a8c"/>${T(232,84,'CHECKOUT',34,'#1b2133')}
+ <rect x="30" y="150" width="404" height="330" rx="30" fill="#dbe4ff"/><g transform="translate(232,320) scale(.9)">${jacket()}</g>
+ ${T(40,540,'Winter jacket',34,'#1b2133',{a:'start'})}${T(424,540,'$100',42,'#1b2133',{a:'end'})}
+ <rect x="40" y="570" width="384" height="3" fill="#cfd6e4"/>`;
+ const sp=ez(cl(t,IT.split,IT.split+.6));
+ for(let k=0;k<4;k++){const x=40+k*99;h+=`<rect x="${x}" y="600" width="88" height="70" rx="14" fill="${sp>0?'#ffe9a8':'#e3e8f2'}" opacity="${sp>0?1-sp*.6:1}"/>${T(x+44,646,'$25',26,'#3a2300',{op:sp>0?1-sp:1})}`}
+ h+=T(232,720,'4 payments · 0% interest',28,'#5d6a8c');
+ const bs=1-.06*pr;
+ h+=`<g transform="translate(232,830) scale(${bs})"><rect x="-190" y="-58" width="380" height="116" rx="58" fill="${ok>0?'#17a85c':'#1b2133'}"/>${ok>.5?`<path d="M-24,0 L-6,18 L28,-20" stroke="#fff" stroke-width="10" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`:T(0,14,'PAY IN 4',40,'#fff',{ls:2})}</g>`;
+ const rp=cl(t,IT.tap,IT.tap+.5);if(rp>0&&rp<1)h+=`<circle cx="232" cy="830" r="${40+200*ez(rp)}" fill="none" stroke="#35e08a" stroke-width="${8*(1-rp)}" opacity="${1-rp}"/>`;
+ // Finger
+ const fa=ei(cl(t,.3,IT.tap)),fx=lerp(420,250,fa),fy=lerp(1100,850,fa)+(t>IT.tap?ez(cl(t,IT.tap+.1,IT.tap+.5))*260:0),fo=cl(t,.3,.5)*(1-cl(t,IT.tap+.2,IT.tap+.5));
+ h+=`<g opacity="${fo}" transform="translate(${fx},${fy}) scale(${1-.1*pr})"><circle r="46" fill="#ffd9c2" stroke="#c98a6a" stroke-width="4"/><rect x="-46" y="0" width="92" height="200" fill="#ffd9c2"/><ellipse cx="0" cy="-16" rx="26" ry="20" fill="#fff" opacity=".6"/></g>`;
+ return h}
+function drawIntro(t){
+ const te=IT.te;if(t>te+.6){$('intro').style.display='none';return}$('intro').style.display='';
+ const cp=ei(cl(t,0,te)),inp=ez(cl(t,0,.8));
+ $('rig').style.transform=`translate3d(${lerp(120,0,inp)}px,${lerp(300,0,inp)}px,${lerp(-100,170,cp)}px)`;
+ $('phone').style.transform=`rotateX(${lerp(28,10,inp)+(-4*cp)}deg) rotateY(${lerp(-38,-14,inp)+10*cp}deg) rotateZ(${lerp(8,2,inp)}deg)`;
+ $('scrsvg').innerHTML=screen(t);
+ // vier Raten fliegen aus dem Bildschirm
+ for(let k=0;k<4;k++){const q=ez(cl(t,IT.split+k*.12,IT.split+k*.12+.7)),e=$('t'+k);
+  const sx=(-150+k*100)*.85,sy=120,ex=(k-1.5)*175,ey=-230+Math.abs(k-1.5)*30,ez2=lerp(10,150,q);
+  e.style.opacity=q>0?Math.min(1,q*4):0;
+  e.style.transform=`translate3d(${lerp(sx,ex,q)}px,${lerp(sy,ey,q)}px,${ez2}px) rotateY(${lerp(-14,0,q)}deg) rotateZ(${lerp(0,(k-1.5)*-5,q)}deg) scale(${lerp(.35,.92,q)})`}
+ const hq=ez(cl(t,.2,.7))*(1-ez(cl(t,te-.6,te-.25)));
+ $('hook').innerHTML=`<div style="opacity:${hq};transform:translateY(${(1-hq)*-24}px)">0% INTEREST?<br><span style="color:#ffd166">SO WHO PAYS?</span></div>`;
+ const pp=ei(cl(t,te-.75,te+.05));$('intro').style.transformOrigin='540px 360px';$('intro').style.transform=pp>0?`scale(${1+4*pp*pp})`:'';
+ $('intro').style.opacity=1-ez(cl(t,te-.05,te+.35));
+}
+
+let fin=false;
+function draw(t){
+ if(!fin){M.finish($('stage'),1080,1920,.07);fin=true}
+ X.bg($('bg'),t,PAL);
+ drawIntro(t);
+ $('content').innerHTML=X.render(t);
+ const te=IT.te,fl=ez(cl(t,te-.35,te))*(1-ez(cl(t,te,te+.5)));$('flash').style.opacity=fl*.95;
+ $('cap').innerHTML=M.captions(t,{y:1380});
+ M.grainTick(t);
+}
+window.setTimeline=tl=>{M.TL=tl;X.compute();introTimes()};
+window.sfxEvents=()=>{const e=[{k:'whoosh',t:.05,d:1.0},{k:'tap',t:IT.tap},{k:'beep',t:IT.tap+.12,f:1568},{k:'beep',t:IT.tap+.22,f:2093},{k:'chime',t:IT.tap+.3}];
+ for(let k=0;k<4;k++)e.push({k:'pop',t:IT.split+k*.12+.1});e.push({k:'riser',t:IT.te-1.0,d:1.0},{k:'impact',t:IT.te});
+ return e.concat(X.sfx()).sort((a,b)=>a.t-b.t)};
+window.draw=draw;
+</script>

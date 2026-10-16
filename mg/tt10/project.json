@@ -1,0 +1,65 @@
+{
+ "title": "TikTok 10: Why a dollar buys less every year",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+10%",
+ "lead": 0.4,
+ "gap": 0.3,
+ "tail": 2.0,
+ "music": {
+  "bpm": 92,
+  "mood": "minor",
+  "energy": 0.55
+ },
+ "lines": [
+  {
+   "text": "Twenty years ago, a hundred dollars filled this cart.",
+   "min_start": 0.5
+  },
+  {
+   "text": "Today, the same cart costs roughly one hundred seventy dollars.",
+   "min_start": 4.4
+  },
+  {
+   "text": "That slow, steady rise in prices is called inflation."
+  },
+  {
+   "text": "Statisticians track it with a basket of thousands of everyday prices, from rent and food to fuel and haircuts."
+  },
+  {
+   "text": "Prices usually climb for three simple reasons."
+  },
+  {
+   "text": "First, when people want to buy more than shops can supply, sellers can raise prices."
+  },
+  {
+   "text": "Second, when energy, materials or wages get more expensive, businesses pass part of that on."
+  },
+  {
+   "text": "Third, when money and credit grow faster than the goods they chase, each dollar is worth a little less."
+  },
+  {
+   "text": "That's why many central banks, like the Fed and the European Central Bank, aim for about two percent a year."
+  },
+  {
+   "text": "Small and steady, so people can plan, save and borrow without nasty surprises."
+  },
+  {
+   "text": "But two percent adds up: after ten years, prices are about twenty percent higher."
+  },
+  {
+   "text": "After twenty years, the same dollar buys roughly a third less."
+  },
+  {
+   "text": "That's why cash in a drawer quietly loses value, even though the number on the bill never changes."
+  },
+  {
+   "text": "What did something cost when you were a kid, and what does it cost now?"
+  }
+ ]
+}

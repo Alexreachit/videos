@@ -1,0 +1,77 @@
+{
+ "title": "TikTok 9: How \"Buy now, pay later\" really makes money",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+10%",
+ "lead": 0.4,
+ "gap": 0.25,
+ "tail": 1.8,
+ "music": {
+  "bpm": 112,
+  "mood": "tense",
+  "energy": 0.65
+ },
+ "lines": [
+  {
+   "text": "Four easy payments of $25, and zero interest.",
+   "min_start": 0.6
+  },
+  {
+   "text": "So who is paying for that loan?",
+   "min_start": 4.5
+  },
+  {
+   "text": "It splits your purchase into four chunks, paid over about six weeks."
+  },
+  {
+   "text": "You pay no interest, so the lender needs another way to earn money."
+  },
+  {
+   "text": "Mostly, it is the store that pays."
+  },
+  {
+   "text": "On every sale, the shop hands the lender a fee, typically between 2 and 8 percent."
+  },
+  {
+   "text": "A regular card payment often costs only around 2 to 3 percent."
+  },
+  {
+   "text": "So why would a store pay more?"
+  },
+  {
+   "text": "Because a $100 jacket suddenly feels like a $25 jacket."
+  },
+  {
+   "text": "Shoppers check out more, abandon fewer carts and fill bigger baskets."
+  },
+  {
+   "text": "The store gives up a few dollars to win a bigger sale."
+  },
+  {
+   "text": "Then come the late fees."
+  },
+  {
+   "text": "Miss a payment, and many lenders charge a flat fee of several dollars."
+  },
+  {
+   "text": "In one US government study, about one in eight borrowers paid a late fee."
+  },
+  {
+   "text": "Still, store fees earned lenders roughly nine times more than late fees."
+  },
+  {
+   "text": "Some also earn interest on longer plans and money from ads in their apps."
+  },
+  {
+   "text": "So the free loan is mostly paid for by the shop, and sometimes by you."
+  },
+  {
+   "text": "Have you ever bought something only because you could split it into four?"
+  }
+ ]
+}

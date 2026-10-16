@@ -1,0 +1,61 @@
+{
+ "title": "TikTok 7: Why streaming prices keep rising",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+10%",
+ "lead": 0.4,
+ "gap": 0.25,
+ "tail": 1.8,
+ "music": {
+  "bpm": 104,
+  "mood": "tense",
+  "energy": 0.7
+ },
+ "lines": [
+  {
+   "text": "Your streaming bill just went up again, and it is not an accident.",
+   "min_start": 0.6
+  },
+  {
+   "text": "In 2025, US prices for video subscriptions rose about seven times faster than overall inflation."
+  },
+  {
+   "text": "It starts with growth: about nine in ten US internet homes already pay for at least one service."
+  },
+  {
+   "text": "When almost everyone has signed up, new customers get hard to find."
+  },
+  {
+   "text": "So the easiest way to grow is to charge the people already paying a little more."
+  },
+  {
+   "text": "Meanwhile, the biggest services each spend well over ten billion dollars a year on shows and movies."
+  },
+  {
+   "text": "Then came cheaper plans with ads, which earn money twice: from you and from advertisers."
+  },
+  {
+   "text": "The average ad-free plan went from about nine dollars in 2020 to about sixteen in 2025."
+  },
+  {
+   "text": "Then the sharing crackdown: one big service estimated over a hundred million homes were using borrowed passwords."
+  },
+  {
+   "text": "Now those extra homes have to pay their own way, or the owner pays an extra fee."
+  },
+  {
+   "text": "About four in ten people cancel a service within six months, and many sign up again later."
+  },
+  {
+   "text": "Each price hike is a bet that most of you will grumble and stay."
+  },
+  {
+   "text": "How many streaming services are you paying for right now?"
+  }
+ ]
+}

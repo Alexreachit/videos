@@ -1,0 +1,303 @@
+<!doctype html><meta charset=utf-8><style>
+html,body{margin:0;background:#03050b}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:#05080f}
+.L{position:absolute;left:0;top:0;width:1080px;height:1920px}
+#bg{background:#070b18}
+.blob{position:absolute;border-radius:50%}
+#layers>div{position:absolute;left:0;top:0;width:1080px;height:1920px;transform-origin:540px 900px;will-change:transform}
+#fx{pointer-events:none}
+</style>
+<div id=stage>
+ <div id=bg class=L></div>
+ <div id=blobs class=L></div>
+ <div id=layers class=L></div>
+ <div id=fx class=L></div>
+ <div id=hud class=L></div>
+ <div id=cap class=L></div>
+</div>
+<svg width=0 height=0 style="position:absolute"><defs>
+ <linearGradient id=gBill x1=0 y1=0 x2=1 y2=1><stop offset=0 stop-color="#48d68e"/><stop offset=.55 stop-color="#2aa866"/><stop offset=1 stop-color="#1b7d4b"/></linearGradient>
+ <linearGradient id=gGold x1=0 y1=0 x2=1 y2=1><stop offset=0 stop-color="#fff0b0"/><stop offset=.5 stop-color="#ffd166"/><stop offset=1 stop-color="#d98c12"/></linearGradient>
+ <linearGradient id=gBrass x1=0 y1=0 x2=0 y2=1><stop offset=0 stop-color="#e7c27a"/><stop offset=.5 stop-color="#b98d3e"/><stop offset=1 stop-color="#7a5a22"/></linearGradient>
+ <linearGradient id=gSteel x1=0 y1=0 x2=1 y2=1><stop offset=0 stop-color="#7f8aa3"/><stop offset=.5 stop-color="#3d4659"/><stop offset=1 stop-color="#1c2230"/></linearGradient>
+ <linearGradient id=gWall x1=0 y1=0 x2=1 y2=0><stop offset=0 stop-color="#141a28"/><stop offset=.5 stop-color="#232b3d"/><stop offset=1 stop-color="#121722"/></linearGradient>
+ <linearGradient id=gCar x1=0 y1=0 x2=0 y2=1><stop offset=0 stop-color="#8cc3ff"/><stop offset=1 stop-color="#2f6fd0"/></linearGradient>
+ <linearGradient id=gCard x1=0 y1=0 x2=1 y2=1><stop offset=0 stop-color="#ff7a7a"/><stop offset=.5 stop-color="#d0306a"/><stop offset=1 stop-color="#6b1fa8"/></linearGradient>
+ <linearGradient id=gScreen x1=0 y1=0 x2=0 y2=1><stop offset=0 stop-color="#13234a"/><stop offset=1 stop-color="#0a1226"/></linearGradient>
+ <radialGradient id=gLight><stop offset=0 stop-color="#fff6d8"/><stop offset=.35 stop-color="#ffd166" stop-opacity=".85"/><stop offset=1 stop-color="#ffd166" stop-opacity="0"/></radialGradient>
+ <radialGradient id=gSpot><stop offset=0 stop-color="#ffffff" stop-opacity=".35"/><stop offset=1 stop-color="#ffffff" stop-opacity="0"/></radialGradient>
+ <filter id=glow x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="10" result=b /><feMerge><feMergeNode in=b /><feMergeNode in=SourceGraphic /></feMerge></filter>
+ <filter id=sh x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx=0 dy=18 stdDeviation=16 flood-color="#000" flood-opacity=".65"/></filter>
+</defs></svg>
+<script src="../lib/core.js"></script>
+<script>
+const {cl,ez,ei,bo,lerp}=MG, $=MG.$;
+const N=13, TR=.6, PI=Math.PI;
+const ENTER=['','flash','push','up','zoom','push','wipe','push','zoom','push','up','wipe','zoom'];
+const ACC=['#60a5fa','#ff5d5d','#35e08a','#a78bfa','#ffd166','#60a5fa','#35e08a','#ffd166','#ff5d5d','#60a5fa','#a78bfa','#ffd166','#ffd166'];
+const A=i=>i<=0?0:MG.L(i).start-.35, B=i=>i>=N-1?1e9:A(i+1);
+const D=i=>MG.L(i).end-MG.L(i).start;
+function wt(i,re,fb){const l=MG.L(i);const w=(l.words||[]).find(w=>re.test(w[0].toLowerCase()));return w?w[1]:(fb==null?.3:fb)*(l.end-l.start)}
+
+// ---------- drawing helpers ----------
+const FF='Arial,Helvetica,sans-serif';
+function T(x,y,s,str,o={}){return `<text x="${x}" y="${y}" font-family="${o.f||FF}" font-weight="${o.w||900}" font-size="${s}" fill="${o.c||'#fff'}" text-anchor="${o.a||'middle'}" opacity="${o.o==null?1:o.o}" ${o.ls?`letter-spacing="${o.ls}"`:''} ${o.ex||''}>${str}</text>`}
+function head(lt,kick,num,col,tn,o={}){
+ const k=ez(cl(lt,-.15,.35)),p=cl(lt,tn-.05,tn+.5),s=bo(p);
+ let h=`<g opacity="${k}" transform="translate(0,${(1-k)*24})">${T(540,240,o.ks||40,kick,{c:'#b9c6e6',ls:4,w:800})}<rect x="${540-70*k}" y=266 width="${140*k}" height=7 rx=3.5 fill="${col}"/></g>`;
+ if(num!=null&&p>0)h+=`<g transform="translate(540,${o.y||455}) scale(${s})" filter="url(#glow)">${T(0,0,o.size||190,num,{c:col})}</g>`;
+ return h}
+function bill(x,y,w,rot=0,o=1){const h=w*.46;return `<g transform="translate(${x},${y}) rotate(${rot})" opacity="${o}"><rect x="${-w/2}" y="${-h/2}" width="${w}" height="${h}" rx="${w*.04}" fill="url(#gBill)" stroke="#0e5a33" stroke-width="${w*.014}"/><rect x="${-w/2+w*.045}" y="${-h/2+w*.045}" width="${w-w*.09}" height="${h-w*.09}" rx="${w*.025}" fill="none" stroke="#c9f7da" stroke-opacity=".6" stroke-width="${w*.009}"/><ellipse rx="${h*.3}" ry="${h*.34}" fill="#1f8a52" stroke="#c9f7da" stroke-opacity=".7" stroke-width="${w*.009}"/>${T(0,h*.14,h*.38,'$',{c:'#e4ffef'})}${T(-w/2+w*.1,-h/2+h*.3,h*.2,'100',{c:'#e4ffef',a:'start'})}${T(w/2-w*.1,h/2-h*.12,h*.2,'100',{c:'#e4ffef',a:'end'})}</g>`}
+function bundle(x,y,w,rot=0,band=true){const h=w*.46;let s=`<g transform="translate(${x},${y}) rotate(${rot})" filter="url(#sh)">`;for(let k=4;k>=1;k--)s+=`<rect x="${-w/2+k*3}" y="${-h/2+k*7}" width="${w}" height="${h}" rx="${w*.04}" fill="${k%2?'#1a7344':'#239058'}"/>`;s+=bill(0,0,w);if(band)s+=`<rect x="${-w*.09}" y="${-h/2-6}" width="${w*.18}" height="${h+30}" rx=6 fill="#f4e6bf" stroke="#c8a860" stroke-width=3 />`+T(0,h*.08,w*.06,'$1,000',{c:'#6b4b12',ex:`transform="rotate(-90)"`});return s+'</g>'}
+function coin(x,y,r,lab='$',o=1,sq=1){return `<g transform="translate(${x},${y}) scale(1,${sq})" opacity="${o}"><circle r="${r}" fill="url(#gGold)" stroke="#fff3c4" stroke-width="${r*.08}"/><circle r="${r*.78}" fill="none" stroke="#b87400" stroke-width="${r*.07}"/>${T(0,r*.33,r*.9,lab,{c:'#7a4a00'})}</g>`}
+function bank(x,y,s,c='#dfe7ff'){return `<g transform="translate(${x},${y}) scale(${s})"><path d="M-70,-30 L0,-72 L70,-30 Z" fill="${c}"/><rect x=-66 y=-28 width=132 height=10 fill="${c}"/>${[-48,-16,16,48].map(v=>`<rect x="${v-8}" y=-14 width=16 height=56 fill="${c}"/>`).join('')}<rect x=-74 y=44 width=148 height=14 rx=3 fill="${c}"/></g>`}
+function person(x,y,s,c){return `<g transform="translate(${x},${y}) scale(${s})"><circle cy=-30 r=22 fill="${c}"/><path d="M-38,48 C-38,4 38,4 38,48 Z" fill="${c}"/></g>`}
+function car(x,y,s,wr){const wh=(cx)=>`<g transform="translate(${cx},44) rotate(${wr})"><circle r=50 fill="#151a26"/><circle r=30 fill="#9aa6bf"/>${[0,60,120].map(a=>`<rect x=-4 y=-28 width=8 height=56 fill="#4a5470" transform="rotate(${a})"/>`).join('')}<circle r=9 fill="#dfe7ff"/></g>`;
+ return `<g transform="translate(${x},${y}) scale(${s})" filter="url(#sh)"><path d="M-250,40 L-250,-20 Q-246,-58 -200,-64 L-130,-70 L-70,-140 Q-60,-150 -40,-150 L90,-150 Q112,-150 124,-136 L180,-70 L226,-62 Q256,-54 256,-20 L256,40 Z" fill="url(#gCar)"/><path d="M-110,-74 L-58,-132 L10,-132 L10,-74 Z M28,-74 L28,-132 L92,-132 Q104,-132 112,-120 L150,-74 Z" fill="#cfe6ff" opacity=".85"/><rect x=-250 y=4 width=506 height=12 fill="#1e4f9a" opacity=".6"/><rect x=226 y=-44 width=30 height=18 rx=6 fill="#fff4c2"/><rect x=-250 y=-40 width=20 height=16 rx=5 fill="#ff6b6b"/>${wh(-150)}${wh(150)}</g>`}
+function phoneI(x,y,s,c){return `<g transform="translate(${x},${y}) scale(${s})"><rect x=-24 y=-40 width=48 height=80 rx=10 fill="${c}"/><rect x=-17 y=-30 width=34 height=54 rx=3 fill="#0b1020"/><circle cy=32 r=4 fill="#0b1020"/></g>`}
+function xI(x,y,s,c){return `<g transform="translate(${x},${y}) scale(${s})" stroke="${c}" stroke-width=14 stroke-linecap=round><path d="M-26,-26 L26,26 M26,-26 L-26,26"/></g>`}
+const hexA=(h)=>[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];
+const mix=(a,b,t)=>{const x=hexA(a),y=hexA(b);return `rgb(${x.map((v,i)=>Math.round(v+(y[i]-v)*t)).join(',')})`};
+
+// ---------- scenes (tt07) ----------
+function tv(x,y,s,inner,glow='#60a5fa'){return `<g transform="translate(${x},${y}) scale(${s})"><rect x=-430 y=-260 width=860 height=500 rx=26 fill="#0b0e16" stroke="#2c3346" stroke-width=10 /><rect x=-406 y=-236 width=812 height=452 rx=12 fill="#05070c" /><svg x=-406 y=-236 width=812 height=452 viewBox="0 0 812 452">${inner}</svg><rect x=-60 y=240 width=120 height=40 fill="#1a1f2c" /><rect x=-170 y=278 width=340 height=16 rx=8 fill="#232a3a" /></g>`}
+function house(x,y,s,lit,c='#ffd166',o=1){return `<g transform="translate(${x},${y}) scale(${s})" opacity="${o}"><path d="M-50,-6 L0,-52 L50,-6 Z" fill="${lit?'#3a4766':'#262d40'}" /><rect x=-40 y=-8 width=80 height=62 fill="${lit?'#2b3550':'#1c2232'}" /><rect x=-26 y=6 width=52 height=34 rx=4 fill="${lit?c:'#0d1120'}" ${lit?'filter="url(#glow)"':''} /></g>`}
+function tag(x,y,s,txt,c='#ffd166',rot=0){return `<g transform="translate(${x},${y}) rotate(${rot}) scale(${s})" filter="url(#sh)"><path d="M-150,-70 L120,-70 L180,0 L120,70 L-150,70 Q-170,70 -170,50 L-170,-50 Q-170,-70 -150,-70 Z" fill="${c}" /><circle cx=128 cy=0 r=14 fill="#0b1020" />${T(-20,30,86,txt,{c:'#151018'})}</g>`}
+function showArt(k,w=812,h=452){ // generic "show" artwork: hills, moon, silhouettes – no brands
+ const hue=['#3b2a6b','#16405a','#5a2a3a'][k%3],hue2=['#ff8a5b','#60a5fa','#ffd166'][k%3];
+ return `<rect width=${w} height=${h} fill="${hue}" /><circle cx=${w*.7} cy=${h*.32} r=${h*.16} fill="${hue2}" opacity=".9" /><path d="M0,${h*.75} Q${w*.25},${h*.5} ${w*.5},${h*.7} T${w},${h*.62} L${w},${h} L0,${h} Z" fill="#0b0f1d" opacity=".85" /><path d="M0,${h*.86} Q${w*.3},${h*.7} ${w*.6},${h*.84} T${w},${h*.8} L${w},${h} L0,${h} Z" fill="#05070d" />`}
+const S=[];
+// 0: dark living room, TV glows, price overlay jumps
+S[0]=(t)=>{const a1=Math.max(3.5,A(1)),s=t*5.6/a1;let h='';
+ const push=ei(cl(s,0,5.6)),sc=lerp(1,1.32,push);
+ h+=`<g transform="translate(540,780) scale(${sc}) translate(-540,-780)">`;
+ // room
+ h+=`<rect width=1080 height=1920 fill="#04050a" /><rect x=0 y=1150 width=1080 height=770 fill="#090b12" />`;
+ const flick=.75+.25*Math.sin(s*9.1)*Math.sin(s*3.7);
+ h+=`<ellipse cx=540 cy=760 rx=760 ry=560 fill="#3a64c8" opacity="${.22*flick*cl(s,.2,.8)}" filter="url(#glow)" /><ellipse cx=540 cy=1260 rx=600 ry=120 fill="#4a72d8" opacity="${.12*flick}" />`;
+ // shelf + plant silhouettes
+ h+=`<rect x=40 y=1070 width=1000 height=36 rx=8 fill="#151a26" /><rect x=60 y=1106 width=960 height=150 fill="#0d1019" />`;
+ h+=`<path d="M930,1070 Q900,960 950,900 Q960,980 990,1000 Q1010,940 1050,930 Q1020,1010 1000,1070 Z" fill="#0d1420" />`;
+ // tv
+ const on=cl(s,.3,.6),pr=s<2.7?'$9.99':'$17.99';
+ let scr=`<g opacity="${on}">${showArt(0)}</g>`;
+ // price overlay inside screen
+ const jump=cl(s,2.6,3.0),bump=bo(cl(s,2.6,3.1));
+ scr+=`<g opacity="${cl(s,1.2,1.5)*(1-cl(s,4.4,4.8))}"><rect x=196 y=286 width=420 height=120 rx=22 fill="#000c" stroke="${jump>0?'#ff5d5d':'#ffffff55'}" stroke-width=4 />${T(406,340,26,'YOUR PLAN · MONTHLY',{c:'#b9c6e6',w:800,ls:2})}<g transform="translate(406,392) scale(${jump>0?.8+.2*bump:1})">${T(0,0,60,pr,{c:jump>0?'#ff5d5d':'#ffffff'})}</g></g>`;
+ h+=tv(540,780,1,scr);
+ // red arrow badge
+ const ab=bo(cl(s,2.75,3.2))*(1-cl(s,4.3,4.6));if(ab>0)h+=`<g transform="translate(860,640) scale(${ab})" filter="url(#glow)"><circle r=70 fill="#ff5d5d" /><path d="M0,-38 L32,4 L12,4 L12,38 L-12,38 L-12,4 L-32,4 Z" fill="#fff" /></g>`;
+ // sofa silhouette and viewer heads (foreground)
+ h+=`<path d="M60,1500 Q60,1330 200,1330 L880,1330 Q1020,1330 1020,1500 L1020,1700 L60,1700 Z" fill="#05060b" /><path d="M20,1440 Q20,1390 80,1390 L120,1390 L120,1720 L20,1720 Z M1060,1440 Q1060,1390 1000,1390 L960,1390 L960,1720 L1060,1720 Z" fill="#07080e" />`;
+ const lean=Math.sin(PI*cl(s,2.8,3.6))*10;
+ h+=`<g transform="translate(400,1270) rotate(${-lean*.4})"><circle cy=-80 r=70 fill="#020306" /><path d="M-120,120 Q-120,0 0,-6 Q120,0 120,120 Z" fill="#020306" /><path d="M-64,-120 Q0,-160 64,-120" stroke="#5a7ad8" stroke-opacity="${.5*flick}" stroke-width=6 fill="none" /></g>`;
+ h+=`<g transform="translate(690,1290)"><circle cy=-70 r=62 fill="#020306" /><path d="M-110,120 Q-110,0 0,-6 Q110,0 110,120 Z" fill="#020306" /><path d="M-56,-104 Q0,-140 56,-104" stroke="#5a7ad8" stroke-opacity="${.5*flick}" stroke-width=6 fill="none" /></g>`;
+ h+=`</g>`;
+ // camera dive into the screen
+ const dive=ei(cl(s,4.6,5.6));if(dive>0){const k=lerp(1,6,dive);h=`<g transform="translate(540,700) scale(${k}) translate(-540,-700)">${h}</g>`}
+ return h};
+
+// 1: 7x faster than inflation
+S[1]=(lt)=>{const i=1,c='#ff5d5d',tn=Math.min(1.8,Math.max(1.0,wt(i,/seven/,.6)));
+ let h=head(lt,'US PRICE RISE IN 2025','7×',c,tn,{size:200});
+ const base=1250,g=ez(cl(lt,0,.4)),b1=ez(cl(lt,.3,.9)),b2=ez(cl(lt,tn-.2,tn+1.0));
+ h+=`<g opacity="${g}"><rect x=120 y=${base} width=840 height=6 rx=3 fill="#3b4866" />`;
+ h+=`<rect x=220 y=${base-90*b1} width=220 height=${90*b1} rx=14 fill="#8ea0c8" /><rect x=640 y=${base-630*b2} width=220 height=${630*b2} rx=14 fill="${c}" filter="url(#glow)" />`;
+ h+=T(330,base+64,38,'EVERYTHING',{c:'#b9c6e6'})+T(330,base+108,30,'(inflation)',{c:'#7d8db3',w:700})+T(750,base+64,38,'STREAMING',{c:'#ff9a9a'})+T(750,base+108,30,'(video subscriptions)',{c:'#7d8db3',w:700});
+ // repeated unit blocks showing 7 stacks of the inflation height
+ for(let k=0;k<7;k++){const p=cl(lt,tn+.1+k*.09,tn+.35+k*.09);if(p>0)h+=`<rect x=650 y=${base-90*(k+1)+4} width=200 height=82 rx=10 fill="none" stroke="#fff" stroke-opacity="${.45*p}" stroke-width=3 />`}
+ return h+'</g>'};
+
+// 2: 9 in 10 homes already subscribe
+S[2]=(lt)=>{const i=2,c='#35e08a',tn=Math.min(2.0,Math.max(1.0,wt(i,/nine/,.45)));
+ let h=head(lt,'US INTERNET HOMES WITH A PLAN','9 in 10',c,tn,{size:170});
+ for(let k=0;k<10;k++){const r=k/5|0,q=k%5,x=180+q*180,y=830+r*250;const p=bo(cl(lt,.05+k*.06,.45+k*.06));const lit=k<9&&lt>tn+k*.08;
+  h+=`<g transform="translate(${x},${y}) scale(${p})">${house(0,0,1.45,lit,c)}</g>`;
+  if(k==9&&lt>tn+.9)h+=`<g opacity="${cl(lt,tn+.9,tn+1.2)}">${T(x,y+130,30,'not yet',{c:'#7d8db3',w:800})}</g>`}
+ return h};
+
+// 3: market saturated – new customers bounce off
+S[3]=(lt)=>{const i=3,c='#a78bfa';
+ let h=head(lt,'GROWTH','FULL',c,.9,{size:170});
+ const g=ez(cl(lt,0,.4));
+ // a big glass "market" container filling up with houses
+ const fill=ez(cl(lt,.1,1.4)),x0=230,x1=850,y0=700,y1=1260;
+ h+=`<g opacity="${g}"><rect x=${x0} y=${y1-(y1-y0)*.96*fill} width=${x1-x0} height=${(y1-y0)*.96*fill} fill="${c}" opacity=".18" />`;
+ for(let r=0;r<5;r++)for(let q=0;q<6;q++){const k=r*6+q,yy=y1-60-r*105,p=cl(lt,.1+k*.035,.4+k*.035);if(p<=0)continue;h+=house(x0+60+q*100,yy+(1-ez(p))*-200,.95,true,c,ez(p))}
+ h+=`<path d="M${x0},${y0-40} L${x0},${y1} L${x1},${y1} L${x1},${y0-40}" fill="none" stroke="#dfe7ff" stroke-width=10 stroke-linejoin=round /><rect x=${x0-30} y=${y0-56} width=60 height=16 rx=8 fill="#dfe7ff" /><rect x=${x1-30} y=${y0-56} width=60 height=16 rx=8 fill="#dfe7ff" />`;
+ h+=T(540,y1+70,38,'THE MARKET',{c:'#cdbcff',ls:3});
+ // newcomer bouncing off the rim
+ const bp=cl(lt,1.6,2.8);if(bp>0){let x,y;if(bp<.5){const u=bp/.5;x=lerp(1000,760,u);y=lerp(560,640,u)-Math.sin(PI*u)*120}else{const u=(bp-.5)/.5;x=lerp(760,980,u);y=640+u*u*500-Math.sin(PI*u)*160}
+  h+=`<g transform="translate(${x},${y}) rotate(${bp*360})">${house(0,0,.95,false,c)}</g>`;
+  const hit=cl(lt,2.15,2.35)*(1-cl(lt,2.35,2.7));h+=`<circle cx=760 cy=650 r=${30+60*cl(lt,2.15,2.7)} fill="none" stroke="#ff5d5d" stroke-width=6 opacity="${hit*2}" />`}
+ return h+'</g>'};
+
+// 4: charge existing subscribers more
+S[4]=(lt)=>{const i=4,c='#ffd166',tn=Math.min(1.8,Math.max(.9,wt(i,/more/,.8)-.6));
+ let h=head(lt,'EASIEST WAY TO GROW','RAISE PRICES',c,tn,{size:132});
+ const g=ez(cl(lt,0,.4));
+ // three subscriber homes with price tags climbing
+ for(let k=0;k<3;k++){const x=230+k*310,y=1110;h+=`<g opacity="${g}">${house(x,y,2,true,'#60a5fa')}</g>`;
+  const up=ez(cl(lt,tn+k*.25,tn+.6+k*.25)),py=lerp(820,760,up),val=lerp(10,13,Math.floor(up*3)/3);
+  h+=`<g transform="translate(${x},${py})">${tag(0,0,.82,'$'+Math.round(val),up>0?c:'#cfd8ee',-6)}</g>`;
+  if(up>0)h+=`<g opacity="${up*(1-cl(lt,tn+1.4+k*.2,tn+1.8+k*.2))}" transform="translate(${x+110},${py-90-up*40})"><path d="M0,-30 L24,4 L8,4 L8,30 L-8,30 L-8,4 L-24,4 Z" fill="#ff5d5d" /></g>`}
+ h+=`<g opacity="${cl(lt,tn+.8,tn+1.2)}">${T(540,1290,36,'same people, slightly higher bill',{c:'#9fb0d6',w:800})}</g>`;
+ return h};
+
+// 5: content costs: $10B+ a year
+S[5]=(lt)=>{const i=5,c='#60a5fa',tn=Math.min(1.9,Math.max(1.0,wt(i,/billion/,.55)));
+ let h=head(lt,'SHOWS + MOVIES, PER YEAR','$10B+',c,tn,{size:180});
+ const g=ez(cl(lt,0,.4)),cx=540,cy=980;
+ // clapperboard snapping, stacks of cash growing beside it
+ const snap=ei(cl(lt,.35,.6)),ang=lerp(-28,0,snap);
+ h+=`<g opacity="${g}" transform="translate(${cx-150},${cy})" filter="url(#sh)"><rect x=-170 y=-60 width=340 height=230 rx=14 fill="#141a28" stroke="#dfe7ff" stroke-width=5 /><g transform="translate(-170,-60) rotate(${ang})"><rect x=0 y=-56 width=340 height=56 rx=8 fill="#dfe7ff" />${[0,1,2,3,4].map(k=>`<path d="M${20+k*68},-56 L${56+k*68},-56 L${36+k*68},0 L${0+k*68},0 Z" fill="#0b1020" />`).join('')}</g>${T(0,40,34,'SCENE 1',{c:'#dfe7ff',w:800,a:'middle'})}${T(0,110,34,'TAKE 12',{c:'#9fb0d6',w:800})}</g>`;
+ for(let k=0;k<12;k++){const p=bo(cl(lt,.7+k*.09,1.0+k*.09));if(p<=0)continue;const col=k%2,x=cx+160+col*150,y=cy+150-(k>>1)*52;
+  h+=`<g transform="translate(${x},${y}) scale(${p})"><rect x=-70 y=-22 width=140 height=44 rx=6 fill="${k%3?'#2aa866':'#239058'}" stroke="#0e5a33" stroke-width=3 /><rect x=-14 y=-26 width=28 height=52 fill="#f4e6bf" /></g>`}
+ if(lt>.6)h+=`<path d="M${cx+20},${cy-140} q60,-60 120,0" fill="none" stroke="#dfe7ff" stroke-width=6 stroke-dasharray="14 10" opacity="${cl(lt,.6,.9)}" />`;
+ return h};
+
+// 6: ad plans earn twice
+S[6]=(lt)=>{const i=6,c='#35e08a',tn=Math.min(1.9,Math.max(1.0,wt(i,/twice/,.6)));
+ let h=head(lt,'PLANS WITH ADS EARN','TWICE',c,tn,{size:170});
+ const g=ez(cl(lt,0,.4)),adp=cl(lt,.3,.6);
+ let scr=showArt(1)+`<g opacity="${adp}"><rect width=812 height=452 fill="#0a0f1c" opacity=".7" /><rect x=530 y=30 width=250 height=64 rx=12 fill="#ffd166" />${T(655,74,34,'AD BREAK',{c:'#2a1c00'})}<rect x=60 y=150 width=330 height=200 rx=18 fill="#ff8a5b" /><circle cx=225 cy=250 r=60 fill="#fff3" />${T(600,240,44,'YOUR AD',{c:'#ffffff'})}${T(600,295,44,'HERE',{c:'#ffd166'})}<rect x=0 y=436 width=${812*cl(lt,.6,5)} height=16 fill="#ffd166" /></g>`;
+ h+=`<g opacity="${g}">${tv(540,830,.86,scr)}</g>`;
+ // two coin streams converging into a vault icon
+ const sx=[[190,1220,'YOU','#60a5fa'],[890,1220,'ADVERTISERS','#ffd166']];
+ sx.forEach((q,j)=>{const st=tn-.3+j*.25;h+=`<g opacity="${cl(lt,st-.3,st)}">${T(q[0],q[1]+20,44,q[2],{c:q[3]})}</g>`;
+  for(let k=0;k<4;k++){const p=cl(lt,st+k*.18,st+.6+k*.18);if(p<=0||p>=1)continue;const x=lerp(q[0],540,ei(p)),y=lerp(q[1]-40,1180,p)-Math.sin(PI*p)*140;h+=coin(x,y,30,'$')}});
+ const hv=bo(cl(lt,tn-.3,tn));h+=`<g transform="translate(540,1200) scale(${hv})"><rect x=-130 y=-60 width=260 height=120 rx=16 fill="#1b2438" stroke="${c}" stroke-width=6 />${T(0,14,40,'SERVICE',{c:c,w:900})}</g>`;
+ return h};
+
+// 7: average ad-free plan $9 -> $16
+S[7]=(lt)=>{const i=7,c='#ffd166',t1=Math.min(1.6,Math.max(.6,wt(i,/nine/,.4))),t2=Math.max(t1+.8,Math.min(t1+1.8,wt(i,/sixteen/,.8)));
+ const v=lerp(9,16,ez(cl(lt,t2-.2,t2+.6)));
+ let h=head(lt,'AVERAGE AD-FREE PLAN, MONTHLY','$'+Math.round(lt<t1-.05?9:v),c,t1,{size:190});
+ // line chart 2020..2025
+ const pts=[[2020,9],[2021,10],[2022,11.5],[2023,13],[2024,14.5],[2025,16]],X=y=>180+(y-2020)*144,Y=v=>1250-(v-6)*52;
+ const g=ez(cl(lt,0,.4)),dr=ei(cl(lt,t1,t2+.6));
+ h+=`<g opacity="${g}"><line x1=150 y1=1250 x2=950 y2=1250 stroke="#3b4866" stroke-width=5 />`;
+ pts.forEach(p=>h+=T(X(p[0]),1300,30,p[0],{c:'#7d8db3',w:800}));
+ let d='',L=0;pts.forEach((p,k)=>{d+=(k?'L':'M')+X(p[0])+','+Y(p[1])});
+ h+=`<path d="${d}" fill="none" stroke="${c}" stroke-width=12 stroke-linecap=round stroke-linejoin=round stroke-dasharray="1000" stroke-dashoffset="${1000*(1-dr)}" filter="url(#glow)" />`;
+ const n=Math.min(5,dr*5),k=Math.floor(n),f=n-k,px=k<5?lerp(X(pts[k][0]),X(pts[k+1][0]),f):X(2025),py=k<5?lerp(Y(pts[k][1]),Y(pts[k+1][1]),f):Y(16);
+ h+=`<circle cx=${X(2020)} cy=${Y(9)} r=18 fill="#fff" />`+T(X(2020),Y(9)-40,40,'$9',{c:'#ffffff'});
+ if(dr>0)h+=`<circle cx=${px} cy=${py} r=22 fill="${c}" filter="url(#glow)" />`;
+ if(dr>=1)h+=T(X(2025)-10,Y(16)-46,44,'$16',{c:c});
+ return h+'</g>'};
+
+// 8: password sharing – one key, many homes
+S[8]=(lt)=>{const i=8,c='#ff5d5d',tn=Math.min(2.4,Math.max(1.2,wt(i,/hundred/,.55)));
+ let h=head(lt,'HOMES USING BORROWED PASSWORDS','100M+',c,tn,{size:180});
+ h+=`<g opacity="${cl(lt,tn+.3,tn+.7)}">${T(540,540,34,'one big service’s worldwide estimate',{c:'#9fb0d6',w:800})}</g>`;
+ const g=ez(cl(lt,0,.4)),cx=540,cy=980;
+ h+=`<g opacity="${g}">${house(cx,cy,2.2,true,'#ffd166')}</g>`;
+ // password field above home
+ const typed=Math.min(8,Math.floor(cl(lt,.2,1.0)*8));
+ h+=`<g opacity="${g}" transform="translate(${cx},${cy-200})"><rect x=-170 y=-40 width=340 height=80 rx=16 fill="#141a28" stroke="#dfe7ff" stroke-width=4 />${T(0,16,44,'•'.repeat(typed),{c:'#ffffff'})}</g>`;
+ // copies fly out to 8 homes around
+ for(let k=0;k<8;k++){const a=(k/8)*2*PI+PI/8,R=360,tx=cx+Math.cos(a)*R,ty=cy+30+Math.sin(a)*R*.7;const st=1.0+k*.12,p=ei(cl(lt,st,st+.6));if(p<=0)continue;
+  h+=`<line x1=${cx} y1=${cy-160} x2=${lerp(cx,tx,p)} y2=${lerp(cy-160,ty-60,p)} stroke="${c}" stroke-width=4 stroke-dasharray="10 10" opacity=".7" />`;
+  h+=`<g transform="translate(${tx},${ty}) scale(${bo(cl(lt,st+.4,st+.8))})">${house(0,0,1,true,c)}</g>`;
+  if(p<1)h+=`<g transform="translate(${lerp(cx,tx,p)},${lerp(cy-160,ty-60,p)})"><rect x=-40 y=-18 width=80 height=36 rx=8 fill="#141a28" stroke="${c}" stroke-width=3 />${T(0,10,26,'••••',{c:'#fff'})}</g>`}
+ return h};
+
+// 9: extra homes pay their own way or the owner pays an extra fee
+S[9]=(lt)=>{const i=9,c='#60a5fa',t1=Math.min(1.6,Math.max(.6,wt(i,/pay/,.35))),t2=Math.max(t1+.8,Math.min(t1+2.2,wt(i,/extra$|fee/,.85)));
+ let h=head(lt,'THE NEW RULE','PAY UP',c,t1,{size:170});
+ const g=ez(cl(lt,0,.4));
+ // main home on left, guest home on right, lock appears then two price tags
+ h+=`<g opacity="${g}">${house(290,980,2.2,true,'#ffd166')}${house(790,980,2.2,lt>t1+.4,'#ff5d5d')}`+T(290,1150,34,'ACCOUNT OWNER',{c:'#ffd166'})+T(790,1150,34,'OTHER HOME',{c:'#ff9a9a'})+`</g>`;
+ const lk=bo(cl(lt,.2,.6))*(1-cl(lt,t1,t1+.3));if(lk>0)h+=`<g transform="translate(790,820) scale(${lk})"><path d="M-34,-10 L-34,-44 Q-34,-80 0,-80 Q34,-80 34,-44 L34,-10" fill="none" stroke="#dfe7ff" stroke-width=14 /><rect x=-56 y=-14 width=112 height=96 rx=14 fill="#dfe7ff" /><circle cy=26 r=12 fill="#0b1020" /></g>`;
+ const p1=bo(cl(lt,t1,t1+.5));if(p1>0)h+=`<g transform="translate(790,770) scale(${p1})">${tag(0,0,.85,'OWN PLAN','#60a5fa',-4).replace('font-size="86"','font-size="44"')}</g>`;
+ const p2=bo(cl(lt,t2,t2+.5));if(p2>0)h+=`<g opacity="${p2>0?1:0}">${T(540,1000,60,'or',{c:'#9fb0d6'})}</g><g transform="translate(290,770) scale(${p2})">${tag(0,0,.85,'+ EXTRA','#ffd166',4).replace('font-size="86"','font-size="54"')}</g>`;
+ return h};
+
+// 10: 4 in 10 cancel within six months – and many come back
+S[10]=(lt)=>{const i=10,c='#a78bfa',tn=Math.min(1.8,Math.max(.8,wt(i,/four/,.1)+.2)),tb=Math.max(tn+1,wt(i,/again/,.85)-.6);
+ let h=head(lt,'CANCELLED IN THE LAST 6 MONTHS','4 in 10',c,tn,{size:170});
+ const g=ez(cl(lt,0,.4));
+ // door on the right
+ h+=`<g opacity="${g}"><rect x=900 y=780 width=150 height=360 rx=10 fill="#05070c" stroke="#3a4560" stroke-width=6 /><path d="M900,780 L${900+150*Math.cos(ei(cl(lt,tn,tn+.4))*1.1)},790 L${900+150*Math.cos(ei(cl(lt,tn,tn+.4))*1.1)},1130 L900,1140 Z" fill="#2b3550" /></g>`;
+ for(let k=0;k<10;k++){const r=k/5|0,q=k%5,x0=140+q*165,y0=900+r*230,leave=k%5==1||k==3||k==6||k==8;
+  let x=x0,y=y0,o=1,col='#8ea0c8';
+  if([1,3,6,8].includes(k)){col=c;const j=[1,3,6,8].indexOf(k),out=ei(cl(lt,tn+.2+j*.12,tn+.9+j*.12)),back=ei(cl(lt,tb+j*.15,tb+.7+j*.15));
+   x=lerp(x0,975,out*(1-back)*1)+0;y=lerp(y0,1040,out*(1-back));o=1-.85*cl(out*(1-back),.75,1)}
+  h+=`<g opacity="${g*o}">${person(x,y,1.25,col)}</g>`}
+ h+=`<g opacity="${cl(lt,tb+.3,tb+.7)}">${T(540,1300,38,'…and many come back later',{c:'#cdbcff',w:800})}</g>`;
+ return h};
+
+// 11: each hike is a bet you'll stay
+S[11]=(lt)=>{const i=11,c='#ffd166',tn=Math.min(1.4,Math.max(.6,wt(i,/bet/,.3)));
+ let h=head(lt,'EVERY PRICE HIKE IS','A BET',c,tn,{size:190});
+ const g=ez(cl(lt,0,.4)),tilt=MG.el(cl(lt,tn+.6,tn+2.2));
+ // balance scale: "grumble and stay" heavier than "cancel"
+ const a=lerp(0,12,tilt),cx=540,cy=820;
+ h+=`<g opacity="${g}"><rect x=${cx-12} y=${cy} width=24 height=440 fill="#8ea0c8" /><path d="M${cx-140},1270 L${cx+140},1270 L${cx+90},1240 L${cx-90},1240 Z" fill="#8ea0c8" /><circle cx=${cx} cy=${cy} r=22 fill="#dfe7ff" />`;
+ h+=`<g transform="translate(${cx},${cy}) rotate(${a})"><rect x=-360 y=-8 width=720 height=16 rx=8 fill="#dfe7ff" /></g>`;
+ const r=a*PI/180,lx=cx-340*Math.cos(r),ly=cy-340*Math.sin(r),rx=cx+340*Math.cos(r),ry=cy+340*Math.sin(r);
+ const pan=(x,y,lab,col,body)=>`<line x1=${x} y1=${y} x2=${x-90} y2=${y+170} stroke="#8ea0c8" stroke-width=3 /><line x1=${x} y1=${y} x2=${x+90} y2=${y+170} stroke="#8ea0c8" stroke-width=3 /><path d="M${x-120},${y+170} L${x+120},${y+170} Q${x+100},${y+220} ${x},${y+222} Q${x-100},${y+220} ${x-120},${y+170} Z" fill="${col}" />${body}${T(x,y+280,34,lab,{c:col})}`;
+ h+=pan(lx,ly,'CANCEL','#ff9a9a',person(lx,ly+120,.7,'#ff9a9a'));
+ let crowd='';for(let k=0;k<5;k++)crowd+=person(rx-80+k*40,ry+125-(k%2)*14,.62,'#ffd166');
+ h+=pan(rx,ry,'GRUMBLE + STAY','#ffd166',crowd);
+ return h+'</g>'};
+
+// 12: question – how many are you paying for?
+S[12]=(lt)=>{const c='#ffd166';
+ let h=head(lt,'YOUR TURN','?',c,.35,{size:210,y:470});
+ const cols=['#ff5d5d','#60a5fa','#35e08a','#a78bfa','#ffd166','#22d3ee'];
+ for(let k=0;k<6;k++){const p=bo(cl(lt,.3+k*.22,.75+k*.22));if(p<=0)continue;const q=k%3,r=k/3|0,x=230+q*310,y=820+r*270;
+  h+=`<g transform="translate(${x},${y}) rotate(${(k%2?3:-3)}) scale(${p})" filter="url(#sh)"><rect x=-130 y=-110 width=260 height=220 rx=26 fill="#141a28" stroke="${cols[k]}" stroke-width=6 /><path d="M-30,-44 L44,0 L-30,44 Z" fill="${cols[k]}" /><rect x=-80 y=72 width=160 height=14 rx=7 fill="#3a4560" /></g>`}
+ const sum=Math.min(6,Math.floor(cl(lt,.3,.3+6*.22)*6+.001));
+ h+=`<g opacity="${cl(lt,.5,.8)}">${T(540,1300,40,'count them all',{c:'#9fb0d6',w:800})}</g>`;
+ return h};
+
+// ---------- engine ----------
+const lay=[];for(let i=0;i<N;i++){const d=document.createElement('div');d.style.display='none';$('layers').appendChild(d);lay.push(d)}
+const blobs=[];for(let k=0;k<4;k++){const b=document.createElement('div');b.className='blob';$('blobs').appendChild(b);blobs.push(b)}
+MG.finish($('stage'),1080,1920,.07);
+function trans(i,t){const a=A(i),b=B(i);if(t<a-.01||t>b+TR)return null;
+ const e=ei(cl(t,a,a+TR)),x=ei(cl(t,b,b+TR));let tf='perspective(1800px) ',op=1,clip='';
+ if(i>0&&e<1){switch(ENTER[i]){case'push':tf+=`translateX(${(1-e)*1080}px) rotateY(${-(1-e)*28}deg) `;break;case'up':tf+=`translateY(${(1-e)*1920}px) `;break;case'zoom':tf+=`scale(${.55+.45*e}) `;op*=e;break;case'wipe':clip=`circle(${e*1400}px at 540px 900px)`;break;case'flash':tf+=`scale(${1.15-.15*e}) `;op*=e;break}}
+ if(i<N-1&&x>0){switch(ENTER[i+1]){case'push':tf+=`translateX(${-x*1080}px) rotateY(${x*28}deg) `;break;case'up':tf+=`translateY(${-x*1920}px) scale(${1-.1*x}) `;break;case'zoom':tf+=`scale(${1+1.3*x}) `;op*=1-x;break;case'wipe':tf+=`scale(${1-.08*x}) `;op*=1-.5*x;break;case'flash':op*=1-x;break}}
+ return {tf,op,clip}}
+function draw(t){
+ // background tint follows the current scene accent
+ let ci=0;for(let i=0;i<N;i++)if(t>=A(i))ci=i;const ni=Math.min(N-1,ci+1),bl=ci<N-1?ei(cl(t,B(ci),B(ci)+TR)):0;
+ const ac=mix(ACC[ci],ACC[ni],bl);
+ $('bg').style.background=`radial-gradient(70% 45% at 50% 62%,${ac.replace('rgb','rgba').replace(')',',.16)')},transparent 70%),radial-gradient(120% 70% at 50% 35%,#16203c,#0a0f20 55%,#04060d)`;
+ blobs.forEach((b,k)=>{const x=[180,880,260,820][k]+Math.sin(t*.3+k*2)*60,y=[320,600,1500,1200][k]+Math.cos(t*.25+k)*50,r=[420,360,460,380][k];b.style.cssText=`left:${x-r}px;top:${y-r}px;width:${2*r}px;height:${2*r}px;background:radial-gradient(circle,${k%2?ac.replace('rgb','rgba').replace(')',',.10)'):'rgba(96,130,255,.10)'},transparent 70%)`});
+ for(let i=0;i<N;i++){const s=trans(i,t),el=lay[i];if(!s){el.style.display='none';continue}
+  el.style.display='block';el.style.transform=s.tf;el.style.opacity=s.op;el.style.clipPath=s.clip||'none';
+  const lt=i==0?t:t-MG.L(i).start,push=i==0?1:1+.035*cl(lt,0,D(i)+1);
+  el.innerHTML=`<svg width=1080 height=1920 viewBox="0 0 1080 1920"><g transform="translate(540,900) scale(${push}) translate(-540,-900)">${S[i](lt)}</g></svg>`}
+ // flash at the intro -> scene 1 cut
+ const fa=A(1)+TR*.5,fl=Math.max(0,1-Math.abs(t-fa)/.28);
+ $('fx').style.background=`radial-gradient(circle at 50% 46%,#fff,#bcd4ff 45%,#60a5fa00 85%)`;$('fx').style.opacity=fl*.95;
+ // hook title over the intro
+ let hk='';const a1=A(1);if(t<a1+.2){const lines=[['YOUR STREAMING','#ffffff'],['BILL WENT UP','#ffffff'],['AGAIN. WHY?','#ff5d5d']];
+  lines.forEach((L,k)=>{const p=bo(cl(t,.15+k*.28,.6+k*.28)),o=cl(t,.15+k*.28,.4+k*.28)*(1-cl(t,a1-.5,a1-.1));hk+=`<div style="position:absolute;left:0;width:1080px;top:${150+k*108}px;text-align:center;font:900 ${k==2?104:92}px/1 Arial Black,Arial,Helvetica,sans-serif;color:${L[1]};opacity:${o};transform:scale(${p});text-shadow:0 8px 34px #000,${MG.outline(4)}">${L[0]}</div>`})}
+ $('hud').innerHTML=hk;
+ const last=MG.cur(t)==N-1;
+ $('cap').innerHTML=MG.captions(t,{y:1380,size:64,maxWords:4,hl:last?'#ffd166':'#ffd166'});
+ MG.grainTick(t)}
+window.setTimeline=tl=>{MG.TL=tl};
+window.sfxEvents=()=>{const k=5.6/Math.max(3.5,A(1)),e=[];const at=(s)=>s/k;const s=i=>MG.L(i).start;
+ e.push({k:'tick',t:at(.3),f:600},{k:'shimmer',t:at(.4)},{k:'pop',t:at(1.25)},{k:'error',t:at(2.62)},{k:'impact',t:at(2.75)},{k:'riser',t:at(4.2),d:1.4},{k:'impact',t:A(1)+TR*.5});
+ const tr={push:'swish',up:'whoosh',zoom:'whoosh',wipe:'shimmer',flash:'impact'};
+ for(let i=2;i<N;i++){const kk=tr[ENTER[i]];e.push(kk=='swish'?{k:'swish',t:A(i)+.05,d:.45,pan:i%2?.4:-.4}:kk=='whoosh'?{k:'whoosh',t:A(i)+.02,d:.55}:{k:kk,t:A(i)+.05})}
+ const tn1=Math.min(1.8,Math.max(1.0,wt(1,/seven/,.6)));e.push({k:'tap',t:s(1)+.35},{k:'riser',t:s(1)+tn1-.3,d:.9},{k:'impact',t:s(1)+tn1});
+ const tn2=Math.min(2.0,Math.max(1.0,wt(2,/nine/,.45)));for(let j=0;j<10;j+=2)e.push({k:'pop',t:s(2)+.1+j*.06});e.push({k:'chime',t:s(2)+tn2});
+ e.push({k:'type',t:s(3)+.2,n:6},{k:'thud',t:s(3)+.9},{k:'tap',t:s(3)+2.2},{k:'error',t:s(3)+2.25});
+ const tn4=Math.min(1.8,Math.max(.9,wt(4,/more/,.8)-.6));for(let j=0;j<3;j++)e.push({k:'tick',t:s(4)+tn4+j*.25,f:1200+j*300});e.push({k:'cash',t:s(4)+tn4+.9});
+ const tn5=Math.min(1.9,Math.max(1.0,wt(5,/billion/,.55)));e.push({k:'tap',t:s(5)+.6},{k:'cash',t:s(5)+1.0},{k:'pop',t:s(5)+tn5});
+ const tn6=Math.min(1.9,Math.max(1.0,wt(6,/twice/,.6)));e.push({k:'beep',t:s(6)+.35,f:880},{k:'cash',t:s(6)+tn6},{k:'ding',t:s(6)+tn6+.5});
+ const t71=Math.min(1.6,Math.max(.6,wt(7,/nine/,.4))),t72=Math.max(t71+.8,Math.min(t71+1.8,wt(7,/sixteen/,.8)));e.push({k:'pop',t:s(7)+t71},{k:'riser',t:s(7)+t71,d:t72-t71+.4},{k:'impact',t:s(7)+t72+.4});
+ const tn8=Math.min(2.4,Math.max(1.2,wt(8,/hundred/,.55)));e.push({k:'type',t:s(8)+.2,n:8});for(let j=0;j<8;j+=2)e.push({k:'swish',t:s(8)+1.0+j*.12,d:.3,pan:j%4?.5:-.5});e.push({k:'impact',t:s(8)+tn8});
+ const t91=Math.min(1.6,Math.max(.6,wt(9,/pay/,.35))),t92=Math.max(t91+.8,Math.min(t91+2.2,wt(9,/extra$|fee/,.85)));e.push({k:'thud',t:s(9)+.3},{k:'cash',t:s(9)+t91},{k:'pop',t:s(9)+t92});
+ const tn10=Math.min(1.8,Math.max(.8,wt(10,/four/,.1)+.2));e.push({k:'pop',t:s(10)+tn10},{k:'whoosh',t:s(10)+tn10+.3,d:.7},{k:'chime',t:s(10)+Math.max(tn10+1,wt(10,/again/,.85)-.6)+.3});
+ const tn11=Math.min(1.4,Math.max(.6,wt(11,/bet/,.3)));e.push({k:'impact',t:s(11)+tn11},{k:'thud',t:s(11)+tn11+.8});
+ for(let j=0;j<6;j++)e.push({k:'pop',t:s(12)+.3+j*.22});e.push({k:'ding',t:MG.L(12).end+.2});
+ return e.sort((a,b)=>a.t-b.t)};
+window.draw=draw;
+</script>

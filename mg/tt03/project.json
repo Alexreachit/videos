@@ -1,0 +1,56 @@
+{
+ "title": "TikTok 3: Why free apps aren't free",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+10%",
+ "lead": 0.4,
+ "gap": 0.25,
+ "tail": 1.8,
+ "music": {
+  "bpm": 112,
+  "mood": "minor",
+  "energy": 0.65
+ },
+ "lines": [
+  {
+   "text": "You pay nothing for this app. So how does it make billions?",
+   "min_start": 0.5
+  },
+  {
+   "text": "Every time you open it, a tiny auction runs behind the screen.",
+   "min_start": 5.2
+  },
+  {
+   "text": "Advertisers bid to show you an ad, based on what the app knows about your interests."
+  },
+  {
+   "text": "The better the app knows you, the more an advertiser will pay for that one moment of your attention."
+  },
+  {
+   "text": "The highest bidder wins, the ad appears, and the app gets paid, often in about a tenth of a second."
+  },
+  {
+   "text": "A single ad view earns very little, often well under one cent."
+  },
+  {
+   "text": "But the more time you spend, the more auctions run, and the more money flows to the app."
+  },
+  {
+   "text": "Endless feeds, notifications and autoplay are no accident. Each one adds a few more seconds to your visit."
+  },
+  {
+   "text": "Multiply those seconds by millions of users, and a free app becomes a very profitable machine."
+  },
+  {
+   "text": "You are not really the customer here. Your attention is the product being sold."
+  },
+  {
+   "text": "So what is one hour of your attention worth to you?"
+  }
+ ]
+}

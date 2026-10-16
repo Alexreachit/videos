@@ -1,0 +1,64 @@
+{
+ "title": "TikTok 4: Why concert tickets cost so much (fees and resale)",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+10%",
+ "lead": 0.4,
+ "gap": 0.25,
+ "tail": 1.8,
+ "music": {
+  "bpm": 112,
+  "mood": "major",
+  "energy": 0.75
+ },
+ "lines": [
+  {
+   "text": "The ticket says eighty dollars, so why does checkout say about one hundred?",
+   "min_start": 0.6
+  },
+  {
+   "text": "Let's open the price tag."
+  },
+  {
+   "text": "First come the fees: a service fee, a facility fee, and an order fee, stacked on top."
+  },
+  {
+   "text": "On primary ticket sites, fees typically add roughly a quarter to the base price."
+  },
+  {
+   "text": "Resale sites often charge even more, averaging roughly thirty percent in fees."
+  },
+  {
+   "text": "But the biggest markup often happens before you even reach checkout."
+  },
+  {
+   "text": "Artists often price tickets below what fans would pay, to keep shows affordable and sold out."
+  },
+  {
+   "text": "That gap is an open invitation for resellers."
+  },
+  {
+   "text": "Professional brokers use software bots to grab large blocks of tickets within seconds of release."
+  },
+  {
+   "text": "Then they relist them, often at about double the face value."
+  },
+  {
+   "text": "Some sellers also use dynamic pricing, so the price climbs with demand in real time."
+  },
+  {
+   "text": "So much of what you pay above face value goes to platforms and resellers, not the artist."
+  },
+  {
+   "text": "New rules in the U.S. now require the full price to be shown up front."
+  },
+  {
+   "text": "Would you rather pay more up front, or fight the bots at exactly ten o'clock?"
+  }
+ ]
+}

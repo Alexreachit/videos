@@ -1,0 +1,363 @@
+<!doctype html><meta charset=utf-8><style>
+html,body{margin:0;background:#05070f}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:radial-gradient(120% 80% at 50% 30%,#1c2142,#0b0f22 55%,#04060d)}
+#glow{position:absolute;left:-300px;top:-200px;width:1680px;height:1700px;border-radius:50%}
+.sc{position:absolute;left:0;top:0;width:1080px;height:1320px;display:none;transform-origin:540px 700px;-webkit-mask-image:linear-gradient(#000 0,#000 1150px,transparent 1310px);mask-image:linear-gradient(#000 0,#000 1150px,transparent 1310px)}
+.sc>svg{position:absolute;left:0;top:0}
+#intro{position:absolute;left:0;top:0;width:1080px;height:1920px}
+.p3{position:absolute;left:0;top:0;width:1080px;height:1320px;overflow:hidden}
+.w3{position:absolute;left:0;top:0;width:0;height:0;transform-style:preserve-3d}
+.f{position:absolute;backface-visibility:hidden}
+#flash{position:absolute;inset:0;background:radial-gradient(circle at 50% 45%,#fff,#ffe9b0 40%,#c07a10 85%);opacity:0;z-index:60;pointer-events:none}
+#hook,#cap{position:absolute;left:0;top:0;width:1080px;height:1920px;z-index:95;pointer-events:none}
+</style>
+<div id=stage>
+<div id=glow></div>
+<svg id=intro width=1080 height=1920 viewBox="0 0 1080 1920"></svg>
+<div id=scenes></div>
+<div id=flash></div>
+<div id=hook></div><div id=cap></div>
+<svg width=0 height=0 style="position:absolute"><defs>
+<filter id=gl x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="9" result=b /><feMerge><feMergeNode in=b /><feMergeNode in=SourceGraphic /></feMerge></filter>
+<filter id=sh x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx=0 dy=16 stdDeviation=16 flood-color="#000" flood-opacity=".55"/></filter>
+<linearGradient id=gold x1=0 y1=0 x2=1 y2=1><stop offset=0 stop-color="#ffe9a0"/><stop offset=.55 stop-color="#f5b630"/><stop offset=1 stop-color="#d98a12"/></linearGradient>
+<linearGradient id=bill x1=0 y1=0 x2=1 y2=1><stop offset=0 stop-color="#d9f2d0"/><stop offset=.5 stop-color="#a9d6a0"/><stop offset=1 stop-color="#7fb878"/></linearGradient>
+<linearGradient id=chrome x1=0 y1=0 x2=0 y2=1><stop offset=0 stop-color="#eef2f8"/><stop offset=.5 stop-color="#9aa4b8"/><stop offset=1 stop-color="#5d6678"/></linearGradient>
+<linearGradient id=floor x1=0 y1=0 x2=0 y2=1><stop offset=0 stop-color="#3a3f55"/><stop offset=1 stop-color="#141826"/></linearGradient>
+<linearGradient id=panel x1=0 y1=0 x2=0 y2=1><stop offset=0 stop-color="#1d2640"/><stop offset=1 stop-color="#111829"/></linearGradient>
+<linearGradient id=wood x1=0 y1=0 x2=0 y2=1><stop offset=0 stop-color="#9a6a42"/><stop offset=1 stop-color="#6b4527"/></linearGradient>
+<linearGradient id=marble x1=0 y1=0 x2=0 y2=1><stop offset=0 stop-color="#e9edf5"/><stop offset=1 stop-color="#aab3c6"/></linearGradient>
+<radialGradient id=warm cx=.5 cy=.5 r=.5><stop offset=0 stop-color="#fff2c8" stop-opacity=".55"/><stop offset=1 stop-color="#fff2c8" stop-opacity="0"/></radialGradient>
+</defs></svg>
+</div>
+<script src="../lib/core.js"></script>
+<script>
+const {cl,ez,ei,bo,lerp,$}=MG;
+const F="Arial,Helvetica,sans-serif",FB="'Arial Black',Arial,Helvetica,sans-serif";
+const T=(x,y,s,size,col,o={})=>`<text x="${x}" y="${y}" font-size="${size}" font-weight="${o.w||900}" fill="${col}" text-anchor="${o.a||'middle'}" font-family="${o.f||F}" ${o.ls?`letter-spacing="${o.ls}"`:''} ${o.op!=null?`opacity="${o.op}"`:''}>${s}</text>`;
+const st=k=>MG.L(k).start, en=k=>MG.L(k).end;
+function wt(k,w,fb=.5){const l=MG.L(k);if(l.words)for(const x of l.words){if(x[0].toLowerCase().replace(/[^a-z0-9']/g,'').startsWith(w))return l.start+x[1]}return l.start+fb}
+function header(lt,label,big,col,o={}){
+ const p1=ez(cl(lt,-.15,.35)),p2=bo(cl(lt,0,.55)),sz=o.size||150;
+ let s=`<g opacity="${p1}" transform="translate(0,${(1-p1)*-20})">${T(540,o.ly||170,label,44,'#aab8de',{w:800,ls:6})}</g>`;
+ if(big!=null)s+=`<g transform="translate(540,${o.by||320}) scale(${.6+.4*p2})" opacity="${cl(lt,0,.2)}" filter="url(#gl)">${T(0,0,big,sz,col,{f:FB})}</g>`;
+ return s}
+// ---- shared drawings ----
+function billSVG(v,o={}){ // centred 400x180 bill
+ const g=o.grey||0;
+ return `<g><rect x=-200 y=-90 width=400 height=180 rx=12 fill="url(#bill)" stroke="#3d6b3a" stroke-width=5 ${g?`opacity="${1-g*.5}"`:''}/><rect x=-182 y=-72 width=364 height=144 rx=8 fill=none stroke="#3d6b3a" stroke-width=3 opacity=".7"/><ellipse cx=0 cy=0 rx=58 ry=66 fill="#c9e7c0" stroke="#3d6b3a" stroke-width=4 /><path d="M0,-34 L10,-8 L38,-8 L15,8 L24,36 L0,19 L-24,36 L-15,8 L-38,-8 L-10,-8 Z" fill="#3d6b3a" opacity=".8"/>${T(-140,-30,v,40,'#2b5a2a',{f:FB})}${T(140,58,v,40,'#2b5a2a',{f:FB})}${T(-120,52,'DOLLARS',22,'#2b5a2a',{w:800,ls:2})}</g>`}
+function tag(x,y,txt,col,flip,newTxt,s=1){ // hanging price tag, flip 0..1 flips up around top hinge
+ const c=Math.cos(Math.PI*flip),show=flip<.5?txt:newTxt,sy=Math.max(.04,Math.abs(c));
+ return `<g transform="translate(${x},${y}) scale(${s})"><line x1=0 y1=-34 x2=0 y2=0 stroke="#d8dce6" stroke-width=3 /><g transform="scale(1,${sy})"><path d="M-46,0 L46,0 L46,60 L-46,60 Z" fill="${flip<.5?'#fff8e6':col}" stroke="#0b1020" stroke-width=3 /><circle cx=0 cy=10 r=5 fill="#0b1020"/>${T(0,48,show,30,flip<.5?'#0b1020':'#0b1020',{f:FB})}</g></g>`}
+// grocery item drawings (centred at bottom)
+const ITEMS={
+ cereal:`<rect x=-50 y=-170 width=100 height=170 rx=6 fill="#ff8a3d"/><rect x=-50 y=-170 width=100 height=40 fill="#ffd166"/><circle cx=0 cy=-80 r=28 fill="#fff3d6"/><circle cx=-8 cy=-86 r=7 fill="#e0a040"/><circle cx=9 cy=-74 r=7 fill="#e0a040"/>`,
+ milk:`<path d="M-38,-150 L-38,0 L38,0 L38,-150 L20,-185 L-20,-185 Z" fill="#f4f6fb"/><rect x=-38 y=-110 width=76 height=50 fill="#60a5fa"/><rect x=-20 y=-198 width=40 height=14 fill="#dfe6f2"/>`,
+ bread:`<path d="M-80,0 L-80,-60 Q-80,-110 -30,-110 Q0,-130 30,-110 Q80,-110 80,-60 L80,0 Z" fill="#d9954a"/><path d="M-40,-95 L-30,-60 M0,-108 L4,-66 M40,-95 L32,-60" stroke="#a86a2a" stroke-width=7 stroke-linecap=round />`,
+ apples:`<circle cx=-28 cy=-30 r=30 fill="#e2463a"/><circle cx=26 cy=-32 r=30 fill="#c9302c"/><circle cx=0 cy=-72 r=30 fill="#ef5a48"/><path d="M0,-102 L4,-116" stroke="#5a3418" stroke-width=5 /><ellipse cx=12 cy=-112 rx=10 ry=5 fill="#46b363"/>`,
+ bananas:`<path d="M-70,-40 Q0,30 70,-50 Q60,-20 0,-10 Q-50,-10 -70,-40 Z" fill="#ffd84a"/><path d="M-66,-60 Q0,10 66,-70 Q56,-38 0,-28 Q-46,-28 -66,-60 Z" fill="#ffe36e"/>`
+};
+// cart: basket top-left (x0,y0) width 520, height 300 ; returns {back,front}
+function cart(wa){
+ const back=`<path d="M-270,-330 L270,-330 L230,-40 L-220,-40 Z" fill="#0b1020" opacity=".35"/>`;
+ let mesh='';for(let i=0;i<=10;i++){const u=i/10;mesh+=`<line x1=${lerp(-270,270,u)} y1=-330 x2=${lerp(-220,230,u)} y2=-40 stroke="url(#chrome)" stroke-width=5 />`}
+ for(let j=0;j<=5;j++){const v=j/5;mesh+=`<line x1=${lerp(-270,-220,v)} y1=${lerp(-330,-40,v)} x2=${lerp(270,230,v)} y2=${lerp(-330,-40,v)} stroke="url(#chrome)" stroke-width=${j==0?12:5} />`}
+ const wheel=(x)=>`<g transform="translate(${x},70)"><circle r=34 fill="#141826" stroke="#5d6678" stroke-width=8 /><g transform="rotate(${wa})"><line x1=-24 y1=0 x2=24 y2=0 stroke="#9aa4b8" stroke-width=6 /><line x1=0 y1=-24 x2=0 y2=24 stroke="#9aa4b8" stroke-width=6 /></g></g>`;
+ const front=`<g opacity=".95">${mesh}</g><path d="M-220,-40 L-200,30 L220,30 L230,-40" stroke="url(#chrome)" stroke-width=10 fill=none /><path d="M270,-330 L330,-400 L400,-400" stroke="url(#chrome)" stroke-width=14 fill=none stroke-linecap=round /><rect x=380 y=-414 width=70 height=28 rx=14 fill="#ff5d5d"/>${wheel(-170)}${wheel(170)}`;
+ return {back,front}}
+// ---- intro: supermarket aisle + cart ----
+function aisle(par){
+ let h=`<rect width=1080 height=1320 fill="#1a1e30"/><path d="M0,1320 L380,820 L700,820 L1080,1320 Z" fill="url(#floor)"/>`;
+ h+=`<path d="M380,520 L700,520 L700,820 L380,820 Z" fill="#232a44"/>`;
+ // ceiling lights
+ for(let i=0;i<5;i++){const u=i/5,y=lerp(60,500,Math.pow(u,.6)),w=lerp(300,60,Math.pow(u,.6));h+=`<rect x=${540-w/2} y=${y} width=${w} height=${lerp(26,6,u)} rx=6 fill="#fff6d8" opacity="${.9-u*.5}"/>`}
+ h+=`<ellipse cx=540 cy=1050 rx=420 ry=120 fill="url(#warm)"/>`;
+ const COLS=['#ff5d5d','#60a5fa','#ffd166','#35e08a','#f472b6','#ff8a3d','#8b7cf6','#e8ecf5'];
+ [0,1].forEach(side=>{const sx=side?-1:1,ox=side?1080:0;
+  const P=(u,v)=>{const x=lerp(0,380,u),yt=lerp(170,520,u),yb=lerp(1320,820,u);return [ox+sx*(x+par*(1-u)*(side?-1:1)),lerp(yt,yb,v)]};
+  const a=P(0,0),b=P(1,0),c=P(1,1),d=P(0,1);h+=`<path d="M${a} L${b} L${c} L${d} Z" fill="#2a3150"/>`;
+  for(let r=0;r<5;r++){const v=.12+r*.19;
+   // products
+   for(let k=0;k<14;k++){const u0=Math.pow(k/14,.75),u1=Math.pow((k+.8)/14,.75);const hh=.13+.03*MG.rnd(k*7+r+side*50);const p0=P(u0,v),p1=P(u1,v),p2=P(u1,v-hh),p3=P(u0,v-hh);
+    h+=`<path d="M${p0} L${p1} L${p2} L${p3} Z" fill="${COLS[Math.floor(MG.rnd(k*13+r*5+side*31)*8)]}" opacity="${.85-u0*.4}"/>`}
+   const s0=P(0,v),s1=P(1,v),s2=P(1,v+.025),s3=P(0,v+.025);h+=`<path d="M${s0} L${s1} L${s2} L${s3} Z" fill="#c9cfdc"/>`}
+ });
+ h+=`<rect width=1080 height=1320 fill="#05070f" opacity=".35"/>`;
+ return h}
+const INTRO_ITEMS=[['cereal',-150,-250,2],['milk',-30,-232,3],['bread',100,-215,2],['apples',210,-205,4],['bananas',30,-150,1]];
+function drawIntro(t){
+ const end=st(2)-.3;if(t>end+.6){$('intro').style.display='none';return}$('intro').style.display='block';
+ const L1=st(1);
+ const arr=ei(cl(t,0,2.0)),cx=lerp(-420,540,arr),wa=(cx-540)/34*57.3;
+ const push=ei(cl(t,.5,end)),cs=lerp(1.3,1.45,push),cy=lerp(1130,1110,push);
+ let h=`<g transform="translate(540,700) scale(${lerp(1,1.12,push)}) translate(-540,-700)">${aisle(lerp(-60,40,arr))}</g>`;
+ h+=`<g transform="translate(${cx},${cy}) scale(${cs})"><ellipse cx=0 cy=110 rx=360 ry=30 fill="#000" opacity=".5"/>`;
+ const c=cart(wa);h+=c.back;
+ const fp=cl(t,L1+.3,L1+2.6);
+ INTRO_ITEMS.forEach((it,i)=>{const q=bo(cl(t,1.3+i*.16,1.75+i*.16));if(q<=0)return;const dropY=(1-ez(cl(t,1.3+i*.16,1.6+i*.16)))*-260;
+  h+=`<g transform="translate(${it[1]},${it[2]+120+dropY}) scale(${q})">${ITEMS[it[0]]}</g>`});
+ h+=c.front;
+ INTRO_ITEMS.forEach((it,i)=>{const q=bo(cl(t,1.9+i*.12,2.3+i*.12));if(q<=0)return;const f=cl(fp,i*.12,i*.12+.35);
+  h+=tag([-200,-75,50,175,300][i],-430,'$'+it[3],'#ffd166',f,'$'+(it[3]*1.7).toFixed(2),q*.95)});
+ // the $100 bill rides in the child seat, shrinks during line 1
+ const bq=bo(cl(t,2.3,2.8)),sh=ei(cl(t,L1+.4,L1+2.4)),bs=lerp(1,.59,sh);
+ if(bq>0)h+=`<g transform="translate(0,${-110+lerp(0,20,sh)}) rotate(${-6+2*Math.sin(t*1.7)}) scale(${bq*.62*bs})" filter="url(#sh)">${billSVG('100',{grey:sh})}</g>`;
+ h+='</g>';
+ // year odometer
+ const yq=bo(cl(t,2.0,2.5)),yp=ei(cl(t,L1+.1,L1+2.2)),yr=lerp(2006,2026,yp);
+ if(yq>0){h+=`<g transform="translate(880,1290) scale(${yq*.8})" filter="url(#sh)"><rect x=-150 y=-62 width=300 height=124 rx=20 fill="#0b1020ee" stroke="#ffd166" stroke-width=4 /><clipPath id=yc><rect x=-130 y=-48 width=260 height=96 /></clipPath><g clip-path="url(#yc)">${T(-58,30,'20',84,'#ffd166',{f:"'Courier New',monospace"})}`;
+  const dd=(yr-2006)/10,i0=Math.floor(dd);[i0,i0+1].forEach(dv=>{h+=T(32,30+(dv-dd)*90,dv%10,84,'#ffd166',{f:"'Courier New',monospace"})});
+  h+=T(90,30,'6',84,'#ffd166',{f:"'Courier New',monospace"})+`</g></g>`}
+ // header in line 1: total price
+ const hq=cl(t,L1-.2,L1+.3);
+ if(hq>0){const v=lerp(100,170,ez(cl(t,L1+.3,L1+2.6)));h+=`<g opacity="${hq}">${T(540,170,'SAME CART TODAY',44,'#aab8de',{w:800,ls:6})}<g transform="translate(540,320) scale(${.6+.4*bo(cl(t,L1-.1,L1+.45))})" filter="url(#gl)">${T(0,0,'$'+Math.round(v),150,'#ff5d5d',{f:FB})}</g></g>`}
+ // fade out
+ const fo=1-ez(cl(t,end+.05,end+.5));
+ $('intro').innerHTML=`<g opacity="${fo}">${h}</g>`;
+ return h}
+
+// ---- scene framework ----
+const SC={},ORDER=[];
+function mk(k,kind,fn){const d=document.createElement('div');d.className='sc';$('scenes').appendChild(d);const s=document.createElementNS(MG.NS,'svg');s.setAttribute('width',1080);s.setAttribute('height',1320);d.appendChild(s);SC[k]={k,el:d,svg:s,kind,render:fn};ORDER.push(k);return SC[k]}
+function win(k){const i=ORDER.indexOf(k);return [st(k)-.35,i==ORDER.length-1?1e9:st(ORDER[i+1])-.35]}
+function place(sc,t){
+ const [a,b]=win(sc.k),D=.55;
+ if(t<a-.01||t>b+D+.01){sc.el.style.display='none';return false}
+ const pin=ei(cl(t,a,a+D)),pout=ei(cl(t,b,b+D));
+ let tx=0,ty=0,s=1,o=1,ry=0;
+ const kin=sc.kind,nx=SC[ORDER[ORDER.indexOf(sc.k)+1]],kout=nx?nx.kind:'zoom';
+ if(pin<1){const q=1-pin;if(kin=='push')tx=1080*q;else if(kin=='zoom'){s=.7+.3*pin;o=pin}else if(kin=='rise')ty=1320*q;else if(kin=='turn'){ry=-75*q;tx=560*q}else if(kin=='flash'){s=1.15-.15*pin;o=pin}}
+ if(pout>0){if(kout=='push')tx-=1080*pout;else if(kout=='zoom'){s*=1+.7*pout;o*=1-pout}else if(kout=='rise')ty-=1320*pout;else if(kout=='turn'){ry+=75*pout;tx-=560*pout}else o*=1-pout}
+ sc.el.style.display='block';sc.el.style.opacity=o;
+ sc.el.style.transform=`perspective(1800px) translate3d(${tx}px,${ty}px,0) rotateY(${ry}deg) scale(${s})`;
+ return true}
+
+// 2: inflation chart (CPI-U annual averages, 2006 = 100)
+const CPI=[[2006,201.6],[2007,207.3],[2008,215.3],[2009,214.5],[2010,218.1],[2011,224.9],[2012,229.6],[2013,233.0],[2014,236.7],[2015,237.0],[2016,240.0],[2017,245.1],[2018,251.1],[2019,255.7],[2020,258.8],[2021,271.0],[2022,292.7],[2023,304.7],[2024,313.7],[2025,322.0],[2026,336.9]];
+mk(2,'flash',(lt,t)=>{
+ const L=MG.L(2),dur=L.end-L.start,p=ei(cl(lt,.2,Math.max(1.5,dur-.2)));
+ let h=header(lt,'THE NAME FOR IT','INFLATION','#ffd166',{size:128});
+ const X0=150,X1=980,Y0=1080,Y1=470,vmin=95,vmax=175,X=y=>lerp(X0,X1,(y-2006)/20),Y=v=>lerp(Y0,Y1,(v-vmin)/(vmax-vmin));
+ const ax=ez(cl(lt,0,.5));
+ h+=`<g opacity="${ax}"><rect x=90 y=420 width=930 height=740 rx=30 fill="url(#panel)" stroke="#2c3a60" stroke-width=3 /><line x1=${X0} y1=${Y0} x2=${X1} y2=${Y0} stroke="#8fa0c8" stroke-width=4 />`;
+ [100,125,150].forEach(v=>h+=`<line x1=${X0} y1=${Y(v)} x2=${X1} y2=${Y(v)} stroke="#ffffff14" stroke-width=3 />${T(X0-14,Y(v)+10,'$'+v,28,'#8fa0c8',{a:'end',w:800})}`);
+ [2006,2016,2026].forEach(y=>h+=T(X(y),Y0+48,y,32,'#8fa0c8',{w:800}));h+='</g>';
+ const n=(CPI.length-1)*p,k=Math.floor(n),fr=n-k;let pts=[];for(let i=0;i<=k&&i<CPI.length;i++)pts.push([X(CPI[i][0]),Y(CPI[i][1]/2.016)]);
+ if(k<CPI.length-1){const a=CPI[k],b=CPI[k+1];pts.push([X(lerp(a[0],b[0],fr)),Y(lerp(a[1],b[1],fr)/2.016)])}
+ const last=pts[pts.length-1];
+ h+=`<path d="M${pts.map(q=>q.join(',')).join(' L')} L${last[0]},${Y0} L${X0},${Y0} Z" fill="#ffd16622"/><path d="M${pts.map(q=>q.join(',')).join(' L')}" stroke="#ffd166" stroke-width=10 fill=none stroke-linejoin=round stroke-linecap=round filter="url(#gl)"/>`;
+ // price tag riding the line
+ const val=Math.round((CPI[Math.min(k,CPI.length-1)][1]+(k<CPI.length-1?(CPI[k+1][1]-CPI[k][1])*fr:0))/2.016);
+ h+=`<g transform="translate(${last[0]},${last[1]})"><circle r=16 fill="#fff" filter="url(#gl)"/><g transform="translate(${last[0]>820?-120:0},-90)"><rect x=-75 y=-36 width=150 height=60 rx=12 fill="#ffd166"/>${T(0,10,'$'+val,36,'#0b1020',{f:FB})}</g></g>`;
+ s2note=0;return h});
+let s2note=0;
+// 3: basket of prices
+const BK=[['rent','house','#60a5fa','RENT'],['food','apple','#35e08a','FOOD'],['fuel','pump','#ffd166','FUEL'],['haircuts','scissors','#f472b6','HAIRCUTS']];
+function ico(k,c){return {
+ house:`<path d="M-50,6 L0,-46 L50,6 Z" fill="${c}"/><rect x=-36 y=4 width=72 height=52 fill="${c}"/><rect x=-10 y=20 width=20 height=36 fill="#0b1020"/>`,
+ apple:`<circle cx=-14 cy=6 r=36 fill="${c}"/><circle cx=14 cy=6 r=36 fill="${c}"/><path d="M0,-28 Q6,-50 18,-54" stroke="#0b1020" stroke-width=6 fill=none />`,
+ pump:`<rect x=-36 y=-48 width=52 height=100 rx=8 fill="${c}"/><rect x=-26 y=-38 width=32 height=26 rx=4 fill="#0b1020"/><path d="M16,-30 L36,-14 L36,30 Q36,40 26,40" stroke="${c}" stroke-width=8 fill=none />`,
+ scissors:`<circle cx=-22 cy=30 r=16 fill=none stroke="${c}" stroke-width=9 /><circle cx=22 cy=30 r=16 fill=none stroke="${c}" stroke-width=9 /><path d="M-12,18 L26,-50 M12,18 L-26,-50" stroke="${c}" stroke-width=10 stroke-linecap=round />`,
+ crowd:`<circle cx=-34 cy=-16 r=16 fill="${c}"/><circle cx=34 cy=-16 r=16 fill="${c}"/><circle cy=-28 r=20 fill="${c}"/><path d="M-60,40 C-60,4 -10,4 -10,40 Z M10,40 C10,4 60,4 60,40 Z" fill="${c}"/><path d="M-30,46 C-30,0 30,0 30,46 Z" fill="${c}"/>`,
+ gear:`<circle r=34 fill="${c}"/>${[...Array(8)].map((_,i)=>`<rect x=-9 y=-52 width=18 height=24 rx=4 fill="${c}" transform="rotate(${i*45})"/>`).join('')}<circle r=14 fill="#0b1020"/>`,
+ bills:`<rect x=-50 y=-10 width=100 height=48 rx=6 fill="${c}" transform="rotate(-10)"/><rect x=-50 y=-30 width=100 height=48 rx=6 fill="${c}" stroke="#0b1020" stroke-width=4 /><circle cy=-6 r=12 fill="#0b1020"/>`}[k]}
+mk(3,'push',(lt,t)=>{
+ const L=MG.L(3);
+ let h=header(lt,'MEASURED WITH A BASKET','1000s',"#35e08a",{size:140});
+ h+=T(540,400,'OF EVERYDAY PRICES',40,'#e8eefc',{w:800,op:ez(cl(lt,.3,.8))});
+ // basket
+ const bq=bo(cl(lt,0,.5));
+ h+=`<g transform="translate(540,1010) scale(${bq})"><path d="M-300,-140 L300,-140 L250,120 L-250,120 Z" fill="#8a5a30"/>${[...Array(9)].map((_,i)=>`<path d="M${-270+i*67},-140 L${-225+i*56},120" stroke="#6a4020" stroke-width=7 />`).join('')}${[0,1,2].map(j=>`<path d="M${-290+j*16},${-80+j*70} L${290-j*16},${-80+j*70}" stroke="#b07a44" stroke-width=12 />`).join('')}<path d="M-230,-140 Q0,-420 230,-140" stroke="#8a5a30" stroke-width=22 fill=none /><rect x=-320 y=-160 width=640 height=36 rx=18 fill="#b07a44"/></g>`;
+ // many small tags fall into the basket in background
+ for(let i=0;i<14;i++){const tt=.4+i*.17,q=cl(lt,tt,tt+.7);if(q<=0||q>=1)continue;const x0=120+((i*197)%840),x1=380+((i*71)%320);h+=`<g transform="translate(${lerp(x0,x1,q)},${lerp(470,900,q*q)}) rotate(${i*40+q*200}) scale(${1-.4*q})" opacity="${1-q*.6}"><rect x=-26 y=-16 width=52 height=32 rx=6 fill="#fff8e6"/>${T(4,10,'$',24,'#0b1020')}</g>`}
+ // named icons arc in on their words
+ BK.forEach((b,i)=>{const tw=wt(3,b[0],1+i*.6)-L.start,q=ez(cl(lt,tw-.15,tw+.45)),pp=bo(cl(lt,tw-.15,tw+.3));if(q<=0)return;const xs=[170,400,680,910][i],xe=[-180,-60,60,180][i]+540;
+  const x=lerp(xs,xe,ez(cl(lt,tw+1.0,tw+1.6))),y=lerp(640,860,ez(cl(lt,tw+1.0,tw+1.6)))-(1-q)*120;
+  h+=`<g transform="translate(${x},${y}) scale(${pp})"><circle r=78 fill="#0f1830" stroke="${b[2]}" stroke-width=6 filter="url(#sh)"/>${ico(b[1],b[2])}</g>`;
+  h+=`<g opacity="${q*(1-cl(lt,tw+1.0,tw+1.3))}">${T(xs,760,b[3],32,'#e8eefc',{w:900})}</g>`});
+ return h});
+// 4: three reasons
+const RS=[['crowd','DEMAND','#60a5fa'],['gear','COSTS','#ff8a3d'],['bills','MONEY','#35e08a']];
+mk(4,'rise',(lt,t)=>{
+ let h=header(lt,'PRICES CLIMB FOR','3 REASONS','#ffd166',{size:126});
+ return h});
+// 3D cards via divs for scene 4
+{const sc=SC[4];const p=document.createElement('div');p.className='p3';p.style.perspective='1400px';sc.el.appendChild(p);sc.cards=[];
+ RS.forEach((r,i)=>{const w=document.createElement('div');w.className='w3';w.style.left=(220+i*320)+'px';w.style.top='800px';p.appendChild(w);
+  const mkf=(html,bg,tr)=>{const f=document.createElement('div');f.className='f';f.style.cssText=`left:-140px;top:-200px;width:280px;height:400px;border-radius:28px;background:${bg};transform:${tr};box-shadow:0 30px 60px #0009`;f.innerHTML=html;w.appendChild(f)};
+  mkf(`<svg width=280 height=400 viewBox="-140 -200 280 400"><circle cx=0 cy=-50 r=96 fill="#0b1020"/><g transform="translate(0,-50) scale(1.3)">${ico(r[0],r[2])}</g>${T(0,130,r[1],46,'#fff',{f:FB})}${T(0,-160,i+1,36,r[2],{f:FB})}</svg>`,`linear-gradient(160deg,#243055,#121a30)`,'translateZ(1px)');
+  mkf(`<svg width=280 height=400 viewBox="-140 -200 280 400"><rect x=-110 y=-170 width=220 height=340 rx=18 fill=none stroke="#ffd16688" stroke-width=4 />${T(0,40,'?',160,'#ffd166',{f:FB})}</svg>`,`linear-gradient(160deg,#ffcf5a,#d98a12)`,'rotateY(180deg)');
+  sc.cards.push(w)})}
+SC[4].pre=(lt)=>{const L=MG.L(4),dur=L.end-L.start;SC[4].cards.forEach((w,i)=>{const fl=ei(cl(lt,.6+i*.45,1.2+i*.45)),up=ez(cl(lt,-.1+i*.1,.5+i*.1));w.style.transform=`translate3d(0,${(1-up)*500}px,0) rotateY(${180-180*fl}deg) rotateX(${8-8*fl}deg) rotateZ(${(i-1)*-4*(1-fl)}deg)`})};
+// 5: demand balance
+mk(5,'push',(lt,t)=>{
+ const L=MG.L(5),dur=L.end-L.start;
+ let h=header(lt,'1 · DEMAND','MORE BUYERS',"#60a5fa",{size:112});
+ const n=Math.min(9,Math.floor(cl(lt,.4,dur*.75)*9)+1),tilt=lerp(0,14,ez(cl(lt,.4,dur*.8)));
+ const cx=540,cy=700,arm=330;
+ h+=`<path d="M${cx-90},1120 L${cx+90},1120 L${cx+20},${cy} L${cx-20},${cy} Z" fill="#3b4358"/><rect x=${cx-170} y=1110 width=340 height=30 rx=12 fill="#5d6678"/>`;
+ const a=tilt*Math.PI/180,lx=cx-arm*Math.cos(a),ly=cy+arm*Math.sin(a),rx=cx+arm*Math.cos(a),ry=cy-arm*Math.sin(a);
+ h+=`<line x1=${lx} y1=${ly} x2=${rx} y2=${ry} stroke="url(#chrome)" stroke-width=22 stroke-linecap=round /><circle cx=${cx} cy=${cy} r=22 fill="#ffd166"/>`;
+ const pan=(x,y,inner)=>`<line x1=${x} y1=${y} x2=${x-110} y2=${y+200} stroke="#9aa4b8" stroke-width=4 /><line x1=${x} y1=${y} x2=${x+110} y2=${y+200} stroke="#9aa4b8" stroke-width=4 /><g transform="translate(${x},${y+200})">${inner}<path d="M-140,0 L140,0 Q120,40 0,40 Q-120,40 -140,0 Z" fill="url(#chrome)"/></g>`;
+ let ppl='';for(let i=0;i<n;i++){const row=i<4?0:i<7?1:2,c=[4,3,2][row],j=[0,4,7][row],x=(i-j-(c-1)/2)*58,y=-row*58,q=bo(cl(lt,.4+i*(dur*.75/9),.7+i*(dur*.75/9)));ppl+=`<g transform="translate(${x},${y-6}) scale(${q})"><circle cy=-44 r=17 fill="#60a5fa"/><path d="M-24,0 C-24,-30 24,-30 24,0 Z" fill="#60a5fa"/></g>`}
+ let box='';[[-50,0],[50,0],[0,-70]].forEach(([x,y])=>box+=`<g transform="translate(${x},${y})"><rect x=-44 y=-66 width=88 height=66 rx=6 fill="#c8955f" stroke="#7a5232" stroke-width=4 /><line x1=-44 y1=-40 x2=44 y2=-40 stroke="#7a5232" stroke-width=4 /></g>`);
+ h+=pan(lx,ly,ppl)+pan(rx,ry,box);
+ h+=T(lx,ly+300,'BUYERS',34,'#60a5fa',{w:900})+T(rx,ry+300,'GOODS',34,'#c8955f',{w:900});
+ const f=cl(lt,dur*.6,dur*.6+.5);h+=tag(rx,ry-60,'$2','#ff5d5d',f,'$3',1.3);
+ return h});
+// 6: costs machine
+mk(6,'push',(lt,t)=>{
+ const L=MG.L(6),dur=L.end-L.start;
+ let h=header(lt,'2 · COSTS','COSTS UP',"#ff8a3d",{size:120});
+ const IN=[['energy','ENERGY','#ffd166'],['materials','MATERIALS','#60a5fa'],['wages','WAGES','#f472b6']];
+ IN.forEach((c,i)=>{const tw=wt(6,c[0],.6+i*.6)-L.start,q=ez(cl(lt,tw-.2,tw+.4)),y=520+i*170;
+  h+=`<g opacity="${.25+.75*q}"><rect x=60 y=${y-46} width=270 height=92 rx=46 fill="#0f1830" stroke="${c[2]}" stroke-width=5 />${T(195,y+12,c[1],34,c[2],{w:900})}<path d="M330,${y} C440,${y} 440,800 520,800" stroke="${c[2]}55" stroke-width=26 fill=none /><path d="M330,${y} C440,${y} 440,800 520,800" stroke="${c[2]}" stroke-width=10 fill=none stroke-dasharray="20 22" stroke-dashoffset="${-lt*120}" opacity="${q}"/></g>`;
+  // gauge
+  const ga=lerp(-120,-20+i*10,q);h+=`<g transform="translate(${80},${y-46})"></g>`});
+ // machine
+ const g=bo(cl(lt,.1,.6));
+ h+=`<g transform="translate(700,800) scale(${g})" filter="url(#sh)"><rect x=-190 y=-200 width=380 height=380 rx=30 fill="#2a3142" stroke="#5d6678" stroke-width=5 /><rect x=-150 y=-160 width=300 height=120 rx=14 fill="#11141f"/>`;
+ const gear=(x,y,r,a)=>`<g transform="translate(${x},${y}) rotate(${a})">${ico('gear','#8fa0c8').replace(/r=34/,'r=34')}</g>`;
+ h+=gear(-80,60,1,lt*90)+gear(20,90,1,-lt*90+22)+gear(100,30,1,lt*90);
+ const pv=lerp(1.0,1.3,ez(cl(lt,dur*.45,dur*.8)));h+=T(0,-78,'COST',30,'#8fa0c8',{w:800})+T(0,-45,'',10,'#000')+`<rect x=-120 y=-70 width=${240*cl(lt,.3,dur*.8)} height=14 rx=7 fill="#ff8a3d" />`;
+ h+='</g>';
+ // output loaf with tag
+ const oq=bo(cl(lt,dur*.45,dur*.45+.5));
+ h+=`<g transform="translate(${lerp(700,860,ez(cl(lt,dur*.45,dur*.45+.6)))},1110) scale(${oq})"><g transform="scale(.9)">${ITEMS.bread}</g></g>`;
+ h+=tag(lerp(700,860,ez(cl(lt,dur*.45,dur*.45+.6)))+120,1000,'$2','#ff8a3d',cl(lt,dur*.7,dur*.7+.5),'$2.40',oq*1.1);
+ return h});
+// 7: money vs goods
+mk(7,'push',(lt,t)=>{
+ const L=MG.L(7),dur=L.end-L.start;
+ let h=header(lt,'3 · MONEY & CREDIT','MORE MONEY',"#35e08a",{size:116});
+ const nb=Math.floor(lerp(4,18,ez(cl(lt,.4,dur*.85))));
+ for(let i=0;i<nb;i++){const q=ez(cl(lt,.4+i*.05,.6+i*.05))||1;h+=`<g transform="translate(300,${1080-i*21}) scale(.62,.62)"><rect x=-200 y=-40 width=400 height=60 rx=8 fill="url(#bill)" stroke="#3d6b3a" stroke-width=5 /><ellipse cx=0 cy=-10 rx=30 ry=22 fill="#c9e7c0" stroke="#3d6b3a" stroke-width=3 /></g>`}
+ h+=T(300,1150,'MONEY',36,'#35e08a',{w:900});
+ // goods stay the same
+ [[-60,0],[60,0],[0,-120]].forEach(([x,y],i)=>h+=`<g transform="translate(${780+x},${1090+y})" filter="url(#sh)"><rect x=-58 y=-110 width=116 height=110 rx=8 fill="#c8955f" stroke="#7a5232" stroke-width=5 /><line x1=-58 y1=-70 x2=58 y2=-70 stroke="#7a5232" stroke-width=5 /></g>`);
+ h+=T(780,1150,'GOODS',36,'#c8955f',{w:900});
+ // value per dollar meter
+ const v=lerp(1,.75,ez(cl(lt,.6,dur*.9)));
+ h+=`<g transform="translate(540,480)"><rect x=-360 y=-34 width=720 height=150 rx=24 fill="#0f1830" stroke="#2c3a60" stroke-width=3 />${T(-330,12,'EACH DOLLAR BUYS',32,'#aab8de',{a:'start',w:800})}<rect x=-330 y=40 width=660 height=44 rx=22 fill="#ffffff12"/><rect x=-330 y=40 width=${660*v} height=44 rx=22 fill="#35e08a"/></g>`;
+ h+=`<path d="M450,${1060-nb*28} q30,-40 60,0" stroke="#fff0" fill=none />`;
+ return h});
+// 8: central bank thermostat
+mk(8,'zoom',(lt,t)=>{
+ const L=MG.L(8),dur=L.end-L.start;
+ let h=header(lt,'CENTRAL BANKS AIM FOR','~2%',"#ffd166",{size:150});
+ const b=bo(cl(lt,0,.6));
+ h+=`<g transform="translate(540,1130) scale(${b}) translate(-540,-1130)" filter="url(#sh)"><path d="M150,640 L540,470 L930,640 Z" fill="url(#marble)"/>${T(540,610,'CENTRAL BANK',40,'#2a3350',{f:FB})}<rect x=170 y=640 width=740 height=40 fill="#c9d1e0"/>${[0,1,2,3,4,5].map(i=>`<rect x=${215+i*125} y=690 width=58 height=380 fill="url(#marble)"/>`).join('')}<rect x=150 y=1070 width=780 height=40 fill="#c9d1e0"/><rect x=120 y=1110 width=840 height=40 fill="#aab3c6"/></g>`;
+ // thermostat dial in front
+ const dq=bo(cl(lt,.6,1.1)),ang=lerp(-130,-130+260*(2/6),ei(cl(lt,1.0,2.4)))+3*Math.sin(Math.max(0,lt-2.4)*6)*Math.exp(-Math.max(0,lt-2.4)*3);
+ h+=`<g transform="translate(540,880) scale(${dq})"><circle r=170 fill="#0b1020" stroke="#ffd166" stroke-width=8 filter="url(#gl)"/>`;
+ for(let i=0;i<=6;i++){const a=(-130+i*260/6-90)*Math.PI/180;h+=`<line x1=${150*Math.cos(a)} y1=${150*Math.sin(a)} x2=${128*Math.cos(a)} y2=${128*Math.sin(a)} stroke="${i==2?'#35e08a':'#8fa0c8'}" stroke-width=${i==2?10:5} />`;if(i%2==0)h+=T(100*Math.cos(a),100*Math.sin(a)+12,i+'%',30,i==2?'#35e08a':'#8fa0c8',{w:900})}
+ const a2=(ang-90)*Math.PI/180;h+=`<line x1=0 y1=0 x2=${120*Math.cos(a2)} y2=${120*Math.sin(a2)} stroke="#ffd166" stroke-width=12 stroke-linecap=round /><circle r=20 fill="#ffd166"/>${T(0,95,'PER YEAR',26,'#aab8de',{w:800})}</g>`;
+ return h});
+// 9: small & steady road
+mk(9,'push',(lt,t)=>{
+ const L=MG.L(9),dur=L.end-L.start;
+ let h=header(lt,'SMALL & STEADY','NO SURPRISES',"#35e08a",{size:108});
+ const P=x=>[x,1000-(x-80)*.28];
+ h+=`<path d="M80,1180 L80,${P(80)[1]} L1000,${P(1000)[1]} L1000,1180 Z" fill="#35e08a18"/><path d="M80,${P(80)[1]} L1000,${P(1000)[1]}" stroke="#35e08a" stroke-width=14 stroke-linecap=round />`;
+ // a bumpy ghost path for contrast
+ const gq=ez(cl(lt,.2,.8));let bp='';for(let x=80;x<=1000;x+=20)bp+=`${x==80?'M':'L'}${x},${700-(x-80)*.28+Math.sin(x*.035)*90*Math.sin(x*.011)}`;
+ h+=`<path d="${bp}" stroke="#ff5d5d" stroke-width=6 fill=none stroke-dasharray="14 12" opacity="${.6*gq}"/>${T(940,520,'✕',44,'#ff5d5d',{op:gq})}`;
+ // little coin rolling up the slope
+ const cx=lerp(110,960,ei(cl(lt,.3,dur))),[x,y]=P(cx);
+ h+=`<g transform="translate(${x},${y-46}) rotate(${cx*1.2})"><circle r=40 fill="url(#gold)" stroke="#fff3c4" stroke-width=4 />${T(0,14,'$',40,'#7a4a00')}</g>`;
+ [['plan','PLAN','cal',260],['save','SAVE','pig',540],['borrow','BORROW','key',820]].forEach((c,i)=>{const tw=wt(9,c[0],1+i*.6)-L.start,q=bo(cl(lt,tw-.1,tw+.35));if(q<=0)return;const [px,py]=P(c[3]);
+  const ic={cal:`<rect x=-40 y=-36 width=80 height=76 rx=10 fill="#e8eefc"/><rect x=-40 y=-36 width=80 height=22 rx=8 fill="#ff5d5d"/>${[0,1,2].map(r=>[0,1,2].map(k=>`<rect x=${-28+k*22} y=${-6+r*14} width=14 height=9 fill="#8fa0c8"/>`).join('')).join('')}`,
+   pig:`<ellipse rx=46 ry=34 fill="#f9a8d4"/><circle cx=40 cy=-6 r=14 fill="#f472b6"/><rect x=-30 y=24 width=12 height=18 fill="#f472b6"/><rect x=14 y=24 width=12 height=18 fill="#f472b6"/><rect x=-10 y=-36 width=26 height=6 rx=3 fill="#0b1020"/><path d="M-24,-30 L-14,-46 L-6,-30 Z" fill="#f472b6"/>`,
+   key:`<circle cx=-22 r=26 fill=none stroke="#ffd166" stroke-width=12 /><path d="M4,0 L50,0 M36,0 L36,18 M48,0 L48,14" stroke="#ffd166" stroke-width=12 stroke-linecap=round />`}[c[2]];
+  h+=`<g transform="translate(${px},${py-230}) scale(${q})"><rect x=-90 y=-80 width=180 height=200 rx=24 fill="#0f1830" stroke="#35e08a" stroke-width=4 filter="url(#sh)"/><g transform="translate(0,-14)">${ic}</g>${T(0,90,c[1],32,'#e8eefc',{w:900})}<line x1=0 y1=120 x2=0 y2=${180} stroke="#35e08a" stroke-width=4 stroke-dasharray="6 8"/></g>`});
+ return h});
+// 10: compounding staircase
+mk(10,'rise',(lt,t)=>{
+ const L=MG.L(10),dur=L.end-L.start,tw=wt(10,'after',dur*.4)-L.start;
+ const v=Math.pow(1.02,10*ez(cl(lt,tw,dur)));
+ let h=header(lt,'2% A YEAR · 10 YEARS','+'+Math.round((v-1)*100)+'%',"#ff8a3d",{size:150});
+ const X0=130,bw=78,Y0=1120,sc=1800;
+ h+=`<line x1=${X0-20} y1=${Y0} x2=${X0+11*bw} y2=${Y0} stroke="#8fa0c8" stroke-width=4 />`;
+ for(let i=0;i<=10;i++){const q=ez(cl(lt,tw+i*.18-.6,tw+i*.18-.2));if(q<=0)continue;const val=Math.pow(1.02,i),hh=(val-.85)*sc*q*.9+60;
+  h+=`<rect x=${X0+i*bw+6} y=${Y0-hh} width=${bw-12} height=${hh} rx=10 fill="${i==10?'#ff8a3d':'#ffd166'}" opacity="${.55+.45*i/10}"/>`;
+  if(i%5==0)h+=T(X0+i*bw+bw/2,Y0+44,'Y'+i,28,'#8fa0c8',{w:900})+T(X0+i*bw+bw/2,Y0-hh-18,'$'+Math.round(100*val),28,'#fff',{w:900,op:q})}
+ // basket icon riding the top
+ const k=Math.min(10,Math.max(0,(lt-tw+.6)/.18)),val2=Math.pow(1.02,Math.floor(k));
+ return h});
+// 11: dollar loses a third
+mk(11,'zoom',(lt,t)=>{
+ const L=MG.L(11),dur=L.end-L.start;
+ let h=header(lt,'AFTER 20 YEARS','⅓ LESS',"#ff5d5d",{size:150});
+ const b=bo(cl(lt,0,.5)),cut=cl(lt,.7,1.6),sl=ei(cl(lt,1.7,2.6));
+ h+=`<g transform="translate(540,780) scale(${1.9*b})"><clipPath id=c11a><rect x=-210 y=-100 width=${276} height=200 /></clipPath><clipPath id=c11b><rect x=66 y=-100 width=150 height=200 /></clipPath>`;
+ h+=`<g clip-path="url(#c11a)">${billSVG('1')}</g><g clip-path="url(#c11b)" transform="translate(${sl*120},${sl*160}) rotate(${sl*18},66,0)" opacity="${1-sl*.75}"><g>${billSVG('1')}</g><rect x=-200 y=-90 width=400 height=180 fill="#ff5d5d" opacity="${.35*sl}"/></g>`;
+ h+=`<line x1=66 y1=${-110} x2=66 y2=${-110+220*cut} stroke="#fff" stroke-width=4 stroke-dasharray="10 8"/>`;
+ if(cut>0&&cut<1)h+=`<g transform="translate(66,${-110+220*cut}) rotate(90)">${T(0,10,'✂',40,'#fff')}</g>`;
+ h+='</g>';
+ const lq=ez(cl(lt,2.0,2.5));h+=`<g opacity="${lq}">${T(400,1080,'BUYS ~67¢ OF',40,'#e8eefc',{w:900})}${T(400,1130,'TODAY\'S GOODS',40,'#e8eefc',{w:900})}</g>`;
+ return h});
+// 12: cash in a drawer (3D)
+mk(12,'push',(lt,t)=>{
+ const L=MG.L(12),dur=L.end-L.start,v=lerp(100,67,ei(cl(lt,1.2,dur-.2)));
+ let h=header(lt,'CASH IN A DRAWER',null,'#fff');
+ h+=`<g transform="translate(540,450)"><rect x=-380 y=-60 width=760 height=150 rx=24 fill="#0f1830" stroke="#2c3a60" stroke-width=3 />${T(-350,-8,'PRINTED',30,'#aab8de',{a:'start',w:800})}${T(-350,58,'$100',56,'#35e08a',{a:'start',f:FB})}${T(350,-8,'BUYS LIKE',30,'#aab8de',{a:'end',w:800})}${T(350,58,'$'+Math.round(v),56,'#ff5d5d',{a:'end',f:FB})}</g>`;
+ const o=ei(cl(lt,.2,1.1)),d=o*300,g=cl(lt,1.2,dur-.2);
+ // cabinet (seen slightly from above)
+ h+=`<g filter="url(#sh)"><path d="M150,640 L930,640 L880,590 L200,590 Z" fill="#a8784e"/><rect x=150 y=640 width=780 height=520 rx=10 fill="url(#wood)"/><rect x=190 y=900 width=700 height=220 rx=8 fill="#7a5232" stroke="#5a3a22" stroke-width=6 /><rect x=480 y=995 width=120 height=24 rx=12 fill="url(#chrome)"/><rect x=190 y=680 width=700 height=190 rx=8 fill="#24160c"/></g>`;
+ // drawer tray slides toward camera (down + wider)
+ const k=d/300,fx0=lerp(200,140,k),fx1=lerp(880,940,k),fy=680+d*.9;
+ h+=`<path d="M200,690 L880,690 L${fx1},${fy} L${fx0},${fy} Z" fill="#3a2414"/><path d="M200,690 L${fx0},${fy} L${fx0-14},${fy} L186,690 Z" fill="#5a3a22"/><path d="M880,690 L${fx1},${fy} L${fx1+14},${fy} L894,690 Z" fill="#5a3a22"/>`;
+ // bill lying in the tray
+ if(k>.2){const bx=540,by=690+d*.5;h+=`<g transform="translate(${bx},${by}) scale(${lerp(.9,1.2,k)},${lerp(.45,.62,k)})" opacity="${cl(k,.2,.5)}" style="filter:grayscale(${g*.9}) brightness(${1-g*.3})"><g transform="rotate(-4)">${billSVG('100')}</g></g>`}
+ h+=`<rect x=${fx0-14} y=${fy} width=${fx1-fx0+28} height=170 rx=10 fill="url(#wood)" stroke="#5a3a22" stroke-width=6 /><rect x=${540-70} y=${fy+72} width=140 height=26 rx=13 fill="url(#chrome)"/>`;
+ return h});
+// 13: question
+mk(13,'zoom',(lt,t)=>{
+ let h=header(lt,'YOUR TURN','THEN vs NOW?',"#ffd166",{size:110});
+ const c=cart((lt*40)%360);const cq=bo(cl(lt,.1,.6));
+ h+=`<g transform="translate(540,1000) scale(${.85*cq})">${c.back}`;
+ INTRO_ITEMS.forEach((it,i)=>h+=`<g transform="translate(${it[1]},${it[2]+120})">${ITEMS[it[0]]}</g>`);
+ h+=c.front+'</g>';
+ const tk=wt(13,'kid',1.5)-st(13),tn=wt(13,'now',3)-st(13);
+ h+=`<g transform="translate(300,560) scale(${bo(cl(lt,tk-.2,tk+.2))})"><rect x=-150 y=-60 width=300 height=120 rx=20 fill="#fff8e6" stroke="#0b1020" stroke-width=4 />${T(0,-10,'THEN',30,'#5d6678',{w:900})}${T(0,44,'$ ?',52,'#0b1020',{f:FB})}</g>`;
+ h+=`<g transform="translate(780,560) scale(${bo(cl(lt,tn-.2,tn+.2))})"><rect x=-150 y=-60 width=300 height=120 rx=20 fill="#ff5d5d" stroke="#0b1020" stroke-width=4 />${T(0,-10,'NOW',30,'#2a0d0d',{w:900})}${T(0,44,'$ ?',52,'#0b1020',{f:FB})}</g>`;
+ const cb=bo(cl(lt,tn+.3,tn+.7));h+=`<g transform="translate(540,690) scale(${cb})"><path d="M-70,-36 Q-70,-60 -46,-60 L46,-60 Q70,-60 70,-36 L70,12 Q70,36 46,36 L-10,36 L-36,62 L-30,36 L-46,36 Q-70,36 -70,12 Z" fill="#60a5fa"/>${[-28,0,28].map(x=>`<circle cx=${x} cy=-12 r=8 fill="#0b1020"/>`).join('')}</g>`;
+ return h});
+
+const GLOW={2:'#ffd166',3:'#35e08a',4:'#ffd166',5:'#60a5fa',6:'#ff8a3d',7:'#35e08a',8:'#ffd166',9:'#35e08a',10:'#ff8a3d',11:'#ff5d5d',12:'#8b7cf6',13:'#ffd166'};
+MG.finish($('stage'),1080,1920,.07);
+function draw(t){
+ drawIntro(t);
+ const k=MG.cur(t),gc=GLOW[k]||'#ffd166';
+ $('glow').style.background=`radial-gradient(closest-side,${gc}30,${gc}0e 55%,transparent)`;$('glow').style.opacity=cl(t,st(2)-.6,st(2));
+ $('glow').style.transform=`translate(${Math.sin(t*.25)*60}px,${Math.cos(t*.2)*40-200}px)`;
+ for(const k of ORDER){const sc=SC[k];if(place(sc,t)){if(sc.pre)sc.pre(t-st(k));sc.svg.innerHTML=sc.render(t-st(k),t)}}
+ const e2=st(2);$('flash').style.opacity=.85*ez(cl(t,e2-.65,e2-.3))*(1-ez(cl(t,e2-.3,e2+.25)));
+ let h='';const L1=st(1);if(t<L1){const q=ez(cl(t,.15,.6))*(1-ez(cl(t,L1-.6,L1-.2)));h=`<div style="position:absolute;left:0;right:0;top:140px;text-align:center;font:900 90px/1.08 'Arial Black',Arial,Helvetica,sans-serif;color:#fff;opacity:${q};transform:translateY(${(1-q)*-30}px);text-shadow:${MG.outline(4)},0 10px 40px #000">WHY YOUR DOLLAR<br><span style="color:#ffd166">BUYS LESS</span><br><span style="font-size:64px">EVERY YEAR</span></div>`}
+ $('hook').innerHTML=h;
+ $('cap').innerHTML=MG.captions(t,{y:1380,size:64,maxWords:4});
+ MG.grainTick(t);
+}
+window.setTimeline=tl=>{MG.TL=tl};
+window.sfxEvents=()=>{
+ const e=[{k:'whoosh',t:.1,d:1.8},{k:'thud',t:2.0}];
+ INTRO_ITEMS.forEach((_,i)=>e.push({k:'pop',t:1.45+i*.16}));e.push({k:'swish',t:2.2,d:.4,pan:.4});e.push({k:'pop',t:2.05});
+ const L1=st(1);e.push({k:'impact',t:L1});INTRO_ITEMS.forEach((_,i)=>e.push({k:'tick',t:L1+.3+(i*.12+.17)*2.3,f:2200+i*120}));e.push({k:'type',t:L1+.1,n:12});e.push({k:'riser',t:st(2)-1.6,d:1.4});
+ e.push({k:'impact',t:st(2)-.3});e.push({k:'shimmer',t:st(2)});
+ const kinds={push:'swish',zoom:'whoosh',rise:'whoosh',turn:'swish',flash:'whoosh'};
+ for(const k of ORDER.slice(1)){const s=st(k)-.35;e.push(kinds[SC[k].kind]=='swish'?{k:'swish',t:s,d:.5,pan:.3}:{k:'whoosh',t:s-.1,d:.7})}
+ for(let i=0;i<6;i++)e.push({k:'tick',t:st(2)+.4+i*.5,f:1800+i*100});
+ ['rent','food','fuel','haircuts'].forEach((w,i)=>e.push({k:'pop',t:wt(3,w,1+i*.6)}));
+ [0,1,2].forEach(i=>e.push({k:'swish',t:st(4)+.6+i*.45,d:.35,pan:(i-1)*.6}));e.push({k:'pop',t:st(4)+.1});
+ for(let i=0;i<9;i++){const L=MG.L(5),d=L.end-L.start;e.push({k:'tick',t:L.start+.4+i*(d*.75/9),f:1500+i*80})}{const L=MG.L(5),d=L.end-L.start;e.push({k:'cash',t:L.start+d*.6+.25})}
+ ['energy','materials','wages'].forEach((w,i)=>e.push({k:'pop',t:wt(6,w,.6+i*.6)}));{const L=MG.L(6),d=L.end-L.start;e.push({k:'cash',t:L.start+d*.7+.25})}
+ {const L=MG.L(7),d=L.end-L.start;for(let i=0;i<8;i++)e.push({k:'tick',t:L.start+.5+i*d*.1,f:2600-i*120});e.push({k:'error',t:L.start+d*.85})}
+ e.push({k:'thud',t:st(8)+.2});e.push({k:'tick',t:st(8)+1.2,f:1600});e.push({k:'ding',t:st(8)+2.4});
+ ['plan','save','borrow'].forEach((w,i)=>e.push({k:'pop',t:wt(9,w,1+i*.6)}));
+ {const L=MG.L(10),tw=wt(10,'after',(L.end-L.start)*.4);for(let i=0;i<=10;i++)e.push({k:'tick',t:tw+i*.18-.5,f:1200+i*110})}
+ e.push({k:'swish',t:st(11)+.7,d:.8});e.push({k:'thud',t:st(11)+2.0});
+ e.push({k:'thud',t:st(12)+.3});e.push({k:'swish',t:st(12)+.4,d:.6});e.push({k:'error',t:st(12)+2.2});
+ e.push({k:'pop',t:wt(13,'kid',1.5)});e.push({k:'pop',t:wt(13,'now',3)});e.push({k:'ding',t:wt(13,'now',3)+.4});
+ return e};
+window.draw=draw;draw(0);
+</script>

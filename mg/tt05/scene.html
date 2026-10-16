@@ -1,0 +1,404 @@
+<!doctype html><meta charset=utf-8><style>
+html,body{margin:0;background:#03070c}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:radial-gradient(120% 75% at 50% 30%,#0f2a3a,#071521 52%,#03070c)}
+.abs{position:absolute}
+#intro{position:absolute;left:0;top:0;width:1080px;height:1920px;transform-origin:540px 800px}
+#c3{position:absolute;inset:0;perspective:1700px;perspective-origin:540px 700px}
+#rig{position:absolute;left:540px;top:1240px;width:0;height:0;transform-style:preserve-3d}
+.cub{position:absolute;transform-style:preserve-3d}
+.fc{position:absolute;box-sizing:border-box;backface-visibility:hidden}
+.dig{position:absolute;top:0;width:84px;height:150px;overflow:hidden;background:#06100a;border-radius:10px;box-shadow:inset 0 0 0 3px #0e2a1a}
+.dig div{position:absolute;left:0;width:84px;font:900 112px/150px 'Courier New',monospace;color:#7dffb0;text-align:center;text-shadow:0 0 18px #35e08a}
+#hook{position:absolute;left:0;top:0;width:1080px;height:1920px;pointer-events:none}
+#main{position:absolute;left:0;top:0}
+#fl{position:absolute;inset:0;background:radial-gradient(circle at 50% 42%,#fff,#ffe7b8 40%,#ff8a3d 85%);opacity:0;pointer-events:none;z-index:50}
+#cap{position:absolute;left:0;top:0;width:1080px;height:1920px;z-index:60;pointer-events:none}
+</style>
+<div id=stage>
+<svg id=bg class=abs width=1080 height=1920></svg>
+<div id=intro>
+ <svg id=ist class=abs width=1080 height=1920></svg>
+ <div id=c3><div id=rig></div></div>
+</div>
+<svg id=main width=1080 height=1920 viewBox="0 0 1080 1920"><defs>
+ <filter id=gl x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="12" result=b /><feMerge><feMergeNode in=b /><feMergeNode in=SourceGraphic /></feMerge></filter>
+ <filter id=sb x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="30"/></filter>
+ <filter id=ds x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="24" stdDeviation="22" flood-color="#000" flood-opacity=".7"/></filter>
+ <linearGradient id=oil x1=0 y1=0 x2=0 y2=1><stop offset=0 stop-color="#3a2a12"/><stop offset=1 stop-color="#120c05"/></linearGradient>
+ <linearGradient id=fuel x1=0 y1=0 x2=0 y2=1><stop offset=0 stop-color="#ffd166"/><stop offset=1 stop-color="#f08a20"/></linearGradient>
+ <linearGradient id=sky x1=0 y1=0 x2=0 y2=1><stop offset=0 stop-color="#ff8a3d" stop-opacity=".0"/><stop offset=1 stop-color="#ff8a3d" stop-opacity=".25"/></linearGradient>
+ <clipPath id=jug><path d="M-170,-250 L80,-250 L170,-160 L170,280 Q170,300 150,300 L-150,300 Q-170,300 -170,280 Z"/></clipPath>
+</defs><g id=scn></g></svg>
+<div id=hook></div>
+<div id=fl></div>
+<div id=cap></div>
+</div>
+<script src="../lib/core.js"></script>
+<script src="kit.js"></script>
+<script>
+const {cl,ez,ei,bo,lerp,$}=MG, S=K.S, W=K.W, T=K.t;
+const GOLD='#ffd166',GRN='#35e08a',RED='#ff5d5d',BLU='#60a5fa',ORA='#ff8a3d',TEA='#5eead4';
+
+// ---------- Hintergrund ----------
+function drawBg(t){
+ const cx=K.camX(t);let h='';
+ [[180,380,420,'#0ea5a5'],[920,760,380,'#ff8a3d'],[540,1300,520,'#2563eb']].forEach((b,i)=>{
+  const x=b[0]+Math.sin(t*.25+i*2)*60-((cx*140)%1400),y=b[1]+Math.cos(t*.2+i)*40;
+  for(const o of [0,1400])h+=`<circle cx="${x+o}" cy="${y}" r="${b[2]}" fill="${b[3]}" opacity=".13" filter="url(#sbb)"/>`});
+ const hz=1230;let g='';
+ for(let k=0;k<12;k++){const z=((k+(t*.15)%1)/12),y=hz+Math.pow(z,2.2)*700;g+=`<line x1=0 x2=1080 y1="${y}" y2="${y}" stroke="#5eead4" stroke-opacity="${(.04+.14*z).toFixed(3)}" stroke-width="2"/>`}
+ for(let k=-12;k<=12;k++){const x=540+(k-((cx*3)%1))*90;g+=`<line x1="${540+(x-540)*.12}" y1="${hz}" x2="${540+(x-540)*2.4}" y2="1920" stroke="#5eead4" stroke-opacity=".1" stroke-width="2"/>`}
+ $('bg').innerHTML=`<defs><filter id=sbb x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="70"/></filter></defs>${h}<g>${g}</g>`;
+}
+
+// ---------- Intro: 3D-Zapfsaeule unter dem Tankstellendach ----------
+function cuboid(id,w,h,d,x,y,z,col){ // Mittelpunkt unten-vorne-mitte bei (x,y,z)
+ const c=document.createElement('div');c.className='cub';c.id=id;c.style.transform=`translate3d(${x}px,${y}px,${z}px)`;
+ const f=(n,W,H,tr,bg)=>`<div class=fc id="${id}_${n}" style="width:${W}px;height:${H}px;left:${-W/2}px;top:${-H/2}px;transform:${tr};background:${bg}"></div>`;
+ c.innerHTML=f('fr',w,h,`translate3d(0,${-h/2}px,${d/2}px)`,col[0])+f('rt',d,h,`translate3d(${w/2}px,${-h/2}px,0) rotateY(90deg)`,col[1])+f('lt',d,h,`translate3d(${-w/2}px,${-h/2}px,0) rotateY(-90deg)`,col[1])+f('tp',w,d,`translate3d(0,${-h}px,0) rotateX(90deg)`,col[2]);
+ return c;
+}
+const rig=$('rig');
+rig.appendChild(cuboid('base',520,60,330,0,0,0,['#1d2a36','#121b24','#2b3a48']));
+rig.appendChild(cuboid('pump',440,900,260,0,-60,0,['linear-gradient(180deg,#e9eef3,#c5cfd8 60%,#9aa7b3)','linear-gradient(180deg,#b6c2cc,#7f8c98)','#f4f7fa']));
+rig.appendChild(cuboid('hose',60,420,60,265,-260,40,['linear-gradient(90deg,#111,#2a2a2a,#111)','#0c0c0c','#222']));
+rig.appendChild(cuboid('noz',90,200,70,265,-640,60,['linear-gradient(180deg,#ff8a3d,#c2410c)','#9a3412','#ffb27a']));
+// Front der Saeule: Display + Tasten + Streifen
+(function(){const fr=$('pump_fr');fr.style.borderRadius='18px';fr.innerHTML=`
+ <div style="position:absolute;left:0;right:0;top:0;height:120px;background:linear-gradient(90deg,#ff8a3d,#ffb347);border-radius:18px 18px 0 0;font:900 64px/120px 'Arial Black',Arial;color:#3a1600;text-align:center;letter-spacing:6px">FUEL</div>
+ <div style="position:absolute;left:30px;right:30px;top:160px;height:330px;border-radius:22px;background:#0b1410;box-shadow:inset 0 0 0 6px #23302a,0 0 40px #35e08a44"></div>
+ <div style="position:absolute;left:56px;top:182px;font:800 30px Arial;color:#7dffb0;letter-spacing:4px">PRICE / GALLON</div>
+ <div id=digs style="position:absolute;left:56px;top:240px;width:330px;height:150px"></div>
+ <div style="position:absolute;left:56px;top:410px;font:800 30px Arial;color:#7dffb0aa;letter-spacing:3px">REGULAR</div>
+ ${[0,1,2].map(i=>`<div style="position:absolute;left:${60+i*112}px;top:540px;width:92px;height:92px;border-radius:16px;background:${['#35e08a','#ffd166','#ff5d5d'][i]};box-shadow:inset 0 -8px 0 #0003,0 6px 12px #0005"></div>`).join('')}
+ <div style="position:absolute;left:60px;right:60px;top:690px;height:120px;border-radius:14px;background:#2b3a48;box-shadow:inset 0 4px 10px #0008"></div>`;
+ const d=$('digs');['$','3','.','4','9'];[[0,'$'],[1,0],[2,'.'],[3,0],[4,0]].forEach(([i,v],k)=>{const x=[0,60,148,184,272][k];
+  if(typeof v=='string'){d.innerHTML+=`<div style="position:absolute;left:${x}px;top:0;width:${v=='$'?60:36}px;font:900 112px/150px 'Courier New',monospace;color:#7dffb0;text-shadow:0 0 18px #35e08a;text-align:center">${v}</div>`}
+  else{let col='';for(let n=0;n<11;n++)col+=`<div style="top:${n*150}px">${n%10}</div>`;d.innerHTML+=`<div class=dig style="left:${x}px"><div id=dc${k} style="position:absolute;top:0;width:84px">${col}</div></div>`}});
+})();
+function setPump(c){ // c in Cent
+ const d=[Math.floor(c/100),Math.floor(c/10)%10,c%10];
+ const f=c-Math.floor(c),k=[1,3,4];
+ const v2=c%10,v1=Math.floor(c/10)%10+(v2>9?0:0),v0=Math.floor(c/100);
+ const roll1=(Math.floor(c)%10==9)?f:0;
+ $('dc1').style.transform=`translateY(${-(v0%10)*150}px)`;
+ $('dc3').style.transform=`translateY(${-(Math.floor(c/10)%10+roll1)*150}px)`;
+ $('dc4').style.transform=`translateY(${-(c%10)*150}px)`;
+}
+function introBg(t,dim){
+ let h='';
+ // Dach mit Leuchten
+ h+=`<path d="M-40,0 L1120,0 L1120,100 L-40,100 Z" fill="#0d1820"/><rect x=-40 y=96 width=1160 height=12 fill="#ff8a3d"/>`;
+ for(let i=0;i<5;i++){const x=110+i*215;h+=`<rect x="${x-70}" y=108 width=140 height=14 rx=6 fill="#fffbe8" filter="url(#gl)"/><path d="M${x-70},122 L${x+70},274 L${x+260},1500 L${x-260},1500 Z" fill="#fff6d8" opacity="${.07*dim}"/>`}
+ // Strasse/Boden
+ h+=`<path d="M0,1250 L1080,1250 L1080,1920 L0,1920 Z" fill="#0a1218"/><path d="M0,1250 L1080,1250" stroke="#ff8a3d55" stroke-width=3 />`;
+ for(let i=0;i<6;i++){const y=1290+i*i*28;h+=`<rect x="${540-6-i*3}" y="${y}" width="${12+i*6}" height="${20+i*12}" fill="#fff" opacity=".15"/>`}
+ // Oel-Ticker (Bildschirm links oben, faellt)
+ return h;
+}
+function oilTicker(t,o){
+ if(o<=0)return '';
+ const p=ez(cl(t,1.6,3.6)),N=24;let pts=[];
+ for(let i=0;i<=N;i++){const f=i/N;if(f>p)break;const v=.25+.5*f-.1*Math.sin(f*9);const vv=f<.45?v:v-1.6*(f-.45);pts.push(`${(30+f*360).toFixed(1)},${(150-vv*90).toFixed(1)}`)}
+ return K.g(`translate(40,640) scale(.85)`,`<rect x=0 y=0 width=420 height=240 rx=22 fill="#0b1620e6" stroke="#2b4456" stroke-width=4 />${T(30,52,'CRUDE OIL',34,'#9fb7c9',{a:'start',ls:3})}${p>.55?T(390,54,'▼',40,RED,{a:'end'}):''}<polyline points="${pts.join(' ')}" fill=none stroke="${RED}" stroke-width=8 stroke-linejoin=round />`,o);
+}
+function drawIntro(t){
+ const v=K.vis(t,0),el=$('intro');
+ if(v.q>=1){el.style.display='none';$('hook').innerHTML='';return}
+ el.style.display='block';el.style.opacity=1-v.q;el.style.transform=`scale(${1+1.3*v.q})`;
+ const t1=S(1),orb=ei(cl(t,0,t1));
+ const tw=W(0,'week',.85);
+ $('ist').innerHTML=introBg(t,1)+oilTicker(t,ez(cl(t,1.4,1.9)));
+ // Kamera-Orbit + Dolly
+ const ry=lerp(-42,-16,orb),rx=lerp(-14,-6,orb),sc=lerp(.66,.82,orb),y0=0;
+ rig.style.transform=`translate3d(${lerp(150,110,orb)}px,${y0}px,0) scale(${sc}) rotateX(${rx}deg) rotateY(${ry}deg)`;
+ // Preis: schiesst zuerst hoch (Rakete), bleibt dann oben
+ const up=ez(cl(t,.4,1.4));let c=lerp(299,349,up);
+ const tick=cl(t,tw-.4,tw+.2);c=Math.min(349,c);
+ setPump(c);
+ $('digs').style.filter=`drop-shadow(0 0 ${8+20*Math.sin(Math.PI*cl(t,.4,1.5))}px #35e08a)`;
+ // Hook
+ let hk='';const q0=ez(cl(t,.2,.7)),qb=ez(cl(t,1.9,2.3)),qc=ez(cl(t,t1-.1,t1+.3));
+ const box=(o,dy,html)=>o>0.01?`<div style="position:absolute;left:0;right:0;top:${150+dy}px;text-align:center;font:900 92px/1.05 'Arial Black',Arial,Helvetica,sans-serif;color:#fff;opacity:${o};text-shadow:0 8px 34px #000,0 0 4px #000">${html}</div>`:'';
+ hk+=box(q0*(1-qb)*(1-qc),(1-q0)*-30,`GAS PRICES<br><span style="color:${RED};font-size:130px">ROCKET ▲</span>`);
+ hk+=box(qb*(1-qc),(1-qb)*30,`<span style="font-size:84px">OIL FELL.<br>WHY IS GAS<br><span style="color:${GOLD}">STILL HIGH?</span></span>`);
+ hk+=box(qc,(1-qc)*30,`<span style="font-size:80px">THERE'S A <span style="color:${GOLD}">NAME</span><br>FOR THIS</span>`);
+ $('hook').innerHTML=hk;$('hook').style.opacity=1-v.q;
+}
+
+// ---------- Icons ----------
+const IC={
+ rocket:c=>`<g transform="rotate(45)"><path d="M0,-90 C34,-60 38,-10 30,40 L-30,40 C-38,-10 -34,-60 0,-90 Z" fill="${c}"/><circle cy=-30 r=16 fill="#0b1620"/><path d="M-30,10 L-56,56 L-26,44 Z M30,10 L56,56 L26,44 Z" fill="${RED}"/><path d="M-18,44 L0,${84} L18,44 Z" fill="${GOLD}"/></g>`,
+ feather:c=>`<g transform="rotate(-30)"><path d="M0,-100 C60,-60 50,40 0,90 C-50,40 -60,-60 0,-100 Z" fill="${c}"/><path d="M0,-90 L0,120" stroke="#0b1620" stroke-width=6 />${[-60,-30,0,30,60].map(y=>`<path d="M0,${y} L28,${y-24} M0,${y} L-28,${y-24}" stroke="#0b1620" stroke-width=3 opacity=".5"/>`).join('')}</g>`,
+ barrel:c=>`<rect x=-70 y=-95 width=140 height=190 rx=26 fill="${c}"/>${[-55,0,55].map(y=>`<rect x=-74 y="${y-7}" width=148 height=14 rx=7 fill="#0b1620" opacity=".45"/>`).join('')}<ellipse cx=0 cy=-92 rx=60 ry=12 fill="#0b1620" opacity=".35"/>`,
+ pump:c=>`<rect x=-55 y=-90 width=110 height=180 rx=16 fill="${c}"/><rect x=-38 y=-70 width=76 height=50 rx=8 fill="#0b1620"/><path d="M55,-50 L80,-50 Q92,-50 92,-38 L92,40 Q92,58 76,58" stroke="${c}" stroke-width=12 fill=none /><rect x=-75 y=88 width=150 height=16 rx=6 fill="${c}"/>`,
+ car:c=>`<path d="M-90,10 L-70,-34 Q-62,-48 -46,-48 L46,-48 Q62,-48 70,-34 L90,10 L90,40 Q90,48 82,48 L-82,48 Q-90,48 -90,40 Z" fill="${c}"/><path d="M-58,-6 L-48,-34 L48,-34 L58,-6 Z" fill="#0b1620" opacity=".55"/><circle cx=-52 cy=48 r=20 fill="#0b1620"/><circle cx=52 cy=48 r=20 fill="#0b1620"/><circle cx=-52 cy=48 r=8 fill="#888"/><circle cx=52 cy=48 r=8 fill="#888"/>`,
+ phone:c=>`<rect x=-90 y=-170 width=180 height=340 rx=26 fill="#0b1620" stroke="${c}" stroke-width=8 />`,
+ person:c=>`<circle cy=-58 r=34 fill="${c}"/><path d="M-64,70 C-64,0 64,0 64,70 Z" fill="${c}"/>`,
+ snail:c=>`<circle cx=10 cy=-20 r=42 fill="none" stroke="${c}" stroke-width=12 /><path d="M10,-20 m-14,0 a14,14 0 1,0 28,0" stroke="${c}" stroke-width=8 fill=none /><path d="M-70,30 L70,30 Q80,30 76,20 L54,20" stroke="${c}" stroke-width=12 fill=none stroke-linecap=round /><path d="M-62,30 L-80,-14 M-70,30 L-96,-4" stroke="${c}" stroke-width=6 stroke-linecap=round />`,
+};
+const icon=(k,x,y,s,c,o=1)=>K.at(x,y,s,IC[k](c),o);
+const sign=(x,y,price,col,lbl,o={})=>K.at(x,y,o.s||1,`<rect x=-14 y=40 width=28 height=${o.pole||220} fill="#33475a"/><rect x=-150 y=-110 width=300 height=170 rx=22 fill="#0b1620" stroke="${col}" stroke-width=7 filter="url(#ds)"/>${T(0,-62,lbl,30,col,{ls:3})}${T(0,30,price,96,'#fff')}`,o.o==null?1:o.o);
+
+// =====================================================================
+// Szene 1 (Zeilen 1–2): Rakete & Feder – Preiskurve
+function rfScene(t){
+ const s1=S(1),s2=S(2);let h='';
+ const tp=bo(cl(t,s1+.1,s1+.7));
+ const lift=ei(cl(t,s2-.3,s2+.3));
+ h+=K.at(540,lerp(660,300,lift),tp*lerp(1,.85,lift),T(0,0,'ROCKETS',120,RED)+T(0,120,'& FEATHERS',120,'#e6f4ff'));
+ if(lift<1){h+=icon('rocket',250,lerp(1000,1100,lift),bo(cl(t,s1+.4,s1+.9))*1.3,'#e6f4ff',1-lift);h+=icon('feather',830,lerp(1000,1100,lift)+Math.sin(t*2)*12,bo(cl(t,s1+.6,s1+1.1))*1.2,'#e6f4ff',1-lift)}
+ // Kurve
+ const X0=140,X1=940,Y0=1150,Y1=520;
+ const ap=ez(cl(t,s2-.1,s2+.4));
+ if(ap>0){h+=`<g opacity="${ap}"><line x1="${X0}" y1="${Y0}" x2="${X1}" y2="${Y0}" stroke="#ffffff55" stroke-width=5 /><line x1="${X0}" y1="${Y0}" x2="${X0}" y2="${Y1-40}" stroke="#ffffff55" stroke-width=5 />${T(X0+10,Y1-60,'PUMP PRICE',32,'#9fb7c9',{a:'start',ls:3})}${T(X1,Y0+56,'WEEKS',30,'#9fb7c9',{a:'end',ls:3})}</g>`;
+  const e=MG.L(2).end,mid=W(2,'drift',.5);
+  const pu=ez(cl(t,s2+.2,mid-.2)),pd=cl(t,mid-.1,e+.6);
+  const xu=X0+40+120*pu,yu=Y0-80-(Y0-Y1-100)*pu;let pts=`${X0+40},${Y0-80} `;
+  for(let i=1;i<=20;i++){const f=i/20;if(f>pu)break;pts+=`${X0+40+120*f},${Y0-80-(Y0-Y1-100)*ez(f)} `}
+  let xd=xu,yd=yu;
+  if(pd>0){for(let i=1;i<=40;i++){const f=i/40;if(f>pd)break;xd=X0+160+600*f;yd=Y1+20+(Y0-Y1-100)*(1-Math.exp(-2.4*f))/(1-Math.exp(-2.4))+Math.sin(f*30)*6*(1-f);pts+=`${xd.toFixed(1)},${yd.toFixed(1)} `}}
+  h+=`<polyline points="${pts}" fill=none stroke="${GOLD}" stroke-width=10 stroke-linejoin=round stroke-linecap=round filter="url(#gl)"/>`;
+  if(pd<=0&&pu>0)h+=K.g(`translate(${xu},${yu-20}) rotate(-25) scale(.8)`,IC.rocket('#fff'));
+  if(pd>0)h+=K.g(`translate(${xd+20},${yd-80}) rotate(${Math.sin(t*3)*14}) scale(.6)`,IC.feather('#fff'));
+  if(pu>.9)h+=T(520,700,'▲ FAST',52,RED,{a:'start',o:ez(cl(t,mid-.3,mid))});
+  if(pd>.4)h+=T(780,880,'▼ SLOW',52,TEA,{o:ez(cl(pd,.4,.6))})}
+ return h;
+}
+
+// =====================================================================
+// Szene 2 (Zeile 3): Gallone – Rohoel ist etwa die Haelfte
+function jugScene(t){
+ const s=S(3);let h='';
+ const ap=bo(cl(t,s-.1,s+.5));
+ const segs=[['CRUDE OIL',.51,'#2a1d0d',GOLD],['REFINING',.14,'#3b82f6',BLU],['STATIONS & SHIPPING',.18,'#14b8a6',TEA],['TAXES',.17,'#a855f7','#c4b5fd']];
+ let inner='',y=300;const fillP=cl(t,s+.3,s+1.5);
+ segs.forEach((g,i)=>{const hh=550*g[1]*ez(cl(fillP,i*.22,i*.22+.3)),yy=y-hh;inner+=`<rect x=-170 y="${yy}" width=340 height="${hh}" fill="${g[2]}"/>${i==0&&hh>40?`<rect x=-170 y="${yy}" width=340 height=8 fill="#ffd16655"/>`:''}`;y=yy});
+ const bub=[...Array(10)].map((_,k)=>{const yy=300-((t*90+k*57)%270);return `<circle cx="${-140+k*30}" cy="${yy}" r="${4+(k%3)*2}" fill="${GOLD}" opacity=".25"/>`}).join('');
+ h+=K.at(380,880,ap*1.12,`<g filter="url(#ds)"><path d="M-170,-250 L80,-250 L170,-160 L170,280 Q170,300 150,300 L-150,300 Q-170,300 -170,280 Z" fill="#0e1c26"/><g clip-path="url(#jug)">${inner}${bub}</g><path d="M-170,-250 L80,-250 L170,-160 L170,280 Q170,300 150,300 L-150,300 Q-170,300 -170,280 Z" fill=none stroke="#dbe7f0" stroke-width=10 /><rect x=-130 y=-320 width=120 height=72 rx=12 fill="#dbe7f0"/><path d="M40,-250 L120,-320" stroke="#dbe7f0" stroke-width=26 stroke-linecap=round /></g>${T(0,360,'1 GALLON',40,'#dbe7f0',{ls:3})}`);
+ // Labels rechts
+ let ly=1120-30;segs.forEach((g,i)=>{const p=ez(cl(fillP,i*.22+.15,i*.22+.45));const yy=[1050,880,760,640][i];
+  h+=K.g(`translate(${620+(1-p)*40},${yy})`,`<rect x=0 y=-16 width=26 height=26 rx=6 fill="${g[3]}"/>${T(40,10,g[0],i?34:44,g[3],{a:'start'})}`,p*(i?.75:1))});
+ const np=cl(t,W(3,'half',.5)-.2,W(3,'half',.5)+.4);
+ if(np>0){h+=K.at(560,300,bo(np),T(0,0,'~½',200,GOLD,{f:'url(#gl)'})+T(0,70,'IS CRUDE OIL',44,'#fff',{ls:2}));
+  h+=`<path d="M770,1040 L600,1000" stroke="${GOLD}" stroke-width=0 />`}
+ return h;
+}
+
+// =====================================================================
+// Szene 3 (Zeile 4): +$10 je Barrel -> +25 Cent je Gallone
+function barrelScene(t){
+ const s=S(4);let h='';
+ const bp=bo(cl(t,s-.1,s+.5));
+ h+=icon('barrel',270,800,1.7*bp,'#2b3f52');h+=K.at(270,800,bp,T(0,20,'OIL',56,'#cfe3f2'));
+ const tg=bo(cl(t,s+.3,s+.8));h+=K.at(270,560,tg,`<rect x=-140 y=-60 width=280 height=100 rx=20 fill="${RED}"/>${T(0,12,'+$10',72,'#fff')}`);
+ h+=T(270,1040,'PER BARREL',38,'#9fb7c9',{o:ez(cl(t,s+.4,s+.8)),ls:2});
+ // Pfeil
+ const ar=ez(cl(t,s+.8,s+1.5));
+ h+=`<path d="M410,800 L${410+260*ar},800" stroke="${GOLD}" stroke-width=14 stroke-linecap=round />${ar>.9?`<path d="M650,775 L690,800 L650,825 Z" fill="${GOLD}"/>`:''}`;
+ for(let k=0;k<3;k++){const q=((t-s-.8)*1.4+k/3)%1;if(t>s+1.5)h+=`<circle cx="${430+240*q}" cy=800 r=9 fill="#fff" opacity="${Math.sin(Math.PI*q)}"/>`}
+ const pp=bo(cl(t,s+1.2,s+1.7));h+=icon('pump',850,800,1.6*pp,'#dbe7f0');
+ const np=cl(t,W(4,'twenty',.6)-.2,W(4,'twenty',.6)+.4);
+ if(np>0)h+=K.at(800,500,bo(np),`<rect x=-170 y=-90 width=340 height=150 rx=26 fill="${GOLD}" filter="url(#gl)"/>${T(0,30,'+25¢',110,'#2a1a00')}`);
+ h+=T(850,1040,'PER GALLON',38,'#9fb7c9',{o:ez(cl(np,.4,1)),ls:2});
+ h+=K.chip(540,300,'ROUGH RULE OF THUMB',40,'#9fb7c9');
+ return h;
+}
+
+// =====================================================================
+// Margen-Diagramm (Zeilen 5–6): Kosten-Saeule + Preis-Saeule, Marge = Abstand
+const MX=280,MW=520;
+function marginPlot(t,cost,price,label,col){
+ const Y=1180,k=4.2;let h='';
+ const yc=Y-cost*k,yp=Y-price*k;
+ h+=`<rect x="${MX}" y="${yc}" width="${MW}" height="${Y-yc}" fill="#1e3a52"/><rect x="${MX}" y="${yc}" width="${MW}" height=8 fill="${BLU}"/>`;
+ h+=T(MX+MW/2,Y-40,'COST',44,'#9fc7e8',{ls:4});
+ const gap=yc-yp;
+ if(gap>2){h+=`<rect x="${MX}" y="${yp}" width="${MW}" height="${gap}" fill="${col}" opacity=".85"/>`;if(gap>60)h+=T(MX+MW/2,yp+gap/2+16,'MARGIN',44,'#06140c',{ls:4})}
+ h+=`<line x1="${MX-40}" y1="${yp}" x2="${MX+MW+40}" y2="${yp}" stroke="#fff" stroke-width=8 stroke-linecap=round />`;
+ h+=K.g(`translate(${MX+MW+60},${yp})`,`<rect x=0 y=-34 width=160 height=68 rx=14 fill="#fff"/>${T(80,16,label,40,'#0b1620')}`);
+ return h;
+}
+function upScene(t){
+ const s=S(5),e=MG.L(5).end;let h='';
+ const cr=ei(cl(t,s+.2,s+1.4)),pr=ei(cl(t,W(5,'raise',.3),W(5,'raise',.3)+.6));
+ const cost=lerp(100,140,cr),price=Math.max(cost,lerp(120,160,pr));
+ h+=marginPlot(t,cost,price,'PRICE','#35e08a');
+ if(cr>0&&pr<1&&price-cost<6){const p=.5+.5*Math.sin(t*14);h+=K.at(540,760,1,`<rect x=-220 y=-60 width=440 height=100 rx=20 fill="${RED}" opacity="${.7+.3*p}"/>${T(0,14,'MARGIN GONE',56,'#fff')}`)}
+ if(pr>0)h+=K.at(900,1180-160*4.2-90,bo(cl(t,W(5,'raise',.3),W(5,'raise',.3)+.4)),T(0,0,'▲ FAST',60,RED));
+ h+=K.chip(540,300,'OIL GOES UP',44,RED);
+ h+=K.at(540,420,ez(cl(t,s,s+.5)),icon('rocket',0,0,.6,RED).replace('<g','<g'));
+ return h;
+}
+function downScene(t){
+ const s=S(6),e=MG.L(6).end;let h='';
+ const cr=ei(cl(t,s+.1,s+1.0)),pr=ez(cl(t,s+.6,e+2.4));
+ const cost=lerp(140,100,cr),price=lerp(160,148,pr);
+ h+=marginPlot(t,cost,price,'PRICE','#35e08a');
+ h+=K.chip(540,300,'OIL GOES DOWN',44,TEA);
+ const sp=bo(cl(t,s+.6,s+1.1));h+=icon('snail',170,560,1.0*sp,TEA);
+ h+=K.at(900,1180-160*4.2-90+(1-sp)*20,sp,T(0,0,'▼ SLOW',54,TEA));
+ const fp=ez(cl(t,s+1,s+1.6));if(fp>0)h+=`<path d="M${MX-60},${1180-148*4.2} L${MX-60},${1180-100*4.2}" stroke="${GOLD}" stroke-width=0 />`;
+ return h;
+}
+
+// =====================================================================
+// Szene 6 (Zeile 7): Doppelt so langsam
+function twiceScene(t){
+ const s=S(7);let h='';
+ const r1=ez(cl(t,s+.1,s+.9)),r2=ez(cl(t,s+.5,s+2.1));
+ const row=(y,lbl,col,p,len,wk)=>`${T(140,y-70,lbl,44,col,{a:'start'})}<rect x=140 y="${y-26}" width=800 height=52 rx=26 fill="#ffffff12"/><rect x=140 y="${y-26}" width="${len*p}" height=52 rx=26 fill="${col}"/>${p>.95?T(140+len+20,y+16,wk,40,'#fff',{a:'start'}):''}`;
+ h+=row(720,'PRICE GOES UP ▲',RED,r1,300,'');
+ h+=row(960,'PRICE COMES DOWN ▼',TEA,r2,600,'');
+ h+=icon('rocket',140+300*r1,640,.45,'#fff',r1>0&&r1<1?1:0);
+ const np=cl(t,W(7,'twice',.5)-.2,W(7,'twice',.5)+.4);
+ if(np>0)h+=K.at(540,1160,bo(np),T(0,0,'~2×',170,GOLD,{f:'url(#gl)'})+T(0,60,'AS SLOW',46,'#fff',{ls:3}));
+ h+=K.chip(540,330,'WHAT STUDIES FIND',42,'#9fb7c9');
+ return h;
+}
+
+// =====================================================================
+// Szene 7 (Zeile 8): "One reason is you" – Spotlight auf Fahrer
+function youScene(t){
+ const s=S(8);let h='';
+ const sp=ez(cl(t,s,s+.6));
+ h+=`<path d="M440,0 L640,0 L860,1260 L220,1260 Z" fill="#fff6d8" opacity="${.14*sp}"/><ellipse cx=540 cy=1180 rx=320 ry=60 fill="#fff6d8" opacity="${.18*sp}"/>`;
+ h+=icon('car',540,1080,2.2*bo(cl(t,s+.1,s+.6)),ORA);
+ const pp=bo(cl(t,W(8,'you',.8)-.1,W(8,'you',.8)+.4));
+ h+=K.at(540,560,pp,T(0,0,'YOU',230,'#fff',{f:'url(#gl)'}));
+ h+=K.at(540,700,pp,`<path d="M-30,0 L30,0 L0,60 Z" fill="#fff"/>`);
+ return h;
+}
+
+// =====================================================================
+// Szene 8 (Zeilen 9–10): Stadtplan mit Tankstellen – Suchen vs. nicht suchen
+const ST=[[230,520,'3.49'],[820,470,'3.39'],[300,1040,'3.55'],[810,1000,'3.45']];
+function mapScene(t){
+ const s9=S(9),s10=S(10);let h='';
+ const mp=ez(cl(t,s9-.2,s9+.5)),late=cl(t,s10-.2,s10+.3);
+ // Strassen
+ h+=`<g opacity="${mp}"><path d="M0,760 L1080,760 M540,300 L540,1260 M120,300 L120,1260 M960,300 L960,1260 M0,300 L1080,300 M0,1260 L1080,1260" stroke="#1d3446" stroke-width=60 fill=none /><path d="M0,760 L1080,760 M540,300 L540,1260" stroke="#ffffff33" stroke-width=4 stroke-dasharray="24 22" fill=none /></g>`;
+ // Stationen
+ ST.forEach((q,i)=>{const p=bo(cl(t,s9+.2+i*.15,s9+.6+i*.15));
+  const best=i==1,price=late>0?['3.49','3.45','3.55','3.49'][i]:q[2];
+  h+=K.at(q[0],q[1],p,`<path d="M0,40 C-70,-30 -70,-130 0,-130 C70,-130 70,-30 0,40 Z" fill="${best&&late==0?GRN:'#dbe7f0'}" transform="translate(0,-10)"/>${IC.pump('#0b1620').replace('<rect','<rect transform="scale(.42) translate(0,-200)"').replace(/<(path|rect)(?! transform)/g,'<$1 transform="scale(.42) translate(0,-200)"')}`);
+  h+=K.g(`translate(${q[0]},${q[1]+70})`,`<rect x=-90 y=-34 width=180 height=64 rx=14 fill="#0b1620" stroke="${best&&late==0?GRN:'#3b5468'}" stroke-width=4 />${T(0,14,'$'+price,40,best&&late==0?GRN:'#fff')}`,ez(cl(t,s9+.5+i*.15,s9+.9+i*.15)))});
+ // Auto-Route
+ let cx=540,cy=760,ang=0;
+ if(late==0){const path=[[540,760],[540,520],[300,520],[540,520],[540,760],[960,760],[960,470],[820,470]];
+  const p=ei(cl(t,s9+.5,MG.L(9).end));const segN=path.length-1,f=p*segN,k=Math.min(segN-1,Math.floor(f)),u=f-k;
+  cx=lerp(path[k][0],path[k+1][0],u);cy=lerp(path[k][1],path[k+1][1],u);ang=Math.atan2(path[k+1][1]-path[k][1],path[k+1][0]-path[k][0])*180/Math.PI;
+  let tr='';for(let j=0;j<=k;j++)tr+=`${path[j][0]},${path[j][1]} `;tr+=`${cx},${cy}`;
+  h+=`<polyline points="${tr}" fill=none stroke="${GOLD}" stroke-width=10 stroke-dasharray="4 18" stroke-linecap=round />`}
+ else{const p=ei(cl(t,s10+.2,s10+1.6));cx=540;cy=lerp(760,1000,p)*0+760;cx=lerp(540,300,p);cy=lerp(760,1040,p)<1040?760+ (p>.5?(p-.5)*2*280:0):1040;cx=p<.5?lerp(540,300,p*2):300;ang=p<.5?180:90;
+  h+=`<polyline points="540,760 ${cx},${cy}" fill=none stroke="${TEA}" stroke-width=10 stroke-dasharray="4 18" stroke-linecap=round />`}
+ h+=K.g(`translate(${cx},${cy}) rotate(${ang}) scale(.55)`,IC.car(ORA));
+ // Kopfzeile
+ const k1=1-late;
+ h+=K.g('',K.chip(540,200,'PRICES CLIMB: EVERYONE COMPARES',36,RED),k1);
+ h+=K.g('',K.chip(540,200,'PRICES DROP: NOBODY COMPARES',36,TEA),late);
+ if(late==0){const sp=bo(cl(t,MG.L(9).end-.6,MG.L(9).end-.1));if(sp>0)h+=K.at(820,300,sp,T(0,0,'CHEAPEST!',44,GRN))}
+ // fette Marge am Ende von Zeile 10
+ const fm=ez(cl(t,W(10,'fatter',.7)-.2,W(10,'fatter',.7)+.4));
+ if(fm>0)h+=K.at(800,1180,bo(fm),`<rect x=-200 y=-60 width=400 height=110 rx=24 fill="${GRN}" filter="url(#gl)"/>${T(0,18,'+ MARGIN',60,'#06140c')}`);
+ return h;
+}
+
+// =====================================================================
+// Szene 9 (Zeile 11): Niemand senkt zuerst
+function standScene(t){
+ const s=S(11);let h='';
+ const a=bo(cl(t,s,s+.5));
+ const cut=ez(cl(t,s+1.0,s+1.4)),match=ez(cl(t,s+1.8,s+2.1));
+ const pA=cut>0?(cut<1?'$3.49':'$3.39'):'$3.49',pB=match>.5?'$3.39':'$3.49';
+ h+=sign(290,700,pA,cut>=1?GRN:ORA,'STATION A',{s:a});h+=sign(790,700,pB,match>.5?GRN:ORA,'STATION B',{s:a});
+ if(cut>0&&cut<1||cut>=1)h+=K.at(290,520,bo(cl(t,s+1.0,s+1.4)),`<rect x=-100 y=-44 width=200 height=74 rx=16 fill="${GRN}"/>${T(0,14,'−10¢',50,'#06140c')}`,1-ez(cl(t,s+2.6,s+3)));
+ if(match>0)h+=K.at(790,520,bo(cl(t,s+1.8,s+2.2)),`<rect x=-110 y=-44 width=220 height=74 rx=16 fill="${RED}"/>${T(0,14,'MATCH',50,'#fff')}`);
+ // Ergebnis: beide verlieren, niemand gewinnt Kunden
+ const rp=ez(cl(t,s+2.5,s+3.1));
+ if(rp>0)h+=K.at(540,1150,rp,T(0,0,'SAME CUSTOMERS',56,'#fff')+T(0,70,'LESS PROFIT',56,RED));
+ h+=K.chip(540,300,'WHO CUTS FIRST?',44,GOLD);
+ // Blickduell-Pfeile
+ h+=`<path d="M450,700 L630,700" stroke="#ffffff55" stroke-width=6 stroke-dasharray="14 12" opacity="${a}"/>`;
+ return h;
+}
+
+// =====================================================================
+// Szene 10 (Zeile 12): Nach ~2 Monaten gleicht es sich aus
+function evenScene(t){
+ const s=S(12),e=MG.L(12).end;let h='';
+ const X0=140,X1=940,Y0=1100,Y1=500;
+ const ap=ez(cl(t,s-.1,s+.4)),pr=cl(t,s+.2,e-.2);
+ h+=`<g opacity="${ap}"><line x1="${X0}" y1="${Y0}" x2="${X1}" y2="${Y0}" stroke="#ffffff55" stroke-width=5 />${T(X0,Y0+56,'WEEK 0',30,'#9fb7c9',{a:'start'})}${T(X1,Y0+56,'~2 MONTHS',30,'#9fb7c9',{a:'end'})}</g>`;
+ let pc='',pp='',lastx=X0,area='';
+ const N=48;for(let i=0;i<=N;i++){const f=i/N;if(f>pr)break;const x=X0+f*(X1-X0);const yc=Y1+80+(Y0-Y1-160)*Math.min(1,f*6);const yp=Y1+80+(Y0-Y1-160)*(1-Math.exp(-3.2*f))/(1-Math.exp(-3.2));
+  pc+=`${x.toFixed(1)},${yc.toFixed(1)} `;pp+=`${x.toFixed(1)},${yp.toFixed(1)} `;lastx=x}
+ // Flaeche zwischen den Kurven = Extramarge
+ const ptsP=pp.trim().split(' '),ptsC=pc.trim().split(' ');
+ if(ptsP.length>1)h+=`<path d="M${ptsP.join(' L')} L${ptsC.reverse().join(' L')} Z" fill="${GOLD}" opacity=".35"/>`;
+ h+=`<polyline points="${pc}" fill=none stroke="${BLU}" stroke-width=8 stroke-linejoin=round />`;
+ h+=`<polyline points="${pp}" fill=none stroke="#fff" stroke-width=10 stroke-linejoin=round filter="url(#gl)"/>`;
+ h+=T(X0+40,Y1+30,'PUMP PRICE',34,'#fff',{a:'start',o:ap});h+=T(X1,Y0-30,'COST',34,BLU,{a:'end',o:ez(cl(pr,.5,.6))});
+ const wp=bo(cl(t,W(12,'weeks',.8)-.3,W(12,'weeks',.8)+.3));
+ if(wp>0)h+=K.at(470,760,wp,`<rect x=-190 y=-56 width=380 height=96 rx=20 fill="#0b1620e6" stroke="${GOLD}" stroke-width=5 />${T(0,10,'EXTRA MARGIN',44,GOLD)}`);
+ h+=K.chip(540,320,'IT EVENS OUT… SLOWLY',40,'#9fb7c9');
+ return h;
+}
+
+// =====================================================================
+// Szene 11 (Zeile 13): Weiter vergleichen – Handy mit Preisliste, Feder faellt schneller
+function shopScene(t){
+ const s=S(13),e=MG.L(13).end;let h='';
+ const pp=ez(cl(t,s-.1,s+.6)),Y=lerp(1500,780,pp);
+ const rows=[['STATION B','$3.29',GRN],['STATION D','$3.39','#fff'],['STATION A','$3.45','#fff'],['STATION C','$3.55','#fff']];
+ let r='';rows.forEach((q,i)=>{const p=ez(cl(t,s+.5+i*.2,s+.9+i*.2));r+=K.g(`translate(${(1-p)*80},${-230+i*130})`,`<rect x=-160 y=-50 width=320 height=100 rx=16 fill="${i?'#13242f':'#0f3a26'}" stroke="${i?'#2b4456':GRN}" stroke-width=4 />${T(-136,12,q[0],28,'#9fb7c9',{a:'start'})}${T(140,16,q[1],44,q[2],{a:'end'})}`,p)});
+ h+=K.at(330,Y,1.3,`<rect x=-200 y=-370 width=400 height=740 rx=50 fill="#0b1620" stroke="#5c7a8f" stroke-width=10 filter="url(#ds)"/><rect x=-60 y=-352 width=120 height=16 rx=8 fill="#2b4456"/>${T(0,-300,'COMPARE',36,TEA,{ls:4})}${r}`);
+ // Feder faellt schneller (rechts)
+ const fp=ei(cl(t,W(13,'speeds',.6)-.4,e+.3));
+ h+=`<line x1=820 y1=360 x2=820 y2=1200 stroke="#ffffff22" stroke-width=6 stroke-dasharray="10 14"/>`;
+ h+=K.g(`translate(${820+Math.sin(t*4)*20*(1-fp)},${lerp(420,1120,fp)}) rotate(${Math.sin(t*4)*20*(1-fp)}) scale(.7)`,IC.feather('#fff'),ez(cl(t,s+.3,s+.7)));
+ if(fp>.2)h+=T(820,1260,'FASTER',44,GRN,{o:ez(cl(fp,.2,.4))});
+ return h;
+}
+
+// =====================================================================
+// Szene 12 (Zeile 14): Frage
+function askScene(t){
+ const s=S(14),e=MG.L(14).end;let h='';
+ h+=`<g opacity=".7">${introBg(t,.8)}</g><rect x=0 y=0 width=1080 height=1920 fill="#03070c" opacity=".35"/>`;
+ const c1=bo(cl(t,s+.1,s+.6)),c2=bo(cl(t,W(14,'just',.6)-.15,W(14,'just',.6)+.35));
+ const card=(x,c,ic,l1,l2,p)=>K.at(x,760,p,`<rect x=-210 y=-230 width=420 height=460 rx=40 fill="#0b1620e6" stroke="${c}" stroke-width=8 filter="url(#ds)"/>${ic}${T(0,120,l1,46,c)}${T(0,176,l2,46,'#fff')}`);
+ h+=card(300,TEA,K.at(0,-70,.5,IC.phone(TEA)+`<rect x=-60 y=-110 width=120 height=40 rx=8 fill="${TEA}"/><rect x=-60 y=-40 width=120 height=40 rx=8 fill="#2b4456"/><rect x=-60 y=30 width=120 height=40 rx=8 fill="#2b4456"/>`),'CHECK','FIRST',c1);
+ h+=card(780,ORA,K.at(0,-60,.9,IC.car(ORA)),'JUST','PULL IN',c2);
+ const op=bo(cl(t,W(14,'or',.55)-.1,W(14,'or',.55)+.3));h+=K.at(540,760,op,`<circle r=58 fill="#fff"/>${T(0,18,'OR',46,'#0b1620')}`);
+ const qp=bo(cl(t,e-.2,e+.3));h+=K.at(540,1150,qp,`<circle r=80 fill="${GOLD}" filter="url(#gl)"/>${T(0,34,'?',100,'#0b1620')}`);
+ return h;
+}
+
+// ---------- Szenenliste ----------
+K.add(0,'',()=>'',{html:true,sfx:()=>[{k:'whoosh',t:.2,d:1.4},{k:'riser',t:.4,d:1.0},{k:'type',t:.45,n:8},{k:'impact',t:1.45},{k:'ding',t:1.5},{k:'swish',t:1.9,d:.5,pan:-.4},{k:'error',t:3.0},{k:'beep',t:W(0,'week',.85),f:880}]});
+K.add(1,'flash',rfScene,{sfx:()=>[{k:'pop',t:S(1)+.15},{k:'pop',t:S(1)+.45},{k:'pop',t:S(1)+.65},{k:'whoosh',t:S(2)-.3,d:.6},{k:'riser',t:S(2)+.2,d:Math.max(.4,W(2,'drift',.5)-S(2)-.4)},{k:'impact',t:W(2,'drift',.5)-.2},{k:'shimmer',t:W(2,'drift',.5)}]});
+K.add(3,'push',jugScene,{sfx:()=>[{k:'pop',t:S(3)},{k:'type',t:S(3)+.3,n:5},{k:'impact',t:W(3,'half',.5)-.1},{k:'ding',t:W(3,'half',.5)}]});
+K.add(4,'zoom',barrelScene,{sfx:()=>[{k:'thud',t:S(4)},{k:'pop',t:S(4)+.3},{k:'whoosh',t:S(4)+.8,d:.6},{k:'pop',t:S(4)+1.2},{k:'cash',t:W(4,'twenty',.6)}]});
+K.add(5,'rise',upScene,{sfx:()=>[{k:'riser',t:S(5)+.1,d:1.2},{k:'error',t:S(5)+1.2},{k:'impact',t:W(5,'raise',.3)+.2}]});
+K.add(6,'push',downScene,{sfx:()=>[{k:'swish',t:S(6)+.1,d:.8,pan:.2},{k:'pop',t:S(6)+.6},{k:'tick',t:S(6)+1.4,f:600},{k:'tick',t:S(6)+2.2,f:560}]});
+K.add(7,'zoom',twiceScene,{sfx:()=>[{k:'whoosh',t:S(7)+.1,d:.8},{k:'whoosh',t:S(7)+.5,d:1.6},{k:'impact',t:W(7,'twice',.5)-.1},{k:'ding',t:W(7,'twice',.5)}]});
+K.add(8,'flash',youScene,{sfx:()=>[{k:'thud',t:S(8)+.1},{k:'impact',t:W(8,'you',.8)}]});
+K.add(9,'dolly',mapScene,{sfx:()=>{const a=[0,1,2,3].map(i=>({k:'pop',t:S(9)+.2+i*.15}));a.push({k:'whoosh',t:S(9)+.5,d:2.5},{k:'chime',t:MG.L(9).end-.5},{k:'swish',t:S(10)-.2,d:.5,pan:-.3},{k:'cash',t:W(10,'fatter',.7)});return a}});
+K.add(11,'push',standScene,{sfx:()=>[{k:'pop',t:S(11)},{k:'tick',t:S(11)+1.0,f:1200},{k:'tick',t:S(11)+1.8,f:1200},{k:'error',t:S(11)+2.5}]});
+K.add(12,'zoom',evenScene,{sfx:()=>[{k:'whoosh',t:S(12)+.2,d:2},{k:'ding',t:W(12,'weeks',.8)}]});
+K.add(13,'push',shopScene,{sfx:()=>[{k:'thud',t:S(13)+.4},...[0,1,2,3].map(i=>({k:'tap',t:S(13)+.5+i*.2})),{k:'shimmer',t:W(13,'speeds',.6)}]});
+K.add(14,'flash',askScene,{sfx:()=>[{k:'pop',t:S(14)+.15},{k:'pop',t:W(14,'just',.6)-.1},{k:'tap',t:W(14,'or',.55)},{k:'ding',t:MG.L(14).end}]});
+
+const stage=$('stage');MG.finish(stage,1080,1920,.07);
+function draw(t){
+ drawBg(t);drawIntro(t);
+ $('scn').innerHTML=K.render(t);
+ $('fl').style.opacity=K.flash(t).toFixed(3);
+ $('cap').innerHTML=MG.captions(t,{y:1380});
+ MG.grainTick(t);
+}
+window.setTimeline=tl=>{MG.TL=tl};
+window.sfxEvents=()=>K.sfx();
+window.draw=draw;
+</script>

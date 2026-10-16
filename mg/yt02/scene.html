@@ -1,0 +1,711 @@
+<!doctype html><meta charset=utf-8><style>
+@font-face{font-family:P;src:url(fonts/Poppins-Bold.ttf);font-weight:700}
+@font-face{font-family:P;src:url(fonts/Poppins-Medium.ttf);font-weight:500}
+@font-face{font-family:'Arial Black';src:url(fonts/Poppins-Bold.ttf)}
+html,body{margin:0;background:#140c07}
+#stage{position:relative;width:1920px;height:1080px;overflow:hidden;background:#1d120b;font-family:P,Arial,Helvetica,sans-serif}
+.lay{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden;display:none;will-change:transform}
+.abs{position:absolute}
+.bgw{position:absolute;inset:0;background:radial-gradient(110% 90% at 28% 18%,#5a3820 0%,#36210f 45%,#1b0f07 100%)}
+.bgw:after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(115deg,#ffffff05 0 2px,transparent 2px 22px)}
+.full{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:50% 45%}
+.pan{position:absolute;border-radius:26px;overflow:hidden;background:#000;box-shadow:0 0 0 10px #f6e6c6,0 0 0 13px #b88a4e,0 40px 80px #000c;transform-origin:50% 50%}
+.pan img{position:absolute;left:0;top:0;width:100%;height:100%;transform-origin:50% 50%}
+.blur{position:absolute;left:-40px;top:-40px;width:2000px;height:1160px;opacity:.55}
+.shade{position:absolute;inset:0;background:#0b0603;opacity:0;pointer-events:none}
+.ov{position:absolute;left:0;top:0;width:1920px;height:1080px}
+#capbg{position:absolute;left:0;top:820px;width:1920px;height:260px;background:linear-gradient(180deg,transparent,#0f0804b0 70%,#0f0804d0);z-index:50}
+#cap{position:absolute;left:0;top:0;width:1920px;height:1080px;z-index:60}
+#fx{position:absolute;inset:0;z-index:40;pointer-events:none}
+</style>
+<div id=stage><div id=layers></div><div id=fx></div><div id=capbg></div><div id=cap></div></div>
+<script src="../lib/core.js"></script>
+<script>
+// ======================================================================
+//  YT02 – "Does one coffee a day make you a millionaire?"  (16:9 scene engine)
+//  Every line (MG.TL.lines[i].spec) is drawn by its scene type; groups of
+//  lines (chart / bars / calc) share one continuous scene.
+// ======================================================================
+const {cl,ez,ei,bo,lerp}=MG, $=MG.$, W=1920, H=1080;
+const COL={cream:'#fff3dc',cream2:'#f2dcb5',muted:'#cfb08a',gold:'#ffc94a',gold2:'#f0a22a',green:'#3ddc84',green2:'#22a95e',red:'#ff5b4a',brown:'#3a2214',dark:'#24150c',coffee:'#8a5a36'};
+const SH='0 4px 18px #000c,0 2px 3px #000';
+const pad2=n=>String(n).padStart(2,'0');
+const IMG=k=>`img/${pad2(k)}.jpg`, BLUR=k=>`img/blur/${pad2(k)}.jpg`;
+const fmt=(v,pre='€')=>MG.fmt(Math.round(v),0,pre);
+const RM=Math.pow(1.07,1/12)-1, V=(m,y,a=1.07)=>{const r=Math.pow(a,1/12)-1;return m*(Math.pow(a,y)-1)/r};
+let TL=null,G=[],COLLECT=null;
+
+// ---------------------------------------------------------------- helpers (HTML snippets)
+function T(x,y,txt,o={}){const p=o.p==null?1:o.p,s=o.s==null?1:o.s,al=o.al||'c',sz=o.size||48;
+ return `<div style="position:absolute;left:${x}px;top:${y}px;transform:translate(${al=='c'?-50:al=='r'?-100:0}%,-50%) translateY(${((1-Math.min(1,p))*(o.dy==null?24:o.dy)).toFixed(1)}px) scale(${s}) rotate(${o.rot||0}deg);transform-origin:${al=='c'?'50%':al=='r'?'100%':'0%'} 50%;opacity:${Math.max(0,Math.min(1,p))};font:${o.w||700} ${sz}px/${o.lh||1.12} P,Arial,sans-serif;color:${o.col||COL.cream};${o.mw?`width:${o.mw}px;white-space:normal;`:'white-space:nowrap;'}text-align:${al=='c'?'center':al=='r'?'right':'left'};letter-spacing:${o.ls||0}px;text-shadow:${o.sh===0?'none':o.sh||SH};${o.css||''}">${txt}</div>`}
+function chip(x,y,txt,o={}){const p=o.p==null?1:o.p;if(p<=0)return'';const sz=o.size||36,s=(o.s==null?bo(p):o.s);
+ return `<div style="position:absolute;left:${x}px;top:${y}px;transform:translate(${o.al=='l'?0:o.al=='r'?-100:-50}%,-50%) scale(${s.toFixed(3)}) rotate(${o.rot||0}deg);opacity:${Math.min(1,p*2)};padding:${sz*.3}px ${sz*.62}px;border-radius:${o.r==null?sz:o.r}px;background:${o.bg||COL.dark+'ee'};color:${o.fg||COL.cream};font:${o.w||700} ${sz}px/1.1 P,Arial,sans-serif;white-space:nowrap;box-shadow:0 12px 28px #0007;border:${o.bd||'3px solid #ffffff22'};display:flex;align-items:center;gap:${sz*.35}px">${o.ic||''}${txt}</div>`}
+function box(x,y,w,h,o={}){const p=o.p==null?1:o.p;return `<div style="position:absolute;left:${x}px;top:${y}px;width:${w}px;height:${h}px;border-radius:${o.r==null?28:o.r}px;background:${o.bg||'#24150cdd'};box-shadow:${o.shadow||'0 24px 50px #0009'};border:${o.bd||'2px solid #ffffff1c'};opacity:${Math.min(1,p)};transform:translateY(${((1-ez(p))*30).toFixed(1)}px) scale(${(.94+.06*ez(p)).toFixed(3)});${o.css||''}">${o.html||''}</div>`}
+function svg(inner,o={}){return `<svg style="position:absolute;left:0;top:0;overflow:visible;${o.css||''}" width=1920 height=1080 viewBox="0 0 1920 1080">${inner}</svg>`}
+// icons in a 100x100 box
+const ICN={
+ check:c=>`<path d="M22 53 L42 72 L79 30" fill=none stroke="${c}" stroke-width=13 stroke-linecap=round stroke-linejoin=round />`,
+ cross:c=>`<path d="M27 27 L73 73 M73 27 L27 73" fill=none stroke="${c}" stroke-width=13 stroke-linecap=round />`,
+ clock:c=>`<circle cx=50 cy=50 r=38 fill=none stroke="${c}" stroke-width=9 /><path d="M50 26 V50 L66 60" fill=none stroke="${c}" stroke-width=9 stroke-linecap=round />`,
+ plus:c=>`<path d="M50 18 V82 M18 50 H82" stroke="${c}" stroke-width=15 stroke-linecap=round />`,
+ shield:c=>`<path d="M50 8 L86 21 V48 C86 72 70 86 50 93 C30 86 14 72 14 48 V21 Z" fill="${c}"/><path d="M33 50 L46 63 L68 38" fill=none stroke="#24150c" stroke-width=9 stroke-linecap=round stroke-linejoin=round />`,
+ cup:c=>`<path d="M18 34 H72 V62 C72 78 62 88 45 88 C28 88 18 78 18 62 Z" fill="${c}"/><path d="M72 42 C90 42 90 66 72 66" fill=none stroke="${c}" stroke-width=8 /><path d="M34 22 C30 14 40 10 36 2 M52 22 C48 14 58 10 54 2" fill=none stroke="${c}" stroke-width=5 stroke-linecap=round opacity=.7 />`,
+ coin:c=>`<circle cx=50 cy=50 r=42 fill="${c}"/><circle cx=50 cy=50 r=33 fill=none stroke="#9a5b0c" stroke-width=5 /><text x=50 y=66 text-anchor=middle font-family="P,Arial" font-weight=700 font-size=44 fill="#7a4507">€</text>`,
+ cal:c=>`<rect x=12 y=20 width=76 height=70 rx=10 fill="${c}"/><rect x=12 y=20 width=76 height=20 rx=8 fill="#c8432f"/><path d="M32 12 V28 M68 12 V28" stroke="#24150c" stroke-width=7 stroke-linecap=round /><path d="M24 54 H76 M24 70 H76 M41 44 V86 M59 44 V86" stroke="#24150c33" stroke-width=4 />`,
+ warn:c=>`<path d="M50 8 L94 88 H6 Z" fill="${c}" stroke-linejoin=round /><path d="M50 36 V60" stroke="#24150c" stroke-width=10 stroke-linecap=round /><circle cx=50 cy=74 r=6 fill="#24150c"/>`,
+ heart:c=>`<path d="M50 86 C20 64 8 48 8 32 C8 18 20 8 32 8 C40 8 46 12 50 20 C54 12 60 8 68 8 C80 8 92 18 92 32 C92 48 80 64 50 86 Z" fill="${c}"/>`,
+ globe:c=>`<circle cx=50 cy=50 r=40 fill="${c}"/><path d="M10 50 H90 M50 10 C30 30 30 70 50 90 M50 10 C70 30 70 70 50 90 M18 30 H82 M18 70 H82" fill=none stroke="#24150c88" stroke-width=4 />`,
+ flag:c=>`<path d="M22 92 V10" stroke="${c}" stroke-width=8 stroke-linecap=round /><path d="M26 12 H80 L68 30 L80 48 H26 Z" fill="${c}"/>`,
+ up:c=>`<path d="M50 12 L84 50 H62 V88 H38 V50 H16 Z" fill="${c}"/>`,
+ down:c=>`<path d="M50 88 L84 50 H62 V12 H38 V50 H16 Z" fill="${c}"/>`,
+ bell:c=>`<path d="M50 10 C30 10 22 28 22 46 V64 L12 76 H88 L78 64 V46 C78 28 70 10 50 10 Z" fill="${c}"/><circle cx=50 cy=84 r=9 fill="${c}"/>`,
+ lens:c=>`<circle cx=42 cy=42 r=28 fill=none stroke="${c}" stroke-width=10 /><path d="M62 62 L88 88" stroke="${c}" stroke-width=13 stroke-linecap=round />`,
+ pct:c=>`<circle cx=28 cy=28 r=14 fill=none stroke="${c}" stroke-width=9 /><circle cx=72 cy=72 r=14 fill=none stroke="${c}" stroke-width=9 /><path d="M78 18 L22 82" stroke="${c}" stroke-width=10 stroke-linecap=round />`,
+};
+const ic=(n,s,c,css='')=>`<svg width=${s} height=${s} viewBox="0 0 100 100" style="flex:none;overflow:visible;${css}">${ICN[n](c)}</svg>`;
+const icAt=(n,x,y,s,c,p=1,rot=0)=>p<=0?'':`<div style="position:absolute;left:${x-s/2}px;top:${y-s/2}px;transform:scale(${bo(p).toFixed(3)}) rotate(${rot}deg);opacity:${Math.min(1,p*2)}">${ic(n,s,c,'filter:drop-shadow(0 6px 10px #0008)')}</div>`;
+// arrow along a quadratic curve, drawn to progress p
+function arrow(x1,y1,x2,y2,p,o={}){if(p<=0)return'';const bend=o.bend==null?.25:o.bend,mx=(x1+x2)/2-(y2-y1)*bend,my=(y1+y2)/2+(x2-x1)*bend,c=o.col||COL.gold,w=o.w||8,N=30;let d='',px,py;
+ for(let k=0;k<=N;k++){const u=k/N*p,a=(1-u)*(1-u),b=2*(1-u)*u,e=u*u;px=a*x1+b*mx+e*x2;py=a*y1+b*my+e*y2;d+=(k?'L':'M')+px.toFixed(1)+' '+py.toFixed(1)}
+ const u=p,tx=2*(1-u)*(mx-x1)+2*u*(x2-mx),ty=2*(1-u)*(my-y1)+2*u*(y2-my),an=Math.atan2(ty,tx),hs=w*3;
+ const h1x=px-hs*Math.cos(an-.5),h1y=py-hs*Math.sin(an-.5),h2x=px-hs*Math.cos(an+.5),h2y=py-hs*Math.sin(an+.5);
+ return `<path d="${d}" fill=none stroke="#0008" stroke-width=${w+6} stroke-linecap=round ${o.dash?`stroke-dasharray="${o.dash}"`:''}/><path d="${d}" fill=none stroke="${c}" stroke-width=${w} stroke-linecap=round ${o.dash?`stroke-dasharray="${o.dash}"`:''}/><path d="M${h1x.toFixed(1)} ${h1y.toFixed(1)} L${px.toFixed(1)} ${py.toFixed(1)} L${h2x.toFixed(1)} ${h2y.toFixed(1)}" fill=none stroke="${c}" stroke-width=${w} stroke-linecap=round stroke-linejoin=round />`}
+// rubber stamp
+function stamp(x,y,txt,p,o={}){if(p<=0)return'';const s=p<1?lerp(2.2,1,ez(p)):1,c=o.col||COL.red,sz=o.size||56;
+ return `<div style="position:absolute;left:${x}px;top:${y}px;transform:translate(-50%,-50%) rotate(${o.rot==null?-8:o.rot}deg) scale(${s.toFixed(3)});opacity:${Math.min(1,p*3)};padding:${sz*.22}px ${sz*.5}px;border:${sz*.1}px solid ${c};border-radius:${sz*.25}px;color:${c};font:700 ${sz}px/1 P,Arial;letter-spacing:${sz*.06}px;white-space:nowrap;background:${o.bg||'#1d120bcc'};box-shadow:0 14px 30px #0008">${txt}</div>`}
+// badge "1 · Start early"
+function badge(x,y,n,txt,p){if(p<=0)return'';return `<div style="position:absolute;left:${x}px;top:${y}px;transform:translateX(${((1-ez(p))*-60).toFixed(1)}px);opacity:${Math.min(1,p*2)};display:flex;align-items:center;gap:14px;padding:8px 26px 8px 8px;border-radius:40px;background:#24150cee;box-shadow:0 12px 28px #0008;border:2px solid #ffc94a55"><div style="width:56px;height:56px;border-radius:50%;background:${COL.gold};color:${COL.brown};font:700 34px/56px P;text-align:center">${n}</div><div style="font:700 34px P;color:${COL.cream}">${txt}</div></div>`}
+
+// ---------------------------------------------------------------- per-line context
+function ctx(i,t){const L=MG.L(i),D=Math.max(.8,L.end-L.start),lt=t-L.start;
+ const c={i,t,lt,D,L,spec:L.spec||{},
+  w(re,f){const ws=L.words||[];for(const x of ws)if(re.test(x[0]))return x[1];return f*D},
+  fx(k,rel,o){if(COLLECT)COLLECT.push(Object.assign({k,t:+(L.start+rel).toFixed(3)},o||{}));return rel},
+  a(t0,d=.5){return ez(cl(lt,t0,t0+d))}, b(t0,d=.6){return bo(cl(lt,t0,t0+d))}, r(t0,d=.6){return cl(lt,t0,t0+d)}};
+ return c}
+
+// ---------------------------------------------------------------- panel geometry for image layouts
+const PAN={left:{x:80,y:120,w:1060,h:596,cx:1520,x0:1200,x1:1840},right:{x:780,y:120,w:1060,h:596,cx:400,x0:80,x1:720}};
+function mkImg(el,k,cls='full'){const im=document.createElement('img');im.src=IMG(k);im.decoding='sync';im.className=cls;el.appendChild(im);return im}
+function mkBg(el,k){const b=document.createElement('div');b.className='bgw';el.appendChild(b);if(k){const im=document.createElement('img');im.src=BLUR(k);im.decoding='sync';im.className='blur';el.appendChild(im);b.blurImg=im}return b}
+function mkPanel(el,k,g){const p=document.createElement('div');p.className='pan';Object.assign(p.style,{left:g.x+'px',top:g.y+'px',width:g.w+'px',height:g.h+'px'});const im=document.createElement('img');im.src=IMG(k);im.decoding='sync';p.appendChild(im);el.appendChild(p);p.img=im;return p}
+function mkOv(el){const o=document.createElement('div');o.className='ov';el.appendChild(o);return o}
+function setH(el,h){if(el._h!==h){el.innerHTML=h;el._h=h}}
+
+// ======================================================================
+//  OVERLAYS for "img" scenes (one function per kind; returns HTML)
+// ======================================================================
+const BADGE={headstart:'Start early',rate:'Invest more',stayin:'Stay invested',inflation:'Inflation',tax:'Taxes & costs',drawdown:'Swings'};
+const OV={
+// ---- 2: fact or myth?
+myth(c){const t0=c.fx('swish',.1,{d:.4}),t1=c.fx('pop',c.w(/true/i,.35)),t2=c.fx('pop',c.w(/myth/i,.75));let h='';
+ h+=box(110,140,560,300,{p:c.a(t0,.5)});
+ h+=T(390,210,'Fact or myth?',{size:54,p:c.a(t0+.1,.5)});
+ const on1=c.lt>=t1,on2=c.lt>=t2;
+ h+=chip(250,330,'TRUE?',{p:c.a(t0+.25,.4),s:on1&&!on2?1+.06*Math.sin((c.lt-t1)*8):1,bg:on1?COL.green2:'#ffffff14',size:44,ic:ic(on1?'check':'plus',40,on1?'#fff':'#ffffff55')});
+ h+=chip(530,330,'MYTH?',{p:c.a(t0+.35,.4),s:on2?1+.06*Math.sin((c.lt-t2)*8):1,bg:on2?'#c8432f':'#ffffff14',size:44,ic:ic(on2?'cross':'plus',40,on2?'#fff':'#ffffff55')});
+ const q=c.a(t0+.5,.6),pul=1+.1*Math.sin(c.lt*5);
+ h+=T(1360,215,'?',{size:190,col:COL.gold,p:q,s:bo(q)*pul,sh:`${MG.outline(6)},0 10px 30px #000a`});
+ return h},
+// ---- 3: honest-math notepad
+honest(c,g){const x=1225,y=150,t0=c.fx('swish',.05);let h='';
+ const items=[['Real numbers',c.w(/real/i,.4)],['No sugarcoating',c.w(/sugar/i,.7)],['Clear assumptions',c.D*.9]];
+ let rules='';for(let k=0;k<9;k++)rules+=`<div style="position:absolute;left:0;right:0;top:${120+k*60}px;height:2px;background:#c9a87a55"></div>`;
+ h+=box(x,y,600,600,{p:c.a(t0,.6),bg:'#fbf0da',bd:'0',html:rules+`<div style="position:absolute;left:66px;top:0;bottom:0;width:3px;background:#e0786a88"></div>`,css:'transform-origin:50% 50%;'});
+ h+=T(x+300,y+66,'The honest math',{size:48,col:COL.brown,sh:0,p:c.a(t0+.2,.5)});
+ items.forEach(([s,tt],k)=>{c.fx('tick',tt,{f:2200});const p=c.a(tt-.15,.35),yy=y+190+k*130;
+  h+=`<div style="position:absolute;left:${x+90}px;top:${yy-30}px;width:60px;height:60px;border-radius:12px;border:5px solid ${COL.brown};opacity:${c.a(t0+.3,.4)}"></div>`;
+  h+=icAt('check',x+122,yy-4,78,COL.green2,p);
+  h+=T(x+180,yy,s,{al:'l',size:42,col:COL.brown,sh:0,p:c.a(t0+.3+k*.1,.4)});
+  if(p>0)h+=`<div style="position:absolute;left:${x+176}px;top:${yy+28}px;height:6px;border-radius:3px;background:${COL.gold2};width:${(ez(p)*330).toFixed(0)}px"></div>`});
+ return h},
+// ---- 4: spend vs invest
+fork(c){const t0=c.fx('swish',.1),tw=c.fx('ding',c.w(/works/i,.5)),ta=c.fx('error',c.w(/astray/i,.85));let h='',s='';
+ s+=arrow(870,520,420,600,c.a(t0+.1,.7),{bend:-.25,col:'#ffd6a0',w:7});
+ s+=arrow(1010,520,1470,560,c.a(t0+.25,.7),{bend:.25,col:'#ffd6a0',w:7});
+ h+=svg(s);
+ h+=chip(380,560,'Spend',{p:c.a(t0+.5,.4),size:46,bg:'#5a2a1bee',ic:ic('cup',44,'#ffd6a0')});
+ h+=chip(1540,520,'Invest',{p:c.a(t0+.6,.4),size:46,bg:COL.green2+'ee',ic:ic('up',40,'#fff')});
+ h+=icAt('check',1730,470,96,COL.green,c.r(tw,.5));
+ h+=icAt('cross',570,500,96,COL.red,c.r(ta,.5));
+ return h},
+// ---- 8: invest 120 every month instead
+months(c,g){const cx=g.cx,t0=c.fx('swish',.05);let h='';
+ h+=T(cx,165,'Instead of coffee:',{size:40,col:COL.muted,p:c.a(t0,.5)});
+ h+=T(cx,232,'invest €120 every month',{size:50,col:COL.gold,p:c.a(t0+.15,.5)});
+ const M=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],t1=.6,t2=Math.max(t1+1.5,c.D*.82);
+ M.forEach((m,k)=>{const tt=lerp(t1,t2,k/11);if(k%3==0)c.fx('tick',tt,{f:1800+k*60});const p=c.r(tt,.35),x=96+(k%4)*156,y=300+Math.floor(k/4)*124;
+  h+=`<div style="position:absolute;left:${x}px;top:${y}px;width:140px;height:108px;border-radius:16px;background:${p>=1?'#1f6b45':'#2c1a0f'};border:3px solid ${p>=1?COL.green:'#ffffff26'};transform:perspective(600px) rotateX(${((1-ez(p))*-80).toFixed(1)}deg);transform-origin:50% 0;opacity:${(.35+.65*Math.min(1,p*2)).toFixed(2)};box-shadow:0 10px 20px #0007;text-align:center">
+  <div style="font:500 24px/38px P;color:${COL.cream2}">${m}</div><div style="font:700 34px/50px P;color:${p>=1?COL.cream:'#ffffff55'}">€120</div></div>`});
+ const tc=c.fx('cash',t2+.4),n=Math.min(12,Math.floor(ei(cl(c.lt,t1,t2+.35))*12+.0001));
+ h+=chip(cx,740,`Invested: ${fmt(n*120)}`,{p:c.a(t1,.4),size:44,s:c.lt>tc?1+.08*Math.max(0,1-(c.lt-tc)*3):1,bg:'#24150cee',fg:c.lt>=tc?COL.green:COL.cream});
+ return h},
+// ---- 10: not a guarantee – example years
+swings(c,g){const x0=1230,base=520,t0=c.fx('swish',.05),td=c.fx('thud',c.w(/drops/i,.45)),tc=c.fx('pop',c.w(/climbs/i,.75));let h='',s='';
+ h+=T(g.cx+30,170,`${ic('warn',54,COL.gold,'vertical-align:-10px;margin-right:14px')}Not a guarantee`,{size:46,p:c.a(t0,.5)});
+ const Y=[12,-8,21,5,-18,26,9,-4,15,11];
+ s+=`<line x1=1215 x2=1830 y1=${base} y2=${base} stroke="#ffffff55" stroke-width=3 />`;
+ Y.forEach((v,k)=>{const p=ez(cl(c.lt,.4+k*.18,.9+k*.18)),hh=v*7*p,x=x0+k*60;
+  s+=`<rect x=${x} y=${v>0?base-hh:base} width=42 height=${Math.abs(hh).toFixed(1)} rx=6 fill="${v>0?COL.green:COL.red}" opacity=.95 />`});
+ const pa=c.a(.4+Y.length*.18,.6);
+ s+=`<line x1=1215 x2=${1215+615*pa} y1=${base-49} y2=${base-49} stroke="${COL.gold}" stroke-width=4 stroke-dasharray="14 10"/>`;
+ h+=svg(s);
+ h+=T(1830,base-80,'≈ 7 % average',{al:'r',size:30,col:COL.gold,p:pa});
+ h+=T(g.cx,700,'example years · illustration',{size:26,col:COL.muted,w:500,p:c.a(1,.5)});
+ h+=chip(1370,790,'Big drops',{p:c.r(td,.5),size:38,bg:'#7a2318ee',ic:ic('down',34,'#fff')});
+ h+=chip(1680,790,'Big climbs',{p:c.r(tc,.5),size:38,bg:'#1d7a48ee',ic:ic('up',34,'#fff')});
+ return h},
+// ---- 12: Einstein quote + growing snowball
+quote(c){const t0=c.fx('swish',.05),tu=c.fx('thud',c.w(/unclear/i,.55)),ts=c.fx('ding',c.w(/solid/i,.88));let h='',s='';
+ h+=box(100,110,720,280,{p:c.a(t0,.5)});
+ h+=T(140,205,'“The eighth wonder<br>of the world.”',{al:'l',size:50,lh:1.15,p:c.a(t0+.15,.5)});
+ h+=T(140,330,'— often attributed to Albert Einstein',{al:'l',size:28,w:500,col:COL.muted,p:c.a(t0+.35,.5)});
+ h+=stamp(700,140,'SOURCE UNCLEAR',c.r(tu,.35),{size:34,rot:8});
+ h+=chip(460,450,'The idea is solid',{p:c.r(ts,.5),size:42,bg:COL.green2+'ee',ic:ic('check',40,'#fff')});
+ // snowball rolls down the slope and grows
+ const p=ei(cl(c.lt,c.D*.25,c.D*.98)),x=lerp(1240,700,p),y=lerp(640,790,p)-Math.sin(p*Math.PI)*20,r=lerp(34,92,p),rot=-p*900;
+ if(c.lt>c.D*.2){s+=`<ellipse cx=${x} cy=${y+r*.92} rx=${r*1.05} ry=${r*.22} fill="#5a789655"/>`;
+  s+=`<g transform="translate(${x.toFixed(1)},${y.toFixed(1)}) rotate(${rot.toFixed(1)})"><circle r=${r} fill="#f7fbff" stroke="#9db4cc" stroke-width=4 /><path d="M${-r*.6} ${-r*.2} Q0 ${-r*.55} ${r*.6} ${-r*.1} M${-r*.4} ${r*.45} Q${r*.1} ${r*.2} ${r*.55} ${r*.5}" fill=none stroke="#c3d4e6" stroke-width=${(r/8).toFixed(1)} stroke-linecap=round /></g>`;
+  s+=`<path d="M1240 ${640+34} Q ${(1240+x)/2} ${(640+y)/2+60} ${x} ${y+r}" fill=none stroke="#ffffffaa" stroke-width=${(r*.5).toFixed(1)} stroke-linecap=round opacity=.35 />`}
+ return svg(s)+h},
+// ---- 15: your money works harder than you
+workharder(c){const x=1360,y=100,t0=c.fx('swish',.05),t1=.4,t2=Math.max(t1+2,c.D*.85);let h='';
+ const yr=30*ei(cl(c.lt,t1,t2)),ret=V(120,yr)*RM,yc=10.3,tc=lerp(t1,t2,.35);c.fx('ding',tc+.1);
+ const won=yr>=yc,k=330/800;
+ h+=box(x,y,440,360,{p:c.a(t0,.5),bd:won?`3px solid ${COL.green}`:'2px solid #ffffff1c'});
+ if(c.a(t0,.5)>0){
+ h+=T(x+30,y+48,'Every month',{al:'l',size:30,col:COL.muted,w:500,p:c.a(t0+.1,.4)});
+ h+=T(x+410,y+48,`Year ${Math.floor(yr)}`,{al:'r',size:36,col:COL.gold,p:c.a(t0+.1,.4)});
+ h+=T(x+30,y+120,'You put in',{al:'l',size:30,p:c.a(t0+.2,.4)});
+ h+=`<div style="position:absolute;left:${x+30}px;top:${y+148}px;height:40px;width:${(120*k).toFixed(0)}px;border-radius:8px;background:${COL.cream2};opacity:${c.a(t0+.2,.4)}"></div>`;
+ h+=T(x+40+120*k,y+168,'€120',{al:'l',size:32,p:c.a(t0+.2,.4)});
+ h+=T(x+30,y+240,'Your money earns',{al:'l',size:30,p:c.a(t0+.3,.4)});
+ h+=`<div style="position:absolute;left:${x+30}px;top:${y+268}px;height:40px;width:${Math.max(4,ret*k).toFixed(0)}px;border-radius:8px;background:${COL.green};opacity:${c.a(t0+.3,.4)}"></div>`;
+ h+=T(x+40+Math.max(4,ret*k),y+288,fmt(ret),{al:'l',size:32,col:won?COL.green:COL.cream,p:c.a(t0+.3,.4)});}
+ h+=chip(x+440,y+420,'Your money works harder',{al:'r',p:c.r(tc,.5),size:36,bg:COL.green2+'f0',ic:ic('up',34,'#fff')});
+ return h},
+// ---- 21: 30 % of the way
+progress(c,g){const x0=1220,x1=1820,t0=c.fx('swish',.05),t1=.5,t2=t1+1.6,tm=c.fx('thud',c.w(/million/i,.75));c.fx('tick',t2,{f:2400});let h='';
+ h+=T(g.cx,170,`${ic('flag',50,COL.gold,'vertical-align:-8px;margin-right:12px')}Goal: €1,000,000`,{size:46,p:c.a(t0,.5)});
+ const f=.3*ei(cl(c.lt,t1,t2));
+ h+=T(g.cx,320,`${Math.round(f*100)} %`,{size:130,col:COL.gold,p:c.a(t0+.2,.5)});
+ h+=`<div style="position:absolute;left:${x0}px;top:430px;width:${x1-x0}px;height:64px;border-radius:32px;background:repeating-linear-gradient(135deg,#ff5b4a22 0 14px,#ff5b4a10 14px 28px);border:3px solid #ff5b4a66;opacity:${c.a(t0+.2,.5)}"></div>`;
+ h+=`<div style="position:absolute;left:${x0}px;top:430px;width:${((x1-x0)*f).toFixed(0)}px;height:70px;border-radius:32px;background:linear-gradient(90deg,${COL.gold2},${COL.gold});box-shadow:0 0 30px #ffc94a66"></div>`;
+ h+=T(x0,560,`${ic('check',36,COL.green,'vertical-align:-6px;margin-right:8px')}€300,000`,{al:'l',size:40,col:COL.green,p:c.a(t2,.4)});
+ h+=T(x0,610,'after 40 years',{al:'l',size:26,col:COL.muted,w:500,p:c.a(t2,.4)});
+ h+=T(x1,560,'€700,000',{al:'r',size:40,col:COL.red,p:c.r(tm,.4)});
+ h+=T(x1,610,'still missing',{al:'r',size:26,col:COL.muted,w:500,p:c.r(tm,.4)});
+ return h},
+// ---- 23: the myth gets struck through
+mythstrike(c){const t0=c.fx('swish',.05),tq=c.fx('error',c.w(/quite/i,.4)),ts=c.fx('ding',c.w(/start/i,.85));let h='',s='';
+ h+=box(90,110,760,260,{p:c.a(t0,.5)});
+ h+=T(130,190,`${ic('cup',62,COL.cream2,'vertical-align:-10px;margin-right:14px')}Coffee = Millionaire`,{al:'l',size:56,p:c.a(t0+.1,.5),col:c.lt>tq?'#d9c3a3':COL.cream});
+ const ps=ez(c.r(tq,.4));if(ps>0)h+=`<div style="position:absolute;left:120px;top:186px;height:10px;border-radius:5px;background:${COL.red};width:${(ps*690).toFixed(0)}px;box-shadow:0 0 12px #ff5b4a99;transform:rotate(-2deg);transform-origin:0 50%"></div>`;
+ h+=T(130,300,`${ic('check',52,COL.green,'vertical-align:-10px;margin-right:12px')}a good start`,{al:'l',size:52,col:COL.green,p:c.r(ts,.5)});
+ s+=arrow(1090,470,590,410,c.a(.6,1.4),{bend:.18,col:COL.gold,w:7,dash:'4 18'});
+ h=svg(s)+h;
+ h+=chip(840,520,'a long way to go',{p:c.a(1.5,.5),size:32,bg:'#24150ccc'});
+ return h},
+// ---- 27: time + savings rate
+levers(c,g){const cx=g.cx,t0=c.fx('swish',.05),tc=c.fx('error',c.w(/coffee/i,.2)),tt=c.fx('pop',c.w(/time/i,.55)),tr=c.fx('pop',c.w(/savings/i,.75)),te=c.fx('chime',Math.max(tr+.7,c.D*.92));let h='';
+ h+=chip(cx,180,'Coffee',{p:c.a(t0,.4),size:44,bg:'#3a2214ee',ic:ic('cup',44,COL.cream2)});
+ const px=ez(c.r(tc,.35));if(px>0)h+=icAt('cross',cx+150,180,80,COL.red,px);
+ const card=(y,ico,txt,p)=>p<=0?'':`<div style="position:absolute;left:${cx-250}px;top:${y-50}px;width:500px;height:100px;border-radius:22px;background:#fbf0da;display:flex;align-items:center;gap:22px;padding-left:34px;box-sizing:border-box;box-shadow:0 16px 30px #0008;transform:scale(${bo(p).toFixed(3)});opacity:${Math.min(1,p*2)}">${ic(ico,60,COL.brown)}<span style="font:700 46px P;color:${COL.brown}">${txt}</span></div>`;
+ h+=card(330,'clock','Time',c.r(tt,.5));
+ h+=T(cx,430,'+',{size:80,col:COL.gold,p:c.r(tr-.1,.3)});
+ h+=card(530,'pct','Savings rate',c.r(tr,.5));
+ h+=T(cx,630,'=',{size:80,col:COL.gold,p:c.r(te-.15,.3)});
+ h+=chip(cx,740,'€1,000,000',{p:c.r(te,.5),size:60,bg:`linear-gradient(90deg,${COL.gold2},${COL.gold})`,fg:COL.brown,ic:ic('coin',58,'#ffe08a')});
+ return h},
+// ---- 29: €100 a month – "I can do that"
+hundred(c){const t0=c.fx('pop',.15),tb=c.fx('pop',c.w(/can/i,.7));let h='';
+ h+=chip(1500,470,'€100 / month',{p:c.a(t0,.5),size:64,bg:`linear-gradient(90deg,${COL.gold2},${COL.gold})`,fg:COL.brown,ic:ic('coin',74,'#ffe08a')});
+ h+=T(1500,575,'realistic for many people',{size:32,w:500,p:c.a(t0+.3,.5)});
+ const pb=c.r(tb,.5);if(pb>0)h+=`<div style="position:absolute;left:1300px;top:110px;transform:scale(${bo(pb).toFixed(3)});transform-origin:0 100%;opacity:${Math.min(1,pb*2)}"><div style="padding:22px 40px;border-radius:40px;background:#fff6e4;color:${COL.brown};font:700 50px P;white-space:nowrap;box-shadow:0 14px 30px #0007">I can do that! ${ic('check',46,COL.green2,'vertical-align:-8px')}</div><svg width=60 height=50 style="position:absolute;left:10px;top:96%"><path d="M10 0 L50 0 L0 46 Z" fill="#fff6e4"/></svg></div>`;
+ return h},
+// ---- 32: deposits vs growth
+split(c,g){const bx=1300,bw=190,base=800,t0=c.fx('swish',.05),t1=.4,t2=1.5,tm=c.fx('ding',c.w(/many/i,.6));c.fx('pop',t1);c.fx('pop',t2);let h='';
+ const k=560/247000,ph=48000*k*ez(c.r(t1,.8)),gh=199000*k*ez(c.r(t2,1.1));
+ h+=T(g.cx,190,'After 40 years: €247,000',{size:42,col:COL.gold,p:c.a(t0,.5)});
+ h+=`<div style="position:absolute;left:${bx}px;top:${base-ph}px;width:${bw}px;height:${ph.toFixed(1)}px;border-radius:0 0 14px 14px;background:${COL.cream2}"></div>`;
+ h+=`<div style="position:absolute;left:${bx}px;top:${(base-ph-gh).toFixed(1)}px;width:${bw}px;height:${gh.toFixed(1)}px;border-radius:14px 14px 0 0;background:linear-gradient(180deg,${COL.green},${COL.green2})"></div>`;
+ h+=T(bx+bw+30,base-48000*k/2-14,'€48,000',{al:'l',size:44,p:c.a(t1+.5,.4)});
+ h+=T(bx+bw+30,base-48000*k/2+26,'you paid in',{al:'l',size:26,w:500,col:COL.muted,p:c.a(t1+.5,.4)});
+ h+=T(bx+bw+30,base-48000*k-199000*k/2-14,'€199,000',{al:'l',size:54,col:COL.green,p:c.a(t2+.8,.4)});
+ h+=T(bx+bw+30,base-48000*k-199000*k/2+30,'growth',{al:'l',size:28,w:500,col:COL.muted,p:c.a(t2+.8,.4)});
+ h+=chip(g.cx,860,'Growth ≈ 4× your deposits',{p:c.r(tm,.5),size:36,bg:COL.green2+'f0'});
+ return h},
+// ---- 33: not rich – free, flexible, independent
+free(c){const t0=c.fx('swish',.05),tr=c.fx('error',c.w(/rich/i,.25));let h='';
+ h+=chip(1500,210,'Rich?',{p:c.a(t0,.4),size:46,bg:'#3a2214ee'});
+ h+=icAt('cross',1620,210,74,COL.red,c.r(tr,.35));
+ [['Free',/free/i,.5],['Flexible',/flexible/i,.65],['Independent',/independent/i,.85]].forEach(([s,re,f],k)=>{const tt=c.fx('pop',c.w(re,f));
+  h+=chip(1500,350+k*125,s,{p:c.r(tt,.5),size:52,bg:'#fbf0daf2',fg:COL.brown,ic:ic('check',50,COL.green2)})});
+ return h},
+// ---- 36: 10-year head start
+headstart(c){const t0=c.fx('swish',.05),x0=330,x1=1790,k=(x1-x0)/48,t19=c.fx('pop',c.w(/nineteen/i,.4)),t29=c.fx('pop',c.w(/twenty/i,.8));let h='',s='';
+ h+=box(60,90,1800,250,{p:c.a(t0,.5)});
+ const lane=(y,a0,col,lab,tt)=>{const p=ei(c.r(tt,1.2)),xa=x0+(a0-19)*k,xb=xa+(x1-xa)*p;
+  return T(x0-30,y,lab,{al:'r',size:30,col,p:c.r(tt-.2,.4)})+`<div style="position:absolute;left:${xa}px;top:${y-16}px;width:${Math.max(0,xb-xa).toFixed(0)}px;height:32px;border-radius:16px;background:${col}"></div>`};
+ h+=lane(170,19,COL.gold,'Start at 19',t19);h+=lane(240,29,COL.cream2,'Start at 29',t29);
+ [19,29,39,49,59].forEach(a=>{h+=T(x0+(a-19)*k,300,a,{size:24,w:500,col:COL.muted,p:c.a(t0+.3,.4)})});
+ const pb=c.r(t29+.3,.6);if(pb>0){s+=`<path d="M${x0} 290 V 278 H ${x0+10*k} V 290" fill=none stroke="${COL.green}" stroke-width=5 opacity=${ez(pb)} />`}
+ h+=svg(s);
+ h+=chip(x0+5*k+40,395,'10-year head start',{p:pb,size:38,bg:COL.green2+'f0'});
+ return h},
+// ---- 37: raise savings rate with salary
+rate(c,g){const cx=g.cx,t0=c.fx('swish',.05);let h='';
+ h+=T(cx,165,'Salary up → savings up',{size:42,p:c.a(t0,.5)});
+ const cols=[[190,300,10,'Year 1'],[400,390,15,'Year 5'],[610,480,20,'Year 10']],base=770;
+ cols.forEach(([x,hh,r,lab],k)=>{const tt=c.fx('pop',.5+k*.75),p=ez(c.r(tt,.6)),q=ez(c.r(tt+.45,.5)),H2=hh*p,gh=hh*r/100*2.2*q;
+  h+=`<div style="position:absolute;left:${x-70}px;top:${base-H2}px;width:140px;height:${H2.toFixed(1)}px;border-radius:14px 14px 4px 4px;background:#f2dcb5;overflow:hidden"><div style="position:absolute;left:0;right:0;bottom:0;height:${gh.toFixed(1)}px;background:${COL.green}"></div></div>`;
+  h+=T(x,base-gh/2,`${r} %`,{size:34,col:'#fff',p:q});
+  h+=T(x,base+30,lab,{size:26,w:500,col:COL.muted,p:c.a(tt,.4)});
+  h+=T(x,base-H2-30,'Salary',{size:24,w:500,col:COL.cream2,p:c.a(tt+.2,.4)})});
+ h+=T(cx,860,`${ic('up',34,COL.green,'vertical-align:-6px;margin-right:8px')}invested share grows`,{size:30,col:COL.green,p:c.a(2.6,.5)});
+ return h},
+// ---- 38: crash – sell or stay
+stayin(c,g){const x0=1230,x1=1820,y0=220,y1=640,t0=c.fx('swish',.05),ts=c.fx('error',c.w(/sells/i,.55)),te=c.fx('ding',c.w(/loses/i,.9));let h='',s='';
+ const P=[0,.18,.32,.45,.4,.55,.62,.25,.15,.2,.35,.5,.62,.74,.82,.95];const N=P.length-1,X=k=>x0+k/N*(x1-x0),Y=v=>y1-v*(y1-y0-30);
+ const pd=ei(c.r(.3,Math.max(1.5,c.D*.6)))*N;let d='';for(let k=0;k<=Math.floor(pd);k++)d+=(k?'L':'M')+X(k)+' '+Y(P[k]);
+ const fk=Math.floor(pd),fr=pd-fk;if(fk<N)d+=`L${lerp(X(fk),X(fk+1),fr)} ${lerp(Y(P[fk]),Y(P[fk+1]),fr)}`;
+ s+=`<rect x=${x0-20} y=${y0-20} width=${x1-x0+40} height=${y1-y0+60} rx=24 fill="#24150cdd" opacity=${c.a(t0,.4)} />`;
+ s+=`<path d="${d}" fill=none stroke="${COL.cream}" stroke-width=7 stroke-linejoin=round stroke-linecap=round />`;
+ h+=svg(s);
+ h+=T(g.cx,170,'Crash: sell or stay?',{size:42,p:c.a(t0,.5)});
+ h+=icAt('cross',X(8),Y(P[8])+50,70,COL.red,c.r(ts,.4));
+ h+=chip(X(8),Y(P[8])+120,'sold = loss locked in',{p:c.r(ts+.1,.5),size:28,bg:'#7a2318ee'});
+ h+=icAt('check',X(N),Y(P[N])-50,70,COL.green,c.r(te,.4));
+ h+=chip(X(N)-90,Y(P[N])-120,'stayed in',{p:c.r(te+.1,.5),size:28,bg:COL.green2+'ee'});
+ return h},
+// ---- 40: inflation shrinks the million
+inflation(c,g){const cx=g.cx,t0=c.fx('swish',.05),t1=c.w(/loses/i,.25),t2=t1+2.2;c.fx('thud',t2);let h='';
+ h+=T(cx,165,'€1,000,000 in 40 years …',{size:40,p:c.a(t0,.5)});
+ const p=ei(c.r(t1,2.2)),r=lerp(170,115,p),v=lerp(1000000,450000,p);
+ h+=`<div style="position:absolute;left:${cx-r}px;top:${420-r}px;width:${2*r}px;height:${2*r}px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffe9a6,${COL.gold} 45%,${COL.gold2});box-shadow:0 0 0 8px #b8771a inset,0 20px 40px #0009;opacity:${c.a(t0+.2,.5)}"></div>`;
+ h+=T(cx,420,fmt(v),{size:Math.round(lerp(50,40,p)),col:COL.brown,sh:0,p:c.a(t0+.2,.5)});
+ h+=icAt('down',cx+230,330,80,COL.red,c.r(t1,.5));
+ h+=T(cx,640,'≈ €450,000 in today’s money',{size:40,col:COL.gold,p:c.r(t2-.3,.5)});
+ h+=T(cx,692,'assuming about 2 % inflation per year',{size:26,w:500,col:COL.muted,p:c.r(t2-.1,.5)});
+ return h},
+// ---- 41: taxes and fees bite into gains
+tax(c){const x=1340,y=100,t0=c.fx('swish',.05),tt=c.fx('thud',c.w(/taxed/i,.45)),tf=c.fx('thud',c.w(/fees/i,.85));let h='';
+ h+=box(x,y,500,330,{p:c.a(t0,.5)});
+ h+=T(x+30,y+50,'Your gains',{al:'l',size:34,p:c.a(t0+.1,.4)});
+ const bw=440,pt=ez(c.r(tt,.6)),pf=ez(c.r(tf,.6)),wt=bw*.24,wf=bw*.08;
+ h+=`<div style="position:absolute;left:${x+30}px;top:${y+90}px;width:${(bw-wt*pt-wf*pf).toFixed(0)}px;height:60px;border-radius:12px;background:${COL.green};opacity:${c.a(t0+.2,.4)}"></div>`;
+ if(pt>0)h+=`<div style="position:absolute;left:${(x+30+bw-wt-wf*pf).toFixed(0)}px;top:${(y+90+pt*80).toFixed(0)}px;width:${wt}px;height:60px;border-radius:12px;background:${COL.red};transform:rotate(${(pt*8).toFixed(1)}deg)"></div>`;
+ if(pf>0)h+=`<div style="position:absolute;left:${(x+30+bw-wf).toFixed(0)}px;top:${(y+90+pf*80).toFixed(0)}px;width:${wf}px;height:60px;border-radius:12px;background:#ff8a5a;transform:rotate(${(pf*-10).toFixed(1)}deg)"></div>`;
+ h+=T(x+30,y+250,'− tax on gains',{al:'l',size:32,col:COL.red,p:c.r(tt,.4)});
+ h+=T(x+30,y+295,'− ongoing fund fees',{al:'l',size:32,col:'#ff8a5a',p:c.r(tf,.4)});
+ return h},
+// ---- 42: drawdown on paper
+drawdown(c,g){const x0=110,x1=690,y0=230,y1=640,t0=c.fx('swish',.05),td=c.fx('thud',c.w(/thirty/i,.55));let h='',s='';
+ const P=[.3,.38,.45,.52,.6,.68,.74,.55,.44,.42,.48,.58,.7,.8,.88];const N=P.length-1,X=k=>x0+k/N*(x1-x0),Y=v=>y1-v*(y1-y0);
+ const pd=ei(c.r(.3,Math.max(1.6,c.D*.65)))*N;let d='';const fk=Math.floor(pd);for(let k=0;k<=fk;k++)d+=(k?'L':'M')+X(k)+' '+Y(P[k]);if(fk<N)d+=`L${lerp(X(fk),X(fk+1),pd-fk)} ${lerp(Y(P[fk]),Y(P[fk+1]),pd-fk)}`;
+ s+=`<rect x=${x0-30} y=${y0-40} width=${x1-x0+60} height=${y1-y0+90} rx=24 fill="#24150cdd" opacity=${c.a(t0,.4)} />`;
+ const pr=c.r(td,.6);if(pr>0)s+=`<rect x=${X(6)} y=${Y(P[6])} width=${X(9)-X(6)} height=${Y(P[9])-Y(P[6])} fill="${COL.red}" opacity=${(.25*pr).toFixed(2)} /><line x1=${X(6)-20} x2=${X(9)+40} y1=${Y(P[6])} y2=${Y(P[6])} stroke="${COL.red}" stroke-dasharray="8 8" stroke-width=3 opacity=${pr} />`;
+ s+=`<path d="${d}" fill=none stroke="${COL.cream}" stroke-width=7 stroke-linejoin=round stroke-linecap=round />`;
+ h+=svg(s);
+ h+=T(X(9)+20,Y(P[9])+50,'−30 to −40 %',{size:48,col:COL.red,p:pr});
+ h+=T(g.cx,720,'on paper, for a while',{size:30,w:500,col:COL.muted,p:c.r(td+.5,.5)});
+ return h},
+// ---- 43: math easy, nerves hard
+nerves(c){const x=100,y=100,t0=c.fx('swish',.05),tm=c.fx('tick',c.w(/math/i,.3),{f:2200}),tn=c.fx('heartbeat',c.w(/nerves/i,.75),{n:2});let h='',s='';
+ h+=box(x,y,640,300,{p:c.a(t0,.5)});
+ h+=T(x+40,y+80,'The math',{al:'l',size:44,p:c.a(t0+.1,.4)});
+ h+=icAt('check',x+330,y+78,60,COL.green,c.r(tm,.4));
+ h+=T(x+400,y+80,'easy',{al:'l',size:36,w:500,col:COL.green,p:c.r(tm,.4)});
+ h+=T(x+40,y+190,'Your nerves',{al:'l',size:44,p:c.r(tn-.4,.4)});
+ const pn=c.r(tn,.4),beat=1+.18*Math.max(0,Math.sin((c.lt-tn)*7.5))**8;
+ if(pn>0){h+=`<div style="position:absolute;left:${x+340}px;top:${y+160}px;transform:scale(${beat.toFixed(3)});opacity:${pn}">${ic('heart',60,COL.red)}</div>`;
+  let d='';for(let k=0;k<=60;k++){const u=k/60,ph=(u*3-(c.lt-tn)*1.2)%1,pp=ph<0?ph+1:ph;const e=pp>.4&&pp<.5?Math.sin((pp-.4)/.1*Math.PI*2)*-40:pp>.5&&pp<.56?Math.sin((pp-.5)/.06*Math.PI)*16:0;d+=(k?'L':'M')+(x+420+u*190).toFixed(1)+' '+(y+190+e).toFixed(1)}
+  s+=`<path d="${d}" fill=none stroke="${COL.red}" stroke-width=5 stroke-linejoin=round opacity=${pn} />`;}
+ h+=chip(x+320,y+350,'the hard part',{p:c.r(tn+.3,.5),size:32,bg:'#7a2318ee'});
+ return h+svg(s)},
+// ---- 45: thousands of companies in one ETF
+tiles(c,g){const C=18,R=13,sz=26,gp=6,X0=g.cx-(C*(sz+gp)-gp)/2,Y0=250,t0=c.fx('swish',.05),t1=.5,t2=Math.max(t1+1.5,c.D*.62),tc=c.fx('pop',Math.max(t2+.3,c.w(/single/i,.8)));c.fx('shimmer',t1+.3);let h='';
+ h+=T(g.cx,165,'Thousands of companies …',{size:42,p:c.a(t0,.5)});
+ const pal=['#ffc94a','#3ddc84','#ff8a5a','#7cc3ff','#f2dcb5','#e06b8b','#b58cff'];const pc=ez(c.r(tc,.6));
+ let s='';for(let r=0;r<R;r++)for(let k=0;k<C;k++){const u=(r+k)/(R+C-2),p=ez(cl(c.lt,lerp(t1,t2,u),lerp(t1,t2,u)+.35));if(p<=0)continue;
+  const n=r*C+k,col=pal[Math.floor(MG.rnd(n+3)*pal.length)];s+=`<rect x=${(X0+k*(sz+gp)+sz/2*(1-p)).toFixed(1)} y=${(Y0+r*(sz+gp)+sz/2*(1-p)).toFixed(1)} width=${(sz*p).toFixed(1)} height=${(sz*p).toFixed(1)} rx=5 fill="${col}" opacity=.92 />`}
+ if(pc>0)s+=`<rect x=${X0-18} y=${Y0-18} width=${C*(sz+gp)-gp+36} height=${R*(sz+gp)-gp+36} rx=22 fill=none stroke="${COL.gold}" stroke-width=${(8*pc).toFixed(1)} opacity=${pc} />`;
+ h+=svg(s);
+ h+=chip(g.cx,Y0+R*(sz+gp)+80,'… in one single product',{p:pc,size:38,bg:`linear-gradient(90deg,${COL.gold2},${COL.gold})`,fg:COL.brown});
+ return h},
+// ---- 46: one winner vs whole market
+market(c){const x=100,y=100,t0=c.fx('swish',.05),tw=c.fx('pop',c.w(/whole/i,.4)),tb=c.fx('impact',c.w(/boring/i,.7));let h='',s='';
+ h+=box(x,y,640,400,{p:c.a(t0,.5)});
+ h+=T(x+40,y+70,'Bet on one winner?',{al:'l',size:38,p:c.a(t0+.1,.4)});
+ h+=`<div style="position:absolute;left:${x+60}px;top:${y+110}px;width:70px;height:70px;border-radius:12px;background:#7cc3ff;opacity:${c.a(t0+.2,.4)};display:flex;align-items:center;justify-content:center;font:700 44px P;color:${COL.brown}">?</div>`;
+ h+=icAt('cross',x+200,y+145,64,COL.red,c.r(tw-.3,.4));
+ h+=T(x+40,y+250,'Buy the whole market',{al:'l',size:38,col:COL.green,p:c.r(tw,.4)});
+ const pal=['#ffc94a','#3ddc84','#ff8a5a','#7cc3ff','#f2dcb5','#e06b8b'];
+ for(let k=0;k<26;k++){const p=ez(c.r(tw+.05*k,.3));if(p<=0)continue;s+=`<rect x=${x+60+k%13*42} y=${y+290+Math.floor(k/13)*42} width=${34*p} height=${34*p} rx=6 fill="${pal[k%6]}"/>`}
+ h+=svg(s);
+ h+=stamp(560,640,'BORING = THE POINT',c.r(tb,.35),{col:COL.gold,size:52,rot:-6});
+ return h},
+// ---- 48: emergency fund first
+emergency(c,g){const cx=g.cx,t0=c.fx('swish',.05),t1=.6,t2=c.fx('ding',c.w(/sell/i,.8));let h='';
+ h+=T(cx,165,'First: an emergency fund',{size:42,p:c.a(t0,.5)});
+ const f=ei(c.r(t1,2.2));
+ h+=`<div style="position:absolute;left:${cx-150}px;top:240px;width:300px;height:400px;border-radius:40px 40px 50px 50px;border:8px solid #fbf0da;box-sizing:border-box;overflow:hidden;background:#ffffff10;opacity:${c.a(t0+.2,.5)}"><div style="position:absolute;left:0;right:0;bottom:0;height:${(f*80).toFixed(1)}%;background:linear-gradient(180deg,${COL.gold},${COL.gold2})"></div></div>`;
+ h+=`<div style="position:absolute;left:${cx-170}px;top:222px;width:340px;height:40px;border-radius:12px;background:#c58a4a;opacity:${c.a(t0+.2,.5)}"></div>`;
+ h+=T(cx,470,'3–6 months<br>of expenses',{size:40,col:COL.brown,sh:'0 2px 0 #ffe7a8',p:c.a(t1+1.2,.5)});
+ h+=T(cx,690,'common rule of thumb',{size:26,w:500,col:COL.muted,p:c.a(t1+1.4,.5)});
+ h+=chip(cx,780,'No forced selling',{p:c.r(t2,.5),size:38,bg:COL.green2+'f0',ic:ic('shield',40,'#fff')});
+ return h},
+// ---- 49: expensive debt vs return
+debt(c,g){const base=650,t0=c.fx('swish',.05),t1=.5,ts=c.fx('ding',c.w(/safer/i,.8));c.fx('pop',t1);c.fx('pop',t1+.5);let h='';
+ h+=T(g.cx,170,'Expensive debt first',{size:44,p:c.a(t0,.5)});
+ const b=(x,v,col,lab,sub,tt)=>{const p=ei(c.r(tt,.9)),hh=v*24*p;return `<div style="position:absolute;left:${x-80}px;top:${base-hh}px;width:160px;height:${hh.toFixed(1)}px;border-radius:14px 14px 4px 4px;background:${col}"></div>`+T(x,base-hh-40,lab,{size:56,col,p:c.a(tt+.4,.4)})+T(x,base+36,sub,{size:26,w:500,col:COL.cream2,p:c.a(tt,.4),mw:260,lh:1.2})};
+ h+=b(1390,15,COL.red,'e.g. 15 %','debt interest<br>(credit card)',t1);
+ h+=b(1660,7,COL.green,'~7 %','expected return,<br>not guaranteed',t1+.5);
+ h+=chip(g.cx,800,'Paying off = a safe “return”',{p:c.r(ts,.5),size:34,bg:`linear-gradient(90deg,${COL.gold2},${COL.gold})`,fg:COL.brown});
+ return h},
+// ---- 50: not financial advice
+advice(c){const t0=c.fx('impact',c.w(/advice/i,.3)),t1=c.fx('pop',c.w(/example/i,.5)),t2=c.fx('pop',c.w(/research/i,.85));let h='';
+ h+=stamp(1340,300,'NOT FINANCIAL ADVICE',c.r(t0,.35),{size:58,rot:-7});
+ h+=chip(1340,470,'just a worked example',{p:c.r(t1,.5),size:40,bg:'#24150cee',ic:ic('pct',36,COL.gold)});
+ h+=chip(1340,580,'do your own research',{p:c.r(t2,.5),size:40,bg:'#24150cee',ic:ic('lens',38,COL.gold)});
+ return h},
+// ---- 52: the honest answer: no
+answer(c){const t0=c.fx('swish',.05),tn=c.fx('impact',c.w(/^No\.?$/,.35));let h='';
+ h+=box(100,100,600,520,{p:c.a(t0,.5)});
+ h+=T(400,180,'Millionaire?',{size:60,p:c.a(t0+.1,.4)});
+ h+=stamp(400,290,'NO',c.r(tn,.35),{size:84,rot:-6});
+ [['on its own',/own/i,.55],['in 20 years',/twenty/i,.7],['without patience',/patience/i,.9]].forEach(([s,re,f],k)=>{const tt=c.fx('tick',c.w(re,f),{f:1900});
+  h+=chip(140,410+k*68,s,{al:'l',p:c.r(tt-.1,.4),size:34,bg:'#ffffff12',ic:ic('cross',34,COL.red),s:1})});
+ return h},
+// ---- 54: the journey
+journey(c){const t0=c.fx('swish',.05);let h='',s='';
+ const pts=[[1330,830,'Start'],[1480,690,'Safety net'],[1610,550,'Flexibility'],[1720,400,'Financial stability']];
+ const tp=[.4,c.w(/goal/i,.4),c.w(/journey/i,.65),c.w(/stable/i,.88)];
+ let d='M'+pts[0][0]+' '+pts[0][1];for(let k=1;k<pts.length;k++)d+=` L${pts[k][0]} ${pts[k][1]}`;
+ const pl=ez(c.r(.3,Math.max(1.5,tp[3]-.2)));
+ s+=`<path d="${d}" fill=none stroke="${COL.gold}" stroke-width=8 stroke-dasharray="2 22" stroke-linecap=round pathLength=1000 style="stroke-dashoffset:0" opacity=${pl>0?.9:0} clip-path="url(#jc)"/><clipPath id=jc><rect x=0 y=${lerp(860,380,pl)} width=1920 height=1080 /></clipPath>`;
+ h+=svg(s);
+ pts.forEach(([x,y,lab],k)=>{const tt=c.fx('pop',tp[k]);const p=c.r(tt,.5);h+=icAt('flag',x,y-40,70,k==3?COL.gold:COL.cream,p);h+=chip(x-50,y-40,lab,{al:'r',p,size:k==3?40:32,bg:k==3?`linear-gradient(90deg,${COL.gold2},${COL.gold})`:'#24150ce6',fg:k==3?COL.brown:COL.cream})});
+ h+=chip(1720,190,'€1,000,000?',{p:c.a(.6,.5),size:30,bg:'#24150c99',fg:'#fff3dc99',s:1});
+ return h},
+// ---- 55: comment with your own numbers
+comment(c,g){const x=90,y=230,t0=c.fx('swish',.05),t1=.7,msg='I invest €150 a month → about €370,000 after 40 years at 7 %!',t2=Math.max(t1+2.2,c.D*.7);let h='';
+ c.fx('type',t1,{n:14});c.fx('type',t1+1.1,{n:14});const tp=c.fx('pop',t2+.2);
+ h+=T(g.cx,160,'Your turn: run your numbers',{size:40,p:c.a(t0,.5)});
+ const n=Math.floor(msg.length*cl(c.lt,t1,t2)),blink=Math.floor(c.lt*2.2)%2==0;
+ h+=box(x,y,630,400,{p:c.a(t0+.1,.5),bg:'#fbf0da',bd:'0',html:`<div style="position:absolute;left:30px;top:30px;width:70px;height:70px;border-radius:50%;background:${COL.coffee};display:flex;align-items:center;justify-content:center">${ic('cup',44,COL.cream2)}</div><div style="position:absolute;left:120px;top:44px;font:700 30px P;color:${COL.brown}">You</div><div style="position:absolute;left:30px;top:130px;width:570px;font:500 36px/1.35 P;color:${COL.brown}">${msg.slice(0,n)}<span style="opacity:${blink&&c.lt<t2+.6?1:0};color:${COL.gold2}">|</span></div>`});
+ const pp=c.r(tp,.4);h+=chip(x+520,y+340,'Post',{p:c.a(t0+.3,.4),size:34,bg:pp>0?COL.green2:COL.coffee,s:pp>0&&pp<1?1-.12*Math.sin(pp*Math.PI):1});
+ return h},
+};
+
+// ======================================================================
+//  SCENE TYPES
+// ======================================================================
+const SC={};
+// ---------------- img: image + animated overlay -----------------------
+SC.img={mk(g,el){const sp=g.spec;g.lay=sp.lay||'full';
+  if(g.lay=='full'){g.im=mkImg(el,sp.img)}else{mkBg(el,0);g.pan=mkPanel(el,sp.img,PAN[g.lay])}
+  g.ov=mkOv(el)},
+ cam(g,t){const s=cl(t,g.B,g.E),e=ei(s),dir=g.idx%2?1:-1;
+  if(g.lay=='full'){g.im.style.transform=`scale(${(1.06+.05*e).toFixed(4)}) translate(${(dir*(14-28*e)).toFixed(2)}px,${(6-12*e).toFixed(2)}px)`;
+   g.ov.style.transform=`translate(${(dir*(-10+20*e)).toFixed(2)}px,${(-4+8*e).toFixed(2)}px)`}
+  else{const sg=g.lay=='left'?1:-1;g.pan.style.transform=`perspective(2200px) rotateY(${(sg*(7-10*e)).toFixed(2)}deg) rotateX(${(2-3*e).toFixed(2)}deg) scale(${(.985+.03*e).toFixed(4)})`;
+   g.pan.img.style.transform=`scale(${(1.04+.05*e).toFixed(4)}) translate(${(sg*(-10+20*e)).toFixed(2)}px,0)`;
+   g.ov.style.transform=`translate(${(sg*(12-24*e)).toFixed(2)}px,0)`}},
+ ov(g,t){const c=ctx(g.i0,t),sp=g.spec,geo=PAN[g.lay]||{};let h=OV[sp.ov](c,geo);
+  if(sp.num){const pb=c.a(-.1,.5);const bx=g.lay=='full'?(sp.ov=='tax'||sp.ov=='headstart'?90:90):geo.x+20,by=g.lay=='full'?(sp.ov=='headstart'?400:(sp.ov=='tax'?90:90)):geo.y-30;
+   if(sp.ov=='headstart')h+=badge(90,620,sp.num,BADGE[sp.ov],pb);else h+=badge(bx,by,sp.num,BADGE[sp.ov],pb)}
+  return h}};
+
+// ---------------- hook (line 1) ---------------------------------------
+SC.hook={mk(g,el){mkBg(el,0);g.comp=document.createElement('div');g.comp.className='ov';el.appendChild(g.comp);g.pan=mkPanel(el,g.spec.img,{x:470,y:300,w:980,h:551});g.ov=mkOv(el)},
+ cam(g,t){const c=ctx(g.i0,t),tc=Math.max(3.4,Math.min(4.2,c.D*.55)),p=ei(c.r(tc,1));
+  g.comp.style.transform=`translateY(${(-p*150).toFixed(1)}px) scale(${lerp(1,.5,p).toFixed(4)})`;g.comp.style.transformOrigin='960px 300px';
+  const q=ez(c.r(tc+.15,.9));g.pan.style.opacity=q;g.pan.style.transform=`perspective(2000px) translateY(${((1-q)*500).toFixed(1)}px) rotateX(${((1-q)*35+2*Math.sin(c.lt*.4)).toFixed(2)}deg) scale(${(.9+.1*q+.02*cl(c.lt,tc,c.D)).toFixed(4)})`;
+  g.pan.img.style.transform=`scale(${(1.05+.04*cl(c.lt,tc,c.D+1)).toFixed(4)})`;
+  setH(g.comp,this.comp(c,tc))},
+ comp(c,tc){let h='',s='';const t0=c.fx('whoosh',-.4,{d:1}),tt=.15;c.fx('pop',1.1);
+  // big mug with steam
+  const mp=bo(c.r(0,.8));
+  s+=`<g transform="translate(420,500) scale(${(2.2*mp).toFixed(3)})"><ellipse cx=0 cy=96 rx=88 ry=14 fill="#0007"/><path d="M-70 -40 H62 V30 C62 70 40 94 -4 94 C-48 94 -70 70 -70 30 Z" fill="#fbf0da"/><path d="M62 -18 C102 -18 102 46 62 46" fill=none stroke="#fbf0da" stroke-width=16 /><ellipse cx=-4 cy=-40 rx=66 ry=12 fill="#6b3f22"/><path d="M-60 0 H52" stroke="#c8432f" stroke-width=10 />`;
+  for(let k=0;k<3;k++){const ph=c.lt*1.3+k*1.7;let d='';for(let j=0;j<=12;j++){const u=j/12;d+=(j?'L':'M')+(-34+k*30+Math.sin(ph+u*5)*9).toFixed(1)+' '+(-56-u*90).toFixed(1)}
+   s+=`<path d="${d}" fill=none stroke="#fff" stroke-width=7 stroke-linecap=round opacity=${(.45*mp).toFixed(2)} />`}
+  s+=`</g>`;
+  h+=svg(s);
+  const tw=['ONE','COFFEE','A','DAY'];let x=0;
+  h+=`<div style="position:absolute;left:0;width:1920px;top:110px;text-align:center;font:700 104px/1 P;color:${COL.cream};text-shadow:${SH}">${tw.map((w,k)=>{const p=c.r(tt+k*.15,.4);return `<span style="display:inline-block;margin:0 .14em;opacity:${Math.min(1,p*2)};transform:translateY(${((1-ez(p))*40).toFixed(1)}px) scale(${bo(p).toFixed(3)})">${w}</span>`}).join('')}</div>`;
+  const te=1.0,tc1=1.25,tc2=2.7;for(let k=0;k<6;k++)c.fx('tick',tc1+k*.24,{f:1800+k*150});const tq=c.fx('impact',tc2+.2);
+  h+=T(740,500,'=',{size:150,col:COL.muted,p:c.r(te,.3)});
+  const v=1000000*Math.pow(ei(c.r(tc1,tc2-tc1)),2.2);
+  h+=T(850,500,fmt(v),{al:'l',size:150,col:COL.gold,p:c.r(tc1-.1,.3),sh:`0 0 40px #ffc94a55,${SH}`});
+  const qp=c.r(tq,.4);h+=T(1790,490,'?',{size:220,col:COL.cream,p:qp,s:bo(qp)*(1+.08*Math.sin((c.lt-tq)*5)),sh:`${MG.outline(5)},0 10px 30px #000a`});
+  return h},
+ ov(g,t){const c=ctx(g.i0,t),tc=Math.max(3.4,Math.min(4.2,c.D*.55));c.fx('whoosh',tc,{d:.9});const tm=c.fx('pop',c.w(/millionaire/i,.92));let h='';
+  h+=chip(1560,760,'the internet’s promise',{p:c.r(tc+.8,.5),size:32,bg:'#24150cee',rot:-3});
+  h+=icAt('cup',395,700,90,COL.cream2,c.r(tc+.9,.5));
+  return h}};
+
+// ---------------- phase title card -------------------------------------
+SC.phase={mk(g,el){mkBg(el,0);g.num=document.createElement('div');g.num.className='abs';g.num.style.cssText=`left:40px;top:-60px;font:700 760px/1 P;color:#ffc94a10;letter-spacing:-30px`;g.num.textContent=g.spec.n;el.appendChild(g.num);
+  g.pan=mkPanel(el,g.spec.img,{x:900,y:210,w:940,h:529});g.ov=mkOv(el)},
+ cam(g,t){const c=ctx(g.i0,t),p=ez(c.r(-.35,1.1)),e=cl(t,g.B,g.E);
+  g.pan.style.transform=`perspective(1800px) translateX(${((1-p)*500).toFixed(1)}px) translateZ(${((1-p)*-600).toFixed(1)}px) rotateY(${lerp(-62,-9+5*e,p).toFixed(2)}deg) rotateX(${lerp(10,2,p).toFixed(2)}deg)`;g.pan.style.opacity=Math.min(1,p*1.6);
+  g.pan.img.style.transform=`scale(${(1.06+.05*e).toFixed(4)})`;
+  g.num.style.transform=`translateX(${(-80*e+(1-p)*-200).toFixed(1)}px)`;g.num.style.opacity=p},
+ ov(g,t){const c=ctx(g.i0,t),sp=g.spec;let h='';c.fx('chime',.35);
+  const p1=c.a(-.2,.5),p2=c.a(-.05,.6),long=sp.title.length>22;
+  h+=T(120,300,`PHASE ${sp.n}`,{al:'l',size:40,col:COL.gold,ls:10,p:p1,dy:-20});
+  h+=`<div style="position:absolute;left:120px;top:350px;width:740px;font:700 ${long?78:92}px/1.08 P;color:${COL.cream};text-shadow:${SH};opacity:${p2};transform:translateX(${((1-p2)*-60).toFixed(1)}px)">${sp.title}</div>`;
+  // progress 1..9
+  for(let k=1;k<=9;k++){const pk=c.a(.05+k*.04,.3),cur=k==sp.n,fill=k<sp.n?1:cur?ez(c.r(.4,.7)):0;
+   h+=`<div style="position:absolute;left:${120+(k-1)*78}px;top:760px;width:64px;height:14px;border-radius:7px;background:#ffffff22;overflow:hidden;opacity:${pk};${cur?'box-shadow:0 0 18px #ffc94aaa':''}"><div style="height:100%;width:${(fill*100).toFixed(1)}%;background:${COL.gold}"></div></div>`}
+  h+=T(120,730,`${sp.n} / 9`,{al:'l',size:26,col:COL.muted,w:500,p:c.a(.3,.4)});
+  return h}};
+
+// ---------------- calc (lines 6–7): €4 × 365 = €1,460  ÷ 12 ≈ €120 -----
+SC.calc={mk(g,el){mkBg(el,g.spec.img);g.ov=mkOv(el)},
+ cam(g,t){const e=cl(t,g.B,g.E);g.el.querySelector('.blur').style.transform=`scale(${1.03+.04*e}) translateX(${-20*e}px)`},
+ ov(g,t){const c=ctx(g.i0,t),d=g.n>1?ctx(g.i0+1,t):null;let h='',s='';
+  const t4=c.fx('pop',c.w(/four/i,.25)),t365=c.fx('pop',c.w(/Every/i,.42)),tg1=c.w(/single/i,.45),tg2=c.w(/year\./i,.7)+.3,teq=c.fx('cash',c.w(/fourteen/i,.85));
+  c.fx('shimmer',tg1);
+  // step 2 timing
+  const up=d?ez(d.r(-.4,.8)):0;
+  const ROW=lerp(300,170,up),SC_=lerp(1,.72,up);
+  let r1='';
+  r1+=icAt('cup',300,0,120,COL.cream2,c.r(t4-.1,.5));
+  r1+=T(460,0,'€4',{size:130,p:c.r(t4,.4)});r1+=T(460,92,'per coffee',{size:28,w:500,col:COL.muted,p:c.r(t4,.4)});
+  r1+=T(630,0,'×',{size:110,col:COL.muted,p:c.r(t365-.1,.3)});
+  const days=Math.round(365*ei(cl(c.lt,tg1,tg2)));
+  r1+=T(830,0,c.lt<tg1?'365':String(Math.max(1,days)),{size:130,p:c.r(t365,.4)});r1+=T(830,92,'days',{size:28,w:500,col:COL.muted,p:c.r(t365,.4)});
+  r1+=T(1040,0,'=',{size:110,col:COL.muted,p:c.r(teq-.2,.3)});
+  const pe=c.r(teq,.9);r1+=T(1180,0,fmt(1460*ei(pe)),{al:'l',size:130,col:COL.gold,p:c.r(teq,.3),sh:`0 0 40px #ffc94a55,${SH}`});r1+=T(1340,92,'per year',{size:28,w:500,col:COL.muted,p:c.r(teq,.4)});
+  h+=`<div style="position:absolute;left:0;top:${ROW}px;width:1920px;height:0;transform:scale(${SC_});transform-origin:960px 0">${r1}</div>`;
+  // 365-day grid
+  const gp=1-ez(d?d.r(-.5,.5):0);
+  if(gp>0){const C=30,X0=450,Y0=480;for(let k=0;k<365;k++){const x=X0+(k%C)*34,y=Y0+Math.floor(k/C)*24,on=k<days&&c.lt>=tg1;
+    s+=`<circle cx=${x} cy=${y} r=${on?9:7} fill="${on?COL.gold:'#ffffff1a'}" />`}
+   h+=svg(s,{css:`opacity:${(gp*c.a(t365,.5)).toFixed(3)}`});
+   h+=T(1560,640,`Day ${Math.max(1,days)}`,{al:'l',size:44,col:COL.gold,p:c.a(tg1,.3)*gp});}
+  if(d){const t12=d.fx('swish',.1),tr=d.fx('pop',d.w(/twenty/i,.3)+.1),tm=d.w(/month/i,.55);let r2='';
+   d.fx('tick',tm+.3,{f:2000});
+   r2+=T(470,0,'€1,460',{size:110,col:COL.cream,p:d.r(-.2,.4)});
+   r2+=T(800,0,'÷ 12',{size:100,col:COL.muted,p:d.r(t12,.4)});
+   r2+=T(990,0,'≈',{size:100,col:COL.muted,p:d.r(tr-.2,.3)});
+   const pr=d.r(tr,.5);r2+=chip(1230,0,'€120',{p:pr,size:120,bg:`linear-gradient(90deg,${COL.gold2},${COL.gold})`,fg:COL.brown,r:30});
+   r2+=T(1470,8,'/ month',{al:'l',size:72,col:COL.cream,p:d.r(tr+.2,.4)});
+   h+=`<div style="position:absolute;left:0;top:450px;width:1920px;height:0">${r2}</div>`;
+   const M='JFMAMJJASOND';for(let k=0;k<12;k++){const tt=tm+.1+k*.12,p=d.r(tt,.35),x=212+k*126;if(p<=0)continue;
+    h+=`<div style="position:absolute;left:${x}px;top:620px;width:110px;height:170px;border-radius:16px;background:#2c1a0fdd;border:2px solid #ffffff26;text-align:center;transform:translateY(${((1-ez(p))*40).toFixed(1)}px);opacity:${Math.min(1,p*2)}"><div style="font:500 24px/40px P;color:${COL.muted}">${M[k]}</div>${ic('cup',54,COL.cream2,'display:block;margin:2px auto')}<div style="font:700 26px/44px P;color:${COL.red}">−€120</div></div>`}}
+  return h}};
+
+// ---------------- stat: one big number ----------------------------------
+SC.stat={mk(g,el){mkBg(el,0);g.pan=mkPanel(el,g.spec.img,{x:90,y:190,w:920,h:518});g.ov=mkOv(el)},
+ cam(g,t){const e=ei(cl(t,g.B,g.E));g.pan.style.transform=`perspective(2000px) rotateY(${(8-10*e).toFixed(2)}deg) scale(${(.98+.03*e).toFixed(4)})`;g.pan.img.style.transform=`scale(${(1.04+.05*e).toFixed(4)})`;g.ov.style.transform=`translateX(${(10-20*e).toFixed(1)}px)`},
+ ov(g,t){const c=ctx(g.i0,t),sp=g.spec,t1=c.fx('pop',.2),t2=t1+1.4;c.fx('ding',t2);let h='',s='';
+  const p=ei(c.r(t1,1.4)),v=sp.value*p,dec=sp.value<20&&p<1?1:0;
+  const str=(sp.pre||'')+MG.fmt(v,dec)+(sp.suf||'');const len=((sp.pre||'')+MG.fmt(sp.value,0)+(sp.suf||'')).length;const size=Math.min(250,Math.round(1150/len));
+  h+=T(1450,400,str,{size,col:COL.gold,p:c.a(t1-.1,.3),sh:`0 0 60px #ffc94a55,${SH}`});
+  h+=T(1450,400+size*.62,sp.label,{size:54,p:c.a(t1+.5,.5)});
+  h+=T(1450,400+size*.62+80,sp.sub,{size:28,w:500,col:COL.muted,mw:720,lh:1.3,p:c.a(t1+.8,.5)});
+  const pa=ez(c.r(t1+.3,1));if(pa>0)h+=`<div style="position:absolute;left:${1450-260*pa}px;top:${400+size*.62+38}px;width:${520*pa}px;height:6px;border-radius:3px;background:${COL.gold};opacity:.8"></div>`;
+  return h}};
+
+// ---------------- growth: doubling coins / slow start -------------------
+SC.growth={mk(g,el){mkBg(el,g.spec.img);g.pan=mkPanel(el,g.spec.img,{x:1440,y:90,w:400,h:225});g.ov=mkOv(el)},
+ cam(g,t){const e=ei(cl(t,g.B,g.E));g.pan.style.transform=`rotate(${(3-2*e).toFixed(2)}deg) scale(${(.98+.03*e).toFixed(3)})`;g.pan.img.style.transform=`scale(${(1.04+.05*e).toFixed(4)})`},
+ ov(g,t){const c=ctx(g.i0,t);return g.spec.mode=='double'?this.dbl(c):this.slow(c)},
+ dbl(c){let h='',s='';const t0=c.fx('swish',.05);
+  h+=T(120,150,'Return earns return',{al:'l',size:62,p:c.a(t0,.5)});
+  h+=T(120,222,'At 7 % a year, money roughly doubles every ~10 years',{al:'l',size:30,w:500,col:COL.muted,p:c.a(t0+.2,.5)});
+  const X=[340,640,940,1240,1540],N=[1,2,4,8,16],lab=['Start','~10 yrs','~20 yrs','~30 yrs','~40 yrs'],base=800;
+  const tt=[.5,c.w(/return\.?$/i,.3),c.w(/next/i,.45),c.w(/own/i,.65),c.w(/compound/i,.85)];for(let k=1;k<5;k++)if(tt[k]<=tt[k-1]+.5)tt[k]=tt[k-1]+.6;
+  X.forEach((x,k)=>{const t1=c.fx(k==4?'chime':'pop',tt[k]);const p=c.r(t1,.25+N[k]*.04);if(p<=0)return;const n=N[k],nn=Math.ceil(n*ez(p)-1e-6);
+   for(let j=0;j<nn;j++){const y=base-j*22,first=j==0;s+=`<ellipse cx=${x} cy=${y+6} rx=72 ry=20 fill="${first?'#9a5b0c':'#16804a'}"/><ellipse cx=${x} cy=${y} rx=72 ry=20 fill="${first?COL.gold:COL.green}" stroke="${first?'#b8771a':'#1d9c5a'}" stroke-width=3 />`}
+   h+=T(x,base+60,lab[k],{size:28,w:500,col:COL.cream2,p});
+   if(k>0){const pa=c.r(t1-.15,.5);s+=arrow(X[k-1]+60,base-(N[k-1])*22-40,x-40,base-n*22-30,pa,{bend:-.3,col:COL.gold,w:5});
+    h+=T((X[k-1]+x)/2,base-(N[k-1]+n)*11-110+(k==4?40:0),'×2',{size:40,col:COL.gold,p:pa})}});
+  h+=chip(1550,380,'your money',{p:c.a(.6,.4),size:28,bg:'#24150cee',ic:`<span style="display:inline-block;width:26px;height:26px;border-radius:50%;background:${COL.gold}"></span>`,s:1});
+  h+=chip(1550,445,'returns',{p:c.a(1.1,.4),size:28,bg:'#24150cee',ic:`<span style="display:inline-block;width:26px;height:26px;border-radius:50%;background:${COL.green}"></span>`,s:1});
+  return svg(s)+h},
+ slow(c){let h='',s='';const t0=c.fx('swish',.05),X0=150,X1=1330,Y0=200,Y1=780;
+  const tz=c.fx('whoosh',Math.max(2.5,c.D*.66),{d:1.2}),z=ei(c.r(tz,1.3));
+  const ym=lerp(5,40,z),vm=lerp(9000,320000,z),X=y=>X0+y/ym*(X1-X0),Y=v=>Y1-v/vm*(Y1-Y0);
+  const yr=lerp(5*ei(c.r(.4,Math.min(2.2,c.D*.45))),40,ei(c.r(tz+.2,1.4)));
+  h+=T(X0,140,'At first it feels painfully slow',{al:'l',size:50,p:c.a(t0,.5)});
+  // grid
+  for(let k=1;k<=4;k++){const v=vm*k/4;s+=`<line x1=${X0} x2=${X1} y1=${Y(v)} y2=${Y(v)} stroke="#ffffff14" stroke-width=2 />`;
+   h+=T(X0-16,Y(v),v>=1000?'€'+Math.round(v/1000)+'k':'',{al:'r',size:22,w:500,col:COL.muted,sh:0})}
+  for(let y=0;y<=ym+1e-6;y+=ym>20?10:1)h+=T(X(y),Y1+28,String(Math.round(y)),{size:22,w:500,col:COL.muted,sh:0});
+  h+=T(X1,Y1+62,'years',{al:'r',size:22,w:500,col:COL.muted,sh:0});
+  s+=`<line x1=${X0} x2=${X1} y1=${Y1} y2=${Y1} stroke="#ffffff55" stroke-width=3 />`;
+  let dv='',dp='';for(let k=0;k<=120;k++){const y=yr*k/120;dv+=(k?'L':'M')+X(y).toFixed(1)+' '+Y(V(120,y)).toFixed(1);dp+=(k?'L':'M')+X(y).toFixed(1)+' '+Y(1440*y).toFixed(1)}
+  s+=`<path d="${dp}" fill=none stroke="${COL.cream2}" stroke-width=6 stroke-dasharray="14 10"/><path d="${dv}" fill=none stroke="${COL.green}" stroke-width=8 stroke-linecap=round />`;
+  h=svg(s)+h;
+  const pl=c.a(1.5,.5)*(1-z);
+  h+=chip(X(5)-170,Y(V(120,5))-70,'Portfolio €8,500',{p:pl,size:30,bg:'#1d7a48ee',s:1});
+  h+=chip(X(5)-150,Y(1440*5)+70,'Piggy bank €7,200',{p:pl,size:30,bg:'#5a3a22ee',s:1});
+  h+=chip(X(28),Y(V(120,30))-30,'… then it tips',{p:c.r(tz+1.1,.5),size:38,bg:`linear-gradient(90deg,${COL.gold2},${COL.gold})`,fg:COL.brown});
+  h+=T(1640,370,'barely different',{size:34,col:COL.cream2,p:c.a(1.6,.5)*(1-z)});
+  return h}};
+
+// ---------------- chart: compound growth, marker per sentence ----------
+const MS={ch120:{m:120,ymax:320000,tick:100000,pts:[[10,20800,14400],[20,62000,29000],[30,142000,43200],[40,300000,57600]]},
+          ch100:{m:100,ymax:260000,tick:50000,pts:[[30,117000,36000],[40,247000,48000]]}};
+SC.chart={mk(g,el){mkBg(el,0);g.pans=[];for(let j=0;j<g.n;j++){const p=mkPanel(el,MG.L(g.i0+j).spec.img,{x:1410,y:120,w:430,h:242});g.pans.push(p)}g.ov=mkOv(el)},
+ cam(g,t){const st=this.step(g,t);g.pans.forEach((p,j)=>{const q=j==st.j?ez(st.c.r(-.3,.6)):j<st.j?1:0;const show=j<=st.j;p.style.display=show?'block':'none';
+   p.style.opacity=j==st.j?Math.max(q,j==0?1:0):1;p.style.zIndex=j;p.style.transform=`rotate(${(j%2?2:-2)*(1-.5*q)}deg) scale(${(.96+.04*q).toFixed(3)})`;p.img.style.transform=`scale(${(1.04+.03*cl(t,st.c.L.start,st.c.L.end)).toFixed(4)})`})},
+ step(g,t){let j=0;for(let k=0;k<g.n;k++)if(t>=MG.L(g.i0+k).start-.3)j=k;return {j,c:ctx(g.i0+j,t)}},
+ ov(g,t){const M=MS[g.spec.group],{j,c}=this.step(g,t);let h='',s='';const X0=170,X1=1330,Y0=170,Y1=790,X=y=>X0+y/40*(X1-X0),Y=v=>Y1-v/M.ymax*(Y1-Y0);
+  // per-step timing (also collects sfx for every step)
+  const tim=[];for(let k=0;k<g.n;k++){const ck=ctx(g.i0+k,t),dur=Math.min(2.2,Math.max(1.2,ck.D*.5));ck.fx(k==0?'swish':'tick',k==0?.0:.1,{f:2000});ck.fx('pop',.15+dur);tim.push({ck,dur})}
+  const prevY=j==0?0:M.pts[j-1][0],curY=M.pts[j][0],q=ei(c.r(.15,tim[j].dur)),yr=lerp(prevY,curY,q);
+  const pin=ez(ctx(g.i0,t).r(-.4,.6));
+  h+=T(X0,96,`€${M.m} a month · 7 % per year`,{al:'l',size:46,p:pin});
+  h+=T(X1,98,`<span style="color:${COL.green}">●</span> value&nbsp;&nbsp;&nbsp;<span style="color:${COL.cream2}">●</span> paid in`,{al:'r',size:28,w:500,p:pin});
+  for(let v=M.tick;v<=M.ymax;v+=M.tick){s+=`<line x1=${X0} x2=${X1} y1=${Y(v)} y2=${Y(v)} stroke="#ffffff16" stroke-width=2 />`;h+=T(X0-18,Y(v),'€'+v/1000+'k',{al:'r',size:24,w:500,col:COL.muted,sh:0,p:pin})}
+  for(let y=0;y<=40;y+=10)h+=T(X(y),Y1+32,String(y),{size:26,w:500,col:COL.muted,sh:0,p:pin});
+  h+=T(X1,Y1+70,'years',{al:'r',size:24,w:500,col:COL.muted,sh:0,p:pin});
+  s+=`<line x1=${X0} x2=${X1} y1=${Y1} y2=${Y1} stroke="#ffffff66" stroke-width=3 />`;
+  const N=Math.max(2,Math.round(yr*4));let dv='',dp='',ar='';const pts=[];for(let k=0;k<=N;k++){const y=yr*k/N;pts.push([X(y),Y(V(M.m,y)),Y(M.m*12*y)])}
+  pts.forEach((p,k)=>{dv+=(k?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1);dp+=(k?'L':'M')+p[0].toFixed(1)+' '+p[2].toFixed(1)});
+  ar=dv+[...pts].reverse().map(p=>'L'+p[0].toFixed(1)+' '+p[2].toFixed(1)).join('')+'Z';
+  s+=`<defs><linearGradient id=ga x1=0 y1=0 x2=0 y2=1><stop offset=0 stop-color="${COL.green}" stop-opacity=.45 /><stop offset=1 stop-color="${COL.green}" stop-opacity=.08 /></linearGradient></defs>`;
+  s+=`<path d="${ar}" fill="url(#ga)"/><path d="${dp}" fill=none stroke="${COL.cream2}" stroke-width=6 stroke-dasharray="14 10"/><path d="${dv}" fill=none stroke="${COL.green}" stroke-width=9 stroke-linecap=round stroke-linejoin=round />`;
+  // past milestones
+  for(let k=0;k<j;k++){const [y,v]=M.pts[k];s+=`<circle cx=${X(y)} cy=${Y(V(M.m,y))} r=10 fill="${COL.cream}" stroke="${COL.green2}" stroke-width=4 />`;h+=T(X(y)-14,Y(V(M.m,y))-34,'€'+Math.round(v/1000)+'k',{al:'r',size:28,col:COL.cream2})}
+  // live marker
+  const mx=X(yr),my=Y(V(M.m,yr)),pp=Y(M.m*12*yr),pulse=(c.lt*1.2)%1;
+  s+=`<line x1=${mx} x2=${mx} y1=${my+16} y2=${Y1} stroke="${COL.gold}" stroke-width=3 stroke-dasharray="6 8" opacity=.8 />`;
+  s+=`<circle cx=${mx} cy=${pp} r=9 fill="${COL.cream2}"/><circle cx=${mx} cy=${my} r=${16+30*pulse} fill=none stroke="${COL.gold}" stroke-width=4 opacity=${(1-pulse)*.8} /><circle cx=${mx} cy=${my} r=15 fill="${COL.gold}" stroke="#fff" stroke-width=4 />`;
+  h=svg(s)+h;
+  // right card
+  const [cy,cv,cp]=M.pts[j],pv=j?M.pts[j-1]:[0,0,0];
+  const vv=lerp(pv[1],cv,q),vp=lerp(pv[2],cp,q),pc=ctx(g.i0,t).a(-.2,.6);
+  h+=T(1625,440,`After ${Math.round(yr)} years`,{size:40,p:pc});
+  h+=T(1625,530,'≈ '+fmt(vv),{size:76,col:COL.green,p:pc,sh:`0 0 30px #3ddc8455,${SH}`});
+  h+=T(1625,590,'portfolio value',{size:26,w:500,col:COL.muted,p:pc});
+  h+=T(1625,680,fmt(vp),{size:54,col:COL.cream2,p:pc});
+  h+=T(1625,730,'paid in',{size:26,w:500,col:COL.muted,p:pc});
+  return h}};
+
+// ---------------- bars: monthly amount for €1M --------------------------
+const BARS=[['Your coffee',120,'#a8764c',''],['40 years at 7 %',400,COL.gold,'3.3×'],['40 years at 5 %',675,COL.gold,'5.6×'],['30 years at 7 %',850,COL.gold,'7×']];
+SC.bars={mk(g,el){g.bgs=[];for(let j=0;j<g.n;j++)g.bgs.push(mkBg(el,MG.L(g.i0+j).spec.img));g.ov=mkOv(el)},
+ cam(g,t){const {j,c}=SC.chart.step(g,t);g.bgs.forEach((b,k)=>{const q=k==j?ez(c.r(-.4,.8)):k<j?1:0;b.style.display=k<=j?'block':'none';b.blurImg.style.display=k<=j?'block':'none';b.blurImg.style.opacity=(.55*(k==0?1:q)).toFixed(3);b.style.opacity=k==0?1:0;b.blurImg.style.transform=`scale(${1.03+.03*cl(t,g.B,g.E)})`})},
+ ov(g,t){const {j}=SC.chart.step(g,t);let h='';const c0=ctx(g.i0,t),pin=c0.a(-.4,.6),X0=600,k=1000/850;
+  const tim=[];for(let q=0;q<g.n;q++){const cq=ctx(g.i0+q,t),tv=cq.w(/hundred|percent/i,.4);cq.fx('swish',.05);cq.fx('cash',tv+1.1);tim.push([cq,tv])}
+  h+=T(140,120,'Monthly amount for €1,000,000',{al:'l',size:58,p:pin});
+  h+=T(140,182,'example returns per year, not guaranteed',{al:'l',size:28,w:500,col:COL.muted,p:pin});
+  BARS.forEach(([lab,v,col,mul],r)=>{const y=310+r*140;let p,act=false;
+   if(r==0)p=ez(c0.r(0,.8));else{const q=r-1;if(q>j)return;const [cq,tv]=tim[q];p=ei(cq.r(tv,1.1));act=q==j}
+   const bw=v*k*p;
+   h+=T(560,y,lab,{al:'r',size:38,col:r==0?COL.cream2:(act?COL.cream:COL.cream2),p:Math.min(1,p*3)});
+   h+=`<div style="position:absolute;left:${X0}px;top:${y-38}px;height:76px;width:${bw.toFixed(1)}px;border-radius:0 18px 18px 0;background:${r==0?'linear-gradient(90deg,#7a4e2e,#a8764c)':act?`linear-gradient(90deg,${COL.gold2},${COL.gold})`:'linear-gradient(90deg,#b98a3a,#d8b060)'};box-shadow:${act?'0 0 30px #ffc94a66,':''}0 10px 20px #0007"></div>`;
+   h+=T(X0+bw+24,y-4,'€'+Math.round(v*p),{al:'l',size:52,col:r==0?COL.cream2:COL.gold,p:Math.min(1,p*3)});
+   if(mul)h+=T(X0+bw+24,y+40,`${mul} your coffee`,{al:'l',size:24,w:500,col:COL.muted,p:ez(cl(p,.9,1))});
+   if(r==0)h+=icAt('cup',X0+bw-40,y,52,'#f2dcb5',p)});
+  // reference line at coffee level
+  h+=`<div style="position:absolute;left:${X0+120*k-2}px;top:260px;width:0;height:${Math.min(1,pin)*580}px;border-left:3px dashed #ffffff40"></div>`;
+  return h}};
+
+// ---------------- list: three levers -------------------------------------
+SC.list={mk(g,el){mkBg(el,g.spec.img);g.ov=mkOv(el)},
+ cam(g,t){g.el.querySelector('.blur').style.transform=`scale(${1.03+.04*cl(t,g.B,g.E)})`},
+ ov(g,t){const c=ctx(g.i0,t),t0=c.fx('swish',.05),tb=c.fx('error',c.w(/But/,.5)),tt=c.w(/three/i,.62);let h='';
+  h+=T(960,140,`${ic('lens',58,COL.cream2,'vertical-align:-12px;margin-right:16px')}The perfect stock? The best tip?`,{size:50,p:c.a(t0,.5),col:c.lt>tb?'#cdb495':COL.cream});
+  const ps=ez(c.r(tb,.4));if(ps>0)h+=`<div style="position:absolute;left:${960-470}px;top:140px;width:${(940*ps).toFixed(0)}px;height:8px;border-radius:4px;background:${COL.red}"></div>`;
+  h+=T(960,225,'3 things matter far more',{size:44,col:COL.gold,p:c.r(tt-.2,.5)});
+  [['clock','Start early'],['plus','Invest more'],['shield','Stay invested']].forEach(([icn,lab],k)=>{const tk=c.fx('whoosh',tt+k*.3,{d:.5}),p=c.r(tk,.7);if(p<=0)return;const x=420+k*540,e=ez(p);
+   h+=`<div style="position:absolute;left:${x-230}px;top:300px;width:460px;height:470px;border-radius:30px;background:#fbf0da;box-shadow:0 30px 60px #000a;transform:perspective(1400px) translateY(${((1-e)*420).toFixed(1)}px) rotateX(${((1-e)*40).toFixed(1)}deg) rotate(${((1-e)*(k-1)*10).toFixed(1)}deg);opacity:${Math.min(1,p*2.5)}">
+    <div style="position:absolute;left:30px;top:30px;width:84px;height:84px;border-radius:50%;background:${COL.gold};font:700 52px/84px P;color:${COL.brown};text-align:center">${k+1}</div>
+    <div style="position:absolute;left:0;right:0;top:120px;text-align:center">${ic(icn,170,COL.coffee)}</div>
+    <div style="position:absolute;left:0;right:0;top:340px;text-align:center;font:700 52px P;color:${COL.brown}">${lab}</div></div>`});
+  return h}};
+
+// ---------------- dca: savings plan buys every month -------------------
+SC.dca={mk(g,el){mkBg(el,0);g.pan=mkPanel(el,g.spec.img,{x:90,y:160,w:800,h:450});g.ov=mkOv(el)},
+ cam(g,t){const e=ei(cl(t,g.B,g.E));g.pan.style.transform=`perspective(2000px) rotateY(${(7-9*e).toFixed(2)}deg) scale(${(.98+.03*e).toFixed(4)})`;g.pan.img.style.transform=`scale(${(1.04+.05*e).toFixed(4)})`},
+ ov(g,t){const c=ctx(g.i0,t),t0=c.fx('swish',.05),t1=.5,t2=Math.max(t1+2.5,c.D*.85);let h='',s='';
+  const P=[100,92,84,95,110,104,88,79,96,112,119,108],X0=1000,X1=1810,Y0=260,Y1=600,X=k=>X0+k/11*(X1-X0),Y=v=>Y1-(v-70)/55*(Y1-Y0);
+  h+=T(X0,180,'Same amount, every month',{al:'l',size:44,p:c.a(t0,.5)});
+  h+=T(X0,232,'price high or low – it just buys',{al:'l',size:28,w:500,col:COL.muted,p:c.a(t0+.2,.5)});
+  const pl=ei(cl(c.lt,t1-.3,t2))*11;let d='';for(let k=0;k<=Math.floor(pl);k++)d+=(k?'L':'M')+X(k)+' '+Y(P[k]);const fk=Math.floor(pl);if(fk<11)d+=`L${lerp(X(fk),X(fk+1),pl-fk)} ${lerp(Y(P[fk]),Y(P[fk+1]),pl-fk)}`;
+  s+=`<rect x=${X0-30} y=${Y0-30} width=${X1-X0+60} height=${Y1-Y0+60} rx=24 fill="#24150ccc" opacity=${c.a(t0,.4)} /><path d="${d}" fill=none stroke="${COL.cream2}" stroke-width=6 stroke-linejoin=round />`;
+  const M=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  M.forEach((m,k)=>{const tt=lerp(t1,t2,k/11);if(k%2==0)c.fx('tick',tt,{f:1700+k*70});const p=c.r(tt,.4);
+   if(p>0){const r=(100/P[k])*18*bo(p);s+=`<circle cx=${X(k)} cy=${Y(P[k])} r=${r.toFixed(1)} fill="${P[k]<95?COL.green:COL.gold}" stroke="#fff" stroke-width=3 opacity=.95 />`}
+   const x=150+k*138,e=ez(p);
+   h+=`<div style="position:absolute;left:${x-64}px;top:680px;width:128px;height:120px;border-radius:16px;background:${p>=1?'#1f6b45':'#2c1a0f'};border:3px solid ${p>=1?COL.green:'#ffffff22'};transform:perspective(600px) rotateY(${((1-e)*-90).toFixed(1)}deg);opacity:${(.4+.6*Math.min(1,p*2)).toFixed(2)};text-align:center;box-shadow:0 10px 20px #0007"><div style="font:500 24px/40px P;color:${COL.cream2}">${m}</div><div style="font:700 30px/54px P;color:${p>=1?COL.cream:'#ffffff40'}">€100 ✓</div></div>`});
+  h=svg(s)+h;
+  h+=T(X1,Y1+62,`<span style="color:${COL.green}">●</span> low price → more shares`,{al:'r',size:24,w:500,col:COL.cream2,p:c.a(t2,.5)});
+  return h}};
+
+// ---------------- outro: subscribe -------------------------------------
+SC.outro={mk(g,el){g.im=mkImg(el,g.spec.img);g.ov=mkOv(el)},
+ cam(g,t){const e=ei(cl(t,g.B,g.E+2));g.im.style.transform=`scale(${(1.04+.05*e).toFixed(4)}) translate(${(-10+16*e).toFixed(1)}px,0)`},
+ ov(g,t){const c=ctx(g.i0,t),tcur=1,tcl=c.fx('tap',c.w(/subscribe/i,.15)+.3),tn=c.fx('whoosh',c.w(/next/i,.55),{d:.8});c.fx('ding',tcl+.25);c.fx('chime',tn+.6);let h='';
+  // button
+  const done=c.lt>=tcl,pr=c.r(tcl,.25),press=pr>0&&pr<1?1-.1*Math.sin(pr*Math.PI):1;
+  h+=chip(1560,640,done?'Subscribed':'Subscribe',{p:c.a(.2,.5),s:bo(c.a(.2,.5))*press,size:52,bg:done?'#5a4a3c':'#d6402e',fg:'#fff',ic:ic(done?'check':'bell',50,'#fff'),r:20});
+  // cursor
+  const cp=ei(c.r(tcur,Math.max(.4,tcl-tcur))),cx=lerp(1900,1600,cp),cy=lerp(1000,660,cp);
+  if(c.lt>tcur-.1&&c.lt<tcl+1.2)h+=`<svg style="position:absolute;left:${cx}px;top:${cy}px;opacity:${1-c.r(tcl+.7,.5)}" width=60 height=70 viewBox="0 0 60 70"><path d="M4 4 L4 56 L18 44 L28 66 L38 62 L28 40 L46 40 Z" fill="#fff" stroke="#000" stroke-width=4 stroke-linejoin=round /></svg>`;
+  // ring when clicked
+  const rr=c.r(tcl,.7);if(rr>0&&rr<1)h+=`<div style="position:absolute;left:${1560-160*ez(rr)}px;top:${640-160*ez(rr)}px;width:${320*ez(rr)}px;height:${320*ez(rr)}px;border-radius:50%;border:5px solid #fff;opacity:${1-rr}"></div>`;
+  // next video card
+  const pn=c.r(tn,.6);if(pn>0)h+=`<div style="position:absolute;left:1180px;top:110px;width:660px;height:150px;border-radius:26px;background:#24150cee;box-shadow:0 20px 40px #0009;border:3px solid ${COL.gold}66;transform:translateX(${((1-ez(pn))*700).toFixed(1)}px);display:flex;align-items:center;gap:26px;padding:0 30px;box-sizing:border-box">${ic('globe',90,'#7cc3ff')}<div><div style="font:500 26px P;color:${COL.muted}">Next video</div><div style="font:700 40px/1.15 P;color:${COL.cream}">What is a world ETF?</div></div></div>`;
+  return h}};
+
+// ======================================================================
+//  ENGINE: groups, transitions, captions, sfx
+// ======================================================================
+const TRANS=['slide','zoom','wipe','iris','up'];
+window.setTimeline=tl=>{MG.TL=TL=tl;G=[];const box=$('layers');box.innerHTML='';
+ tl.lines.forEach((l,i)=>{const sp=l.spec||{type:'img',img:i+1,lay:'full',ov:'myth'};const last=G[G.length-1];
+  if(last&&sp.group&&last.spec.group==sp.group){last.n++;return}
+  G.push({i0:i,n:1,spec:sp,type:sp.type})});
+ G.forEach((g,k)=>{g.idx=k;g.B=k==0?0:tl.lines[g.i0].start-(g.type=='phase'?.55:.45);g.D=g.type=='phase'?.8:.6;
+  g.kind=k==0?'none':g.type=='phase'?'phase':G[k-1].type=='phase'?'zoom':TRANS[k%TRANS.length];});
+ G.forEach((g,k)=>{g.E=k+1<G.length?G[k+1].B+G[k+1].D:tl.dur;const el=document.createElement('div');el.className='lay';box.appendChild(el);g.el=el;SC[g.type].mk(g,el);
+  const sh=document.createElement('div');sh.className='shade';el.appendChild(sh);g.shade=sh});
+ const srcs=[];tl.lines.forEach(l=>{const k=(l.spec||{}).img;if(k){srcs.push(IMG(k),BLUR(k))}});
+ gateReady(srcs)};
+let imgsReady=false,fontsReady=false;
+Object.defineProperty(window,'ready',{configurable:true,get(){return imgsReady&&fontsReady},set(v){imgsReady=v}});
+function gateReady(srcs){MG.preload([...new Set(srcs)]);
+ Promise.all([document.fonts.load('700 50px P'),document.fonts.load('500 50px P')]).then(()=>document.fonts.ready).then(()=>{fontsReady=true},()=>{fontsReady=true})}
+
+function trans(g,role,p){const e=ei(p),el=g.el;let tr='',op=1,clip='none',sh=0;
+ switch(g.kindIn){
+  case 'slide':if(role=='in')tr=`translateX(${((1-e)*W).toFixed(1)}px)`;else{tr=`translateX(${(-e*W*.35).toFixed(1)}px) scale(${(1-.05*e).toFixed(4)})`;sh=.6*e}break;
+  case 'up':if(role=='in')tr=`translateY(${((1-e)*H).toFixed(1)}px)`;else{tr=`translateY(${(-e*H*.3).toFixed(1)}px) scale(${(1-.05*e).toFixed(4)})`;sh=.6*e}break;
+  case 'zoom':if(role=='in'){tr=`scale(${(1.25-.25*e).toFixed(4)})`;op=Math.min(1,e*1.6)}else{tr=`scale(${(1-.12*e).toFixed(4)})`;sh=.7*e}break;
+  case 'wipe':if(role=='in'){const x=lerp(W+260,-260,e);clip=`polygon(${(x+200).toFixed(0)}px 0,${W+400}px 0,${W+400}px ${H}px,${(x-200).toFixed(0)}px ${H}px)`;tr=`translateX(${((1-e)*80).toFixed(1)}px)`}else{tr=`translateX(${(-e*160).toFixed(1)}px)`;sh=.5*e}break;
+  case 'iris':if(role=='in'){clip=`circle(${(e*1250).toFixed(0)}px at 960px 470px)`;tr=`scale(${(1.08-.08*e).toFixed(4)})`}else{tr=`scale(${(1-.08*e).toFixed(4)})`;sh=.6*e}break;
+  case 'phase':if(role=='in'){tr=`scale(${(1.18-.18*e).toFixed(4)})`;op=ez(cl(p,.25,.7))}else{tr=`scale(${(1+.35*e).toFixed(4)})`;op=1-ez(cl(p,0,.45))}break;
+ }
+ el.style.transform=tr;el.style.opacity=op;el.style.clipPath=clip;g.shade.style.opacity=sh}
+
+function draw(t){if(!TL)return;let gi=0;G.forEach((g,k)=>{if(t>=g.B)gi=k});
+ const cur=G[gi],p=cur.kind=='none'?1:cl(t,cur.B,cur.B+cur.D),prev=p<1&&gi>0?G[gi-1]:null;
+ G.forEach(g=>{const vis=g===cur||g===prev;g.el.style.display=vis?'block':'none'});
+ cur.el.style.zIndex=2;cur.kindIn=cur.kind;
+ if(prev){prev.el.style.zIndex=1;prev.kindIn=cur.kind;trans(prev,'out',p);trans(cur,'in',p)}else{trans(cur,'in',1);cur.el.style.transform='none';cur.el.style.clipPath='none'}
+ for(const g of prev?[prev,cur]:[cur]){const S=SC[g.type];S.cam(g,t);setH(g.ov,S.ov(g,t))}
+ // fx layer: wipe edge / phase flash
+ let fx='';if(prev){if(cur.kind=='wipe'){const x=lerp(W+260,-260,ei(p));fx=`<div style="position:absolute;left:${(x-200).toFixed(0)}px;top:0;width:400px;height:${H}px;clip-path:polygon(380px 0,400px 0,20px ${H}px,0 ${H}px);background:${COL.gold};opacity:.9"></div>`}
+  if(cur.kind=='phase'){const f=Math.sin(Math.PI*cl(p,.05,.6));fx=`<div style="position:absolute;inset:0;background:radial-gradient(circle at 50% 45%,#fffbe8 0%,#ffd98a 35%,#d08a2a 75%);opacity:${(f*.95).toFixed(3)}"></div>`}}
+ setH($('fx'),fx);
+ setH($('cap'),MG.captions(t,{y:930,size:46,maxWords:6,stageW:1920,w:1500}));
+ MG.grainTick(t)}
+
+window.sfxEvents=()=>{const ev=[];COLLECT=ev;
+ G.forEach((g,k)=>{if(k>0){const B=g.B;switch(g.kind){case 'phase':ev.push({k:'whoosh',t:B-.3,d:1.1},{k:'impact',t:B+.3});break;case 'zoom':ev.push({k:'whoosh',t:B-.15,d:.8});break;case 'slide':ev.push({k:'swish',t:B,d:.5,pan:-.4});break;case 'up':ev.push({k:'swish',t:B,d:.5,pan:.3});break;case 'wipe':ev.push({k:'swish',t:B,d:.55,pan:.5});break;case 'iris':ev.push({k:'whoosh',t:B-.1,d:.7});break}}
+  try{SC[g.type].ov(g,g.E);if(SC[g.type].comp)SC[g.type].comp(ctx(g.i0,g.E),3.4)}catch(e){}});
+ COLLECT=null;
+ // de-duplicate events that fall too close together
+ ev.sort((a,b)=>a.t-b.t);const out=[];for(const e of ev){if(e.t<0)e.t=0;const dup=out.find(o=>o.k==e.k&&Math.abs(o.t-e.t)<.12);if(!dup)out.push(e)}
+ return out};
+window.draw=draw;
+MG.finish($('stage'),1920,1080,.05);
+</script>

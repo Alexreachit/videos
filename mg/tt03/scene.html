@@ -1,0 +1,301 @@
+<!doctype html><meta charset=utf-8><style>
+html,body{margin:0;background:#04060d}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:#07050f;font-family:Arial,Helvetica,sans-serif}
+.abs{position:absolute}
+.layer{position:absolute;left:0;top:0;width:1080px;height:1920px;display:none}
+#bg{position:absolute;inset:0}
+#iworld{position:absolute;inset:0;perspective:1500px;perspective-origin:540px 900px}
+#icam{position:absolute;left:0;top:0;width:1080px;height:1920px;transform-style:preserve-3d}
+#desk{position:absolute;left:-400px;top:1360px;width:1880px;height:1400px;transform-origin:50% 0;transform:rotateX(78deg);
+ background:radial-gradient(45% 40% at 50% 20%,#4a2c1c,#20130c 60%,#0c0705);}
+#phone{position:absolute;left:320px;top:470px;width:440px;height:900px;border-radius:66px;transform-style:preserve-3d;
+ background:linear-gradient(150deg,#3a3f4f,#15171f 50%,#0b0c11);box-shadow:inset 0 3px 0 #7a8095,inset 0 -6px 18px #000c,0 70px 140px #000e,0 0 0 3px #08090d}
+#scr{position:absolute;left:18px;top:18px;width:404px;height:864px;border-radius:50px;overflow:hidden;background:#f4f5fa}
+#notch{position:absolute;left:150px;top:14px;width:104px;height:30px;border-radius:15px;background:#08090d;z-index:5}
+#thumb{position:absolute;left:0;top:0;width:150px;height:260px;border-radius:75px 75px 60px 60px;
+ background:linear-gradient(100deg,#e9b996,#d39a74 60%,#b07a58);box-shadow:-20px 30px 50px #0009,inset -10px -6px 20px #0003}
+#thumb i{position:absolute;left:34px;top:18px;width:82px;height:92px;border-radius:40px 40px 30px 30px;background:linear-gradient(180deg,#f6dccd,#e8c1aa);box-shadow:inset 0 -4px 8px #0002}
+#flash{position:absolute;inset:0;pointer-events:none;opacity:0;z-index:80}
+#hook,#cap{position:absolute;left:0;top:0;width:1080px;height:1920px;pointer-events:none}
+#hook{z-index:60}#cap{z-index:70}
+</style>
+<div id=stage>
+<svg width=0 height=0 style="position:absolute"><defs>
+ <filter id=glow x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="9" result=b /><feMerge><feMergeNode in=b /><feMergeNode in=SourceGraphic /></feMerge></filter>
+ <filter id=shd x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="16" stdDeviation="16" flood-color="#000" flood-opacity=".6"/></filter>
+ <linearGradient id=gGold x1=0 y1=0 x2=0 y2=1><stop offset=0 stop-color="#ffe7a6"/><stop offset=1 stop-color="#f0a531"/></linearGradient>
+ <linearGradient id=gCard x1=0 y1=0 x2=1 y2=1><stop offset=0 stop-color="#2c2550"/><stop offset=1 stop-color="#15122a"/></linearGradient>
+ <linearGradient id=gPh x1=0 y1=0 x2=1 y2=1><stop offset=0 stop-color="#3a3f4f"/><stop offset=.5 stop-color="#15171f"/><stop offset=1 stop-color="#0b0c11"/></linearGradient>
+ <linearGradient id=gApp x1=0 y1=0 x2=1 y2=1><stop offset=0 stop-color="#ff5d8f"/><stop offset=.5 stop-color="#a855f7"/><stop offset=1 stop-color="#3b82f6"/></linearGradient>
+ <radialGradient id=gCu cx=".4" cy=".35"><stop offset=0 stop-color="#ffcc9a"/><stop offset=.6 stop-color="#d9824a"/><stop offset=1 stop-color="#8f4a22"/></radialGradient>
+ <linearGradient id=gBox x1=0 y1=0 x2=1 y2=1><stop offset=0 stop-color="#ffe7a6"/><stop offset=1 stop-color="#e09a2a"/></linearGradient>
+</defs></svg>
+<div id=bg></div>
+<div id=L0 class=layer><div id=iworld><div id=icam><div id=desk></div>
+ <div id=phone><div id=scr></div><div id=notch></div></div><div id=thumb><i></i></div>
+</div></div></div>
+<div id=L1 class=layer></div><div id=L2 class=layer></div><div id=L3 class=layer></div><div id=L4 class=layer></div>
+<div id=L5 class=layer></div><div id=L6 class=layer></div><div id=L7 class=layer></div><div id=L8 class=layer></div>
+<div id=L9 class=layer></div><div id=L10 class=layer></div>
+<div id=flash></div><div id=hook></div><div id=cap></div>
+</div>
+<script src="../lib/core.js"></script>
+<script>
+const {cl,ez,ei,bo,lerp}=MG,$=MG.$,F='Arial,Helvetica,sans-serif';
+const NL=()=>MG.TL?MG.TL.lines.length:11;
+const ST=i=>i>=NL()?(MG.TL?MG.TL.dur:99):MG.L(i).start, EN=i=>MG.L(i).end, DU=i=>EN(i)-ST(i);
+function wt(i,re,fb=.5,n=0){const l=MG.L(i);let k=0;for(const w of (l.words||[])){if(re.test(w[0].replace(/[^\w$]/g,''))){if(k==n)return l.start+w[1];k++}}return l.start+(l.end-l.start)*fb}
+const tx=(x,y,s,c,str,o={})=>`<text x="${x}" y="${y}" font-family="${F}" font-size="${s}" font-weight="${o.w||900}" fill="${c}" text-anchor="${o.a||'middle'}"${o.ls?` letter-spacing="${o.ls}"`:''} opacity="${o.op==null?1:o.op}"${o.f?` filter="url(#${o.f})"`:''}${o.st?` stroke="${o.st}" stroke-width="${o.sw||6}" paint-order="stroke"`:''}>${str}</text>`;
+const svg=inner=>`<svg width=1080 height=1920 viewBox="0 0 1080 1920" style="position:absolute;left:0;top:0">${inner}</svg>`;
+function headline(t,t0,num,label,col='#ffd166',y=400,size=170){const p=cl(t,t0,t0+.55),a=ez(cl(t,t0,t0+.2)),lp=ez(cl(t,t0+.25,t0+.6));
+ return `<g transform="translate(540,${y}) scale(${.55+.45*bo(p)})" opacity="${a}">${tx(0,0,size,col,num,{f:'glow',st:'#000a',sw:10})}</g>`+
+ (label?`<g opacity="${lp}" transform="translate(0,${(1-lp)*16})">${tx(540,y+70,40,'#e4dcff',label,{w:800,ls:4,st:'#000c',sw:6})}</g>`:'')}
+const label=(t,t0,str,y=340,col='#c4b5fd',size=46)=>tx(540,y,size,col,str,{w:900,ls:5,op:ez(cl(t,t0,t0+.4)),st:'#000c',sw:6});
+// Icons der Werbekunden (generisch, keine Marken)
+const BC=['#ff7a59','#a855f7','#22c55e','#3b82f6','#f472b6','#eab308'];
+function icon(k){switch(k){
+ case 0:return `<path d="M-40,8 L-36,-22 L-14,-20 C-8,-8 8,-4 24,-2 C36,0 42,6 42,14 L42,22 L-40,22 Z" fill="#fff"/><path d="M-40,14 L42,14" stroke="#0003" stroke-width="5"/>`;
+ case 1:return `<path d="M-26,-12 L26,-12 L20,30 L-20,30 Z" fill="#fff"/><path d="M26,-4 C44,-4 44,18 22,18" stroke="#fff" stroke-width="7" fill="none"/><path d="M-8,-20 c-7,-8 7,-12 0,-22 M8,-20 c-7,-8 7,-12 0,-22" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round"/>`;
+ case 2:return `<path d="M-42,2 C-42,-16 -28,-20 -16,-18 L16,-18 C28,-20 42,-16 42,2 L44,18 C44,32 28,34 22,24 L16,14 L-16,14 L-22,24 C-28,34 -44,32 -44,18 Z" fill="#fff"/><path d="M-26,-6 v14 M-33,1 h14" stroke="#22c55e" stroke-width="5"/><circle cx="22" cy="-2" r="5" fill="#22c55e"/><circle cx="32" cy="6" r="5" fill="#22c55e"/>`;
+ case 3:return `<path d="M-44,10 L-38,-6 L-22,-10 L-12,-26 L18,-26 L30,-10 L44,-6 L46,12 Z" fill="#fff"/><circle cx="-24" cy="14" r="11" fill="#1e293b" stroke="#fff" stroke-width="5"/><circle cx="26" cy="14" r="11" fill="#1e293b" stroke="#fff" stroke-width="5"/>`;
+ case 4:return `<path d="M-30,12 A30,30 0 0 1 30,12" stroke="#fff" stroke-width="9" fill="none"/><rect x="-42" y="4" width="18" height="32" rx="7" fill="#fff"/><rect x="24" y="4" width="18" height="32" rx="7" fill="#fff"/>`;
+ default:return `<path d="M0,34 L-32,-22 Q0,-38 32,-22 Z" fill="#fff"/><circle cx="-6" cy="-6" r="6" fill="#eab308"/><circle cx="9" cy="8" r="5" fill="#eab308"/><circle cx="-2" cy="20" r="4" fill="#eab308"/>`}}
+const bidder=(k,x,y,s,op=1,glow=0)=>`<g transform="translate(${x},${y}) scale(${s})" opacity="${op}"><circle r="62" fill="${BC[k]}"${glow?' filter="url(#glow)"':''}/><circle r="62" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="4"/>${icon(k)}</g>`;
+// flaches Handy (SVG), Bildschirm-Inhalt wird uebergeben (Koordinaten 0..360 x 0..760)
+function phone(x,y,s,inner,id){return `<g transform="translate(${x},${y}) scale(${s})" filter="url(#shd)"><rect x="-200" y="-400" width="400" height="800" rx="58" fill="url(#gPh)" stroke="#5b6075" stroke-width="3"/>
+ <clipPath id="pc${id}"><rect x="-182" y="-382" width="364" height="764" rx="44"/></clipPath><g clip-path="url(#pc${id})"><rect x="-182" y="-382" width="364" height="764" fill="#f4f5fa"/><g transform="translate(-182,-382)">${inner}</g></g><rect x="-48" y="-372" width="96" height="26" rx="13" fill="#0b0c11"/></g>`}
+const coin=(x,y,s,op=1)=>`<g transform="translate(${x},${y}) scale(${s})" opacity="${op}"><circle r="30" fill="url(#gGold)" stroke="#fff3c4" stroke-width="4"/>${tx(0,12,34,'#7a4a00','$')}</g>`;
+// Feed-Karten
+function feedCard(y,k,ad,w=324){const c=['#c7d2fe','#fbcfe8','#bbf7d0','#fde68a','#bae6fd'][k%5];
+ return `<g transform="translate(20,${y})"><rect width="${w}" height="210" rx="22" fill="#fff" stroke="${ad?'#f0a531':'#e2e5ef'}" stroke-width="${ad?6:3}"/><rect x="14" y="14" width="${w-28}" height="128" rx="14" fill="${ad?'#fff3d6':c}"/>
+ ${ad?`<g transform="translate(${w/2},78) scale(.9)">${bidder(k%6,0,0,.8)}</g><rect x="20" y="22" width="56" height="30" rx="8" fill="#f0a531"/>${tx(48,45,22,'#fff','AD')}`:`<circle cx="${w/2}" cy="78" r="34" fill="#fff8"/>`}
+ <circle cx="34" cy="176" r="16" fill="${ad?'#f0a531':'#cbd2e4'}"/><rect x="60" y="164" width="150" height="12" rx="6" fill="#cbd2e4"/><rect x="60" y="184" width="100" height="10" rx="5" fill="#e2e5ef"/></g>`}
+
+// ---------- Hintergrund ----------
+function drawBg(t){const k=MG.cur(t),hue=[270,280,255,265,290,30,270,300,45,330,260][k]||270,a=t*.15;
+ $('bg').style.background=`radial-gradient(60% 40% at ${50+18*Math.sin(a)}% ${30+8*Math.cos(a*1.3)}%,hsla(${hue},70%,40%,.36),transparent 70%),radial-gradient(55% 35% at ${45-20*Math.sin(a*.8)}% ${78+6*Math.sin(a)}%,hsla(${hue+50},70%,35%,.24),transparent 70%),linear-gradient(180deg,#0c0820,#140f30 50%,#06040d)`}
+
+// ---------- Szene 0: Daumen tippt "GET" ----------
+function storeScreen(t,tap){const pr=cl(t,tap+.1,tap+1.0),open=ez(cl(t,tap+1.1,tap+1.5));
+ const btn=pr<=0?`<div style="position:absolute;left:236px;top:268px;width:132px;height:58px;border-radius:29px;background:#2f6bff;color:#fff;font:900 30px/58px Arial;text-align:center;transform:scale(${1-.12*Math.sin(Math.PI*cl(t,tap-.08,tap+.12))})">GET</div>`
+  :`<svg style="position:absolute;left:272px;top:268px" width=60 height=60><circle cx=30 cy=30 r=24 fill=none stroke="#dfe3ee" stroke-width=7 /><circle cx=30 cy=30 r=24 fill=none stroke="#2f6bff" stroke-width=7 stroke-dasharray="151" stroke-dashoffset="${151-151*ez(pr)}" transform="rotate(-90 30 30)"/></svg>`;
+ let s=`<div style="position:absolute;inset:0;opacity:${1-open}"><div style="position:absolute;left:28px;top:84px;font:900 44px Arial;color:#111">App</div>
+ <div style="position:absolute;left:28px;top:170px;width:180px;height:180px;border-radius:42px;background:linear-gradient(135deg,#ff5d8f,#a855f7 55%,#3b82f6);box-shadow:0 14px 30px #a855f766"><svg width=180 height=180 viewBox="-90 -90 180 180"><path d="M-40,0 C-40,-34 -6,-34 0,0 C6,34 40,34 40,0 C40,-34 6,-34 0,0 C-6,34 -40,34 -40,0 Z" fill=none stroke="#fff" stroke-width="16"/></svg></div>
+ <div style="position:absolute;left:236px;top:178px;font:900 40px Arial;color:#111">LOOP</div><div style="position:absolute;left:236px;top:226px;font:600 24px Arial;color:#7a8095">Social &amp; video</div>${btn}
+ <div style="position:absolute;left:28px;top:390px;right:28px;height:2px;background:#e2e5ef"></div>
+ <div style="position:absolute;left:28px;top:420px;font:900 72px Arial;color:#111">$0.00</div><div style="position:absolute;left:30px;top:500px;font:700 26px Arial;color:#7a8095;letter-spacing:3px">PRICE</div>
+ <div style="position:absolute;left:28px;top:560px;width:348px;height:220px;border-radius:24px;background:linear-gradient(135deg,#dbeafe,#fce7f3)"></div></div>`;
+ let f='';for(let k=0;k<4;k++){const y=70+k*240-ez(cl(t,tap+1.4,tap+3))*200;f+=`<div style="position:absolute;left:20px;top:${y}px;width:364px;height:220px;border-radius:24px;background:#fff;box-shadow:0 4px 14px #0001"><div style="position:absolute;left:14px;top:14px;right:14px;height:140px;border-radius:16px;background:${['#c7d2fe','#fbcfe8','#bbf7d0','#fde68a'][k]}"></div><div style="position:absolute;left:14px;top:170px;width:200px;height:14px;border-radius:7px;background:#cbd2e4"></div></div>`}
+ s+=`<div style="position:absolute;inset:0;opacity:${open};transform:scale(${lerp(.85,1,open)})">${f}</div>`;return s}
+function drawIntro(t){const T1=ST(1),tap=wt(0,/nothing/,.35)+.15,bil=wt(0,/billions/,.85);
+ const dol=ei(cl(t,0,T1-.7)),dive=Math.pow(cl(t,T1-.9,T1-.15),2.4);
+ $('icam').style.transform=`translate3d(${lerp(40,0,dol)}px,${lerp(60,-30,dol)-dive*200}px,${lerp(-260,120,dol)+1250*dive}px)`;
+ $('phone').style.transform=`rotateX(${lerp(38,6,dol)}deg) rotateY(${lerp(-26,-4,dol)}deg) rotateZ(${lerp(10,1,dol)}deg)`;
+ // Daumen: von rechts unten, tippt GET (Schirmposition 302,297 -> Weltposition ueber Phone)
+ const a=ez(cl(t,.2,tap)),back=ei(cl(t,tap+.15,tap+.9)),press=Math.sin(Math.PI*cl(t,tap-.08,tap+.14));
+ const tx0=lerp(lerp(900,580,a),980,back),ty0=lerp(lerp(1500,700,a),1500,back)+press*14;
+ $('thumb').style.transform=`translate3d(${tx0}px,${ty0}px,${lerp(220,60,a)+ (1-press)*0}px) rotateZ(${lerp(-28,-18,a)}deg) rotateX(${lerp(38,10,a)}deg)`;
+ $('thumb').style.opacity=cl(t,.1,.4)*(1-cl(t,tap+.6,tap+.9));
+ $('scr').innerHTML=storeScreen(t,tap)+(t>tap&&t<tap+.7?`<div style="position:absolute;left:${302-90*ez(cl(t,tap,tap+.6))}px;top:${297-90*ez(cl(t,tap,tap+.6))}px;width:${180*ez(cl(t,tap,tap+.6))}px;height:${180*ez(cl(t,tap,tap+.6))}px;border-radius:50%;border:5px solid #2f6bff;opacity:${1-cl(t,tap,tap+.7)}"></div>`:'');
+ $('phone').style.boxShadow=`inset 0 3px 0 #7a8095,inset 0 -6px 18px #000c,0 70px 140px #000e,0 0 0 3px #08090d,0 0 ${120*cl(t,tap+1,tap+1.6)}px #a855f799`;
+ $('L0').style.opacity=ez(cl(t,0,.5));
+ const q=ez(cl(t,.2,.6)),q2=ez(cl(t,bil-.15,bil+.2)),fo=1-ez(cl(t,T1-.6,T1-.3));
+ return `<div style="position:absolute;left:0;right:0;top:150px;text-align:center;white-space:nowrap;font:900 92px/1.1 Arial,Helvetica,sans-serif;color:#fff;text-shadow:0 8px 34px #000,0 0 4px #000;opacity:${fo}">
+ <div style="opacity:${q};transform:translateY(${(1-q)*30}px)">YOU PAY <span style="color:#35e08a">$0</span>.</div>
+ <div style="opacity:${q2};transform:translateY(${(1-q2)*30}px) scale(${1+.15*Math.sin(Math.PI*cl(t,bil,bil+.5))});color:#ffd166">THEY MAKE BILLIONS?</div></div>`}
+
+// ---------- Szene 1: Live-Auktion ----------
+const BPOS=[[150,620],[150,860],[150,1100],[930,620],[930,860],[930,1100]];
+function drawAuction(t){const T=ST(1),au=wt(1,/auction/,.6);
+ const pin=ez(cl(t,T-.2,T+.5));let h=label(t,T,'BEHIND THE SCREEN',330);
+ const live=ez(cl(t,au-.2,au+.2));
+ h+=`<g opacity="${live}" transform="translate(540,440) scale(${.7+.3*bo(cl(t,au-.2,au+.4))})"><rect x="-260" y="-56" width="520" height="100" rx="50" fill="#ff3b5c"/><circle cx="-205" cy="-6" r="16" fill="#fff" opacity="${.5+.5*Math.sin(t*9)}"/>${tx(30,12,50,'#fff','LIVE AUCTION',{ls:2})}</g>`;
+ let sp='';const ang=(t*420)%360;
+ sp=`<rect width="364" height="764" fill="#f4f5fa"/>${[0,1,2].map(k=>`<g transform="translate(20,${80+k*230})"><rect width="324" height="210" rx="22" fill="#e9ecf4"/><rect x="14" y="14" width="296" height="128" rx="14" fill="#dde1ec"/></g>`).join('')}
+  <g transform="translate(182,382)"><circle r="54" fill="#fffd"/><circle r="38" fill="none" stroke="#dfe3ee" stroke-width="9"/><circle r="38" fill="none" stroke="#a855f7" stroke-width="9" stroke-dasharray="70 200" stroke-linecap="round" transform="rotate(${ang})"/></g>`;
+ h+=`<g opacity="${pin}" transform="translate(0,${(1-pin)*80})">${phone(540,880,.8,sp,1)}</g>`;
+ BPOS.forEach(([x,y],k)=>{const p=bo(cl(t,au+k*.12,au+k*.12+.45));if(p<=0)return;const ph=((t-au)*1.6+k*.17)%1;
+  const ex=x<540?380:700;h+=`<line x1="${x<540?x+70:x-70}" y1="${y}" x2="${ex}" y2="${880+(y-860)*.4}" stroke="${BC[k]}" stroke-width="5" stroke-dasharray="10 12" stroke-dashoffset="${-t*60}" opacity="${.7*cl(t,au+k*.12+.2,au+k*.12+.5)}"/>`;
+  h+=bidder(k,x,y,p*.95);
+  const bp=cl(t,au+.6+k*.25,au+.6+k*.25+.5);if(bp>0&&bp<1)h+=`<g transform="translate(${x},${y-90-60*ez(bp)})" opacity="${Math.sin(Math.PI*bp)}"><rect x="-52" y="-30" width="104" height="48" rx="24" fill="#fff"/>${tx(0,8,28,BC[k],'BID')}</g>`});
+ return svg(h)}
+
+// ---------- Szene 2: Interessen ----------
+const TAGS=[['RUNNING',0],['COFFEE',1],['GAMING',2],['AGE 25–34',-1],['NIGHT OWL',-1],['CITY',-1]];
+const TP=[[290,590],[790,600],[260,880],[820,880],[340,1010],[740,1010]];
+function profile(x,y,s,op=1){return `<g transform="translate(${x},${y}) scale(${s})" opacity="${op}"><circle r="150" fill="url(#gCard)" stroke="#a78bfa" stroke-width="6"/><circle cy="-40" r="52" fill="#e4dcff"/><path d="M-90,90 C-90,10 90,10 90,90 Q0,130 -90,90 Z" fill="#e4dcff"/></g>`}
+function drawInterests(t){const T=ST(2),d=DU(2),mt=wt(2,/interests/,.85)-.2;let h=label(t,T,'WHAT THE APP KNOWS',330);
+ const sc=bo(cl(t,T-.1,T+.5));h+=profile(540,760,sc);
+ const ring=((t-T)*.8)%1;h+=`<circle cx="540" cy="760" r="${160+120*ring}" fill="none" stroke="#a78bfa" stroke-width="4" opacity="${(1-ring)*.6}"/>`;
+ TAGS.forEach(([s,b],k)=>{const t0=T+.3+k*d*.09,p=ez(cl(t,t0,t0+.5));if(p<=0)return;const [x,y]=TP[k],xx=lerp(540,x,p),yy=lerp(760,y,p);const w=s.length*24+56;
+  const hit=b>=0?cl(t,mt+b*.15,mt+b*.15+.3):0;
+  h+=`<line x1="540" y1="760" x2="${xx}" y2="${yy}" stroke="#a78bfa" stroke-width="3" opacity=".35"/><g transform="translate(${xx},${yy}) scale(${.6+.4*bo(cl(t,t0,t0+.5))})"><rect x="${-w/2}" y="-34" width="${w}" height="64" rx="32" fill="${hit>0?BC[b]:'#2a2350'}" stroke="${b>=0?BC[b]:'#6d5bd0'}" stroke-width="4"/>${tx(0,10,32,'#fff',s,{ls:1})}</g>`});
+ // passende Werbekunden unten
+ [0,1,2].forEach((b,k)=>{const x=260+k*280,y=1190,p=bo(cl(t,mt-.5+k*.1,mt-.1+k*.1)),hit=cl(t,mt+b*.15,mt+b*.15+.3);if(p<=0)return;
+  const [tx0,ty0]=TP[b];if(hit>0&&hit<1){const q=ez(hit);h+=`<circle cx="${lerp(tx0,x,q)}" cy="${lerp(ty0,y,q)}" r="14" fill="${BC[b]}" filter="url(#glow)"/>`}
+  h+=bidder(b,x,y,p*.9,1,hit>=1?1:0);if(hit>=1){const u=cl(t,mt+b*.15+.3,mt+b*.15+.8);h+=`<g transform="translate(${x+58},${y-62}) scale(${bo(u)})"><circle r="26" fill="#fff"/>${tx(0,10,28,BC[b],'$')}</g>`}});
+ return svg(h)}
+
+// ---------- Szene 3: Je genauer, desto teurer ----------
+function drawPrecision(t){const T=ST(3),d=DU(3),s=ei(cl(t,T+.3,T+d*.75));let h=label(t,T,'HOW WELL IT KNOWS YOU',330);
+ // Profil links mit wachsenden Datenpunkten
+ const n=Math.round(1+11*s);h+=profile(330,760,.95);
+ for(let k=0;k<12;k++){const a=k/12*6.283-1.57,on=k<n,p=on?bo(cl(t,T+.3+k/12*d*.75,T+.6+k/12*d*.75)):0;if(p<=0)continue;h+=`<g transform="translate(${330+Math.cos(a)*205},${760+Math.sin(a)*205}) scale(${p})"><circle r="22" fill="${['#ff7a59','#a855f7','#22c55e','#3b82f6','#f472b6','#eab308'][k%6]}"/><circle r="8" fill="#fff"/></g>`}
+ // Fokus-Ring: erst unscharf (gestrichelt), dann scharf
+ h+=`<circle cx="330" cy="760" r="${lerp(250,175,s)}" fill="none" stroke="#fff" stroke-width="5" stroke-dasharray="${lerp(4,40,s)} ${lerp(26,0.1,s)}" opacity=".7"/>`;
+ // Gebot rechts: Saeule waechst
+ const hb=60+440*Math.pow(s,1.4),bx=820,by=1090;
+ h+=`<rect x="${bx-90}" y="440" width="180" height="650" rx="24" fill="#ffffff0d" stroke="#ffffff22" stroke-width="3"/><rect x="${bx-74}" y="${by-hb-10}" width="148" height="${hb}" rx="16" fill="url(#gGold)" filter="url(#glow)"/>`;
+ const dl='$'.repeat(1+Math.floor(s*3.99));h+=tx(bx,by-hb-36,56,'#ffd166',dl,{st:'#000a',sw:8});
+ h+=tx(bx,1150,32,'#e4dcff','BID',{w:800,ls:4})+tx(330,1150,32,'#e4dcff','DATA POINTS',{w:800,ls:4});
+ // Pfeil
+ h+=`<path d="M560,760 L640,760" stroke="#ffd166" stroke-width="10" stroke-linecap="round" opacity="${s}"/><path d="M630,738 L660,760 L630,782" fill="none" stroke="#ffd166" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" opacity="${s}"/>`;
+ return svg(h)}
+
+// ---------- Szene 4: Hoechstes Gebot gewinnt ----------
+const BIDL=[.55,.82,.4,.68,.3];
+function drawWinner(t){const T=ST(4),wi=wt(4,/wins/,.15),ap=wt(4,/appears/,.35),pd=wt(4,/paid/,.55);
+ const sw=ei(cl(t,ap-.3,ap+.3));let h='';
+ // Stoppuhr oben
+ const el=Math.min(.1,.1*cl(t,T,pd+.2));
+ h+=headline(t,T+.05,'0.'+String(Math.round(el*100)).padStart(2,'0')+' s','THE WHOLE AUCTION, ROUGHLY','#ffd166',420,150);
+ // Balken
+ const sorted=[1,3,0,2,4];let bars='';
+ sorted.forEach((k,r)=>{const y=600+r*120,p=ez(cl(t,T+.2+r*.08,T+.7+r*.08)),win=r==0?cl(t,wi-.1,wi+.3):0,fade=r>0?cl(t,wi,wi+.4):0;
+  bars+=`<g opacity="${1-.65*fade}">${bidder(k,170,y,.72)}<rect x="240" y="${y-30}" width="${520*BIDL[k]*p/0.82}" height="60" rx="30" fill="${win>0?'url(#gGold)':BC[k]}"${win>0?' filter="url(#glow)"':''}/></g>`;
+  if(r==0&&win>0)bars+=`<g transform="translate(${240+520*p+20},${y}) scale(${bo(win)})"><rect x="0" y="-30" width="190" height="60" rx="30" fill="#fff"/>${tx(95,12,32,'#a16207','WINNER')}</g>`});
+ if(sw<1)h+=`<g transform="translate(${-sw*1300},0)">${bars}</g>`;
+ // Handy mit Feed, Werbung faellt hinein, Geld fliegt
+ if(sw>0){const ad=ez(cl(t,ap,ap+.5));let sc=feedCard(40,0,false)+`<g transform="translate(0,${lerp(-260,0,ad)})">${feedCard(270,1,true)}</g>`+feedCard(500,2,false);
+  h+=`<g transform="translate(${(1-sw)*1080},0)">${phone(540,900,.78,sc,4)}`;
+  const c=cl(t,pd,pd+.8);if(c>0)for(let k=0;k<3;k++){const q=ez(cl(t,pd+k*.12,pd+k*.12+.6));h+=coin(lerp(540,860-k*20,q),lerp(820,690-k*30,q)-Math.sin(q*Math.PI)*80,.9+.3*q,cl(q,0,.1))}
+  if(c>0)h+=`<g transform="translate(870,620) scale(${bo(cl(t,pd+.4,pd+.9))})"><rect x="-110" y="-40" width="220" height="80" rx="40" fill="#35e08a"/>${tx(0,14,40,'#06210f','PAID')}</g>`;
+  h+=`</g>`}
+ return svg(h)}
+
+// ---------- Szene 5: Weniger als ein Cent ----------
+function drawCent(t){const T=ST(5),d=DU(5),sl=cl(t,T+d*.35,T+d*.35+.8),fo=cl(t,T+d*.35+.6,T+d*.35+1.2);
+ const pin=bo(cl(t,T-.1,T+.5));let h='',R=240,cx=540,cy=880;
+ for(let k=0;k<10;k++){const a0=k*36-90,a1=a0+36,m=(a0+18)*Math.PI/180,off=ez(sl)*(k==0?70:130),x=cx+Math.cos(m)*off,y=cy+Math.sin(m)*off;
+  const p0=[Math.cos(a0*Math.PI/180)*R,Math.sin(a0*Math.PI/180)*R],p1=[Math.cos(a1*Math.PI/180)*R,Math.sin(a1*Math.PI/180)*R];
+  const op=k==0?1:1-ez(fo);h+=`<g transform="translate(${x},${y}) scale(${pin})" opacity="${op}"><path d="M0,0 L${p0[0]},${p0[1]} A${R},${R} 0 0 1 ${p1[0]},${p1[1]} Z" fill="url(#gCu)" stroke="#5a2a10" stroke-width="${3*ez(sl)}"${k==0&&fo>0?' filter="url(#glow)"':''}/></g>`}
+ const ct=1-ez(sl);h+=`<g opacity="${ct}" transform="translate(${cx},${cy}) scale(${pin})"><circle r="${R-24}" fill="none" stroke="#8f4a22" stroke-width="8"/>${tx(0,70,210,'#7a3a12','1¢')}</g>`;
+ h+=headline(t,T+d*.35+.6,'< 1¢','PER AD VIEW, OFTEN','#ffd166',400,170);
+ if(t<T+d*.35+.6)h+=label(t,T,'ONE AD VIEW EARNS…',400,'#e4dcff',58);
+ if(fo>0){const [x,y]=[cx+Math.cos(-72*Math.PI/180)*70,cy+Math.sin(-72*Math.PI/180)*70];h+=tx(x+190,y-80,34,'#ffd166','ONE VIEW',{w:900,ls:3,op:ez(fo)})}
+ return svg(h)}
+
+// ---------- Szene 6: Mehr Zeit, mehr Auktionen ----------
+function drawScroll(t){const T=ST(6),u=Math.max(0,t-T-.2),off=180*u+70*u*u;
+ let sc='';const first=Math.floor(off/230)-1;let ads=0;
+ for(let k=first;k<first+6;k++){if(k<0)continue;const y=40+k*230-off;sc+=feedCard(y,k,k%3==1)}
+ for(let k=0;k<200;k++){if(k%3!=1)continue;if(40+k*230-off<300)ads++}
+ let h=`<g opacity="${ez(cl(t,T-.2,T+.3))}">${phone(370,880,.8,sc,6)}</g>`;
+ h+=headline(t,T+.1,String(ads),'AUCTIONS THIS SESSION','#ffd166',400,170);
+ // Geldsaeule rechts
+ const hh=Math.min(560,ads*44);h+=`<rect x="770" y="560" width="200" height="640" rx="28" fill="#ffffff0d" stroke="#ffffff22" stroke-width="3"/>`;
+ for(let k=0;k<Math.ceil(hh/22);k++)h+=`<ellipse cx="870" cy="${1176-k*22}" rx="70" ry="16" fill="url(#gGold)" stroke="#a16207" stroke-width="2"/>`;
+ h+=tx(870,1250,30,'#e4dcff','APP EARNS',{w:800,ls:3});
+ // Muenze fliegt bei jeder neuen Auktion
+ for(let k=1;k<200;k+=3){const tc=T+.2+solveT(40+k*230-300);if(tc>t||t>tc+.7)continue;const q=ez(cl(t,tc,tc+.6));h+=coin(lerp(370,870,q),lerp(700,1176-ads*22,q)-Math.sin(q*Math.PI)*120,.8)}
+ return svg(h)}
+function solveT(o){/* off(u)=180u+70u^2 = o */return (-180+Math.sqrt(180*180+4*70*o))/(2*70)}
+
+// ---------- Szene 7: Kein Zufall ----------
+function card(y,p,ic,lab,sub,col){const a=ez(p);return `<div style="position:absolute;left:100px;top:${y}px;width:880px;height:250px;perspective:1200px"><div style="position:absolute;inset:0;border-radius:34px;background:linear-gradient(135deg,#2c2550,#15122a);box-shadow:0 30px 60px #000a,inset 0 2px 0 #ffffff22,inset 0 0 0 3px ${col}66;transform-origin:0 50%;transform:rotateY(${(1-a)*-85}deg) translateX(${(1-a)*-60}px);opacity:${cl(p,0,.25)}">
+ <svg width=250 height=250 style="position:absolute;left:10px;top:0">${ic}</svg><div style="position:absolute;left:270px;top:62px;font:900 58px Arial,Helvetica,sans-serif;color:#fff">${lab}</div><div style="position:absolute;left:272px;top:136px;font:700 36px Arial,Helvetica,sans-serif;color:${col}">${sub}</div></div></div>`}
+function drawFeat(t){const i=7,a=wt(i,/Endless/,.05)-.1,b=wt(i,/notifications/,.15)-.1,c=wt(i,/autoplay/,.3)-.1,ac=wt(i,/accident/,.5);
+ // 1: endlose Liste scrollt
+ const o=((t-a)*90)%70;let l='';for(let k=0;k<5;k++){const y=40+k*70-o;l+=`<rect x="70" y="${y}" width="110" height="54" rx="10" fill="#c7d2fe" opacity="${Math.max(0,Math.min(1,(y-20)/40,(220-y)/40))}"/>`}
+ const i1=`<rect x="50" y="30" width="150" height="190" rx="24" fill="#e4dcff"/>${l}<path d="M125,190 l0,40 m-16,-16 l16,16 l16,-16" stroke="#a855f7" stroke-width="8" fill="none" stroke-linecap="round"/>`;
+ // 2: Glocke schwingt, Zaehler steigt
+ const sw=Math.sin((t-b)*14)*16*Math.exp(-Math.max(0,t-b-.3)*1.2)*cl(t,b,b+.2),nb=Math.min(99,Math.max(0,Math.floor((t-b)*6)));
+ const i2=`<g transform="translate(125,130) rotate(${sw})"><path d="M-56,40 C-46,30 -46,-10 -40,-26 C-30,-58 30,-58 40,-26 C46,-10 46,30 56,40 Z" fill="#ffd166"/><circle cy="54" r="14" fill="#ffd166"/><circle cy="-62" r="10" fill="#ffd166"/></g><g transform="translate(176,68) scale(${bo(cl(t,b+.2,b+.5))})"><circle r="32" fill="#ff3b5c"/>${tx(0,12,32,'#fff',nb||1)}</g>`;
+ // 3: Autoplay-Ring, naechstes Video
+ const pr=((t-c)/2.2)%1;const i3=`<rect x="40" y="50" width="170" height="150" rx="22" fill="#14213d"/><circle cx="125" cy="125" r="46" fill="none" stroke="#ffffff33" stroke-width="8"/><circle cx="125" cy="125" r="46" fill="none" stroke="#35e08a" stroke-width="8" stroke-dasharray="289" stroke-dashoffset="${289-289*Math.max(0,pr)}" transform="rotate(-90 125 125)"/><path d="M110,100 L148,125 L110,150 Z" fill="#fff"/>`;
+ let h=card(400,cl(t,a,a+.7),i1,'Endless feed','No natural stopping point','#a78bfa')+card(690,cl(t,b,b+.7),i2,'Notifications','Pull you back in','#ffd166')+card(980,cl(t,c,c+.7),i3,'Autoplay','Next video starts itself','#35e08a');
+ let s=label(t,ST(i)-.1,'NOT AN ACCIDENT',330,'#c4b5fd',54);
+ const st=cl(t,ac,ac+.4);if(st>0)s+=`<g transform="translate(540,1295) rotate(-4) scale(${lerp(2,1,ez(st))})" opacity="${ez(st)}"><rect x="-150" y="-50" width="300" height="90" rx="16" fill="#0c0820cc" stroke="#35e08a" stroke-width="6"/>${tx(0,12,42,'#35e08a','+ SECONDS',{ls:2})}</g>`;
+ return svg(s)+h}
+
+// ---------- Szene 8: Mal Millionen ----------
+function drawMult(t){const T=ST(8),d=DU(8),z=ei(cl(t,T+.2,T+d*.65)),mi=wt(8,/millions/,.4);
+ const cell=lerp(420,26,Math.pow(z,.6)),N=Math.ceil(1080/cell/2)+2,cy=820;let h='';
+ for(let r=-N;r<=N;r++)for(let c=-N;c<=N;c++){const x=540+c*cell,y=cy+r*cell;if(x<-cell||x>1080+cell||y<470||y>1220)continue;
+  const lit=MG.rnd((r+50)*131+c)<cl(t,mi-.4,T+d*.8)*1.05||(r==0&&c==0);
+  if(cell>70){const s=cell/420;h+=`<g transform="translate(${x},${y}) scale(${s*.9})"><rect x="-120" y="-190" width="240" height="380" rx="36" fill="${lit?'#3b2a6a':'#2a2350'}" stroke="${lit?'#ffd166':'#6d5bd0'}" stroke-width="8"/><rect x="-96" y="-150" width="192" height="110" rx="14" fill="${lit?'#ffd166':'#4c3f8f'}"/><rect x="-96" y="-20" width="192" height="110" rx="14" fill="#4c3f8f"/></g>`}
+  else h+=`<rect x="${x-cell*.32}" y="${y-cell*.45}" width="${cell*.64}" height="${cell*.9}" rx="${cell*.12}" fill="${lit?'#ffd166':'#4c3f8f'}"/>`}
+ // Rand ausblenden
+ h=`<defs><linearGradient id=fd x1=0 y1=0 x2=0 y2=1><stop offset="0" stop-color="#000"/><stop offset=".12" stop-color="#fff"/><stop offset=".88" stop-color="#fff"/><stop offset="1" stop-color="#000"/></linearGradient><mask id=mk><rect x="0" y="470" width="1080" height="750" fill="url(#fd)"/></mask></defs><g mask="url(#mk)">${h}</g>`;
+ const users=Math.round(Math.pow(10,6.3*Math.pow(z,1.2)));
+ h+=headline(t,T+.1,'×'+(users>=1e6?' MILLIONS':' '+MG.fmt(users)),'USERS','#ffd166',400,users>=1e6?130:150);
+ return svg(h)}
+
+// ---------- Szene 9: Du bist das Produkt ----------
+function drawProduct(t){const T=ST(9),cu=wt(9,/customer/,.3),at=wt(9,/attention/,.6),so=wt(9,/sold/,.95);
+ let h='';const pin=bo(cl(t,T-.1,T+.5));
+ // Person + "CUSTOMER" Schild, wird durchgestrichen
+ const mv=ei(cl(t,at-.2,at+.5));
+ h+=`<g transform="translate(${lerp(540,250,mv)},${lerp(820,860,mv)}) scale(${pin*lerp(1,.7,mv)})">${profile(0,0,1.3)}</g>`;
+ const sp=cl(t,cu,cu+.35);h+=`<g transform="translate(${lerp(540,250,mv)},${lerp(1110,1090,mv)}) scale(${lerp(1,.7,mv)})" opacity="${pin}"><rect x="-200" y="-46" width="400" height="84" rx="20" fill="#2a2350" stroke="#a78bfa" stroke-width="4"/>${tx(0,14,44,'#fff','CUSTOMER',{ls:3})}<line x1="-180" y1="0" x2="${-180+360*ez(sp)}" y2="0" stroke="#ff3b5c" stroke-width="12" stroke-linecap="round"/></g>`;
+ // Auge wandert in die Produktbox
+ const eye=cl(t,at,at+.9),q=ei(eye);
+ if(eye>0){const ex=lerp(250,760,q),ey=lerp(780,820,q)-Math.sin(q*Math.PI)*220,bl=Math.abs(Math.sin((t-at)*2.4))>.97?.15:1;
+  h+=`<g transform="translate(760,880) scale(${bo(cl(t,at-.1,at+.4))})"><path d="M-170,-120 L0,-190 L170,-120 L170,140 L0,210 L-170,140 Z" fill="#a16207"/><path d="M-170,-120 L0,-50 L0,210 L-170,140 Z" fill="url(#gBox)"/><path d="M170,-120 L0,-50 L0,210 L170,140 Z" fill="#e09a2a"/>
+   <g transform="translate(-85,60) skewY(22)"><rect x="-50" y="-30" width="100" height="70" fill="#fff"/>${[0,1,2,3,4,5,6,7,8,9].map(k=>`<rect x="${-40+k*8}" y="-22" width="${k%3?3:5}" height="46" fill="#111"/>`).join('')}</g></g>`;
+  h+=`<g transform="translate(${ex},${ey}) scale(${lerp(1,.8,q)},${lerp(1,.8,q)*bl})"><path d="M-80,0 Q0,-62 80,0 Q0,62 -80,0 Z" fill="#fff" stroke="#a78bfa" stroke-width="6"/><circle r="30" fill="#3b82f6"/><circle r="14" fill="#0b1020"/><circle cx="8" cy="-8" r="6" fill="#fff"/></g>`}
+ // Preisschild + SOLD
+ const tg=cl(t,at+.7,at+1.1);if(tg>0){const sw2=Math.sin((t-at)*3)*6*Math.exp(-(t-at-.7)*1.5);h+=`<g transform="translate(900,640) rotate(${12+sw2}) scale(${bo(tg)})"><path d="M-70,-40 L60,-40 L100,0 L60,40 L-70,40 Z" fill="#fff3d6" stroke="#f0a531" stroke-width="5"/><circle cx="62" cy="0" r="8" fill="#0b1020"/>${tx(-10,12,34,'#7a4a00','ATTENTION')}</g>`}
+ const sd=cl(t,so-.1,so+.25);if(sd>0)h+=`<g transform="translate(760,1150) rotate(-10) scale(${lerp(2.4,1,ez(sd))})" opacity="${ez(sd)}"><rect x="-150" y="-54" width="300" height="100" rx="18" fill="#0c0820cc" stroke="#ff3b5c" stroke-width="8"/>${tx(0,20,64,'#ff3b5c','SOLD',{ls:6})}</g>`;
+ h+=label(t,at,'YOU ARE THE PRODUCT',380,'#ffd166',66);
+ if(t<at)h+=label(t,T,'WHO PAYS?',380,'#e4dcff',66).replace(/opacity="([\d.]+)"/,(m,v)=>`opacity="${v*(1-cl(t,at-.3,at))}"`);
+ return svg(h)}
+
+// ---------- Szene 10: Frage ----------
+function drawEnd(t){const T=ST(10),p=ez(cl(t,T-.3,T+.8)),n=Math.floor(Math.max(0,t-T-1)*6),dig=['','1','10','100','?'][Math.min(4,n)],blink=Math.floor((t-T)*2.2)%2==0;
+ const sand=cl(t,T,T+6);let h=headline(t,T+.1,'1 HOUR','OF YOUR ATTENTION','#ffffff',380,140);
+ // Sanduhr
+ h+=`<g transform="translate(540,800) scale(${bo(cl(t,T,T+.6))}) rotate(${lerp(180,0,ei(cl(t,T,T+.8)))})"><rect x="-130" y="-200" width="260" height="24" rx="12" fill="#a78bfa"/><rect x="-130" y="176" width="260" height="24" rx="12" fill="#a78bfa"/>
+  <path d="M-100,-176 L100,-176 C100,-80 20,-40 14,0 C20,40 100,80 100,176 L-100,176 C-100,80 -20,40 -14,0 C-20,-40 -100,-80 -100,-176 Z" fill="#ffffff14" stroke="#e4dcff" stroke-width="6"/>
+  <clipPath id=hg><path d="M-100,-176 L100,-176 C100,-80 20,-40 14,0 C20,40 100,80 100,176 L-100,176 C-100,80 -20,40 -14,0 C-20,-40 -100,-80 -100,-176 Z"/></clipPath>
+  <g clip-path="url(#hg)"><rect x="-100" y="${lerp(-120,-10,sand)}" width="200" height="${lerp(120,10,sand)}" fill="#ffd166"/><path d="M-100,176 L100,176 L100,${lerp(150,40,sand)} Q0,${lerp(120,0,sand)} -100,${lerp(150,40,sand)} Z" fill="#ffd166"/>${t>T+.8?`<rect x="-3" y="-10" width="6" height="186" fill="#ffd166"/>`:''}</g></g>`;
+ h+=`<g opacity="${p}" transform="translate(0,${(1-p)*120})"><rect x="140" y="1080" width="800" height="170" rx="30" fill="#14102b" stroke="#ffd166" stroke-width="6"/>${tx(200,1196,110,'#ffd166','= $'+dig,{a:'start'})}${blink?`<rect x="${210+(2+dig.length)*62+20}" y="1110" width="8" height="110" fill="#fff"/>`:''}</g>`;
+ h+=tx(540,1290,40,'#ffd166','TELL ME IN THE COMMENTS',{w:800,ls:4,op:ez(cl(t,T+.8,T+1.3))});
+ return svg(h)}
+
+// ---------- Ebenen + Uebergaenge ----------
+const LAY=[{a:0,f:drawIntro,tr:''},{a:1,f:drawAuction,tr:'flash'},{a:2,f:drawInterests,tr:'push'},{a:3,f:drawPrecision,tr:'up'},{a:4,f:drawWinner,tr:'push'},
+ {a:5,f:drawCent,tr:'zoom'},{a:6,f:drawScroll,tr:'push'},{a:7,f:drawFeat,tr:'up'},{a:8,f:drawMult,tr:'zoom'},{a:9,f:drawProduct,tr:'iris'},{a:10,f:drawEnd,tr:'up'}];
+const BND=k=>k==0?-1:ST(LAY[k].a)-.3, TW=[.28,.32];
+function trans(type,p,isIn){p=ei(p);if(isIn){switch(type){case'push':return[`translateX(${(1-p)*1080}px) scale(${lerp(.9,1,p)})`,1,''];case'up':return[`translateY(${(1-p)*1920}px)`,1,''];
+ case'zoom':return[`scale(${lerp(.55,1,p)})`,p,''];case'iris':return['',1,`circle(${p*1300}px at 540px 900px)`];case'flash':return['',p,''];}}
+ else{switch(type){case'push':return[`translateX(${-p*1080}px) scale(${lerp(1,.9,p)})`,1,''];case'up':return[`translateY(${-p*1920}px)`,1,''];case'zoom':return[`scale(${lerp(1,2.6,p)})`,1-p,''];case'iris':return[`scale(${lerp(1,.94,p)})`,1-.5*p,''];case'flash':return['',1-p,''];}}return['',1,'']}
+function draw(t){if(!MG.TL)return;drawBg(t);let hook='',fl=0;
+ LAY.forEach((L,k)=>{const el=$('L'+k),b0=BND(k),b1=k+1<LAY.length?BND(k+1):1e9;
+  if(t<b0-TW[0]||t>b1+TW[1]){el.style.display='none';return}el.style.display='block';
+  let tr='',op=1,clip='';
+  if(k>0&&t<b0+TW[1]){const[a,o,c]=trans(L.tr,cl(t,b0-TW[0],b0+TW[1]),true);tr+=a;op*=o;clip=c}
+  if(t>b1-TW[0]){const[a,o]=trans(LAY[k+1].tr,cl(t,b1-TW[0],b1+TW[1]),false);tr+=' '+a;op*=o;el.style.zIndex=1}else el.style.zIndex=2;
+  if(L.tr=='flash'&&t<b0+TW[1])fl=Math.max(fl,Math.sin(Math.PI*cl(t,b0-TW[0],b0+TW[1])));
+  el.style.transform=tr;el.style.clipPath=clip||'none';if(k>0)el.style.opacity=op;
+  const r=L.f(t,el);if(k==0)hook=r;else el.innerHTML=r});
+ $('flash').style.opacity=fl;$('flash').style.background='radial-gradient(circle at 50% 45%,#fff,#e9d5ff 35%,#a855f700 80%)';
+ $('hook').innerHTML=t<ST(1)?hook:'';
+ $('cap').innerHTML=MG.captions(t,{y:1380});MG.grainTick(t)}
+MG.finish($('stage'),1080,1920,.07);
+window.setTimeline=tl=>{MG.TL=tl};
+window.sfxEvents=()=>{const tap=wt(0,/nothing/,.35)+.15,bil=wt(0,/billions/,.85),T1=ST(1);
+ const e=[{k:'whoosh',t:.1,d:1.4},{k:'tap',t:tap},{k:'pop',t:tap+.05},{k:'beep',t:tap+1.0,f:1568},{k:'chime',t:tap+1.1},{k:'impact',t:bil},{k:'riser',t:T1-1.4,d:1.2},{k:'impact',t:T1-.3},{k:'shimmer',t:T1-.2}];
+ for(let k=2;k<LAY.length;k++)e.push({k:LAY[k].tr=='zoom'?'whoosh':'swish',t:BND(k)-.25,d:.6,pan:k%2?.4:-.4});
+ const au=wt(1,/auction/,.6);e.push({k:'thud',t:au});for(let k=0;k<6;k++)e.push({k:'tick',t:au+.6+k*.25,f:1800+k*150});
+ const T2=ST(2),d2=DU(2),mt=wt(2,/interests/,.85)-.2;for(let k=0;k<6;k++)e.push({k:'pop',t:T2+.3+k*d2*.09});[0,1,2].forEach(b=>e.push({k:'beep',t:mt+b*.15+.3,f:1318+b*200}));
+ const T3=ST(3),d3=DU(3);e.push({k:'riser',t:T3+.3,d:d3*.75},{k:'cash',t:T3+.3+d3*.75});
+ e.push({k:'type',t:ST(4)+.2,n:6},{k:'ding',t:wt(4,/wins/,.15)},{k:'swish',t:wt(4,/appears/,.35)-.2,d:.5,pan:.3},{k:'pop',t:wt(4,/appears/,.35)+.3},{k:'cash',t:wt(4,/paid/,.55)});
+ const T5=ST(5),d5=DU(5);e.push({k:'thud',t:T5+.1},{k:'impact',t:T5+d5*.35},{k:'shimmer',t:T5+d5*.35+.6});
+ const T6=ST(6);for(let k=1;k<40;k+=3){const tc=T6+.2+solveT(40+k*230-300);if(tc<EN(6)+.2)e.push({k:'cash',t:tc})}
+ [/Endless/,/notifications/,/autoplay/].forEach((r,j)=>e.push({k:'pop',t:wt(7,r,[.05,.15,.3][j])-.1}));e.push({k:'thud',t:wt(7,/accident/,.5)});
+ const T8=ST(8),d8=DU(8);e.push({k:'riser',t:T8+.2,d:d8*.6},{k:'shimmer',t:T8+.2+d8*.6});
+ e.push({k:'error',t:wt(9,/customer/,.3)},{k:'whoosh',t:wt(9,/attention/,.6),d:.9},{k:'thud',t:wt(9,/sold/,.95)});
+ e.push({k:'pop',t:ST(10)},{k:'type',t:ST(10)+1,n:4},{k:'ding',t:ST(10)+1.8});return e};
+window.draw=draw;
+</script>

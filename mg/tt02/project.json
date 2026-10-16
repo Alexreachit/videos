@@ -1,0 +1,62 @@
+{
+ "title": "TikTok 2: Why airlines sell more seats than exist",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+10%",
+ "lead": 0.4,
+ "gap": 0.25,
+ "tail": 1.8,
+ "music": {
+  "bpm": 104,
+  "mood": "tense",
+  "energy": 0.6
+ },
+ "lines": [
+  {
+   "text": "This plane has 180 seats, but the airline sold 190 tickets.",
+   "min_start": 0.5
+  },
+  {
+   "text": "That's not a mistake. It's a calculated bet.",
+   "min_start": 5.0
+  },
+  {
+   "text": "On a typical flight, roughly one in twenty passengers never shows up."
+  },
+  {
+   "text": "Business travelers change plans, connections run late, and some people simply oversleep."
+  },
+  {
+   "text": "An empty seat earns nothing, yet the plane burns almost the same fuel and needs the same crew."
+  },
+  {
+   "text": "So airlines study every route's no-show history and sell just enough extra tickets to cover the gaps."
+  },
+  {
+   "text": "Most days the math works: the extra passengers fill the empty seats, and nobody notices."
+  },
+  {
+   "text": "Fuller planes also split the flight's cost among more people, which helps keep fares lower."
+  },
+  {
+   "text": "But sometimes everyone shows up, and the gate agent has to start an auction."
+  },
+  {
+   "text": "Who will take a later flight for a 200 dollar voucher? No one? 300? 400?"
+  },
+  {
+   "text": "The offer keeps climbing until someone says yes, because that is still cheaper than a plane full of angry passengers."
+  },
+  {
+   "text": "Getting bumped against your will is rare, typically just a few people in every 100,000."
+  },
+  {
+   "text": "So what price would make you give up your seat?"
+  }
+ ]
+}

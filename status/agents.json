@@ -2,48 +2,48 @@
  "agents": {
   "Chief Orchestrator": {
    "status": "arbeitet",
-   "task": "verteilt 8-h-Produktion: 10 TikToks + YT-Remaster",
-   "since": 1792103225.9424255
+   "task": "überwacht GitHub-Render von 11 Videos",
+   "since": 1792111786.6880267
   },
   "TikTok Production Agent": {
-   "status": "arbeitet",
+   "status": "idle",
    "task": "baut Folge 2+3 (Overbooking, Gratis-Apps)",
    "since": 1792103225.9716222
   },
   "TikTok Trend Research Agent": {
-   "status": "arbeitet",
-   "task": "recherchiert Fakten Folge 4+5 (Tickets, Benzin)",
-   "since": 1792103226.000147
+   "status": "idle",
+   "result": "Fakten Folgen 4-10 recherchiert, Quellen in quellen.md",
+   "since": 1792111786.5189693
   },
   "TikTok Format Development Agent": {
-   "status": "arbeitet",
-   "task": "baut Folge 6+7 (Sparkonto, Streaming)",
-   "since": 1792103226.0288959
+   "status": "idle",
+   "result": "Folgen 6+7 gebaut und geprüft",
+   "since": 1792111786.5467982
   },
   "TikTok Competitor Analysis Agent": {
-   "status": "arbeitet",
-   "task": "baut Folge 8+9 (Hotdog, Buy now pay later)",
-   "since": 1792103226.0563583
+   "status": "idle",
+   "result": "Folgen 8+9 gebaut und geprüft",
+   "since": 1792111786.574506
   },
   "TikTok Experiment Manager": {
-   "status": "arbeitet",
-   "task": "baut Folge 10 + Langfassung Folge 1",
-   "since": 1792103226.0833278
+   "status": "idle",
+   "result": "Folge 10 + Langfassung 1 gebaut",
+   "since": 1792111786.603983
   },
   "YouTube Production Agent": {
-   "status": "arbeitet",
+   "status": "idle",
    "task": "Remaster Video 2: Bilder + gecodete Animation",
    "since": 1792103226.110325
   },
   "YouTube Script Agent": {
-   "status": "arbeitet",
-   "task": "Szenenplan Video 2 (56 Zeilen)",
-   "since": 1792103226.1375563
+   "status": "idle",
+   "result": "Szenenplan Video 2 (56 Zeilen) fertig",
+   "since": 1792111786.6317656
   },
   "Quality Assurance Agent": {
-   "status": "arbeitet",
-   "task": "prüft Stills aller Projekte",
-   "since": 1792103226.1718864
+   "status": "idle",
+   "result": "Stills aller 11 Projekte geprüft",
+   "since": 1792111786.6590853
   }
  },
  "log": [
@@ -100,7 +100,49 @@
    "agent": "Quality Assurance Agent",
    "msg": "startet: prüft Stills aller Projekte",
    "ts": 1792103226.1718864
+  },
+  {
+   "id": "1792111786.519-TikTok Trend Research Agent",
+   "agent": "TikTok Trend Research Agent",
+   "msg": "fertig: Fakten Folgen 4-10 recherchiert, Quellen in quellen.md",
+   "ts": 1792111786.5189693
+  },
+  {
+   "id": "1792111786.547-TikTok Format Development Agent",
+   "agent": "TikTok Format Development Agent",
+   "msg": "fertig: Folgen 6+7 gebaut und geprüft",
+   "ts": 1792111786.5467982
+  },
+  {
+   "id": "1792111786.575-TikTok Competitor Analysis Agent",
+   "agent": "TikTok Competitor Analysis Agent",
+   "msg": "fertig: Folgen 8+9 gebaut und geprüft",
+   "ts": 1792111786.574506
+  },
+  {
+   "id": "1792111786.604-TikTok Experiment Manager",
+   "agent": "TikTok Experiment Manager",
+   "msg": "fertig: Folge 10 + Langfassung 1 gebaut",
+   "ts": 1792111786.603983
+  },
+  {
+   "id": "1792111786.632-YouTube Script Agent",
+   "agent": "YouTube Script Agent",
+   "msg": "fertig: Szenenplan Video 2 (56 Zeilen) fertig",
+   "ts": 1792111786.6317656
+  },
+  {
+   "id": "1792111786.659-Quality Assurance Agent",
+   "agent": "Quality Assurance Agent",
+   "msg": "fertig: Stills aller 11 Projekte geprüft",
+   "ts": 1792111786.6590853
+  },
+  {
+   "id": "1792111786.688-Chief Orchestrator",
+   "agent": "Chief Orchestrator",
+   "msg": "startet: überwacht GitHub-Render von 11 Videos",
+   "ts": 1792111786.6880267
   }
  ],
- "updated": 1792103226.1718864
+ "updated": 1792111786.6880267
 }

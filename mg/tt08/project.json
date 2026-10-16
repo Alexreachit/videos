@@ -1,0 +1,74 @@
+{
+ "title": "TikTok 8: Why the warehouse-club hot dog never gets more expensive",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+10%",
+ "lead": 0.4,
+ "gap": 0.25,
+ "tail": 1.8,
+ "music": {
+  "bpm": 104,
+  "mood": "major",
+  "energy": 0.6
+ },
+ "lines": [
+  {
+   "text": "A hot dog and a soda for just $1.50.",
+   "min_start": 0.6
+  },
+  {
+   "text": "At Costco, that price has not changed since 1985.",
+   "min_start": 4.9
+  },
+  {
+   "text": "Adjusted for inflation, it would cost more than four dollars today."
+  },
+  {
+   "text": "Meat, buns, wages and rent all got pricier, so each combo probably earns close to nothing."
+  },
+  {
+   "text": "Yet the chain sells roughly 200 million of them every year."
+  },
+  {
+   "text": "That is called a loss leader, a deal so good that it pulls you through the door."
+  },
+  {
+   "text": "And once you are inside, you rarely leave with just a hot dog."
+  },
+  {
+   "text": "But here is the real trick: you had to pay just to walk in."
+  },
+  {
+   "text": "A basic membership costs about $65 a year."
+  },
+  {
+   "text": "Around 80 million households pay that fee."
+  },
+  {
+   "text": "And roughly nine out of ten of them renew."
+  },
+  {
+   "text": "Together, those fees bring in about $5 billion a year."
+  },
+  {
+   "text": "That is equal to roughly two thirds of the company's entire yearly profit."
+  },
+  {
+   "text": "So the shelves can run on thin margins, and the hot dog becomes pure advertising."
+  },
+  {
+   "text": "A co-founder reportedly warned his successor that if he ever raised the hot dog price, he would kill him."
+  },
+  {
+   "text": "The hot dog is not the product, your membership is."
+  },
+  {
+   "text": "Would you pay a yearly fee just to shop cheaper?"
+  }
+ ]
+}

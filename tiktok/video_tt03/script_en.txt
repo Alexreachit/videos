@@ -1,12 +1,12 @@
 # TikTok 3: Why "free" apps aren't free
-You open a free app. You pay nothing. So how does the company earn billions?
-Every time you open it, an auction runs in a fraction of a second.
-Advertisers bid to show you something, based on what the app knows about your interests.
-The more precisely the app knows you, the more an advertiser is willing to pay for that single moment of your attention.
-The highest bidder wins, the ad appears, and the app gets paid, all before the screen loads.
-The more time you spend, the more auctions happen, and the more money flows.
-Endless feeds, notifications and autoplay are not accidents. Each one is designed to add a few more seconds to your visit.
-Multiply a few seconds by millions of users, and a free app turns into a very profitable machine.
-That is why these apps are built to keep you scrolling.
-You are not the customer. Your attention is the product that gets sold.
+You pay nothing for this app. So how does it make billions?
+Every time you open it, a tiny auction runs behind the screen.
+Advertisers bid to show you an ad, based on what the app knows about your interests.
+The better the app knows you, the more an advertiser will pay for that one moment of your attention.
+The highest bidder wins, the ad appears, and the app gets paid, often in about a tenth of a second.
+A single ad view earns very little, often well under one cent.
+But the more time you spend, the more auctions run, and the more money flows to the app.
+Endless feeds, notifications and autoplay are no accident. Each one adds a few more seconds to your visit.
+Multiply those seconds by millions of users, and a free app becomes a very profitable machine.
+You are not really the customer here. Your attention is the product being sold.
 So what is one hour of your attention worth to you?

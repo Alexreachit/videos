@@ -1,13 +1,14 @@
 # TikTok 2: Why airlines sell more seats than exist
-An airplane has 180 seats. The airline sells maybe 190 tickets. Why would it do that?
-Because some passengers simply never show up. Over thousands of flights, that happens every single day.
-Business travelers change plans, connections run late, and some people just oversleep, so a small share of seats stays empty.
-An empty seat earns nothing, but the plane still burns the same fuel.
-So airlines sell a few extra tickets and bet that the empty seats will cancel out.
-Most of the time the bet works, and nobody notices.
-Airlines even track each route's no-show rate, so the number of extra tickets is a calculated guess, not a wild gamble.
-Selling the same seat twice sounds unfair, but a plane that leaves with empty seats also pushes ticket prices up for everyone.
-When it fails, the airline offers money to people who will take a later flight.
-The offer goes up until someone says yes. That is cheaper for them than an angry full plane.
-Agents start with a small voucher, and every few minutes the offer grows, until the price is high enough for someone to volunteer.
-So next time, would you give up your seat for the right price?
+This plane has 180 seats, but the airline sold 190 tickets.
+That's not a mistake. It's a calculated bet.
+On a typical flight, roughly one in twenty passengers never shows up.
+Business travelers change plans, connections run late, and some people simply oversleep.
+An empty seat earns nothing, yet the plane burns almost the same fuel and needs the same crew.
+So airlines study every route's no-show history and sell just enough extra tickets to cover the gaps.
+Most days the math works: the extra passengers fill the empty seats, and nobody notices.
+Fuller planes also split the flight's cost among more people, which helps keep fares lower.
+But sometimes everyone shows up, and the gate agent has to start an auction.
+Who will take a later flight for a 200 dollar voucher? No one? 300? 400?
+The offer keeps climbing until someone says yes, because that is still cheaper than a plane full of angry passengers.
+Getting bumped against your will is rare, typically just a few people in every 100,000.
+So what price would make you give up your seat?

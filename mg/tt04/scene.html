@@ -1,0 +1,403 @@
+<!doctype html><meta charset=utf-8><style>
+html,body{margin:0;background:#05040c}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:radial-gradient(120% 75% at 50% 32%,#2a1650,#120a2a 52%,#05040c)}
+.abs{position:absolute}
+#intro{position:absolute;left:0;top:0;width:1080px;height:1920px;transform-origin:540px 780px}
+#c3{position:absolute;inset:0;perspective:1500px;perspective-origin:540px 760px}
+#tk{position:absolute;left:200px;top:610px;width:680px;height:300px;transform-style:preserve-3d}
+.ly{position:absolute;left:0;top:0;width:680px;height:300px;border-radius:28px;box-sizing:border-box;font-family:'Arial Black',Arial,Helvetica,sans-serif;color:#fff}
+#face{background:linear-gradient(120deg,#7c3aed 0%,#c026d3 55%,#ec4899 100%);box-shadow:0 50px 90px #000c,inset 0 2px 0 #ffffff66,inset 0 -8px 20px #0005;overflow:hidden}
+#face .stub{position:absolute;left:500px;top:0;width:180px;height:300px;border-left:6px dashed #ffffffaa;background:#00000022}
+#face .bc{position:absolute;left:540px;top:60px;width:100px;height:180px;background:repeating-linear-gradient(90deg,#fff 0 6px,transparent 6px 10px,#fff 10px 13px,transparent 13px 20px)}
+#face .t1{position:absolute;left:44px;top:38px;font-size:40px;letter-spacing:4px}
+#face .t2{position:absolute;left:44px;top:96px;font:700 30px Arial,Helvetica,sans-serif;color:#ffe9ff;letter-spacing:2px}
+#face .pr{position:absolute;left:40px;top:150px;font-size:118px;line-height:1;letter-spacing:-2px}
+#face .old{position:absolute;left:330px;top:166px;font-size:46px;color:#ffffffcc;opacity:0}
+#face .old:after{content:'';position:absolute;left:-6px;right:-6px;top:26px;height:7px;background:#ff5d5d;border-radius:4px}
+#face .sheen{position:absolute;top:-60%;bottom:-60%;width:110px;background:linear-gradient(90deg,transparent,#ffffff70,transparent);transform:rotate(18deg)}
+#face .hole{position:absolute;width:56px;height:56px;border-radius:50%;background:#140a2a;left:475px}
+#laser{position:absolute;top:-30px;width:8px;height:360px;background:#ff5d5d;box-shadow:0 0 30px 10px #ff5d5daa;border-radius:4px;opacity:0}
+.fee{display:flex;align-items:center;justify-content:center;font-size:64px;letter-spacing:3px;box-shadow:0 30px 60px #0009,inset 0 3px 0 #ffffff55;opacity:0}
+#hook{position:absolute;left:0;top:0;width:1080px;height:1920px;pointer-events:none}
+#main{position:absolute;left:0;top:0}
+#fl{position:absolute;inset:0;background:radial-gradient(circle at 50% 42%,#fff,#ffd9f6 40%,#a64dff 85%);opacity:0;pointer-events:none;z-index:50}
+#cap{position:absolute;left:0;top:0;width:1080px;height:1920px;z-index:60;pointer-events:none}
+</style>
+<div id=stage>
+<svg id=bg class=abs width=1080 height=1920></svg>
+<div id=intro>
+ <svg id=ist class=abs width=1080 height=1920></svg>
+ <div id=c3><div id=tk>
+  <div id=face class=ly><div class=stub></div><div class=bc></div><div class=t1>LIVE TOUR</div><div class=t2>ROW F · SEAT 12</div><div class=pr id=pv>$80</div><div class=old id=old>$80</div><div class=hole style="top:-28px"></div><div class=hole style="top:272px"></div><div class=sheen id=sheen></div></div>
+  <div id=f1 class="ly fee" style="background:linear-gradient(120deg,#2563eb,#60a5fa)">SERVICE FEE</div>
+  <div id=f2 class="ly fee" style="background:linear-gradient(120deg,#7c3aed,#a78bfa)">FACILITY FEE</div>
+  <div id=f3 class="ly fee" style="background:linear-gradient(120deg,#dc2626,#ff7a7a)">ORDER FEE</div>
+  <div id=laser></div>
+ </div></div>
+</div>
+<svg id=main width=1080 height=1920 viewBox="0 0 1080 1920"><defs>
+ <filter id=gl x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="12" result=b /><feMerge><feMergeNode in=b /><feMergeNode in=SourceGraphic /></feMerge></filter>
+ <filter id=sb x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="30"/></filter>
+ <filter id=ds x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="24" stdDeviation="22" flood-color="#000" flood-opacity=".7"/></filter>
+ <linearGradient id=gold x1=0 y1=0 x2=1 y2=1><stop offset=0 stop-color="#ffe08a"/><stop offset=1 stop-color="#f0a020"/></linearGradient>
+ <linearGradient id=tkg x1=0 y1=0 x2=1 y2=.4><stop offset=0 stop-color="#7c3aed"/><stop offset=.55 stop-color="#c026d3"/><stop offset=1 stop-color="#ec4899"/></linearGradient>
+ <linearGradient id=cone x1=0 y1=0 x2=0 y2=1><stop offset=0 stop-color="#fff" stop-opacity=".55"/><stop offset=1 stop-color="#fff" stop-opacity="0"/></linearGradient>
+ <pattern id=hatch width=26 height=26 patternUnits=userSpaceOnUse patternTransform="rotate(45)"><rect width=26 height=26 fill="#ff5d5d22"/><rect width=10 height=26 fill="#ff5d5d66"/></pattern>
+ <mask id=tkm maskUnits=userSpaceOnUse x=-400 y=-220 width=800 height=440><rect x=-300 y=-130 width=600 height=260 rx=26 fill="#fff"/><circle cx=130 cy=-130 r=26 fill="#000"/><circle cx=130 cy=130 r=26 fill="#000"/></mask>
+</defs><g id=scn></g></svg>
+<div id=hook></div>
+<div id=fl></div>
+<div id=cap></div>
+</div>
+<script src="../lib/core.js"></script>
+<script src="kit.js"></script>
+<script>
+const {cl,ez,ei,bo,lerp,$}=MG, S=K.S, W=K.W, T=K.t, F=K.F;
+const GOLD='#ffd166',GRN='#35e08a',RED='#ff5d5d',BLU='#60a5fa',PUR='#a78bfa',PNK='#f472b6';
+
+// ---------- Hintergrund: Lichtflecken + Perspektivboden (faehrt mit den Kamera-Schwenks) ----------
+function drawBg(t){
+ const cx=K.camX(t);let h='';
+ [[200,420,420,'#7c3aed'],[900,700,380,'#ec4899'],[540,1250,520,'#3b82f6']].forEach((b,i)=>{
+  const x=b[0]+Math.sin(t*.25+i*2)*60-((cx*140)%1400),y=b[1]+Math.cos(t*.2+i)*40;
+  for(const o of [0,1400])h+=`<circle cx="${x+o}" cy="${y}" r="${b[2]}" fill="${b[3]}" opacity=".16" filter="url(#sbb)"/>`});
+ const hz=1230;let g='';
+ for(let k=0;k<12;k++){const z=((k+(t*.15)%1)/12),y=hz+Math.pow(z,2.2)*700;g+=`<line x1=0 x2=1080 y1="${y}" y2="${y}" stroke="#a78bfa" stroke-opacity="${(.05+.18*z).toFixed(3)}" stroke-width="2"/>`}
+ for(let k=-12;k<=12;k++){const x=540+(k-((cx*3)%1))*90;g+=`<line x1="${540+(x-540)*.12}" y1="${hz}" x2="${540+(x-540)*2.4}" y2="1920" stroke="#a78bfa" stroke-opacity=".12" stroke-width="2"/>`}
+ $('bg').innerHTML=`<defs><filter id=sbb x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="70"/></filter><linearGradient id=fade x1=0 y1=0 x2=0 y2=1><stop offset=0 stop-color="#000" stop-opacity="0"/><stop offset=1 stop-color="#000" stop-opacity=".2"/></linearGradient></defs>${h}<g>${g}</g>`;
+}
+
+// ---------- Konzertbuehne (Intro + Finale) ----------
+function stageSVG(t,dim=1,crowd=1){
+ let h='';const cols=['#a78bfa','#60a5fa','#ffd166','#f472b6','#60a5fa','#a78bfa'];
+ // Lichtkegel
+ h+=`<g style="mix-blend-mode:screen" opacity="${.85*dim}">`;
+ for(let i=0;i<6;i++){const x=110+i*172,a=(i<3?14:-14)+18*Math.sin(t*1.15+i*1.9),L=1250,w=150+40*Math.sin(t*.7+i);
+  h+=`<g transform="translate(${x},170) rotate(${a.toFixed(2)})"><path d="M-10,0 L10,0 L${w},${L} L${-w},${L} Z" fill="${cols[i]}" opacity=".32"/><path d="M-5,0 L5,0 L${w*.45},${L} L${-w*.45},${L} Z" fill="url(#cone)" opacity=".35"/></g>`}
+ h+='</g>';
+ // Truss
+ h+=`<rect x=0 y=118 width=1080 height=40 fill="#1b1730"/><path d="${Array.from({length:28},(_,i)=>`M${i*40},118 L${i*40+20},158 L${i*40+40},118`).join(' ')}" stroke="#3a3358" stroke-width=4 fill=none />`;
+ for(let i=0;i<6;i++){const x=110+i*172;h+=`<rect x="${x-26}" y=150 width=52 height=34 rx=8 fill="#2a2440"/><circle cx="${x}" cy="182" r="14" fill="#fff" filter="url(#gl)" opacity="${.6+.4*dim}"/>`}
+ // Buehne + Dunst
+ h+=`<ellipse cx=540 cy=1150 rx=640 ry=150 fill="#a78bfa" opacity="${.22*dim}" filter="url(#sb)"/><rect x=0 y=1180 width=1080 height=40 fill="#120d22"/><rect x=0 y=1178 width=1080 height=4 fill="#c4b5fd" opacity=".6"/>`;
+ if(crowd>0){
+  // Publikum (Silhouetten), Handy-Lichter, gehobene Arme schwingen sanft
+  let c='';for(let i=0;i<13;i++){const x=i*90+((i%2)?20:0)-10,y=1290+((i*37)%50),r=48+(i%3)*6,sw=Math.sin(t*2.2+i*1.3)*6;
+   if(i%3==1){c+=`<path d="M${x+20},${y+10} L${x+50+sw},${y-150} L${x+64+sw},${y-146} L${x+40},${y+20} Z" fill="#07050d"/>`;
+    c+=`<rect x="${x+38+sw}" y="${y-196}" width=34 height=56 rx=6 fill="#e9e3ff" filter="url(#gl)" opacity=".9"/>`}
+   c+=`<circle cx="${x}" cy="${y}" r="${r}" fill="#07050d"/><path d="M${x-r*1.9},${y+r*3.2} C${x-r*1.6},${y+r*.9} ${x+r*1.6},${y+r*.9} ${x+r*1.9},${y+r*3.2} Z" fill="#07050d"/>`}
+  for(let i=0;i<9;i++){const x=i*135+40,y=1520+((i*53)%60),r=78;c+=`<circle cx="${x}" cy="${y}" r="${r}" fill="#030207"/><path d="M${x-r*2},${y+r*4} C${x-r*1.7},${y+r} ${x+r*1.7},${y+r} ${x+r*2},${y+r*4} Z" fill="#030207"/>`}
+  h+=`<g opacity="${crowd}">${c}</g>`}
+ return h;
+}
+
+// ---------- Ticket als SVG ----------
+function ticket(price,o={}){
+ const pc=o.pc||'#fff';
+ return `<g filter="url(#ds)"><g mask="url(#tkm)"><rect x=-300 y=-130 width=600 height=260 rx=26 fill="url(#tkg)"/><rect x=130 y=-130 width=170 height=260 fill="#00000025"/>
+ ${Array.from({length:14},(_,i)=>`<rect x="${165+i*8}" y=-80 width="${i%3?4:7}" height=160 fill="#fff" opacity=".9"/>`).join('')}
+ <line x1=130 y1=-104 x2=130 y2=104 stroke="#ffffffaa" stroke-width=5 stroke-dasharray="14 10"/>
+ ${T(-262,-62,'LIVE TOUR',36,'#fff',{a:'start',ls:3})}${T(-262,-20,'ROW F · SEAT 12',26,'#ffe9ff',{a:'start',w:700,ls:2})}
+ ${T(-266,92,price,104,pc,{a:'start'})}${o.stamp||''}</g></g>`;
+}
+
+// ---------- Icons ----------
+const IC={
+ mic:c=>`<rect x=-22 y=-62 width=44 height=78 rx=22 fill="${c}"/><path d="M-38,-8 C-38,34 38,34 38,-8" stroke="${c}" stroke-width=9 fill=none /><rect x=-5 y=26 width=10 height=26 fill="${c}"/><rect x=-26 y=50 width=52 height=10 rx=5 fill="${c}"/>`,
+ cal:c=>`<rect x=-50 y=-42 width=100 height=92 rx=14 fill="${c}"/><rect x=-50 y=-42 width=100 height=26 rx=10 fill="#0b0720" opacity=".35"/><rect x=-30 y=-58 width=10 height=28 rx=5 fill="${c}"/><rect x=20 y=-58 width=10 height=28 rx=5 fill="${c}"/>${[0,1,2].map(r=>[0,1,2].map(q=>`<rect x="${-34+q*26}" y="${-6+r*18}" width=16 height=11 rx=3 fill="#0b0720" opacity=".5"/>`).join('')).join('')}`,
+ cart:c=>`<path d="M-56,-40 L-36,-40 L-20,26 L40,26 L52,-22 L-30,-22" stroke="${c}" stroke-width=11 fill=none stroke-linejoin=round stroke-linecap=round /><circle cx=-14 cy=48 r=11 fill="${c}"/><circle cx=34 cy=48 r=11 fill="${c}"/>`,
+ card:c=>`<rect x=-58 y=-38 width=116 height=76 rx=12 fill="${c}"/><rect x=-58 y=-20 width=116 height=14 fill="#0b0720" opacity=".5"/><rect x=-44 y=10 width=34 height=12 rx=3 fill="#0b0720" opacity=".5"/>`,
+ bag:c=>`<rect x=-60 y=-30 width=120 height=84 rx=14 fill="${c}"/><path d="M-24,-30 L-24,-48 Q-24,-58 -14,-58 L14,-58 Q24,-58 24,-48 L24,-30" stroke="${c}" stroke-width=10 fill=none /><rect x=-60 y=2 width=120 height=8 fill="#0b0720" opacity=".35"/><rect x=-10 y=-4 width=20 height=20 rx=4 fill="#0b0720" opacity=".45"/>`,
+ bot:c=>`<rect x=-34 y=-28 width=68 height=56 rx=16 fill="${c}"/><circle cx=-13 cy=-2 r=8 fill="#0b0720"/><circle cx=13 cy=-2 r=8 fill="#0b0720"/><rect x=-14 y=14 width=28 height=6 rx=3 fill="#0b0720"/><line x1=0 y1=-28 x2=0 y2=-46 stroke="${c}" stroke-width=6 /><circle cx=0 cy=-50 r=8 fill="${c}"/>`,
+ clock:c=>`<circle r=58 fill="none" stroke="${c}" stroke-width=10 /><line x1=0 y1=0 x2=0 y2=-38 stroke="${c}" stroke-width=10 stroke-linecap=round /><line x1=0 y1=0 x2=-30 y2=-17 stroke="${c}" stroke-width=10 stroke-linecap=round /><circle r=8 fill="${c}"/>`,
+ tag:c=>`<path d="M-50,-40 L20,-40 L58,0 L20,40 L-50,40 Z" fill="${c}"/><circle cx=26 cy=0 r=10 fill="#0b0720"/>`,
+ gavel:c=>`<g transform="rotate(-35)"><rect x=-70 y=-26 width=140 height=52 rx=12 fill="${c}"/><rect x=-82 y=-34 width=24 height=68 rx=8 fill="${c}"/><rect x=58 y=-34 width=24 height=68 rx=8 fill="${c}"/><rect x=-9 y=24 width=18 height=150 rx=8 fill="${c}"/></g>`,
+ chat:c=>`<path d="M-70,-50 Q-70,-70 -50,-70 L50,-70 Q70,-70 70,-50 L70,20 Q70,40 50,40 L-10,40 L-40,70 L-36,40 L-50,40 Q-70,40 -70,20 Z" fill="${c}"/>`,
+};
+const icon=(k,x,y,s,c,o=1)=>K.at(x,y,s,IC[k](c),o);
+
+// =====================================================================
+// Szene 0 (Intro, HTML/CSS-3D): Ticket fliegt ueber die Buehne, Kasse scannt, Preis springt; dann zerlegt sich das Ticket
+function drawIntro(t){
+ const v=K.vis(t,0),el=$('intro');
+ if(v.q>=1){el.style.display='none';$('hook').innerHTML='';return}
+ el.style.display='block';el.style.opacity=1-v.q;el.style.transform=`scale(${1+1.3*v.q})`;
+ const t1=S(1),tc=W(0,'checkout',.65);
+ const push=ez(cl(t,0,t1)),explode=ei(cl(t,t1-.1,t1+.9));
+ $('ist').innerHTML=stageSVG(t,1-.55*explode,1-.6*explode);
+ $('ist').style.transform=`scale(${1+.06*push}) translateY(${-30*push}px)`;$('ist').style.transformOrigin='540px 900px';
+ // Flug des Tickets
+ const a=ez(cl(t,.25,1.9)),sp=Math.abs(ez(cl(t,.25,1.9))-ez(cl(t-.04,.25,1.9)));
+ const x=lerp(260,0,a),y=lerp(-420,0,a)+Math.sin(t*1.6)*8*(1-explode),z=lerp(-2600,0,a);
+ const rx=lerp(35,6,a)+explode*44,ry=lerp(-540,-8,a)+explode*8,rz=lerp(-30,-3,a)-explode*14;
+ const sc=1+.12*ez(cl(t,1.9,tc))-.04*explode;
+ $('tk').style.transform=`translate3d(${x}px,${y+explode*60}px,${z}px) rotateX(${rx}deg) rotateY(${ry}deg) rotateZ(${rz}deg) scale(${sc})`;
+ $('tk').style.opacity=cl(t,.25,.6);$('face').style.filter=`blur(${Math.min(8,sp*260).toFixed(1)}px)`;
+ $('sheen').style.left=(-160+900*cl(t,1.5,2.4))+'px';
+ // Scan + Preis
+ const sc0=tc-.45,lp=cl(t,sc0,sc0+.45);$('laser').style.opacity=lp>0&&lp<1?1:0;$('laser').style.left=(lp*680)+'px';
+ const cp=ez(cl(t,tc-.05,tc+.75));
+ $('pv').textContent='$'+Math.round(lerp(80,102,cp));$('pv').style.color=cp>0?(cp<1?'#ffe1e1':'#ffd0d0'):'#fff';
+ $('pv').style.textShadow=cp>0?`0 0 ${30*cp}px #ff5d5d`:'none';
+ $('old').style.opacity=ez(cl(t,tc+.6,tc+.9))*(1-explode);
+ // Gebuehren-Schichten heben sich ab (Explosionszeichnung)
+ ['f1','f2','f3'].forEach((id,i)=>{const p=ez(cl(t,t1+.35+i*.28,t1+.95+i*.28)),e=$(id);e.style.opacity=p;e.style.transform=`translateZ(${(1+i)*95*p+4}px)`});
+ // Hook-Text oben
+ let hk='';const q0=ez(cl(t,.3,.8)),qb=ez(cl(t,tc-.1,tc+.25)),qc=ez(cl(t,t1-.1,t1+.3));
+ const box=(o,dy,html)=>o>0.01?`<div style="position:absolute;left:0;right:0;top:${210+dy}px;text-align:center;font:900 92px/1.05 'Arial Black',Arial,Helvetica,sans-serif;color:#fff;opacity:${o};text-shadow:0 8px 34px #000,0 0 4px #000">${html}</div>`:'';
+ hk+=box(q0*(1-qb),(1-q0)*-30,`THE TICKET SAYS<br><span style="color:${GOLD};font-size:150px">$80</span>`);
+ hk+=box(qb*(1-qc),(1-qb)*30,`CHECKOUT SAYS<br><span style="color:${RED};font-size:150px">$102?</span>`);
+ hk+=box(qc,(1-qc)*30,`WHAT'S <span style="color:${GOLD}">INSIDE?</span>`);
+ $('hook').innerHTML=hk;$('hook').style.opacity=1-v.q;
+}
+
+// =====================================================================
+// Szene 1 (Zeilen 2–3): Gebuehren-Turm
+const PX=7,BX=290,BW=340,BD=70,FLOOR=1250;
+function towerScene(t){
+ const s2=S(2),s3=S(3);let h='';
+ const shift=ei(cl(t,s3-.1,s3+.6));
+ const baseH=80*PX*ez(cl(t,s2-.2,s2+.5));
+ const fees=[['SERVICE FEE',14,BLU,'service'],['FACILITY FEE',4,PUR,'facility'],['ORDER FEE',4,RED,'order']];
+ let y=FLOOR-baseH;
+ h+=`<ellipse cx="${BX+BW/2+30}" cy="${FLOOR+14}" rx="300" ry="40" fill="#000" opacity=".45" filter="url(#sb)"/>`;
+ h+=K.box(BX,y,BW,baseH,BD,'#f0a020','#ffe08a','#b8740c');
+ if(baseH>200){const p=ez(cl(t,s2+.2,s2+.6));h+=T(BX+BW/2,y+baseH/2+30,'$80',140,'#3a2300',{o:p});h+=T(BX+BW/2,y+baseH/2+90,'TICKET PRICE',34,'#5a3a00',{o:p,ls:2})}
+ let top=y;
+ fees.forEach((f,i)=>{const wt=W(2,f[3],.3+i*.2)-.15,p=cl(t,wt,wt+.45);if(p<=0)return;
+  const hh=f[1]*PX,dropY=(1-bo(p))*-380,yy=top-hh+Math.min(0,dropY);
+  const glow=cl(t,s3+.4,s3+.8)*(.6+.4*Math.sin((t-s3)*6));
+  h+=`<g opacity="${Math.min(1,p*3)}">${glow>0?`<rect x="${BX-8}" y="${yy-8}" width="${BW+16}" height="${hh+16}" fill="${f[2]}" opacity="${.35*glow}" filter="url(#sb)"/>`:''}${K.box(BX,yy,BW,hh,BD,f[2],K.sh(f[2],.35),K.sh(f[2],-.35))}</g>`;
+  // Beschriftung rechts
+  const lp=ez(cl(t,wt+.25,wt+.6))*(1-ez(cl(t,s3-.2,s3+.2))),ly=560+i*92;
+  if(lp>0)h+=`<g opacity="${lp}"><path d="M${BX+BW+BD+8},${yy+hh/2-BD*.25} L${BX+BW+BD+48},${ly-12} L${BX+BW+BD+70},${ly-12}" stroke="${f[2]}" stroke-width=4 fill=none />${T(BX+BW+BD+80+(1-lp)*30,ly,f[0],38,f[2],{a:'start'})}</g>`;
+  top=yy;});
+ // Kicker oben
+ const kp=ez(cl(t,s2,s2+.5))*(1-ez(cl(t,s3-.2,s3+.2)));
+ if(kp>0)h+=K.g(`translate(0,${(1-kp)*-30})`,K.chip(540,330,'THE FEE STACK',44,GOLD),kp);
+ // Zeile 3: Klammer + grosse Zahl
+ const np=cl(t,s3+.15,s3+.75);
+ if(np>0){const fy0=FLOOR-80*PX-22*PX,fy1=FLOOR-80*PX,bx=BX+BW+BD+30;
+  h+=`<path d="M${bx},${fy0} Q${bx+30},${fy0} ${bx+30},${fy0+30} L${bx+30},${(fy0+fy1)/2-14} L${bx+52},${(fy0+fy1)/2} L${bx+30},${(fy0+fy1)/2+14} L${bx+30},${fy1-30} Q${bx+30},${fy1} ${bx},${fy1}" stroke="${GOLD}" stroke-width=7 fill=none opacity="${ez(np)}" stroke-linecap=round />`;
+  h+=K.at(540,350,bo(np),T(0,0,'~27%',190,GOLD,{f:'url(#gl)'})+T(0,70,'IN FEES, ON AVERAGE',40,'#fff',{ls:2}));
+  h+=K.at(bx+150,(fy0+fy1)/2+18,ez(np),T(0,0,'+¼',72,GOLD))}
+ return K.g(`translate(${-120*shift},0)`,h);
+}
+
+// =====================================================================
+// Szene 2 (Zeile 4): Primaer vs. Wiederverkauf
+function resaleScene(t){
+ const s=S(4);let h='';
+ const cols=[[160,27,'PRIMARY SITE',.5],[600,31,'RESALE SITE',1]];
+ cols.forEach((c,i)=>{const p=ez(cl(t,s-.1+i*.35,s+.5+i*.35)),w=280,bh=80*PX*p,fh=c[1]*.8*PX*ez(cl(t,s+.4+i*.35,s+.9+i*.35));
+  h+=`<g opacity="${c[3]}">`+K.box(c[0],FLOOR-bh,w,bh,60,'#f0a020','#ffe08a','#b8740c');
+  const fc=i?RED:BLU;h+=K.box(c[0],FLOOR-bh-fh,w,fh,60,fc,K.sh(fc,.35),K.sh(fc,-.35));
+  if(p>.8)h+=T(c[0]+w/2,FLOOR-bh/2+30,'$80',96,'#3a2300',{o:ez(cl(t,s+.4+i*.35,s+.8+i*.35))});
+  h+=T(c[0]+w/2+20,FLOOR+70,c[2],40,i?'#fff':'#c9c2e8',{o:p})+'</g>';
+  if(i&&fh>0){const g=.5+.5*Math.sin((t-s)*6);h+=`<rect x="${c[0]-6}" y="${FLOOR-bh-fh-6}" width="${w+12}" height="${fh+12}" fill="${RED}" opacity="${.3*g}" filter="url(#sb)"/>`}});
+ const np=cl(t,W(4,'thirty',.6)-.2,W(4,'thirty',.6)+.4);
+ if(np>0){h+=K.at(560,360,bo(np),T(0,0,'~31%',190,RED,{f:'url(#gl)'})+T(0,70,'IN FEES ON RESALE SITES',40,'#fff',{ls:2}));
+  h+=`<path d="M${740},${470} Q${790},${520} ${760},${560}" stroke="${RED}" stroke-width=7 fill=none opacity="${ez(np)}" stroke-linecap=round /><path d="M745,548 L760,568 L780,550" stroke="${RED}" stroke-width=7 fill=none opacity="${ez(np)}" stroke-linecap=round stroke-linejoin=round />`}
+ return h;
+}
+
+// =====================================================================
+// Szene 3 (Zeile 5): Der Weg zum Ticket – das Licht faehrt zurueck vor die Kasse
+function pathScene(t){
+ const s=S(5);let h='';
+ const N=[[150,'mic','ARTIST'],[400,'cal','ON SALE'],[650,'cart','CART'],[900,'card','CHECKOUT']],Y=820;
+ const lp=ez(cl(t,s-.1,s+.9));
+ h+=`<line x1=150 y1="${Y}" x2="${150+750*lp}" y2="${Y}" stroke="#ffffff33" stroke-width=10 stroke-linecap=round />`;
+ // Marker: startet bei Checkout, faehrt zurueck zwischen Artist und On sale
+ const mp=ei(cl(t,s+1.0,s+2.4)),mx=lerp(900,275,mp);
+ N.forEach((n,i)=>{const p=bo(cl(t,s+i*.18,s+i*.18+.5));const near=1-Math.min(1,Math.abs(mx-n[0])/160);
+  h+=K.at(n[0],Y,p,`<circle r=92 fill="#1c1240" stroke="${near>.3?GOLD:'#5b4b9a'}" stroke-width=6 />${IC[n[1]](near>.3?GOLD:'#d8ccff')}`);
+  h+=T(n[0],Y+150,n[2],34,'#d8ccff',{o:ez(cl(t,s+.3+i*.18,s+.7+i*.18)),ls:1})});
+ if(mp>0){h+=`<circle cx="${mx}" cy="${Y}" r="${40+10*Math.sin(t*8)}" fill="${RED}" opacity=".9" filter="url(#gl)"/>`;
+  h+=`<line x1="${mx}" y1="${Y}" x2="900" y2="${Y}" stroke="${RED}" stroke-width=10 stroke-linecap=round opacity=".55"/>`}
+ const bp=cl(t,s+2.3,s+2.9);
+ if(bp>0){h+=K.at(275,Y,bo(bp),`<circle r=70 fill="${RED}" filter="url(#gl)"/>${T(0,32,'!',96,'#fff')}`);
+  h+=K.at(540,470,bo(bp),T(0,0,'THE BIG MARKUP',86,'#fff')+T(0,90,'HAPPENS UP HERE',58,RED));
+  h+=`<path d="M275,${Y-90} L275,${600}" stroke="${RED}" stroke-width=6 stroke-dasharray="14 12" opacity="${ez(bp)}"/>`}
+ const kp=ez(cl(t,s,s+.4))*(1-ez(cl(t,s+2.1,s+2.5)));
+ if(kp>0)h+=K.chip(540,420,'YOUR PATH TO A SEAT',40,'#d8ccff');
+ return h;
+}
+
+// =====================================================================
+// Szene 4 (Zeilen 6–7): Preis unter Zahlungsbereitschaft -> Luecke -> Einladung fuer Wiederverkaeufer
+function gapScene(t){
+ const s6=S(6),s7=S(7);let h='';
+ const X=330,Wd=360,Bt=FLOOR,goldH=400,ghostH=820;
+ const gp=ez(cl(t,s6,s6+.7)),gh=goldH*gp;
+ // Geister-Saeule (Zahlungsbereitschaft)
+ const wp=ez(cl(t,W(6,'what',.5)-.2,W(6,'what',.5)+.7));
+ const gy=Bt-goldH-(ghostH-goldH)*wp;
+ h+=`<rect x="${X}" y="${gy}" width="${Wd}" height="${Bt-gy}" fill="#a78bfa14" stroke="${PUR}" stroke-width=5 stroke-dasharray="20 14" rx=8 opacity="${Math.min(1,wp*2)}"/>`;
+ if(wp>0)h+=K.g('',`${T(X+Wd/2,gy-34,'WHAT FANS WOULD PAY',42,PUR)}`,ez(cl(t,W(6,'what',.5)+.3,W(6,'what',.5)+.8)));
+ // Ticketpreis (gold)
+ h+=K.box(X,Bt-gh,Wd,gh,60,'#f0a020','#ffe08a','#b8740c');
+ if(gp>.7)h+=T(X+Wd/2,Bt-gh/2+18,'TICKET PRICE',42,'#3a2300',{o:ez(cl(t,s6+.5,s6+.9))});
+ // Mikrofon (Kuenstler) setzt den Preis
+ const mp=bo(cl(t,s6+.2,s6+.8));h+=icon('mic',X-90,Bt-gh-40,.9*mp,GOLD,Math.min(1,mp));
+ // Zeile 7: Luecke
+ const lp=cl(t,s7-.1,s7+.5);
+ if(lp>0){const y0=Bt-ghostH,y1=Bt-goldH,pul=.5+.5*Math.sin((t-s7)*5);
+  h+=`<rect x="${X}" y="${y0}" width="${Wd}" height="${(y1-y0)*ez(lp)}" fill="url(#hatch)"/><rect x="${X}" y="${y0}" width="${Wd}" height="${y1-y0}" fill="${RED}" opacity="${.12*pul*ez(lp)}" filter="url(#sb)"/>`;
+  h+=K.at(X+Wd/2,(y0+y1)/2+50,bo(lp),T(0,0,'GAP',150,RED,{st:'#120a2a',sw:14}));
+  // Aktentasche (Wiederverkaeufer) faehrt in die Luecke
+  const bp=ez(cl(t,W(7,'invitation',.5)-.1,W(7,'invitation',.5)+.7));
+  if(bp>0){h+=icon('bag',lerp(1100,X+Wd+110,bp),(y0+y1)/2-10,1.2,GOLD);
+   h+=`<path d="M${lerp(1180,X+Wd+40,bp)},${(y0+y1)/2+80} L${X+Wd+20},${(y0+y1)/2+80}" stroke="${GOLD}" stroke-width=0 />`;
+   h+=T(lerp(1100,X+Wd+110,bp),(y0+y1)/2+100,'RESELLERS',30,GOLD,{o:bp})}}
+ return h;
+}
+
+// =====================================================================
+// Szene 5 (Zeile 8): Bots leeren den Saalplan
+const SEATS=[];(function(){for(let r=0;r<10;r++){const R=200+r*58,n=Math.round(R*Math.PI*.78/46);for(let k=0;k<n;k++){const a=(22+(136*k)/(n-1))*Math.PI/180;const x=540+R*Math.cos(a),y=360+R*Math.sin(a)*.95;if(x<70||x>1010||y>1220)continue;SEATS.push({x,y,r,k:k/(n-1),ang:a,free:MG.rnd(r*31+k*7)<.05})}}})();
+function seatScene(t){
+ const s=S(8),dur=Math.max(3,MG.L(8).end-s);let h='';
+ h+=`<rect x=360 y=300 width=360 height=70 rx=18 fill="#2a1d55" stroke="${PUR}" stroke-width=4 />${T(540,350,'STAGE',38,'#d8ccff',{ls:6})}`;
+ const t0=s+.6,sweep=dur*.55;
+ let bots=[];
+ SEATS.forEach((q,i)=>{const grp=q.r%3,dir=grp==1?1-q.k:q.k,ts=t0+grp*.12+(dir*.8+q.r/10*.2)*sweep;
+  const ap=bo(cl(t,s-.2+q.r*.06,s+.3+q.r*.06));const sold=!q.free&&t>=ts,sp=sold?bo(cl(t,ts,ts+.25)):0;
+  const col=sold?RED:(q.free&&t>t0+sweep?GRN:'#6ee7a6');
+  h+=`<rect x="-15" y="-15" width="30" height="30" rx="7" fill="${col}" transform="translate(${q.x.toFixed(1)},${q.y.toFixed(1)}) rotate(${(q.ang*180/Math.PI-90).toFixed(1)}) scale(${(ap*(1+.35*Math.sin(Math.PI*cl(t,ts,ts+.25)))).toFixed(3)})" opacity="${sold?1:.85}"/>`});
+ // drei Bots fahren die Reihen ab
+ for(let g=0;g<3;g++){const p=cl(t,t0+g*.12,t0+g*.12+sweep);if(p<=0||p>=1)continue;const dir=g==1?1-p:p,R=200+(3+g*3)*58,a=(22+136*dir)*Math.PI/180;
+  h+=icon('bot',540+R*Math.cos(a),360+R*Math.sin(a)*.95-50,1.1,BLU)}
+ const kp=ez(cl(t,s,s+.4));h+=K.chip(540,190,'BOTS AT WORK',40,BLU);
+ const sp=cl(t,t0+sweep+.2,t0+sweep+.6);
+ if(sp>0)h+=K.at(540,1000,1.6-.6*bo(sp),`<g transform="rotate(-10)"><rect x=-330 y=-90 width=660 height=170 rx=24 fill="#120a2acc" stroke="${RED}" stroke-width=12 />${T(0,40,'SOLD OUT',120,RED)}</g>`,Math.min(1,sp*2));
+ return K.g('',h,kp>0?1:1);
+}
+
+// =====================================================================
+// Szene 6 (Zeile 9): Wiederverkauf zum doppelten Preis
+function doubleScene(t){
+ const s=S(9);let h='';
+ const a=bo(cl(t,s-.1,s+.5));
+ h+=K.at(330,640,.62*a,ticket('$80'));h+=T(330,780,'FACE VALUE',36,'#d8ccff',{o:ez(cl(t,s+.2,s+.6))});
+ const cp=ei(cl(t,s+.6,s+1.6)),pp=ez(cl(t,W(9,'double',.7)-.3,W(9,'double',.7)+.6));
+ if(cp>0){const x=lerp(330,560,cp),y=lerp(640,1010,cp),sc=lerp(.62,1.02,cp);
+  h+=`<path d="M380,800 Q420,930 470,940" stroke="#ffffff66" stroke-width=6 fill=none stroke-dasharray="12 10" opacity="${cp}"/>`;
+  h+=K.at(x,y,sc,ticket('$'+Math.round(lerp(80,160,pp)),{pc:pp>0?'#ffe1e1':'#fff'}));
+  if(pp>0)h+=K.g(`translate(${x+120},${y-190}) rotate(-8) scale(${(2-bo(pp)).toFixed(3)})`,`<rect x=-160 y=-50 width=320 height=100 rx=16 fill="#120a2acc" stroke="${GOLD}" stroke-width=9 />${T(0,24,'RESALE',66,GOLD)}`,Math.min(1,pp*2))}
+ const np=cl(t,W(9,'double',.7)-.1,W(9,'double',.7)+.5);
+ if(np>0)h+=K.at(800,560,bo(np),T(0,0,'2×',230,GOLD,{f:'url(#gl)'})+T(0,62,'FACE VALUE',38,'#fff',{ls:2}));
+ const kp=ez(cl(t,s,s+.4));h+=K.chip(540,300,'RELISTED',44,GOLD);
+ return h;
+}
+
+// =====================================================================
+// Szene 7 (Zeile 10): Dynamische Preise – Kurve klettert live mit der Nachfrage
+function dynScene(t){
+ const s=S(10),e=MG.L(10).end;let h='';
+ const X0=150,X1=900,Y0=1160,Y1=480;
+ const ap=ez(cl(t,s-.1,s+.5));
+ h+=`<g opacity="${ap}"><line x1="${X0}" y1="${Y0}" x2="${X1}" y2="${Y0}" stroke="#ffffff55" stroke-width=5 /><line x1="${X0}" y1="${Y0}" x2="${X0}" y2="${Y1-20}" stroke="#ffffff55" stroke-width=5 />${T(X1,Y0+60,'TIME',32,'#c9c2e8',{a:'end',ls:3})}</g>`;
+ const pr=cl(t,s+.3,e+.2),N=16;
+ // Nachfrage-Balken
+ for(let i=0;i<N;i++){const f=i/(N-1),bp=ez(cl(pr,f*.9,f*.9+.12)),v=.18+.7*Math.pow(f,1.4)+.06*Math.sin(i*2.1);
+  const bw=34,x=X0+30+i*((X1-X0-60)/(N-1))-bw/2,bh=(Y0-Y1)*.55*v*bp;
+  h+=`<rect x="${x}" y="${Y0-bh}" width="${bw}" height="${bh}" rx=6 fill="${BLU}" opacity=".55"/>`}
+ // Preislinie (Treppen)
+ let pts=[],hx=X0,hy=Y0-120;
+ for(let i=0;i<=60;i++){const f=i/60;if(f>pr)break;const st=Math.floor(f*10)/10;const v=.15+.75*Math.pow(st,1.5)+.03*Math.sin(st*30);hx=X0+30+f*(X1-X0-60);hy=Y0-120-(Y0-Y1-160)*v;pts.push(`${hx.toFixed(1)},${hy.toFixed(1)}`)}
+ if(pts.length>1)h+=`<polyline points="${pts.join(' ')}" fill=none stroke="${RED}" stroke-width=10 stroke-linejoin=round filter="url(#gl)"/>`;
+ if(pr>0){h+=`<circle cx="${hx}" cy="${hy}" r="${14+4*Math.sin(t*9)}" fill="#fff"/>`;
+  h+=K.at(Math.min(hx,770),hy-90,1,`<rect x=-115 y=-46 width=230 height=78 rx=16 fill="${RED}"/>${T(-14,12,'PRICE',40,'#fff')}<path d="M70,14 L84,-18 L98,14 Z" fill="#fff"/>`)}
+ // LIVE
+ const lv=.5+.5*Math.sin(t*7);h+=`<circle cx=196 cy=400 r=16 fill="${RED}" opacity="${.5+.5*lv}"/>`+T(226,414,'LIVE',44,'#fff',{a:'start',ls:4});
+ h+=T(X0+10,Y0-20,'DEMAND',30,BLU,{a:'start',o:ez(cl(pr,.2,.3))});
+ return h;
+}
+
+// =====================================================================
+// Szene 8 (Zeile 11): Wohin das Geld ueber dem Nennwert fliesst
+function flowScene(t){
+ const s=S(11);let h='';
+ const SY=430,TY=1100,SX0=180,SX1=900,tot=SX1-SX0;
+ const parts=[['ARTIST & VENUE','FACE VALUE',.38,GOLD],['RESELLERS','MARKUP',.38,RED],['PLATFORMS','FEES',.24,BLU]];
+ const sp=ez(cl(t,s-.1,s+.5));
+ h+=`<rect x="${SX0}" y="${SY-70}" width="${tot*sp}" height="70" rx=14 fill="#fff"/>`+T(540,SY-95,'WHAT YOU PAY',44,'#fff',{o:sp,ls:2});
+ let sx=SX0,tx=144;const hi=ez(cl(t,W(11,'platforms',.55)-.2,W(11,'platforms',.55)+.4));
+ parts.forEach((p,i)=>{const w=p[2]*tot,tw=p[2]*720,fp=ei(cl(t,s+.3+i*.25,s+1.2+i*.25));
+  const dim=i==0?1-.6*hi:1,yb=SY+(TY-SY)*fp;
+  if(fp>0){const a0=sx,a1=sx+w,b0=tx,b1=tx+tw,m=(SY+yb)/2,f=fp;
+   const bx0=lerp(a0,b0,f),bx1=lerp(a1,b1,f);
+   h+=`<path d="M${a0},${SY} C${a0},${m} ${bx0},${m} ${bx0},${yb} L${bx1},${yb} C${bx1},${m} ${a1},${m} ${a1},${SY} Z" fill="${p[3]}" opacity="${(.55*dim).toFixed(3)}"/>`;
+   if(fp>=1){h+=`<rect x="${b0}" y="${TY}" width="${tw}" height="44" rx=10 fill="${p[3]}" opacity="${dim}"/>`;
+    const lo=ez(cl(t,s+1.1+i*.25,s+1.5+i*.25))*dim;h+=T(b0+tw/2,TY+100,p[0],i==2?30:34,p[3],{o:lo});h+=T(b0+tw/2,TY+146,p[1],26,'#d8ccff',{o:lo*.9,w:700,ls:2})}
+   if(i>0&&hi>0)h+=`<rect x="${b0-6}" y="${TY-6}" width="${tw+12}" height="56" rx=12 fill="${p[3]}" opacity="${.5*hi*(.6+.4*Math.sin(t*6))}" filter="url(#sb)"/>`}
+  sx+=w;tx+=tw+36});
+ // Klammer "ueber Nennwert"
+ if(hi>0){const x0=144+.38*720+36,x1=936;h+=`<path d="M${x0},${TY+180} Q${x0},${TY+205} ${x0+30},${TY+205} L${(x0+x1)/2-16},${TY+205} L${(x0+x1)/2},${TY+222} L${(x0+x1)/2+16},${TY+205} L${x1-30},${TY+205} Q${x1},${TY+205} ${x1},${TY+180}" stroke="${GOLD}" stroke-width=5 fill=none opacity="${hi}"/>`}
+ if(hi>0)h+=K.at(540,200,bo(hi),T(0,0,'ABOVE FACE VALUE',62,GOLD));
+ return h;
+}
+
+// =====================================================================
+// Szene 9 (Zeile 12): Neue Regel – Gesamtpreis vorab
+function ruleScene(t){
+ const s=S(12);let h='';
+ const pp=ez(cl(t,s-.1,s+.6)),Y=lerp(1400,800,pp);
+ h+=K.at(540,Y,1,`<rect x=-230 y=-470 width=460 height=900 rx=60 fill="#0d0a1c" stroke="#3b3360" stroke-width=10 filter="url(#ds)"/><rect x=-200 y=-430 width=400 height=820 rx=36 fill="#1a1338"/><rect x=-60 y=-452 width=120 height=18 rx=9 fill="#3b3360"/>
+  ${T(0,-360,'CHECKOUT',40,'#d8ccff',{ls:4})}<rect x=-170 y=-320 width=340 height=4 fill="#3b3360"/>`);
+ // Preiskarte flippt von "$80*" zu "$102 TOTAL"
+ const fw=W(12,'full',.5),fp=cl(t,fw-.2,fw+.35),flip=Math.cos(Math.PI*fp),sy=Math.abs(flip),front=flip>0;
+ const card=front?`${T(0,20,'$80*',150,'#fff')}${T(0,90,'*plus fees later',30,'#8f86b8',{w:700})}`:`${T(0,10,'$102',150,GRN)}${T(0,80,'TOTAL PRICE',38,'#fff',{ls:3})}`;
+ h+=K.g(`translate(540,${Y-150}) scale(1,${Math.max(.02,sy).toFixed(3)})`,`<rect x=-180 y=-140 width=360 height=280 rx=26 fill="${front?'#2a1f55':'#123a2a'}" stroke="${front?'#5b4b9a':GRN}" stroke-width=6 />${card}`);
+ // Haken
+ const cp=bo(cl(t,fw+.35,fw+.8));
+ if(cp>0)h+=K.at(540,Y+150,cp,`<circle r=78 fill="${GRN}" filter="url(#gl)"/><path d="M-36,2 L-10,28 L40,-26" stroke="#0b2016" stroke-width=16 fill=none stroke-linecap=round stroke-linejoin=round />`);
+ h+=T(540,Y+300,'SHOWN UP FRONT',38,'#d8ccff',{o:ez(cl(t,fw+.5,fw+.9)),ls:2});
+ // Hammer schlaegt
+ const gp=cl(t,s+.1,s+.7),ga=gp<.6?lerp(-40,8,ez(gp/.6)):lerp(8,0,(gp-.6)/.4);
+ h+=K.g(`translate(190,${Y-420}) rotate(${ga.toFixed(1)})`,IC.gavel(GOLD),ez(cl(t,s,s+.3)));
+ h+=K.chip(540,260,'NEW U.S. RULE',44,GOLD);
+ return h;
+}
+
+// =====================================================================
+// Szene 10 (Zeile 13): Frage ans Publikum, zurueck an der Buehne
+function askScene(t){
+ const s=S(13);let h=`<g opacity=".8">${stageSVG(t,.75,1)}</g><rect x=0 y=0 width=1080 height=1920 fill="#0a0618" opacity=".35"/>`;
+ const c1=bo(cl(t,s+.1,s+.6)),c2=bo(cl(t,W(13,'fight',.55)-.15,W(13,'fight',.55)+.35));
+ const card=(x,c,ic,l1,l2,p)=>K.at(x,700,p,`<rect x=-210 y=-210 width=420 height=420 rx=40 fill="#120a2ae6" stroke="${c}" stroke-width=8 filter="url(#ds)"/>${ic}${T(0,110,l1,44,c)}${T(0,166,l2,44,'#fff')}`);
+ h+=card(300,GOLD,K.at(0,-60,1.2,IC.tag(GOLD)),'PAY MORE','UP FRONT',c1);
+ h+=card(780,BLU,K.at(-55,-60,.9,IC.clock(BLU))+K.at(70,-60,1.1,IC.bot(BLU)),'FIGHT BOTS','AT 10:00',c2);
+ const op=bo(cl(t,W(13,'or',.45)-.1,W(13,'or',.45)+.3));h+=K.at(540,700,op,`<circle r=58 fill="#fff"/>${T(0,18,'OR',46,'#120a2a')}`);
+ const qp=bo(cl(t,MG.L(13).end-.2,MG.L(13).end+.3));h+=K.at(540,1080,qp*(1+.05*Math.sin(t*5)),IC.chat('#fff')+T(0,12,'?',80,'#120a2a'));
+ return h;
+}
+
+// ---------- Szenenliste ----------
+K.add(0,'',()=>'',{html:true,sfx:()=>{const tc=W(0,'checkout',.65),t1=S(1);return[{k:'whoosh',t:.3,d:1.6},{k:'impact',t:1.85},{k:'shimmer',t:1.95},{k:'beep',t:tc-.45,f:1568},{k:'type',t:tc,n:6},{k:'error',t:tc+.7},{k:'swish',t:t1-.05,d:.6,pan:-.3},...[0,1,2].map(i=>({k:'pop',t:t1+.4+i*.28}))]}});
+K.add(2,'flash',towerScene,{sfx:()=>[{k:'thud',t:S(2)+.1},...['service','facility','order'].map((w,i)=>({k:'thud',t:W(2,w,.3+i*.2)+.2})),{k:'impact',t:S(3)+.2},{k:'ding',t:S(3)+.3}]});
+K.add(4,'push',resaleScene,{sfx:()=>[{k:'pop',t:S(4)+.4},{k:'pop',t:S(4)+.75},{k:'impact',t:W(4,'thirty',.6)},{k:'error',t:W(4,'thirty',.6)+.1}]});
+K.add(5,'zoom',pathScene,{sfx:()=>[0,1,2,3].map(i=>({k:'tap',t:S(5)+i*.18})).concat([{k:'riser',t:S(5)+1.0,d:1.3},{k:'impact',t:S(5)+2.3}])});
+K.add(6,'dolly',gapScene,{sfx:()=>[{k:'pop',t:S(6)+.3},{k:'shimmer',t:W(6,'what',.5)},{k:'impact',t:S(7)+.1},{k:'whoosh',t:W(7,'invitation',.5)-.1,d:.6},{k:'cash',t:W(7,'invitation',.5)+.6}]});
+K.add(8,'push',seatScene,{sfx:()=>{const s=S(8),dur=Math.max(3,MG.L(8).end-s);return[{k:'type',t:s+.6,n:Math.round(dur*4)},{k:'impact',t:s+.6+dur*.55+.25},{k:'error',t:s+.6+dur*.55+.3}]}});
+K.add(9,'zoom',doubleScene,{sfx:()=>[{k:'pop',t:S(9)},{k:'swish',t:S(9)+.6,d:.6,pan:.3},{k:'cash',t:W(9,'double',.7)},{k:'impact',t:W(9,'double',.7)+.05}]});
+K.add(10,'push',dynScene,{sfx:()=>{const s=S(10),e=MG.L(10).end;const a=[];for(let i=1;i<10;i++)a.push({k:'tick',t:s+.3+(e-s-.1)*i/10,f:900+i*90});return a}});
+K.add(11,'rise',flowScene,{sfx:()=>[{k:'whoosh',t:S(11)+.3,d:1},{k:'ding',t:W(11,'platforms',.55)},{k:'cash',t:W(11,'resellers',.75)}]});
+K.add(12,'zoom',ruleScene,{sfx:()=>{const fw=W(12,'full',.5);return[{k:'thud',t:S(12)+.5},{k:'swish',t:fw-.2,d:.4,pan:0},{k:'chime',t:fw+.4}]}});
+K.add(13,'flash',askScene,{sfx:()=>[{k:'pop',t:S(13)+.15},{k:'pop',t:W(13,'fight',.55)-.1},{k:'tap',t:W(13,'or',.45)},{k:'ding',t:MG.L(13).end}]});
+
+// ---------- Rahmen ----------
+const stage=$('stage');MG.finish(stage,1080,1920,.07);
+function draw(t){
+ drawBg(t);
+ drawIntro(t);
+ $('scn').innerHTML=K.render(t);
+ $('fl').style.opacity=K.flash(t).toFixed(3);
+ $('cap').innerHTML=MG.captions(t,{y:1380});
+ MG.grainTick(t);
+}
+window.setTimeline=tl=>{MG.TL=tl};
+window.sfxEvents=()=>K.sfx();
+window.draw=draw;
+</script>
