@@ -1,12 +1,2 @@
 # Ein Projekt pro Zeile (Ordner in mg/). Aenderung + Push startet das Rendern.
 yt02
-tt01l
-tt02
-tt03
-tt04
-tt05
-tt06
-tt07
-tt08
-tt09
-tt10
