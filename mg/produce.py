@@ -279,7 +279,7 @@ def main():
     for i, l in enumerate(lines):
         ins += ["-i", l["file"]]
         fl.append(f"[{i}:a]aresample={SR},aformat=channel_layouts=stereo,loudnorm=I=-16:TP=-1.5:LRA=7,adelay={int(l['start']*1000)}|{int(l['start']*1000)}[v{i}]")
-    mix = "".join(f"[v{i}]" for i in range(len(lines))) + f"amix=inputs={len(lines)}:normalize=0[voice]"
+    mix = "".join(f"[v{i}]" for i in range(len(lines))) + f"amix=inputs={len(lines)}:normalize=0,apad=whole_dur={total}[voice]"  # apad: sonst schneidet der Mix die letzte Zeile ab
     n = len(lines)
     graph = ";".join(fl + [mix,
         f"[voice]asplit=2[vo][vsc]",
