@@ -20,7 +20,7 @@
    "text": "Imagine you wake up tomorrow, check your bank account, and there it is: one million dollars.",
    "spec": {
     "type": "hook",
-    "img": 39
+    "img": 57
    }
   },
   {
@@ -29,7 +29,7 @@
     "type": "img",
     "lay": "full",
     "ov": "everyone",
-    "img": 51
+    "img": 58
    }
   },
   {
@@ -38,7 +38,7 @@
     "type": "img",
     "lay": "left",
     "ov": "nocatch",
-    "img": 2
+    "img": 51
    }
   },
   {
@@ -141,7 +141,7 @@
     "type": "img",
     "lay": "right",
     "ov": "printer",
-    "img": 39
+    "img": 59
    }
   },
   {
@@ -168,7 +168,7 @@
     "type": "img",
     "lay": "full",
     "ov": "cart",
-    "img": 46
+    "img": 60
    }
   },
   {
@@ -186,7 +186,7 @@
     "type": "img",
     "lay": "right",
     "ov": "quit",
-    "img": 33
+    "img": 61
    }
   },
   {
@@ -265,7 +265,7 @@
     "type": "img",
     "lay": "right",
     "ov": "retag",
-    "img": 46
+    "img": 62
    }
   },
   {
@@ -317,9 +317,9 @@
    "text": "Workers were paid once or even twice a day, and rushed to spend their wages, because money lost value by the hour.",
    "spec": {
     "type": "img",
-    "lay": "full",
+    "lay": "left",
     "ov": "wages",
-    "img": 30
+    "img": 63
    }
   },
   {
@@ -328,7 +328,7 @@
     "type": "img",
     "lay": "right",
     "ov": "toys",
-    "img": 9
+    "img": 64
    }
   },
   {
@@ -417,7 +417,7 @@
     "type": "img",
     "lay": "full",
     "ov": "everyonemath",
-    "img": 51
+    "img": 58
    }
   },
   {
@@ -435,7 +435,7 @@
     "type": "img",
     "lay": "full",
     "ov": "jobs",
-    "img": 48
+    "img": 70
    }
   },
   {
@@ -453,7 +453,7 @@
     "type": "img",
     "lay": "full",
     "ov": "empty",
-    "img": 46
+    "img": 65
    }
   },
   {
@@ -494,7 +494,7 @@
     "type": "img",
     "lay": "full",
     "ov": "mortgage",
-    "img": 53
+    "img": 66
    }
   },
   {
@@ -512,7 +512,7 @@
     "type": "img",
     "lay": "right",
     "ov": "savers",
-    "img": 32
+    "img": 67
    }
   },
   {
@@ -634,7 +634,7 @@
    "text": "If you print money faster than the economy grows, you do not create wealth. You just cut the same cake into more slices.",
    "spec": {
     "type": "pie",
-    "img": 19
+    "img": 68
    }
   },
   {
@@ -652,7 +652,7 @@
     "type": "img",
     "lay": "full",
     "ov": "alaska",
-    "img": 12
+    "img": 69
    }
   },
   {

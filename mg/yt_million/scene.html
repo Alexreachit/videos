@@ -201,13 +201,13 @@ debtsgone(c,g){const cx=g.cx,t0=c.fx('swish',.05);let h='';
  return h},
 // ---- 16: shopping
 cart(c){const t0=c.fx('swish',.05);let h='',s='';
- h+=box(1170,90,660,560,{p:c.a(t0,.5)});
- h+=T(1500,150,'Shopping list',{size:42,col:COL.gold,p:c.a(t0+.1,.4)});
+ h+=box(90,90,660,560,{p:c.a(t0,.5)});
+ h+=T(420,150,'Shopping list',{size:42,col:COL.gold,p:c.a(t0+.1,.4)});
  const it=[['plane','Vacation',4800,/vacations/i,.25],['phone','New phone',1200,/phones/i,.5],['car','Dream car',85000,/car/i,.85]];let tot=0;
  it.forEach(([icn,lab,v,re,f],k)=>{const tt=c.fx('cash',c.w(re,f)),p=c.r(tt,.5),y=250+k*110;tot+=v*ez(c.r(tt,.6));
-  h+=icAt(icn,1240,y,64,COL.cream2,p);h+=T(1290,y,lab,{al:'l',size:38,p});h+=T(1790,y,fmt(v,'$'),{al:'r',size:36,col:COL.gold,p});if(p>0)h+=icAt('check',1770-0,y-36,0,COL.green,0)});
- h+=`<div style="position:absolute;left:1210px;top:560px;width:580px;height:3px;background:#ffffff33;opacity:${c.a(t0+.2,.4)}"></div>`;
- h+=T(1240,605,'Spent',{al:'l',size:34,col:COL.muted,p:c.a(t0+.3,.4)});h+=T(1790,605,fmt(tot,'$'),{al:'r',size:44,col:COL.green,p:c.a(t0+.3,.4)});
+  h+=icAt(icn,160,y,64,COL.cream2,p);h+=T(210,y,lab,{al:'l',size:38,p});h+=T(710,y,fmt(v,'$'),{al:'r',size:36,col:COL.gold,p});if(p>0)h+=icAt('check',690-0,y-36,0,COL.green,0)});
+ h+=`<div style="position:absolute;left:130px;top:560px;width:580px;height:3px;background:#ffffff33;opacity:${c.a(t0+.2,.4)}"></div>`;
+ h+=T(160,605,'Spent',{al:'l',size:34,col:COL.muted,p:c.a(t0+.3,.4)});h+=T(710,605,fmt(tot,'$'),{al:'r',size:44,col:COL.green,p:c.a(t0+.3,.4)});
  return h},
 // ---- 17: sold out
 soldout(c,g){const cx=g.cx,t0=c.fx('swish',.05);let h='';
