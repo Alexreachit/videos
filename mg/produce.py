@@ -170,8 +170,23 @@ def synth(events, dur, music=True):
         return sum(np.sin(2 * np.pi * f * h * t) / h for h in harm) * env(l, a, r) * g
 
     music_arr = music_bed(dur, MUSIC) if music else np.zeros(n)
-    for e in events:
+    VARY = bool(MUSIC.get("_vary"))
+    base_tone, base_add = tone, add
+    for idx, e in enumerate(events):
         k, t = e["k"], e["t"]
+        if VARY:  # jede Instanz klingt etwas anders (Tonhoehe, Pegel, Stereo) -> weniger monoton
+            vr = np.random.default_rng(1000 + idx)
+            pf = float(vr.uniform(.82, 1.22)); gf = float(vr.uniform(.6, 1.0)); pn = float(vr.uniform(-.45, .45)); var = int(vr.integers(0, 3))
+            tone = lambda f, l, g=1, a=.005, r=None, harm=(1,), _b=base_tone, _p=pf: _b(f * _p, l, g, a, r, harm)
+            add = lambda sig, t0, pan=None, g=1.0, _b=base_add, _g=gf, _n=pn: _b(sig, t0, _n if pan is None else pan * .5 + _n * .5, g * _g)
+            if k == "pop" and var == 1: k = "blip"
+            elif k == "pop" and var == 2: k = "bubble"
+            elif k == "swish" and var == 2: k = "brush"
+            elif k == "tick" and var == 1: k = "click"
+            elif k == "ding" and var == 1: k = "bell"
+            elif k == "whoosh" and var == 2: k = "air"
+        else:
+            tone, add = base_tone, base_add
         if k == "whoosh":
             d = e.get("d", 1.6); w = rng.normal(0, 1, int(d*SR)); x = np.convolve(w, np.ones(40)/40, "same")
             add(x * np.sin(np.linspace(0, np.pi, len(x)))**2 * .5, t, .3)
@@ -209,6 +224,27 @@ def synth(events, dur, music=True):
             for i in range(int(e.get("n", 8))): add(np.diff(lp(rng.normal(0, 1, int(.012*SR)), 2), prepend=0) * .5, t + i * .07 + rng.random() * .02)
         elif k == "heartbeat":
             for i in range(int(e.get("n", 2))): add(tone(55, .25, 1, .003, .1), t + i * .8); add(tone(50, .25, .7, .003, .1), t + i * .8 + .22)
+        elif k == "blip":
+            tq = np.arange(int(.12*SR)) / SR; f = 900 + 900 * tq / .12
+            add(np.sin(2*np.pi*np.cumsum(f)/SR) * np.exp(-tq*25) * .5, t)
+        elif k == "bubble":
+            tq = np.arange(int(.18*SR)) / SR; f = 300 + 1400 * (tq / .18) ** 1.5
+            add(np.sin(2*np.pi*np.cumsum(f)/SR) * np.sin(np.pi*tq/.18) * .45, t)
+        elif k == "brush":
+            d = e.get("d", .4) * 1.3; w = rng.normal(0, 1, int(d*SR)); x = lp(w, 4) - lp(w, 40)
+            add(x * np.sin(np.linspace(0, np.pi, len(x)))**2 * .6, t)
+        elif k == "click":
+            add(np.diff(lp(rng.normal(0, 1, int(.01*SR)), 2), prepend=0) * .7, t); add(tone(1200, .03, .25, .001, .015), t)
+        elif k == "bell":
+            for i, f in enumerate((1046.5, 1568)): add(tone(f, 1.4, .28, .002, .9, (1, 2.76, 5.4)), t + i*.08)
+        elif k == "air":
+            d = e.get("d", 1.0); w = rng.normal(0, 1, int(d*SR)); x = lp(w, 90)
+            add(x * np.sin(np.linspace(0, np.pi, len(x)))**1.5 * 1.6, t)
+        elif k == "coin":
+            for i in range(int(e.get("n", 3))): add(tone(2600 + 300 * (i % 2), .25, .25, .001, .12, (1, 2.4)), t + i * .09)
+        elif k == "paper":
+            d = .3; w = rng.normal(0, 1, int(d*SR)); x = w - lp(w, 3)
+            add(x * np.exp(-np.arange(len(x))/SR*12) * .35, t)
         elif k == "ding":
             for i, f in enumerate((1318.5, 1760, 2637)): add(tone(f, 1.2, .3, .003, .7, (1, 2)), t + i*.05)
     return L, R, music_arr
@@ -227,7 +263,10 @@ def main():
     out = Path("output") / ("mg_" + proj); shutil.rmtree(out, ignore_errors=True)
     (out / "fr").mkdir(parents=True); (out / "voice").mkdir()
     size, fps = cfg["size"], cfg["fps"]
-    MUSIC.update(cfg.get("music", {}))
+    mcfg = cfg.get("music", {})
+    MUSIC.update(mcfg if isinstance(mcfg, dict) else {})
+    MUSIC["_off"] = mcfg is False
+    MUSIC["_vary"] = bool(cfg.get("sfx_vary", mcfg is False))
     # 1) Stimme
     t = cfg.get("lead", 0.3); lines = []
     for i, ln in enumerate(cfg["lines"]):
@@ -272,7 +311,7 @@ def main():
     run(["ffmpeg", "-y", "-loglevel", "error", "-framerate", str(fps), "-i", str(out / "fr" / "%05d.jpg"),
          "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", str(cfg.get("crf", 19)), "-preset", "slow", str(out / "video.mp4")])
     # 4) Ton: SFX+Musik synthetisieren, Stimme platzieren, mischen (Musik unter der Stimme abgesenkt)
-    L, R, music = synth(events, total)
+    L, R, music = synth(events, total, music=not MUSIC.get("_off"))
     wavwrite(out / "sfx.wav", L, R)
     mus = np.stack([music, music], 1); wavwrite(out / "music.wav", mus[:, 0], mus[:, 1])
     ins = []; fl = []
@@ -283,8 +322,8 @@ def main():
     n = len(lines)
     graph = ";".join(fl + [mix,
         f"[voice]asplit=2[vo][vsc]",
-        f"[{n}:a]volume=0.55[music]",
-        f"[{n+1}:a]volume=0.8[sfx]",
+        f"[{n}:a]volume={0 if MUSIC.get('_off') else 0.55}[music]",
+        f"[{n+1}:a]volume={cfg.get('sfx_gain', 0.8)}[sfx]",
         f"[music][vsc]sidechaincompress=threshold=0.03:ratio=8:attack=20:release=300[ducked]",
         f"[vo][ducked][sfx]amix=inputs=3:normalize=0,alimiter=limit=0.95[a]"])
     run(["ffmpeg", "-y", "-loglevel", "error", *ins, "-i", str(out / "music.wav"), "-i", str(out / "sfx.wav"),
