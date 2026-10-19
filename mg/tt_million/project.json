@@ -1,0 +1,26 @@
+{
+ "title": "TikTok: If everyone got $1 million (vertical, hook)",
+ "size": [1080, 1920],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+10%",
+ "lead": 0.15,
+ "gap": 0.3,
+ "tail": 1.6,
+ "crf": 20,
+ "music": false,
+ "sfx_gain": 0.42,
+ "lines": [
+  {"text": "If everyone on Earth got one million dollars, this coffee could cost four hundred dollars.", "spec": {"img": 1, "ov": "hook"}},
+  {"text": "Imagine you wake up, check your bank account, and there it is: one million dollars.", "spec": {"img": 2, "ov": "phone"}},
+  {"text": "Not just you. Your neighbor, your boss, the barista. Every single person on Earth.", "spec": {"img": 3, "ov": "everyone"}},
+  {"text": "For a few days, everyone feels rich. People buy new cars, phones and vacations.", "spec": {"img": 4, "ov": "spree"}},
+  {"text": "But here is the catch. The number of cars, phones and plane seats did not change. Only the amount of money did.", "spec": {"img": 5, "ov": "catch"}},
+  {"text": "When more money chases the same stuff, sellers do the obvious thing. They raise their prices.", "spec": {"img": 6, "ov": "raise"}},
+  {"text": "A coffee that cost four dollars yesterday could cost forty next week. And four hundred a few weeks later.", "spec": {"img": 7, "ov": "coffee"}},
+  {"text": "Everyone is a millionaire. And that is exactly why being a millionaire suddenly means almost nothing.", "spec": {"img": 8, "ov": "nothing"}},
+  {"text": "So, would a million for everyone make us all rich? No. It would make us all millionaires. And that is not the same thing.", "spec": {"img": 9, "ov": "answer"}},
+  {"text": "Follow for more honest money math.", "spec": {"img": 9, "ov": "follow"}}
+ ]
+}

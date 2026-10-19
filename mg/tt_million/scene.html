@@ -1,0 +1,123 @@
+<!doctype html><meta charset=utf-8><style>
+@font-face{font-family:P;src:url(fonts/Poppins-Bold.ttf);font-weight:700}
+@font-face{font-family:P;src:url(fonts/Poppins-Medium.ttf);font-weight:500}
+@font-face{font-family:'Arial Black';src:url(fonts/Poppins-Bold.ttf)}
+html,body{margin:0;background:#140c07}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:#1d120b;font-family:P,Arial,Helvetica,sans-serif}
+.lay{position:absolute;inset:0;overflow:hidden;display:none;will-change:transform}
+.lay img{position:absolute;left:0;top:0;width:1080px;height:1920px;transform-origin:50% 42%}
+.ov{position:absolute;inset:0}
+.shade{position:absolute;inset:0;background:#0b0603;opacity:0}
+#capbg{position:absolute;left:0;top:1060px;width:1080px;height:560px;background:linear-gradient(180deg,transparent,#0f0804a0 35%,#0f0804b8 65%,transparent);z-index:50}
+#topbg{position:absolute;left:0;top:0;width:1080px;height:520px;background:linear-gradient(180deg,#0f0804b0,transparent);z-index:49}
+#cap{position:absolute;inset:0;z-index:60}
+#fx{position:absolute;inset:0;z-index:40;pointer-events:none}
+</style>
+<div id=stage><div id=layers></div><div id=fx></div><div id=topbg></div><div id=capbg></div><div id=cap></div></div>
+<script src="../lib/core.js"></script>
+<script>
+// TikTok 9:16 – "If everyone got $1 million" (native vertical, AI-extended full-screen images)
+const {cl,ez,ei,bo,lerp}=MG,$=MG.$,W=1080,H=1920;
+const COL={cream:'#fff3dc',gold:'#ffc94a',gold2:'#f0a22a',green:'#3ddc84',green2:'#22a95e',red:'#ff5b4a',red2:'#d6402e',brown:'#3a2214',dark:'#24150c'};
+const SH='0 6px 22px #000c,0 2px 4px #000';
+const IMG=k=>`img/${String(k).padStart(2,'0')}.jpg`;
+let TL=null,G=[],COLLECT=null;
+function fx(L,k,rel,o){if(COLLECT)COLLECT.push(Object.assign({k,t:+(L.start+rel).toFixed(3)},o||{}));}
+// ---------- snippets
+function T(x,y,txt,o={}){const p=o.p==null?1:o.p;if(p<=0)return'';const s=o.s==null?1:o.s,sz=o.size||64;
+ return `<div style="position:absolute;left:${x}px;top:${y}px;transform:translate(-50%,-50%) translateY(${((1-Math.min(1,p))*(o.dy==null?30:o.dy)).toFixed(1)}px) scale(${s.toFixed(3)}) rotate(${o.rot||0}deg);opacity:${Math.min(1,p).toFixed(3)};font:700 ${sz}px/1.08 P,Arial,sans-serif;color:${o.col||COL.cream};white-space:nowrap;text-align:center;letter-spacing:${o.ls||0}px;text-shadow:${MG.outline(o.ol||Math.round(sz/12))},0 ${sz/8}px ${sz/3}px #000a">${txt}</div>`}
+function chip(x,y,txt,o={}){const p=o.p==null?1:o.p;if(p<=0)return'';const sz=o.size||46,s=bo(Math.min(1,p));
+ return `<div style="position:absolute;left:${x}px;top:${y}px;transform:translate(-50%,-50%) scale(${s.toFixed(3)}) rotate(${o.rot||0}deg);opacity:${Math.min(1,p*2).toFixed(3)};padding:${sz*.32}px ${sz*.7}px;border-radius:${sz}px;background:${o.bg||COL.dark+'ee'};color:${o.fg||COL.cream};font:700 ${sz}px/1.1 P,Arial,sans-serif;white-space:nowrap;box-shadow:0 14px 30px #0009;border:4px solid ${o.bd||'#ffffff22'}">${txt}</div>`}
+function tag(x,y,price,label,p,o={}){if(p<=0)return'';const s=bo(Math.min(1,p))*(o.sc||1),w=o.w||380,h=o.h||230;
+ return `<div style="position:absolute;left:${x-w/2}px;top:${y-h/2}px;width:${w}px;height:${h}px;transform:scale(${s.toFixed(3)}) rotate(${o.rot||-6}deg);opacity:${Math.min(1,p*2).toFixed(3)}">
+ <div style="position:absolute;inset:0;border-radius:30px;background:#fff3dc;border:8px solid #1b0f07;box-shadow:0 22px 40px #000a"></div>
+ <div style="position:absolute;left:26px;top:${h/2-17}px;width:34px;height:34px;border-radius:50%;background:#1b0f07"></div>
+ <div style="position:absolute;left:60px;right:10px;top:${h*.2}px;text-align:center;font:700 ${o.ls||44}px P;color:#3a2214">${label}</div>
+ <div style="position:absolute;left:60px;right:10px;top:${h*.42}px;text-align:center;font:700 ${o.ps||96}px/1 P;color:${o.pc||COL.red2}">${price}</div></div>`}
+function arrowUp(x,y,hgt,p,c){if(p<=0)return'';const e=ez(p),hh=hgt*e;return `<svg style="position:absolute;left:${x-60}px;top:${y-hgt-40}px;overflow:visible" width=120 height=${hgt+40}><path d="M60 ${hgt+40} V${hgt+40-hh+50}" stroke="#1b0f07" stroke-width=40 stroke-linecap=round /><path d="M60 ${hgt+40} V${hgt+40-hh+50}" stroke="${c}" stroke-width=26 stroke-linecap=round /><path d="M10 ${hgt+40-hh+70} L60 ${hgt+40-hh} L110 ${hgt+40-hh+70} Z" fill="${c}" stroke="#1b0f07" stroke-width=8 stroke-linejoin=round /></svg>`}
+function bar(x,yb,w,hgt,c,lab,val,p){if(p<=0)return'';const hh=hgt*ez(p);return `<div style="position:absolute;left:${x}px;top:${yb-hh}px;width:${w}px;height:${hh}px;border-radius:22px 22px 8px 8px;background:${c};border:7px solid #1b0f07;box-shadow:0 16px 30px #0009"></div>`+T(x+w/2,yb+50,lab,{size:46,p:Math.min(1,p*2)})+T(x+w/2,yb-hh-50,val,{size:58,col:c,p:cl(p,.5,1)})}
+const money=v=>MG.fmt(Math.round(v),0,'$');
+// ---------- overlays per line: (lt = local time, D = line duration, L = line)
+const OV={
+ hook(lt,D,L){fx(L,'impact',0.05);fx(L,'riser',D-1.6,{d:1.6});
+  const p1=1,k=ez(cl(lt,D*.45,D*.85)),v=lerp(4,400,k*k);
+  for(let i=0;i<8;i++)fx(L,'tick',D*.45+i*(D*.4/8),{f:1800+i*150});fx(L,'cash',D*.86);
+  return T(540,250,'IF EVERYONE GOT',{size:70,p:p1,dy:0})+T(540,350,'$1,000,000',{size:128,col:COL.gold,p:1,s:1+.06*Math.sin(Math.min(lt,3)*4)})
+   +tag(330,690,money(v),'COFFEE',cl(lt,-.6,-.3),{rot:-7,sc:1+.25*ez(cl(lt,D*.85,D)),w:440,h:260,ps:116})
+   +arrowUp(80,980,lerp(80,300,k),cl(lt,D*.45,D*.6),COL.red)},
+ phone(lt,D,L){fx(L,'blip',1.0);fx(L,'cash',D*.72);
+  const p=cl(lt,.9,1.3),q=cl(lt,D*.7,D*.82);
+  return `<div style="position:absolute;left:110px;top:${230+(1-ez(p))*-60}px;width:860px;height:200px;opacity:${p};border-radius:40px;background:#fff8ec;border:6px solid #1b0f07;box-shadow:0 24px 50px #000b;transform:scale(${(.9+.1*bo(p)).toFixed(3)})">
+   <div style="position:absolute;left:30px;top:44px;width:110px;height:110px;border-radius:28px;background:${COL.green2};border:5px solid #1b0f07;font:700 70px/104px P;color:#fff;text-align:center">$</div>
+   <div style="position:absolute;left:170px;top:34px;font:500 38px P;color:#7a6250">MY BANK · now</div>
+   <div style="position:absolute;left:170px;top:84px;font:700 62px P;color:${COL.green2}">+${money(1e6*ez(q))}.00</div></div>`},
+ everyone(lt,D,L){const steps=['YOUR NEIGHBOR','YOUR BOSS','THE BARISTA'];let h='';
+  steps.forEach((s,i)=>{const t0=.5+i*.9;fx(L,'pop',t0);h+=chip(540,250+i*120,s+' ✓',{p:cl(lt,t0,t0+.35),size:50,bd:COL.gold})});
+  const p=cl(lt,D*.62,D*.8);fx(L,'impact',D*.62);
+  return h+T(540,700,MG.fmt(8.2*ez(p),1,'','')+' BILLION',{size:104,col:COL.gold,p,s:bo(p)})+T(540,800,'MILLIONAIRES',{size:72,p:cl(lt,D*.7,D*.85)})},
+ spree(lt,D,L){const it=[['NEW CAR',COL.green2],['NEW PHONE','#3a7bd5'],['VACATION','#e07a2f']];let h='';
+  it.forEach((s,i)=>{const t0=D*.45+i*.45;fx(L,'coin',t0,{n:2});h+=chip(260+i*280,300+(i%2)*110,s[0],{p:cl(lt,t0,t0+.3),bg:s[1],size:44,rot:(i-1)*5})});
+  return T(540,180,'EVERYONE FEELS RICH',{size:66,p:cl(lt,.2,.6)})+h+T(560,620,'SOLD OUT',{size:120,col:COL.red,rot:-8,p:cl(lt,D-1.1,D-.8),s:bo(cl(lt,D-1.1,D-.8))*1})+(lt>D-1.1?(fx(L,'thud',D-1.05),''):'')},
+ catch(lt,D,L){fx(L,'swish',.3);const ps=cl(lt,D*.25,D*.45),pm=cl(lt,D*.55,D*.95);fx(L,'riser',D*.55,{d:D*.4});fx(L,'impact',D*.95);
+  return T(540,200,'THE CATCH',{size:90,col:COL.gold,p:cl(lt,0,.35),s:bo(cl(lt,0,.35))})
+   +bar(250,900,220,180,'#7fb2e5','STUFF','SAME',ps)+bar(610,900,220,lerp(180,560,ez(pm)),COL.green,'MONEY',pm>.05?'×'+Math.round(lerp(1,70,ez(pm))):'',Math.max(ps,pm>0?1:0))},
+ raise(lt,D,L){const k=cl(lt,D*.55,D*.8),flip=k>.5;fx(L,'paper',D*.6);fx(L,'error',D*.8);
+  return T(540,200,'MORE MONEY',{size:74,p:cl(lt,.2,.5)})+T(540,290,'SAME STUFF',{size:74,col:COL.gold,p:cl(lt,.5,.8)})
+   +tag(790,830,flip?'$30':'$3','BREAD',cl(lt,.6,1),{rot:6,w:400,h:240,ps:110,sc:flip?1+.15*Math.sin(Math.PI*cl(k,.5,1)):1-.6*Math.sin(Math.PI*cl(k,0,.5))})
+   +arrowUp(990,1060,260,cl(lt,D*.8,D*.95),COL.red)},
+ coffee(lt,D,L){const st=[['YESTERDAY','$4',.1],['NEXT WEEK','$40',.38],['WEEKS LATER','$400',.68]];let h='';
+  st.forEach((s,i)=>{const t0=D*s[2];fx(L,i==2?'impact':'pop',t0);h+=tag(178+i*345,300+i*70,s[1],s[0],cl(lt,t0,t0+.35),{rot:i%2?5:-5,w:330,h:215,ls:32,ps:84+i*8,sc:i==2?1.08:1,pc:i==0?COL.green2:COL.red2})});
+  return h},
+ nothing(lt,D,L){const p=cl(lt,.1,.5),c=cl(lt,D*.5,D*.8);fx(L,'thud',D*.5);
+  return `<div style="position:absolute;inset:0;filter:grayscale(${ez(c)})">`+T(540,330,'$1,000,000',{size:150,col:COL.gold,p,s:bo(p)*(1-.25*ez(c)),rot:-4*ez(c)})+`</div>`
+   +T(540,520,'= ALMOST NOTHING',{size:76,col:COL.red,p:cl(lt,D*.55,D*.8)})},
+ answer(lt,D,L){const p=cl(lt,D*.22,D*.32);fx(L,'error',D*.22);fx(L,'ding',D*.75);
+  return T(540,230,'ALL RICH?',{size:96,p:cl(lt,.1,.5)})+T(540,400,'NO.',{size:170,col:COL.red,p,s:bo(p)})
+   +chip(540,620,'MILLIONAIRE ≠ RICH',{p:cl(lt,D*.72,D*.85),size:60,bg:COL.gold,fg:COL.brown,bd:'#1b0f07'})},
+ follow(lt,D,L){fx(L,'bell',.2);const p=cl(lt,.1,.45);
+  return T(540,300,'FOLLOW',{size:130,col:COL.gold,p,s:bo(p)})+T(540,430,'for honest money math',{size:58,p:cl(lt,.3,.7)})}
+};
+// ---------- engine
+window.setTimeline=tl=>{MG.TL=TL=tl;G=[];const box=$('layers');box.innerHTML='';
+ const tr=['zoom','slide','up','wipe','slide','zoom','up','wipe','zoom','none'];
+ tl.lines.forEach((l,i)=>{const sp=l.spec;const same=i>0&&tl.lines[i-1].spec.img==sp.img;
+  if(same){G[G.length-1].lines.push(i);return}
+  const el=document.createElement('div');el.className='lay';const im=document.createElement('img');im.src=IMG(sp.img);im.decoding='sync';el.appendChild(im);
+  const ov=document.createElement('div');ov.className='ov';el.appendChild(ov);const sh=document.createElement('div');sh.className='shade';el.appendChild(sh);box.appendChild(el);
+  G.push({lines:[i],el,im,ov,sh,kind:i==0?'none':tr[i%tr.length],B:i==0?0:l.start-.4,D:.45})});
+ G.forEach((g,k)=>{g.E=k+1<G.length?G[k+1].B+G[k+1].D:tl.dur});
+ MG.preload([...new Set(tl.lines.map(l=>IMG(l.spec.img)))]);
+ Promise.all([document.fonts.load('700 50px P'),document.fonts.load('500 50px P')]).then(()=>{fontsOk=true},()=>{fontsOk=true})};
+let fontsOk=false,imgReady=false;
+Object.defineProperty(window,'ready',{configurable:true,get(){return imgReady&&fontsOk},set(v){imgReady=v}});
+function trans(g,kind,role,p){const e=ei(p);let tr='',op=1,clip='none',sh=0;
+ switch(kind){
+  case 'slide':if(role=='in')tr=`translateX(${((1-e)*W).toFixed(1)}px)`;else{tr=`translateX(${(-e*W*.35).toFixed(1)}px)`;sh=.6*e}break;
+  case 'up':if(role=='in')tr=`translateY(${((1-e)*H).toFixed(1)}px)`;else{tr=`translateY(${(-e*H*.25).toFixed(1)}px)`;sh=.6*e}break;
+  case 'zoom':if(role=='in'){tr=`scale(${(1.3-.3*e).toFixed(4)})`;op=Math.min(1,e*1.6)}else{tr=`scale(${(1-.12*e).toFixed(4)})`;sh=.7*e}break;
+  case 'wipe':if(role=='in'){const y=lerp(H+300,-300,e);clip=`polygon(0 ${(y+260).toFixed(0)}px,${W}px ${(y-260).toFixed(0)}px,${W}px ${H+600}px,0 ${H+600}px)`}else{tr=`translateY(${(-e*120).toFixed(1)}px)`;sh=.5*e}break;
+ }
+ g.el.style.transform=tr;g.el.style.opacity=op;g.el.style.clipPath=clip;g.sh.style.opacity=sh}
+function ovHtml(g,t){let h='';for(const i of g.lines){const L=TL.lines[i],D=Math.max(.8,L.end-L.start),lt=t-L.start;
+  const nxt=TL.lines[i+1];const vis=t>=L.start-.4&&(!nxt||!g.lines.includes(i+1)||t<nxt.start-.3);
+  if(!vis)continue;const out=nxt&&g.lines.includes(i+1)?1-ez(cl(t,nxt.start-.55,nxt.start-.3)):1;
+  h+=`<div style="position:absolute;inset:0;opacity:${out.toFixed(3)}">${OV[L.spec.ov](lt,D,L)}</div>`}return h}
+function draw(t){if(!TL)return;let gi=0;G.forEach((g,k)=>{if(t>=g.B)gi=k});
+ const cur=G[gi],p=cur.kind=='none'?1:cl(t,cur.B,cur.B+cur.D),prev=p<1&&gi>0?G[gi-1]:null;
+ G.forEach(g=>{g.el.style.display=(g===cur||g===prev)?'block':'none'});
+ cur.el.style.zIndex=2;
+ if(prev){prev.el.style.zIndex=1;trans(prev,cur.kind,'out',p);trans(cur,cur.kind,'in',p)}else{cur.el.style.transform='none';cur.el.style.clipPath='none';cur.el.style.opacity=1;cur.sh.style.opacity=0}
+ for(const g of prev?[prev,cur]:[cur]){const u=cl(t,g.B,g.E),dir=G.indexOf(g)%2?-1:1;
+  g.im.style.transform=`scale(${(1.04+.07*u).toFixed(4)}) translateY(${(dir*18*(u-.5)).toFixed(1)}px)`;
+  const h=ovHtml(g,t);if(g.ov._h!==h){g.ov.innerHTML=h;g.ov._h=h}}
+ let f='';if(prev&&cur.kind=='wipe'){const y=lerp(H+300,-300,ei(p));f=`<svg style="position:absolute;left:0;top:0" width=${W} height=${H}><path d="M0 ${y+260} L${W} ${y-260}" stroke="${COL.gold}" stroke-width=26 /></svg>`}
+ if(f!==$('fx')._h){$('fx').innerHTML=f;$('fx')._h=f}
+ const c=MG.captions(t,{y:1250,size:76,maxWords:3,stageW:1080,w:1000,upper:true});if(c!==$('cap')._h){$('cap').innerHTML=c;$('cap')._h=c}
+ MG.grainTick(t)}
+window.sfxEvents=()=>{const ev=[];COLLECT=ev;
+ G.forEach((g,k)=>{if(k>0){const B=g.B;switch(g.kind){case 'zoom':ev.push({k:'whoosh',t:B-.1,d:.7});break;case 'slide':ev.push({k:'swish',t:B,d:.5,pan:-.4});break;case 'up':ev.push({k:'swish',t:B,d:.5,pan:.3});break;case 'wipe':ev.push({k:'swish',t:B,d:.55,pan:.5});break}}
+  for(const i of g.lines){const L=TL.lines[i],D=Math.max(.8,L.end-L.start);try{OV[L.spec.ov](D+1,D,L)}catch(e){}}});
+ COLLECT=null;ev.sort((a,b)=>a.t-b.t);const out=[];for(const e of ev){if(e.t<0)e.t=0;if(!out.find(o=>o.k==e.k&&Math.abs(o.t-e.t)<.12))out.push(e)}return out};
+window.draw=draw;
+MG.finish($('stage'),1080,1920,.05);
+</script>
