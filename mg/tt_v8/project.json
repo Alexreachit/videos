@@ -1,0 +1,21 @@
+{
+ "title": "TikTok: Missing the 10 best days (Video 8)",
+ "size": [1080, 1920],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+10%",
+ "lead": 0.1,
+ "gap": 0.25,
+ "tail": 1.4,
+ "crf": 22,
+ "music": false,
+ "sfx_gain": 0.42,
+ "lines": [
+  {"text": "Missing just ten days in the stock market could have cost you almost forty thousand dollars.", "spec": {"img": 1, "ov": "hook"}},
+  {"text": "Ten thousand dollars in the S&P 500, from 2005 to 2024? About seventy-two thousand.", "spec": {"img": 0, "ov": "grow"}},
+  {"text": "But miss only the ten best days, and you end up with just thirty-three thousand.", "spec": {"img": 0, "ov": "miss"}},
+  {"text": "And seven of those best days came within two weeks of the worst crashes. Exactly when people panic and sell.", "spec": {"img": 0, "ov": "crash"}},
+  {"text": "Would you have held on?", "spec": {"img": 2, "ov": "ask"}}
+ ]
+}
