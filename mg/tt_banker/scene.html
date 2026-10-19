@@ -1,0 +1,113 @@
+<!doctype html><meta charset=utf-8><style>
+@font-face{font-family:P;src:url(fonts/Poppins-Bold.ttf);font-weight:700}
+@font-face{font-family:P;src:url(fonts/Poppins-Medium.ttf);font-weight:500}
+@font-face{font-family:'Arial Black';src:url(fonts/Poppins-Bold.ttf)}
+html,body{margin:0;background:#140c07}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:#2569ad;font-family:P,Arial,Helvetica,sans-serif}
+.lay{position:absolute;inset:0;overflow:hidden;display:none;will-change:transform}
+.lay img{position:absolute;left:0;top:0;width:1080px;height:1920px;transform-origin:50% 42%}
+.ov{position:absolute;inset:0;transform:translateY(90px)}
+.shade{position:absolute;inset:0;background:#0b0603;opacity:0}
+#capbg{display:none}
+#topbg{position:absolute;left:0;top:0;width:1080px;height:520px;background:linear-gradient(180deg,#1d4f8660,transparent);z-index:49}
+#cap{position:absolute;inset:0;z-index:60}
+#fx{position:absolute;inset:0;z-index:40;pointer-events:none}
+</style>
+<div id=stage><div id=layers></div><div id=fx></div><div id=topbg></div><div id=capbg></div><div id=cap></div></div>
+<script src="../lib/core.js"></script>
+<script>
+// TikTok 9:16 – "Investment banker hourly wage" (native vertical, AI-extended full-screen images)
+const {cl,ez,ei,bo,lerp}=MG,$=MG.$,W=1080,H=1920;
+const COL={cream:'#fff3dc',gold:'#ffc94a',gold2:'#f0a22a',green:'#3ddc84',green2:'#22a95e',red:'#ff5b4a',red2:'#d6402e',brown:'#3a2214',dark:'#1d4f86'};
+const SH='0 6px 22px #000c,0 2px 4px #000';
+const IMG=k=>`img/${String(k).padStart(2,'0')}.jpg`;
+let TL=null,G=[],COLLECT=null;
+function fx(L,k,rel,o){if(COLLECT)COLLECT.push(Object.assign({k,t:+(L.start+rel).toFixed(3)},o||{}));}
+// ---------- snippets
+function T(x,y,txt,o={}){const p=o.p==null?1:o.p;if(p<=0)return'';const s=o.s==null?1:o.s,sz=o.size||64;
+ return `<div style="position:absolute;left:${x}px;top:${y}px;transform:translate(-50%,-50%) translateY(${((1-Math.min(1,p))*(o.dy==null?30:o.dy)).toFixed(1)}px) scale(${s.toFixed(3)}) rotate(${o.rot||0}deg);opacity:${Math.min(1,p).toFixed(3)};font:700 ${sz}px/1.08 P,Arial,sans-serif;color:${o.col||COL.cream};white-space:nowrap;text-align:center;letter-spacing:${o.ls||0}px;text-shadow:${MG.outline(o.ol||Math.round(sz/12))},0 ${sz/8}px ${sz/3}px #000a">${txt}</div>`}
+function chip(x,y,txt,o={}){const p=o.p==null?1:o.p;if(p<=0)return'';const sz=o.size||46,s=bo(Math.min(1,p));
+ return `<div style="position:absolute;left:${x}px;top:${y}px;transform:translate(-50%,-50%) scale(${s.toFixed(3)}) rotate(${o.rot||0}deg);opacity:${Math.min(1,p*2).toFixed(3)};padding:${sz*.32}px ${sz*.7}px;border-radius:${sz}px;background:${o.bg||COL.dark+'ee'};color:${o.fg||COL.cream};font:700 ${sz}px/1.1 P,Arial,sans-serif;white-space:nowrap;box-shadow:0 14px 30px #0009;border:4px solid ${o.bd||'#ffffff22'}">${txt}</div>`}
+function tag(x,y,price,label,p,o={}){if(p<=0)return'';const s=bo(Math.min(1,p))*(o.sc||1),w=o.w||380,h=o.h||230;
+ return `<div style="position:absolute;left:${x-w/2}px;top:${y-h/2}px;width:${w}px;height:${h}px;transform:scale(${s.toFixed(3)}) rotate(${o.rot||-6}deg);opacity:${Math.min(1,p*2).toFixed(3)}">
+ <div style="position:absolute;inset:0;border-radius:30px;background:#fff3dc;border:8px solid #1b0f07;box-shadow:0 22px 40px #000a"></div>
+ <div style="position:absolute;left:26px;top:${h/2-17}px;width:34px;height:34px;border-radius:50%;background:#1b0f07"></div>
+ <div style="position:absolute;left:60px;right:10px;top:${h*.2}px;text-align:center;font:700 ${o.ls||44}px P;color:#3a2214">${label}</div>
+ <div style="position:absolute;left:60px;right:10px;top:${h*.42}px;text-align:center;font:700 ${o.ps||96}px/1 P;color:${o.pc||COL.red2}">${price}</div></div>`}
+function arrowUp(x,y,hgt,p,c){if(p<=0)return'';const e=ez(p),hh=hgt*e;return `<svg style="position:absolute;left:${x-60}px;top:${y-hgt-40}px;overflow:visible" width=120 height=${hgt+40}><path d="M60 ${hgt+40} V${hgt+40-hh+50}" stroke="#1b0f07" stroke-width=40 stroke-linecap=round /><path d="M60 ${hgt+40} V${hgt+40-hh+50}" stroke="${c}" stroke-width=26 stroke-linecap=round /><path d="M10 ${hgt+40-hh+70} L60 ${hgt+40-hh} L110 ${hgt+40-hh+70} Z" fill="${c}" stroke="#1b0f07" stroke-width=8 stroke-linejoin=round /></svg>`}
+function bar(x,yb,w,hgt,c,lab,val,p){if(p<=0)return'';const hh=hgt*ez(p);return `<div style="position:absolute;left:${x}px;top:${yb-hh}px;width:${w}px;height:${hh}px;border-radius:22px 22px 8px 8px;background:${c};border:7px solid #1b0f07;box-shadow:0 16px 30px #0009"></div>`+T(x+w/2,yb+50,lab,{size:46,p:Math.min(1,p*2)})+T(x+w/2,yb-hh-50,val,{size:58,col:c,p:cl(p,.5,1)})}
+const money=v=>MG.fmt(Math.round(v),0,'$');
+// ---------- overlays per line: (lt = local time, D = line duration, L = line)
+const OV={
+ hook(lt,D,L){fx(L,'impact',0.05);const q=cl(lt,D*.55,D*.7);fx(L,'error',D*.55);fx(L,'riser',D-1.4,{d:1.4});
+  return T(540,230,'$100,000+',{size:150,col:COL.gold,p:1,s:1+.05*Math.sin(Math.min(lt,3)*4)})+T(540,350,'PER YEAR',{size:70,p:1})
+   +chip(540,540,'BUT PER HOUR?',{p:q,size:84,bg:COL.red2,rot:-4,bd:'#1b0f07'})},
+ who(lt,D,L){fx(L,'pop',.3);fx(L,'pop',1.1);
+  return chip(540,230,'1ST-YEAR ANALYST',{p:cl(lt,.2,.5),size:58,bg:COL.gold,fg:COL.brown,bd:'#1b0f07'})+chip(540,360,'NEW YORK',{p:cl(lt,1,1.3),size:50})},
+ job(lt,D,L){fx(L,'pop',D*.25);fx(L,'pop',D*.55);
+  return T(540,200,'THE JOB',{size:80,col:COL.gold,p:cl(lt,0,.3)})+chip(330,340,'COMPANY DEALS',{p:cl(lt,D*.25,D*.35),size:46,bg:COL.green2,rot:-4})+chip(760,440,'STOCK MARKET IPOs',{p:cl(lt,D*.55,D*.65),size:46,bg:'#3a7bd5',rot:4})},
+ salary(lt,D,L){const a=cl(lt,.2,D*.45),b=cl(lt,D*.6,D*.8);fx(L,'cash',D*.45);fx(L,'coin',D*.6,{n:4});fx(L,'cash',D*.8);
+  return T(540,200,'BASE SALARY',{size:60,p:cl(lt,0,.3)})+T(540,320,money(110000*ez(a)),{size:130,col:COL.green,p:a>0?1:0})
+   +T(540,470,'WITH BONUS: UP TO ~'+money(200000*ez(b)),{size:52,col:COL.gold,p:b})},
+ hours(lt,D,L){const k=cl(lt,D*.45,D*.85);for(let i=0;i<10;i++)fx(L,'tick',D*.45+i*D*.04,{f:1600+i*120});fx(L,'impact',D*.86);
+  return T(540,220,MG.fmt(Math.round(98*ez(k)))+' HOURS',{size:130,col:COL.red,p:k>0?1:0,s:k>=1?bo(cl(lt,D*.85,D*.95)):1})+T(540,340,'PER WEEK',{size:72,p:k>0?1:0})
+   +T(540,430,'Goldman Sachs junior analyst survey, 2021',{size:34,p:cl(lt,D*.6,D*.8)})},
+ sleep(lt,D,L){fx(L,'bell',.4);fx(L,'thud',D*.55);
+  return chip(540,240,'BED: ~3 AM',{p:cl(lt,.3,.6),size:64,bg:'#3a2a8a'})+chip(540,390,'SLEEP: ~5 HOURS',{p:cl(lt,D*.5,D*.62),size:64,bg:COL.red2})},
+ hourly(lt,D,L){const a=cl(lt,.3,.7),b=cl(lt,D*.55,D*.7);fx(L,'type',.3,{n:10});fx(L,'error',D*.55);
+  return T(540,200,'$110,000 ÷ (98 h × 52 weeks)',{size:56,p:a})+T(540,360,'≈ $22 / HOUR',{size:128,col:COL.red,p:b,s:bo(b)})
+   +T(540,470,'(before bonus)',{size:40,p:cl(lt,D*.75,D*.9)})},
+ quit(lt,D,L){const p=cl(lt,.3,.7);fx(L,'thud',.3);fx(L,'paper',D*.5);
+  let h='';for(let i=0;i<2;i++){const s=i==1&&lt>D*.5;h+=`<div style="position:absolute;left:${330+i*300}px;top:150px;width:160px;height:200px;opacity:${p};transform:scale(${bo(p).toFixed(3)});border-radius:80px 80px 30px 30px;background:${s?'#ffffff55':COL.gold};border:7px solid #1b0f07"></div>`}
+  return h+T(540,430,'ONLY 1 IN 2',{size:110,col:COL.gold,p:cl(lt,D*.3,D*.5)})+T(540,530,'expected to stay 6 more months',{size:46,p:cl(lt,D*.5,D*.7)})},
+ md(lt,D,L){const a=cl(lt,D*.55,D*.9);fx(L,'riser',D*.5,{d:D*.4});fx(L,'cash',D*.9);fx(L,'ding',D*.92);
+  return T(540,200,'WHY DO IT?',{size:84,p:cl(lt,.1,.4)})+chip(540,320,'MANAGING DIRECTOR',{p:cl(lt,D*.45,D*.55),size:48,bg:COL.dark})
+   +T(540,460,'~'+money(1e6*ez(a))+' / YEAR',{size:100,col:COL.gold,p:a>0?1:0,s:a>=1?1.05:1})},
+ ask(lt,D,L){fx(L,'pop',.4);fx(L,'pop',.8);fx(L,'bell',D*.6);
+  return T(540,200,'YOUR 20s FOR THIS?',{size:76,p:cl(lt,0,.3)})+chip(380,340,'YES',{p:cl(lt,.4,.7),size:70,bg:COL.green2})+chip(700,340,'NO',{p:cl(lt,.8,1.1),size:70,bg:COL.red2})
+   +T(540,480,'COMMENT BELOW',{size:60,col:COL.gold,p:cl(lt,D*.6,D*.8),s:1+.05*Math.sin(lt*6)})}
+};
+// ---------- engine
+window.setTimeline=tl=>{MG.TL=TL=tl;G=[];const box=$('layers');box.innerHTML='';
+ const tr=['zoom','slide','up','wipe','slide','zoom','up','wipe','zoom','none'];
+ tl.lines.forEach((l,i)=>{const sp=l.spec;const same=i>0&&tl.lines[i-1].spec.img==sp.img;
+  if(same){G[G.length-1].lines.push(i);return}
+  const el=document.createElement('div');el.className='lay';const im=document.createElement('img');im.src=IMG(sp.img);im.decoding='sync';el.appendChild(im);
+  const ov=document.createElement('div');ov.className='ov';el.appendChild(ov);const sh=document.createElement('div');sh.className='shade';el.appendChild(sh);box.appendChild(el);
+  G.push({lines:[i],el,im,ov,sh,kind:i==0?'none':tr[i%tr.length],B:i==0?0:l.start-.4,D:.45})});
+ G.forEach((g,k)=>{g.E=k+1<G.length?G[k+1].B+G[k+1].D:tl.dur});
+ MG.preload([...new Set(tl.lines.map(l=>IMG(l.spec.img)))]);
+ Promise.all([document.fonts.load('700 50px P'),document.fonts.load('500 50px P')]).then(()=>{fontsOk=true},()=>{fontsOk=true})};
+let fontsOk=false,imgReady=false;
+Object.defineProperty(window,'ready',{configurable:true,get(){return imgReady&&fontsOk},set(v){imgReady=v}});
+function trans(g,kind,role,p){const e=ei(p);let tr='',op=1,clip='none',sh=0;
+ switch(kind){
+  case 'slide':if(role=='in')tr=`translateX(${((1-e)*W).toFixed(1)}px)`;else{tr=`translateX(${(-e*W*.35).toFixed(1)}px)`;sh=.6*e}break;
+  case 'up':if(role=='in')tr=`translateY(${((1-e)*H).toFixed(1)}px)`;else{tr=`translateY(${(-e*H*.25).toFixed(1)}px)`;sh=.6*e}break;
+  case 'zoom':if(role=='in'){tr=`scale(${(1.3-.3*e).toFixed(4)})`;op=Math.min(1,e*1.6)}else{tr=`scale(${(1-.12*e).toFixed(4)})`;sh=.7*e}break;
+  case 'wipe':if(role=='in'){const y=lerp(H+300,-300,e);clip=`polygon(0 ${(y+260).toFixed(0)}px,${W}px ${(y-260).toFixed(0)}px,${W}px ${H+600}px,0 ${H+600}px)`}else{tr=`translateY(${(-e*120).toFixed(1)}px)`;sh=.5*e}break;
+ }
+ g.el.style.transform=tr;g.el.style.opacity=op;g.el.style.clipPath=clip;g.sh.style.opacity=sh}
+function ovHtml(g,t){let h='';for(const i of g.lines){const L=TL.lines[i],D=Math.max(.8,L.end-L.start),lt=t-L.start;
+  const nxt=TL.lines[i+1];const vis=t>=L.start-.4&&(!nxt||!g.lines.includes(i+1)||t<nxt.start-.3);
+  if(!vis)continue;const out=nxt&&g.lines.includes(i+1)?1-ez(cl(t,nxt.start-.55,nxt.start-.3)):1;
+  h+=`<div style="position:absolute;inset:0;opacity:${out.toFixed(3)}">${OV[L.spec.ov](lt,D,L)}</div>`}return h}
+function draw(t){if(!TL)return;let gi=0;G.forEach((g,k)=>{if(t>=g.B)gi=k});
+ const cur=G[gi],p=cur.kind=='none'?1:cl(t,cur.B,cur.B+cur.D),prev=p<1&&gi>0?G[gi-1]:null;
+ G.forEach(g=>{g.el.style.display=(g===cur||g===prev)?'block':'none'});
+ cur.el.style.zIndex=2;
+ if(prev){prev.el.style.zIndex=1;trans(prev,cur.kind,'out',p);trans(cur,cur.kind,'in',p)}else{cur.el.style.transform='none';cur.el.style.clipPath='none';cur.el.style.opacity=1;cur.sh.style.opacity=0}
+ for(const g of prev?[prev,cur]:[cur]){const u=cl(t,g.B,g.E),dir=G.indexOf(g)%2?-1:1;
+  g.im.style.transform=`scale(${(1.04+.07*u).toFixed(4)}) translateY(${(dir*18*(u-.5)).toFixed(1)}px)`;
+  const h=ovHtml(g,t);if(g.ov._h!==h){g.ov.innerHTML=h;g.ov._h=h}}
+ let f='';if(prev&&cur.kind=='wipe'){const y=lerp(H+300,-300,ei(p));f=`<svg style="position:absolute;left:0;top:0" width=${W} height=${H}><path d="M0 ${y+260} L${W} ${y-260}" stroke="${COL.gold}" stroke-width=26 /></svg>`}
+ if(f!==$('fx')._h){$('fx').innerHTML=f;$('fx')._h=f}
+ const c=MG.captions(t,{y:1250,size:76,maxWords:3,stageW:1080,w:1000,upper:true});if(c!==$('cap')._h){$('cap').innerHTML=c;$('cap')._h=c}
+ MG.grainTick(t)}
+window.sfxEvents=()=>{const ev=[];COLLECT=ev;
+ G.forEach((g,k)=>{if(k>0){const B=g.B;switch(g.kind){case 'zoom':ev.push({k:'whoosh',t:B-.1,d:.7});break;case 'slide':ev.push({k:'swish',t:B,d:.5,pan:-.4});break;case 'up':ev.push({k:'swish',t:B,d:.5,pan:.3});break;case 'wipe':ev.push({k:'swish',t:B,d:.55,pan:.5});break}}
+  for(const i of g.lines){const L=TL.lines[i],D=Math.max(.8,L.end-L.start);try{OV[L.spec.ov](D+1,D,L)}catch(e){}}});
+ COLLECT=null;ev.sort((a,b)=>a.t-b.t);const out=[];for(const e of ev){if(e.t<0)e.t=0;if(!out.find(o=>o.k==e.k&&Math.abs(o.t-e.t)<.12))out.push(e)}return out};
+window.draw=draw;
+MG.finish($('stage'),1080,1920,.05,'#0000001a',65);
+</script>
