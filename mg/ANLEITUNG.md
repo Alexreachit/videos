@@ -48,3 +48,5 @@ Rendern auf GitHub: Projektname in `mg/render_queue.txt` eintragen und pushen (W
 - Hintergrund: Himmelblau mit nur leicht dunklen Ecken -> `lib/theme_sky.py` (`apply(html)` in build_scene.py aufrufen).
 - Gemini-Bilder: kraeftige, sonnige Farben, kein Grau/Braun/Sepia (Prompt-Zusatz `GEMINI_STYLE` in theme_sky.py).
 - TikToks: immer Vollbild 9:16 (Vorlage mg/tt_million), kein dunkler Balken in der Mitte, obere Texte etwas tiefer.
+- YouTube-Hook (ab 2026-10-19): die ersten ~5 Sekunden müssen packen – überraschende Zahl/These sofort im Bild und im ersten Satz, offene Frage ("…aber bis zum Ende siehst du, warum…"), kein ruhiger Titel-Einstieg; erste Szene mit Bewegung.
+- TikToks (ab 2026-10-19): Englisch, ca. 30 s, eigenständig (keine Part-Serien); Aufbau: Hook + große Zahl ab Sekunde 0, offene Frage, Auflösung/Wendung, Kommentar-Frage am Ende (Vorlage mg/tt_banker).
