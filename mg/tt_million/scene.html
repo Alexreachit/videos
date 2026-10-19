@@ -3,13 +3,13 @@
 @font-face{font-family:P;src:url(fonts/Poppins-Medium.ttf);font-weight:500}
 @font-face{font-family:'Arial Black';src:url(fonts/Poppins-Bold.ttf)}
 html,body{margin:0;background:#140c07}
-#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:#1d120b;font-family:P,Arial,Helvetica,sans-serif}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:#2569ad;font-family:P,Arial,Helvetica,sans-serif}
 .lay{position:absolute;inset:0;overflow:hidden;display:none;will-change:transform}
 .lay img{position:absolute;left:0;top:0;width:1080px;height:1920px;transform-origin:50% 42%}
 .ov{position:absolute;inset:0;transform:translateY(90px)}
 .shade{position:absolute;inset:0;background:#0b0603;opacity:0}
 #capbg{display:none}
-#topbg{position:absolute;left:0;top:0;width:1080px;height:520px;background:linear-gradient(180deg,#0f0804b0,transparent);z-index:49}
+#topbg{position:absolute;left:0;top:0;width:1080px;height:520px;background:linear-gradient(180deg,#1d4f8660,transparent);z-index:49}
 #cap{position:absolute;inset:0;z-index:60}
 #fx{position:absolute;inset:0;z-index:40;pointer-events:none}
 </style>
@@ -18,7 +18,7 @@ html,body{margin:0;background:#140c07}
 <script>
 // TikTok 9:16 – "If everyone got $1 million" (native vertical, AI-extended full-screen images)
 const {cl,ez,ei,bo,lerp}=MG,$=MG.$,W=1080,H=1920;
-const COL={cream:'#fff3dc',gold:'#ffc94a',gold2:'#f0a22a',green:'#3ddc84',green2:'#22a95e',red:'#ff5b4a',red2:'#d6402e',brown:'#3a2214',dark:'#24150c'};
+const COL={cream:'#fff3dc',gold:'#ffc94a',gold2:'#f0a22a',green:'#3ddc84',green2:'#22a95e',red:'#ff5b4a',red2:'#d6402e',brown:'#3a2214',dark:'#1d4f86'};
 const SH='0 6px 22px #000c,0 2px 4px #000';
 const IMG=k=>`img/${String(k).padStart(2,'0')}.jpg`;
 let TL=null,G=[],COLLECT=null;
@@ -119,5 +119,5 @@ window.sfxEvents=()=>{const ev=[];COLLECT=ev;
   for(const i of g.lines){const L=TL.lines[i],D=Math.max(.8,L.end-L.start);try{OV[L.spec.ov](D+1,D,L)}catch(e){}}});
  COLLECT=null;ev.sort((a,b)=>a.t-b.t);const out=[];for(const e of ev){if(e.t<0)e.t=0;if(!out.find(o=>o.k==e.k&&Math.abs(o.t-e.t)<.12))out.push(e)}return out};
 window.draw=draw;
-MG.finish($('stage'),1080,1920,.05);
+MG.finish($('stage'),1080,1920,.05,'#0000001a',65);
 </script>
