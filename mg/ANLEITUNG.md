@@ -43,3 +43,8 @@ python3 mg/produce.py <projekt> --fake-tts --limit 8 --workers 4        # kurzes
 ```
 Die Fake-Stimme ist langsamer/ungenauer als Andrew; Zeiten immer aus der Timeline ableiten, nie fest verdrahten.
 Rendern auf GitHub: Projektname in `mg/render_queue.txt` eintragen und pushen (Workflow "Motion Graphics Warteschlange").
+
+## Farbschema ab 2026-10-19 (Alex' Wahl)
+- Hintergrund: Himmelblau mit nur leicht dunklen Ecken -> `lib/theme_sky.py` (`apply(html)` in build_scene.py aufrufen).
+- Gemini-Bilder: kraeftige, sonnige Farben, kein Grau/Braun/Sepia (Prompt-Zusatz `GEMINI_STYLE` in theme_sky.py).
+- TikToks: immer Vollbild 9:16 (Vorlage mg/tt_million), kein dunkler Balken in der Mitte, obere Texte etwas tiefer.

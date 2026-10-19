@@ -44,9 +44,9 @@
 
   M.outline = r => { const a = []; for (let k = 0; k < 16; k++) { const q = k / 16 * 6.2832; a.push(`${(Math.cos(q) * r).toFixed(1)}px ${(Math.sin(q) * r).toFixed(1)}px 0 #000`) } return a.join(',') };
   // ---- Filmkorn + Vignette (einmal einfuegen, pro Frame M.grainTick(t)) ----
-  M.finish = function (stage, w, h, grain = .08) {
+  M.finish = function (stage, w, h, grain = .08, vig = '#000a', vigStart = 50) {
     const v = document.createElement('div');
-    v.style.cssText = `position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 50%,#000a 100%);z-index:90`;
+    v.style.cssText = `position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent ${vigStart}%,${vig} 100%);z-index:90`;
     stage.appendChild(v);
     const g = document.createElementNS(M.NS, 'svg');
     g.setAttribute('width', w + 80); g.setAttribute('height', h + 80);
