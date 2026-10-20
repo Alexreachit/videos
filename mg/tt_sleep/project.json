@@ -1,0 +1,66 @@
+{
+ "title": "TikTok: What happens if you stop sleeping, hour by hour (Video 6)",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+10%",
+ "lead": 0.1,
+ "gap": 0.25,
+ "tail": 1.4,
+ "crf": 22,
+ "music": false,
+ "sfx_gain": 0.42,
+ "lines": [
+  {
+   "text": "This is what happens to your body if you stop sleeping. Hour by hour.",
+   "spec": {
+    "img": 1,
+    "ov": "hook"
+   }
+  },
+  {
+   "text": "After sixteen hours, your focus starts to slip.",
+   "spec": {
+    "img": 2,
+    "ov": "h16",
+    "tr": "fade"
+   }
+  },
+  {
+   "text": "After nineteen hours, you react like someone with a blood alcohol level of 0.05 percent.",
+   "spec": {
+    "img": 3,
+    "ov": "h19",
+    "tr": "fade"
+   }
+  },
+  {
+   "text": "After a full day, it is like 0.1 percent. Drunk, by the law of most countries.",
+   "spec": {
+    "img": 4,
+    "ov": "h24",
+    "tr": "fade"
+   }
+  },
+  {
+   "text": "The record? A teenager stayed awake for eleven days. He started to hallucinate.",
+   "spec": {
+    "img": 5,
+    "ov": "h264",
+    "tr": "fade"
+   }
+  },
+  {
+   "text": "So how long have you been awake right now?",
+   "spec": {
+    "img": 6,
+    "ov": "ask",
+    "tr": "fade"
+   }
+  }
+ ]
+}
