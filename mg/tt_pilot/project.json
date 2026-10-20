@@ -1,0 +1,65 @@
+{
+ "title": "TikTok: What does it cost to become an airline pilot? (Video 1)",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+10%",
+ "lead": 0.1,
+ "gap": 0.25,
+ "tail": 1.4,
+ "crf": 22,
+ "music": false,
+ "sfx_gain": 0.42,
+ "lines": [
+  {
+   "text": "What does it really cost to become an airline pilot? The final number is insane.",
+   "spec": {
+    "img": 1,
+    "ov": "hook"
+   }
+  },
+  {
+   "text": "The medical exam alone: hundreds of euros.",
+   "spec": {
+    "img": 2,
+    "ov": "r1"
+   }
+  },
+  {
+   "text": "Flight school: up to one hundred eighty thousand euros.",
+   "spec": {
+    "img": 3,
+    "ov": "r2",
+    "tr": "fade"
+   }
+  },
+  {
+   "text": "Plus two years of living costs, with barely any time for a side job.",
+   "spec": {
+    "img": 4,
+    "ov": "r3",
+    "tr": "fade"
+   }
+  },
+  {
+   "text": "Then many airlines want a type rating. Up to forty thousand more.",
+   "spec": {
+    "img": 5,
+    "ov": "r4",
+    "tr": "fade"
+   }
+  },
+  {
+   "text": "Total: well over two hundred thousand euros. Would you pay it?",
+   "spec": {
+    "img": 6,
+    "ov": "total",
+    "tr": "fade"
+   }
+  }
+ ]
+}
