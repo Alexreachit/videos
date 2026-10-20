@@ -43,7 +43,7 @@ function receipt(n,lt,total,tp,punch){let rows='';ITEMS.slice(0,n).forEach(([a,b
   rows+=`<div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:3px dashed #c9b99a;opacity:${p};transform:translateX(${((1-p)*-50).toFixed(1)}px);${isNew?'color:#d6402e':''}"><span>${a}</span><span>${b}</span></div>`});
  const pb=punch?1+.06*Math.sin(Math.PI*cl(lt,.1,.45)):1;
  return `<div style="position:absolute;left:60px;top:40px;width:860px;padding:24px 42px 26px;background:#fff8ec;border:8px solid #1b0f07;border-radius:26px;box-shadow:0 26px 50px #0009;font:700 46px/1.2 P;color:#3a2214;transform:rotate(-1.5deg) scale(${pb.toFixed(3)});transform-origin:50% 0">
- <div style="text-align:center;font-size:48px;letter-spacing:4px;border-bottom:5px solid #3a2214;padding-bottom:8px;margin-bottom:4px">✈ PILOT RECEIPT · EUROPE</div>${rows}
+ <div style="text-align:center;font-size:48px;letter-spacing:4px;border-bottom:5px solid #3a2214;padding-bottom:8px;margin-bottom:4px">✈ PILOT RECEIPT</div>${rows}
  <div style="display:flex;justify-content:space-between;padding-top:14px;font-size:62px;opacity:${tp}"><span>TOTAL</span><span style="color:#d6402e">${total}</span></div></div>`}
 const OV={
  hook(lt,D,L){fx(L,'impact',0.05);fx(L,'type',D-1.4,{n:8});
