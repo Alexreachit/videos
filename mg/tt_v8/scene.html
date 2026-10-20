@@ -51,10 +51,10 @@ function axes(p){let h=`<line x1=${CX0} y1=${CY0} x2=${CX1} y2=${CY0} stroke="#f
  return `<svg style="position:absolute;left:0;top:0;overflow:visible;opacity:${p}" width=1080 height=1920>${h}`}
 const GREEN=YRS, RED=YRS.map(v=>Math.pow(v,EXP));
 const OV={
- hook(lt,D,L){fx(L,'impact',0.05);fx(L,'riser',D-1.3,{d:1.3});
+ hook(lt,D,L){fx(L,'impact',0.05);fx(L,'whoosh',D-1.3,{d:.6});
   return T(540,210,'MISS JUST 10 DAYS',{size:84,p:1})+T(540,350,'= −$38,879',{size:150,col:COL.red,p:1,s:1+.05*Math.sin(Math.min(lt,3)*5)})
    +T(540,470,'S&amp;P 500 · 2005–2024 · source: J.P. Morgan',{size:30,p:cl(lt,.6,1)})},
- grow(lt,D,L){const p=cl(lt,.2,D-.3);fx(L,'riser',.2,{d:D-.6});fx(L,'cash',D-.3);const [x,y,v]=tip(GREEN,p);
+ grow(lt,D,L){const p=cl(lt,.2,D-.3);fx(L,'whoosh',.2,{d:.6});fx(L,'cash',D-.3);const [x,y,v]=tip(GREEN,p);
   return T(540,200,'STAYED INVESTED',{size:72,col:COL.green,p:cl(lt,0,.3)})+axes(1)+line(GREEN,p,COL.green,14)
    +`<circle cx=${x} cy=${y} r=16 fill="${COL.green}" stroke="#0d2a4a" stroke-width=6 /></svg>`
    +T(540,310,money(10000*v),{size:120,col:'#ffffff',p:1})},

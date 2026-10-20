@@ -1,0 +1,23 @@
+{
+ "title": "TikTok: POV stay awake challenge (Video 6)",
+ "size": [1080, 1920],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+10%",
+ "lead": 0.1,
+ "gap": 0.25,
+ "tail": 1.4,
+ "crf": 22,
+ "music": false,
+ "sfx_gain": 0.42,
+ "lines": [
+  {"text": "POV: you try to stay awake as long as possible.", "spec": {"img": 1, "ov": "start"}},
+  {"text": "Hour eighteen: your brain works like you are tipsy.", "spec": {"img": 4, "ov": "s18", "tr": "fade"}},
+  {"text": "Hour twenty-four: you fall asleep for seconds, with your eyes open.", "spec": {"img": 3, "ov": "s24", "tr": "fade"}},
+  {"text": "Day four: the hallucinations begin.", "spec": {"img": 5, "ov": "d4", "tr": "fade"}},
+  {"text": "One teen who tried this thought he was a famous football player.", "spec": {"img": 5, "ov": "d4b"}},
+  {"text": "Day eleven: the world record. Guinness stopped accepting attempts, it is too dangerous.", "spec": {"img": 7, "ov": "d11", "tr": "fade"}},
+  {"text": "How far would you get?", "spec": {"img": 6, "ov": "ask", "tr": "fade"}}
+ ]
+}

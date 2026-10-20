@@ -50,3 +50,4 @@ Rendern auf GitHub: Projektname in `mg/render_queue.txt` eintragen und pushen (W
 - TikToks: immer Vollbild 9:16 (Vorlage mg/tt_million), kein dunkler Balken in der Mitte, obere Texte etwas tiefer.
 - YouTube-Hook (ab 2026-10-19): die ersten ~5 Sekunden müssen packen – überraschende Zahl/These sofort im Bild und im ersten Satz, offene Frage ("…aber bis zum Ende siehst du, warum…"), kein ruhiger Titel-Einstieg; erste Szene mit Bewegung.
 - TikToks (ab 2026-10-19): Englisch, ca. 30 s, eigenständig (keine Part-Serien); Aufbau: Hook + große Zahl ab Sekunde 0, offene Frage, Auflösung/Wendung, Kommentar-Frage am Ende (Vorlage mg/tt_banker).
+- Sounds (ab 2026-10-20): KEIN 'riser' (anschwellendes Summen) mehr; nur etablierte Sounds: whoosh, swish, pop, ding, cash (Ka-ching), click, impact (Boom), tick, bell.

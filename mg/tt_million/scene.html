@@ -39,7 +39,7 @@ function bar(x,yb,w,hgt,c,lab,val,p){if(p<=0)return'';const hh=hgt*ez(p);return 
 const money=v=>MG.fmt(Math.round(v),0,'$');
 // ---------- overlays per line: (lt = local time, D = line duration, L = line)
 const OV={
- hook(lt,D,L){fx(L,'impact',0.05);fx(L,'riser',D-1.6,{d:1.6});
+ hook(lt,D,L){fx(L,'impact',0.05);fx(L,'whoosh',D-1.6,{d:.6});
   const p1=1,k=ez(cl(lt,D*.45,D*.85)),v=lerp(4,400,k*k);
   for(let i=0;i<8;i++)fx(L,'tick',D*.45+i*(D*.4/8),{f:1800+i*150});fx(L,'cash',D*.86);
   return T(540,250,'IF EVERYONE GOT',{size:70,p:p1,dy:0})+T(540,350,'$1,000,000',{size:128,col:COL.gold,p:1,s:1+.06*Math.sin(Math.min(lt,3)*4)})
@@ -58,7 +58,7 @@ const OV={
  spree(lt,D,L){const it=[['NEW CAR',COL.green2],['NEW PHONE','#3a7bd5'],['VACATION','#e07a2f']];let h='';
   it.forEach((s,i)=>{const t0=D*.45+i*.45;fx(L,'coin',t0,{n:2});h+=chip(260+i*280,300+(i%2)*110,s[0],{p:cl(lt,t0,t0+.3),bg:s[1],size:44,rot:(i-1)*5})});
   return T(540,180,'EVERYONE FEELS RICH',{size:66,p:cl(lt,.2,.6)})+h+T(560,620,'SOLD OUT',{size:120,col:COL.red,rot:-8,p:cl(lt,D-1.1,D-.8),s:bo(cl(lt,D-1.1,D-.8))*1})+(lt>D-1.1?(fx(L,'thud',D-1.05),''):'')},
- catch(lt,D,L){fx(L,'swish',.3);const ps=cl(lt,D*.25,D*.45),pm=cl(lt,D*.55,D*.95);fx(L,'riser',D*.55,{d:D*.4});fx(L,'impact',D*.95);
+ catch(lt,D,L){fx(L,'swish',.3);const ps=cl(lt,D*.25,D*.45),pm=cl(lt,D*.55,D*.95);fx(L,'whoosh',D*.55,{d:.6});fx(L,'impact',D*.95);
   return T(540,200,'THE CATCH',{size:90,col:COL.gold,p:cl(lt,0,.35),s:bo(cl(lt,0,.35))})
    +bar(250,900,220,180,'#7fb2e5','STUFF','SAME',ps)+bar(610,900,220,lerp(180,560,ez(pm)),COL.green,'MONEY',pm>.05?'×'+Math.round(lerp(1,70,ez(pm))):'',Math.max(ps,pm>0?1:0))},
  raise(lt,D,L){const k=cl(lt,D*.55,D*.8),flip=k>.5;fx(L,'paper',D*.6);fx(L,'error',D*.8);

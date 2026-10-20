@@ -39,7 +39,7 @@ function bar(x,yb,w,hgt,c,lab,val,p){if(p<=0)return'';const hh=hgt*ez(p);return 
 const money=v=>MG.fmt(Math.round(v),0,'$');
 // ---------- overlays per line: (lt = local time, D = line duration, L = line)
 const OV={
- hook(lt,D,L){fx(L,'impact',0.05);const q=cl(lt,D*.55,D*.7);fx(L,'error',D*.55);fx(L,'riser',D-1.4,{d:1.4});
+ hook(lt,D,L){fx(L,'impact',0.05);const q=cl(lt,D*.55,D*.7);fx(L,'error',D*.55);fx(L,'whoosh',D-1.4,{d:.6});
   return T(540,230,'$100,000+',{size:150,col:COL.gold,p:1,s:1+.05*Math.sin(Math.min(lt,3)*4)})+T(540,350,'PER YEAR',{size:70,p:1})
    +chip(540,540,'BUT PER HOUR?',{p:q,size:84,bg:COL.red2,rot:-4,bd:'#1b0f07'})},
  who(lt,D,L){fx(L,'pop',.3);fx(L,'pop',1.1);
@@ -60,7 +60,7 @@ const OV={
  quit(lt,D,L){const p=cl(lt,.3,.7);fx(L,'thud',.3);fx(L,'paper',D*.5);
   let h='';for(let i=0;i<2;i++){const s=i==1&&lt>D*.5;h+=`<div style="position:absolute;left:${330+i*300}px;top:150px;width:160px;height:200px;opacity:${p};transform:scale(${bo(p).toFixed(3)});border-radius:80px 80px 30px 30px;background:${s?'#ffffff55':COL.gold};border:7px solid #1b0f07"></div>`}
   return h+T(540,430,'ONLY 1 IN 2',{size:110,col:COL.gold,p:cl(lt,D*.3,D*.5)})+T(540,530,'expected to stay 6 more months',{size:46,p:cl(lt,D*.5,D*.7)})},
- md(lt,D,L){const a=cl(lt,D*.55,D*.9);fx(L,'riser',D*.5,{d:D*.4});fx(L,'cash',D*.9);fx(L,'ding',D*.92);
+ md(lt,D,L){const a=cl(lt,D*.55,D*.9);fx(L,'whoosh',D*.5,{d:.6});fx(L,'cash',D*.9);fx(L,'ding',D*.92);
   return T(540,200,'WHY DO IT?',{size:84,p:cl(lt,.1,.4)})+chip(540,320,'MANAGING DIRECTOR',{p:cl(lt,D*.45,D*.55),size:48,bg:COL.dark})
    +T(540,460,'~'+money(1e6*ez(a))+' / YEAR',{size:100,col:COL.gold,p:a>0?1:0,s:a>=1?1.05:1})},
  ask(lt,D,L){fx(L,'pop',.4);fx(L,'pop',.8);fx(L,'bell',D*.6);
