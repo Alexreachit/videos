@@ -38,29 +38,25 @@ function arrowUp(x,y,hgt,p,c){if(p<=0)return'';const e=ez(p),hh=hgt*e;return `<s
 function bar(x,yb,w,hgt,c,lab,val,p){if(p<=0)return'';const hh=hgt*ez(p);return `<div style="position:absolute;left:${x}px;top:${yb-hh}px;width:${w}px;height:${hh}px;border-radius:22px 22px 8px 8px;background:${c};border:7px solid #1b0f07;box-shadow:0 16px 30px #0009"></div>`+T(x+w/2,yb+50,lab,{size:46,p:Math.min(1,p*2)})+T(x+w/2,yb-hh-50,val,{size:58,col:c,p:cl(p,.5,1)})}
 const money=v=>MG.fmt(Math.round(v),0,'$');
 // ---------- overlays per line: (lt = local time, D = line duration, L = line)
-const ITEMS=[[['CLASS 1 MEDICAL','€300–700'],['EXAM & TEST FEES','€500–1,500']],
- [['FLIGHT SCHOOL (ATPL)','up to €180,000'],['· 14 theory exams','incl.'],['· ~200 flight hours','incl.']],
- [['RENT + FOOD, 2 YEARS','NOT INCLUDED*']],
- [['TYPE RATING (A320/737)','up to €40,000']]];
-function receipt(n,lt,total,tp){let rows='';ITEMS.slice(0,n).forEach((grp,k)=>{const isNew=k==n-1;grp.forEach(([a,b],j)=>{const p=isNew?ez(cl(lt,.15+j*.22,.45+j*.22)):1,sub=a.startsWith('·');
-  rows+=`<div style="display:flex;justify-content:space-between;padding:${sub?3:9}px 0 ${sub?3:9}px ${sub?26:0}px;${sub?'font-size:30px;color:#7a6250':''};border-bottom:${sub?'none':'3px dashed #c9b99a'};opacity:${p};transform:translateX(${((1-p)*-40).toFixed(1)}px);${isNew&&!sub?'color:#d6402e':''}"><span>${a}</span><span>${b}</span></div>`})});
- return `<div style="position:absolute;left:80px;top:40px;width:920px;padding:22px 40px 26px;background:#fff8ec;border:7px solid #1b0f07;border-radius:26px;box-shadow:0 26px 50px #0009;font:700 36px/1.2 P;color:#3a2214;transform:rotate(-1.5deg) scale(${n>=4?.78:n>=2?.86:.92});transform-origin:50% 0">
- <div style="text-align:center;font-size:44px;letter-spacing:4px">✈ PILOT ACADEMY</div>
- <div style="text-align:center;font:500 26px P;color:#7a6250;margin-bottom:8px;border-bottom:4px solid #3a2214;padding-bottom:8px">RECEIPT · ROAD TO THE COCKPIT · 2 YEARS</div>${rows}
- <div style="display:flex;justify-content:space-between;padding-top:12px;font-size:52px;opacity:${tp}"><span>TOTAL</span><span style="color:#d6402e">${total}</span></div>
- <div style="font:500 22px P;color:#7a6250;margin-top:6px;opacity:${n>=3?1:0}">*living costs come on top · sources: flight school price lists, rotatepilot.com</div>
- <div style="margin-top:10px;height:34px;opacity:${tp};background:repeating-linear-gradient(90deg,#1b0f07 0 3px,transparent 3px 7px,#1b0f07 7px 12px,transparent 12px 15px)"></div></div>`}
+const ITEMS=[['MEDICAL + TEST FEES','$2,500'],['FLIGHT SCHOOL (ATPL)','$200,000'],['RENT + FOOD, 2 YEARS','NOT INCL.'],['TYPE RATING','$45,000']];
+function receipt(n,lt,total,tp,punch){let rows='';ITEMS.slice(0,n).forEach(([a,b],k)=>{const isNew=k==n-1&&punch,p=isNew?ez(cl(lt,.1,.4)):1;
+  rows+=`<div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:3px dashed #c9b99a;opacity:${p};transform:translateX(${((1-p)*-50).toFixed(1)}px);${isNew?'color:#d6402e':''}"><span>${a}</span><span>${b}</span></div>`});
+ const pb=punch?1+.06*Math.sin(Math.PI*cl(lt,.1,.45)):1;
+ return `<div style="position:absolute;left:60px;top:40px;width:860px;padding:24px 42px 26px;background:#fff8ec;border:8px solid #1b0f07;border-radius:26px;box-shadow:0 26px 50px #0009;font:700 46px/1.2 P;color:#3a2214;transform:rotate(-1.5deg) scale(${pb.toFixed(3)});transform-origin:50% 0">
+ <div style="text-align:center;font-size:48px;letter-spacing:4px;border-bottom:5px solid #3a2214;padding-bottom:8px;margin-bottom:4px">✈ PILOT RECEIPT · EUROPE</div>${rows}
+ <div style="display:flex;justify-content:space-between;padding-top:14px;font-size:62px;opacity:${tp}"><span>TOTAL</span><span style="color:#d6402e">${total}</span></div></div>`}
 const OV={
- hook(lt,D,L){fx(L,'impact',0.05);fx(L,'riser',D-1.2,{d:1.2});
-  return T(540,220,'WHAT DOES IT COST',{size:84,p:1})+T(540,330,'TO BECOME A PILOT?',{size:84,col:COL.gold,p:1,s:1+.04*Math.sin(Math.min(lt,3)*5)})
-   +chip(540,480,'THE TOTAL IS INSANE',{p:cl(lt,D*.55,D*.7),size:52,bg:COL.red2,rot:-3})},
- r1(lt,D,L){fx(L,'type',.15,{n:8});return receipt(1,lt,'',0)},
- r2(lt,D,L){fx(L,'type',.15,{n:8});fx(L,'cash',.5);return receipt(2,lt,'',0)},
- r3(lt,D,L){fx(L,'type',.15,{n:8});return receipt(3,lt,'',0)},
- r4(lt,D,L){fx(L,'type',.15,{n:8});fx(L,'cash',.5);return receipt(4,lt,'',0)},
- total(lt,D,L){const k=cl(lt,.1,1.4);for(let i=0;i<8;i++)fx(L,'tick',.1+i*.16,{f:1800+i*140});fx(L,'impact',1.45);fx(L,'pop',D*.7);fx(L,'pop',D*.78);
-  return receipt(4,9,'€'+MG.fmt(Math.round(220000*ez(k)/1000)*1000)+(k>=1?'+':''),1)
-   +chip(380,1000,'YES',{p:cl(lt,D*.7,D*.85),size:70,bg:COL.green2})+chip(700,1000,'NO',{p:cl(lt,D*.78,D*.93),size:70,bg:COL.red2})}
+ hook(lt,D,L){fx(L,'impact',0.05);fx(L,'type',D-1.4,{n:8});
+  const s=1+.05*Math.sin(Math.min(lt,4)*5);
+  return receipt(0,lt,'$247,500',1,false)+`<div style="position:absolute;left:0;top:300px;width:1080px;text-align:center;transform:rotate(-8deg) scale(${s.toFixed(3)})"><span style="display:inline-block;padding:14px 40px;border:10px solid #d6402e;border-radius:20px;font:700 120px/1 P;color:#d6402e;background:#fff8ecdd">$247,500?</span></div>`
+   +T(540,620,'TO BECOME A PILOT',{size:80,p:1})},
+ r1(lt,D,L){fx(L,'cash',.12);fx(L,'swish',.08);return receipt(1,lt,'',0,true)},
+ r2(lt,D,L){fx(L,'cash',.12);fx(L,'impact',.15);return receipt(2,lt,'',0,true)},
+ r3(lt,D,L){fx(L,'error',.12);return receipt(3,lt,'',0,true)},
+ r4(lt,D,L){fx(L,'cash',.12);fx(L,'swish',.08);return receipt(4,lt,'',0,true)},
+ total(lt,D,L){const k=cl(lt,.1,1.3);for(let i=0;i<8;i++)fx(L,'tick',.1+i*.15,{f:1800+i*140});fx(L,'impact',1.35);fx(L,'pop',D*.7);fx(L,'pop',D*.78);
+  return receipt(4,9,'$'+MG.fmt(Math.round(247500*ez(k)/100)*100),1,false)
+   +chip(380,650,'YES',{p:cl(lt,D*.65,D*.8),size:70,bg:COL.green2})+chip(700,650,'NO',{p:cl(lt,D*.72,D*.87),size:70,bg:COL.red2})}
 };
 // ---------- engine
 window.setTimeline=tl=>{MG.TL=TL=tl;G=[];const box=$('layers');box.innerHTML='';
@@ -94,7 +90,7 @@ function draw(t){if(!TL)return;let gi=0;G.forEach((g,k)=>{if(t>=g.B)gi=k});
  cur.el.style.zIndex=2;
  if(prev){prev.el.style.zIndex=1;trans(prev,cur.kind,'out',p);trans(cur,cur.kind,'in',p)}else{cur.el.style.transform='none';cur.el.style.clipPath='none';cur.el.style.opacity=1;cur.sh.style.opacity=0}
  for(const g of prev?[prev,cur]:[cur]){const u=cl(t,g.B,g.E),dir=G.indexOf(g)%2?-1:1;
-  g.im.style.transform=`scale(${(1.04+.07*u).toFixed(4)}) translateY(${(dir*18*(u-.5)).toFixed(1)}px)`;
+  g.im.style.transform=`scale(${(1.04+.07*u+.05*Math.max(0,1-(t-g.B)/.5)).toFixed(4)}) translateY(${(dir*18*(u-.5)).toFixed(1)}px)`;
   const h=ovHtml(g,t);if(g.ov._h!==h){g.ov.innerHTML=h;g.ov._h=h}}
  let f='';if(prev&&cur.kind=='wipe'){const y=lerp(H+300,-300,ei(p));f=`<svg style="position:absolute;left:0;top:0" width=${W} height=${H}><path d="M0 ${y+260} L${W} ${y-260}" stroke="${COL.gold}" stroke-width=26 /></svg>`}
  if(f!==$('fx')._h){$('fx').innerHTML=f;$('fx')._h=f}

@@ -1,5 +1,5 @@
 {
- "title": "TikTok: What does it cost to become an airline pilot? (Video 1)",
+ "title": "TikTok: What does it cost to become a pilot? v2 (USD, hook, loop)",
  "size": [
   1080,
   1920
@@ -16,21 +16,21 @@
  "sfx_gain": 0.42,
  "lines": [
   {
-   "text": "What does it really cost to become an airline pilot? The final number is insane.",
+   "text": "Becoming an airline pilot in Europe can cost almost a quarter million dollars. Here is the receipt.",
    "spec": {
     "img": 1,
     "ov": "hook"
    }
   },
   {
-   "text": "The medical exam and test fees alone: up to two thousand euros.",
+   "text": "Medical exam and test fees: up to twenty-five hundred dollars.",
    "spec": {
     "img": 2,
     "ov": "r1"
    }
   },
   {
-   "text": "Flight school: up to one hundred eighty thousand euros.",
+   "text": "Flight school: up to two hundred thousand.",
    "spec": {
     "img": 3,
     "ov": "r2",
@@ -38,7 +38,7 @@
    }
   },
   {
-   "text": "Plus two years of living costs, with barely any time for a side job.",
+   "text": "Two years of rent and food? Not even included.",
    "spec": {
     "img": 4,
     "ov": "r3",
@@ -46,7 +46,7 @@
    }
   },
   {
-   "text": "Then many airlines want a type rating. Up to forty thousand more.",
+   "text": "And many airlines want a type rating: another forty-five thousand.",
    "spec": {
     "img": 5,
     "ov": "r4",
@@ -54,7 +54,7 @@
    }
   },
   {
-   "text": "Total: well over two hundred thousand euros. Would you pay it?",
+   "text": "And all of that before your first paycheck. Would you pay it?",
    "spec": {
     "img": 6,
     "ov": "total",
