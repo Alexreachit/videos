@@ -41,7 +41,7 @@
      "Delivery driver",
      "$ thousands",
      "red",
-     "thousands"
+     "driver"
     ],
     "foot": "Bezos: ProPublica, Secret IRS Files (2021)"
    }
@@ -884,7 +884,9 @@
     "ov": "stamp",
     "text": "Let it grow untouched",
     "sub": "",
-    "col": "gold"
+    "col": "gold",
+    "x": 430,
+    "y": 720
    }
   },
   {
@@ -922,7 +924,7 @@
     "lay": "right",
     "img": 88,
     "ov": "chips",
-    "title": "2 · Tax-advantaged accounts",
+    "title": "2 · Tax-advantaged",
     "items": [
      [
       "401(k)",
