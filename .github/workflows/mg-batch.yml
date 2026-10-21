@@ -50,9 +50,10 @@ jobs:
         run: |
           F=output/${{ matrix.projekt }}_final.mp4
           S=$(stat -c%s "$F"); echo "Groesse $S"
+          # zu gross fuer GitHub: ohne Qualitaetsverlust in 90-MB-Teile splitten (zusammensetzen: cat *.part* > x.mp4)
           if [ "$S" -gt 95000000 ]; then
-            ffmpeg -y -loglevel error -i "$F" -c:v libx264 -crf 24 -preset slow -c:a copy small.mp4 && mv small.mp4 "$F"
-            echo "neu: $(stat -c%s $F)"
+            split -b 90M -d --additional-suffix=.part "$F" "$F."
+            rm "$F"; ls -la output/
           fi
       - name: In Branch renders ablegen
         run: |
@@ -66,7 +67,7 @@ jobs:
               mkdir rb && cd rb && git init -q -b renders && git remote add origin "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" && cd ..
             fi
             mkdir -p rb/renders/$P
-            cp output/${P}_final.mp4 rb/renders/$P/
+            cp output/${P}_final.mp4* rb/renders/$P/
             cp output/mg_${P}/timeline.json rb/renders/$P/ || true
             cp build.log rb/renders/$P/ || true
             cd rb && git add -A && git commit -qm "render $P (${{ github.sha }})" && git push -q origin renders && cd .. && exit 0
@@ -78,6 +79,6 @@ jobs:
         with:
           name: mg-${{ matrix.projekt }}
           path: |
-            output/*_final.mp4
+            output/*_final.mp4*
             build.log
           retention-days: 14
