@@ -40,13 +40,14 @@ const money=v=>MG.fmt(Math.round(v),0,'$');
 // ---------- overlays per line: (lt = local time, D = line duration, L = line)
 const step=(n,txt,p)=>p<=0?'':`<div style="position:absolute;left:540px;top:210px;transform:translate(-50%,-50%) scale(${bo(Math.min(1,p)).toFixed(3)});opacity:${Math.min(1,p*2)};display:flex;align-items:center;gap:24px;padding:16px 46px 16px 16px;border-radius:70px;background:#1d4f86f2;border:6px solid #1b0f07;box-shadow:0 18px 36px #0009"><div style="width:100px;height:100px;border-radius:50%;background:${COL.gold};color:#1d4f86;font:700 66px/100px P;text-align:center">${n}</div><div style="font:700 76px P;color:#fff;white-space:nowrap">${txt}</div></div>`;
 const OV={
- hook(lt,D,L){fx(L,'impact',0.05);const q=cl(lt,D*.82,D*.95);fx(L,'error',D*.82);
-  return T(540,250,'$0',{size:260,col:COL.green,p:1,s:1+.05*Math.sin(Math.min(lt,3)*4)})+T(540,420,'INCOME TAX',{size:84,p:1})
-   +T(540,510,'one of the richest men alive · 2011',{size:40,p:cl(lt,.6,1)})
-   +chip(540,640,'LEGALLY?!',{p:q,size:90,bg:COL.red2,rot:-4,bd:'#1b0f07'})},
- driver(lt,D,L){fx(L,'cash',.3);fx(L,'pop',D*.75);
-  return chip(540,220,'DELIVERY DRIVER',{p:cl(lt,.1,.4),size:58,bg:COL.red2})+T(540,360,'PAYS $ THOUSANDS',{size:84,col:COL.red,p:cl(lt,.3,.6)})
-   +chip(540,520,'3 STEPS →',{p:cl(lt,D*.75,D*.88),size:72,bg:COL.gold,fg:'#1d4f86',bd:'#1b0f07'})},
+ hook(lt,D,L){fx(L,'cash',0.05);const tz=Math.max(1.3,D*.5);fx(L,'impact',tz);fx(L,'error',tz+.1);
+  const pp=cl(lt,0,.25),hit=cl(lt,tz,tz+.35),shake=lt>tz&&lt<tz+.4?Math.sin(lt*90)*10*(1-(lt-tz)/.4):0;
+  return `<div style="position:absolute;inset:0;transform:translateX(${shake.toFixed(1)}px)">`+T(540,160,'NET WORTH',{size:56,p:1})+T(540,280,'$18 BILLION',{size:130,col:COL.green,p:1,s:lerp(1.25,1,ez(pp))*(hit>0?1-.1*hit:1)})
+   +`<div style="position:absolute;left:110px;top:276px;width:${(860*ez(hit)).toFixed(0)}px;height:16px;background:${COL.red2};border-radius:8px;opacity:${hit>0?1:0};transform:rotate(-4deg);box-shadow:0 0 0 4px #1b0f07"></div>`
+   +T(540,440,'INCOME TAX',{size:70,p:hit})+T(540,610,'$0',{size:250,col:COL.red,p:hit,s:hit>0?lerp(2,1,ez(hit)):1,ol:16})+`</div>`},
+ driver(lt,D,L){fx(L,'pop',.2);fx(L,'thud',D*.32);fx(L,'ding',D*.55);fx(L,'whoosh',D*.8,{d:.6});
+  return chip(540,200,'2011',{p:cl(lt,.1,.4),size:56,bg:COL.dark})+T(540,330,'LESS TAX THAN',{size:76,p:cl(lt,D*.2,D*.32)})+T(540,430,'A DELIVERY DRIVER',{size:84,col:COL.red,p:cl(lt,D*.28,D*.4)})
+   +chip(540,600,'100% LEGAL',{p:cl(lt,D*.52,D*.62),size:66,bg:COL.green2,rot:-3,bd:'#1b0f07'})+chip(540,740,'3 STEPS →',{p:cl(lt,D*.82,D*.92),size:66,bg:COL.gold,fg:'#1d4f86',bd:'#1b0f07'})},
  s1(lt,D,L){fx(L,'pop',.1);fx(L,'ding',D*.62);
   return step(1,'BUY & HOLD',cl(lt,.05,.35))+chip(540,380,'NO SALE = NO TAX',{p:cl(lt,D*.6,D*.75),size:66,bg:COL.green2,rot:-3})},
  s2(lt,D,L){fx(L,'pop',.1);fx(L,'cash',D*.35);fx(L,'ding',D*.62);
