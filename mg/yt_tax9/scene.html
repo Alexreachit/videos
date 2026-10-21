@@ -1,0 +1,446 @@
+<!doctype html><meta charset=utf-8><style>
+@font-face{font-family:P;src:url(fonts/Poppins-Bold.ttf);font-weight:700}
+@font-face{font-family:P;src:url(fonts/Poppins-Medium.ttf);font-weight:500}
+@font-face{font-family:'Arial Black';src:url(fonts/Poppins-Bold.ttf)}
+html,body{margin:0;background:#140c07}
+#stage{position:relative;width:1920px;height:1080px;overflow:hidden;background:#2569ad;font-family:P,Arial,Helvetica,sans-serif}
+.lay{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden;display:none;will-change:transform}
+.abs{position:absolute}
+.bgw{position:absolute;inset:0;background:radial-gradient(110% 90% at 28% 18%,#62bdf0 0%,#3a8ad0 45%,#2569ad 100%)}
+.bgw:after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(115deg,#ffffff05 0 2px,transparent 2px 22px)}
+.full{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:50% 45%}
+.pan{position:absolute;border-radius:26px;overflow:hidden;background:#000;box-shadow:0 0 0 10px #ffffff,0 0 0 13px #9cc8ee,0 40px 80px #000c;transform-origin:50% 50%}
+.pan img{position:absolute;left:0;top:0;width:100%;height:100%;transform-origin:50% 50%}
+.blur{position:absolute;left:-40px;top:-40px;width:2000px;height:1160px;opacity:.18}
+.shade{position:absolute;inset:0;background:#0b0603;opacity:0;pointer-events:none}
+.ov{position:absolute;left:0;top:0;width:1920px;height:1080px}
+#capbg{position:absolute;left:0;top:820px;width:1920px;height:260px;background:linear-gradient(180deg,transparent,#1d4f8638 70%,#1d4f8660);z-index:50}
+#cap{position:absolute;left:0;top:0;width:1920px;height:1080px;z-index:60}
+#fx{position:absolute;inset:0;z-index:40;pointer-events:none}
+</style>
+<div id=stage><div id=layers></div><div id=fx></div><div id=capbg></div><div id=cap></div></div>
+<script src="../lib/core.js"></script>
+<script>
+// ======================================================================
+//  YT 9 – "Why Rich People Pay Less Tax Than You"  (16:9 scene engine)
+//  Every line (MG.TL.lines[i].spec) is drawn by its scene type; groups of
+//  lines (chart / bars / calc) share one continuous scene.
+// ======================================================================
+const {cl,ez,ei,bo,lerp}=MG, $=MG.$, W=1920, H=1080;
+const COL={cream:'#fff3dc',cream2:'#e6f2ff',muted:'#d8ecff',gold:'#ffc94a',gold2:'#f0a22a',green:'#3ddc84',green2:'#22a95e',red:'#ff5b4a',brown:'#3a2214',dark:'#1d4f86',coffee:'#8a5a36'};
+const SH='0 4px 18px #000c,0 2px 3px #000';
+const pad2=n=>String(n).padStart(2,'0');
+const IMG=k=>`img/${pad2(k)}.jpg`, BLUR=k=>`img/blur/${pad2(k)}.jpg`;
+const fmt=(v,pre='$')=>MG.fmt(Math.round(v),0,pre);
+const RM=Math.pow(1.07,1/12)-1, V=(m,y,a=1.07)=>{const r=Math.pow(a,1/12)-1;return m*(Math.pow(a,y)-1)/r};
+let TL=null,G=[],COLLECT=null;
+
+// ---------------------------------------------------------------- helpers (HTML snippets)
+function T(x,y,txt,o={}){const p=o.p==null?1:o.p,s=o.s==null?1:o.s,al=o.al||'c',sz=o.size||48;
+ return `<div style="position:absolute;left:${x}px;top:${y}px;transform:translate(${al=='c'?-50:al=='r'?-100:0}%,-50%) translateY(${((1-Math.min(1,p))*(o.dy==null?24:o.dy)).toFixed(1)}px) scale(${s}) rotate(${o.rot||0}deg);transform-origin:${al=='c'?'50%':al=='r'?'100%':'0%'} 50%;opacity:${Math.max(0,Math.min(1,p))};font:${o.w||700} ${sz}px/${o.lh||1.12} P,Arial,sans-serif;color:${o.col||COL.cream};${o.mw?`width:${o.mw}px;white-space:normal;`:'white-space:nowrap;'}text-align:${al=='c'?'center':al=='r'?'right':'left'};letter-spacing:${o.ls||0}px;text-shadow:${o.sh===0?'none':o.sh||SH};${o.css||''}">${txt}</div>`}
+function chip(x,y,txt,o={}){const p=o.p==null?1:o.p;if(p<=0)return'';const sz=o.size||36,s=(o.s==null?bo(p):o.s);
+ return `<div style="position:absolute;left:${x}px;top:${y}px;transform:translate(${o.al=='l'?0:o.al=='r'?-100:-50}%,-50%) scale(${s.toFixed(3)}) rotate(${o.rot||0}deg);opacity:${Math.min(1,p*2)};padding:${sz*.3}px ${sz*.62}px;border-radius:${o.r==null?sz:o.r}px;background:${o.bg||COL.dark+'ee'};color:${o.fg||COL.cream};font:${o.w||700} ${sz}px/1.1 P,Arial,sans-serif;white-space:nowrap;box-shadow:0 12px 28px #0007;border:${o.bd||'3px solid #ffffff22'};display:flex;align-items:center;gap:${sz*.35}px">${o.ic||''}${txt}</div>`}
+function box(x,y,w,h,o={}){const p=o.p==null?1:o.p;return `<div style="position:absolute;left:${x}px;top:${y}px;width:${w}px;height:${h}px;border-radius:${o.r==null?28:o.r}px;background:${o.bg||'#1d4f86dd'};box-shadow:${o.shadow||'0 24px 50px #0009'};border:${o.bd||'2px solid #ffffff1c'};opacity:${Math.min(1,p)};transform:translateY(${((1-ez(p))*30).toFixed(1)}px) scale(${(.94+.06*ez(p)).toFixed(3)});${o.css||''}">${o.html||''}</div>`}
+function svg(inner,o={}){return `<svg style="position:absolute;left:0;top:0;overflow:visible;${o.css||''}" width=1920 height=1080 viewBox="0 0 1920 1080">${inner}</svg>`}
+// icons in a 100x100 box
+const ICN={
+ check:c=>`<path d="M22 53 L42 72 L79 30" fill=none stroke="${c}" stroke-width=13 stroke-linecap=round stroke-linejoin=round />`,
+ cross:c=>`<path d="M27 27 L73 73 M73 27 L27 73" fill=none stroke="${c}" stroke-width=13 stroke-linecap=round />`,
+ clock:c=>`<circle cx=50 cy=50 r=38 fill=none stroke="${c}" stroke-width=9 /><path d="M50 26 V50 L66 60" fill=none stroke="${c}" stroke-width=9 stroke-linecap=round />`,
+ plus:c=>`<path d="M50 18 V82 M18 50 H82" stroke="${c}" stroke-width=15 stroke-linecap=round />`,
+ shield:c=>`<path d="M50 8 L86 21 V48 C86 72 70 86 50 93 C30 86 14 72 14 48 V21 Z" fill="${c}"/><path d="M33 50 L46 63 L68 38" fill=none stroke="#1d4f86" stroke-width=9 stroke-linecap=round stroke-linejoin=round />`,
+ cup:c=>`<path d="M18 34 H72 V62 C72 78 62 88 45 88 C28 88 18 78 18 62 Z" fill="${c}"/><path d="M72 42 C90 42 90 66 72 66" fill=none stroke="${c}" stroke-width=8 /><path d="M34 22 C30 14 40 10 36 2 M52 22 C48 14 58 10 54 2" fill=none stroke="${c}" stroke-width=5 stroke-linecap=round opacity=.7 />`,
+ coin:c=>`<circle cx=50 cy=50 r=42 fill="${c}"/><circle cx=50 cy=50 r=33 fill=none stroke="#9a5b0c" stroke-width=5 /><text x=50 y=66 text-anchor=middle font-family="P,Arial" font-weight=700 font-size=44 fill="#7a4507">$</text>`,
+ cal:c=>`<rect x=12 y=20 width=76 height=70 rx=10 fill="${c}"/><rect x=12 y=20 width=76 height=20 rx=8 fill="#c8432f"/><path d="M32 12 V28 M68 12 V28" stroke="#1d4f86" stroke-width=7 stroke-linecap=round /><path d="M24 54 H76 M24 70 H76 M41 44 V86 M59 44 V86" stroke="#1d4f8633" stroke-width=4 />`,
+ warn:c=>`<path d="M50 8 L94 88 H6 Z" fill="${c}" stroke-linejoin=round /><path d="M50 36 V60" stroke="#1d4f86" stroke-width=10 stroke-linecap=round /><circle cx=50 cy=74 r=6 fill="#1d4f86"/>`,
+ heart:c=>`<path d="M50 86 C20 64 8 48 8 32 C8 18 20 8 32 8 C40 8 46 12 50 20 C54 12 60 8 68 8 C80 8 92 18 92 32 C92 48 80 64 50 86 Z" fill="${c}"/>`,
+ globe:c=>`<circle cx=50 cy=50 r=40 fill="${c}"/><path d="M10 50 H90 M50 10 C30 30 30 70 50 90 M50 10 C70 30 70 70 50 90 M18 30 H82 M18 70 H82" fill=none stroke="#1d4f8688" stroke-width=4 />`,
+ flag:c=>`<path d="M22 92 V10" stroke="${c}" stroke-width=8 stroke-linecap=round /><path d="M26 12 H80 L68 30 L80 48 H26 Z" fill="${c}"/>`,
+ up:c=>`<path d="M50 12 L84 50 H62 V88 H38 V50 H16 Z" fill="${c}"/>`,
+ down:c=>`<path d="M50 88 L84 50 H62 V12 H38 V50 H16 Z" fill="${c}"/>`,
+ bell:c=>`<path d="M50 10 C30 10 22 28 22 46 V64 L12 76 H88 L78 64 V46 C78 28 70 10 50 10 Z" fill="${c}"/><circle cx=50 cy=84 r=9 fill="${c}"/>`,
+ lens:c=>`<circle cx=42 cy=42 r=28 fill=none stroke="${c}" stroke-width=10 /><path d="M62 62 L88 88" stroke="${c}" stroke-width=13 stroke-linecap=round />`,
+ pct:c=>`<circle cx=28 cy=28 r=14 fill=none stroke="${c}" stroke-width=9 /><circle cx=72 cy=72 r=14 fill=none stroke="${c}" stroke-width=9 /><path d="M78 18 L22 82" stroke="${c}" stroke-width=10 stroke-linecap=round />`,
+};
+const ic=(n,s,c,css='')=>`<svg width=${s} height=${s} viewBox="0 0 100 100" style="flex:none;overflow:visible;${css}">${ICN[n](c)}</svg>`;
+const icAt=(n,x,y,s,c,p=1,rot=0)=>p<=0?'':`<div style="position:absolute;left:${x-s/2}px;top:${y-s/2}px;transform:scale(${bo(p).toFixed(3)}) rotate(${rot}deg);opacity:${Math.min(1,p*2)}">${ic(n,s,c,'filter:drop-shadow(0 6px 10px #0008)')}</div>`;
+// arrow along a quadratic curve, drawn to progress p
+function arrow(x1,y1,x2,y2,p,o={}){if(p<=0)return'';const bend=o.bend==null?.25:o.bend,mx=(x1+x2)/2-(y2-y1)*bend,my=(y1+y2)/2+(x2-x1)*bend,c=o.col||COL.gold,w=o.w||8,N=30;let d='',px,py;
+ for(let k=0;k<=N;k++){const u=k/N*p,a=(1-u)*(1-u),b=2*(1-u)*u,e=u*u;px=a*x1+b*mx+e*x2;py=a*y1+b*my+e*y2;d+=(k?'L':'M')+px.toFixed(1)+' '+py.toFixed(1)}
+ const u=p,tx=2*(1-u)*(mx-x1)+2*u*(x2-mx),ty=2*(1-u)*(my-y1)+2*u*(y2-my),an=Math.atan2(ty,tx),hs=w*3;
+ const h1x=px-hs*Math.cos(an-.5),h1y=py-hs*Math.sin(an-.5),h2x=px-hs*Math.cos(an+.5),h2y=py-hs*Math.sin(an+.5);
+ return `<path d="${d}" fill=none stroke="#0008" stroke-width=${w+6} stroke-linecap=round ${o.dash?`stroke-dasharray="${o.dash}"`:''}/><path d="${d}" fill=none stroke="${c}" stroke-width=${w} stroke-linecap=round ${o.dash?`stroke-dasharray="${o.dash}"`:''}/><path d="M${h1x.toFixed(1)} ${h1y.toFixed(1)} L${px.toFixed(1)} ${py.toFixed(1)} L${h2x.toFixed(1)} ${h2y.toFixed(1)}" fill=none stroke="${c}" stroke-width=${w} stroke-linecap=round stroke-linejoin=round />`}
+// rubber stamp
+function stamp(x,y,txt,p,o={}){if(p<=0)return'';const s=p<1?lerp(2.2,1,ez(p)):1,c=o.col||COL.red,sz=o.size||56;
+ return `<div style="position:absolute;left:${x}px;top:${y}px;transform:translate(-50%,-50%) rotate(${o.rot==null?-8:o.rot}deg) scale(${s.toFixed(3)});opacity:${Math.min(1,p*3)};padding:${sz*.22}px ${sz*.5}px;border:${sz*.1}px solid ${c};border-radius:${sz*.25}px;color:${c};font:700 ${sz}px/1 P,Arial;letter-spacing:${sz*.06}px;white-space:nowrap;background:${o.bg||'#1d4f86dd'};box-shadow:0 14px 30px #0008">${txt}</div>`}
+// badge "1 · Start early"
+function badge(x,y,n,txt,p){if(p<=0)return'';return `<div style="position:absolute;left:${x}px;top:${y}px;transform:translateX(${((1-ez(p))*-60).toFixed(1)}px);opacity:${Math.min(1,p*2)};display:flex;align-items:center;gap:14px;padding:8px 26px 8px 8px;border-radius:40px;background:#1d4f86ee;box-shadow:0 12px 28px #0008;border:2px solid #ffc94a55"><div style="width:56px;height:56px;border-radius:50%;background:${COL.gold};color:${COL.brown};font:700 34px/56px P;text-align:center">${n}</div><div style="font:700 34px P;color:${COL.cream}">${txt}</div></div>`}
+
+// ---------------------------------------------------------------- per-line context
+function ctx(i,t){const L=MG.L(i),D=Math.max(.8,L.end-L.start),lt=t-L.start;
+ const c={i,t,lt,D,L,spec:L.spec||{},
+  w(re,f){const ws=L.words||[];for(const x of ws)if(re.test(x[0]))return x[1];return f*D},
+  fx(k,rel,o){if(COLLECT)COLLECT.push(Object.assign({k,t:+(L.start+rel).toFixed(3)},o||{}));return rel},
+  a(t0,d=.5){return ez(cl(lt,t0,t0+d))}, b(t0,d=.6){return bo(cl(lt,t0,t0+d))}, r(t0,d=.6){return cl(lt,t0,t0+d)}};
+ return c}
+
+// ---------------------------------------------------------------- panel geometry for image layouts
+const PAN={left:{x:80,y:120,w:1060,h:596,cx:1520,x0:1200,x1:1840},right:{x:780,y:120,w:1060,h:596,cx:400,x0:80,x1:720}};
+function mkImg(el,k,cls='full'){const im=document.createElement('img');im.src=IMG(k);im.decoding='sync';im.className=cls;el.appendChild(im);return im}
+function mkBg(el,k){const b=document.createElement('div');b.className='bgw';el.appendChild(b);if(k){const im=document.createElement('img');im.src=BLUR(k);im.decoding='sync';im.className='blur';el.appendChild(im);b.blurImg=im}return b}
+function mkPanel(el,k,g){const p=document.createElement('div');p.className='pan';Object.assign(p.style,{left:g.x+'px',top:g.y+'px',width:g.w+'px',height:g.h+'px'});const im=document.createElement('img');im.src=IMG(k);im.decoding='sync';p.appendChild(im);el.appendChild(p);p.img=im;return p}
+function mkOv(el){const o=document.createElement('div');o.className='ov';el.appendChild(o);return o}
+function setH(el,h){if(el._h!==h){el.innerHTML=h;el._h=h}}
+
+// ======================================================================
+//  OVERLAYS for "img" scenes (one function per kind; returns HTML)
+// ======================================================================
+// ---------------------------------------------------------------- extra icons (100x100 box)
+Object.assign(ICN,{
+ house:c=>`<path d="M10 50 L50 14 L90 50 V90 H10 Z" fill="${c}"/><rect x=40 y=60 width=20 height=30 fill="#1d4f86"/><path d="M4 52 L50 10 L96 52" fill=none stroke="#1d4f86" stroke-width=6 stroke-linejoin=round />`,
+ car:c=>`<path d="M10 62 L20 40 C24 32 30 30 38 30 H64 C72 30 78 34 82 42 L90 62 V76 H10 Z" fill="${c}"/><rect x=30 y=38 width=36 height=16 rx=4 fill="#1d4f8655"/><circle cx=30 cy=78 r=10 fill="#1d4f86"/><circle cx=72 cy=78 r=10 fill="#1d4f86"/>`,
+ phone:c=>`<rect x=28 y=6 width=44 height=88 rx=10 fill="${c}"/><rect x=33 y=16 width=34 height=62 rx=3 fill="#1d4f86"/><circle cx=50 cy=86 r=4 fill="#1d4f86"/>`,
+ plane:c=>`<path d="M48 8 C54 8 56 16 56 24 V40 L92 60 V70 L56 60 V80 L68 88 V94 L50 89 L32 94 V88 L44 80 V60 L8 70 V60 L44 40 V24 C44 16 44 8 48 8 Z" fill="${c}"/>`,
+ bank:c=>`<path d="M50 6 L94 30 H6 Z" fill="${c}"/><rect x=8 y=82 width=84 height=12 fill="${c}"/><path d="M20 38 V76 M40 38 V76 M60 38 V76 M80 38 V76" stroke="${c}" stroke-width=10 />`,
+ doc:c=>`<path d="M20 6 H64 L82 24 V94 H20 Z" fill="${c}"/><path d="M32 40 H70 M32 56 H70 M32 72 H58" stroke="#1d4f8666" stroke-width=6 stroke-linecap=round />`,
+ cart:c=>`<path d="M6 16 H22 L32 66 H82 L92 30 H26" fill=none stroke="${c}" stroke-width=9 stroke-linejoin=round stroke-linecap=round /><circle cx=38 cy=84 r=8 fill="${c}"/><circle cx=76 cy=84 r=8 fill="${c}"/>`,
+ bread:c=>`<path d="M14 44 C14 22 86 22 86 44 C86 52 80 54 78 56 V84 H22 V56 C20 54 14 52 14 44 Z" fill="${c}"/><path d="M38 40 L46 30 M54 40 L62 30" stroke="#1d4f8655" stroke-width=5 stroke-linecap=round />`,
+ bolt:c=>`<path d="M58 4 L18 56 H46 L38 96 L82 40 H54 Z" fill="${c}"/>`,
+ gear:c=>`<circle cx=50 cy=50 r=26 fill=none stroke="${c}" stroke-width=14 /><path d="M50 6 V22 M50 78 V94 M6 50 H22 M78 50 H94 M19 19 L30 30 M70 70 L81 81 M81 19 L70 30 M30 70 L19 81" stroke="${c}" stroke-width=13 stroke-linecap=round />`,
+ bulb:c=>`<path d="M50 6 C28 6 18 22 18 38 C18 52 28 58 32 68 H68 C72 58 82 52 82 38 C82 22 72 6 50 6 Z" fill="${c}"/><rect x=34 y=74 width=32 height=8 rx=3 fill="${c}"/><rect x=38 y=86 width=24 height=8 rx=3 fill="${c}"/>`,
+ ticket:c=>`<path d="M6 26 H94 V42 C86 42 86 58 94 58 V74 H6 V58 C14 58 14 42 6 42 Z" fill="${c}"/><path d="M66 30 V70" stroke="#1d4f8655" stroke-width=4 stroke-dasharray="6 6"/>`,
+ oil:c=>`<path d="M50 6 C50 6 18 46 18 64 C18 82 32 94 50 94 C68 94 82 82 82 64 C82 46 50 6 50 6 Z" fill="${c}"/><path d="M34 66 C34 76 40 82 48 82" fill=none stroke="#ffffff66" stroke-width=6 stroke-linecap=round />`,
+ bed:c=>`<rect x=8 y=50 width=84 height=22 rx=6 fill="${c}"/><rect x=12 y=36 width=26 height=16 rx=6 fill="${c}"/><path d="M8 30 V86 M92 60 V86" stroke="${c}" stroke-width=8 stroke-linecap=round />`,
+ truck:c=>`<rect x=6 y=26 width=56 height=44 rx=4 fill="${c}"/><path d="M62 40 H80 L94 56 V70 H62 Z" fill="${c}"/><circle cx=24 cy=76 r=10 fill="#1d4f86"/><circle cx=78 cy=76 r=10 fill="#1d4f86"/>`,
+ wheat:c=>`<path d="M50 94 V30" stroke="${c}" stroke-width=7 stroke-linecap=round />${[0,1,2].map(k=>`<ellipse cx=40 cy=${36+k*16} rx=10 ry=6 transform="rotate(-35 40 ${36+k*16})" fill="${c}"/><ellipse cx=60 cy=${36+k*16} rx=10 ry=6 transform="rotate(35 60 ${36+k*16})" fill="${c}"/>`).join('')}<ellipse cx=50 cy=20 rx=7 ry=12 fill="${c}"/>`,
+ cross2:c=>`<rect x=36 y=10 width=28 height=80 rx=6 fill="${c}"/><rect x=10 y=36 width=80 height=28 rx=6 fill="${c}"/>`,
+ brush:c=>`<rect x=44 y=6 width=12 height=50 rx=5 fill="${c}"/><path d="M30 56 H70 L76 94 H24 Z" fill="${c}"/>`,
+ scissors:c=>`<circle cx=24 cy=74 r=13 fill=none stroke="${c}" stroke-width=8 /><circle cx=76 cy=74 r=13 fill=none stroke="${c}" stroke-width=8 /><path d="M32 64 L80 8 M68 64 L20 8" stroke="${c}" stroke-width=8 stroke-linecap=round />`,
+});
+// little cartoon face (matches the channel character)
+function face(x,y,r,p,o={}){if(p<=0)return'';const s=bo(p);return `<g transform="translate(${x},${y}) scale(${s.toFixed(3)})" opacity=${Math.min(1,p*2).toFixed(2)}><circle r=${r} fill="${o.col||'#f6e3b4'}" stroke="#1d4f86" stroke-width=${Math.max(2,r/9)} /><circle cx=${-r*.32} cy=${-r*.12} r=${r*.09} fill="#1d4f86"/><circle cx=${r*.32} cy=${-r*.12} r=${r*.09} fill="#1d4f86"/><path d="M${-r*.4} ${r*.22} Q0 ${r*(o.sad?.05:.62)} ${r*.4} ${r*.22}" fill=${o.sad?'none':'"#fff"'} stroke="#1d4f86" stroke-width=${Math.max(2,r/12)} /></g>`}
+// sequential chip list: items [text, icon, wordRegex, fallbackFrac, opts]
+function clist(c,x,y0,dy,items,o={}){let h='';items.forEach(([txt,icn,re,f,io={}],k)=>{const tt=c.fx(io.sfx||o.sfx||'pop',re?c.w(re,f):f*c.D);
+  h+=chip(x,y0+k*dy,txt,Object.assign({p:c.r(tt,.5),size:o.size||44,al:o.al,bg:o.bg||'#ffffffee',fg:o.fg||COL.brown,ic:icn?ic(icn,(o.size||44)*1.05,io.icol||o.icol||COL.brown):''},io))});return h}
+// count a number between two times
+function cnt(c,t0,d,a,b,pw=1){return lerp(a,b,Math.pow(ei(c.r(t0,d)),pw))}
+const big=v=>v>=1e15?'$'+(v/1e15).toFixed(1)+' quadrillion':v>=1e12?'$'+(v/1e12).toFixed(v<1e13?1:0)+' trillion':v>=1e9?'$'+(v/1e9).toFixed(1)+' billion':v>=1e6?'$'+(v/1e6).toFixed(v<1e7?2:0)+' million':fmt(v);
+
+// ======================= generic overlays for "img" scenes (data driven) =======================
+const CK={gold:COL.gold,green:COL.green,red:COL.red,orange:'#ff9a4a',cream:COL.cream,grey:'#9a8a78',blue:'#7cc3ff'};
+const RX=(s,f,c)=>{if(!s)return f*c.D;try{return c.w(new RegExp(s,'i'),f)}catch(e){return f*c.D}};
+// free column geometry for a panel layout (full layout: left strip)
+const colGeo=g=>g&&g.cx?{cx:g.cx,x0:g.x0,x1:g.x1,full:false}:{cx:330,x0:70,x1:700,full:true};
+const OV={
+// chip list with title; items [text,icon,regex,color]
+chips(c,g){const sp=c.spec,G=colGeo(g);let h='';const t0=c.fx('swish',.05);const n=sp.items.length;
+ const y0=G.full?170:250,dy=G.full?100:110;
+ if(sp.title)h+=T(G.cx,G.full?100:170,sp.title,{size:G.full?38:52,col:COL.gold,p:c.a(t0,.5)});
+ sp.items.forEach(([txt,icn,re,col],k)=>{const tt=c.fx('pop',RX(re,(k+.6)/(n+.4),c)),p=c.r(tt,.5);
+  const size=Math.max(28,Math.min(50,Math.floor(610/(txt.length*.62+2.6))));
+  const y=y0+k*dy+(sp.flow?k*34:0);
+  h+=chip(G.cx,y,txt,{p,size,bg:col?CK[col]+'ee':'#1d4f86ee',fg:'#fff',ic:icn?ic(icn,size*1.05,'#ffd48a'):''});
+  if(sp.flow&&k<n-1){const pa=c.r(tt+.25,.4);if(pa>0)h+=T(G.cx,y+dy/2+17,'▼',{size:34,col:COL.gold,p:pa})}});
+ return h},
+// two big numbers: a / b = [label,value,colorKey,regex]
+vs(c,g){const sp=c.spec,G=colGeo(g);let h='';const t0=c.fx('swish',.05);
+ h+=T(G.cx,170,sp.title||'',{size:46,col:COL.gold,p:c.a(t0,.5)});
+ [sp.a,sp.b].forEach(([lab,val,col,re],k)=>{const tt=c.fx(k?'impact':'pop',RX(re,.3+.4*k,c)),p=c.r(tt,.5),y=330+k*250,len=val.length,sz=Math.min(120,Math.round(560/(len*.62)));
+  h+=T(G.cx,y-70,lab,{size:34,w:500,col:COL.cream2,p:Math.min(1,p*2)});
+  h+=T(G.cx,y+10,val,{size:sz,col:CK[col],p,s:bo(p),sh:`0 0 40px ${CK[col]}44,${SH}`})});
+ const pv=c.r(c.D*.5,.4);if(pv>0)h+=chip(G.cx,y_vs(),'vs',{p:pv,size:30,bg:'#ffffff22'});
+ if(sp.foot)h+=T(G.cx,780,sp.foot,{size:24,w:500,col:COL.muted,p:c.a(.6,.5)});
+ return h},
+// rows: label (small) + value (big)
+rows(c,g){const sp=c.spec,G=colGeo(g);let h='';const t0=c.fx('swish',.05);
+ h+=T(G.cx,165,sp.title||'',{size:44,col:COL.gold,p:c.a(t0,.5)});
+ sp.rows.forEach(([lab,val,col,re],k)=>{const tt=c.fx(k==sp.rows.length-1?'thud':'pop',RX(re,.25+.25*k,c)),p=c.r(tt,.5),y=270+k*165,sz=Math.min(86,Math.round(500/(val.length*.62)));
+  h+=T(G.cx,y-50,lab,{size:30,w:500,col:COL.cream2,p:Math.min(1,p*2)});
+  h+=T(G.cx,y+14,val,{size:sz,col:CK[col],p,s:bo(p),sh:`0 0 40px ${CK[col]}33,${SH}`})});
+ if(sp.foot)h+=T(G.cx,780,sp.foot,{size:24,w:500,col:COL.muted,p:c.a(.6,.5)});
+ return h},
+// stamp: big statement
+stamp(c,g){const sp=c.spec,G=colGeo(g);let h='';const t0=c.fx('swish',.05);const col=sp.col=='red'?COL.red:COL.gold;
+ const tt=c.fx('impact',Math.min(c.D*.5,1.2));
+ const cx=sp.x||(G.full?470:G.cx), cy=sp.y||(G.full?140:340);
+ h+=stamp(cx,cy,sp.text,c.r(tt,.4),{size:G.full?60:(sp.text.length>16?40:50),col,rot:-4});
+ if(sp.sub)h+=G.full?chip(cx,cy+92,sp.sub,{p:c.r(tt+.3,.5),size:32,bg:'#1d4f86ee'}):T(cx,cy+130,sp.sub,{size:36,col:COL.cream,mw:600,lh:1.2,p:c.a(tt+.3,.5)});
+ return h},
+// numbered / crossed list of the five mistakes
+five(c,g){const sp=c.spec,G=colGeo(g);let h='';const t0=c.fx('swish',.05);
+ h+=T(G.cx,165,sp.title||'',{size:44,col:COL.gold,p:c.a(t0,.5)});
+ const upto=sp.upto||5;
+ sp.items.forEach((txt,k)=>{const re=sp.t[k];let tt=re?c.fx('pop',RX(re,.2+.15*k,c)):-1;
+  const shown=k<upto&&(sp.upto?true:true),pre=sp.upto&&k<(upto>3?3:0);const p=pre?1:(tt<0?0:c.r(tt,.45));if(!shown)return;
+  const y=260+k*100,size=Math.max(28,Math.min(38,Math.floor(500/(txt.length*.6+2))));
+  const icon=sp.icon=='num'?`<div style="width:${size*1.3}px;height:${size*1.3}px;border-radius:50%;background:${COL.gold};color:${COL.brown};font:700 ${size}px/${size*1.3}px P;text-align:center">${k+1}</div>`:ic('cross',size*1.2,'#fff');
+  h+=chip(G.cx,y,txt,{p,size,bg:sp.icon=='num'?'#1d4f86ee':'#a8322aee',fg:'#fff',ic:icon})});
+ return h}
+};
+function y_vs(){return 455}
+
+const BADGE={};
+const SC={};
+// ---------------- img: image + animated overlay -----------------------
+SC.img={mk(g,el){const sp=g.spec;g.lay=sp.lay||'full';
+  if(g.lay=='full'){g.im=mkImg(el,sp.img)}else{mkBg(el,0);g.pan=mkPanel(el,sp.img,PAN[g.lay])}
+  g.ov=mkOv(el)},
+ cam(g,t){const s=cl(t,g.B,g.E),e=ei(s),dir=g.idx%2?1:-1;
+  if(g.lay=='full'){g.im.style.transform=`scale(${(1.06+.05*e).toFixed(4)}) translate(${(dir*(14-28*e)).toFixed(2)}px,${(6-12*e).toFixed(2)}px)`;
+   g.ov.style.transform=`translate(${(dir*(-10+20*e)).toFixed(2)}px,${(-4+8*e).toFixed(2)}px)`}
+  else{const sg=g.lay=='left'?1:-1;g.pan.style.transform=`perspective(2200px) rotateY(${(sg*(7-10*e)).toFixed(2)}deg) rotateX(${(2-3*e).toFixed(2)}deg) scale(${(.985+.03*e).toFixed(4)})`;
+   g.pan.img.style.transform=`scale(${(1.04+.05*e).toFixed(4)}) translate(${(sg*(-10+20*e)).toFixed(2)}px,0)`;
+   g.ov.style.transform=`translate(${(sg*(12-24*e)).toFixed(2)}px,0)`}},
+ ov(g,t){const c=ctx(g.i0,t),sp=g.spec,geo=PAN[g.lay]||{};let h=OV[sp.ov](c,geo);
+  if(sp.num){const pb=c.a(-.1,.5);const bx=g.lay=='full'?(sp.ov=='tax'||sp.ov=='headstart'?90:90):geo.x+20,by=g.lay=='full'?(sp.ov=='headstart'?400:(sp.ov=='tax'?90:90)):geo.y-30;
+   if(sp.ov=='headstart')h+=badge(90,620,sp.num,BADGE[sp.ov],pb);else h+=badge(bx,by,sp.num,BADGE[sp.ov],pb)}
+  return h}};
+// ---------------- phase title card -------------------------------------
+SC.phase={mk(g,el){mkBg(el,0);g.num=document.createElement('div');g.num.className='abs';g.num.style.cssText=`left:40px;top:-60px;font:700 760px/1 P;color:#ffc94a10;letter-spacing:-30px`;g.num.textContent=g.spec.n;el.appendChild(g.num);
+  g.pan=mkPanel(el,g.spec.img,{x:900,y:210,w:940,h:529});g.ov=mkOv(el)},
+ cam(g,t){const c=ctx(g.i0,t),p=ez(c.r(-.35,1.1)),e=cl(t,g.B,g.E);
+  g.pan.style.transform=`perspective(1800px) translateX(${((1-p)*500).toFixed(1)}px) translateZ(${((1-p)*-600).toFixed(1)}px) rotateY(${lerp(-62,-9+5*e,p).toFixed(2)}deg) rotateX(${lerp(10,2,p).toFixed(2)}deg)`;g.pan.style.opacity=Math.min(1,p*1.6);
+  g.pan.img.style.transform=`scale(${(1.06+.05*e).toFixed(4)})`;
+  g.num.style.transform=`translateX(${(-80*e+(1-p)*-200).toFixed(1)}px)`;g.num.style.opacity=p},
+ ov(g,t){const c=ctx(g.i0,t),sp=g.spec;let h='';c.fx('chime',.35);
+  const p1=c.a(-.2,.5),p2=c.a(-.05,.6),long=sp.title.length>22;
+  h+=T(120,300,`PHASE ${sp.n}`,{al:'l',size:40,col:COL.gold,ls:10,p:p1,dy:-20});
+  h+=`<div style="position:absolute;left:120px;top:350px;width:740px;font:700 ${long?78:92}px/1.08 P;color:${COL.cream};text-shadow:${SH};opacity:${p2};transform:translateX(${((1-p2)*-60).toFixed(1)}px)">${sp.title}</div>`;
+  // progress 1..9
+  for(let k=1;k<=7;k++){const pk=c.a(.05+k*.04,.3),cur=k==sp.n,fill=k<sp.n?1:cur?ez(c.r(.4,.7)):0;
+   h+=`<div style="position:absolute;left:${120+(k-1)*78}px;top:760px;width:64px;height:14px;border-radius:7px;background:#ffffff22;overflow:hidden;opacity:${pk};${cur?'box-shadow:0 0 18px #ffc94aaa':''}"><div style="height:100%;width:${(fill*100).toFixed(1)}%;background:${COL.gold}"></div></div>`}
+  h+=T(120,730,`${sp.n} / 7`,{al:'l',size:26,col:COL.muted,w:500,p:c.a(.3,.4)});
+  return h}};
+// ---------------- stat: one big number ----------------------------------
+SC.stat={mk(g,el){mkBg(el,0);g.pan=mkPanel(el,g.spec.img,{x:90,y:190,w:920,h:518});g.ov=mkOv(el)},
+ cam(g,t){const e=ei(cl(t,g.B,g.E));g.pan.style.transform=`perspective(2000px) rotateY(${(8-10*e).toFixed(2)}deg) scale(${(.98+.03*e).toFixed(4)})`;g.pan.img.style.transform=`scale(${(1.04+.05*e).toFixed(4)})`;g.ov.style.transform=`translateX(${(10-20*e).toFixed(1)}px)`},
+ ov(g,t){const c=ctx(g.i0,t),sp=g.spec,t1=c.fx('pop',.2),t2=t1+1.4;c.fx('ding',t2);let h='',s='';
+  const p=ei(c.r(t1,1.4)),v=sp.value*p,dec=sp.dec!=null?sp.dec:(sp.value<20&&p<1?1:0);
+  const str=(sp.pre||'')+MG.fmt(v,dec)+(sp.suf||'');const len=((sp.pre||'')+MG.fmt(sp.value,0)+(sp.suf||'')).length;const size=Math.min(250,Math.round(1150/len));
+  h+=T(1450,400,str,{size,col:COL.gold,p:c.a(t1-.1,.3),sh:`0 0 60px #ffc94a55,${SH}`});
+  h+=T(1450,400+size*.62,sp.label,{size:54,p:c.a(t1+.5,.5)});
+  h+=T(1450,400+size*.62+80,sp.sub,{size:28,w:500,col:COL.muted,mw:720,lh:1.3,p:c.a(t1+.8,.5)});
+  const pa=ez(c.r(t1+.3,1));if(pa>0)h+=`<div style="position:absolute;left:${1450-260*pa}px;top:${400+size*.62+38}px;width:${520*pa}px;height:6px;border-radius:3px;background:${COL.gold};opacity:.8"></div>`;
+  return h}};
+SC.chart={step(g,t){let j=0;for(let k=0;k<g.n;k++)if(t>=MG.L(g.i0+k).start-.3)j=k;return {j,c:ctx(g.i0+j,t)}}};
+// ---------------- dots: 100 dots = 100 percent -----------------------------------
+SC.dots={mk(g,el){mkBg(el,g.spec.img);g.pan=mkPanel(el,g.spec.img,{x:80,y:170,w:711,h:400});g.ov=mkOv(el)},
+ cam(g,t){const e=ei(cl(t,g.B,g.E));g.pan.style.transform=`perspective(2000px) rotateY(${(7-9*e).toFixed(2)}deg) scale(${(.98+.03*e).toFixed(4)})`;g.pan.img.style.transform=`scale(${(1.04+.05*e).toFixed(4)})`},
+ ov(g,t){const c=ctx(g.i0,t),sp=g.spec;let h='';const t0=c.fx('swish',.05);
+  h+=T(960,92,sp.title,{size:sp.title.length>40?38:44,col:COL.gold,p:c.a(t0,.5)});
+  const gx=1100,gy=190,st=58,R=21;let idx=0;const cum=[];
+  sp.groups.forEach(([n,col,lab,re],j)=>{const tg=c.fx(j==0?'pop':'tick',RX(re,.25+.3*j,c)-.05+(j==0?0:0));cum.push([idx,n,tg,CK[col],lab]);idx+=n});
+  let dots='';for(let k=0;k<100;k++){let col='#ffffff14',p=0;for(const [i0,n,tg,cc] of cum){if(k>=i0&&k<i0+n){p=c.r(tg+(k-i0)*.011,.3);col=cc}}
+   const x=gx+(k%10)*st,y=gy+Math.floor(k/10)*st;dots+=`<circle cx=${x} cy=${y} r=${(R*(p>0?bo(p):1)*(p>0?1:.55)).toFixed(1)} fill="${p>0?col:'#ffffff1a'}" />`}
+  h+=svg(dots);
+  const tb=cum[0][2];h+=T(436,660,sp.big,{size:150,col:CK[sp.bigcol],p:c.a(tb,.5),s:bo(c.r(tb,.5)),sh:`0 0 50px ${CK[sp.bigcol]}55,${SH}`});
+  {const sz=22,ws=sp.groups.map(gp=>gp[2].length*sz*.62+sz*1.3),tot=ws.reduce((x,y)=>x+y,0)+(ws.length-1)*14;let lx=1390-tot/2;
+   sp.groups.forEach(([n,col,lab],j)=>{const tg=cum[j][2];h+=chip(lx+ws[j]/2,778,lab,{p:c.r(tg+.1,.4),size:sz,bg:CK[col]+'dd',fg:col=='gold'||col=='green'||col=='grey'?COL.brown:'#fff'});lx+=ws[j]+14})}
+  if(sp.foot)h+=T(960,862,sp.foot,{size:24,w:500,col:COL.muted,p:c.a(.8,.5)});
+  return h}};
+
+// ---------------- outro: subscribe -------------------------------------
+SC.outro={mk(g,el){g.im=mkImg(el,g.spec.img);g.ov=mkOv(el)},
+ cam(g,t){const e=ei(cl(t,g.B,g.E+2));g.im.style.transform=`scale(${(1.04+.05*e).toFixed(4)}) translate(${(-10+16*e).toFixed(1)}px,0)`},
+ ov(g,t){const c=ctx(g.i0,t),tcur=1,tcl=c.fx('tap',c.w(/subscribe/i,.15)+.3),tn=c.fx('whoosh',c.w(/next/i,.55),{d:.8});c.fx('ding',tcl+.25);c.fx('chime',tn+.6);let h='';
+  const done=c.lt>=tcl,pr=c.r(tcl,.25),press=pr>0&&pr<1?1-.1*Math.sin(pr*Math.PI):1;
+  h+=chip(1560,640,done?'Subscribed':'Subscribe',{p:c.a(.2,.5),s:bo(c.a(.2,.5))*press,size:52,bg:done?'#5a4a3c':'#d6402e',fg:'#fff',ic:ic(done?'check':'bell',50,'#fff'),r:20});
+  const cp=ei(c.r(tcur,Math.max(.4,tcl-tcur))),cx=lerp(1900,1600,cp),cy=lerp(1000,660,cp);
+  if(c.lt>tcur-.1&&c.lt<tcl+1.2)h+=`<svg style="position:absolute;left:${cx}px;top:${cy}px;opacity:${1-c.r(tcl+.7,.5)}" width=60 height=70 viewBox="0 0 60 70"><path d="M4 4 L4 56 L18 44 L28 66 L38 62 L28 40 L46 40 Z" fill="#fff" stroke="#000" stroke-width=4 stroke-linejoin=round /></svg>`;
+  const rr=c.r(tcl,.7);if(rr>0&&rr<1)h+=`<div style="position:absolute;left:${1560-160*ez(rr)}px;top:${640-160*ez(rr)}px;width:${320*ez(rr)}px;height:${320*ez(rr)}px;border-radius:50%;border:5px solid #fff;opacity:${1-rr}"></div>`;
+  const pn=c.r(tn,.6);if(pn>0)h+=`<div style="position:absolute;left:1100px;top:110px;width:740px;height:150px;border-radius:26px;background:#1d4f86ee;box-shadow:0 20px 40px #0009;border:3px solid ${COL.gold}66;transform:translateX(${((1-ez(pn))*800).toFixed(1)}px);display:flex;align-items:center;gap:26px;padding:0 30px;box-sizing:border-box">${ic('cal',90,COL.gold)}<div><div style="font:500 26px P;color:${COL.muted}">Next video</div><div style="font:700 38px/1.15 P;color:${COL.cream}">Everyone gets $1 million</div></div></div>`;
+  return h}};
+
+
+// ======================================================================
+//  YT 9 – new scene types: hook (tax return), score, rule, loan, step, share
+// ======================================================================
+const paper=(x,y,w,h,inner,p,rot=0)=>p<=0?'':`<div style="position:absolute;left:${x}px;top:${y}px;width:${w}px;height:${h}px;border-radius:18px;background:linear-gradient(180deg,#ffffff,#eef6ff);box-shadow:0 30px 60px #0007;opacity:${Math.min(1,p*2)};transform:translateY(${((1-ez(p))*60).toFixed(1)}px) rotate(${rot}deg);overflow:hidden">${inner}</div>`;
+const row=(y,lab,val,col,p,sz=40)=>p<=0?'':`<div style="position:absolute;left:36px;right:36px;top:${y}px;display:flex;justify-content:space-between;align-items:baseline;opacity:${Math.min(1,p*2)};transform:translateX(${((1-ez(p))*30).toFixed(1)}px);border-bottom:3px dashed #1d4f8622;padding-bottom:10px"><span style="font:500 30px P;color:#3c5a7a">${lab}</span><span style="font:700 ${sz}px P;color:${col}">${val}</span></div>`;
+const bigM=v=>v>=1e9?'$'+MG.fmt(v/1e9,v<1e10?1:0)+' billion':v>=1e6?'$'+MG.fmt(v/1e6,0)+' million':MG.fmt(Math.round(v),0,'$');
+
+// ---------------- hook: Bezos 2011 tax return ------------------------------------
+SC.hook={mk(g,el){mkBg(el,g.spec.img);g.pan=mkPanel(el,g.spec.img,{x:60,y:200,w:1040,h:585});g.ov=mkOv(el)},
+ cam(g,t){const c=ctx(g.i0,t),e=ei(cl(t,0,c.D+1)),p=ez(c.r(0,.6));
+  g.pan.style.transform=`perspective(2000px) rotateY(${(7-9*e).toFixed(2)}deg) translateX(${((1-p)*-300).toFixed(1)}px) scale(${(.97+.04*e).toFixed(4)})`;g.pan.style.opacity=p;
+  g.pan.img.style.transform=`scale(${(1.05+.06*e).toFixed(4)})`},
+ ov(g,t){const c=ctx(g.i0,t);let h='';c.fx('whoosh',0,{d:.6});
+  const te=c.fx('pop',.25),tE=c.w(/billion/i,.25),tz=c.fx('impact',c.w(/^zero/i,.45)),tf=c.fx('cash',c.w(/^four/i,.75));
+  const pw=ei(c.r(te,Math.max(.8,tE-te))),nw=18e9*pw;c.fx('cash',tE);
+  let inner=`<div style="position:absolute;left:0;right:0;top:0;height:92px;background:#1d4f86;color:#fff;font:700 38px/92px P;text-align:center;letter-spacing:3px">TAX RETURN · 2011</div>`;
+  inner+=row(140,'Net worth','≈ '+bigM(nw),'#1d4f86',c.r(te-.2,.4),44);
+  inner+=row(250,'Federal income tax',c.lt>=tz?'$0':'…',c.lt>=tz?'#22a95e':'#3c5a7a',c.r(te+.3,.4),c.lt>=tz?64:44);
+  inner+=row(370,'Child tax credit','+ $4,000','#d6402e',c.r(tf,.4),44);
+  h+=paper(1150,220,700,500,inner,c.r(0,.5),2);
+  h+=stamp(1500,520,'PAID: $0',c.r(tz,.35),{size:70,col:'#22a95e',rot:-9,bg:'#ffffffdd'});
+  h+=T(960,110,'One of the richest men alive · 2011',{size:58,col:COL.gold,p:c.a(.05,.5)});
+  return h}};
+
+// ---------------- score: ProPublica 25 richest -------------------------------------
+SC.score={mk(g,el){mkBg(el,g.spec.img);g.pan=mkPanel(el,g.spec.img,{x:1160,y:560,w:640,h:360});g.ov=mkOv(el)},
+ cam(g,t){g.el.querySelector('.blur').style.transform=`scale(${1.03+.04*cl(t,g.B,g.E)})`;const e=ei(cl(t,g.B,g.E));
+  const {j}=SC.chart.step(g,t);const q=j>=3?ez(cl(t-MG.L(g.i0+3).start,0,.6)):0;
+  g.pan.style.transform=`perspective(2000px) rotateY(${(-6+8*e).toFixed(2)}deg) translateY(${(q*700).toFixed(1)}px)`;g.pan.style.opacity=1-q;g.pan.img.style.transform=`scale(${(1.04+.05*e).toFixed(4)})`},
+ ov(g,t){const {j}=SC.chart.step(g,t);const cs=[0,1,2,3].map(q=>q<g.n?ctx(g.i0+q,t):null);let h='';
+  const c0=cs[0],base=780,HM=520,BW=260,XA=380,XB=760;
+  h+=T(960,92,'The 25 richest Americans · 2014–2018',{size:44,col:COL.gold,p:c0.a(.05,.5)});
+  h+=T(960,146,'Source: ProPublica, “The Secret IRS Files” (2021)',{size:24,w:500,col:'#d8ecff',p:c0.a(.3,.5)});
+  const col=(x,v,hh,c1,lab,val,p)=>`<div style="position:absolute;left:${x-BW/2}px;top:${(base-hh).toFixed(1)}px;width:${BW}px;height:${Math.max(6,hh).toFixed(1)}px;border-radius:14px 14px 4px 4px;background:${c1};box-shadow:0 10px 30px #0006"></div>`+T(x,base-Math.max(6,hh)-44,val,{size:50,col:COL.cream,p:Math.min(1,p*3)})+T(x,base+38,lab,{size:30,p:Math.min(1,p*3)});
+  const ta=c0.fx('pop',c0.w(/four/i,.45)),pa=ei(c0.r(ta,1.3));c0.fx('cash',ta+1.3);
+  h+=col(XA,401,HM*pa,'linear-gradient(180deg,#ffd76a,#f0a22a)','Wealth growth','$'+Math.round(401*pa)+'B',c0.r(ta,.3));
+  if(j>=1){const c1=cs[1],tb=c1.fx('thud',c1.w(/thirteen/i,.4)),pb=ei(c1.r(tb,.8));
+   h+=col(XB,13.6,HM*13.6/401*pb,'#ff5b4a','Income tax paid','$'+(13.6*pb).toFixed(1)+'B',c1.r(tb,.3));
+   h+=chip(XB,base-150,'tiny!',{p:c1.r(tb+.9,.4),size:34,bg:'#c8432f',rot:-6})}
+  if(j>=2){const c2=cs[2],tc=c2.fx('impact',c2.w(/three/i,.7)),pc=c2.r(tc,.5);
+   h+=T(1450,260,'13.6 ÷ 401 =',{size:44,col:'#d8ecff',w:500,p:c2.a(.3,.5)});
+   h+=T(1450,380,'3.4 %',{size:170,col:COL.gold,p:pc,s:bo(pc),sh:`0 0 60px #ffc94a66,${SH}`});
+   h+=T(1450,490,'“true tax rate”',{size:44,p:c2.a(tc+.3,.5)})}
+  if(j>=3){const c3=cs[3],td=c3.fx('pop',c3.w(/fourteen/i,.75)),p1=ei(c3.r(.2,.8)),p2=ei(c3.r(td,.9));
+   const bar=(y,lab,v,c1,p)=>T(1080,y-46,lab,{al:'l',size:30,col:COL.cream,p:Math.min(1,p*3)})+`<div style="position:absolute;left:1080px;top:${y-20}px;width:${(Math.max(.02,v/14*640*p)).toFixed(1)}px;height:56px;border-radius:0 14px 14px 0;background:${c1};box-shadow:0 8px 20px #0006"></div>`+T(1080+v/14*640*p+22,y+8,(v*Math.min(1,p*1.1)).toFixed(1)+' %',{al:'l',size:48,col:c1,p:Math.min(1,p*3)});
+   h+=bar(640,'Top 25 richest (true rate)',3.4,COL.gold,p1);
+   h+=bar(780,'Typical household (≈ $70k income)',14,'#7cf0b0',p2)}
+  return h}};
+
+// ---------------- rule: Sam vs Victor ------------------------------------------------
+SC.rule={mk(g,el){mkBg(el,0);g.pa=mkPanel(el,72,{x:70,y:110,w:820,h:461});g.pb=mkPanel(el,74,{x:1030,y:110,w:820,h:461});g.ov=mkOv(el)},
+ cam(g,t){const {j}=SC.chart.step(g,t),e=ei(cl(t,g.B,g.E));const c2=g.n>2?ctx(g.i0+2,t):null;const pb=j>=2?ez(c2.r(-.2,.7)):0;
+  g.pa.style.transform=`perspective(2000px) rotateY(${(6-6*e).toFixed(2)}deg) scale(${(j>=2?.97:1).toFixed(3)})`;g.pa.img.style.transform=`scale(${(1.04+.05*e).toFixed(4)})`;
+  g.pb.style.opacity=pb;g.pb.style.transform=`perspective(2000px) rotateY(${(-6+6*e).toFixed(2)}deg) translateX(${((1-pb)*400).toFixed(1)}px)`;g.pb.img.style.transform=`scale(${(1.04+.05*e).toFixed(4)})`},
+ ov(g,t){const {j}=SC.chart.step(g,t);const cs=[0,1,2,3,4].map(q=>q<g.n?ctx(g.i0+q,t):null);let h='';
+  const c0=cs[0];c0.fx('swish',.05);
+  h+=chip(480,70,'SAM · delivers food',{p:c0.r(.1,.5),size:34,bg:'#22a95eee',ic:ic('truck',38,'#fff')});
+  // paycheck
+  const tp=c0.fx('paper',c0.w(/paycheck/i,.35)),tt=c0.fx('error',c0.w(/taxes/i,.65)),pp=c0.r(tp,.5),cut=ez(c0.r(tt,.6));
+  let inner=`<div style="position:absolute;left:30px;top:22px;font:700 30px P;color:#1d4f86">PAYCHECK</div><div style="position:absolute;right:30px;top:22px;font:500 26px P;color:#3c5a7a">every 2 weeks</div>`;
+  inner+=`<div style="position:absolute;left:30px;top:80px;font:700 54px P;color:#1d4f86">${cut>0?'$1,540':'$1,540'}</div>`;
+  inner+=`<div style="position:absolute;left:30px;top:150px;font:700 44px P;color:#d6402e;opacity:${cut}">− taxes, before you see it</div>`;
+  h+=paper(160,600,640,200,inner,pp,-1.5);
+  if(j>=1){const c1=cs[1],ti=c1.fx('pop',c1.w(/income/i,.2)),ts=c1.fx('pop',c1.w(/social/i,.6));
+   h+=chip(310,850,'Income tax: 10 – 37 %',{p:c1.r(ti,.5),size:32,bg:'#c8432f'});
+   h+=chip(700,850,'+ 7.65 % payroll',{p:c1.r(ts,.5),size:32,bg:'#c8432f'})}
+  if(j>=2){const c2=cs[2];c2.fx('whoosh',.05,{d:.6});const ts=c2.fx('pop',c2.w(/salary/i,.8));
+   h+=chip(1440,70,'VICTOR · founder',{p:c2.r(.1,.5),size:34,bg:'#7a3bd1ee',ic:ic('up',38,'#fff')});
+   h+=chip(1440,630,'Salary: almost $0',{p:c2.r(ts,.5),size:40,bg:'#1d4f86ee'})}
+  if(j>=3){const c3=cs[3],tb=c3.fx('cash',c3.w(/billion/i,.4)),pv=ei(c3.r(tb-.6,1.2)),tq=c3.fx('pop',c3.w(/owe/i,.8));
+   h+=T(1440,730,'Shares: +'+bigM(1e9*pv),{size:58,col:COL.green,p:c3.a(tb-.6,.4),sh:`0 0 40px #3ddc8455,${SH}`});
+   h+=T(1440,815,c3.lt>=tq?'Tax owed: ?':'',{size:44,col:COL.cream,p:c3.a(tq,.4)})}
+  if(j>=4){const c4=cs[4],tz=c4.fx('impact',.15);h+=stamp(1440,330,'$0 TAX',c4.r(tz,.35),{size:110,col:'#22a95e',rot:-8,bg:'#ffffffdd'})}
+  return h}};
+
+// ---------------- loan: shares vs debt over 20 years ------------------------------------
+SC.loan={mk(g,el){mkBg(el,g.spec.img);g.pan=mkPanel(el,g.spec.img,{x:1380,y:520,w:470,h:264});g.ov=mkOv(el)},
+ cam(g,t){g.el.querySelector('.blur').style.transform=`scale(${1.03+.04*cl(t,g.B,g.E)})`;const e=ei(cl(t,g.B,g.E));g.pan.style.transform=`perspective(2000px) rotateY(${(-6+8*e).toFixed(2)}deg)`;g.pan.img.style.transform=`scale(${(1.04+.05*e).toFixed(4)})`},
+ ov(g,t){const {j}=SC.chart.step(g,t);const cs=[0,1,2].map(q=>q<g.n?ctx(g.i0+q,t):null);let h='',s='';
+  const c0=cs[0];h+=T(960,92,'Living on loans: an example',{size:46,col:COL.gold,p:c0.a(.05,.5)});
+  h+=T(960,146,'illustrative numbers, not a forecast',{size:26,w:500,col:'#d8ecff',p:c0.a(.3,.5)});
+  const X=y=>220+y/20*800,Y=v=>760-v/480*540;
+  const S=y=>100*Math.pow(1.08,y),Dd=y=>2*(Math.pow(1.05,y)-1)/.05;
+  // axes
+  s+=`<line x1=200 y1=760 x2=1050 y2=760 stroke="#ffffff66" stroke-width=3 /><line x1=200 y1=760 x2=200 y2=200 stroke="#ffffff44" stroke-width=3 />`;
+  for(let y=0;y<=20;y+=5)s+=`<text x=${X(y)} y=800 text-anchor=middle font-family="P,Arial" font-weight=500 font-size=26 fill="#d8ecff">year ${y}</text>`;
+  h+=svg(s);s='';
+  const tq=c0.fx('pop',c0.w(/interest/i,.4));if(j==0)h+=chip(620,420,'Interest costs money …',{p:c0.r(tq,.5),size:44,bg:'#c8432f',ic:ic('pct',44,'#fff')});
+  if(j>=1){const c1=cs[1],t8=c1.fx('pop',c1.w(/eight/i,.3)),t5=c1.fx('pop',c1.w(/five/i,.5)),tr=c1.fx('ding',c1.w(/richer/i,.8));
+   const p=ei(c1.r(t8,Math.max(1.5,c1.D*.6))),ye=20*p;let d1='',d2='';
+   for(let k=0;k<=60;k++){const y=ye*k/60;d1+=(k?'L':'M')+X(y).toFixed(1)+' '+Y(S(y)).toFixed(1);d2+=(k?'L':'M')+X(y).toFixed(1)+' '+Y(Dd(y)).toFixed(1)}
+   let area='';for(let k=0;k<=60;k++){const y=ye*k/60;area+=(k?'L':'M')+X(y).toFixed(1)+' '+Y(S(y)).toFixed(1)}for(let k=60;k>=0;k--){const y=ye*k/60;area+='L'+X(y).toFixed(1)+' '+Y(Dd(y)).toFixed(1)}
+   s+=`<path d="${area}Z" fill="#3ddc8433" opacity=${c1.a(tr,.6)} />`;
+   s+=`<path d="${d1}" fill=none stroke="${COL.green}" stroke-width=12 stroke-linecap=round stroke-linejoin=round /><path d="${d2}" fill=none stroke="${COL.red}" stroke-width=12 stroke-linecap=round stroke-linejoin=round opacity=${c1.a(t5,.3)} />`;
+   s+=`<circle cx=${X(ye)} cy=${Y(S(ye))} r=13 fill="#fff"/>`;h+=svg(s);
+   h+=chip(X(ye)+20,Y(S(ye))-40,'Shares +8 % / year',{p:c1.r(t8,.4),size:30,bg:COL.green2+'ee',al:'l'});
+   h+=chip(X(ye)+20,Y(Dd(ye))+40,'Debt, 5 % interest',{p:c1.r(t5,.4),size:30,bg:'#c8432f',al:'l'});
+   if(ye>8)h+=T(X(ye*.62),(Y(S(ye*.62))+Y(Dd(ye*.62)))/2+10,'Victor gets richer',{size:34,col:'#eafff2',p:c1.a(tr,.5)})}
+  if(j>=2){const c2=cs[2],tb=c2.fx('pop',c2.w(/borrow/i,.25)),tf=c2.fx('cash',c2.w(/faster/i,.85));
+   h+=chip(560,250,'New loan pays the interest',{p:c2.r(tb,.5),size:36,bg:'#1d4f86ee',ic:ic('bank',38,COL.gold)});
+   h+=chip(1600,330,'shares grow faster',{p:c2.r(tf,.5),size:36,bg:COL.green2+'ee',ic:ic('up',38,'#fff')})}
+  return h}};
+
+// ---------------- step: step-up in basis ----------------------------------------------
+SC.step={mk(g,el){mkBg(el,g.spec.img);g.pan=mkPanel(el,g.spec.img,{x:1150,y:170,w:700,h:394});g.ov=mkOv(el)},
+ cam(g,t){g.el.querySelector('.blur').style.transform=`scale(${1.03+.04*cl(t,g.B,g.E)})`;const e=ei(cl(t,g.B,g.E));g.pan.style.transform=`perspective(2000px) rotateY(${(-7+9*e).toFixed(2)}deg)`;g.pan.img.style.transform=`scale(${(1.04+.05*e).toFixed(4)})`},
+ ov(g,t){const {j}=SC.chart.step(g,t);const cs=[0,1,2].map(q=>q<g.n?ctx(g.i0+q,t):null);let h='';
+  const c0=cs[0],base=800,HM=560,BW=300,X0=560;
+  h+=T(560,92,"Victor's shares",{size:46,col:COL.gold,p:c0.a(.05,.5)});
+  const t1=c0.fx('pop',c0.w(/million/i,.25)),t2=c0.fx('cash',c0.w(/billion/i,.45)),t3=c0.fx('thud',c0.w(/ninety/i,.7));
+  const pw=ei(c0.r(t2,1.2)),worth=HM*pw;
+  // value column
+  h+=`<div style="position:absolute;left:${X0-BW/2}px;top:${(base-Math.max(10,worth)).toFixed(1)}px;width:${BW}px;height:${Math.max(10,worth).toFixed(1)}px;border-radius:16px 16px 4px 4px;background:linear-gradient(180deg,#7cf0b0,#22a95e);box-shadow:0 10px 30px #0006;opacity:${Math.min(1,c0.r(t1,.3)*3)}"></div>`;
+  // basis bar (blue), rises in step 2
+  const c1=j>=1?cs[1]:null,tu=c1?c1.fx('impact',c1.w(/day/i,.75)):0,pu=c1?ei(c1.r(tu,1)):0,bh=lerp(10,HM,pu);
+  h+=`<div style="position:absolute;left:${X0-BW/2-14}px;top:${(base-bh).toFixed(1)}px;width:${BW+28}px;height:${bh.toFixed(1)}px;border-radius:10px;border:7px solid #ffc94a;box-sizing:border-box;background:#ffc94a22;opacity:${Math.min(1,c0.r(t1,.3)*3)}"></div>`;
+  h+=chip(X0-BW/2-30,base-bh-4,pu>.9?'New basis: $1 billion':'Bought for: $1 million',{p:c0.r(t1,.4),size:30,bg:'#ffc94a',fg:'#1d4f86',al:'r'});
+  if(pw>.05)h+=chip(X0+BW/2+30,base-worth+30,'Worth: '+bigM(1e6+999e6*pw),{p:1,size:30,bg:COL.green2+'ee',al:'l'});
+  const pg=c0.r(t3,.5);
+  if(pu<.95&&pg>0)h+=T(X0,base-worth/2,'Untaxed gain<br>$999 million',{size:46,col:'#fff',lh:1.15,p:pg*(1-pu),s:bo(pg)});
+  if(j>=1){h+=chip(960,860-0,'“as if bought on the day he died”',{p:c1.r(c1.w(/treats/i,.5),.5),size:32,bg:'#1d4f86ee'});
+   h+=T(1500,640,'Step-up in basis',{size:60,col:COL.gold,p:c1.a(c1.w(/step/i,.25),.5)})}
+  if(j>=2){const c2=cs[2],te=c2.fx('impact',c2.w(/disappears/i,.7));
+   h+=stamp(X0,base-HM/2,'GAIN: ERASED',c2.r(te,.35),{size:66,rot:-8,bg:'#ffffffdd'});
+   h+=T(1500,740,'Taxable gain: $999M → $0',{size:48,col:COL.cream,p:c2.a(te+.3,.5)})}
+  return h}};
+
+// ---------------- share: top 1 % income vs taxes -----------------------------------------
+SC.share={mk(g,el){mkBg(el,g.spec.img);g.pan=mkPanel(el,g.spec.img,{x:80,y:170,w:640,h:360});g.ov=mkOv(el)},
+ cam(g,t){const e=ei(cl(t,g.B,g.E));g.pan.style.transform=`perspective(2000px) rotateY(${(7-9*e).toFixed(2)}deg)`;g.pan.img.style.transform=`scale(${(1.04+.05*e).toFixed(4)})`},
+ ov(g,t){const c=ctx(g.i0,t);let h='';c.fx('swish',.05);
+  h+=T(960,92,'The top 1 % of US taxpayers (tax year 2023)',{size:44,col:COL.gold,p:c.a(.05,.5)});
+  const bar=(y,lab,v,col,re,f)=>{const tt=c.fx('pop',RX(re,f,c)),p=ei(c.r(tt,1)),W=1000;
+   return T(800,y-58,lab,{al:'l',size:34,col:COL.cream,p:Math.min(1,p*3)})+`<div style="position:absolute;left:800px;top:${y-28}px;width:${W}px;height:70px;border-radius:16px;background:#ffffff22;overflow:hidden;opacity:${Math.min(1,p*3)}"><div style="height:100%;width:${(v*p*10).toFixed(1)}px;background:${col}"></div></div>`+T(800+v*p*10+24,y+7,(v*p).toFixed(1)+' %',{al:'l',size:52,col,p:Math.min(1,p*3)})};
+  h+=bar(330,'Share of all income they earned',20.6,'#7cc3ff','twenty',.45);
+  h+=bar(520,'Share of all federal income taxes they paid',38.4,COL.gold,'thirty',.75);
+  h+=T(960,700,'Source: Tax Foundation, IRS data, tax year 2023',{size:26,w:500,col:'#d8ecff',p:c.a(.8,.5)});
+  return h}};
+
+// ======================================================================
+//  ENGINE: groups, transitions, captions, sfx
+// ======================================================================
+const TRANS=['slide','zoom','wipe','iris','up','zoom'];
+window.setTimeline=tl=>{MG.TL=TL=tl;G=[];const box=$('layers');box.innerHTML='';
+ tl.lines.forEach((l,i)=>{const sp=l.spec||{type:'img',img:i+1,lay:'full',ov:'myth'};const last=G[G.length-1];
+  if(last&&sp.group&&last.spec.group==sp.group){last.n++;return}
+  G.push({i0:i,n:1,spec:sp,type:sp.type})});
+ G.forEach((g,k)=>{g.idx=k;g.B=k==0?0:tl.lines[g.i0].start-(g.type=='phase'?.55:.45);g.D=g.type=='phase'?.8:.6;
+  g.kind=k==0?'none':g.type=='phase'?'phase':G[k-1].type=='phase'?'zoom':TRANS[k%TRANS.length];});
+ G.forEach((g,k)=>{g.E=k+1<G.length?G[k+1].B+G[k+1].D:tl.dur;const el=document.createElement('div');el.className='lay';box.appendChild(el);g.el=el;SC[g.type].mk(g,el);
+  const sh=document.createElement('div');sh.className='shade';el.appendChild(sh);g.shade=sh});
+ const srcs=[];tl.lines.forEach(l=>{const k=(l.spec||{}).img;if(k){srcs.push(IMG(k),BLUR(k))}});
+ gateReady(srcs)};
+let imgsReady=false,fontsReady=false;
+Object.defineProperty(window,'ready',{configurable:true,get(){return imgsReady&&fontsReady},set(v){imgsReady=v}});
+function gateReady(srcs){MG.preload([...new Set(srcs)]);
+ Promise.all([document.fonts.load('700 50px P'),document.fonts.load('500 50px P')]).then(()=>document.fonts.ready).then(()=>{fontsReady=true},()=>{fontsReady=true})}
+
+function trans(g,role,p){const e=ei(p),el=g.el;let tr='',op=1,clip='none',sh=0;
+ switch(g.kindIn){
+  case 'slide':if(role=='in')tr=`translateX(${((1-e)*W).toFixed(1)}px)`;else{tr=`translateX(${(-e*W*.35).toFixed(1)}px) scale(${(1-.05*e).toFixed(4)})`;sh=.6*e}break;
+  case 'up':if(role=='in')tr=`translateY(${((1-e)*H).toFixed(1)}px)`;else{tr=`translateY(${(-e*H*.3).toFixed(1)}px) scale(${(1-.05*e).toFixed(4)})`;sh=.6*e}break;
+  case 'zoom':if(role=='in'){tr=`scale(${(1.25-.25*e).toFixed(4)})`;op=Math.min(1,e*1.6)}else{tr=`scale(${(1-.12*e).toFixed(4)})`;sh=.7*e}break;
+  case 'wipe':if(role=='in'){const x=lerp(W+260,-260,e);clip=`polygon(${(x+200).toFixed(0)}px 0,${W+400}px 0,${W+400}px ${H}px,${(x-200).toFixed(0)}px ${H}px)`;tr=`translateX(${((1-e)*80).toFixed(1)}px)`}else{tr=`translateX(${(-e*160).toFixed(1)}px)`;sh=.5*e}break;
+  case 'iris':if(role=='in'){clip=`circle(${(e*1250).toFixed(0)}px at 960px 470px)`;tr=`scale(${(1.08-.08*e).toFixed(4)})`}else{tr=`scale(${(1-.08*e).toFixed(4)})`;sh=.6*e}break;
+  case 'phase':if(role=='in'){tr=`scale(${(1.18-.18*e).toFixed(4)})`;op=ez(cl(p,.25,.7))}else{tr=`scale(${(1+.35*e).toFixed(4)})`;op=1-ez(cl(p,0,.45))}break;
+ }
+ el.style.transform=tr;el.style.opacity=op;el.style.clipPath=clip;g.shade.style.opacity=sh}
+
+function draw(t){if(!TL)return;let gi=0;G.forEach((g,k)=>{if(t>=g.B)gi=k});
+ const cur=G[gi],p=cur.kind=='none'?1:cl(t,cur.B,cur.B+cur.D),prev=p<1&&gi>0?G[gi-1]:null;
+ G.forEach(g=>{const vis=g===cur||g===prev;g.el.style.display=vis?'block':'none'});
+ cur.el.style.zIndex=2;cur.kindIn=cur.kind;
+ if(prev){prev.el.style.zIndex=1;prev.kindIn=cur.kind;trans(prev,'out',p);trans(cur,'in',p)}else{trans(cur,'in',1);cur.el.style.transform='none';cur.el.style.clipPath='none'}
+ for(const g of prev?[prev,cur]:[cur]){const S=SC[g.type];S.cam(g,t);setH(g.ov,S.ov(g,t))}
+ // fx layer: wipe edge / phase flash
+ let fx='';if(prev){if(cur.kind=='wipe'){const x=lerp(W+260,-260,ei(p));fx=`<div style="position:absolute;left:${(x-200).toFixed(0)}px;top:0;width:400px;height:${H}px;clip-path:polygon(380px 0,400px 0,20px ${H}px,0 ${H}px);background:${COL.gold};opacity:.9"></div>`}
+  if(cur.kind=='phase'){const f=Math.sin(Math.PI*cl(p,.05,.6));fx=`<div style="position:absolute;inset:0;background:radial-gradient(circle at 50% 45%,#ffffff 0%,#bfe6ff 35%,#3a8ad0 75%);opacity:${(f*.95).toFixed(3)}"></div>`}}
+ setH($('fx'),fx);
+ setH($('cap'),MG.captions(t,{y:930,size:46,maxWords:6,stageW:1920,w:1500}));
+ MG.grainTick(t)}
+
+window.sfxEvents=()=>{const ev=[];COLLECT=ev;
+ G.forEach((g,k)=>{if(k>0){const B=g.B;switch(g.kind){case 'phase':ev.push({k:'whoosh',t:B-.3,d:1.1},{k:'impact',t:B+.3});break;case 'zoom':ev.push({k:'whoosh',t:B-.15,d:.8});break;case 'slide':ev.push({k:'swish',t:B,d:.5,pan:-.4});break;case 'up':ev.push({k:'swish',t:B,d:.5,pan:.3});break;case 'wipe':ev.push({k:'swish',t:B,d:.55,pan:.5});break;case 'iris':ev.push({k:'whoosh',t:B-.1,d:.7});break}}
+  try{SC[g.type].ov(g,g.E);if(SC[g.type].comp)SC[g.type].comp(ctx(g.i0,g.E),3.4)}catch(e){}});
+ COLLECT=null;
+ // de-duplicate events that fall too close together
+ ev.sort((a,b)=>a.t-b.t);const out=[];for(const e of ev){if(e.t<0)e.t=0;const dup=out.find(o=>o.k==e.k&&Math.abs(o.t-e.t)<.12);if(!dup)out.push(e)}
+ return out};
+window.draw=draw;
+MG.finish($('stage'),1920,1080,.05,'#0000001a',65);
+</script>

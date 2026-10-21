@@ -1,0 +1,1072 @@
+{
+ "title": "YouTube: Why Rich People Pay Less Tax Than You",
+ "size": [
+  1920,
+  1080
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+10%",
+ "lead": 0.6,
+ "gap": 0.4,
+ "tail": 3.0,
+ "crf": 21,
+ "music": false,
+ "sfx_gain": 0.42,
+ "phases": 7,
+ "lines": [
+  {
+   "text": "In 2011, a man worth around eighteen billion dollars paid zero dollars in federal income tax. He even got a four thousand dollar tax credit for his kids.",
+   "spec": {
+    "type": "hook",
+    "img": 71
+   }
+  },
+  {
+   "text": "That man was Jeff Bezos. Meanwhile, a delivery driver earning forty thousand dollars a year pays thousands.",
+   "spec": {
+    "type": "img",
+    "lay": "right",
+    "img": 72,
+    "ov": "vs",
+    "title": "Same country, same year?",
+    "a": [
+     "Billionaire, 2011",
+     "$0",
+     "green",
+     "Bezos"
+    ],
+    "b": [
+     "Delivery driver",
+     "$ thousands",
+     "red",
+     "thousands"
+    ],
+    "foot": "Bezos: ProPublica, Secret IRS Files (2021)"
+   }
+  },
+  {
+   "text": "And here is the crazy part: all of it was completely legal.",
+   "spec": {
+    "type": "img",
+    "lay": "full",
+    "img": 86,
+    "ov": "stamp",
+    "text": "100 % legal",
+    "sub": "",
+    "col": "gold"
+   }
+  },
+  {
+   "text": "In this video, I show you the three step trick the very rich use, why it works, where it breaks, and the one part of it you can actually copy.",
+   "spec": {
+    "type": "img",
+    "lay": "left",
+    "img": 78,
+    "ov": "chips",
+    "title": "Today",
+    "items": [
+     [
+      "The 3-step trick",
+      "flag",
+      "three"
+     ],
+     [
+      "Why it works",
+      "bulb",
+      "works"
+     ],
+     [
+      "Where it breaks",
+      "warn",
+      "breaks"
+     ],
+     [
+      "What YOU can copy",
+      "check",
+      "copy"
+     ]
+    ],
+    "flow": false
+   }
+  },
+  {
+   "text": "Quick note: this is about the United States, it is simplified, and it is not financial or tax advice.",
+   "spec": {
+    "type": "img",
+    "lay": "full",
+    "img": 86,
+    "ov": "stamp",
+    "text": "Education only",
+    "sub": "US rules, simplified. Not tax advice.",
+    "col": "gold"
+   }
+  },
+  {
+   "text": "Phase one: the scoreboard.",
+   "spec": {
+    "type": "phase",
+    "n": 1,
+    "title": "The scoreboard",
+    "img": 75
+   }
+  },
+  {
+   "text": "In 2021, the newsroom ProPublica obtained a huge leak of IRS tax data about the richest people in America.",
+   "spec": {
+    "type": "img",
+    "lay": "left",
+    "img": 75,
+    "ov": "chips",
+    "title": "ProPublica, 2021",
+    "items": [
+     [
+      "Secret IRS Files",
+      "doc",
+      "leak"
+     ],
+     [
+      "Richest Americans",
+      "lens",
+      "richest"
+     ]
+    ],
+    "flow": false
+   }
+  },
+  {
+   "text": "Between 2014 and 2018, the twenty five richest Americans grew their wealth by four hundred and one billion dollars.",
+   "spec": {
+    "type": "score",
+    "group": "score",
+    "img": 76
+   }
+  },
+  {
+   "text": "In the same years, they paid thirteen point six billion dollars in federal income tax.",
+   "spec": {
+    "type": "score",
+    "group": "score",
+    "img": 76
+   }
+  },
+  {
+   "text": "Divide one by the other, and you get what ProPublica called their true tax rate: just three point four percent.",
+   "spec": {
+    "type": "score",
+    "group": "score",
+    "img": 76
+   }
+  },
+  {
+   "text": "A typical American household, earning around seventy thousand dollars a year, pays about fourteen percent in federal taxes.",
+   "spec": {
+    "type": "score",
+    "group": "score",
+    "img": 76
+   }
+  },
+  {
+   "text": "And Warren Buffett, one of the most famous investors alive? His true tax rate was zero point one percent.",
+   "spec": {
+    "type": "stat",
+    "value": 0.1,
+    "dec": 1,
+    "suf": " %",
+    "label": "Buffett's “true tax rate”",
+    "sub": "Wealth +$24.3 billion, taxes $23.7 million, 2014–2018 (ProPublica)",
+    "img": 74
+   }
+  },
+  {
+   "text": "So how is that possible? To understand it, you only need to know one simple rule.",
+   "spec": {
+    "type": "img",
+    "lay": "full",
+    "img": 74,
+    "ov": "stamp",
+    "text": "One simple rule",
+    "sub": "",
+    "col": "gold",
+    "x": 1500,
+    "y": 720
+   }
+  },
+  {
+   "text": "Phase two: the one rule.",
+   "spec": {
+    "type": "phase",
+    "n": 2,
+    "title": "The one rule",
+    "img": 73
+   }
+  },
+  {
+   "text": "Meet Sam. Sam delivers food. Every two weeks his paycheck arrives, and the taxes are taken out before he even sees the money.",
+   "spec": {
+    "type": "rule",
+    "group": "rule",
+    "img": 72
+   }
+  },
+  {
+   "text": "Wages are hit by income tax, from ten up to thirty seven percent, plus seven point six five percent for Social Security and Medicare.",
+   "spec": {
+    "type": "rule",
+    "group": "rule",
+    "img": 72
+   }
+  },
+  {
+   "text": "Now meet Victor. Victor owns a big chunk of the company he founded, and he takes almost no salary.",
+   "spec": {
+    "type": "rule",
+    "group": "rule",
+    "img": 72
+   }
+  },
+  {
+   "text": "This year, his shares went up by one billion dollars. So how much tax does he owe on that billion?",
+   "spec": {
+    "type": "rule",
+    "group": "rule",
+    "img": 72
+   }
+  },
+  {
+   "text": "Zero.",
+   "spec": {
+    "type": "rule",
+    "group": "rule",
+    "img": 72
+   }
+  },
+  {
+   "text": "Because here is the rule: in the US, you usually pay tax on an investment gain only when you sell. As long as Victor holds his shares, the growth is an unrealized gain, and it is not taxed.",
+   "spec": {
+    "type": "img",
+    "lay": "left",
+    "img": 74,
+    "ov": "chips",
+    "title": "The rule",
+    "items": [
+     [
+      "Taxed when you SELL",
+      "coin",
+      "sell"
+     ],
+     [
+      "Not sold = unrealized",
+      "clock",
+      "unrealized"
+     ],
+     [
+      "Unrealized = no tax",
+      "check",
+      "not taxed"
+     ]
+    ],
+    "flow": true
+   }
+  },
+  {
+   "text": "Sam's money is taxed when he earns it. Victor's money is taxed when he sells it. And Victor has a plan to never sell.",
+   "spec": {
+    "type": "img",
+    "lay": "right",
+    "img": 71,
+    "ov": "vs",
+    "title": "The difference",
+    "a": [
+     "Sam",
+     "taxed when earned",
+     "red",
+     "earns"
+    ],
+    "b": [
+     "Victor",
+     "taxed when sold",
+     "green",
+     "sells"
+    ]
+   }
+  },
+  {
+   "text": "Phase three: step one, buy.",
+   "spec": {
+    "type": "phase",
+    "n": 3,
+    "title": "Step 1: Buy",
+    "img": 78
+   }
+  },
+  {
+   "text": "The plan has a famous name, coined by tax law professor Edward McCaffery: buy, borrow, die.",
+   "spec": {
+    "type": "img",
+    "lay": "left",
+    "img": 78,
+    "ov": "chips",
+    "title": "Buy · Borrow · Die",
+    "items": [
+     [
+      "Buy",
+      "coin",
+      "buy"
+     ],
+     [
+      "Borrow",
+      "bank",
+      "borrow"
+     ],
+     [
+      "Die",
+      "cross2",
+      "die"
+     ]
+    ],
+    "flow": true
+   }
+  },
+  {
+   "text": "Step one is simple: buy assets that grow. Shares of a company, stocks, real estate.",
+   "spec": {
+    "type": "img",
+    "lay": "right",
+    "img": 78,
+    "ov": "chips",
+    "title": "Step 1: Buy",
+    "items": [
+     [
+      "Company shares",
+      "up",
+      "shares"
+     ],
+     [
+      "Stocks",
+      "pct",
+      "stocks"
+     ],
+     [
+      "Real estate",
+      "house",
+      "estate"
+     ]
+    ],
+    "flow": false
+   }
+  },
+  {
+   "text": "And then, hold them. For years. For decades. Every year they grow, and every year the tax on that growth is pushed further into the future.",
+   "spec": {
+    "type": "img",
+    "lay": "full",
+    "img": 79,
+    "ov": "chips",
+    "title": "",
+    "items": [
+     [
+      "Hold for decades",
+      "clock",
+      "decades"
+     ],
+     [
+      "Tax: pushed into the future",
+      "cal",
+      "future"
+     ]
+    ],
+    "flow": false
+   }
+  },
+  {
+   "text": "But there is a problem. Victor still needs money to live. Houses, a yacht, a private jet. And if he sells shares to pay for them, he triggers the tax.",
+   "spec": {
+    "type": "img",
+    "lay": "left",
+    "img": 81,
+    "ov": "chips",
+    "title": "Victor needs cash",
+    "items": [
+     [
+      "Houses",
+      "house",
+      "houses"
+     ],
+     [
+      "Yacht",
+      "ticket",
+      "yacht"
+     ],
+     [
+      "Private jet",
+      "plane",
+      "jet"
+     ],
+     [
+      "Sell = tax!",
+      "warn",
+      "triggers",
+      "red"
+     ]
+    ],
+    "flow": false
+   }
+  },
+  {
+   "text": "On long term gains, he would pay up to twenty percent, plus a three point eight percent investment tax. Up to twenty three point eight percent.",
+   "spec": {
+    "type": "stat",
+    "value": 23.8,
+    "dec": 1,
+    "suf": " %",
+    "label": "max. tax on long-term gains",
+    "sub": "20 % capital gains + 3.8 % net investment income tax",
+    "img": 74
+   }
+  },
+  {
+   "text": "So he does not sell. He does something much smarter.",
+   "spec": {
+    "type": "img",
+    "lay": "full",
+    "img": 80,
+    "ov": "stamp",
+    "text": "Don't sell.",
+    "sub": "",
+    "col": "red",
+    "x": 1000,
+    "y": 120
+   }
+  },
+  {
+   "text": "Phase four: step two, borrow.",
+   "spec": {
+    "type": "phase",
+    "n": 4,
+    "title": "Step 2: Borrow",
+    "img": 80
+   }
+  },
+  {
+   "text": "Victor walks into a bank and says: here are my shares as collateral. Lend me some money.",
+   "spec": {
+    "type": "img",
+    "lay": "right",
+    "img": 80,
+    "ov": "chips",
+    "title": "",
+    "items": [
+     [
+      "Shares as collateral",
+      "shield",
+      "collateral"
+     ],
+     [
+      "Lend me money",
+      "bank",
+      "lend"
+     ]
+    ],
+    "flow": false
+   }
+  },
+  {
+   "text": "For the bank, that is a dream customer. The loan is backed by billions in stock, so the interest rate can be surprisingly low.",
+   "spec": {
+    "type": "img",
+    "lay": "left",
+    "img": 80,
+    "ov": "chips",
+    "title": "Dream customer",
+    "items": [
+     [
+      "Backed by billions",
+      "shield",
+      "billions"
+     ],
+     [
+      "Low interest",
+      "pct",
+      "interest"
+     ]
+    ],
+    "flow": false
+   }
+  },
+  {
+   "text": "And here is the key: a loan is not income. You have to pay it back, so it is not taxed as income.",
+   "spec": {
+    "type": "img",
+    "lay": "full",
+    "img": 80,
+    "ov": "stamp",
+    "text": "Loan ≠ income",
+    "sub": "no income tax on borrowed money",
+    "col": "gold",
+    "x": 1050,
+    "y": 110
+   }
+  },
+  {
+   "text": "So Victor borrows fifty million dollars, spends it, and pays no income tax on it.",
+   "spec": {
+    "type": "img",
+    "lay": "right",
+    "img": 81,
+    "ov": "rows",
+    "title": "Victor's year",
+    "rows": [
+     [
+      "Borrowed",
+      "$50,000,000",
+      "gold",
+      "fifty"
+     ],
+     [
+      "Income tax on it",
+      "$0",
+      "green",
+      "pays"
+     ]
+    ]
+   }
+  },
+  {
+   "text": "This is not just theory. ProPublica reported that Oracle founder Larry Ellison had a credit line backed by about ten billion dollars of his shares, and that Elon Musk had pledged around ninety two million Tesla shares for personal loans.",
+   "spec": {
+    "type": "img",
+    "lay": "left",
+    "img": 80,
+    "ov": "chips",
+    "title": "Real examples (ProPublica)",
+    "items": [
+     [
+      "Ellison: ≈ $10B in shares as backing",
+      "bank",
+      "Ellison"
+     ],
+     [
+      "Musk: ≈ 92M Tesla shares pledged",
+      "doc",
+      "Musk"
+     ]
+    ],
+    "flow": false
+   }
+  },
+  {
+   "text": "But wait. Loans cost interest. Is that not expensive?",
+   "spec": {
+    "type": "loan",
+    "group": "loan",
+    "img": 82
+   }
+  },
+  {
+   "text": "Here is the trick. Say his shares grow by eight percent a year, and the loan costs five. Victor still gets richer, while living on borrowed money.",
+   "spec": {
+    "type": "loan",
+    "group": "loan",
+    "img": 82
+   }
+  },
+  {
+   "text": "And when the interest is due? He can simply borrow again to pay it. Loan after loan. Year after year. The debt grows, but the shares grow faster.",
+   "spec": {
+    "type": "loan",
+    "group": "loan",
+    "img": 82
+   }
+  },
+  {
+   "text": "Of course, at some point all of this has to be paid back. And that is where the final step comes in. The darkest one.",
+   "spec": {
+    "type": "img",
+    "lay": "full",
+    "img": 82,
+    "ov": "stamp",
+    "text": "Step 3 …",
+    "sub": "the darkest one",
+    "col": "red",
+    "x": 1400,
+    "y": 140
+   }
+  },
+  {
+   "text": "Phase five: step three, die.",
+   "spec": {
+    "type": "phase",
+    "n": 5,
+    "title": "Step 3: Die",
+    "img": 84
+   }
+  },
+  {
+   "text": "Sounds grim. But for taxes, dying can be the best move Victor ever makes.",
+   "spec": {
+    "type": "img",
+    "lay": "full",
+    "img": 84,
+    "ov": "stamp",
+    "text": "The final move",
+    "sub": "",
+    "col": "gold",
+    "x": 420,
+    "y": 130
+   }
+  },
+  {
+   "text": "Say Victor bought his shares for one million dollars. When he dies, they are worth one billion. That is nine hundred and ninety nine million dollars of gains that were never taxed.",
+   "spec": {
+    "type": "step",
+    "group": "step",
+    "img": 84
+   }
+  },
+  {
+   "text": "Now his kids inherit the shares, and a rule called the step up in basis kicks in. The tax system treats the shares as if the kids had bought them on the day Victor died, for one billion dollars.",
+   "spec": {
+    "type": "step",
+    "group": "step",
+    "img": 84
+   }
+  },
+  {
+   "text": "So that nine hundred and ninety nine million dollar gain? For income tax, it simply disappears.",
+   "spec": {
+    "type": "step",
+    "group": "step",
+    "img": 84
+   }
+  },
+  {
+   "text": "The heirs can sell some shares, pay off Victor's loans, and owe little or no capital gains tax.",
+   "spec": {
+    "type": "img",
+    "lay": "right",
+    "img": 85,
+    "ov": "chips",
+    "title": "The heirs",
+    "items": [
+     [
+      "Sell a few shares",
+      "coin",
+      "sell"
+     ],
+     [
+      "Repay the loans",
+      "bank",
+      "loans"
+     ],
+     [
+      "Little or no tax",
+      "check",
+      "little"
+     ]
+    ],
+    "flow": true
+   }
+  },
+  {
+   "text": "There is an estate tax: forty percent on everything above fifteen million dollars per person, from 2026. But the very rich often use trusts and other planning to shrink that bill a lot.",
+   "spec": {
+    "type": "img",
+    "lay": "left",
+    "img": 86,
+    "ov": "rows",
+    "title": "Estate tax (2026)",
+    "rows": [
+     [
+      "Rate above the exemption",
+      "40 %",
+      "red",
+      "forty"
+     ],
+     [
+      "Exempt per person",
+      "$15 million",
+      "gold",
+      "fifteen"
+     ],
+     [
+      "With trusts & planning",
+      "often far less",
+      "green",
+      "trusts"
+     ]
+    ]
+   }
+  },
+  {
+   "text": "Buy. Borrow. Die. That is the strategy that became famous. But is it really how most billionaires do it?",
+   "spec": {
+    "type": "img",
+    "lay": "full",
+    "img": 87,
+    "ov": "stamp",
+    "text": "Is it really true?",
+    "sub": "",
+    "col": "gold",
+    "x": 960,
+    "y": 110
+   }
+  },
+  {
+   "text": "Phase six: the other side of the story.",
+   "spec": {
+    "type": "phase",
+    "n": 6,
+    "title": "The other side",
+    "img": 87
+   }
+  },
+  {
+   "text": "First: that true tax rate of three point four percent compares taxes to wealth growth. But under US law, wealth growth that is not sold is not income. Critics say that is comparing apples to oranges.",
+   "spec": {
+    "type": "img",
+    "lay": "left",
+    "img": 87,
+    "ov": "vs",
+    "title": "Critics say",
+    "a": [
+     "Taxes compared to",
+     "wealth growth",
+     "gold",
+     "wealth"
+    ],
+    "b": [
+     "But the law taxes",
+     "income",
+     "green",
+     "income"
+    ]
+   }
+  },
+  {
+   "text": "Second: the rich still pay a huge share of all income taxes. In 2023, the top one percent earned about twenty one percent of the income, but paid about thirty eight percent of all federal income taxes.",
+   "spec": {
+    "type": "share",
+    "img": 86
+   }
+  },
+  {
+   "text": "Third: borrowing is risky. If the stock market crashes, the bank can demand more collateral, and force you to sell at the worst possible moment.",
+   "spec": {
+    "type": "img",
+    "lay": "right",
+    "img": 83,
+    "ov": "chips",
+    "title": "",
+    "items": [
+     [
+      "Market crash",
+      "down",
+      "crashes"
+     ],
+     [
+      "Bank wants more",
+      "bell",
+      "demand"
+     ],
+     [
+      "Forced to sell",
+      "warn",
+      "force",
+      "red"
+     ]
+    ],
+    "flow": false
+   }
+  },
+  {
+   "text": "And a 2025 study by economists Edward Fox and Zachary Liscow found that new borrowing by the top one percent is fairly small, only about one to two percent of their economic income.",
+   "spec": {
+    "type": "img",
+    "lay": "right",
+    "img": 87,
+    "ov": "rows",
+    "title": "Fox & Liscow (2025)",
+    "rows": [
+     [
+      "New borrowing, top 1 %",
+      "≈ 1–2 %",
+      "gold",
+      "borrowing"
+     ],
+     [
+      "of their economic income",
+      "small",
+      "green",
+      "small"
+     ]
+    ]
+   }
+  },
+  {
+   "text": "Their conclusion: the main strategy of the super rich is not buy, borrow, die. It is buy, save, die. They earn so much that they rarely need to borrow.",
+   "spec": {
+    "type": "img",
+    "lay": "left",
+    "img": 79,
+    "ov": "chips",
+    "title": "Buy · Save · Die",
+    "items": [
+     [
+      "Buy",
+      "coin",
+      "buy"
+     ],
+     [
+      "Save",
+      "shield",
+      "save"
+     ],
+     [
+      "Die",
+      "cross2",
+      "die"
+     ]
+    ],
+    "flow": true
+   }
+  },
+  {
+   "text": "But notice: it still ends with die. Untaxed growth, and the step up at death, do the heavy lifting either way.",
+   "spec": {
+    "type": "img",
+    "lay": "full",
+    "img": 85,
+    "ov": "stamp",
+    "text": "Still ends with “die”",
+    "sub": "",
+    "col": "red"
+   }
+  },
+  {
+   "text": "So is it fair? That is a real debate. Some say big unrealized gains should be taxed. Others say taxing money you have not actually received would be unfair, and very hard to measure. Both sides have a point.",
+   "spec": {
+    "type": "img",
+    "lay": "right",
+    "img": 87,
+    "ov": "vs",
+    "title": "Is it fair?",
+    "a": [
+     "Tax unrealized gains",
+     "yes",
+     "green",
+     "Some"
+    ],
+    "b": [
+     "Too unfair & hard to measure",
+     "no",
+     "red",
+     "Others"
+    ]
+   }
+  },
+  {
+   "text": "Phase seven: what you can copy.",
+   "spec": {
+    "type": "phase",
+    "n": 7,
+    "title": "What you can copy",
+    "img": 88
+   }
+  },
+  {
+   "text": "You are probably not a billionaire. But the core idea works at every size: money that grows untouched is taxed later, and often less, than money you earn by working.",
+   "spec": {
+    "type": "img",
+    "lay": "full",
+    "img": 89,
+    "ov": "stamp",
+    "text": "Let it grow untouched",
+    "sub": "",
+    "col": "gold"
+   }
+  },
+  {
+   "text": "Buy assets, for example a broad, low cost index fund, and hold them for the long run. Do not sell every time the market moves.",
+   "spec": {
+    "type": "img",
+    "lay": "left",
+    "img": 88,
+    "ov": "chips",
+    "title": "1 · Buy & hold",
+    "items": [
+     [
+      "Broad index fund",
+      "globe",
+      "index"
+     ],
+     [
+      "Low cost",
+      "pct",
+      "cost"
+     ],
+     [
+      "Hold for years",
+      "clock",
+      "hold"
+     ]
+    ],
+    "flow": false
+   }
+  },
+  {
+   "text": "Use the tax advantaged accounts your country offers. In the US, that means things like a 401k or an IRA.",
+   "spec": {
+    "type": "img",
+    "lay": "right",
+    "img": 88,
+    "ov": "chips",
+    "title": "2 · Tax-advantaged accounts",
+    "items": [
+     [
+      "401(k)",
+      "shield",
+      "401k"
+     ],
+     [
+      "IRA",
+      "shield",
+      "IRA"
+     ],
+     [
+      "Your country's version",
+      "globe",
+      "country"
+     ]
+    ],
+    "flow": false
+   }
+  },
+  {
+   "text": "And if you do sell, in the US, holding for more than a year usually means a lower tax rate than selling quickly.",
+   "spec": {
+    "type": "img",
+    "lay": "left",
+    "img": 89,
+    "ov": "vs",
+    "title": "3 · Hold over a year",
+    "a": [
+     "Sold within a year",
+     "taxed like wages",
+     "red",
+     "sell"
+    ],
+    "b": [
+     "Held over a year",
+     "lower rates",
+     "green",
+     "year"
+    ]
+   }
+  },
+  {
+   "text": "What you should not copy: borrowing against your investments to pay for your lifestyle. For normal people, that is how you lose everything in a crash.",
+   "spec": {
+    "type": "img",
+    "lay": "full",
+    "img": 90,
+    "ov": "stamp",
+    "text": "Don't copy this",
+    "sub": "borrowing to fund your lifestyle",
+    "col": "red",
+    "x": 400,
+    "y": 620
+   }
+  },
+  {
+   "text": "And rules are different in every country, so check yours, or ask a tax professional.",
+   "spec": {
+    "type": "img",
+    "lay": "right",
+    "img": 86,
+    "ov": "chips",
+    "title": "Remember",
+    "items": [
+     [
+      "Rules differ by country",
+      "globe",
+      "country"
+     ],
+     [
+      "Ask a tax pro",
+      "heart",
+      "professional"
+     ]
+    ],
+    "flow": false
+   }
+  },
+  {
+   "text": "So, why do rich people pay less tax than you? Not because they break the law. Because their money lives under different rules than yours.",
+   "spec": {
+    "type": "img",
+    "lay": "full",
+    "img": 91,
+    "ov": "stamp",
+    "text": "Different rules",
+    "sub": "",
+    "col": "gold",
+    "x": 960,
+    "y": 130
+   }
+  },
+  {
+   "text": "You are taxed on what you earn. They are taxed on what they sell. And they try to never sell.",
+   "spec": {
+    "type": "img",
+    "lay": "right",
+    "img": 91,
+    "ov": "vs",
+    "title": "",
+    "a": [
+     "You: taxed on",
+     "what you earn",
+     "red",
+     "earn"
+    ],
+    "b": [
+     "They: taxed on",
+     "what they sell",
+     "green",
+     "sell"
+    ]
+   }
+  },
+  {
+   "text": "Now I want to know: should the unrealized gains of billionaires be taxed? Yes or no? Write it in the comments.",
+   "spec": {
+    "type": "img",
+    "lay": "right",
+    "img": 87,
+    "ov": "chips",
+    "title": "Your turn",
+    "items": [
+     [
+      "Yes or no?",
+      "bell",
+      "yes"
+     ],
+     [
+      "Comment below",
+      "heart",
+      "comments"
+     ]
+    ],
+    "flow": false
+   }
+  },
+  {
+   "text": "And subscribe for more money explained simply. Next, find out what would happen if everyone got one million dollars.",
+   "spec": {
+    "type": "outro",
+    "img": 91
+   }
+  }
+ ]
+}

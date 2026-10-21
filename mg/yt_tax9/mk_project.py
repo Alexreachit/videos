@@ -1,0 +1,90 @@
+# YT 9 – "Why Rich People Pay Less Tax Than You"  ->  project.json
+# Sources: ProPublica "The Secret IRS Files" (2021), Tax Foundation (tax year 2023),
+# Fox & Liscow (Yale, 2025), IRS / One Big Beautiful Bill Act estate exemption 2026.
+import json,os
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
+def I(lay,img,ov,**k): return dict(type="img",lay=lay,img=img,ov=ov,**k)
+def PH(n,title,img): return dict(type="phase",n=n,title=title,img=img)
+def ch(*items,title=None,flow=False): return dict(title=title,items=[list(i) for i in items],flow=flow)
+L=[]
+def A(t,s): L.append((t,s))
+# ---------------------------------------------------------------- HOOK
+A("In 2011, a man worth around eighteen billion dollars paid zero dollars in federal income tax. He even got a four thousand dollar tax credit for his kids.",dict(type="hook",img=71))
+A("That man was Jeff Bezos. Meanwhile, a delivery driver earning forty thousand dollars a year pays thousands.",I("right",72,"vs",title="Same country, same year?",a=["Billionaire, 2011","$0","green","Bezos"],b=["Delivery driver","$ thousands","red","thousands"],foot="Bezos: ProPublica, Secret IRS Files (2021)"))
+A("And here is the crazy part: all of it was completely legal.",I("full",86,"stamp",text="100 % legal",sub="",col="gold"))
+A("In this video, I show you the three step trick the very rich use, why it works, where it breaks, and the one part of it you can actually copy.",I("left",78,"chips",**ch(["The 3-step trick","flag","three"],["Why it works","bulb","works"],["Where it breaks","warn","breaks"],["What YOU can copy","check","copy"],title="Today")))
+A("Quick note: this is about the United States, it is simplified, and it is not financial or tax advice.",I("full",86,"stamp",text="Education only",sub="US rules, simplified. Not tax advice.",col="gold"))
+# ---------------------------------------------------------------- 1
+A("Phase one: the scoreboard.",PH(1,"The scoreboard",75))
+A("In 2021, the newsroom ProPublica obtained a huge leak of IRS tax data about the richest people in America.",I("left",75,"chips",**ch(["Secret IRS Files","doc","leak"],["Richest Americans","lens","richest"],title="ProPublica, 2021")))
+A("Between 2014 and 2018, the twenty five richest Americans grew their wealth by four hundred and one billion dollars.",dict(type="score",group="score",img=76))
+A("In the same years, they paid thirteen point six billion dollars in federal income tax.",dict(type="score",group="score",img=76))
+A("Divide one by the other, and you get what ProPublica called their true tax rate: just three point four percent.",dict(type="score",group="score",img=76))
+A("A typical American household, earning around seventy thousand dollars a year, pays about fourteen percent in federal taxes.",dict(type="score",group="score",img=76))
+A("And Warren Buffett, one of the most famous investors alive? His true tax rate was zero point one percent.",dict(type="stat",value=0.1,dec=1,suf=" %",label="Buffett's “true tax rate”",sub="Wealth +$24.3 billion, taxes $23.7 million, 2014–2018 (ProPublica)",img=74))
+A("So how is that possible? To understand it, you only need to know one simple rule.",I("full",74,"stamp",text="One simple rule",sub="",col="gold",x=1500,y=720))
+# ---------------------------------------------------------------- 2
+A("Phase two: the one rule.",PH(2,"The one rule",73))
+A("Meet Sam. Sam delivers food. Every two weeks his paycheck arrives, and the taxes are taken out before he even sees the money.",dict(type="rule",group="rule",img=72))
+A("Wages are hit by income tax, from ten up to thirty seven percent, plus seven point six five percent for Social Security and Medicare.",dict(type="rule",group="rule",img=72))
+A("Now meet Victor. Victor owns a big chunk of the company he founded, and he takes almost no salary.",dict(type="rule",group="rule",img=72))
+A("This year, his shares went up by one billion dollars. So how much tax does he owe on that billion?",dict(type="rule",group="rule",img=72))
+A("Zero.",dict(type="rule",group="rule",img=72))
+A("Because here is the rule: in the US, you usually pay tax on an investment gain only when you sell. As long as Victor holds his shares, the growth is an unrealized gain, and it is not taxed.",I("left",74,"chips",**ch(["Taxed when you SELL","coin","sell"],["Not sold = unrealized","clock","unrealized"],["Unrealized = no tax","check","not taxed"],title="The rule",flow=True)))
+A("Sam's money is taxed when he earns it. Victor's money is taxed when he sells it. And Victor has a plan to never sell.",I("right",71,"vs",title="The difference",a=["Sam","taxed when earned","red","earns"],b=["Victor","taxed when sold","green","sells"]))
+# ---------------------------------------------------------------- 3
+A("Phase three: step one, buy.",PH(3,"Step 1: Buy",78))
+A("The plan has a famous name, coined by tax law professor Edward McCaffery: buy, borrow, die.",I("left",78,"chips",**ch(["Buy","coin","buy"],["Borrow","bank","borrow"],["Die","cross2","die"],title="Buy · Borrow · Die",flow=True)))
+A("Step one is simple: buy assets that grow. Shares of a company, stocks, real estate.",I("right",78,"chips",**ch(["Company shares","up","shares"],["Stocks","pct","stocks"],["Real estate","house","estate"],title="Step 1: Buy")))
+A("And then, hold them. For years. For decades. Every year they grow, and every year the tax on that growth is pushed further into the future.",I("full",79,"chips",**ch(["Hold for decades","clock","decades"],["Tax: pushed into the future","cal","future"],title="")))
+A("But there is a problem. Victor still needs money to live. Houses, a yacht, a private jet. And if he sells shares to pay for them, he triggers the tax.",I("left",81,"chips",**ch(["Houses","house","houses"],["Yacht","ticket","yacht"],["Private jet","plane","jet"],["Sell = tax!","warn","triggers","red"],title="Victor needs cash")))
+A("On long term gains, he would pay up to twenty percent, plus a three point eight percent investment tax. Up to twenty three point eight percent.",dict(type="stat",value=23.8,dec=1,suf=" %",label="max. tax on long-term gains",sub="20 % capital gains + 3.8 % net investment income tax",img=74))
+A("So he does not sell. He does something much smarter.",I("full",80,"stamp",text="Don't sell.",sub="",col="red",x=1000,y=120))
+# ---------------------------------------------------------------- 4
+A("Phase four: step two, borrow.",PH(4,"Step 2: Borrow",80))
+A("Victor walks into a bank and says: here are my shares as collateral. Lend me some money.",I("right",80,"chips",**ch(["Shares as collateral","shield","collateral"],["Lend me money","bank","lend"],title="")))
+A("For the bank, that is a dream customer. The loan is backed by billions in stock, so the interest rate can be surprisingly low.",I("left",80,"chips",**ch(["Backed by billions","shield","billions"],["Low interest","pct","interest"],title="Dream customer")))
+A("And here is the key: a loan is not income. You have to pay it back, so it is not taxed as income.",I("full",80,"stamp",text="Loan ≠ income",sub="no income tax on borrowed money",col="gold",x=1050,y=110))
+A("So Victor borrows fifty million dollars, spends it, and pays no income tax on it.",I("right",81,"rows",title="Victor's year",rows=[["Borrowed","$50,000,000","gold","fifty"],["Income tax on it","$0","green","pays"]]))
+A("This is not just theory. ProPublica reported that Oracle founder Larry Ellison had a credit line backed by about ten billion dollars of his shares, and that Elon Musk had pledged around ninety two million Tesla shares for personal loans.",I("left",80,"chips",**ch(["Ellison: ≈ $10B in shares as backing","bank","Ellison"],["Musk: ≈ 92M Tesla shares pledged","doc","Musk"],title="Real examples (ProPublica)")))
+A("But wait. Loans cost interest. Is that not expensive?",dict(type="loan",group="loan",img=82))
+A("Here is the trick. Say his shares grow by eight percent a year, and the loan costs five. Victor still gets richer, while living on borrowed money.",dict(type="loan",group="loan",img=82))
+A("And when the interest is due? He can simply borrow again to pay it. Loan after loan. Year after year. The debt grows, but the shares grow faster.",dict(type="loan",group="loan",img=82))
+A("Of course, at some point all of this has to be paid back. And that is where the final step comes in. The darkest one.",I("full",82,"stamp",text="Step 3 …",sub="the darkest one",col="red",x=1400,y=140))
+# ---------------------------------------------------------------- 5
+A("Phase five: step three, die.",PH(5,"Step 3: Die",84))
+A("Sounds grim. But for taxes, dying can be the best move Victor ever makes.",I("full",84,"stamp",text="The final move",sub="",col="gold",x=420,y=130))
+A("Say Victor bought his shares for one million dollars. When he dies, they are worth one billion. That is nine hundred and ninety nine million dollars of gains that were never taxed.",dict(type="step",group="step",img=84))
+A("Now his kids inherit the shares, and a rule called the step up in basis kicks in. The tax system treats the shares as if the kids had bought them on the day Victor died, for one billion dollars.",dict(type="step",group="step",img=84))
+A("So that nine hundred and ninety nine million dollar gain? For income tax, it simply disappears.",dict(type="step",group="step",img=84))
+A("The heirs can sell some shares, pay off Victor's loans, and owe little or no capital gains tax.",I("right",85,"chips",**ch(["Sell a few shares","coin","sell"],["Repay the loans","bank","loans"],["Little or no tax","check","little"],title="The heirs",flow=True)))
+A("There is an estate tax: forty percent on everything above fifteen million dollars per person, from 2026. But the very rich often use trusts and other planning to shrink that bill a lot.",I("left",86,"rows",title="Estate tax (2026)",rows=[["Rate above the exemption","40 %","red","forty"],["Exempt per person","$15 million","gold","fifteen"],["With trusts & planning","often far less","green","trusts"]]))
+A("Buy. Borrow. Die. That is the strategy that became famous. But is it really how most billionaires do it?",I("full",87,"stamp",text="Is it really true?",sub="",col="gold",x=960,y=110))
+# ---------------------------------------------------------------- 6
+A("Phase six: the other side of the story.",PH(6,"The other side",87))
+A("First: that true tax rate of three point four percent compares taxes to wealth growth. But under US law, wealth growth that is not sold is not income. Critics say that is comparing apples to oranges.",I("left",87,"vs",title="Critics say",a=["Taxes compared to","wealth growth","gold","wealth"],b=["But the law taxes","income","green","income"]))
+A("Second: the rich still pay a huge share of all income taxes. In 2023, the top one percent earned about twenty one percent of the income, but paid about thirty eight percent of all federal income taxes.",dict(type="share",img=86))
+A("Third: borrowing is risky. If the stock market crashes, the bank can demand more collateral, and force you to sell at the worst possible moment.",I("right",83,"chips",**ch(["Market crash","down","crashes"],["Bank wants more","bell","demand"],["Forced to sell","warn","force","red"],title="")))
+A("And a 2025 study by economists Edward Fox and Zachary Liscow found that new borrowing by the top one percent is fairly small, only about one to two percent of their economic income.",I("right",87,"rows",title="Fox & Liscow (2025)",rows=[["New borrowing, top 1 %","≈ 1–2 %","gold","borrowing"],["of their economic income","small","green","small"]]))
+A("Their conclusion: the main strategy of the super rich is not buy, borrow, die. It is buy, save, die. They earn so much that they rarely need to borrow.",I("left",79,"chips",**ch(["Buy","coin","buy"],["Save","shield","save"],["Die","cross2","die"],title="Buy · Save · Die",flow=True)))
+A("But notice: it still ends with die. Untaxed growth, and the step up at death, do the heavy lifting either way.",I("full",85,"stamp",text="Still ends with “die”",sub="",col="red"))
+A("So is it fair? That is a real debate. Some say big unrealized gains should be taxed. Others say taxing money you have not actually received would be unfair, and very hard to measure. Both sides have a point.",I("right",87,"vs",title="Is it fair?",a=["Tax unrealized gains","yes","green","Some"],b=["Too unfair & hard to measure","no","red","Others"]))
+# ---------------------------------------------------------------- 7
+A("Phase seven: what you can copy.",PH(7,"What you can copy",88))
+A("You are probably not a billionaire. But the core idea works at every size: money that grows untouched is taxed later, and often less, than money you earn by working.",I("full",89,"stamp",text="Let it grow untouched",sub="",col="gold"))
+A("Buy assets, for example a broad, low cost index fund, and hold them for the long run. Do not sell every time the market moves.",I("left",88,"chips",**ch(["Broad index fund","globe","index"],["Low cost","pct","cost"],["Hold for years","clock","hold"],title="1 · Buy & hold")))
+A("Use the tax advantaged accounts your country offers. In the US, that means things like a 401k or an IRA.",I("right",88,"chips",**ch(["401(k)","shield","401k"],["IRA","shield","IRA"],["Your country's version","globe","country"],title="2 · Tax-advantaged accounts")))
+A("And if you do sell, in the US, holding for more than a year usually means a lower tax rate than selling quickly.",I("left",89,"vs",title="3 · Hold over a year",a=["Sold within a year","taxed like wages","red","sell"],b=["Held over a year","lower rates","green","year"]))
+A("What you should not copy: borrowing against your investments to pay for your lifestyle. For normal people, that is how you lose everything in a crash.",I("full",90,"stamp",text="Don't copy this",sub="borrowing to fund your lifestyle",col="red",x=400,y=620))
+A("And rules are different in every country, so check yours, or ask a tax professional.",I("right",86,"chips",**ch(["Rules differ by country","globe","country"],["Ask a tax pro","heart","professional"],title="Remember")))
+# ---------------------------------------------------------------- END
+A("So, why do rich people pay less tax than you? Not because they break the law. Because their money lives under different rules than yours.",I("full",91,"stamp",text="Different rules",sub="",col="gold",x=960,y=130))
+A("You are taxed on what you earn. They are taxed on what they sell. And they try to never sell.",I("right",91,"vs",title="",a=["You: taxed on","what you earn","red","earn"],b=["They: taxed on","what they sell","green","sell"]))
+A("Now I want to know: should the unrealized gains of billionaires be taxed? Yes or no? Write it in the comments.",I("right",87,"chips",**ch(["Yes or no?","bell","yes"],["Comment below","heart","comments"],title="Your turn")))
+A("And subscribe for more money explained simply. Next, find out what would happen if everyone got one million dollars.",dict(type="outro",img=91))
+cfg={"title":"YouTube: Why Rich People Pay Less Tax Than You","size":[1920,1080],"fps":30,"scene":"scene.html",
+ "voice":"en-US-AndrewMultilingualNeural","rate":"+10%","lead":0.6,"gap":0.4,"tail":3.0,"crf":21,"music":False,"sfx_gain":0.42,"phases":7,
+ "lines":[{"text":t,"spec":s} for t,s in L]}
+json.dump(cfg,open('project.json','w'),ensure_ascii=False,indent=1)
+w=sum(len(t.split()) for t,_ in L);print(len(L),'lines',w,'words ~',round(w/173,1),'min speech +',round(len(L)*.4/60,1),'min gaps')
+print('images:',sorted({s['img'] for _,s in L}))
