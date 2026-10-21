@@ -53,3 +53,5 @@ Rendern auf GitHub: Projektname in `mg/render_queue.txt` eintragen und pushen (W
 - Sounds (ab 2026-10-20): KEIN 'riser' (anschwellendes Summen) mehr; nur etablierte Sounds: whoosh, swish, pop, ding, cash (Ka-ching), click, impact (Boom), tick, bell.
 - Video 9 (yt_tax9, 2026-10-21): neue Szenentypen in mg/yt_tax9/sc9.js (hook=Steuerbescheid, score, rule=Splitscreen 2 Figuren, loan=Chart, step=Balken-Reset, share); Story mit wiederkehrenden Figuren Sam vs. Victor; Gegenargumente-Kapitel. Stempel in Vollbild-Szenen per x/y positionieren (nie ueber Gesichter).
 - Workflow: Videos >95 MB werden als *.part in renders/ abgelegt (zusammensetzen: cat *.part > x.mp4).
+- Musik (ab Video 9): leises Musikbett "music":{"style":"soft","bpm":76,"gain":0.3} + "sfx_vary":true (E-Piano, kein Schlagzeug, ca. 17 dB unter der Stimme, Ducking).
+- TTS: Aufzaehlungen wie 'buy, borrow, die' rattert Andrew ohne Pause herunter -> als 'Step one: buy. Step two: borrow. ...' oder mit 'and' schreiben.
