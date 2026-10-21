@@ -51,3 +51,5 @@ Rendern auf GitHub: Projektname in `mg/render_queue.txt` eintragen und pushen (W
 - YouTube-Hook (ab 2026-10-19): die ersten ~5 Sekunden müssen packen – überraschende Zahl/These sofort im Bild und im ersten Satz, offene Frage ("…aber bis zum Ende siehst du, warum…"), kein ruhiger Titel-Einstieg; erste Szene mit Bewegung.
 - TikToks (ab 2026-10-19): Englisch, ca. 30 s, eigenständig (keine Part-Serien); Aufbau: Hook + große Zahl ab Sekunde 0, offene Frage, Auflösung/Wendung, Kommentar-Frage am Ende (Vorlage mg/tt_banker).
 - Sounds (ab 2026-10-20): KEIN 'riser' (anschwellendes Summen) mehr; nur etablierte Sounds: whoosh, swish, pop, ding, cash (Ka-ching), click, impact (Boom), tick, bell.
+- Video 9 (yt_tax9, 2026-10-21): neue Szenentypen in mg/yt_tax9/sc9.js (hook=Steuerbescheid, score, rule=Splitscreen 2 Figuren, loan=Chart, step=Balken-Reset, share); Story mit wiederkehrenden Figuren Sam vs. Victor; Gegenargumente-Kapitel. Stempel in Vollbild-Szenen per x/y positionieren (nie ueber Gesichter).
+- Workflow: Videos >95 MB werden als *.part in renders/ abgelegt (zusammensetzen: cat *.part > x.mp4).
