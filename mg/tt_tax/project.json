@@ -1,0 +1,23 @@
+{
+ "title": "TikTok: How billionaires pay $0 in tax (Video 9)",
+ "size": [1080, 1920],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+10%",
+ "lead": 0.15,
+ "gap": 0.3,
+ "tail": 1.6,
+ "crf": 22,
+ "music": {"style": "soft", "bpm": 84, "gain": 0.3},
+ "sfx_vary": true,
+ "sfx_gain": 0.42,
+ "lines": [
+  {"text": "In 2011, one of the richest men alive paid zero dollars in federal income tax. Legally.", "spec": {"img": 1, "ov": "hook"}},
+  {"text": "A delivery driver pays thousands. So how do billionaires do it? Three steps.", "spec": {"img": 2, "ov": "driver", "tr": "fade"}},
+  {"text": "Step one: buy shares, and never sell them. No sale means no tax on the gains.", "spec": {"img": 3, "ov": "s1", "tr": "fade"}},
+  {"text": "Step two: borrow against them to pay for your life. A loan is not income, so it is not taxed.", "spec": {"img": 4, "ov": "s2", "tr": "fade"}},
+  {"text": "Step three: die. Your kids inherit the shares, and the old gains are never taxed.", "spec": {"img": 5, "ov": "s3", "tr": "fade"}},
+  {"text": "Should this be allowed? Yes or no? Tell me in the comments.", "spec": {"img": 6, "ov": "ask", "tr": "fade"}}
+ ]
+}
