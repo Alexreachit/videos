@@ -12,7 +12,12 @@
  "gap": 0.4,
  "tail": 3.0,
  "crf": 21,
- "music": false,
+ "music": {
+  "style": "soft",
+  "bpm": 76,
+  "gain": 0.3
+ },
+ "sfx_vary": true,
  "sfx_gain": 0.42,
  "phases": 7,
  "lines": [
@@ -302,7 +307,7 @@
    }
   },
   {
-   "text": "The plan has a famous name, coined by tax law professor Edward McCaffery: buy, borrow, die.",
+   "text": "The plan has a famous name, coined by tax law professor Edward McCaffery. It is called: buy, borrow, and die.",
    "spec": {
     "type": "img",
     "lay": "left",
@@ -700,7 +705,7 @@
    }
   },
   {
-   "text": "Buy. Borrow. Die. That is the strategy that became famous. But is it really how most billionaires do it?",
+   "text": "So that is the famous strategy: buy, borrow, and die. But is it really how most billionaires do it?",
    "spec": {
     "type": "img",
     "lay": "full",
@@ -805,7 +810,7 @@
    }
   },
   {
-   "text": "Their conclusion: the main strategy of the super rich is not buy, borrow, die. It is buy, save, die. They earn so much that they rarely need to borrow.",
+   "text": "Their conclusion: the main strategy of the super rich is not buy, borrow, and die. It is buy, save, and die. They earn so much that they rarely need to borrow.",
    "spec": {
     "type": "img",
     "lay": "left",
@@ -833,7 +838,7 @@
    }
   },
   {
-   "text": "But notice: it still ends with die. Untaxed growth, and the step up at death, do the heavy lifting either way.",
+   "text": "But notice: both versions end the same way. Untaxed growth, and the step up at death, do the heavy lifting either way.",
    "spec": {
     "type": "img",
     "lay": "full",

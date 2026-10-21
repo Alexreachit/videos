@@ -91,8 +91,38 @@ CHORDS = {"minor": [(57, 60, 64), (53, 57, 60), (48, 52, 55), (55, 59, 62)],    
           "tense": [(57, 60, 64), (57, 60, 65), (53, 57, 60), (52, 56, 59)]}      # Am Am(b6) F E
 
 
+def music_soft(dur, cfg):
+    """Ruhiges Hintergrundbett fuer Erklaervideos (lo-fi/ambient): weiches E-Piano, Sub-Bass, sanftes Pluck, keine Drums."""
+    bpm = cfg.get("bpm", 76); beat = 60 / bpm; bar = beat * 4; n = int(SR * dur); y = np.zeros(n); tt = np.arange(n) / SR
+    rng = np.random.default_rng(11); mid = lambda m: 440 * 2 ** ((m - 69) / 12)
+    prog = [(60, 64, 67, 71), (57, 60, 64, 67), (53, 57, 60, 64), (55, 59, 62, 65)]   # Cmaj7 Am7 Fmaj7 G7
+    def put(sig, t0, g=1.0):
+        i = int(t0 * SR); m = min(len(sig), n - i)
+        if m > 0 and i >= 0: y[i:i+m] += sig[:m] * g
+    def ep(f, l):   # E-Piano: Sinus + leichter Oberton, weicher Anschlag, langes Ausklingen
+        t = np.arange(int(l * SR)) / SR
+        env = np.minimum(t / .03, 1) * np.exp(-t * 1.1)
+        return (np.sin(2*np.pi*f*t) + .25*np.sin(2*np.pi*2*f*t)*np.exp(-t*3) + .08*np.sin(2*np.pi*3*f*t)*np.exp(-t*5)) * env * (1 + .15*np.sin(2*np.pi*4.5*t))
+    nb = int(dur / bar) + 1
+    for b in range(nb):
+        t0 = b * bar; ch = prog[b % 4]
+        for k, m in enumerate(ch):   # Akkord leicht gebrochen
+            put(ep(mid(m), bar + 1.5), t0 + k * .035, .085)
+        put(ep(mid(ch[0]), beat * 2), t0 + beat * 2.5, .05)
+        t = np.arange(int(bar * SR)) / SR   # Sub-Bass
+        put(np.sin(2*np.pi*mid(ch[0]-24)*t) * np.minimum(t/.08, 1) * np.minimum((bar-t)/.3, 1) * .16, t0)
+        if b >= 2:   # dezente Melodie-Tupfer
+            for k in range(8):
+                if rng.random() < .55: continue
+                m = ch[rng.integers(0, 4)] + 12; l3 = .6; e3 = np.exp(-np.arange(int(l3*SR))/SR * 6)
+                put(np.sin(2*np.pi*mid(m)*np.arange(int(l3*SR))/SR) * e3 * .03, t0 + k * beat / 2)
+    fade = np.minimum(tt / 3.0, 1) * np.clip((dur - tt) / 3.0, 0, 1)
+    return y * fade
+
+
 def music_bed(dur, cfg):
     """Selbst synthetisiertes Musikbett: Pad-Akkorde, Bass, Kick/Hi-Hat, Pluck-Arpeggio. Frei von Rechten."""
+    if cfg.get("style") == "soft": return music_soft(dur, cfg)
     bpm = cfg.get("bpm", 100); mood = cfg.get("mood", "minor"); energy = cfg.get("energy", .7)
     n = int(SR * dur); y = np.zeros(n); tt = np.arange(n) / SR; beat = 60 / bpm; bar = beat * 4
     rng = np.random.default_rng(7)
@@ -322,7 +352,7 @@ def main():
     n = len(lines)
     graph = ";".join(fl + [mix,
         f"[voice]asplit=2[vo][vsc]",
-        f"[{n}:a]volume={0 if MUSIC.get('_off') else 0.55}[music]",
+        f"[{n}:a]volume={0 if MUSIC.get('_off') else MUSIC.get('gain', 0.55)}[music]",
         f"[{n+1}:a]volume={cfg.get('sfx_gain', 0.8)}[sfx]",
         f"[music][vsc]sidechaincompress=threshold=0.03:ratio=8:attack=20:release=300[ducked]",
         f"[vo][ducked][sfx]amix=inputs=3:normalize=0,alimiter=limit=0.95[a]"])
