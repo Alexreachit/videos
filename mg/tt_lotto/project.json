@@ -10,14 +10,9 @@
  "rate": "+10%",
  "lead": 0.1,
  "gap": 0.2,
- "tail": 0.6,
+ "tail": 0.1,
  "crf": 22,
- "music": {
-  "style": "soft",
-  "bpm": 92,
-  "gain": 0.3
- },
- "sfx_vary": true,
+ "music": false,
  "sfx_gain": 0.42,
  "lines": [
   {
@@ -28,7 +23,7 @@
    }
   },
   {
-   "text": "Congrats! But that billion is paid out over thirty years.",
+   "text": "Congrats! But that billion is paid out in thirty yearly payments.",
    "spec": {
     "img": 1,
     "ov": "years"
@@ -63,7 +58,7 @@
    }
   },
   {
-   "text": "Still a lot. But remember that, the next time you hear:",
+   "text": "Still not bad, for the moment someone tells you:",
    "spec": {
     "img": 1,
     "ov": "loop"
