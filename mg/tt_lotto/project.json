@@ -1,0 +1,73 @@
+{
+ "title": "TikTok: Your $1 billion jackpot is not $1 billion",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+10%",
+ "lead": 0.1,
+ "gap": 0.2,
+ "tail": 0.6,
+ "crf": 22,
+ "music": {
+  "style": "soft",
+  "bpm": 92,
+  "gain": 0.3
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.42,
+ "lines": [
+  {
+   "text": "You just won the one billion dollar jackpot.",
+   "spec": {
+    "img": 1,
+    "ov": "win"
+   }
+  },
+  {
+   "text": "Congrats! But that billion is paid out over thirty years.",
+   "spec": {
+    "img": 1,
+    "ov": "years"
+   }
+  },
+  {
+   "text": "Want it all right now? Then it shrinks to about four hundred sixty million.",
+   "spec": {
+    "img": 3,
+    "ov": "cash"
+   }
+  },
+  {
+   "text": "Then the IRS shows up and takes up to thirty-seven percent.",
+   "spec": {
+    "img": 4,
+    "ov": "irs"
+   }
+  },
+  {
+   "text": "Live in New York? State and city take almost fifteen percent more.",
+   "spec": {
+    "img": 5,
+    "ov": "ny"
+   }
+  },
+  {
+   "text": "Your billion just turned into about two hundred twenty million.",
+   "spec": {
+    "img": 1,
+    "ov": "fin"
+   }
+  },
+  {
+   "text": "Still a lot. But remember that, the next time you hear:",
+   "spec": {
+    "img": 1,
+    "ov": "loop"
+   }
+  }
+ ]
+}
