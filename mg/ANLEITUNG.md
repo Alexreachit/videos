@@ -55,3 +55,5 @@ Rendern auf GitHub: Projektname in `mg/render_queue.txt` eintragen und pushen (W
 - Workflow: Videos >95 MB werden als *.part in renders/ abgelegt (zusammensetzen: cat *.part > x.mp4).
 - Musik (ab Video 9): leises Musikbett "music":{"style":"soft","bpm":76,"gain":0.3} + "sfx_vary":true (E-Piano, kein Schlagzeug, ca. 17 dB unter der Stimme, Ducking).
 - TTS: Aufzaehlungen wie 'buy, borrow, die' rattert Andrew ohne Pause herunter -> als 'Step one: buy. Step two: borrow. ...' oder mit 'and' schreiben.
+- TikTok-Regeln (Analyse 2026-10-22): 20-30 s; Loop (letzter Satz fuehrt in den ersten, z.B. '...the next time you hear:' -> 'You just won...'); Bildwechsel alle ~3-4 s (kurze Saetze, je eigenes Bild); Aufloesung am Ende; Beschreibung mit Keyword + 2-3 Hashtags; Vorlage mg/tt_lotto (laufender Zaehler oben).
+- Gemini: Bilder kommen teils als kaputte <img> (naturalWidth 0) -> src neu setzen; bei 'nur textbasierte KI' ist das Tageslimit erreicht.
