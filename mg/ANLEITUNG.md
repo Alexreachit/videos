@@ -59,3 +59,4 @@ Rendern auf GitHub: Projektname in `mg/render_queue.txt` eintragen und pushen (W
 - Gemini: Bilder kommen teils als kaputte <img> (naturalWidth 0) -> src neu setzen; bei 'nur textbasierte KI' ist das Tageslimit erreicht.
 - TikToks: KEINE Hintergrundmusik (Alex 2026-10-22). Loop nahtlos: letzter Frame = erster Frame (gleiches Bild, gleicher Zaehler, Kamera zurueck auf Startzustand, Untertitel am Ende ausblenden), tail 0.1 s, letzter Satz geht grammatisch in den ersten ueber.
 - Fakten vor jedem Video gegen Primaer-/serioese Quellen pruefen und Quellen nennen (Alex fand Zahlen verdaechtig).
+- Figuren (2026-10-23): IMMER mg/lib/characters.py (SAM/VICTOR) woertlich nutzen; keine Ohren, keine Augenbrauen, keine Nase, nur Punktaugen + Strichmund. Alle Bilder eines Videos im selben Gemini-Chat erzeugen und auf das Referenzbild verweisen. Jedes Bild vor Verwendung auf Ohren/Brauen pruefen.
