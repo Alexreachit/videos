@@ -39,11 +39,13 @@ jobs:
         with:
           python-version: "3.12"
       - name: Programme installieren
+        timeout-minutes: 12
         run: |
-          sudo apt-get update
-          sudo apt-get install -y ffmpeg fonts-dejavu-core fonts-liberation
+          APT="-o Acquire::Retries=5 -o Acquire::http::Timeout=20 -o Acquire::https::Timeout=20"
+          for i in 1 2 3; do timeout 180 sudo apt-get $APT update && break; echo "apt update retry $i"; sleep 5; done
+          for i in 1 2 3; do timeout 300 sudo apt-get $APT install -y ffmpeg fonts-dejavu-core fonts-liberation && break; echo "apt install retry $i"; sleep 5; done
           pip install edge-tts numpy playwright
-          python -m playwright install --with-deps chromium
+          for i in 1 2 3; do timeout 300 python -m playwright install --with-deps chromium && break; echo "playwright retry $i"; done
       - name: Video bauen (Stimme Andrew, Animation, Ton)
         run: python mg/produce.py "${{ matrix.projekt }}" --workers 4 2>&1 | tee build.log
       - name: Groesse pruefen (GitHub-Grenze 100 MB)
