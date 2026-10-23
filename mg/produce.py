@@ -14,6 +14,19 @@ SR = 44100
 def run(cmd, **kw):
     return subprocess.run(cmd, check=True, **kw)
 
+def voice_gain(path, target=-16.0, tp=-1.5):
+    """Feste Verstaerkung pro Zeile (statt dynamischem loudnorm, das bei kurzen Saetzen den Anfang pumpen laesst)."""
+    try:
+        r = subprocess.run(["ffmpeg", "-hide_banner", "-i", str(path), "-af", "loudnorm=print_format=json", "-f", "null", "-"],
+                           capture_output=True, text=True).stderr
+        j = json.loads(r[r.rindex("{"):r.rindex("}") + 1])
+        I, P = float(j["input_i"]), float(j["input_tp"])
+        if I < -70: return 0.0
+        return round(min(target - I, tp - P), 2)
+    except Exception:
+        return 0.0
+
+
 
 def dur_of(path):
     out = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", str(path)],
@@ -406,7 +419,7 @@ def main():
     ins = []; fl = []
     for i, l in enumerate(lines):
         ins += ["-i", l["file"]]
-        fl.append(f"[{i}:a]aresample={SR},aformat=channel_layouts=stereo,loudnorm=I=-16:TP=-1.5:LRA=7,adelay={int(l['start']*1000)}|{int(l['start']*1000)}[v{i}]")
+        fl.append(f"[{i}:a]aresample={SR},aformat=channel_layouts=stereo,volume={voice_gain(l['file'])}dB,adelay={int(l['start']*1000)}|{int(l['start']*1000)}[v{i}]")
     mix = "".join(f"[v{i}]" for i in range(len(lines))) + f"amix=inputs={len(lines)}:normalize=0,apad=whole_dur={total}[voice]"  # apad: sonst schneidet der Mix die letzte Zeile ab
     n = len(lines)
     graph = ";".join(fl + [mix,

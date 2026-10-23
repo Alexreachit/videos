@@ -1,7 +1,10 @@
 {
  "title": "TikTok: Your $100 lost $23 (inflation 2020-2026)",
  "_sources": "BLS CPI-U NSA: Jan 2020 257.971, Sep 2026 336.940 -> 100*257.971/336.940 = 76.56 (=$77), prices +30.6% (=$131). BLS average price ground coffee APU0000717311 4.174 -> 9.332.",
- "size": [1080, 1920],
+ "size": [
+  1080,
+  1920
+ ],
  "fps": 30,
  "scene": "scene.html",
  "voice": "en-US-AndrewMultilingualNeural",
@@ -13,13 +16,61 @@
  "music": false,
  "sfx_gain": 0.42,
  "lines": [
-  {"text": "This hundred dollar bill lost twenty-three dollars. And nobody touched it.", "spec": {"img": 1, "ov": "hook"}},
-  {"text": "In 2020, Sam put one hundred dollars in a drawer.", "spec": {"img": 2, "ov": "drawer"}},
-  {"text": "Today, it only buys what seventy-seven dollars bought back then.", "spec": {"img": 3, "ov": "buys"}},
-  {"text": "Because prices are up about thirty-one percent.", "spec": {"img": 4, "ov": "cpi"}},
-  {"text": "A pound of coffee went from four dollars to over nine.", "spec": {"img": 4, "ov": "coffee"}},
-  {"text": "The bill did not shrink. Its buying power did.", "spec": {"img": 5, "ov": "infl"}},
-  {"text": "To keep up, those hundred dollars would need to be one thirty-one today.", "spec": {"img": 2, "ov": "keep"}},
-  {"text": "So next time someone tells you cash is safe, remember:", "spec": {"img": 1, "ov": "loop"}}
+  {
+   "text": "This hundred-dollar bill just lost twenty-three bucks. And nobody touched it.",
+   "spec": {
+    "img": 1,
+    "ov": "hook"
+   }
+  },
+  {
+   "text": "In 2020, Sam put one hundred dollars in a drawer.",
+   "spec": {
+    "img": 2,
+    "ov": "drawer"
+   }
+  },
+  {
+   "text": "Today, it only buys what seventy-seven dollars bought back then.",
+   "spec": {
+    "img": 3,
+    "ov": "buys"
+   }
+  },
+  {
+   "text": "Because prices are up about thirty-one percent.",
+   "spec": {
+    "img": 4,
+    "ov": "cpi"
+   }
+  },
+  {
+   "text": "A pound of coffee went from four dollars to over nine.",
+   "spec": {
+    "img": 4,
+    "ov": "coffee"
+   }
+  },
+  {
+   "text": "The bill did not shrink. Its buying power did.",
+   "spec": {
+    "img": 5,
+    "ov": "infl"
+   }
+  },
+  {
+   "text": "To keep up, those hundred dollars would need to be one thirty-one today.",
+   "spec": {
+    "img": 2,
+    "ov": "keep"
+   }
+  },
+  {
+   "text": "So next time someone tells you cash is safe, remember:",
+   "spec": {
+    "img": 1,
+    "ov": "loop"
+   }
+  }
  ]
 }

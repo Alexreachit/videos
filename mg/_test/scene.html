@@ -1,0 +1,6 @@
+<!doctype html><meta charset=utf-8><style>html,body{margin:0}#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:#0b1530}</style>
+<div id=stage><div id=cap></div></div><script src="../lib/core.js"></script><script>
+MG.finish(MG.$('stage'),1080,1920);
+window.setTimeline=tl=>MG.TL=tl;window.sfxEvents=()=>[{k:'swish',t:.3}];
+window.draw=t=>{MG.$('cap').innerHTML=MG.captions(t,{y:1400});MG.grainTick(t)};
+</script>

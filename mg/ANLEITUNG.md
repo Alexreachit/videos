@@ -65,3 +65,7 @@ Rendern auf GitHub: Projektname in `mg/render_queue.txt` eintragen und pushen (W
 - YT-Videos OHNE "Phase X"-Titelkarten. Übergänge sprachlich ("The first cause…", "So what can you do?"). YouTube-Kapitel nur in der Beschreibung.
 - Musik: `"music":{"style":"adaptive","bpm":76,"gain":0.3}`. Im mk_project vor einer Zeile `M("tense"|"calm"|"bright")` setzen; gilt bis zur nächsten Änderung.
   calm = weiches E-Piano (C-Dur), tense = A-Moll-Pad + pulsierender Bass + leiser Herzschlag, bright = positiver Dur-Loop. Überblendung ~4 s, bleibt leise im Hintergrund.
+
+## Stimme natürlicher (2026-10-23)
+- Kein dynamisches loudnorm mehr pro Zeile (pumpte bei kurzen Sätzen den Anfang). Jetzt feste Verstärkung pro Zeile: `voice_gain()` in produce.py.
+- Zusammengesetzte Wörter mit Bindestrich schreiben ("hundred-dollar bill"), sonst macht Andrew eine Pause ("hundred dollar … bill"). Wiederholungen wie "dollar … dollars" in einem Satz vermeiden.
