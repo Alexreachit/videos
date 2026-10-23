@@ -91,11 +91,11 @@ CHORDS = {"minor": [(57, 60, 64), (53, 57, 60), (48, 52, 55), (55, 59, 62)],    
           "tense": [(57, 60, 64), (57, 60, 65), (53, 57, 60), (52, 56, 59)]}      # Am Am(b6) F E
 
 
-def music_soft(dur, cfg):
+def music_soft(dur, cfg, prog=None, seed=11, mel=.55):
     """Ruhiges Hintergrundbett fuer Erklaervideos (lo-fi/ambient): weiches E-Piano, Sub-Bass, sanftes Pluck, keine Drums."""
     bpm = cfg.get("bpm", 76); beat = 60 / bpm; bar = beat * 4; n = int(SR * dur); y = np.zeros(n); tt = np.arange(n) / SR
-    rng = np.random.default_rng(11); mid = lambda m: 440 * 2 ** ((m - 69) / 12)
-    prog = [(60, 64, 67, 71), (57, 60, 64, 67), (53, 57, 60, 64), (55, 59, 62, 65)]   # Cmaj7 Am7 Fmaj7 G7
+    rng = np.random.default_rng(seed); mid = lambda m: 440 * 2 ** ((m - 69) / 12)
+    prog = prog or [(60, 64, 67, 71), (57, 60, 64, 67), (53, 57, 60, 64), (55, 59, 62, 65)]   # Cmaj7 Am7 Fmaj7 G7
     def put(sig, t0, g=1.0):
         i = int(t0 * SR); m = min(len(sig), n - i)
         if m > 0 and i >= 0: y[i:i+m] += sig[:m] * g
@@ -113,15 +113,70 @@ def music_soft(dur, cfg):
         put(np.sin(2*np.pi*mid(ch[0]-24)*t) * np.minimum(t/.08, 1) * np.minimum((bar-t)/.3, 1) * .16, t0)
         if b >= 2:   # dezente Melodie-Tupfer
             for k in range(8):
-                if rng.random() < .55: continue
+                if rng.random() < mel: continue
                 m = ch[rng.integers(0, 4)] + 12; l3 = .6; e3 = np.exp(-np.arange(int(l3*SR))/SR * 6)
                 put(np.sin(2*np.pi*mid(m)*np.arange(int(l3*SR))/SR) * e3 * .03, t0 + k * beat / 2)
     fade = np.minimum(tt / 3.0, 1) * np.clip((dur - tt) / 3.0, 0, 1)
     return y * fade
 
 
+
+def music_tense(dur, cfg):
+    """Dramatischere Variante (A-Moll): dunkles Streicher-Pad, pulsierender Bass, leiser Herzschlag, Ostinato. Bleibt leise."""
+    bpm = cfg.get("bpm", 76); beat = 60 / bpm; bar = beat * 4; n = int(SR * dur); y = np.zeros(n); tt = np.arange(n) / SR
+    mid = lambda m: 440 * 2 ** ((m - 69) / 12)
+    prog = [(57, 60, 64), (53, 57, 60), (50, 53, 57), (52, 56, 59)]   # Am F Dm E
+    def put(sig, t0, g=1.0):
+        i = int(t0 * SR); m = min(len(sig), n - i)
+        if m > 0 and i >= 0: y[i:i+m] += sig[:m] * g
+    def lp(x, k):
+        c = np.cumsum(np.insert(x, 0, 0)); z = (c[k:] - c[:-k]) / k
+        return np.concatenate([np.zeros(k - 1), z])
+    def saw(f, l):
+        t = np.arange(int(l * SR)) / SR
+        return sum(np.sin(2*np.pi*f*h*t) / h for h in range(1, 6))
+    nb = int(dur / bar) + 1
+    for b in range(nb):
+        t0 = b * bar; ch = prog[b % 4]; l = bar + .6; t = np.arange(int(l * SR)) / SR
+        env = np.minimum(t / .9, 1) * np.minimum((l - t) / .6, 1)
+        pad = sum(lp(saw(mid(m), l) + saw(mid(m) * 1.004, l), 40) for m in ch) * env * .035
+        put(pad, t0)
+        for k in range(8):   # pulsierender Bass in Achteln
+            l2 = beat / 2 * .95; t2 = np.arange(int(l2 * SR)) / SR
+            put(np.sin(2*np.pi*mid(ch[0]-24)*t2) * np.exp(-t2 * 7) * np.minimum(t2/.01, 1) * (.13 if k % 2 == 0 else .08), t0 + k * beat / 2)
+        for k in (0, 2):   # leiser Herzschlag
+            l3 = .35; t3 = np.arange(int(l3 * SR)) / SR; f = 60 * np.exp(-t3 * 6) + 38
+            put(np.sin(2*np.pi*np.cumsum(f)/SR) * np.exp(-t3 * 9) * .16, t0 + k * beat)
+        for k in range(8):   # Ostinato oben
+            m = (ch[0] + 12, ch[2] + 12, ch[1] + 12, ch[2] + 12)[k % 4]; l4 = .5; t4 = np.arange(int(l4 * SR)) / SR
+            put(np.sin(2*np.pi*mid(m)*t4) * np.exp(-t4 * 7) * .022, t0 + k * beat / 2)
+    fade = np.minimum(tt / 3.0, 1) * np.clip((dur - tt) / 3.0, 0, 1)
+    return y * fade
+
+
+def music_adaptive(dur, cfg):
+    """Musik folgt der Stimmung der Zeilen (spec.mood: calm/tense/bright) mit weichen Ueberblendungen (~4 s)."""
+    n = int(SR * dur); spans = cfg.get("_moods", [])
+    beds = {"calm": lambda: music_soft(dur, cfg),
+            "tense": lambda: music_tense(dur, cfg),
+            "bright": lambda: music_soft(dur, cfg, prog=[(60, 64, 67, 72), (55, 59, 62, 67), (57, 60, 64, 69), (53, 57, 60, 65)], seed=5, mel=.3)}
+    gains = {"calm": 1.0, "tense": 1.65, "bright": 1.0}
+    lab = np.zeros(n, dtype=np.int8); keys = list(beds)
+    for a, b, m in spans:
+        lab[int(a * SR):int(b * SR)] = keys.index(m) if m in keys else 0
+    w = int(SR * cfg.get("xfade", 4.0)); y = np.zeros(n)
+    for i, k in enumerate(keys):
+        e = (lab == i).astype(np.float32)
+        if not e.any(): continue
+        c = np.cumsum(np.insert(e, 0, 0)); half = w // 2
+        lo = np.clip(np.arange(n) - half, 0, n); hi = np.clip(np.arange(n) + half, 0, n)
+        e = ((c[hi] - c[lo]) / np.maximum(hi - lo, 1)).astype(np.float32)
+        y += beds[k]() * e * gains[k]
+    return y
+
 def music_bed(dur, cfg):
     """Selbst synthetisiertes Musikbett: Pad-Akkorde, Bass, Kick/Hi-Hat, Pluck-Arpeggio. Frei von Rechten."""
+    if cfg.get("style") == "adaptive": return music_adaptive(dur, cfg)
     if cfg.get("style") == "soft": return music_soft(dur, cfg)
     bpm = cfg.get("bpm", 100); mood = cfg.get("mood", "minor"); energy = cfg.get("energy", .7)
     n = int(SR * dur); y = np.zeros(n); tt = np.arange(n) / SR; beat = 60 / bpm; bar = beat * 4
@@ -310,6 +365,10 @@ def main():
         t = start + d + cfg.get("gap", .3)
         print(f"Zeile {i}: {start:.2f}-{start+d:.2f}  {ln['text']}", flush=True)
     total = round(lines[-1]["end"] + cfg.get("tail", 1.5), 2)
+    mood = "calm"; MUSIC["_moods"] = []
+    for j, l in enumerate(lines):   # Stimmung gilt bis zur naechsten Zeile
+        mood = (l.get("spec") or {}).get("mood", mood)
+        MUSIC["_moods"].append((l["start"], lines[j+1]["start"] if j + 1 < len(lines) else total, mood))
     tl = {"lines": [{k: v for k, v in l.items() if k != "file"} for l in lines], "dur": total}
     if "--limit" in sys.argv:  # nur die ersten N Sekunden rendern (Test)
         lim = float(sys.argv[sys.argv.index("--limit") + 1]); total = min(total, lim); tl["dur"] = total

@@ -13,19 +13,19 @@
  "tail": 3.0,
  "crf": 21,
  "music": {
-  "style": "soft",
+  "style": "adaptive",
   "bpm": 76,
   "gain": 0.3
  },
  "sfx_vary": true,
  "sfx_gain": 0.42,
- "phases": 9,
  "lines": [
   {
    "text": "In 2020, a pound of coffee cost about four dollars. Today, it costs over nine.",
    "spec": {
     "type": "hook",
-    "img": 103
+    "img": 103,
+    "mood": "tense"
    }
   },
   {
@@ -91,16 +91,8 @@
     "sub": "education only, not financial advice",
     "col": "gold",
     "x": 1400,
-    "y": 130
-   }
-  },
-  {
-   "text": "Phase one: the receipt.",
-   "spec": {
-    "type": "phase",
-    "n": 1,
-    "title": "The receipt",
-    "img": 101
+    "y": 130,
+    "mood": "calm"
    }
   },
   {
@@ -150,15 +142,6 @@
     "top": "Same stuff, Jan 2020 → Sep 2026",
     "lab": "for what cost $100",
     "sub": "based on the CPI"
-   }
-  },
-  {
-   "text": "Phase two: what inflation really is.",
-   "spec": {
-    "type": "phase",
-    "n": 2,
-    "title": "What inflation really is",
-    "img": 104
    }
   },
   {
@@ -214,7 +197,8 @@
      "red",
      "nine"
     ],
-    "foot": "highest since 1981 (BLS)"
+    "foot": "highest since 1981 (BLS)",
+    "mood": "tense"
    }
   },
   {
@@ -238,7 +222,8 @@
       "red",
       "nine"
      ]
-    ]
+    ],
+    "mood": "calm"
    }
   },
   {
@@ -252,20 +237,12 @@
     "sub": "",
     "col": "gold",
     "x": 1450,
-    "y": 130
+    "y": 130,
+    "mood": "tense"
    }
   },
   {
-   "text": "Phase three: too much money, too few goods.",
-   "spec": {
-    "type": "phase",
-    "n": 3,
-    "title": "More money, fewer goods",
-    "img": 105
-   }
-  },
-  {
-   "text": "In 2020, the pandemic broke global supply chains. Factories closed, ships waited for weeks outside ports, and shelves went empty.",
+   "text": "The first cause started in 2020, when the pandemic broke global supply chains. Factories closed, ships waited for weeks outside ports, and shelves went empty.",
    "spec": {
     "type": "img",
     "lay": "left",
@@ -340,20 +317,12 @@
      "fewer",
      "red",
      "goods"
-    ]
+    ],
+    "mood": "calm"
    }
   },
   {
-   "text": "Phase four: energy shocks.",
-   "spec": {
-    "type": "phase",
-    "n": 4,
-    "title": "Energy shocks",
-    "img": 108
-   }
-  },
-  {
-   "text": "Energy is in almost everything. Every product has to be made, heated, and shipped.",
+   "text": "The second cause is energy. It is in almost everything. Every product has to be made, heated, and shipped.",
    "spec": {
     "type": "img",
     "lay": "left",
@@ -391,7 +360,8 @@
     "sub": "two energy shocks",
     "col": "red",
     "x": 1400,
-    "y": 130
+    "y": 130,
+    "mood": "tense"
    }
   },
   {
@@ -424,16 +394,7 @@
    }
   },
   {
-   "text": "Phase five: wages.",
-   "spec": {
-    "type": "phase",
-    "n": 5,
-    "title": "Wages",
-    "img": 109
-   }
-  },
-  {
-   "text": "When everything gets more expensive, workers ask for higher pay. And when there are more jobs than workers, they get it.",
+   "text": "The third cause: wages. When everything gets more expensive, workers ask for higher pay. And when there are more jobs than workers, they get it.",
    "spec": {
     "type": "img",
     "lay": "left",
@@ -458,7 +419,8 @@
       "jobs"
      ]
     ],
-    "flow": false
+    "flow": false,
+    "mood": "calm"
    }
   },
   {
@@ -487,7 +449,8 @@
       "red"
      ]
     ],
-    "flow": true
+    "flow": true,
+    "mood": "tense"
    }
   },
   {
@@ -511,20 +474,12 @@
       "red",
       "going"
      ]
-    ]
+    ],
+    "mood": "calm"
    }
   },
   {
-   "text": "Phase six: what about greedy companies?",
-   "spec": {
-    "type": "phase",
-    "n": 6,
-    "title": "Greedy companies?",
-    "img": 110
-   }
-  },
-  {
-   "text": "Many people blame corporate greed. And companies did raise prices, and profits went up.",
+   "text": "But what about greedy companies? Many people blame corporate greed. And companies did raise prices, and profits went up.",
    "spec": {
     "type": "img",
     "lay": "left",
@@ -627,16 +582,7 @@
    }
   },
   {
-   "text": "Phase seven: why prices do not come back down.",
-   "spec": {
-    "type": "phase",
-    "n": 7,
-    "title": "Why prices stay high",
-    "img": 112
-   }
-  },
-  {
-   "text": "Here is the frustrating part. When inflation falls, prices do not go down. They just rise more slowly.",
+   "text": "So why do prices never come back down? Here is the frustrating part. When inflation falls, prices do not go down. They just rise more slowly.",
    "spec": {
     "type": "img",
     "lay": "right",
@@ -654,7 +600,8 @@
      "almost never",
      "red",
      "down"
-    ]
+    ],
+    "mood": "tense"
    }
   },
   {
@@ -721,16 +668,8 @@
       "level"
      ]
     ],
-    "flow": false
-   }
-  },
-  {
-   "text": "Phase eight: the surprising number.",
-   "spec": {
-    "type": "phase",
-    "n": 8,
-    "title": "The surprising number",
-    "img": 113
+    "flow": false,
+    "mood": "calm"
    }
   },
   {
@@ -738,7 +677,8 @@
    "spec": {
     "type": "wages",
     "group": "wages",
-    "img": 113
+    "img": 113,
+    "mood": "bright"
    }
   },
   {
@@ -776,7 +716,8 @@
      "energy shock",
      "gold",
      "prices"
-    ]
+    ],
+    "mood": "tense"
    }
   },
   {
@@ -792,16 +733,7 @@
    }
   },
   {
-   "text": "Phase nine: what you can do.",
-   "spec": {
-    "type": "phase",
-    "n": 9,
-    "title": "What you can do",
-    "img": 114
-   }
-  },
-  {
-   "text": "First: know your number. If your pay has not kept up with inflation, that is a strong argument for a raise, or for a new job.",
+   "text": "So what can you do? First: know your number. If your pay has not kept up with inflation, that is a strong argument for a raise, or for a new job.",
    "spec": {
     "type": "img",
     "lay": "left",
@@ -825,7 +757,8 @@
       "job"
      ]
     ],
-    "flow": false
+    "flow": false,
+    "mood": "bright"
    }
   },
   {
@@ -921,7 +854,8 @@
       "rarely"
      ]
     ],
-    "flow": false
+    "flow": false,
+    "mood": "calm"
    }
   },
   {
