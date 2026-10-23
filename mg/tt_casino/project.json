@@ -1,0 +1,24 @@
+{
+ "title": "TikTok: Roulette is designed to beat you",
+ "size": [1080, 1920],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+10%",
+ "lead": 0.1,
+ "gap": 0.2,
+ "tail": 0.1,
+ "crf": 22,
+ "music": false,
+ "sfx_gain": 0.42,
+ "lines": [
+  {"text": "Every roulette table is designed to beat you. Legally.", "spec": {"img": 1, "ov": "hook"}},
+  {"text": "You bet on red. Sounds like fifty-fifty, right?", "spec": {"img": 1, "ov": "red"}},
+  {"text": "But an American wheel has thirty-eight pockets. Two of them are green.", "spec": {"img": 2, "ov": "wheel"}},
+  {"text": "So red only wins eighteen times out of thirty-eight.", "spec": {"img": 2, "ov": "odds"}},
+  {"text": "That gap is the house edge: about five percent of every bet.", "spec": {"img": 3, "ov": "edge"}},
+  {"text": "Bet ten dollars a thousand times, and on average you lose about five hundred twenty-six dollars.", "spec": {"img": 4, "ov": "loss"}},
+  {"text": "The casino does not need luck. Just time.", "spec": {"img": 5, "ov": "time"}},
+  {"text": "So next time you sit down, remember:", "spec": {"img": 1, "ov": "loop"}}
+ ]
+}
