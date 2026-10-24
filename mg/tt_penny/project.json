@@ -1,0 +1,76 @@
+{
+ "title": "TikTok: A penny cost 3.7 cents to make",
+ "_sources": "US Mint FY2024 Annual Report via CoinNews 2025-02-10: penny unit cost 3.69 cents, one-cent seigniorage -$85.3M, 3.172B cents shipped, 19th consecutive year above face value, nickel 13.78 cents. AP/ABC 2025-11-12: final circulating pennies struck in Philadelphia, made since 1793.",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+10%",
+ "lead": 0.1,
+ "gap": 0.2,
+ "tail": 0.1,
+ "crf": 22,
+ "music": false,
+ "sfx_gain": 0.42,
+ "lines": [
+  {
+   "text": "America spent almost four cents to make every single penny.",
+   "spec": {
+    "img": 1,
+    "ov": "hook"
+   }
+  },
+  {
+   "text": "Metal, minting, and shipping: three point six nine cents per coin.",
+   "spec": {
+    "img": 2,
+    "ov": "cost"
+   }
+  },
+  {
+   "text": "And in 2024, the Mint shipped over three billion of them.",
+   "spec": {
+    "img": 2,
+    "ov": "count"
+   }
+  },
+  {
+   "text": "The result: an eighty-five million dollar loss. On a one-cent coin.",
+   "spec": {
+    "img": 3,
+    "ov": "loss"
+   }
+  },
+  {
+   "text": "It had cost more than one cent for nineteen years in a row.",
+   "spec": {
+    "img": 3,
+    "ov": "years"
+   }
+  },
+  {
+   "text": "So in November 2025, after two hundred thirty-two years, the U.S. stopped making them.",
+   "spec": {
+    "img": 4,
+    "ov": "stop"
+   }
+  },
+  {
+   "text": "And the nickel? It costs almost fourteen cents to make a five-cent coin.",
+   "spec": {
+    "img": 5,
+    "ov": "nickel"
+   }
+  },
+  {
+   "text": "So next time you find a penny, remember:",
+   "spec": {
+    "img": 1,
+    "ov": "loop"
+   }
+  }
+ ]
+}
