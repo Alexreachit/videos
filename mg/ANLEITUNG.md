@@ -94,7 +94,5 @@ Rendern auf GitHub: Projektname in `mg/render_queue.txt` eintragen und pushen (W
 - Crash-Moment: roter Pfeil stürzt in Staubwolke, Bild wackelt, dann "-50 %" groß.
 - Übergänge: schnelles Wegblenden mit Unschärfe, neues Objekt ploppt mit Sparkles rein.
 
-## TikTok ab 2026-10-25: DEUTSCH
-- TikTok-Kanal wechselt auf Deutsch (Reichweite lief nur an Deutsche aus). YouTube bleibt Englisch mit Andrew.
-- Stimme für deutsche TikToks: `"voice":"de-DE-FlorianMultilingualNeural","rate":"+10%"` (von Alex gewählt, Nr. 3).
-- Zahlen/Quellen für Deutschland (Euro, Destatis, Bundesbank, Interhyp/Bauzinsen usw.), keine US-Daten mehr in TikToks.
+## TikTok-Sprache (2026-10-25, final)
+- Deutsch-Versuch mit Florian verworfen (Stimme gefiel Alex nicht). TikToks bleiben ENGLISCH mit Andrew (en-US-AndrewMultilingualNeural, +10%).
