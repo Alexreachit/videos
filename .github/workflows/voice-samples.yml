@@ -1,0 +1,29 @@
+name: Voice Samples
+on:
+  push:
+    paths: ["mg/voices/samples.py"]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  samples:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install edge-tts
+      - run: python mg/voices/samples.py
+      - name: In Branch renders ablegen
+        run: |
+          git config --global user.name "mg-bot"; git config --global user.email "mg-bot@users.noreply.github.com"
+          for k in 1 2 3 4 5; do
+            rm -rf rb
+            git clone --depth 1 --branch renders "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" rb
+            mkdir -p rb/renders/voices && cp output/voices/*.mp3 rb/renders/voices/
+            cd rb && git add -A && git commit -qm "voice samples" && git push -q origin renders && cd .. && exit 0
+            cd ..; sleep $((k*7))
+          done
+          exit 1
