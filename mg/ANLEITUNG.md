@@ -96,3 +96,4 @@ Rendern auf GitHub: Projektname in `mg/render_queue.txt` eintragen und pushen (W
 
 ## TikTok-Sprache (2026-10-25, final)
 - Deutsch-Versuch mit Florian verworfen (Stimme gefiel Alex nicht). TikToks bleiben ENGLISCH mit Andrew (en-US-AndrewMultilingualNeural, +10%).
+- Kompromiss (Alex ok): Themen mit internationalem Reiz wählen, Caption + Hashtags englisch/international (#money #finance #investing #personalfinance #fyp), keine deutschen Hashtags.
