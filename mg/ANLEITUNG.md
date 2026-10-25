@@ -79,3 +79,8 @@ Rendern auf GitHub: Projektname in `mg/render_queue.txt` eintragen und pushen (W
 - `"music":{"style":"tt","bpm":96,"gain":0.14,"duck_ratio":2}` – leiser Groove (Kick/Shaker/Bass/Pluck), ~20 dB unter der Stimme.
 - `spec.mood` = tense/calm/bright (gilt bis zur nächsten Änderung), `spec.cut: true` = kurzer Musik-Stopp vor der Zeile + tiefer Bass-Hit (Wendepunkte der Story).
 - Kein Fade, damit der Loop nahtlos bleibt. Vorbild: @schraffur (Musik bricht bei Abschnittswechseln kurz ab).
+
+## Feedback Alex zu tt_debt (2026-10-25) – fürs NÄCHSTE TikTok umsetzen
+- Video gut. Nächstes Mal MEHR Animation: Objekte bleiben über Satzgrenzen hinweg im Bild und bewegen sich weiter,
+  statt zu verschwinden (z. B. Kreditkarte fliegt von der Mitte in die Ecke/zur Rechnung, schrumpft, dreht sich, wird Teil der nächsten Szene).
+- Umsetzung: persistente Objekte mit Keyframes über die ganze Timeline (Position/Größe/Rotation je Zeile), Übergänge per Interpolation statt Exit/Pop-in.
