@@ -69,3 +69,8 @@ Rendern auf GitHub: Projektname in `mg/render_queue.txt` eintragen und pushen (W
 ## Stimme natürlicher (2026-10-23)
 - Kein dynamisches loudnorm mehr pro Zeile (pumpte bei kurzen Sätzen den Anfang). Jetzt feste Verstärkung pro Zeile: `voice_gain()` in produce.py.
 - Zusammengesetzte Wörter mit Bindestrich schreiben ("hundred-dollar bill"), sonst macht Andrew eine Pause ("hundred dollar … bill"). Wiederholungen wie "dollar … dollars" in einem Satz vermeiden.
+
+## TikTok-Animationsstil (2026-10-25, Vorlage: mg/tt_debt)
+- Dunkler Hintergrund + Punktmuster + blauer Glow, freigestellte Objekte (Gemini auf Magenta #FF00FF, 1:1), `python3 mg/lib/keyout.py src dst.png 900`.
+- Pro Satz ein Objekt: Pop-in (elastisch), Wackeln/3D-Drehung, Ausgang nach oben; UI-Karten (iOS-Stil), Pills, Zähler. Sam als kleine freigestellte Figur.
+- Loop: Hintergrund-Animation über ganze Zyklen von TL.dur, Hook-Objekt bei lt=0 ruhig (bob:0).
