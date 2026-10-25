@@ -1,0 +1,138 @@
+{
+ "title": "TikTok: House vs ETF – who wins after 30 years (animated)",
+ "_sources": "Zillow Sept 2026 market report: typical home value $366,913, typical rent (ZORI) $1,932, rent +2.7% y/y (model: +3%/yr). Freddie Mac PMMS 2026-10-22: 30y fixed 7.32%. ATTOM 2025: effective property tax ~0.9%. Maintenance 1%/yr (rule of thumb). Case-Shiller national (FRED CSUSHPINSA) 63.73 Jan 1987 -> 337.31 Jul 2026 = 4.31%/yr. S&P 500 incl. dividends ~10%/yr 1928-2025 (NYU Stern/Damodaran). Own model: 20% down $73,383, payment $2,016 + tax $275 + repairs $306 = $2,597/mo; renter invests $73,383 + difference. Year 30 net worth: buyer $1,356,851 (house $1.30M + $56k invested), renter $2,110,741; renter ahead from year 12. At 8%: buyer $1,352,370 vs renter $1,261,874. Excludes closing/selling costs, insurance, taxes on gains.",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+10%",
+ "lead": 0.1,
+ "gap": 0.2,
+ "tail": 0.1,
+ "crf": 22,
+ "music": {
+  "style": "tt",
+  "bpm": 96,
+  "gain": 0.14,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.42,
+ "series": {
+  "own": [
+   73383,
+   91995,
+   111500,
+   131945,
+   153376,
+   175844,
+   199403,
+   224108,
+   250020,
+   277200,
+   305716,
+   335637,
+   367036,
+   399993,
+   434588,
+   470911,
+   509053,
+   549111,
+   591189,
+   635533,
+   682646,
+   732754,
+   786056,
+   842767,
+   903118,
+   967355,
+   1035744,
+   1108570,
+   1186139,
+   1268781,
+   1356851
+  ],
+  "ren": [
+   73383,
+   89204,
+   106201,
+   124483,
+   144170,
+   165395,
+   188302,
+   213053,
+   239824,
+   268807,
+   300216,
+   334286,
+   371273,
+   411462,
+   455165,
+   502724,
+   554517,
+   610959,
+   672508,
+   739802,
+   813782,
+   895160,
+   984676,
+   1083144,
+   1191459,
+   1310604,
+   1441665,
+   1585831,
+   1744414,
+   1918856,
+   2110741
+  ]
+ },
+ "lines": [
+  {
+   "text": "House or ETF? After thirty years, one is worth seven hundred fifty grand more.",
+   "spec": {
+    "mood": "tense"
+   }
+  },
+  {
+   "text": "Both start with the same seventy-three thousand dollars.",
+   "spec": {
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "The buyer gets a three sixty-seven thousand dollar home at seven point three percent.",
+   "spec": {}
+  },
+  {
+   "text": "Loan, taxes and repairs: about twenty-six hundred a month.",
+   "spec": {}
+  },
+  {
+   "text": "The renter pays nineteen thirty-two, and invests the rest in an ETF.",
+   "spec": {}
+  },
+  {
+   "text": "For eleven years, the house is ahead. Then compound interest takes over.",
+   "spec": {
+    "mood": "tense"
+   }
+  },
+  {
+   "text": "After thirty years: house, one point three six million. ETF, two point one million.",
+   "spec": {
+    "mood": "bright",
+    "cut": true
+   }
+  },
+  {
+   "text": "But only at ten percent a year. At eight, the house wins. Which would you pick:",
+   "spec": {
+    "mood": "tense",
+    "cut": true
+   }
+  }
+ ]
+}
