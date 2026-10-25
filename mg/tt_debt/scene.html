@@ -1,0 +1,77 @@
+<!doctype html><meta charset=utf-8><style>
+@font-face{font-family:P;src:url(fonts/Poppins-Bold.ttf);font-weight:700}
+@font-face{font-family:P;src:url(fonts/Poppins-Medium.ttf);font-weight:500}
+html,body{margin:0;background:#0b1118}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;font-family:P,Arial,sans-serif;
+ background:radial-gradient(circle at 50% 48%,#1b2a3a 0%,#111a24 45%,#0b1118 100%)}
+#pat{position:absolute;inset:-60px;opacity:.16;background-image:radial-gradient(circle,#9cc8ff 1.6px,transparent 2.2px);background-size:46px 46px}
+#glow{position:absolute;left:50%;top:48%;width:1100px;height:1100px;margin:-550px 0 0 -550px;border-radius:50%;background:radial-gradient(circle,#3aa0ff 0%,#3aa0ff00 62%)}
+#objs,#ui{position:absolute;inset:0}
+#cap{position:absolute;inset:0;z-index:60}
+.o{position:absolute;left:0;top:0;transform-origin:50% 50%;will-change:transform}
+</style>
+<div id=stage><div id=pat></div><div id=glow></div><div id=objs></div><div id=ui></div><div id=cap></div></div>
+<script src="../lib/core.js"></script>
+<script>
+// TikTok 9:16 – animated object style (dark bg, glow, cut-out objects, UI chips) – "Credit card minimum payment trap"
+const {cl,ez,ei,bo,el,lerp}=MG,$=MG.$,W=1080,H=1920;
+const COL={cream:'#fff3dc',gold:'#ffc94a',green:'#3ddc84',green2:'#1fa45a',red:'#ff5b4a',red2:'#d6402e',blue:'#3aa0ff',dark:'#16212d'};
+let TL=null,COLLECT=null,fontsOk=false,imgReady=false,T_NOW=0;
+function fx(L,k,rel,o){if(COLLECT)COLLECT.push(Object.assign({k,t:+(L.start+rel).toFixed(3)},o||{}));}
+const tick=(L,a,d,n=8)=>{for(let i=0;i<n;i++)fx(L,'tick',a+i*d/n,{f:1800-i*90})};
+const IMG=k=>`img/${k}.png`;
+// ---------- building blocks
+function obj(k,x,y,w,o={}){const s=o.s==null?1:o.s;if(s<=0||o.op===0)return'';const bob=o.bob===0?0:Math.sin(T_NOW*2.1+(o.ph||0))*(o.bob||10);
+ return `<img class=o src="${IMG(k)}" style="width:${w}px;transform:translate(${x-w/2}px,${y-w/2+bob}px) perspective(1400px) rotateY(${(o.ry||0).toFixed(1)}deg) rotate(${(o.rot||0).toFixed(2)}deg) scale(${s.toFixed(4)});opacity:${(o.op==null?1:o.op).toFixed(3)};filter:drop-shadow(0 40px 50px #000c) drop-shadow(0 0 40px ${o.glow||'#3aa0ff55'})">`}
+function T(x,y,txt,o={}){const p=o.p==null?1:o.p;if(p<=0)return'';const s=o.s==null?1:o.s,sz=o.size||64;
+ return `<div style="position:absolute;left:${x}px;top:${y}px;transform:translate(-50%,-50%) translateY(${((1-Math.min(1,p))*30).toFixed(1)}px) scale(${s.toFixed(3)}) rotate(${o.rot||0}deg);opacity:${Math.min(1,p).toFixed(3)};font:700 ${sz}px/1.08 P,Arial,sans-serif;color:${o.col||COL.cream};white-space:nowrap;letter-spacing:${o.ls||0}px;text-shadow:${MG.outline(o.ol||Math.round(sz/14))},0 ${sz/8}px ${sz/3}px #000a">${txt}</div>`}
+function pill(x,y,txt,o={}){const p=o.p==null?1:o.p;if(p<=0)return'';const sz=o.size||40,s=bo(Math.min(1,p));
+ const dot=o.dot?`<span style="display:inline-block;width:${sz*.8}px;height:${sz*.8}px;border-radius:50%;background:${o.dot};margin-right:${sz*.35}px;vertical-align:-${sz*.12}px;box-shadow:0 0 14px ${o.dot}"></span>`:'';
+ return `<div style="position:absolute;left:${x}px;top:${y}px;transform:translate(-50%,-50%) scale(${s.toFixed(3)});opacity:${Math.min(1,p*2).toFixed(3)};padding:${sz*.38}px ${sz*.75}px;border-radius:${sz*1.2}px;background:${o.bg||'#f4f7fbee'};color:${o.fg||'#14202c'};font:700 ${sz}px/1.1 P,Arial;white-space:nowrap;box-shadow:0 14px 34px #000b">${dot}${txt}</div>`}
+function card(x,y,w,rows,p,o={}){if(p<=0)return'';const s=bo(Math.min(1,p));
+ let r='';rows.forEach((rw,i)=>{const q=cl(p,.15+i*.2,.45+i*.2);r+=`<div style="display:flex;justify-content:space-between;align-items:center;padding:22px 0;border-top:${i?'2px solid #ffffff14':'none'};opacity:${q.toFixed(3)}"><span style="font:500 40px P;color:#c9d6e3">${rw[0]}</span><span style="font:700 50px P;color:${rw[2]||'#fff'}">${rw[1]}</span></div>`});
+ return `<div style="position:absolute;left:${x-w/2}px;top:${y}px;width:${w}px;transform:scale(${s.toFixed(3)});transform-origin:50% 0;opacity:${Math.min(1,p*2).toFixed(3)};padding:20px 44px;border-radius:44px;background:#1c2836ee;border:2px solid #ffffff1c;box-shadow:0 30px 60px #000c">${o.title?`<div style="font:700 34px P;color:${COL.blue};letter-spacing:2px;padding-top:14px">${o.title}</div>`:''}${r}${o.extra||''}</div>`}
+const money=v=>MG.fmt(Math.round(v),0,'$');
+const popIn=(lt,a=0,d=.45)=>el(cl(lt,a,a+d));
+// ---------- per-line scenes: (lt, D, L) ; exit handled by engine
+const HOOK0=()=>T(540,250,'$5,000 DEBT',{size:100})+T(540,380,'COSTS $12,500',{size:118,col:COL.red,ol:12})+obj('chain',540,930,820,{bob:0});
+const OV={
+ hook(lt,D,L){const sh=lt>D*.62&&lt<D*.62+.5?Math.sin(lt*60)*8*(1-cl(lt,D*.62,D*.62+.5)):0;fx(L,'impact',D*.62);
+  return T(540,250,'$5,000 DEBT',{size:100})+T(540,380,'COSTS $12,500',{size:118,col:COL.red,ol:12,s:1+.08*Math.sin(Math.PI*cl(lt,D*.62,D*.62+.4))})+obj('chain',540,930,820,{rot:sh*.4+Math.sin(lt*1.9)*3,ry:Math.sin(lt*1.4)*14,s:1+.06*Math.sin(Math.PI*cl(lt,D*.62,D*.62+.4)),bob:0})},
+ apr(lt,D,L){const q=ez(cl(lt,D*.12,D*.55));tick(L,D*.12,D*.43);fx(L,'ding',D*.57);
+  return obj('card',540,900,700,{s:popIn(lt),ry:lerp(-80,0,ez(cl(lt,0,.6)))+Math.sin(T_NOW*1.4)*12})+T(540,330,(22.15*q).toFixed(1)+' %',{size:170,col:COL.gold,p:q>0?1:0})+pill(540,1250,'average card interest · Fed, 2026',{p:cl(lt,D*.75,D*.95),size:36,dot:COL.gold})},
+ minpay(lt,D,L){fx(L,'pop',.5);fx(L,'error',D*.72);const r=cl(lt,D*.7,D*.95);
+  return obj('bill',540,1000,520,{s:popIn(lt),rot:-6+Math.sin(T_NOW*1.2)*2})+card(540,300,640,[['Minimum due','$142'],['Just interest','$92',COL.red]],cl(lt,D*.2,D*.95),{title:'FIRST MONTH',
+   extra:`<div style="height:26px;border-radius:13px;background:#ffffff18;margin:10px 0 26px;overflow:hidden"><div style="height:100%;width:${(65*ez(r)).toFixed(1)}%;background:${COL.red};box-shadow:0 0 20px ${COL.red}"></div></div><div style="font:500 30px P;color:#8fa3b8;padding-bottom:12px">1% + interest, min. $40</div>`})},
+ shrink(lt,D,L){const q=ei(cl(lt,D*.2,D*.9));tick(L,D*.2,D*.7,6);const b=5000-1200*q,m=142-38*q;
+  return obj('bill',540,900,lerp(640,420,q),{rot:Math.sin(T_NOW*1.3)*3})+card(540,300,700,[['Balance',money(b)],['Minimum due',money(m),COL.gold]],cl(lt,0,.5),{title:'EVERY MONTH'})+pill(540,1260,'minimum shrinks → debt drags on',{p:cl(lt,D*.6,D*.85),size:38,dot:COL.red})},
+ years(lt,D,L){const q=ei(cl(lt,D*.15,D*.8)),y=Math.round(2026+15*q);tick(L,D*.15,D*.65,10);fx(L,'thud',D*.82);
+  return obj('cal',600,780,560,{s:popIn(lt),rot:3})+`<div style="position:absolute;left:600px;top:850px;transform:translate(-50%,-50%) rotate(3deg) scale(${popIn(lt).toFixed(3)});font:700 130px P;color:#1b2430">${y}</div>`+obj('samsad',250,1180,520,{s:popIn(lt,.35),bob:6,ph:1})+T(540,280,'≈ 15 YEARS',{size:150,col:COL.red,p:cl(lt,D*.78,D*.92),s:bo(cl(lt,D*.78,D*.95))})},
+ interest(lt,D,L){const q=ei(cl(lt,D*.2,D*.8));tick(L,D*.2,D*.6);fx(L,'error',D*.82);const drop=1-ez(cl(lt,0,.5));
+  return obj('cash',540,940-drop*700,720,{s:1,rot:-4,ph:2})+T(540,300,'+'+money(7516*q),{size:160,col:COL.red,p:q>0?1:0})+pill(540,440,'IN INTEREST ALONE',{p:cl(lt,D*.5,D*.7),size:42,bg:COL.red2,fg:'#fff'})},
+ fixed(lt,D,L){fx(L,'pop',D*.15);fx(L,'ding',D*.8);
+  return obj('samhappy',540,980,760,{s:popIn(lt),bob:8,glow:'#3ddc8466'})+pill(540,250,'$150 every month',{p:cl(lt,D*.1,D*.35),size:52,dot:COL.green})+T(540,410,'DONE IN 4.4 YEARS',{size:104,col:COL.green,p:cl(lt,D*.7,D*.85),s:bo(cl(lt,D*.7,D*.9))})+pill(540,1340,'interest: $2,834 instead of $7,516',{p:cl(lt,D*.85,1.05*D),size:36,dot:COL.green})},
+ loop(lt,D,L){const t0=Math.max(.5,D-.6),q=cl(lt,t0,D-.05);
+  const a=pill(540,300,'REMEMBER:',{p:cl(lt,.1,.4),size:72,bg:COL.blue,fg:'#fff'})+obj('card',540,920,560,{s:popIn(lt),rot:Math.sin(T_NOW)*4});
+  if(q<=0)return a;return `<div style="position:absolute;inset:0;opacity:${(1-q).toFixed(3)}">${a}</div><div style="position:absolute;inset:0;opacity:${q.toFixed(3)}">${HOOK0()}</div>`}
+};
+// ---------- engine
+window.setTimeline=tl=>{MG.TL=TL=tl;MG.preload(['chain','card','bill','cal','cash','samsad','samhappy'].map(IMG));
+ Promise.all([document.fonts.load('700 50px P'),document.fonts.load('500 50px P')]).then(()=>{fontsOk=true},()=>{fontsOk=true})};
+Object.defineProperty(window,'ready',{configurable:true,get(){return imgReady&&fontsOk},set(v){imgReady=v}});
+function draw(t){if(!TL)return;T_NOW=t;const N=TL.lines.length;let h='';
+ const ph=t/TL.dur;$('glow').style.opacity=(.42+.1*Math.sin(ph*Math.PI*2*8)).toFixed(3);$('pat').style.transform=`translateY(${(-(ph*46*8)%46).toFixed(1)}px)`;
+ for(let i=0;i<N;i++){const L=TL.lines[i],nx=TL.lines[i+1],D=Math.max(.8,L.end-L.start);
+  const s0=i==0?-1:L.start-.15,e1=nx?nx.start+.3:TL.dur+1;if(t<s0||t>e1)continue;
+  const lt=t-L.start,ex=nx&&i<N-1?ei(cl(t,nx.start-.15,nx.start+.3)):0;
+  const inner=OV[L.spec.ov](lt<0&&i==0?0:lt,D,L);
+  h+=`<div style="position:absolute;inset:0;opacity:${(1-ex).toFixed(3)};transform:translateY(${(-ex*160).toFixed(1)}px) scale(${(1-.12*ex).toFixed(4)});transform-origin:50% 45%">${inner}</div>`}
+ if(h!==$('objs')._h){$('objs').innerHTML=h;$('objs')._h=h}
+ const c=t>=TL.lines[N-1].end-.02?'':MG.captions(t,{y:1560,size:74,maxWords:3,stageW:1080,w:1000,upper:true});if(c!==$('cap')._h){$('cap').innerHTML=c;$('cap')._h=c}
+ MG.grainTick(t)}
+window.sfxEvents=()=>{const ev=[];COLLECT=ev;
+ TL.lines.forEach((L,i)=>{const D=Math.max(.8,L.end-L.start);if(i>0)ev.push({k:i%2?'whoosh':'swish',t:L.start-.15,d:.6,pan:i%2?0:.3});try{OV[L.spec.ov](D+1,D,L)}catch(e){}});
+ COLLECT=null;ev.sort((a,b)=>a.t-b.t);const out=[];for(const e of ev){if(e.t<0)e.t=0;if(!out.find(o=>o.k==e.k&&Math.abs(o.t-e.t)<.12))out.push(e)}return out};
+window.draw=draw;
+MG.finish($('stage'),1080,1920,.04,'#0000002a',60);
+</script>

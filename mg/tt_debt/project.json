@@ -1,0 +1,17 @@
+{
+ "title": "TikTok: The credit card minimum payment trap (animated)",
+ "_sources": "Fed G.19 (Oct 7, 2026 release): credit card APR, accounts assessed interest, Q2 2026 = 22.15%. Minimum payment: 1% of balance + interest, at least $40 (Chase). Own calculation $5,000 at 22.15%: first minimum $142.29 (interest $92.29); minimum only -> 184 months (15.3 y), interest $7,516, total $12,516; fixed $150/month -> 53 months (4.4 y), interest $2,834.",
+ "size": [1080, 1920], "fps": 30, "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural", "rate": "+10%",
+ "lead": 0.1, "gap": 0.2, "tail": 0.1, "crf": 22, "music": false, "sfx_gain": 0.42,
+ "lines": [
+  {"text": "Five thousand dollars on a credit card can cost you over twelve thousand.", "spec": {"ov": "hook"}},
+  {"text": "The average card charges about twenty-two percent interest.", "spec": {"ov": "apr"}},
+  {"text": "Your first minimum payment is about one forty. But ninety-two of it is just interest.", "spec": {"ov": "minpay"}},
+  {"text": "And as your balance shrinks, so does the minimum.", "spec": {"ov": "shrink"}},
+  {"text": "Pay only that, and you are stuck for about fifteen years.", "spec": {"ov": "years"}},
+  {"text": "Paying over seven thousand dollars in interest.", "spec": {"ov": "interest"}},
+  {"text": "Keep paying one-fifty a month instead? Done in under five years.", "spec": {"ov": "fixed"}},
+  {"text": "So before you pay just the minimum, remember:", "spec": {"ov": "loop"}}
+ ]
+}
