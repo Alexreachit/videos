@@ -74,3 +74,8 @@ Rendern auf GitHub: Projektname in `mg/render_queue.txt` eintragen und pushen (W
 - Dunkler Hintergrund + Punktmuster + blauer Glow, freigestellte Objekte (Gemini auf Magenta #FF00FF, 1:1), `python3 mg/lib/keyout.py src dst.png 900`.
 - Pro Satz ein Objekt: Pop-in (elastisch), Wackeln/3D-Drehung, Ausgang nach oben; UI-Karten (iOS-Stil), Pills, Zähler. Sam als kleine freigestellte Figur.
 - Loop: Hintergrund-Animation über ganze Zyklen von TL.dur, Hook-Objekt bei lt=0 ruhig (bob:0).
+
+## TikTok-Musik (2026-10-25, Alex wollte eigene leise Musik passend zu Abschnitten)
+- `"music":{"style":"tt","bpm":96,"gain":0.14,"duck_ratio":2}` – leiser Groove (Kick/Shaker/Bass/Pluck), ~20 dB unter der Stimme.
+- `spec.mood` = tense/calm/bright (gilt bis zur nächsten Änderung), `spec.cut: true` = kurzer Musik-Stopp vor der Zeile + tiefer Bass-Hit (Wendepunkte der Story).
+- Kein Fade, damit der Loop nahtlos bleibt. Vorbild: @schraffur (Musik bricht bei Abschnittswechseln kurz ab).
