@@ -1,18 +1,70 @@
 {
  "title": "TikTok (DE): Wohnung kaufen vs. mieten + ETF – wer gewinnt nach 30 Jahren",
  "_sources": "ImmoScout24 WohnBarometer Q3 2026 (02.10.2026): ETW Bestand 2.653 €/m² (Referenz 80 m²) = 212.240 €. ImmoScout24 WohnBarometer Q2 2026 Miete: 8,97 €/m² Bestand -> 718 €/Monat. Baufi24 Zinskommentar 10/2026: Bauzins 10 J. Zinsbindung Ø September 2026 4,16 %. Immowelt: Kaufnebenkosten 9,07–12,07 % (Ø Bundesländer ~11 %, Annahme 11 % = 23.346 €). BIS/FRED QDEN628BIS: dt. Wohnimmobilienpreise nominal 37,60 (1970) -> 179,95 (2026) = 2,84 %/J (auch als Mietsteigerung angenommen). MSCI World ~7–8 %/J langfristig (Zendepot) -> 7 %. Instandhaltung 1 %/J (Faustregel). Eigene Rechnung: EK 65.794 € (20 % + NK), Kredit 169.792 € über 30 J. -> 826 €/Monat; Mieter investiert 65.794 € + Differenz (285 € im 1. Monat). Nach 30 J.: Wohnung 533.262 €; ETF 663.615 € vor bzw. 558.799 € nach Abgeltungsteuer+Soli mit 30 % Teilfreistellung. 6 %: Wohnung 531.507 vs ETF 430.454; 8 %: 535.128 vs 725.697. Ohne Grundsteuer/Versicherung, Zinsbindung vereinfacht über 30 J.",
- "size": [1080, 1920], "fps": 30, "scene": "scene.html",
- "voice": "de-DE-FlorianMultilingualNeural", "rate": "+10%",
- "lead": 0.1, "gap": 0.2, "tail": 0.1, "crf": 22,
- "music": {"style": "tt", "bpm": 96, "gain": 0.14, "duck_ratio": 2}, "sfx_vary": true, "sfx_gain": 0.42,
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "de-DE-FlorianMultilingualNeural",
+ "rate": "+10%",
+ "lead": 0.1,
+ "gap": 0.2,
+ "tail": 0.1,
+ "crf": 22,
+ "music": {
+  "style": "tt",
+  "bpm": 96,
+  "gain": 0.14,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.42,
  "lines": [
-  {"text": "Wohnung kaufen, oder mieten und in einen ETF investieren? Nach dreißig Jahren trennt die beiden nur noch ein Kleinwagen.", "spec": {"mood": "tense"}},
-  {"text": "Beide starten mit rund sechsundsechzigtausend Euro.", "spec": {"mood": "calm"}},
-  {"text": "Der Käufer nimmt eine Wohnung für zweihundertzwölftausend Euro. Dreiundzwanzigtausend sind sofort weg: Steuer, Notar, Makler.", "spec": {}},
-  {"text": "Kredit und Instandhaltung: rund tausend Euro im Monat.", "spec": {}},
-  {"text": "Der Mieter zahlt siebenhundertachtzehn Euro Miete und steckt den Rest in einen ETF.", "spec": {}},
-  {"text": "Und der ETF liegt die ganzen dreißig Jahre vorne.", "spec": {"mood": "tense"}},
-  {"text": "Am Ende: Wohnung, fünfhundertdreiunddreißigtausend Euro. ETF, fünfhundertneunundfünfzigtausend, nach Steuern.", "spec": {"mood": "bright", "cut": true}},
-  {"text": "Aber bei sechs Prozent Rendite gewinnt die Wohnung, bei acht Prozent klar der ETF. Was würdest du wählen:", "spec": {"mood": "tense", "cut": true}}
+  {
+   "text": "Wohnung kaufen, oder mieten und in einen ETF investieren? Nach 30 Jahren trennt beide nur ein Kleinwagen.",
+   "spec": {
+    "mood": "tense"
+   }
+  },
+  {
+   "text": "Beide starten mit rund 66.000 Euro.",
+   "spec": {
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "Der Käufer zahlt 212.000 Euro für die Wohnung. 23.000 sind sofort weg: Steuer, Notar, Makler.",
+   "spec": {}
+  },
+  {
+   "text": "Kredit plus Instandhaltung: rund 1.000 Euro im Monat.",
+   "spec": {}
+  },
+  {
+   "text": "Der Mieter zahlt 718 Euro Miete und investiert den Rest.",
+   "spec": {}
+  },
+  {
+   "text": "Und der ETF liegt die ganzen 30 Jahre vorne.",
+   "spec": {
+    "mood": "tense"
+   }
+  },
+  {
+   "text": "Am Ende: Wohnung 533.000 Euro. ETF 559.000, nach Steuern.",
+   "spec": {
+    "mood": "bright",
+    "cut": true
+   }
+  },
+  {
+   "text": "Aber bei 6 Prozent Rendite gewinnt die Wohnung, bei 8 Prozent klar der ETF. Was würdest du wählen:",
+   "spec": {
+    "mood": "tense",
+    "cut": true
+   }
+  }
  ]
 }
