@@ -187,8 +187,71 @@ def music_adaptive(dur, cfg):
         y += beds[k]() * e * gains[k]
     return y
 
+
+def music_tt(dur, cfg):
+    """TikTok-Beat (selbst erzeugt): leiser Kick/Shaker/Bass-Groove + Pluck-Arpeggio. Stimmung je Abschnitt (spec.mood:
+    tense/calm/bright, schnelle Ueberblendung), an Abschnitts-Wechseln (spec.cut) kurzer Musik-Stopp + tiefer Bass-Hit.
+    Kein Fade-in/-out, damit der Loop nahtlos bleibt."""
+    bpm = cfg.get("bpm", 96); beat = 60 / bpm; bar = beat * 4; n = int(SR * dur); tt = np.arange(n) / SR
+    mid = lambda m: 440 * 2 ** ((m - 69) / 12); rng = np.random.default_rng(3)
+    def mk(): return np.zeros(n)
+    def put(y, sig, t0, g=1.0):
+        i = int(t0 * SR); m = min(len(sig), n - i)
+        if m > 0 and i >= 0: y[i:i+m] += sig[:m] * g
+    nb = int(dur / bar) + 2
+    drums = mk()
+    for b in range(nb):
+        t0 = b * bar
+        for k in (0, 2.5):   # weicher Kick
+            l = .3; t = np.arange(int(l * SR)) / SR; f = 50 + 70 * np.exp(-t * 30)
+            put(drums, np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-t * 11), t0 + k * beat, .32)
+        for k in (1, 3):     # leiser Snap
+            l = .12; nz = rng.standard_normal(int(l * SR)); ta = np.arange(len(nz)) / SR; nz = np.diff(nz, prepend=0) * np.exp(-ta * 40) * np.minimum(ta / .003, 1)
+            put(drums, nz, t0 + k * beat, .03)
+        for k in range(8):   # Shaker in Achteln
+            l = .06; nz = np.diff(rng.standard_normal(int(l * SR)), prepend=0); ta = np.arange(len(nz)) / SR; e = np.exp(-ta * 70) * np.minimum(ta / .004, 1)
+            put(drums, nz * e, t0 + k * beat / 2, .022 if k % 2 else .014)
+    PROG = {"tense": [(57, 60, 64), (57, 60, 64), (53, 57, 60), (52, 56, 59)],     # Am Am F E
+            "calm":  [(60, 64, 67), (57, 60, 64), (53, 57, 60), (55, 59, 62)],     # C Am F G
+            "bright": [(60, 64, 67), (55, 59, 62), (57, 60, 64), (53, 57, 60)]}    # C G Am F
+    def bed(prog, bright):
+        y = mk()
+        for b in range(nb):
+            t0 = b * bar; ch = prog[b % 4]
+            for k in range(8):   # Bass in Achteln
+                l = beat / 2 * .9; t = np.arange(int(l * SR)) / SR
+                put(y, (np.sin(2*np.pi*mid(ch[0]-24)*t) + .3*np.sin(2*np.pi*mid(ch[0]-12)*t)) * np.exp(-t * 5) * np.minimum(t / .005, 1), t0 + k * beat / 2, .16 if k % 2 == 0 else .1)
+            pat = [0, 1, 2, 1, 2, 0, 1, 2] if not bright else [0, 2, 1, 2, 0, 2, 1, 2]
+            for k in range(8):   # Pluck-Arpeggio (Marimba-artig)
+                m = ch[pat[k]] + (24 if bright and k % 4 == 3 else 12); l = .35; t = np.arange(int(l * SR)) / SR
+                put(y, (np.sin(2*np.pi*mid(m)*t) + .25*np.sin(2*np.pi*4*mid(m)*t)*np.exp(-t*30)) * np.exp(-t * 9), t0 + k * beat / 2, .05)
+            if not bright:   # dunkles Pad bei tense
+                l = bar + .2; t = np.arange(int(l * SR)) / SR; env = np.minimum(t / .4, 1) * np.minimum((l - t) / .3, 1)
+                put(y, sum(np.sin(2*np.pi*mid(m)*t) + .3*np.sin(2*np.pi*2*mid(m)*t) for m in ch) * env * .02, t0)
+        return y
+    spans = cfg.get("_moods", []); keys = ["tense", "calm", "bright"]
+    lab = np.full(n, 1, dtype=np.int8)
+    for a, b2, m in spans: lab[int(a * SR):int(b2 * SR)] = keys.index(m) if m in keys else 1
+    w = int(SR * cfg.get("xfade", .6)); out = drums.copy()
+    for i, k in enumerate(keys):
+        e = (lab == i).astype(np.float32)
+        if not e.any(): continue
+        c = np.cumsum(np.insert(e, 0, 0)); half = w // 2; idx = np.arange(n)
+        lo = np.clip(idx - half, 0, n); hi = np.clip(idx + half, 0, n); e = (c[hi] - c[lo]) / np.maximum(hi - lo, 1)
+        out += bed(PROG[k], k == "bright") * e
+    for tc in cfg.get("_cuts", []):   # Stopp vor dem Abschnitt + Bass-Hit beim Einsatz
+        a, b2 = tc - .45, tc
+        g = np.ones(n); i0, i1 = int(max(a, 0) * SR), int(min(b2, dur) * SR)
+        if i1 > i0:
+            ramp = np.linspace(0, 1, i1 - i0); g[i0:i1] = np.where(ramp < .15, 1 - ramp / .15, 0)
+            out *= g
+        l = 1.2; t = np.arange(int(l * SR)) / SR; f = 38 + 50 * np.exp(-t * 18)
+        put(out, np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-t * 3.2), tc, .55)
+    return out
+
 def music_bed(dur, cfg):
     """Selbst synthetisiertes Musikbett: Pad-Akkorde, Bass, Kick/Hi-Hat, Pluck-Arpeggio. Frei von Rechten."""
+    if cfg.get("style") == "tt": return music_tt(dur, cfg)
     if cfg.get("style") == "adaptive": return music_adaptive(dur, cfg)
     if cfg.get("style") == "soft": return music_soft(dur, cfg)
     bpm = cfg.get("bpm", 100); mood = cfg.get("mood", "minor"); energy = cfg.get("energy", .7)
@@ -382,6 +445,7 @@ def main():
     for j, l in enumerate(lines):   # Stimmung gilt bis zur naechsten Zeile
         mood = (l.get("spec") or {}).get("mood", mood)
         MUSIC["_moods"].append((l["start"], lines[j+1]["start"] if j + 1 < len(lines) else total, mood))
+    MUSIC["_cuts"] = [l["start"] for l in lines if (l.get("spec") or {}).get("cut")]
     tl = {"lines": [{k: v for k, v in l.items() if k != "file"} for l in lines], "dur": total}
     if "--limit" in sys.argv:  # nur die ersten N Sekunden rendern (Test)
         lim = float(sys.argv[sys.argv.index("--limit") + 1]); total = min(total, lim); tl["dur"] = total
@@ -426,7 +490,7 @@ def main():
         f"[voice]asplit=2[vo][vsc]",
         f"[{n}:a]volume={0 if MUSIC.get('_off') else MUSIC.get('gain', 0.55)}[music]",
         f"[{n+1}:a]volume={cfg.get('sfx_gain', 0.8)}[sfx]",
-        f"[music][vsc]sidechaincompress=threshold=0.03:ratio=8:attack=20:release=300[ducked]",
+        f"[music][vsc]sidechaincompress=threshold=0.03:ratio={MUSIC.get('duck_ratio', 8)}:attack=20:release=300[ducked]",
         f"[vo][ducked][sfx]amix=inputs=3:normalize=0,alimiter=limit=0.95[a]"])
     run(["ffmpeg", "-y", "-loglevel", "error", *ins, "-i", str(out / "music.wav"), "-i", str(out / "sfx.wav"),
          "-filter_complex", graph, "-map", "[a]", "-t", f"{total}", "-c:a", "aac", "-b:a", "192k", str(out / "audio.m4a")])
