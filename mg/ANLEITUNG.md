@@ -84,3 +84,12 @@ Rendern auf GitHub: Projektname in `mg/render_queue.txt` eintragen und pushen (W
 - Video gut. Nächstes Mal MEHR Animation. NUR WENN ES INHALTLICH PASST: Objekte bleiben über Satzgrenzen hinweg im Bild und bewegen sich weiter,
   statt zu verschwinden (z. B. Kreditkarte fliegt von der Mitte in die Ecke/zur Rechnung, schrumpft, dreht sich, wird Teil der nächsten Szene).
 - Umsetzung: persistente Objekte mit Keyframes über die ganze Timeline (Position/Größe/Rotation je Zeile), Übergänge per Interpolation statt Exit/Pop-in.
+
+## Referenz für mehr Animation: @wissentogo16 (ETF-Video, analysiert 2026-10-25)
+- Maskottchen bleibt die GANZE Zeit klein unten rechts im Bild und reagiert (wackelt, wechselt Pose) -> bei uns Sam.
+- Kleines Themen-Label oben (Emoji + 2–3 Wörter, z. B. "Der Motor", "Und die Kosten?"), wechselt pro Abschnitt.
+- Alle ~2 s passiert etwas: 2–3 Beats pro Satz statt einem Objekt pro Satz.
+- Objekte VERÄNDERN sich statt nur zu erscheinen: Baum wächst mit dem Zähler (57.000 -> 260.000 €), Glitzer-Partikel + pulsierender Ring beim Höhepunkt.
+- Objekt verwandelt sich in Diagramm (Baum -> grüner Balken, zweiter Vergleichsbalken wächst dazu).
+- Crash-Moment: roter Pfeil stürzt in Staubwolke, Bild wackelt, dann "-50 %" groß.
+- Übergänge: schnelles Wegblenden mit Unschärfe, neues Objekt ploppt mit Sparkles rein.
