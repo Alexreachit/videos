@@ -1,0 +1,584 @@
+{
+ "title": "YouTube 11: What Happens When Your Bank Collapses?",
+ "size": [
+  1920,
+  1080
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+10%",
+ "lead": 0.6,
+ "gap": 0.4,
+ "tail": 3.0,
+ "crf": 21,
+ "music": {
+  "style": "adaptive",
+  "bpm": 76,
+  "gain": 0.3
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.42,
+ "lines": [
+  {
+   "text": "On March ninth, twenty twenty-three, customers pulled forty-two billion dollars out of one single bank. In one day.",
+   "spec": {
+    "type": "map",
+    "cam": [
+     -98,
+     39,
+     1.0
+    ],
+    "cam2": [
+     -121.96,
+     37.35,
+     6.5
+    ],
+    "pins": [
+     {
+      "at": [
+       -121.96,
+       37.35
+      ],
+      "label": "Silicon Valley Bank",
+      "col": "red"
+     }
+    ],
+    "counter": {
+     "to": 42,
+     "pre": "−$",
+     "suf": "B",
+     "label": "withdrawn on March 9"
+    },
+    "title": [
+     "$42 BILLION",
+     "OUT OF ONE BANK – IN ONE DAY"
+    ],
+    "mood": "tense"
+   },
+   "rate": "+8%"
+  },
+  {
+   "text": "The next morning, another hundred billion was lined up to leave. And by lunchtime, the bank was gone.",
+   "spec": {
+    "type": "map",
+    "cam": [
+     -121.96,
+     37.35,
+     6.5
+    ],
+    "pins": [
+     {
+      "at": [
+       -121.96,
+       37.35
+      ],
+      "label": "Silicon Valley Bank",
+      "col": "red",
+      "closed": true
+     }
+    ],
+    "counter": {
+     "from_": 42,
+     "to": 142,
+     "pre": "−$",
+     "suf": "B",
+     "label": "lined up to leave"
+    }
+   },
+   "rate": "+10%",
+   "pitch": "+3Hz"
+  },
+  {
+   "text": "So what actually happens to your money when your bank collapses? And could it happen to your bank, too?",
+   "spec": {
+    "type": "img",
+    "img": 1,
+    "chips": [
+     "Your money?",
+     "Your bank?"
+    ]
+   },
+   "pause": 0.15
+  },
+  {
+   "text": "To understand that, you first need to know one slightly uncomfortable secret about banks.",
+   "spec": {
+    "type": "img",
+    "img": 2,
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "When you put a thousand dollars into your account, the bank doesn't just keep it in a vault.",
+   "spec": {
+    "type": "bank",
+    "step": "deposit"
+   }
+  },
+  {
+   "text": "It lends most of it out to people buying homes and cars, or invests it in things like government bonds.",
+   "spec": {
+    "type": "bank",
+    "step": "lend"
+   }
+  },
+  {
+   "text": "In the US, banks don't even have to keep a minimum share in reserve anymore. Since March twenty twenty, that requirement is zero percent.",
+   "spec": {
+    "type": "bank",
+    "step": "zero"
+   }
+  },
+  {
+   "text": "And that works perfectly well, as long as not everyone wants their money back on the same day.",
+   "spec": {
+    "type": "bank",
+    "step": "run"
+   }
+  },
+  {
+   "text": "When they do, it's called a bank run. And history shows how brutal that can get.",
+   "spec": {
+    "type": "img",
+    "img": 3,
+    "mood": "tense"
+   }
+  },
+  {
+   "text": "Between nineteen thirty and nineteen thirty-three, around nine thousand American banks shut their doors.",
+   "spec": {
+    "type": "map",
+    "cam": [
+     -97,
+     38.5,
+     3.2
+    ],
+    "view": "us",
+    "dots": true,
+    "counter": {
+     "to": 9000,
+     "label": "banks suspended, 1930–1933",
+     "pre": "",
+     "suf": ""
+    }
+   }
+  },
+  {
+   "text": "Millions of families lost their savings, because back then, nothing protected their deposits.",
+   "spec": {
+    "type": "map",
+    "cam": [
+     -97,
+     38.5,
+     3.2
+    ],
+    "view": "us",
+    "dots": true,
+    "fade": true
+   }
+  },
+  {
+   "text": "And it's not just history. In two thousand seven, people lined up outside Northern Rock in Britain. It was the first bank run in the UK since Victorian times.",
+   "spec": {
+    "type": "map",
+    "cam": [
+     -1.6,
+     54.97,
+     9
+    ],
+    "pins": [
+     {
+      "at": [
+       -1.61,
+       54.98
+      ],
+      "label": "Northern Rock · 2007",
+      "col": "red"
+     }
+    ],
+    "photo": 8,
+    "hl": [
+     "GBR"
+    ]
+   }
+  },
+  {
+   "text": "So in nineteen thirty-three, the US created the FDIC. Its deposit insurance started on January first, nineteen thirty-four.",
+   "spec": {
+    "type": "shield",
+    "step": "fdic",
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "Today, it covers two hundred fifty thousand dollars per person, per bank, per account type.",
+   "spec": {
+    "type": "shield",
+    "step": "limit"
+   }
+  },
+  {
+   "text": "And since nineteen thirty-four, no depositor has lost a single penny of insured money.",
+   "spec": {
+    "type": "shield",
+    "step": "zero"
+   },
+   "rate": "+6%",
+   "pitch": "-2Hz"
+  },
+  {
+   "text": "Other countries do the same. The European Union protects one hundred thousand euros, and the UK, one hundred twenty thousand pounds.",
+   "spec": {
+    "type": "map",
+    "cam": [
+     -40,
+     45,
+     1.25
+    ],
+    "pins": [
+     {
+      "at": [
+       -98,
+       39
+      ],
+      "label": "USA · $250,000",
+      "col": "green"
+     },
+     {
+      "at": [
+       16,
+       47.5
+      ],
+      "label": "EU · €100,000",
+      "col": "green",
+      "dy": -0.6
+     },
+     {
+      "at": [
+       -2,
+       53.5
+      ],
+      "label": "UK · £120,000",
+      "col": "green",
+      "dy": 1.3
+     }
+    ],
+    "hl": [
+     "USA",
+     "GBR",
+     "EU"
+    ]
+   }
+  },
+  {
+   "text": "So why did Silicon Valley Bank still turn into a disaster?",
+   "spec": {
+    "type": "map",
+    "cam": [
+     -121.96,
+     37.35,
+     6.5
+    ],
+    "pins": [
+     {
+      "at": [
+       -121.96,
+       37.35
+      ],
+      "label": "Silicon Valley Bank",
+      "col": "red"
+     }
+    ],
+    "mood": "tense"
+   },
+   "pause": 0.2
+  },
+  {
+   "text": "Its customers were mostly startups and tech companies, with accounts far above the limit. About eighty-six percent of its deposits were not insured.",
+   "spec": {
+    "type": "pie",
+    "v": 86.4
+   }
+  },
+  {
+   "text": "The bank had put a huge part of that money into long-term bonds. Then interest rates shot up, and those bonds lost value.",
+   "spec": {
+    "type": "bond"
+   }
+  },
+  {
+   "text": "Selling them now would mean locking in those losses. Keeping them meant the bank had less cash on hand than it looked.",
+   "spec": {
+    "type": "bond",
+    "step": 2
+   }
+  },
+  {
+   "text": "On March eighth, the bank admitted that it had sold bonds at a one point eight billion dollar loss, and that it needed to raise new money.",
+   "spec": {
+    "type": "loss"
+   }
+  },
+  {
+   "text": "Founders warned each other in group chats and on social media. Within hours, everyone tried to get out at once.",
+   "spec": {
+    "type": "map",
+    "cam": [
+     -98,
+     39,
+     1.25
+    ],
+    "view": "us",
+    "spread": true
+   }
+  },
+  {
+   "text": "In just two days, customers tried to pull out about eighty-one percent of all deposits. And this time, nobody had to stand in line. They just tapped a button.",
+   "spec": {
+    "type": "bar81"
+   }
+  },
+  {
+   "text": "On March tenth, regulators shut it down. It was the third-largest bank failure in American history.",
+   "spec": {
+    "type": "map",
+    "cam": [
+     -121.96,
+     37.35,
+     6.5
+    ],
+    "pins": [
+     {
+      "at": [
+       -121.96,
+       37.35
+      ],
+      "label": "Silicon Valley Bank",
+      "col": "red",
+      "closed": true
+     }
+    ]
+   },
+   "pitch": "-3Hz"
+  },
+  {
+   "text": "And suddenly, real companies had their cash stuck inside. The streaming company Roku had about four hundred eighty-seven million dollars there. That was a quarter of all its cash.",
+   "spec": {
+    "type": "stuck",
+    "step": 1
+   }
+  },
+  {
+   "text": "The crypto company Circle had three point three billion dollars stuck. Its digital dollar, which is supposed to be worth exactly one dollar, fell below eighty-seven cents.",
+   "spec": {
+    "type": "stuck",
+    "step": 2
+   }
+  },
+  {
+   "text": "Then came the weekend that saved everyone.",
+   "spec": {
+    "type": "img",
+    "img": 5,
+    "mood": "bright",
+    "cut": true
+   },
+   "pause": 0.25
+  },
+  {
+   "text": "On March twelfth, the government decided that all depositors would get their money back, even above the limit. And it was paid for with a special fee on other banks.",
+   "spec": {
+    "type": "rescue"
+   }
+  },
+  {
+   "text": "But the fear kept spreading. Signature Bank in New York fell that same weekend, and in May, First Republic in San Francisco collapsed too.",
+   "spec": {
+    "type": "map",
+    "cam": [
+     -98,
+     39,
+     1.25
+    ],
+    "view": "us",
+    "pins": [
+     {
+      "at": [
+       -121.96,
+       37.35
+      ],
+      "label": "Silicon Valley Bank",
+      "col": "red",
+      "closed": true
+     },
+     {
+      "at": [
+       -74.0,
+       40.71
+      ],
+      "label": "Signature Bank",
+      "col": "red",
+      "closed": true
+     },
+     {
+      "at": [
+       -122.42,
+       37.77
+      ],
+      "label": "First Republic",
+      "col": "red",
+      "closed": true,
+      "dy": 1,
+      "delay": 0.55
+     }
+    ],
+    "mood": "tense"
+   }
+  },
+  {
+   "text": "With two hundred twenty-nine billion dollars in assets, First Republic became the second-largest bank failure ever in the US.",
+   "spec": {
+    "type": "rank"
+   }
+  },
+  {
+   "text": "And then, the fear jumped across the Atlantic.",
+   "spec": {
+    "type": "map",
+    "cam": [
+     -40,
+     45,
+     1.25
+    ],
+    "arc": {
+     "a": [
+      -98,
+      39
+     ],
+     "b": [
+      8.54,
+      47.37
+     ]
+    },
+    "pins": [
+     {
+      "at": [
+       8.54,
+       47.37
+      ],
+      "label": "Zurich",
+      "col": "gold"
+     }
+    ]
+   }
+  },
+  {
+   "text": "Credit Suisse, a hundred sixty-seven year old Swiss bank, had to be rescued. On March nineteenth, its rival UBS bought it for just three billion Swiss francs.",
+   "spec": {
+    "type": "map",
+    "cam": [
+     8.4,
+     46.8,
+     14
+    ],
+    "hl": [
+     "CHE"
+    ],
+    "pins": [
+     {
+      "at": [
+       8.54,
+       47.37
+      ],
+      "label": "Credit Suisse · since 1856",
+      "col": "red",
+      "closed": true
+     }
+    ],
+    "counter": {
+     "to": 3,
+     "pre": "CHF ",
+     "suf": "B",
+     "label": "sale price to UBS"
+    }
+   }
+  },
+  {
+   "text": "And some investors lost everything. Sixteen billion francs in special bonds were written down to zero.",
+   "spec": {
+    "type": "at1"
+   }
+  },
+  {
+   "text": "So, what happens to your money if your bank fails?",
+   "spec": {
+    "type": "img",
+    "img": 7,
+    "mood": "calm"
+   },
+   "pause": 0.2
+  },
+  {
+   "text": "If you're under the limit, usually almost nothing. Most of the time, a healthy bank takes over your account, and you can use your money right away.",
+   "spec": {
+    "type": "transfer"
+   }
+  },
+  {
+   "text": "If no bank steps in, the FDIC sends you a check, and payments usually begin within a few days.",
+   "spec": {
+    "type": "check"
+   }
+  },
+  {
+   "text": "Only the money above the limit is at risk. You become a creditor of the failed bank, and you might get some of it back, or not.",
+   "spec": {
+    "type": "above"
+   }
+  },
+  {
+   "text": "So here's what you can do. First, keep your savings under the limit at each bank. If you have more, spread it across several banks.",
+   "spec": {
+    "type": "tips",
+    "n": 1,
+    "img": 6,
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Second, make sure your bank is actually insured. Some apps look like banks, but they aren't banks themselves.",
+   "spec": {
+    "type": "tips",
+    "n": 2,
+    "img": 6
+   }
+  },
+  {
+   "text": "And third, don't panic. Bank runs are what kill banks. Your insured money is safe, even when the headlines look scary.",
+   "spec": {
+    "type": "tips",
+    "n": 3,
+    "img": 6
+   }
+  },
+  {
+   "text": "Would you have pulled your money out of Silicon Valley Bank? Tell me in the comments.",
+   "spec": {
+    "type": "img",
+    "img": 4,
+    "chips": [
+     "Yes",
+     "No"
+    ]
+   }
+  },
+  {
+   "text": "And subscribe for more money explained simply.",
+   "spec": {
+    "type": "outro",
+    "mood": "calm"
+   }
+  }
+ ]
+}

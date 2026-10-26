@@ -1,0 +1,240 @@
+<!doctype html><meta charset=utf-8><style>
+@font-face{font-family:P;src:url(fonts/Poppins-Bold.ttf);font-weight:700}
+@font-face{font-family:P;src:url(fonts/Poppins-Medium.ttf);font-weight:500}
+html,body{margin:0;background:#2f86d0}
+#stage{position:relative;width:1920px;height:1080px;overflow:hidden;font-family:P,Arial,sans-serif;background:radial-gradient(circle at 50% 42%,#8fd3ff 0%,#4fa6e6 48%,#2a76c0 100%)}
+#pat{position:absolute;inset:-60px;opacity:.13;background-image:radial-gradient(circle,#ffffff 1.8px,transparent 2.4px);background-size:52px 52px}
+#mapwrap{position:absolute;inset:0;opacity:0}
+#mapsvg{position:absolute;left:0;top:0}
+#dots{position:absolute;left:0;top:0}
+#mapov,#imgs,#fg{position:absolute;inset:0}
+#cap{position:absolute;inset:0;z-index:60}
+.o{position:absolute;left:0;top:0;will-change:transform}
+.land{fill:#f4f8fc;stroke:#7fb0da;stroke-width:1.2;vector-effect:non-scaling-stroke}
+.st{fill:none;stroke:#a9c9e6;stroke-width:1;vector-effect:non-scaling-stroke}
+</style>
+<div id=stage><div id=pat></div>
+ <div id=mapwrap><svg id=mapsvg width=1920 height=1080><g id=mapg></g></svg><canvas id=dots width=1920 height=1080></canvas><div id=mapov></div></div>
+ <div id=imgs></div><div id=fg></div><div id=cap></div></div>
+<script src="../lib/core.js"></script>
+<script src="../lib/mapdata.js"></script>
+<script>
+// YT 16:9 "mix" engine: Gemini scenes + persistent map layer (zoom, pins, arcs, dots) + animated object segments (sky theme)
+const {cl,ez,ei,bo,el,lerp}=MG,$=MG.$,W=1920,H=1080;
+const C={cream:'#fff6e6',gold:'#ffc94a',green:'#3ddc84',green2:'#1fa45a',red:'#ff5b4a',red2:'#d6402e',blue:'#2f86d0',ink:'#14202c',navy:'#123a66'};
+const EU=['AUT','BEL','BGR','HRV','CYP','CZE','DNK','EST','FIN','FRA','DEU','GRC','HUN','IRL','ITA','LVA','LTU','LUX','MLT','NLD','POL','PRT','ROU','SVK','SVN','ESP','SWE'];
+let TL=null,fontsOk=false,imgReady=false,T=0;
+const S=i=>TL.lines[i].start,E=i=>TL.lines[i].end,DU=i=>E(i)-S(i),SP=i=>TL.lines[i].spec;
+const sg=(t,a,b)=>ei(cl(t,a,b));
+const IMG=k=>typeof k==='number'?`img/${String(k).padStart(2,'0')}.jpg`:`img/${k}.png`;
+function K(t,keys){if(t<=keys[0][0])return keys[0][1];for(let i=1;i<keys.length;i++){if(t<=keys[i][0]){const a=keys[i-1],b=keys[i],q=ei((t-a[0])/Math.max(1e-6,b[0]-a[0]));const o={};for(const k in b[1])o[k]=lerp(a[1][k]??b[1][k],b[1][k],q);return o}}return keys[keys.length-1][1]}
+// ---------- building blocks
+function obj(k,x,y,w,o={}){if((o.op??1)<=0.001||w<=1)return'';return `<img class=o src="${IMG(k)}" style="width:${w.toFixed(1)}px;transform:translate(${(x-w/2).toFixed(1)}px,${(y-w/2).toFixed(1)}px) rotate(${(o.rot||0).toFixed(2)}deg);opacity:${(o.op??1).toFixed(3)};filter:drop-shadow(0 26px 30px #0a2a5088) ${o.gray?`grayscale(${o.gray.toFixed(2)}) brightness(${(1-.3*o.gray).toFixed(2)})`:''}">`}
+function TX(x,y,txt,o={}){const p=o.p??1;if(p<=0)return'';const sz=o.size||64,s=o.s??1;
+ return `<div style="position:absolute;left:${x}px;top:${y}px;transform:translate(-50%,-50%) translateY(${((1-Math.min(1,p))*22).toFixed(1)}px) scale(${s.toFixed(3)}) rotate(${o.rot||0}deg);opacity:${Math.min(1,p).toFixed(3)};font:700 ${sz}px/1.05 P,Arial;color:${o.col||C.cream};white-space:nowrap;text-align:center;text-shadow:${MG.outline(o.ol||Math.max(3,Math.round(sz/13)))},0 ${sz/9}px ${sz/3}px #0a2a5099">${txt}</div>`}
+function pill(x,y,txt,o={}){const p=o.p??1;if(p<=0)return'';const sz=o.size||34,s=bo(Math.min(1,p))*(o.s??1);
+ const dot=o.dot?`<span style="display:inline-block;width:${sz*.62}px;height:${sz*.62}px;border-radius:50%;background:${o.dot};margin-right:${sz*.3}px;vertical-align:-${sz*.06}px"></span>`:'';
+ return `<div style="position:absolute;left:${x}px;top:${y}px;transform:translate(-50%,-50%) scale(${s.toFixed(3)});opacity:${Math.min(1,p*2).toFixed(3)};padding:${sz*.34}px ${sz*.7}px;border-radius:${sz*1.2}px;background:${o.bg||'#ffffffee'};color:${o.fg||C.ink};font:700 ${sz}px/1.1 P,Arial;white-space:nowrap;box-shadow:0 10px 26px #0a2a5066">${dot}${txt}</div>`}
+function card(x,y,w,inner,p,o={}){if(p<=0)return'';const s=bo(Math.min(1,p));
+ return `<div style="position:absolute;left:${x-w/2}px;top:${y}px;width:${w}px;box-sizing:border-box;transform:scale(${s.toFixed(3)}) rotate(${o.rot||0}deg);transform-origin:50% 0;opacity:${Math.min(1,p*2).toFixed(3)};padding:${o.pad||'22px 34px'};border-radius:30px;background:${o.bg||'#ffffffee'};border:${o.bd||'0'};box-shadow:0 22px 46px #0a2a5066;color:${C.ink};text-align:${o.align||'left'}">${inner}</div>`}
+const money=v=>MG.fmt(Math.round(v),0,'$');
+const fmtB=(v,pre,suf,d=0)=>pre+MG.fmt(v,d)+suf;
+function person(x,y,s,col){return `<svg style="position:absolute;left:${x-24*s}px;top:${y-70*s}px;overflow:visible" width=${48*s} height=${80*s} viewBox="0 0 48 80"><rect x=8 y=38 width=32 height=40 rx=12 fill="${col}" stroke="#14202c" stroke-width=4 /><circle cx=24 cy=22 r=18 fill="#fbe8c8" stroke="#14202c" stroke-width=4 /><circle cx=18 cy=21 r=2.6 fill="#14202c"/><circle cx=30 cy=21 r=2.6 fill="#14202c"/></svg>`}
+function stamp(x,y,txt,p,col=C.red,rot=-8,sz=70){if(p<=0)return'';const s=lerp(2.2,1,ez(Math.min(1,p)));return `<div style="position:absolute;left:${x}px;top:${y}px;transform:translate(-50%,-50%) rotate(${rot}deg) scale(${s.toFixed(3)});opacity:${Math.min(1,p*2.5).toFixed(3)};padding:10px 30px;border:8px solid ${col};border-radius:18px;color:${col};font:700 ${sz}px/1 P;letter-spacing:3px;background:#ffffffcc;white-space:nowrap">${txt}</div>`}
+// ---------- MAP
+let mapBuilt=false;
+function buildMap(){let h='';for(const k in WORLD)h+=`<path id="c_${k}" class=land d="${WORLD[k]}"/>`;h+=`<g id=usst>`;for(const k in USST)h+=`<path class=st d="${USST[k]}"/>`;h+='</g>';$('mapg').innerHTML=h;mapBuilt=true}
+function camOf(c){const [x,y]=MAPP(c[0],c[1]);return {x,y,z:c[2]}}
+function camAt(t){// returns camera for the map line active at t, or null
+ const N=TL.lines.length;let i=-1;for(let k=0;k<N;k++){if(t>=S(k)-.35)i=k}
+ if(i<0)i=0;let j=i;while(j>=0&&SP(j).type!=='map')j--;if(j<0)return null;
+ const sp=SP(j),c1=camOf(sp.cam),a=S(j);
+ let from=null;if(j>0&&SP(j-1).type==='map'){const pp=SP(j-1);from=camOf(pp.cam2||pp.cam)}else{from={x:c1.x,y:c1.y,z:Math.max(.9,c1.z*.35)}}
+ let q=sg(t,a-.35,a+1.0);let c={x:lerp(from.x,c1.x,q),y:lerp(from.y,c1.y,q),z:Math.exp(lerp(Math.log(from.z),Math.log(c1.z),q))};
+ if(sp.cam2){const c2=camOf(sp.cam2),q2=sg(t,a+DU(j)*.3,a+DU(j)*.75);c={x:lerp(c.x,c2.x,q2),y:lerp(c.y,c2.y,q2),z:Math.exp(lerp(Math.log(c.z),Math.log(c2.z),q2))}}
+ return {c,j}}
+function scr(cam,lon,lat){const [x,y]=MAPP(lon,lat),s=.96*cam.z;return [960+(x-cam.x)*s,540+(y-cam.y)*s]}
+function mapVis(t){let v=0;const N=TL.lines.length;for(let k=0;k<N;k++){if(SP(k).type!=='map')continue;const a=k==0?-1:S(k)-.4,b=k+1<N?S(k+1)+.35:TL.dur+1;v=Math.max(v,cl(t,a,a+.4)*(1-cl(t,b-.4,b)))}return v}
+function drawMap(t){const v=mapVis(t);$('mapwrap').style.opacity=v.toFixed(3);if(v<=0){$('mapov').innerHTML='';$('mapov')._h='';return}
+ if(!mapBuilt)buildMap();const r=camAt(t);if(!r)return;const {c,j}=r,sp=SP(j),s=.96*c.z;
+ $('mapg').setAttribute('transform',`translate(${(960-c.x*s).toFixed(2)},${(540-c.y*s).toFixed(2)}) scale(${s.toFixed(4)})`);
+ // highlight countries
+ const hl=new Set();(sp.hl||[]).forEach(k=>{if(k==='EU')EU.forEach(e=>hl.add(e));else hl.add(k)});if(sp.view==='us')hl.add('USA');
+ const key=[...hl].join(',');if($('mapg')._hl!==key){document.querySelectorAll('#mapg path.land').forEach(p=>{const id=p.id.slice(2);p.style.fill=hl.has(id)?(sp.view==='us'&&id==='USA'?'#ffffff':'#ffe8a8'):'';p.style.stroke=hl.has(id)?'#e0a020':''});$('mapg')._hl=key}
+ $('usst').style.opacity=(sp.view==='us'||c.z>2.5)?1:0;
+ // dots (9,000 banks)
+ const cv=$('dots'),g=cv.getContext('2d');g.clearRect(0,0,W,H);
+ let ov='';const a=S(j),D=DU(j);
+ if(sp.dots){const base=j>0&&SP(j-1).dots;const n=base?9000:Math.floor(9000*sg(t,a+.3,a+D*.85));const dark=sp.fade?sg(t,a+.2,a+D*.6):0;
+  g.fillStyle=dark>0?`rgba(${Math.round(lerp(255,90,dark))},${Math.round(lerp(80,40,dark))},${Math.round(lerp(70,40,dark))},.85)`:'rgba(255,80,70,.85)';
+  for(let i=0;i<n;i++){const x=960+(US_DOTS[2*i]-c.x)*s,y=540+(US_DOTS[2*i+1]-c.y)*s;g.beginPath();g.arc(x,y,2.6,0,6.283);g.fill()}
+  if(sp.fade)ov+=pill(960,140,'Millions of families lost their savings',{p:cl(t,a+.4,a+.9),size:36,bg:C.red2,fg:'#fff'})}
+ // spread network (group-chat panic)
+ if(sp.spread){const cities=[[-74,40.7],[-71.06,42.36],[-87.6,41.9],[-97.7,30.3],[-122.3,47.6],[-104.99,39.74],[-118.24,34.05],[-80.19,25.76],[-84.39,33.75],[-77.04,38.9],[-93.27,44.98],[-112.07,33.45]];
+  const [sx,sy]=scr(c,-121.96,37.35);let lines='';
+  cities.forEach((cc,k)=>{const st=a+.3+k*D*.055,q=sg(t,st,st+.6);if(q<=0)return;const [x,y]=scr(c,cc[0],cc[1]);const mx=(sx+x)/2,my=Math.min(sy,y)-120;
+   lines+=`<path d="M${sx} ${sy} Q${mx} ${my} ${x} ${y}" stroke="#ff5b4a" stroke-width=4 fill=none stroke-dasharray="1400" stroke-dashoffset="${(1400*(1-q)).toFixed(0)}" opacity=.85 />`;
+   if(q>.95)ov+=`<div style="position:absolute;left:${x-16}px;top:${y-16}px;width:32px;height:32px;border-radius:50%;background:#ff5b4a;box-shadow:0 0 0 ${(6+6*Math.sin(t*9+k)).toFixed(1)}px #ff5b4a55"></div>`});
+  ov=`<svg style="position:absolute;left:0;top:0" width=1920 height=1080>${lines}</svg>`+ov;
+  const bub=['Pull your money!','Get out now','Is SVB safe??','Move everything'];bub.forEach((b,k)=>{const st=a+.6+k*D*.17;ov+=pill([560,1380,700,1260][k],[260,300,700,760][k],b,{p:cl(t,st,st+.3)*(1-cl(t,a+D-.2,a+D+.2)),size:32,bg:'#fff',dot:C.red})})}
+ // arc across the Atlantic
+ if(sp.arc){const [x1,y1]=scr(c,...sp.arc.a),[x2,y2]=scr(c,...sp.arc.b),q=sg(t,a+.3,a+D*.8),mx=(x1+x2)/2,my=Math.min(y1,y2)-260;
+  const bx=(1-q)*(1-q)*x1+2*(1-q)*q*mx+q*q*x2,by=(1-q)*(1-q)*y1+2*(1-q)*q*my+q*q*y2;
+  ov+=`<svg style="position:absolute;left:0;top:0" width=1920 height=1080><path d="M${x1} ${y1} Q${mx} ${my} ${x2} ${y2}" stroke="#ff5b4a" stroke-width=6 fill=none stroke-dasharray="16 14" opacity=${(.3+.6*q).toFixed(2)} /></svg>`;
+  if(q>0&&q<1)ov+=`<div style="position:absolute;left:${bx-26}px;top:${by-26}px;width:52px;height:52px;border-radius:50%;background:radial-gradient(circle,#ffeb99,#ff5b4a);box-shadow:0 0 30px #ff5b4a"></div>`;
+  ov+=pill(960,140,'Fear spreads to Europe',{p:cl(t,a+.2,a+.6),size:36,bg:C.red2,fg:'#fff'})}
+ // pins
+ (sp.pins||[]).forEach((pn,k)=>{const [x,y]=scr(c,pn.at[0],pn.at[1]);const st=a+(pn.delay!=null?D*pn.delay:.25+k*.35),q=cl(t,st,st+.35);if(q<=0)return;
+  const col=pn.col==='red'?C.red:pn.col==='green'?C.green2:C.gold;const pulse=10+8*Math.sin(t*6+k);
+  ov+=`<div style="position:absolute;left:${x-15}px;top:${y-15}px;width:30px;height:30px;border-radius:50%;background:${col};border:5px solid #fff;box-sizing:border-box;transform:scale(${bo(q).toFixed(3)});box-shadow:0 0 0 ${pulse.toFixed(1)}px ${col}44"></div>`;
+  ov+=pill(x,y-60-(pn.dy||0)*70,pn.label,{p:cl(t,st+.1,st+.45),size:30,dot:col});
+  if(pn.closed){const cq=cl(t,j>0&&SP(j-1).type==='map'&&(SP(j-1).pins||[]).some(o=>o.closed&&o.label===pn.label)?a-1:st+D*.45,(j>0&&SP(j-1).type==='map'&&(SP(j-1).pins||[]).some(o=>o.closed&&o.label===pn.label)?a-1:st+D*.45)+.3);ov+=stamp(x,y+64,'CLOSED',cq,C.red2,-6,30)}});
+ // hook title (static at t=0)
+ if(sp.title){const q=1-cl(t,a+D*.75,a+D*.95);if(q>0)ov+=`<div style="opacity:${q.toFixed(3)}">${TX(960,150,sp.title[0],{size:120,col:C.gold})}${TX(960,250,sp.title[1],{size:46})}</div>`}
+ // counter
+ if(sp.counter){const ct=sp.counter,q=sg(t,a+.3,a+D*.85),v=lerp(ct.from_||0,ct.to,q);
+  ov+=card(330,760,460,`<div style="font:700 72px/1 P;color:${C.red2}">${ct.pre}${MG.fmt(v,0)}${ct.suf}</div><div style="font:500 28px P;color:#4a5b6c;margin-top:8px">${ct.label}</div>`,cl(t,a+.2,a+.5))}
+ // photo card (Northern Rock queue)
+ if(sp.photo!=null){const q=cl(t,a+D*.35,a+D*.5);if(q>0)ov+=`<div style="position:absolute;left:1180px;top:300px;width:620px;padding:16px 16px 54px;background:#fff;border-radius:10px;box-shadow:0 30px 60px #0a2a5088;transform:rotate(${lerp(12,4,ez(q)).toFixed(2)}deg) scale(${bo(q).toFixed(3)});opacity:${Math.min(1,q*2).toFixed(3)}"><img src="${IMG(sp.photo)}" style="width:100%;display:block;border-radius:4px"><div style="position:absolute;bottom:12px;left:0;right:0;text-align:center;font:700 26px P;color:#14202c">Queues outside Northern Rock, 2007</div></div>`}
+ if(ov!==$('mapov')._h){$('mapov').innerHTML=ov;$('mapov')._h=ov}}
+// ---------- full-screen scene images
+function imgLayer(t){let h='';const N=TL.lines.length;
+ for(let k=0;k<N;k++){const sp=SP(k);if(sp.type!=='img'&&sp.type!=='outro')continue;const a=k==0?-1:S(k)-.4,b=k+1<N?S(k+1)+.4:TL.dur+1;if(t<a||t>b)continue;
+  const op=cl(t,a,a+.45)*(1-cl(t,b-.45,b));if(op<=0)continue;
+  if(sp.type==='outro'){h+=`<div style="position:absolute;inset:0;opacity:${op.toFixed(3)}">${obj('samhappy',560,560,620,{rot:Math.sin(t*2)*2})}${card(1260,330,720,`<div style="font:700 60px/1.1 P;color:${C.ink}">Subscribe</div><div style="font:500 32px/1.3 P;color:#4a5b6c;margin-top:10px">for more money explained simply</div>`,cl(t,S(k)+.2,S(k)+.6),{align:'center'})}${pill(1260,640,'Next: Why rich people pay less tax',{p:cl(t,S(k)+.8,S(k)+1.2),size:34,dot:C.gold})}</div>`;continue}
+  const u=cl(t,a,b),z=1.04+.08*u,dx=(k%2?-1:1)*30*(u-.5);
+  let ov='';(sp.chips||[]).forEach((c2,i)=>{ov+=pill(1500,300+i*110,c2,{p:cl(t,S(k)+.5+i*.5,S(k)+.8+i*.5),size:44,dot:i?C.green:C.red})});
+  h+=`<div style="position:absolute;inset:0;opacity:${op.toFixed(3)}"><img src="${IMG(sp.img)}" style="position:absolute;left:0;top:0;width:1920px;height:1080px;object-fit:cover;transform:translateX(${dx.toFixed(1)}px) scale(${z.toFixed(4)})"><div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 70%,#0a2a5066)"></div>${ov}</div>`}
+ return h}
+// ---------- animated segments (by type; consecutive same-type lines form one persistent sequence)
+function seqRange(k){const ty=SP(k).type;let a=k,b=k;while(a>0&&SP(a-1).type===ty)a--;while(b+1<TL.lines.length&&SP(b+1).type===ty)b++;return [a,b]}
+const ANIM={
+ bank(t,a0,b0){let h='';const st=k=>S(a0+k),D=k=>DU(a0+k);// 0 deposit,1 lend,2 zero,3 run
+  const bk=K(t,[[S(a0)-.3,{x:1200,y:500,w:520}],[st(1)-.2,{x:1200,y:500,w:520}],[st(1)+.5,{x:960,y:330,w:400}],[st(2)-.2,{x:960,y:330,w:400}],[st(2)+.5,{x:1240,y:430,w:440}]]);
+  h+=obj('bank',bk.x,bk.y,bk.w*el(cl(t,S(a0)-.3,S(a0)+.3)),{rot:Math.sin(t*1.8)*1});
+  // deposit
+  {const q=sg(t,st(0)+D(0)*.35,st(0)+D(0)*.8),out=1-cl(t,st(1)-.2,st(1)+.3);if(out>0){h+=`<div style="opacity:${out.toFixed(3)}">`+obj('samhappy',420,560,480,{op:cl(t,st(0),st(0)+.4)})+obj('cash',lerp(560,bk.x,q),lerp(520,bk.y+40,q)-Math.sin(q*Math.PI)*160,lerp(220,90,q),{op:q<.98?1:0,rot:q*30})+pill(lerp(560,bk.x,q),lerp(400,bk.y-60,q)-Math.sin(q*Math.PI)*160,'$1,000',{p:cl(t,st(0)+.2,st(0)+.5)*(q<.98?1:0),size:40,dot:C.green2})+`</div>`}}
+  // lend: targets
+  {const p=cl(t,st(1)+.3,st(1)+.8),out=1-cl(t,st(2)-.1,st(2)+.4);if(p>0&&out>0){const tg=[['house',480,780,300,'Mortgages'],['sedan',960,800,320,'Car loans'],['bond',1440,780,280,'Bonds']];
+   h+=`<div style="opacity:${out.toFixed(3)}">`;tg.forEach((g,i)=>{const pi=cl(t,st(1)+.4+i*D(1)*.18,st(1)+.8+i*D(1)*.18);h+=obj(g[0],g[1],g[2],g[3]*el(pi),{rot:Math.sin(t*2+i)*1.5})+pill(g[1],g[2]+g[3]*.45,g[4],{p:pi,size:32});
+    for(let m=0;m<3;m++){const mq=((t-st(1)-.6-i*.3-m*.45)%1.4)/1.4;if(t>st(1)+.6+i*.3+m*.45&&mq>=0)h+=obj('cash',lerp(bk.x,g[1],mq),lerp(bk.y+60,g[2]-60,mq),70,{op:1-mq*.6})}});h+=`</div>`}}
+  // zero reserve
+  {const p=cl(t,st(2)+.3,st(2)+.7);if(p>0){const run=t>st(3)-.2;h+=obj('vault',bk.x+380,bk.y+160,lerp(0,360,el(p)),{rot:Math.sin(t*2)*1})+TX(520,420,'0 %',{size:220,col:C.gold,s:bo(cl(t,st(2)+D(2)*.45,st(2)+D(2)*.65)),p:cl(t,st(2)+D(2)*.45,st(2)+D(2)*.55)})+
+    pill(520,600,'required reserve · since March 2020',{p:cl(t,st(2)+D(2)*.6,st(2)+D(2)*.8),size:32,dot:C.gold})}}
+  // run: queue grows
+  {const p=cl(t,st(3)+.2,st(3)+.5);if(p>0){const n=Math.floor(sg(t,st(3)+.3,st(3)+D(3)*.9)*16);for(let i=0;i<n;i++){const x=1000-i*62,y=840+(i%2)*14;h+=person(x,y,1.1+0.1*Math.sin(i),['#e85d5d','#4f8fd8','#3ab37a','#f2a93b'][i%4])}
+    h+=pill(560,700,'Everyone wants it back at once?',{p:cl(t,st(3)+D(3)*.55,st(3)+D(3)*.75),size:36,bg:C.red2,fg:'#fff'})}}
+  return h},
+ shield(t,a0,b0){let h='';const st=k=>S(a0+k),D=k=>DU(a0+k);const p=el(cl(t,S(a0)-.2,S(a0)+.5));
+  const sx=lerp(960,560,sg(t,st(0)+D(0)*.4,st(0)+D(0)*.7));
+  h+=`<svg style="position:absolute;left:${sx-200}px;top:${230}px;transform:scale(${p.toFixed(3)});filter:drop-shadow(0 26px 30px #0a2a5088)" width=400 height=470 viewBox="0 0 400 470"><path d="M200 12 L372 70 V220 C372 340 290 420 200 456 C110 420 28 340 28 220 V70 Z" fill="#1fa45a" stroke="#fff" stroke-width=16 stroke-linejoin=round /><path d="M128 236 L182 290 L282 178" stroke="#fff" stroke-width=34 fill=none stroke-linecap=round stroke-linejoin=round /></svg>`;
+  h+=TX(sx,760,'FDIC',{size:78,p:cl(t,st(0)+.3,st(0)+.7)})+pill(sx,850,'since Jan 1, 1934',{p:cl(t,st(0)+D(0)*.6,st(0)+D(0)*.8),size:34,dot:C.green2});
+  if(b0>=a0+1){const q=cl(t,st(1)+.2,st(1)+.6);h+=TX(1300,330,'$250,000',{size:150,col:C.gold,p:q,s:bo(q)});['per person','per bank','per account type'].forEach((c2,i)=>{h+=pill(1300,500+i*95,c2,{p:cl(t,st(1)+D(1)*(.3+i*.2),st(1)+D(1)*(.45+i*.2)),size:40,dot:C.green2})})}
+  if(b0>=a0+2){const q=cl(t,st(2)+.3,st(2)+.7);h+=`<div style="opacity:${q.toFixed(3)}">`+card(1300,760,640,`<div style="font:700 66px/1 P;color:${C.green2}">$0.00</div><div style="font:500 30px P;color:#4a5b6c;margin-top:8px">of insured money lost since 1934</div>`,q,{align:'center'})+`</div>`}
+  return h},
+ pie(t,a0){const a=S(a0),D=DU(a0),v=SP(a0).v,q=sg(t,a+.4,a+D*.7)*v/100,R=220,cx=760,cy=520,L=2*Math.PI*R;let h='';
+  h+=`<svg style="position:absolute;left:0;top:0" width=1920 height=1080><circle cx=${cx} cy=${cy} r=${R} fill=none stroke="#1fa45a" stroke-width=110 /><circle cx=${cx} cy=${cy} r=${R} fill=none stroke="#ff5b4a" stroke-width=110 stroke-dasharray="${(L*q).toFixed(1)} ${L}" transform="rotate(-90 ${cx} ${cy})" /></svg>`;
+  h+=TX(cx,cy,(q*100).toFixed(1)+' %',{size:96,col:'#fff'})+TX(1360,400,'NOT INSURED',{size:72,col:C.red,p:cl(t,a+D*.5,a+D*.7)})+TX(1360,500,'above $250,000',{size:40,col:'#fff',p:cl(t,a+D*.6,a+D*.8)})+
+   pill(1360,640,'SVB deposits, end of 2022',{p:cl(t,a+D*.7,a+D*.9),size:32,dot:C.gold});return h},
+ bond(t,a0,b0){const a=S(a0),D=DU(a0);let h='';const p=el(cl(t,a-.2,a+.4)),dq=sg(t,a+D*.45,a+D*.95);
+  h+=obj('bond',520,480,lerp(0,440,p)*(1-.25*dq),{gray:dq*.6,rot:-4+Math.sin(t*1.5)*1.5});
+  // interest-rate line going up, bond value bar going down
+  const x0=1000,y0=740,w=700,hh=380;let d='';for(let i=0;i<=40;i++){const f=i/40;if(f>dq+.02)break;const r=f<.35?.08:.08+(f-.35)/.65*.92;d+=(i?'L':'M')+(x0+f*w).toFixed(1)+' '+(y0-r*hh).toFixed(1)}
+  h+=`<svg style="position:absolute;left:0;top:0" width=1920 height=1080><line x1=${x0} y1=${y0} x2=${x0+w} y2=${y0} stroke="#ffffff88" stroke-width=4 /><path d="${d}" stroke="${C.red}" stroke-width=10 fill=none stroke-linecap=round stroke-linejoin=round /></svg>`;
+  h+=pill(x0+w/2,y0+60,'interest rates',{p:cl(t,a+D*.35,a+D*.5),size:32,dot:C.red})+TX(520,800,dq>.05?'bond value ↓':'long-term bonds',{size:52,col:dq>.05?C.red:'#fff',p:cl(t,a+.2,a+.5)});
+  if(b0>a0){const a2=S(a0+1),D2=DU(a0+1),q1=cl(t,a2+.3,a2+.7),q2=cl(t,a2+D2*.45,a2+D2*.6);
+   h+=card(1150,800,450,`<div style="font:700 40px P;color:${C.red2}">Sell now</div><div style="font:500 30px P;color:#4a5b6c">= lock in the loss</div>`,q1,{align:'center'})+card(1640,800,450,`<div style="font:700 40px P;color:${C.red2}">Keep them</div><div style="font:500 30px P;color:#4a5b6c">= less cash than it looks</div>`,q2,{align:'center'})}
+  return h},
+ loss(t,a0){const a=S(a0),D=DU(a0);let h='';h+=obj('bond',560,500,380*el(cl(t,a-.2,a+.4)),{gray:.6,rot:-6})+pill(560,250,'March 8, 2023',{p:cl(t,a+.2,a+.5),size:34,dot:C.gold});
+  h+=stamp(1250,400,'−$1.8B LOSS',cl(t,a+D*.35,a+D*.45),C.red2,-6,84)+card(1250,560,560,`<div style="font:500 30px P;color:#4a5b6c">needs to raise</div><div style="font:700 70px/1.1 P;color:${C.ink}">$2.25B</div>`,cl(t,a+D*.7,a+D*.85),{align:'center'});return h},
+ bar81(t,a0){const a=S(a0),D=DU(a0),q=sg(t,a+.4,a+D*.55);let h='';
+  h+=TX(960,250,'In just 2 days',{size:64,p:cl(t,a+.1,a+.4)});
+  h+=`<div style="position:absolute;left:260px;top:360px;width:1400px;height:110px;border-radius:55px;background:#ffffff55;overflow:hidden;box-shadow:inset 0 0 0 6px #fff"><div style="height:100%;width:${(81*q).toFixed(1)}%;background:${C.red};box-shadow:0 0 30px ${C.red}"></div></div>`;
+  h+=TX(260+1400*.81*q,300,Math.round(81*q)+' %',{size:60,col:C.red,p:q>0?1:0})+TX(960,540,money(142e9*q/1e9).replace('$','$')+'B of $175B in deposits',{size:46,p:cl(t,a+.6,a+1)});
+  const tq=cl(t,a+D*.55,a+D*.75);if(tq>0){for(let i=0;i<14;i++){const x=300+i*100,ph=(t*1.7+i*.37)%1;h+=`<div style="position:absolute;left:${x-28}px;top:${740-28}px;width:56px;height:56px;border-radius:50%;border:6px solid #fff;opacity:${(tq*(1-ph)).toFixed(3)};transform:scale(${(.5+ph).toFixed(3)})"></div>`}
+   h+=pill(960,860,'no lines — just a tap on the phone',{p:tq,size:38,dot:C.red})}return h},
+ stuck(t,a0,b0){let h='';const a=S(a0);const q1=cl(t,a+.4,a+.8);
+  h+=card(560,260,640,`<div style="font:700 34px P;color:#4a5b6c">ROKU · streaming company</div><div style="font:700 86px/1.1 P;color:${C.red2}">$487M</div><div style="font:500 30px P;color:#4a5b6c">stuck at SVB · about 26% of its cash</div>`,q1,{rot:-2});
+  if(b0>a0){const a2=S(a0+1),D2=DU(a0+1),q2=cl(t,a2+.3,a2+.7),cq=sg(t,a2+D2*.5,a2+D2*.9);
+   h+=card(1360,260,640,`<div style="font:700 34px P;color:#4a5b6c">CIRCLE · crypto company</div><div style="font:700 86px/1.1 P;color:${C.red2}">$3.3B</div><div style="font:500 30px P;color:#4a5b6c">of reserves stuck at SVB</div>`,q2,{rot:2});
+   const v=lerp(1,.87,cq);h+=`<div style="position:absolute;left:${1360-130}px;top:640px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#7fd0ff,#2775ca);border:10px solid #fff;box-shadow:0 20px 40px #0a2a5088;opacity:${cl(t,a2+D2*.35,a2+D2*.5).toFixed(3)};display:flex;align-items:center;justify-content:center;font:700 70px P;color:#fff">$${v.toFixed(2)}</div>`+
+    pill(1360,945,'"digital dollar" below 87¢',{p:cl(t,a2+D2*.85,a2+D2*.95),size:32,bg:C.red2,fg:'#fff'})}return h},
+ rescue(t,a0){const a=S(a0),D=DU(a0);let h='';const q=el(cl(t,a+.2,a+.8));
+  h+=`<svg style="position:absolute;left:${560-170}px;top:${470-170}px;transform:scale(${q.toFixed(3)})" width=340 height=340 viewBox="0 0 340 340"><circle cx=170 cy=170 r=150 fill="#1fa45a" stroke="#fff" stroke-width=16 /><path d="M95 175 L150 228 L250 120" stroke="#fff" stroke-width=34 fill=none stroke-linecap=round stroke-linejoin=round /></svg>`;
+  h+=pill(560,250,'March 12, 2023',{p:cl(t,a+.1,a+.4),size:34,dot:C.gold})+TX(1280,330,'ALL deposits',{size:96,col:'#fff',p:cl(t,a+D*.25,a+D*.4)})+TX(1280,440,'paid back',{size:80,col:C.green,p:cl(t,a+D*.3,a+D*.45)})+
+   pill(1280,590,'even above $250,000',{p:cl(t,a+D*.45,a+D*.6),size:40,dot:C.green2})+pill(1280,700,'paid by a special fee on banks',{p:cl(t,a+D*.75,a+D*.9),size:40,dot:C.gold});return h},
+ rank(t,a0){const a=S(a0),D=DU(a0);let h='';const rows=[['Washington Mutual · 2008',307,'#8fa3b8'],['First Republic · 2023',229,C.red],['Silicon Valley Bank · 2023',209,'#f2a93b']];
+  h+=TX(960,190,'Largest US bank failures',{size:58,p:cl(t,a+.1,a+.4)});
+  rows.forEach((r,i)=>{const q=sg(t,a+.4+i*D*.15,a+.9+i*D*.15),y=330+i*190,w=1100*r[1]/307*q;
+   h+=`<div style="position:absolute;left:560px;top:${y}px;height:100px;width:${w.toFixed(1)}px;border-radius:0 22px 22px 0;background:${r[2]};box-shadow:0 14px 30px #0a2a5055;${i==1?'outline:6px solid #fff;':''}"></div>`+
+     `<div style="position:absolute;left:60px;top:${y+28}px;width:480px;text-align:right;font:700 36px P;color:#fff;opacity:${Math.min(1,q*2).toFixed(3)};text-shadow:0 3px 10px #0a2a5099">${r[0]}</div>`+
+     TX(560+w+120,y+50,'$'+Math.round(r[1]*q)+'B',{size:52,col:i==1?C.red:'#fff',p:q>0?1:0})});
+  h+=pill(1020,920,'#2 ever',{p:cl(t,a+D*.75,a+D*.9),size:40,bg:C.red2,fg:'#fff'});return h},
+ at1(t,a0){const a=S(a0),D=DU(a0),q=sg(t,a+D*.45,a+D*.85);let h='';
+  h+=TX(960,250,'Credit Suisse "AT1" bonds',{size:56,p:cl(t,a+.1,a+.4)})+TX(960,500,'CHF '+(16*(1-q)).toFixed(1)+'B',{size:170,col:q>.98?C.red:'#fff'})+stamp(960,720,'WRITTEN DOWN TO ZERO',cl(t,a+D*.86,a+D*.95),C.red2,-5,58);return h},
+ transfer(t,a0){const a=S(a0),D=DU(a0);let h='';const q=sg(t,a+D*.45,a+D*.75);
+  h+=obj('bank',480,470,420,{gray:.8,rot:-3})+stamp(480,470,'CLOSED',cl(t,a+.3,a+.6),C.red2,-8,48)+obj('bank',1440,470,420,{rot:Math.sin(t*2)*1,op:cl(t,a+D*.25,a+D*.4)})+pill(1440,240,'healthy bank',{p:cl(t,a+D*.3,a+D*.45),size:34,dot:C.green2});
+  h+=card(lerp(480,1440,q),700,420,`<div style="font:500 26px P;color:#4a5b6c">YOUR ACCOUNT</div><div style="font:700 48px P;color:${C.ink}">$12,450</div>`,cl(t,a+.4,a+.8),{rot:Math.sin(q*Math.PI)*6,align:'center'})+
+   pill(1440,920,'use your money right away',{p:cl(t,a+D*.8,a+D*.95),size:38,dot:C.green2});return h},
+ check(t,a0){const a=S(a0),D=DU(a0);let h='';const q=sg(t,a+.3,a+D*.5);
+  h+=`<div style="position:absolute;left:${lerp(-900,560,q)}px;top:300px;width:820px;height:380px;border-radius:18px;background:linear-gradient(135deg,#e8fff1,#c9f2da);border:6px solid #1fa45a;box-shadow:0 30px 60px #0a2a5088;transform:rotate(${lerp(-12,-3,q)}deg);font-family:P;color:${C.ink}">
+   <div style="position:absolute;left:40px;top:30px;font:700 34px P">FDIC · Deposit Insurance</div><div style="position:absolute;right:40px;top:30px;font:500 26px P;color:#4a5b6c">No. 000001</div>
+   <div style="position:absolute;left:40px;top:120px;font:500 30px P">PAY TO: You</div><div style="position:absolute;right:40px;top:160px;padding:10px 26px;border:4px solid #14202c;border-radius:12px;font:700 46px P">$12,450.00</div>
+   <div style="position:absolute;left:40px;bottom:40px;width:420px;border-top:4px solid #14202c;font:500 22px P;padding-top:8px;color:#4a5b6c">insured balance</div></div>`;
+  h+=pill(1500,520,'usually within a few days',{p:cl(t,a+D*.6,a+D*.8),size:40,dot:C.green2});return h},
+ above(t,a0){const a=S(a0),D=DU(a0);let h='';const q=sg(t,a+.3,a+D*.5),q2=sg(t,a+D*.45,a+D*.65);
+  h+=TX(960,190,'Example: $300,000 in one bank',{size:52,p:cl(t,a+.1,a+.4)});
+  h+=`<div style="position:absolute;left:260px;top:360px;width:${(1400*250/300*q).toFixed(1)}px;height:140px;border-radius:30px 0 0 30px;background:${C.green2};box-shadow:0 14px 30px #0a2a5055"></div><div style="position:absolute;left:${260+1400*250/300}px;top:360px;width:${(1400*50/300*q2).toFixed(1)}px;height:140px;border-radius:0 30px 30px 0;background:${C.red};box-shadow:0 14px 30px #0a2a5055"></div>`;
+  h+=TX(260+1400*250/300/2,430,'$250,000 insured',{size:52,p:q>.4?1:0})+TX(260+1400*275/300,430,'$50k',{size:46,p:q2>.4?1:0})+pill(260+1400*275/300,590,'at risk',{p:cl(t,a+D*.6,a+D*.75),size:40,bg:C.red2,fg:'#fff'})+
+   pill(960,760,'you become a creditor of the failed bank',{p:cl(t,a+D*.7,a+D*.85),size:38,dot:C.gold});return h},
+ tips(t,a0,b0){let h='';const a=S(a0);const p=cl(t,a-.2,a+.5);
+  h+=`<div style="position:absolute;left:${lerp(-900,90,ez(p))}px;top:150px;width:860px;height:500px;border-radius:30px;overflow:hidden;border:10px solid #fff;box-shadow:0 30px 60px #0a2a5088;transform:rotate(-2deg)"><img src="${IMG(SP(a0).img)}" style="width:100%;height:100%;object-fit:cover;transform:scale(${(1.05+.04*Math.sin(t*.5)).toFixed(3)})"></div>`;
+  const tips=['Stay under the limit at each bank','Check that your bank is insured','Don\'t panic'];
+  tips.forEach((tp,i)=>{if(a0+i>b0)return;const st=S(a0+i)+.3,q=cl(t,st,st+.4);if(q<=0)return;const cur=t>=S(a0+i)-.1&&(a0+i==b0||t<S(a0+i+1)-.1);
+   h+=`<div style="position:absolute;left:1020px;top:${200+i*170}px;width:800px;padding:26px 30px;border-radius:26px;background:${cur?'#fff':'#ffffffcc'};box-shadow:0 18px 36px #0a2a5055;transform:translateX(${((1-ez(q))*80).toFixed(1)}px) scale(${cur?1.03:.97});opacity:${Math.min(1,q*2).toFixed(3)};display:flex;align-items:center;gap:22px">
+    <div style="flex:none;width:70px;height:70px;border-radius:50%;background:${C.green2};color:#fff;font:700 40px/70px P;text-align:center">${i+1}</div><div style="font:700 38px/1.15 P;color:${C.ink}">${tp}</div></div>`});
+  return h}
+};
+function fgLayer(t){let h='';const N=TL.lines.length,seen=new Set();
+ for(let k=0;k<N;k++){const ty=SP(k).type;if(!ANIM[ty])continue;const [a0,b0]=seqRange(k);if(seen.has(a0))continue;seen.add(a0);
+  const a=a0==0?-1:S(a0)-.4,b=b0+1<N?S(b0+1)+.4:TL.dur+1;if(t<a||t>b)continue;const op=cl(t,a,a+.45)*(1-cl(t,b-.45,b));if(op<=0)continue;
+  h+=`<div style="position:absolute;inset:0;opacity:${op.toFixed(3)};transform:scale(${(1+.03*(1-op)).toFixed(4)})">${ANIM[ty](t,a0,b0)}</div>`}
+ return h}
+function draw(t){if(!TL)return;T=t;drawMap(t);
+ const ih=imgLayer(t);if(ih!==$('imgs')._h){$('imgs').innerHTML=ih;$('imgs')._h=ih}
+ const fh=fgLayer(t);if(fh!==$('fg')._h){$('fg').innerHTML=fh;$('fg')._h=fh}
+ $('pat').style.transform=`translateY(${(-(t*8)%52).toFixed(1)}px)`;
+ const c=MG.captions(t,{y:985,size:50,maxWords:4,stageW:1920,w:1500,upper:true});if(c!==$('cap')._h){$('cap').innerHTML=c;$('cap')._h=c}
+ MG.grainTick(t)}
+window.setTimeline=tl=>{MG.TL=TL=tl;const ims=new Set(['bank','vault','bond','house','sedan','cash','samhappy','samthink'].map(IMG));tl.lines.forEach(l=>{if(l.spec.img!=null)ims.add(IMG(l.spec.img));if(l.spec.photo!=null)ims.add(IMG(l.spec.photo))});MG.preload([...ims]);
+ Promise.all([document.fonts.load('700 50px P'),document.fonts.load('500 50px P')]).then(()=>{fontsOk=true},()=>{fontsOk=true})};
+Object.defineProperty(window,'ready',{configurable:true,get(){return imgReady&&fontsOk},set(v){imgReady=v}});
+window.sfxEvents=()=>{const ev=[],N=TL.lines.length,add=(k,t,o={})=>ev.push(Object.assign({k,t:+t.toFixed(3)},o));
+ for(let i=1;i<N;i++){const a=SP(i-1).type,b=SP(i).type;if(a!==b)add(i%2?'whoosh':'swish',S(i)-.3,{d:.6})}
+ for(let i=0;i<N;i++){const sp=SP(i),a=S(i),D=DU(i);
+  (sp.pins||[]).forEach((pn,k)=>{const st=a+(pn.delay!=null?D*pn.delay:.25+k*.35);add('pop',st);if(pn.closed&&!(i>0&&(SP(i-1).pins||[]).some(o=>o.closed&&o.label===pn.label)))add('impact',st+D*.45)});
+  if(sp.counter)for(let k=0;k<8;k++)add('tick',a+.3+k*(D*.55)/8,{f:1700-k*70});
+  if(sp.dots&&!sp.fade)for(let k=0;k<10;k++)add('tick',a+.3+k*D*.055,{f:1400});
+  if(sp.spread)for(let k=0;k<6;k++)add('blip',a+.5+k*D*.11);
+  if(sp.arc)add('whoosh',a+.3,{d:1.4});
+  if(sp.photo!=null)add('pop',a+D*.38);
+  const ty=sp.type;
+  if(ty==='bank'){if(sp.step==='deposit')add('cash',a+D*.8);if(sp.step==='lend')for(let k=0;k<3;k++)add('pop',a+.4+k*D*.18);if(sp.step==='zero')add('impact',a+D*.47);if(sp.step==='run')add('error',a+D*.6)}
+  if(ty==='shield'){if(sp.step==='fdic')add('ding',a+.5);if(sp.step==='limit')for(let k=0;k<3;k++)add('pop',a+D*(.3+k*.2));if(sp.step==='zero')add('ding',a+.5)}
+  if(ty==='pie'){for(let k=0;k<8;k++)add('tick',a+.4+k*D*.04,{f:1500});add('error',a+D*.55)}
+  if(ty==='bond'&&sp.step!==2)add('thud',a+D*.6);if(ty==='bond'&&sp.step===2){add('pop',a+.3);add('pop',a+D*.45)}
+  if(ty==='loss'){add('impact',a+D*.37);add('pop',a+D*.72)}
+  if(ty==='bar81'){for(let k=0;k<8;k++)add('tick',a+.4+k*D*.02,{f:1600-k*60});add('error',a+D*.55)}
+  if(ty==='stuck'){add('pop',a+.4);if(sp.step===2)add('error',a+D*.9)}
+  if(ty==='rescue'){add('ding',a+.4);add('cash',a+D*.45)}
+  if(ty==='rank'){for(let k=0;k<3;k++)add('pop',a+.4+k*D*.15);add('impact',a+D*.78)}
+  if(ty==='at1'){for(let k=0;k<8;k++)add('tick',a+D*(.45+k*.05),{f:1200-k*60});add('impact',a+D*.88)}
+  if(ty==='transfer'){add('impact',a+.35);add('swish',a+D*.45);add('ding',a+D*.8)}
+  if(ty==='check'){add('swish',a+.3);add('ding',a+D*.65)}
+  if(ty==='above'){add('pop',a+D*.3);add('error',a+D*.6)}
+  if(ty==='tips')add('ding',a+.4);
+ }
+ ev.sort((a,b)=>a.t-b.t);const out=[];for(const e of ev){if(e.t<0)e.t=0;if(!out.find(o=>o.k==e.k&&Math.abs(o.t-e.t)<.12))out.push(e)}return out};
+window.draw=draw;
+MG.finish($('stage'),1920,1080,.04,'#0a2a5022',65);
+</script>
