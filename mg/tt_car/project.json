@@ -1,18 +1,94 @@
 {
  "title": "TikTok: New car vs used – where your money disappears (animated, emotional Andrew)",
  "_sources": "Kelley Blue Book / Cox Automotive ATP report Sept 2026 (13.10.2026): average new-vehicle transaction price $50,562. iSeeCars 'Cars That Hold Their Value' study 2026 (950k+ five-year-old cars, sales Mar 2025–Feb 2026): average 5-year depreciation 41.8%; best Porsche 718 Cayman 9.6%; worst Nissan LEAF 63.1%. Own calc: 50,562 x 41.8% = $21,135 lost in 5 years = $352/month; 5-year-old value ≈ $29,427.",
- "size": [1080, 1920], "fps": 30, "scene": "scene.html",
- "voice": "en-US-AndrewMultilingualNeural", "rate": "+10%",
- "lead": 0.1, "gap": 0.2, "tail": 0.1, "crf": 22,
- "music": {"style": "tt", "bpm": 96, "gain": 0.14, "duck_ratio": 2}, "sfx_vary": true, "sfx_gain": 0.42,
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+10%",
+ "lead": 0.1,
+ "gap": 0.2,
+ "tail": 0.1,
+ "crf": 22,
+ "music": {
+  "style": "tt",
+  "bpm": 96,
+  "gain": 0.14,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.42,
  "lines": [
-  {"text": "The average new car costs fifty thousand dollars. Five years later... twenty-one thousand of it is just gone.", "rate": "+12%", "pitch": "+2Hz", "spec": {"mood": "tense"}},
-  {"text": "That's three hundred fifty dollars a month. For nothing!", "rate": "+16%", "pitch": "+8Hz", "volume": "+10%", "spec": {}},
-  {"text": "But here's the thing: not every car loses the same.", "rate": "+4%", "pitch": "-3Hz", "pause": 0.15, "spec": {"mood": "calm"}},
-  {"text": "The worst? The Nissan Leaf. Sixty-three percent... gone.", "rate": "+6%", "pitch": "-5Hz", "spec": {"mood": "tense"}},
-  {"text": "The best? A Porsche Cayman. It lost less than ten percent!", "rate": "+14%", "pitch": "+7Hz", "volume": "+8%", "spec": {"mood": "bright", "cut": true}},
-  {"text": "So here's the trick. Let someone else pay for the first five years.", "rate": "+6%", "pitch": "-2Hz", "pause": 0.2, "spec": {"mood": "calm"}},
-  {"text": "Buy it five years old, and you keep twenty-one thousand dollars in your pocket!", "rate": "+14%", "pitch": "+6Hz", "volume": "+8%", "spec": {"mood": "bright"}},
-  {"text": "Still want that new car smell? Remember:", "rate": "+10%", "pitch": "+4Hz", "spec": {"mood": "tense"}}
+  {
+   "text": "The average new car costs fifty thousand dollars. Five years later... twenty-one thousand of it is just gone.",
+   "rate": "+12%",
+   "pitch": "+2Hz",
+   "spec": {
+    "mood": "tense"
+   }
+  },
+  {
+   "text": "That's three hundred fifty dollars a month. For nothing!",
+   "rate": "+16%",
+   "pitch": "+8Hz",
+   "volume": "+10%",
+   "spec": {}
+  },
+  {
+   "text": "But here's the thing: not every car loses the same.",
+   "rate": "+4%",
+   "pitch": "-3Hz",
+   "pause": 0.15,
+   "spec": {
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "The worst one is the Nissan Leaf. It lost sixty-three percent of its value.",
+   "rate": "+6%",
+   "pitch": "-5Hz",
+   "spec": {
+    "mood": "tense"
+   }
+  },
+  {
+   "text": "And the best one is a Porsche Cayman. It lost less than ten percent!",
+   "rate": "+14%",
+   "pitch": "+7Hz",
+   "volume": "+8%",
+   "spec": {
+    "mood": "bright",
+    "cut": true
+   }
+  },
+  {
+   "text": "So here's the trick. Let someone else pay for the first five years.",
+   "rate": "+6%",
+   "pitch": "-2Hz",
+   "pause": 0.2,
+   "spec": {
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "Buy it five years old, and you keep twenty-one thousand dollars in your pocket!",
+   "rate": "+14%",
+   "pitch": "+6Hz",
+   "volume": "+8%",
+   "spec": {
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Still want that new car smell? Remember:",
+   "rate": "+10%",
+   "pitch": "+4Hz",
+   "spec": {
+    "mood": "tense"
+   }
+  }
  ]
 }

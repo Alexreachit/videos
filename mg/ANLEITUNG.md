@@ -102,3 +102,4 @@ Rendern auf GitHub: Projektname in `mg/render_queue.txt` eintragen und pushen (W
 - Pro Zeile in project.json: `"rate"`, `"pitch"` (z. B. "+8Hz"), `"volume"` (z. B. "+10%"), `"pause"` (Sek. Stille davor).
 - Faustregeln: Schock/Pointe schneller + höher + lauter; dramatische Zahl langsamer + tiefer; Wendung mit kurzer Pause davor.
 - Text für Emotion schreiben: kurze Sätze, Fragen ("The worst?"), "..." für Spannungspausen, Ausrufe, "For nothing!".
+- KEINE Stichwort-Fragen wie "The worst? ..." / "The best? ..." – klingt vorgelesen. Ganze, gesprochene Sätze: "The worst one is ...". "..." sparsam.
