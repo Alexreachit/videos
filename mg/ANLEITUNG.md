@@ -108,3 +108,7 @@ Rendern auf GitHub: Projektname in `mg/render_queue.txt` eintragen und pushen (W
 - Alex findet die Weltkarten-Animationen und alle anderen Animationen aus yt_bank11 "toll".
 - Ab jetzt auch fuer TikToks (9:16) in diesem Stil arbeiten: Karten-Engine (mg/lib/mapdata.js, MAPP, Kamera-Zoom auf Land/Stadt, Pins, CLOSED-Stempel, Punkte-Wolken, Boegen fuer Wege/Lieferungen, Laender-Highlight), Zaehler, Balken-/Rangvergleiche, Scheck-/Karten-Objekte, Checklisten.
 - Darauf aufbauen und pro Video etwas Neues ausprobieren (neue Kartentypen, Routen-Animationen, Vergleiche), nicht nur kopieren.
+
+## Stimme & Musik am Stueck (Feedback 2026-10-26, tt_suez)
+- Keine Pitch-Verschiebung (pitch) und keine Lautstaerke-Spruenge (volume) pro Zeile: ab +7 Hz/+8 % klingt Andrew wie eine andere Person. Emotion nur ueber Text, Satzzeichen und leichte rate-Unterschiede (+8 % bis +12 %).
+- Musik-Stimmung hoechstens 2-3 Wechsel pro TikTok; keinen "bright"-Wechsel mit Cut kurz vor dem Ende – das faellt als Bruch auf.

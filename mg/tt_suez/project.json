@@ -60,8 +60,7 @@
     ],
     "mood": "tense"
    },
-   "rate": "+12%",
-   "pitch": "+2Hz"
+   "rate": "+12%"
   },
   {
    "text": "In March twenty twenty-one, the Ever Given got stuck sideways in the Suez Canal.",
@@ -76,8 +75,7 @@
    "spec": {
     "type": "tower"
    },
-   "rate": "+10%",
-   "pitch": "+3Hz"
+   "rate": "+10%"
   },
   {
    "text": "And about twelve percent of all world trade goes through this one canal.",
@@ -120,8 +118,7 @@
    "spec": {
     "type": "queue"
    },
-   "rate": "+12%",
-   "pitch": "+4Hz"
+   "rate": "+12%"
   },
   {
    "text": "The only other way is all the way around Africa. That's about nine thousand extra kilometers, and up to two weeks longer.",
@@ -142,8 +139,7 @@
    "text": "So diggers and dredgers removed thirty thousand cubic meters of sand, and tugboats pulled for six days.",
    "spec": {
     "type": "canal",
-    "step": "dig",
-    "mood": "calm"
+    "step": "dig"
    },
    "rate": "+10%"
   },
@@ -151,13 +147,9 @@
    "text": "On March twenty-ninth, the ship finally broke free!",
    "spec": {
     "type": "canal",
-    "step": "free",
-    "mood": "bright",
-    "cut": true
+    "step": "free"
    },
-   "rate": "+14%",
-   "pitch": "+7Hz",
-   "volume": "+8%"
+   "rate": "+11%"
   },
   {
    "text": "Would you have waited, or gone around Africa? Comment below, and remember:",
@@ -168,11 +160,9 @@
      24,
      1.0
     ],
-    "choice": true,
-    "mood": "tense"
+    "choice": true
    },
-   "rate": "+10%",
-   "pitch": "+3Hz"
+   "rate": "+10%"
   }
  ]
 }

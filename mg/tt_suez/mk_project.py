@@ -13,24 +13,24 @@ SUEZ = [32.55, 30.0]
 A("This one ship blocked nine-point-six billion dollars of world trade. Every single day.",
   dict(type="map", cam=[45, 24, 1.0], cam2=[33, 29, 6.0], pins=[dict(at=SUEZ, label="Suez Canal · Egypt", col="red", delay=.45)],
        counter=dict(to=9.6, d=1, pre="$", suf="B", label="of trade blocked per day"), title=["$9.6 BILLION", "OF TRADE · EVERY DAY"], mood="tense"),
-  rate="+12%", pitch="+2Hz")
+  rate="+12%")
 A("In March twenty twenty-one, the Ever Given got stuck sideways in the Suez Canal.",
   dict(type="canal", step="stuck"), rate="+10%")
 A("It's four hundred meters long. That's almost as long as the Empire State Building is tall.",
-  dict(type="tower"), rate="+10%", pitch="+3Hz")
+  dict(type="tower"), rate="+10%")
 A("And about twelve percent of all world trade goes through this one canal.",
   dict(type="map", cam=[62, 26, 1.05], route="suez", pins=[dict(at=[121.5, 31.2], label="Shanghai", col="gold", delay=.1), dict(at=[4.4, 51.9], label="Rotterdam", col="gold", delay=.7, dy=-.2)], share=True, mood="calm"),
   rate="+10%")
 A("Within days, around four hundred fifty ships were stuck waiting.",
-  dict(type="queue"), rate="+12%", pitch="+4Hz")
+  dict(type="queue"), rate="+12%")
 A("The only other way is all the way around Africa. That's about nine thousand extra kilometers, and up to two weeks longer.",
   dict(type="map", cam=[40, 8, 0.82], route="cape", mood="tense", cut=True), rate="+10%")
 A("So diggers and dredgers removed thirty thousand cubic meters of sand, and tugboats pulled for six days.",
-  dict(type="canal", step="dig", mood="calm"), rate="+10%")
+  dict(type="canal", step="dig"), rate="+10%")
 A("On March twenty-ninth, the ship finally broke free!",
-  dict(type="canal", step="free", mood="bright", cut=True), rate="+14%", pitch="+7Hz", volume="+8%")
+  dict(type="canal", step="free"), rate="+11%")
 A("Would you have waited, or gone around Africa? Comment below, and remember:",
-  dict(type="map", cam=[45, 24, 1.0], choice=True, mood="tense"), rate="+10%", pitch="+3Hz")
+  dict(type="map", cam=[45, 24, 1.0], choice=True), rate="+10%")
 P = dict(title="TikTok: One ship blocked $9.6B a day (Ever Given / Suez, map + animation)",
          _sources=open(__file__).read().split("import json")[0].replace("# ", "").strip(),
          size=[1080, 1920], fps=30, scene="scene.html", voice="en-US-AndrewMultilingualNeural", rate="+10%",
