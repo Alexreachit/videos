@@ -41,18 +41,22 @@ jobs:
       - name: Programme installieren
         timeout-minutes: 25
         run: |
-          set -o pipefail
+          set +e -o pipefail
           {
           APT="-o Acquire::Retries=5 -o Acquire::http::Timeout=20 -o Acquire::https::Timeout=20"
           echo "== ffmpeg"; if ! command -v ffmpeg; then
-            for i in 1 2 3; do timeout 240 sudo apt-get $APT install -y --no-install-recommends ffmpeg && break; timeout 180 sudo apt-get $APT update; done
+            timeout 200 sudo apt-get $APT install -y --no-install-recommends ffmpeg || { timeout 150 sudo apt-get $APT update && timeout 200 sudo apt-get $APT install -y --no-install-recommends ffmpeg; } || true
           fi
-          echo "== fonts"; timeout 240 sudo apt-get $APT install -y --no-install-recommends fonts-dejavu-core fonts-liberation || echo "fonts skipped"
+          if ! command -v ffmpeg; then echo "apt failed -> static ffmpeg via pip"
+            pip install static-ffmpeg && static_ffmpeg_paths && F=$(python -c "import static_ffmpeg.run as r;print(r.get_or_fetch_platform_executables_else_raise()[0])") && sudo ln -sf "$F" /usr/local/bin/ffmpeg && sudo ln -sf "$(dirname "$F")/ffprobe" /usr/local/bin/ffprobe
+          fi
+          echo "== fonts"; timeout 120 sudo apt-get $APT install -y --no-install-recommends fonts-dejavu-core fonts-liberation || echo "fonts skipped"
           echo "== pip"; for i in 1 2 3; do timeout 240 pip install edge-tts numpy playwright && break; sleep 5; done
           echo "== chromium"; for i in 1 2 3; do timeout 300 python -m playwright install chromium && break; sleep 5; done
           python -c "from playwright.sync_api import sync_playwright as s;p=s().start();p.chromium.launch().close();print('chromium ok')" || { echo "== deps"; timeout 400 sudo python -m playwright install-deps chromium; }
           ffmpeg -version | head -1
           } 2>&1 | tee install.log
+          code=${PIPESTATUS[0]}; if [ $code -ne 0 ]; then tail -15 install.log | while read -r l; do echo "::warning::$l"; done; exit $code; fi
       - name: Video bauen (Stimme Andrew, Animation, Ton)
         run: python mg/produce.py "${{ matrix.projekt }}" --workers 4 2>&1 | tee build.log
       - name: Groesse pruefen (GitHub-Grenze 100 MB)
