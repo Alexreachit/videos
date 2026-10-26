@@ -34,7 +34,7 @@ def dur_of(path):
     return float(out)
 
 
-def tts_andrew(text, mp3, voice, rate, tries=40):
+def tts_andrew(text, mp3, voice, rate, tries=40, pitch="+0Hz", volume="+0%"):
     """Nur Andrew (kein Ersatz). Wiederholt, bis der Dienst erreichbar ist; wechselt den Endpunkt.
     Liefert die Wortzeiten [(Wort, Start, Ende)] relativ zum Zeilenanfang (fuer Untertitel mit Wort-Hervorhebung)."""
     import edge_tts
@@ -53,9 +53,9 @@ def tts_andrew(text, mp3, voice, rate, tries=40):
 
         async def go():
             try:
-                comm = edge_tts.Communicate(text, voice, rate=rate, boundary="WordBoundary")
+                comm = edge_tts.Communicate(text, voice, rate=rate, pitch=pitch, volume=volume, boundary="WordBoundary")
             except TypeError:
-                comm = edge_tts.Communicate(text, voice, rate=rate)
+                comm = edge_tts.Communicate(text, voice, rate=rate, pitch=pitch, volume=volume)
             with open(mp3, "wb") as f:
                 async for ch in comm.stream():
                     if ch["type"] == "audio":
@@ -433,9 +433,9 @@ def main():
     for i, ln in enumerate(cfg["lines"]):
         mp3 = out / "voice" / f"{i:02d}.mp3"
         if fake: words = fake_tts(ln["text"], mp3)
-        else: words = tts_andrew(ln["text"], mp3, cfg["voice"], cfg["rate"])
+        else: words = tts_andrew(ln["text"], mp3, cfg["voice"], ln.get("rate", cfg["rate"]), pitch=ln.get("pitch", "+0Hz"), volume=ln.get("volume", "+0%"))  # Emotion je Zeile: rate/pitch/volume
         d = dur_of(mp3)
-        start = max(t, ln.get("min_start", 0))
+        start = max(t + ln.get("pause", 0), ln.get("min_start", 0))  # pause = dramatische Pause vor der Zeile
         lines.append({"text": ln["text"], "start": round(start, 3), "end": round(start + d, 3), "file": str(mp3),
                       "spec": ln.get("spec"), "words": [[w, round(a, 3), round(b, 3)] for w, a, b in words]})
         t = start + d + cfg.get("gap", .3)

@@ -1,0 +1,118 @@
+<!doctype html><meta charset=utf-8><style>
+@font-face{font-family:P;src:url(fonts/Poppins-Bold.ttf);font-weight:700}
+@font-face{font-family:P;src:url(fonts/Poppins-Medium.ttf);font-weight:500}
+html,body{margin:0;background:#0b1118}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;font-family:P,Arial,sans-serif;background:radial-gradient(circle at 50% 46%,#1b2a3a 0%,#111a24 45%,#0b1118 100%)}
+#pat{position:absolute;inset:-60px;opacity:.15;background-image:radial-gradient(circle,#9cc8ff 1.6px,transparent 2.2px);background-size:46px 46px}
+#gl{position:absolute;inset:0}
+#scene{position:absolute;inset:0}
+#cap{position:absolute;inset:0;z-index:60}
+.o{position:absolute;left:0;top:0;will-change:transform}
+</style>
+<div id=stage><div id=pat></div><div id=gl></div><div id=scene></div><div id=cap></div></div>
+<script src="../lib/core.js"></script>
+<script>
+// TikTok 9:16 – "New vs Used car": persistent two-column comparison (objects stay, move, resize; lists build up; race chart; winner swap)
+const {cl,ez,ei,bo,el,lerp}=MG,$=MG.$,W=1080,H=1920;
+const C={cream:'#fff3dc',gold:'#ffc94a',green:'#3ddc84',green2:'#1fa45a',red:'#ff5b4a',orange:'#ff9f43',blue:'#3aa0ff',ink:'#14202c'};
+let TL=null,fontsOk=false,imgReady=false;
+const S=i=>TL.lines[i].start,E=i=>TL.lines[i].end,DU=i=>E(i)-S(i);
+const sg=(t,a,b)=>ei(cl(t,a,b));
+// keyframe interpolation: keys = [[time,{...}],...]
+function K(t,keys){if(t<=keys[0][0])return keys[0][1];for(let i=1;i<keys.length;i++){if(t<=keys[i][0]){const a=keys[i-1],b=keys[i],q=ei((t-a[0])/Math.max(1e-6,b[0]-a[0]));const o={};for(const k in b[1])o[k]=lerp(a[1][k]??b[1][k],b[1][k],q);return o}}return keys[keys.length-1][1]}
+// ---------- blocks
+function img(k,x,y,w,o={}){if((o.op??1)<=0.001)return'';return `<img class=o src="img/${k}.png" style="width:${w}px;transform:translate(${(x-w/2).toFixed(1)}px,${(y-w/2).toFixed(1)}px) rotate(${(o.rot||0).toFixed(2)}deg);opacity:${(o.op??1).toFixed(3)};filter:drop-shadow(0 30px 40px #000c) drop-shadow(0 0 ${o.gw||30}px ${o.glow||'#3aa0ff44'}) ${o.gray?`grayscale(${o.gray.toFixed(2)}) brightness(${(1-.35*o.gray).toFixed(2)})`:''}">`}
+function T(x,y,txt,o={}){const p=o.p??1;if(p<=0)return'';const sz=o.size||64,s=o.s??1;
+ return `<div style="position:absolute;left:${x}px;top:${y}px;transform:translate(-50%,-50%) translateY(${((1-Math.min(1,p))*24).toFixed(1)}px) scale(${s.toFixed(3)});opacity:${Math.min(1,p).toFixed(3)};font:700 ${sz}px/1.05 P,Arial;color:${o.col||C.cream};white-space:nowrap;text-shadow:${MG.outline(o.ol||Math.max(3,Math.round(sz/14)))},0 ${sz/8}px ${sz/3}px #000a">${txt}</div>`}
+function pill(x,y,txt,o={}){const p=o.p??1;if(p<=0)return'';const sz=o.size||38,s=bo(Math.min(1,p))*(o.s??1);
+ const dot=o.dot?`<span style="display:inline-block;width:${sz*.7}px;height:${sz*.7}px;border-radius:50%;background:${o.dot};margin-right:${sz*.3}px;vertical-align:-${sz*.08}px;box-shadow:0 0 12px ${o.dot}"></span>`:'';
+ return `<div style="position:absolute;left:${x}px;top:${y}px;transform:translate(-50%,-50%) scale(${s.toFixed(3)});opacity:${Math.min(1,p*2).toFixed(3)};padding:${sz*.36}px ${sz*.7}px;border-radius:${sz*1.2}px;background:${o.bg||'#f4f7fbee'};color:${o.fg||C.ink};font:700 ${sz}px/1.1 P,Arial;white-space:nowrap;box-shadow:0 12px 30px #000b">${dot}${txt}</div>`}
+function card(x,y,w,rows,p,o={}){if(p<=0)return'';const s=bo(Math.min(1,p));let r='';
+ rows.forEach((rw,i)=>{const q=o.rowP?o.rowP(i):cl(p,.1+i*.2,.35+i*.2);if(q<=0)return;r+=`<div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-top:${i?'2px solid #ffffff14':'none'};opacity:${q.toFixed(3)};transform:translateX(${((1-ez(q))*30).toFixed(1)}px)"><span style="font:500 30px P;color:#c9d6e3">${rw[0]}</span><span style="font:700 38px P;color:${rw[2]||'#fff'}">${rw[1]}</span></div>`});
+ return `<div style="position:absolute;left:${x-w/2}px;top:${y}px;width:${w}px;box-sizing:border-box;transform:scale(${s.toFixed(3)});transform-origin:50% 0;opacity:${Math.min(1,p*2*(o.op??1)).toFixed(3)};padding:14px 30px;border-radius:34px;background:#1c2836ee;border:2px solid ${o.bd||'#ffffff1c'};box-shadow:0 24px 50px #000c">${o.title?`<div style="font:700 26px P;color:${o.tc||C.blue};letter-spacing:2px;padding-top:8px">${o.title}</div>`:''}${r}</div>`}
+function crown(x,y,s,op){if(op<=0)return'';return `<svg style="position:absolute;left:${x-60*s}px;top:${y-45*s}px;opacity:${op.toFixed(3)};filter:drop-shadow(0 0 18px #ffc94a)" width=${120*s} height=${90*s} viewBox="0 0 120 90"><path d="M10 80 L18 25 L42 52 L60 10 L78 52 L102 25 L110 80 Z" fill="#ffc94a" stroke="#14202c" stroke-width=7 stroke-linejoin=round /><circle cx=60 cy=10 r=8 fill="#ff5b4a" stroke="#14202c" stroke-width=5 /></svg>`}
+const M=v=>v>=1e6?'$'+(v/1e6).toFixed(2)+'M':'$'+Math.round(v/1000)+'k';
+const money=v=>MG.fmt(Math.round(v),0,'$');
+// ---------- the whole scene as a function of t
+const NEW=50562,USED=29427,LOSS=21135;
+function tag(x,y,top,val,col,p,o={}){if(p<=0)return'';const s=bo(Math.min(1,p))*(o.s??1);
+ return `<div style="position:absolute;left:${x}px;top:${y}px;transform:translate(-50%,-50%) scale(${s.toFixed(3)}) rotate(${o.rot||-4}deg);opacity:${Math.min(1,p*2).toFixed(3)};padding:14px 34px 16px;border-radius:26px;background:#fff3dc;border:6px solid #14202c;box-shadow:0 18px 36px #000b;text-align:center;white-space:nowrap">
+ <div style="font:700 26px P;color:#5a6b7c;letter-spacing:2px">${top}</div><div style="font:700 ${o.sz||64}px/1.05 P;color:${col}">${val}</div>${o.strike?`<div style="position:absolute;left:10px;right:10px;top:55%;height:8px;background:${C.red};transform:rotate(-8deg);border-radius:4px;opacity:${o.strike.toFixed(3)}"></div>`:''}</div>`}
+function bar(x,y,w,frac,col,p){if(p<=0)return'';return `<div style="position:absolute;left:${x-w/2}px;top:${y}px;width:${w}px;height:30px;border-radius:15px;background:#ffffff18;overflow:hidden;opacity:${Math.min(1,p*2).toFixed(3)}"><div style="height:100%;width:${(frac*100).toFixed(1)}%;background:${col};box-shadow:0 0 18px ${col}"></div></div>`}
+function sceneAt(t){
+ const N=TL.lines.length,end=TL.dur,lt=t/end,wob=ph=>Math.sin(lt*Math.PI*2*7+ph);let h='';
+ // header: big in hook, then small at top
+ const tk=K(t,[[0,{y:250,s:1}],[S(1)-.2,{y:250,s:1}],[S(1)+.35,{y:110,s:.5}]]);
+ h+=`<div style="position:absolute;left:540px;top:${tk.y}px;transform:translate(-50%,-50%) scale(${tk.s.toFixed(3)})">${T(0,0,'NEW <span style="color:#8fa3b8;font-size:.6em">vs</span> <span style="color:'+C.green+'">USED</span>',{size:140})}</div>`;
+ // section labels
+ const secs=[[1,'Every month'],[2,'Not all cars'],[3,'The worst'],[4,'The best'],[5,'The trick'],[7,'Your call']];
+ for(let k=0;k<secs.length;k++){const [i,txt]=secs[k],a=S(i),b=k+1<secs.length?S(secs[k+1][0]):E(N-1);const p=cl(t,a-.1,a+.25)*(1-cl(t,b-.2,b));if(p>0)h+=pill(540,200,txt.toUpperCase(),{p,size:30,bg:'#ffffff14',fg:'#dbe6f2',dot:C.blue})}
+ // ---- persistent new sedan: hook centre -> shrinks to top-left corner -> comes back for the trick
+ const sd=K(t,[[0,{x:540,y:820,w:640,g:0}],[S(2)-.2,{x:540,y:820,w:640,g:0}],[S(2)+.4,{x:540,y:560,w:300,g:.35}],[S(3)-.2,{x:540,y:560,w:300,g:.35}],[S(3)+.4,{x:540,y:430,w:200,g:.6}],[S(5)-.2,{x:540,y:430,w:200,g:.6}],[S(5)+.45,{x:540,y:800,w:600,g:0}],[E(7)-.7,{x:540,y:800,w:600,g:0}]]);
+ // value of the sedan (hook: counts down 50,562 -> 29,427)
+ const dep=sg(t,S(0)+DU(0)*.45,S(0)+DU(0)*.95);
+ const shrinkHook=1-.18*dep;
+ h+=img('sedan',sd.x,sd.y+wob(0)*6,sd.w*(t<S(2)?shrinkHook:1),{gray:Math.max(sd.g,t<S(2)?dep*.4:0),rot:wob(1)*1.2,glow:'#3aa0ff44'});
+ // flying cash leaving the car during the hook (static at t=0)
+ if(t<S(2)+.3){for(let i=0;i<6;i++){const st=S(0)+DU(0)*(.45+i*.07),q=cl(t,st,st+1.1);if(q>0&&q<1)h+=img('cash',sd.x+(i%2?1:-1)*(80+q*260),sd.y-80-q*520,150*(1-.4*q),{op:1-q,rot:(i%2?1:-1)*q*40,glow:'#3ddc8455'})}}
+ // hook price tag
+ {const p=t<S(1)-.3?1:1-cl(t,S(1)-.3,S(1)+.05);if(p>0)h+=`<div style="opacity:${p.toFixed(3)}">`+tag(540,1150,dep<.02?'NEW CAR':'5 YEARS LATER',money(lerp(NEW,USED,dep)),dep>.5?C.red:C.ink,1,{sz:76})+T(540,1290,'−'+money(LOSS*dep),{size:72,col:C.red,p:dep>.05?1:0})+`</div>`}
+ // line 1: $352 per month, burning month counter
+ {const a=S(1),D=DU(1),p=cl(t,a+.1,a+.4),out=1-cl(t,S(2)-.25,S(2)+.1);
+  if(p>0&&out>0){const m=Math.min(60,Math.floor(sg(t,a+.2,a+D*.9)*60));
+   h+=`<div style="opacity:${out.toFixed(3)}">`+T(540,1130,'−$352',{size:130,col:C.red,s:bo(p)})+T(540,1240,'EVERY MONTH',{size:44,col:'#c9d6e3',p:cl(t,a+.3,a+.6)})+
+    pill(540,1340,`month ${m} / 60`,{p:cl(t,a+.4,a+.7),size:34,dot:C.red})+`</div>`}}
+ // lines 2-4: two cars side by side, each shrinks by what it loses
+ {const a=S(2),p=cl(t,a+.2,a+.7),out=1-cl(t,S(5)-.25,S(5)+.2);
+  if(p>0&&out>0){const lq=sg(t,S(3)+DU(3)*.25,S(3)+DU(3)*.8),pq=sg(t,S(4)+DU(4)*.3,S(4)+DU(4)*.8);
+   const lw=lerp(440,440*Math.sqrt(1-.631),lq),pw=lerp(440,440*Math.sqrt(1-.096),pq);
+   const lf=t>S(3)-.1?1:.85,pf=t>S(4)-.1?1:.85;
+   h+=`<div style="opacity:${(Math.min(1,p*2)*out).toFixed(3)}">`+
+    img('ev',280,860,lw*el(Math.min(1,p)),{gray:lq*.5,rot:wob(2)*1.5,glow:'#ff5b4a33'})+img('sports',800,860,pw*el(cl(t,a+.4,a+.9)),{rot:wob(3)*1.5,glow:'#ffc94a44'})+
+    T(280,1100,'NISSAN LEAF',{size:36,col:'#c9d6e3',p:cl(t,a+.5,a+.9)})+T(800,1100,'PORSCHE CAYMAN',{size:36,col:'#c9d6e3',p:cl(t,a+.7,a+1.1)})+
+    bar(280,1150,360,1-.631*lq,C.red,cl(t,a+.6,a+1))+bar(800,1150,360,1-.096*pq,C.green,cl(t,a+.8,a+1.2))+
+    T(280,1250,'−'+(63.1*lq).toFixed(1)+' %',{size:84,col:C.red,p:lq>0?1:0,s:1+.1*Math.sin(Math.PI*cl(t,S(3)+DU(3)*.8,S(3)+DU(3)*.95))})+
+    T(800,1250,'−'+(9.6*pq).toFixed(1)+' %',{size:84,col:C.green,p:pq>0?1:0,s:1+.1*Math.sin(Math.PI*cl(t,S(4)+DU(4)*.8,S(4)+DU(4)*.95))})+
+    T(540,1330,'after 5 years',{size:30,col:'#8fa3b8',p:cl(t,S(3)+.3,S(3)+.6)})+`</div>`}}
+ // line 5-6: timeline of 10 years — first owner pays years 1-5, you drive 6-10; price tags
+ {const a=S(5),D=DU(5),p=cl(t,a+.4,a+.8),out=1-cl(t,E(7)-.7,E(7)-.1);
+  if(p>0&&out>0){const x0=140,x1=940,y=1150,f=sg(t,a+D*.35,a+D*.85);
+   let g=`<div style="position:absolute;left:${x0}px;top:${y}px;width:${x1-x0}px;height:38px;border-radius:19px;background:#ffffff14;opacity:${Math.min(1,p*2).toFixed(3)}"></div>`;
+   g+=`<div style="position:absolute;left:${x0}px;top:${y}px;width:${((x1-x0)/2*f).toFixed(1)}px;height:38px;border-radius:19px 0 0 19px;background:${C.red};box-shadow:0 0 18px ${C.red}"></div>`;
+   const f2=sg(t,S(6)+.1,S(6)+DU(6)*.5);g+=`<div style="position:absolute;left:${(x0+x1)/2}px;top:${y}px;width:${((x1-x0)/2*f2).toFixed(1)}px;height:38px;border-radius:0 19px 19px 0;background:${C.green};box-shadow:0 0 18px ${C.green}"></div>`;
+   g+=T((x0*3+x1)/4,y+90,'1st owner pays −$21,135',{size:32,col:C.red,p:cl(t,a+D*.6,a+D*.85)})+T((x0+x1*3)/4,y+90,'you drive cheap',{size:32,col:C.green,p:cl(t,S(6)+.3,S(6)+.7)});
+   g+=T(x0,y-40,'year 0',{size:26,col:'#8fa3b8',p})+T((x0+x1)/2,y-40,'year 5',{size:26,col:'#8fa3b8',p})+T(x1,y-40,'year 10',{size:26,col:'#8fa3b8',p});
+   const tp=cl(t,S(6)+.2,S(6)+.6),sav=sg(t,S(6)+DU(6)*.45,S(6)+DU(6)*.8);
+   g+=tag(330,1420,'NEW',money(NEW),C.ink,tp,{sz:52,rot:-5,strike:cl(t,S(6)+DU(6)*.35,S(6)+DU(6)*.45)})+tag(750,1420,'5 YEARS OLD',money(USED),C.green2,cl(t,S(6)+.4,S(6)+.8),{sz:52,rot:4});
+   g+=T(540,330,'+'+money(LOSS*sav),{size:110,col:C.green,p:sav>0?1:0})+T(540,430,'stays in YOUR pocket',{size:40,col:'#c9d6e3',p:cl(t,S(6)+DU(6)*.7,S(6)+DU(6)*.9)});
+   h+=`<div style="opacity:${out.toFixed(3)}">${g}</div>`}}
+ // line 7: question
+ {const a=S(7),D=DU(7),out=1-cl(t,E(7)-.7,E(7)-.1);if(t>a&&out>0)h+=`<div style="opacity:${out.toFixed(3)}">${T(540,1640,'NEW or USED?',{size:64,col:C.gold,p:cl(t,a+D*.2,a+D*.4)})}</div>`}
+ // mascot Sam
+ const pose=t<S(4)?'samthink':t<S(5)?'samhappy':t<S(7)?'samhappy':'samthink';
+ h+=img(pose,940,1745,250,{rot:wob(5)*2,glow:'#3aa0ff33'});
+ return h}
+function draw(t){if(!TL)return;const end=TL.dur,q=cl(t,end-.65,end-.05);
+ const lt=t/end;$('gl').innerHTML=`<div style="position:absolute;left:540px;top:860px;width:1100px;height:1100px;margin:-550px;border-radius:50%;background:radial-gradient(circle,#3aa0ff30,transparent 62%);opacity:${(.65+.3*Math.sin(lt*Math.PI*2*6)).toFixed(3)}"></div>`;
+ $('pat').style.transform=`translateY(${(-(lt*46*8)%46).toFixed(1)}px)`;
+ let h=sceneAt(t);if(q>0)h=`<div style="opacity:${(1-q).toFixed(3)}">${h}</div><div style="position:absolute;inset:0;opacity:${q.toFixed(3)}">${sceneAt(0)}</div>`;
+ if(h!==$('scene')._h){$('scene').innerHTML=h;$('scene')._h=h}
+ const c=t>=TL.lines[TL.lines.length-1].end-.02?'':MG.captions(t,{y:1570,size:66,maxWords:3,stageW:1080,w:900,upper:true});if(c!==$('cap')._h){$('cap').innerHTML=c;$('cap')._h=c}
+ MG.grainTick(t)}
+window.setTimeline=tl=>{MG.TL=TL=tl;MG.preload(['sedan','sports','ev','cash','samthink','samhappy'].map(k=>`img/${k}.png`));
+ Promise.all([document.fonts.load('700 50px P'),document.fonts.load('500 50px P')]).then(()=>{fontsOk=true},()=>{fontsOk=true})};
+Object.defineProperty(window,'ready',{configurable:true,get(){return imgReady&&fontsOk},set(v){imgReady=v}});
+window.sfxEvents=()=>{const ev=[],N=TL.lines.length,add=(k,t,o={})=>ev.push(Object.assign({k,t:+t.toFixed(3)},o));
+ for(let i=1;i<N;i++)add(i%2?'whoosh':'swish',S(i)-.2,{d:.6});
+ for(let i=0;i<6;i++)add('pop',S(0)+DU(0)*(.45+i*.07));add('error',S(0)+DU(0)*.95);
+ add('thud',S(1)+.1);for(let i=0;i<8;i++)add('tick',S(1)+.3+i*(DU(1)-.5)/8,{f:1700-i*60});
+ add('pop',S(2)+.4);add('pop',S(2)+.7);
+ for(let i=0;i<6;i++)add('tick',S(3)+DU(3)*(.25+i*.09),{f:1500-i*80});add('error',S(3)+DU(3)*.82);
+ add('ding',S(4)+DU(4)*.82);add('cash',S(4)+DU(4)*.9);
+ for(let i=0;i<5;i++)add('tick',S(5)+DU(5)*(.35+i*.1),{f:1300});add('pop',S(5)+DU(5)*.7);
+ add('pop',S(6)+.3);add('click',S(6)+DU(6)*.4);add('cash',S(6)+DU(6)*.8);
+ add('pop',S(7)+DU(7)*.25);
+ ev.sort((a,b)=>a.t-b.t);return ev};
+window.draw=draw;
+MG.finish($('stage'),1080,1920,.04,'#0000002a',60);
+</script>
