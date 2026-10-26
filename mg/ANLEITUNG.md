@@ -97,3 +97,8 @@ Rendern auf GitHub: Projektname in `mg/render_queue.txt` eintragen und pushen (W
 ## TikTok-Sprache (2026-10-25, final)
 - Deutsch-Versuch mit Florian verworfen (Stimme gefiel Alex nicht). TikToks bleiben ENGLISCH mit Andrew (en-US-AndrewMultilingualNeural, +10%).
 - Kompromiss (Alex ok): Themen mit internationalem Reiz wählen, Caption + Hashtags englisch/international (#money #finance #investing #personalfinance #fyp), keine deutschen Hashtags.
+
+## Andrew mit mehr Emotion (2026-10-26, erster Test tt_car)
+- Pro Zeile in project.json: `"rate"`, `"pitch"` (z. B. "+8Hz"), `"volume"` (z. B. "+10%"), `"pause"` (Sek. Stille davor).
+- Faustregeln: Schock/Pointe schneller + höher + lauter; dramatische Zahl langsamer + tiefer; Wendung mit kurzer Pause davor.
+- Text für Emotion schreiben: kurze Sätze, Fragen ("The worst?"), "..." für Spannungspausen, Ausrufe, "For nothing!".
