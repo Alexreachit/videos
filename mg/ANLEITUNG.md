@@ -103,3 +103,8 @@ Rendern auf GitHub: Projektname in `mg/render_queue.txt` eintragen und pushen (W
 - Faustregeln: Schock/Pointe schneller + höher + lauter; dramatische Zahl langsamer + tiefer; Wendung mit kurzer Pause davor.
 - Text für Emotion schreiben: kurze Sätze, Fragen ("The worst?"), "..." für Spannungspausen, Ausrufe, "For nothing!".
 - KEINE Stichwort-Fragen wie "The worst? ..." / "The best? ..." – klingt vorgelesen. Ganze, gesprochene Sätze: "The worst one is ...". "..." sparsam.
+
+## Animationsstil YT 11 als Standard (Feedback 2026-10-26)
+- Alex findet die Weltkarten-Animationen und alle anderen Animationen aus yt_bank11 "toll".
+- Ab jetzt auch fuer TikToks (9:16) in diesem Stil arbeiten: Karten-Engine (mg/lib/mapdata.js, MAPP, Kamera-Zoom auf Land/Stadt, Pins, CLOSED-Stempel, Punkte-Wolken, Boegen fuer Wege/Lieferungen, Laender-Highlight), Zaehler, Balken-/Rangvergleiche, Scheck-/Karten-Objekte, Checklisten.
+- Darauf aufbauen und pro Video etwas Neues ausprobieren (neue Kartentypen, Routen-Animationen, Vergleiche), nicht nur kopieren.
