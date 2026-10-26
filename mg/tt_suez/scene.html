@@ -1,0 +1,197 @@
+<!doctype html><meta charset=utf-8><style>
+@font-face{font-family:P;src:url(fonts/Poppins-Bold.ttf);font-weight:700}
+@font-face{font-family:P;src:url(fonts/Poppins-Medium.ttf);font-weight:500}
+html,body{margin:0;background:#2f86d0}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;font-family:P,Arial,sans-serif;background:radial-gradient(circle at 50% 42%,#8fd3ff 0%,#4fa6e6 48%,#2a76c0 100%)}
+#pat{position:absolute;inset:-60px;opacity:.13;background-image:radial-gradient(circle,#ffffff 1.8px,transparent 2.4px);background-size:52px 52px}
+#mapwrap{position:absolute;inset:0;opacity:0}
+#mapsvg{position:absolute;left:0;top:0}
+#mapov,#fg{position:absolute;inset:0}
+#cap{position:absolute;inset:0;z-index:60}
+.land{fill:#f4f8fc;stroke:#7fb0da;stroke-width:1.2;vector-effect:non-scaling-stroke}
+.st{fill:none;stroke:#a9c9e6;stroke-width:1;vector-effect:non-scaling-stroke}
+</style>
+<div id=stage><div id=pat></div>
+ <div id=mapwrap><svg id=mapsvg width=1080 height=1920><g id=mapg></g></svg><div id=mapov></div></div>
+ <div id=fg></div><div id=cap></div></div>
+<script src="../lib/core.js"></script>
+<script src="../lib/mapdata.js"></script>
+<script>
+// TikTok 9:16 – Ever Given / Suez: persistent world map (zoom, pins, animated shipping routes) + coded canal scenes (sky theme, YT11 style)
+const {cl,ez,ei,bo,el,lerp}=MG,$=MG.$,W=1080,H=1920,CX=540,CY=860;
+const C={cream:'#fff6e6',gold:'#ffc94a',green:'#3ddc84',green2:'#1fa45a',red:'#ff5b4a',red2:'#d6402e',orange:'#ff9f43',blue:'#2f86d0',ink:'#14202c',sand:'#f1d39a',sand2:'#d9b16b',water:'#3f9fe0',water2:'#2b7fc4'};
+let TL=null,fontsOk=false,T=0;
+const S=i=>TL.lines[i].start,E=i=>TL.lines[i].end,DU=i=>E(i)-S(i),SP=i=>TL.lines[i].spec;
+const sg=(t,a,b)=>ei(cl(t,a,b));
+// ---------- building blocks
+function TX(x,y,txt,o={}){const p=o.p??1;if(p<=0)return'';const sz=o.size||64,s=o.s??1;
+ return `<div style="position:absolute;left:${x}px;top:${y}px;transform:translate(-50%,-50%) translateY(${((1-Math.min(1,p))*22).toFixed(1)}px) scale(${s.toFixed(3)}) rotate(${o.rot||0}deg);opacity:${Math.min(1,p).toFixed(3)};font:700 ${sz}px/1.05 P,Arial;color:${o.col||C.cream};white-space:nowrap;text-align:center;text-shadow:${MG.outline(o.ol||Math.max(3,Math.round(sz/13)))},0 ${sz/9}px ${sz/3}px #0a2a5099">${txt}</div>`}
+function pill(x,y,txt,o={}){const p=o.p??1;if(p<=0)return'';const sz=o.size||36,s=bo(Math.min(1,p))*(o.s??1);
+ const dot=o.dot?`<span style="display:inline-block;width:${sz*.62}px;height:${sz*.62}px;border-radius:50%;background:${o.dot};margin-right:${sz*.3}px;vertical-align:-${sz*.06}px"></span>`:'';
+ return `<div style="position:absolute;left:${x}px;top:${y}px;transform:translate(-50%,-50%) scale(${s.toFixed(3)});opacity:${Math.min(1,p*2).toFixed(3)};padding:${sz*.34}px ${sz*.7}px;border-radius:${sz*1.2}px;background:${o.bg||'#ffffffee'};color:${o.fg||C.ink};font:700 ${sz}px/1.1 P,Arial;white-space:nowrap;box-shadow:0 10px 26px #0a2a5066">${dot}${txt}</div>`}
+function card(x,y,w,inner,p,o={}){if(p<=0)return'';const s=bo(Math.min(1,p));
+ return `<div style="position:absolute;left:${x-w/2}px;top:${y}px;width:${w}px;box-sizing:border-box;transform:scale(${s.toFixed(3)}) rotate(${o.rot||0}deg);transform-origin:50% 0;opacity:${Math.min(1,p*2).toFixed(3)};padding:${o.pad||'20px 30px'};border-radius:30px;background:${o.bg||'#ffffffee'};box-shadow:0 22px 46px #0a2a5066;color:${C.ink};text-align:${o.align||'center'}">${inner}</div>`}
+function stamp(x,y,txt,p,col=C.red,rot=-8,sz=70){if(p<=0)return'';const s=lerp(2.2,1,ez(Math.min(1,p)));return `<div style="position:absolute;left:${x}px;top:${y}px;transform:translate(-50%,-50%) rotate(${rot}deg) scale(${s.toFixed(3)});opacity:${Math.min(1,p*2.5).toFixed(3)};padding:10px 30px;border:8px solid ${col};border-radius:18px;color:${col};font:700 ${sz}px/1 P;letter-spacing:3px;background:#ffffffdd;white-space:nowrap">${txt}</div>`}
+// container ship, top-down, bow pointing +x (viewBox 760x110)
+let _deck='';function deck(){if(_deck)return _deck;const pal=['#e8573f','#3a7bd5','#f2a93b','#2fa36b','#8c5bd6','#e4e7ec','#c0392b','#2bb3c0'];let h='';
+ for(let i=0;i<15;i++)for(let r=0;r<4;r++){const c=pal[Math.floor(MG.rnd(i*7+r*3+1)*pal.length)];h+=`<rect x=${120+i*34} y=${12+r*22} width=31 height=19 rx=2 fill="${c}" stroke="#14202c55" stroke-width=1.5 />`}return _deck=h}
+function ship(cx,cy,len,ang,o={}){const w=len*110/760;return `<svg style="position:absolute;left:${(cx-len/2).toFixed(1)}px;top:${(cy-w/2).toFixed(1)}px;transform:rotate(${ang.toFixed(2)}deg);overflow:visible;opacity:${(o.op??1).toFixed(3)};filter:drop-shadow(0 ${len/40}px ${len/30}px #0a2a5077)" width=${len.toFixed(1)} height=${w.toFixed(1)} viewBox="0 0 760 110"><path d="M0 14 Q0 0 14 0 L640 0 Q722 2 760 55 Q722 108 640 110 L14 110 Q0 110 0 96 Z" fill="${o.col||'#1d7a4c'}" stroke="#14202c" stroke-width=6 />${o.simple?'':deck()}<rect x=34 y=10 width=60 height=90 rx=6 fill="#fff" stroke="#14202c" stroke-width=5 /><rect x=46 y=22 width=36 height=66 rx=4 fill="#cfe3f5" /></svg>`}
+function qShip(cx,cy,len,col){const w=len*.34;return `<svg style="position:absolute;left:${(cx-len/2).toFixed(1)}px;top:${(cy-w/2).toFixed(1)}px;overflow:visible;filter:drop-shadow(0 4px 5px #0a2a5066)" width=${len.toFixed(1)} height=${w.toFixed(1)} viewBox="0 0 100 34"><path d="M0 5 Q0 0 5 0 L80 0 Q97 1 100 17 Q97 33 80 34 L5 34 Q0 34 0 29 Z" fill="#2d3a4a" stroke="#14202c" stroke-width=3 /><rect x=24 y=5 width=16 height=24 rx=2 fill="${col}" /><rect x=42 y=5 width=16 height=24 rx=2 fill="#e4e7ec" /><rect x=60 y=5 width=16 height=24 rx=2 fill="${col}" /><rect x=6 y=7 width=12 height=20 rx=2 fill="#fff" /></svg>`}
+function smallShip(cx,cy,len,ang,col){return ship(cx,cy,len,ang,{simple:true,col})}
+// ---------- MAP
+let mapBuilt=false;
+function buildMap(){let h='';for(const k in WORLD)h+=`<path id="c_${k}" class=land d="${WORLD[k]}"/>`;$('mapg').innerHTML=h;mapBuilt=true}
+function camOf(c){const [x,y]=MAPP(c[0],c[1]);return {x,y,z:c[2]}}
+function camAt(t){const N=TL.lines.length;let i=0;for(let k=0;k<N;k++){if(t>=S(k)-.35)i=k}
+ let j=i;while(j>=0&&SP(j).type!=='map')j--;if(j<0)j=0;
+ const sp=SP(j),c1=camOf(sp.cam),a=S(j);let from;
+ if(j===0)from=c1;else if(SP(j-1).type==='map'){const pp=SP(j-1);from=camOf(pp.cam2||pp.cam)}else from={x:c1.x,y:c1.y,z:c1.z*.35};
+ const q=sg(t,a-.35,a+1.0);let c={x:lerp(from.x,c1.x,q),y:lerp(from.y,c1.y,q),z:Math.exp(lerp(Math.log(from.z),Math.log(c1.z),q))};
+ if(sp.cam2){const c2=camOf(sp.cam2),q2=sg(t,a+DU(j)*.3,a+DU(j)*.75);c={x:lerp(c.x,c2.x,q2),y:lerp(c.y,c2.y,q2),z:Math.exp(lerp(Math.log(c.z),Math.log(c2.z),q2))}}
+ return {c,j}}
+function scr(cam,lon,lat){const [x,y]=MAPP(lon,lat),s=.96*cam.z;return [CX+(x-cam.x)*s,CY+(y-cam.y)*s]}
+function mapVis(t){let v=0;const N=TL.lines.length;for(let k=0;k<N;k++){if(SP(k).type!=='map')continue;const a=k==0?-1:S(k)-.4,b=k+1<N?S(k+1)+.35:TL.dur+1;v=Math.max(v,cl(t,a,a+.4)*(1-cl(t,b-.4,b)))}return v}
+const SUEZ=[32.55,30.0];
+const R_SUEZ=[[121.5,31.2],[122.6,27],[117,20],[110,10],[104.6,1.4],[98,5.5],[88,6],[80.5,5.3],[72,8],[60,13],[51,12.6],[43.4,12.6],[39,19],[35,26],[32.55,29.9],[32.35,31.3],[28,33.5],[18,34.5],[11.7,37.4],[5,37.8],[-5.6,35.95],[-9.8,36.8],[-10.2,43],[-6,47.8],[-3,49.6],[1.5,50.8],[4.4,51.9]];
+const R_CAPE=[[121.5,31.2],[122.6,27],[117,20],[110,10],[104.6,1.4],[98,5.5],[88,6],[80.5,5.0],[70,-5],[58,-20],[45,-33],[30,-36.5],[18.5,-35.4],[12,-25],[5,-10],[0,0],[-15,6],[-20,15],[-18,25],[-13,33],[-10.2,43],[-6,47.8],[-3,49.6],[1.5,50.8],[4.4,51.9]];
+// partial polyline in screen coords: returns {d, x, y, ang}
+function routePath(cam,pts,q){const P=pts.map(p=>scr(cam,p[0],p[1]));let Ls=[0];for(let i=1;i<P.length;i++)Ls.push(Ls[i-1]+Math.hypot(P[i][0]-P[i-1][0],P[i][1]-P[i-1][1]));
+ const tot=Ls[Ls.length-1],tg=tot*q;let d=`M${P[0][0].toFixed(1)} ${P[0][1].toFixed(1)}`,hx=P[0][0],hy=P[0][1],ang=0;
+ for(let i=1;i<P.length;i++){if(Ls[i]<=tg){d+=`L${P[i][0].toFixed(1)} ${P[i][1].toFixed(1)}`;hx=P[i][0];hy=P[i][1];ang=Math.atan2(P[i][1]-P[i-1][1],P[i][0]-P[i-1][0])}
+  else{const f=(tg-Ls[i-1])/Math.max(1e-6,Ls[i]-Ls[i-1]);hx=lerp(P[i-1][0],P[i][0],f);hy=lerp(P[i-1][1],P[i][1],f);ang=Math.atan2(P[i][1]-P[i-1][1],P[i][0]-P[i-1][0]);d+=`L${hx.toFixed(1)} ${hy.toFixed(1)}`;break}}
+ return {d,x:hx,y:hy,ang:ang*180/Math.PI}}
+function routeSVG(r,col,w=8,dash='',op=1){return `<path d="${r.d}" stroke="${col}" stroke-width=${w} fill=none stroke-linecap=round stroke-linejoin=round ${dash?`stroke-dasharray="${dash}"`:''} opacity=${op} />`}
+function drawMap(t){const v=mapVis(t);$('mapwrap').style.opacity=v.toFixed(3);if(v<=0){if($('mapov')._h){$('mapov').innerHTML='';$('mapov')._h=''}return}
+ if(!mapBuilt)buildMap();const {c,j}=camAt(t),sp=SP(j),s=.96*c.z,a=S(j),D=DU(j);
+ $('mapg').setAttribute('transform',`translate(${(CX-c.x*s).toFixed(2)},${(CY-c.y*s).toFixed(2)}) scale(${s.toFixed(4)})`);
+ const hl=new Set(j===0?['EGY']:[]);const key=[...hl].join(',')+(j===0?(t>a+D*.4?'1':'0'):'');
+ if($('mapg')._hl!==key){document.querySelectorAll('#mapg path.land').forEach(p=>{const on=hl.has(p.id.slice(2))&&key.endsWith('1');p.style.fill=on?'#ffe8a8':'';p.style.stroke=on?'#e0a020':''});$('mapg')._hl=key}
+ let ov='',sv='';
+ // routes
+ if(sp.route==='suez'){const q=sg(t,a+.2,a+D*.7),r=routePath(c,R_SUEZ,q);sv+=routeSVG(r,'#ffffff',16,'',.7)+routeSVG(r,C.red2,8);
+  if(q>0&&q<1)ov+=smallShip(r.x,r.y,90,r.ang,'#1d7a4c');
+  const [sx,sy]=scr(c,...SUEZ);if(q>.55)ov+=`<div style="position:absolute;left:${sx-20}px;top:${sy-20}px;width:40px;height:40px;border-radius:50%;background:${C.gold};border:6px solid #fff;box-sizing:border-box;box-shadow:0 0 0 ${(10+8*Math.sin(t*6)).toFixed(1)}px #ffc94a55"></div>`+pill(sx+10,sy+70,'Suez Canal',{p:cl(t,a+D*.5,a+D*.6),size:30,dot:C.gold});
+  ov+=TX(540,300,'≈12%',{size:170,col:C.gold,p:cl(t,a+D*.35,a+D*.5),s:bo(cl(t,a+D*.35,a+D*.55))})+pill(540,440,'of all world trade',{p:cl(t,a+D*.45,a+D*.6),size:44})+pill(540,1340,'incl. 30% of all container traffic',{p:cl(t,a+D*.75,a+D*.9),size:34,dot:C.red})}
+ if(sp.route==='cape'){const rs=routePath(c,R_SUEZ,1);sv+=routeSVG(rs,C.red2,7,'14 12',.45);
+  const [sx,sy]=scr(c,...SUEZ),bq=cl(t,a+.2,a+.5);if(bq>0)ov+=`<div style="position:absolute;left:${sx-34}px;top:${sy-34}px;width:68px;height:68px;transform:scale(${bo(bq).toFixed(3)});font:700 64px/68px P;color:${C.red2};text-align:center;text-shadow:${MG.outline(5).replace(/#000/g,'#fff')}">✕</div>`+pill(sx+60,sy-70,'BLOCKED',{p:bq,size:30,bg:C.red2,fg:'#fff'});
+  const q=sg(t,a+D*.2,a+D*.8),r=routePath(c,R_CAPE,q);sv+=routeSVG(r,'#ffffff',16,'',.7)+routeSVG(r,C.orange,9);if(q>0&&q<1)ov+=smallShip(r.x,r.y,90,r.ang,'#1d7a4c');
+  const [cx2,cy2]=scr(c,18.5,-35.4);ov+=pill(cx2+40,cy2+70,'Cape of Good Hope',{p:cl(t,a+D*.45,a+D*.55),size:30,dot:C.orange});
+  const km=lerp(0,9000,sg(t,a+D*.3,a+D*.6));ov+=card(540,140,600,`<div style="font:700 92px/1 P;color:${C.red2}">+${MG.fmt(km,0)} km</div><div style="font:500 30px P;color:#4a5b6c;margin-top:6px">extra distance around Africa</div>`,cl(t,a+D*.25,a+D*.4))+
+   pill(540,1360,'+6 to 14 days at sea',{p:cl(t,a+D*.7,a+D*.82),size:46,bg:C.red2,fg:'#fff'})}
+ // pins
+ (sp.pins||[]).forEach((pn,k)=>{const [x,y]=scr(c,pn.at[0],pn.at[1]);const st=a+(pn.delay!=null?D*pn.delay:.25+k*.35),q=cl(t,st,st+.35);if(q<=0)return;
+  const col=pn.col==='red'?C.red:pn.col==='green'?C.green2:C.gold,pulse=10+8*Math.sin(t*6+k);
+  ov+=`<div style="position:absolute;left:${x-17}px;top:${y-17}px;width:34px;height:34px;border-radius:50%;background:${col};border:6px solid #fff;box-sizing:border-box;transform:scale(${bo(q).toFixed(3)});box-shadow:0 0 0 ${pulse.toFixed(1)}px ${col}44"></div>`+pill(x,y-66-(pn.dy||0)*80,pn.label,{p:cl(t,st+.1,st+.45),size:32,dot:col});
+  if(j===0&&k===0){const sq=cl(t,st+.3,st+.8);if(sq>0)ov+=smallShip(x,y+4,70,58,'#1d7a4c')}});
+ // hook title (full at t=0) / counter
+ if(sp.title){const q=1-cl(t,a+D*.78,a+D*.95);if(q>0)ov+=`<div style="opacity:${q.toFixed(3)}">${TX(540,250,sp.title[0],{size:122,col:C.gold})}${TX(540,370,sp.title[1],{size:50})}</div>`}
+ if(sp.counter){const ct=sp.counter,q=sg(t,a+D*.35,a+D*.8),v2=lerp(0,ct.to,q);
+  ov+=card(540,1300,640,`<div style="font:700 96px/1 P;color:${C.red2}">${ct.pre}${MG.fmt(v2,ct.d||0)}${ct.suf}</div><div style="font:500 32px P;color:#4a5b6c;margin-top:8px">${ct.label}</div>`,cl(t,a+D*.3,a+D*.45))}
+ // final question – pills out, hook title back in => seamless loop into line 0
+ if(sp.choice){const end=TL.dur,out=1-cl(t,end-.75,end-.25);
+  ov+=`<div style="opacity:${out.toFixed(3)}">`+TX(540,330,'WHAT WOULD YOU DO?',{size:62,p:cl(t,a+.1,a+.4)})+pill(540,560,'⏳ WAIT',{p:cl(t,a+D*.15,a+D*.3),size:64,bg:'#fff'})+pill(540,720,'🌍 GO AROUND AFRICA',{p:cl(t,a+D*.45,a+D*.6),size:56,bg:C.orange,fg:'#fff'})+`</div>`;
+  const tin=cl(t,end-.6,end-.08);if(tin>0)ov+=`<div style="opacity:${tin.toFixed(3)}">${TX(540,250,'$9.6 BILLION',{size:122,col:C.gold})}${TX(540,370,'OF TRADE · EVERY DAY',{size:50})}</div>`}
+ if(sv)ov=`<svg style="position:absolute;left:0;top:0" width=1080 height=1920>${sv}</svg>`+ov;
+ if(ov!==$('mapov')._h){$('mapov').innerHTML=ov;$('mapov')._h=ov}}
+// ---------- coded scenes
+function seqRange(k){const ty=SP(k).type;let a=k,b=k;while(a>0&&SP(a-1).type===ty)a--;while(b+1<TL.lines.length&&SP(b+1).type===ty)b++;return [a,b]}
+function canalBG(t,flow=1){// close-up: sand banks + vertical channel x 380..700 with moving ripples
+ let h=`<div style="position:absolute;inset:0;background:linear-gradient(90deg,${C.sand2} 0,${C.sand} 18%,${C.sand} 30%,#e7c27f 34%,${C.water} 35.2%,${C.water2} 50%,${C.water} 64.8%,#e7c27f 66%,${C.sand} 70%,${C.sand} 82%,${C.sand2} 100%)"></div>`;
+ let rp='';for(let i=0;i<22;i++){const x=400+MG.rnd(i)*280,y=((MG.rnd(i+50)*1920+t*90*flow)%2000)-40;rp+=`<rect x=${x.toFixed(0)} y=${y.toFixed(0)} width=${(18+MG.rnd(i+9)*30).toFixed(0)} height=5 rx=2.5 fill="#ffffff55" />`}
+ for(let i=0;i<40;i++){const side=i%2?MG.rnd(i)*330:750+MG.rnd(i)*330;rp+=`<circle cx=${side.toFixed(0)} cy=${(MG.rnd(i+99)*1920).toFixed(0)} r=${(3+MG.rnd(i+3)*5).toFixed(1)} fill="#c99f5a66" />`}
+ return h+`<svg style="position:absolute;left:0;top:0" width=1080 height=1920>${rp}</svg>`}
+function puff(x,y,t0,t){const q=cl(t,t0,t0+.9);if(q<=0||q>=1)return'';let h='';for(let i=0;i<7;i++){const a=i/7*6.283,r=30+90*ez(q);h+=`<div style="position:absolute;left:${(x+Math.cos(a)*r-26).toFixed(1)}px;top:${(y+Math.sin(a)*r*.7-26).toFixed(1)}px;width:52px;height:52px;border-radius:50%;background:#e9cf9a;opacity:${(.9*(1-q)).toFixed(3)};transform:scale(${(1-.5*q).toFixed(3)})"></div>`}return h}
+function excavator(x,y,t,on){const sw=on?Math.sin(t*5)*14:0;return `<svg style="position:absolute;left:${x-150}px;top:${y-130}px;overflow:visible;filter:drop-shadow(0 14px 16px #0a2a5066)" width=300 height=260 viewBox="0 0 300 260">
+ <rect x=120 y=180 width=170 height=44 rx=22 fill="#2b2f36" stroke="#14202c" stroke-width=5 /><rect x=140 y=110 width=140 height=76 rx=14 fill="#ffc531" stroke="#14202c" stroke-width=5 /><rect x=210 y=70 width=64 height=56 rx=8 fill="#ffc531" stroke="#14202c" stroke-width=5 /><rect x=222 y=80 width=40 height=30 rx=4 fill="#cfe3f5" />
+ <g transform="rotate(${sw.toFixed(1)} 160 130)"><path d="M160 130 L70 70 L20 150" stroke="#e0a800" stroke-width=24 fill=none stroke-linecap=round stroke-linejoin=round /><path d="M160 130 L70 70 L20 150" stroke="#14202c" stroke-width=5 fill=none opacity=.5 /><path d="M-5 140 L45 140 L35 185 L5 185 Z" fill="#7a5a2a" stroke="#14202c" stroke-width=5 /></g></svg>`}
+function tug(x,y,ang){return `<svg style="position:absolute;left:${x-55}px;top:${y-24}px;transform:rotate(${ang.toFixed(1)}deg);overflow:visible;filter:drop-shadow(0 8px 10px #0a2a5066)" width=110 height=48 viewBox="0 0 110 48"><path d="M0 10 Q0 0 10 0 L80 0 Q110 4 110 24 Q110 44 80 48 L10 48 Q0 48 0 38 Z" fill="#e8473a" stroke="#14202c" stroke-width=4 /><rect x=22 y=12 width=40 height=24 rx=5 fill="#fff" stroke="#14202c" stroke-width=3 /></svg>`}
+const WEDGE=58,SHIPC=[540,820],SLEN=760;
+function shipEnds(ang,cx=SHIPC[0],cy=SHIPC[1]){const r=ang*Math.PI/180,dx=Math.cos(r)*SLEN/2,dy=Math.sin(r)*SLEN/2;return [[cx-dx,cy-dy],[cx+dx,cy+dy]]}
+const ANIM={
+ canal(t,a0,b0){const sp0=SP(a0);let h='';
+  if(sp0.step==='stuck'){const a=S(a0),D=DU(a0),qin=sg(t,a-.3,a+D*.42),qr=sg(t,a+D*.42,a+D*.58);
+   const shake=t>a+D*.55&&t<a+D*.75?Math.sin(t*70)*6*(1-cl(t,a+D*.55,a+D*.75)):0;
+   h+=canalBG(t,1-qr*.9);const cy=lerp(-420,SHIPC[1],qin),ang=lerp(90,WEDGE,qr);
+   h+=ship(SHIPC[0]+shake,cy,SLEN,ang);const [e1,e2]=shipEnds(WEDGE);h+=puff(e1[0],e1[1],a+D*.55,t)+puff(e2[0],e2[1],a+D*.55,t);
+   h+=pill(540,200,'March 23, 2021',{p:cl(t,a+.2,a+.5),size:40,dot:C.gold})+pill(820,560,'EVER GIVEN',{p:cl(t,a+D*.25,a+D*.4),size:34,dot:'#1d7a4c'})+stamp(540,1260,'STUCK!',cl(t,a+D*.62,a+D*.72),C.red2,-7,92);
+   return h}
+  // dig (+ free): persistent sequence
+  const a=S(a0),D=DU(a0),hasFree=b0>a0,af=hasFree?S(a0+1):1e9,Df=hasFree?DU(a0+1):1;
+  const qs=sg(t,af+.1,af+Df*.45),qgo=sg(t,af+Df*.45,af+Df*1.15);const ang=lerp(WEDGE,90,el(qs)),cy=lerp(SHIPC[1],2500,qgo*qgo);
+  h+=canalBG(t,lerp(.1,1.6,qs));
+  // excavator on right bank near bow, sand counter, tugs at stern
+  const exOut=cl(t,af+Df*.3,af+Df*.6);h+=`<div style="opacity:${(cl(t,a-.2,a+.3)*(1-exOut)).toFixed(3)}">`+excavator(900,1140,t,t<af)+`</div>`;
+  const [st,bw]=shipEnds(ang,SHIPC[0],cy);const tq=cl(t,a+D*.45,a+D*.6);
+  if(tq>0){const tugs=[[300,300,-110],[540,250,-95],[760,330,-70]];let ropes='';tugs.forEach((g,i)=>{const pull=t<af?Math.sin(t*4+i)*10:0,gx=g[0]+pull,gy=lerp(g[1]-300,g[1],ez(tq))+(qgo>0?(cy-SHIPC[1]):0);
+    ropes+=`<line x1=${gx} y1=${gy+10} x2=${st[0].toFixed(1)} y2=${st[1].toFixed(1)} stroke="#fff" stroke-width=5 stroke-dasharray="10 6" opacity=${(1-exOut).toFixed(2)} />`;h+=tug(gx,gy,g[2])});
+   h=h.replace(/(<\/svg><\/div>)$/,'$1')+`<svg style="position:absolute;left:0;top:0;pointer-events:none" width=1080 height=1920>${ropes}</svg>`}
+  h+=ship(SHIPC[0],cy,SLEN,ang);
+  // dig: sand counter + days
+  const outDig=1-cl(t,af-.1,af+.3);if(outDig>0){const sq=sg(t,a+.3,a+D*.85),days=1+Math.min(5,Math.floor(sg(t,a+D*.45,a+D*.95)*6));
+   h+=`<div style="opacity:${outDig.toFixed(3)}">`+card(540,120,640,`<div style="font:700 84px/1 P;color:${C.ink}">${MG.fmt(30000*sq,0)} m³</div><div style="font:500 30px P;color:#4a5b6c;margin-top:6px">of sand removed</div>`,cl(t,a+.2,a+.45))+
+    pill(540,1330,'DAY '+days+' of 6',{p:cl(t,a+D*.45,a+D*.55),size:52,bg:C.red2,fg:'#fff'})+pill(830,980,'13 tugboats',{p:cl(t,a+D*.62,a+D*.75),size:32,dot:'#e8473a'})+`</div>`}
+  if(hasFree){h+=stamp(540,560,'FREE!',cl(t,af+Df*.35,af+Df*.45),C.green2,-6,120)+pill(540,1330,'March 29, 2021',{p:cl(t,af+.2,af+.5),size:44,dot:C.green})}
+  return h},
+ tower(t,a0){const a=S(a0),D=DU(a0),G=1430,PX=2.2;let h='';
+  // ground
+  h+=`<div style="position:absolute;left:0;top:${G}px;width:1080px;height:520px;background:linear-gradient(#5aa469,#3d8a52)"></div>`;
+  // ship stands up (rises from below), bow up
+  const sl=400*PX,q=sg(t,a-.2,a+D*.32);const sy=lerp(G+sl,G-sl/2,q);h+=`<div style="position:absolute;inset:0;transform:translateY(${(Math.sin(t*2)*2).toFixed(1)}px)">`+ship(300,sy,sl,-90)+`</div>`;
+  // Empire State Building grows
+  const bh=443*PX,gq=sg(t,a+D*.4,a+D*.68),bx=780;
+  const P=(f,w)=>[bx-w/2,G-bh*f,bx+w/2];
+  h+=`<svg style="position:absolute;left:0;top:0;filter:drop-shadow(0 20px 26px #0a2a5066)" width=1080 height=1920><g transform="translate(0 ${G}) scale(1 ${gq.toFixed(4)}) translate(0 ${-G})">
+   <path d="M${bx-130} ${G} V${G-bh*.07} H${bx-105} V${G-bh*.6} H${bx-78} V${G-bh*.78} H${bx-52} V${G-bh*.86} H${bx+52} V${G-bh*.78} H${bx+78} V${G-bh*.6} H${bx+105} V${G-bh*.07} H${bx+130} V${G} Z" fill="#c9d6e3" stroke="#14202c" stroke-width=6 stroke-linejoin=round />
+   <path d="M${bx-30} ${G-bh*.86} L${bx-18} ${G-bh*.93} H${bx+18} L${bx+30} ${G-bh*.86} Z M${bx-5} ${G-bh*.93} V${G-bh} H${bx+5} V${G-bh*.93}" fill="#c9d6e3" stroke="#14202c" stroke-width=5 />
+   ${[...Array(9)].map((_,i)=>`<line x1=${bx-80+i*20} y1=${G-bh*.08} x2=${bx-80+i*20} y2=${G-bh*(i>1&&i<7?.84:.58)} stroke="#8fa6bd" stroke-width=4 />`).join('')}</g></svg>`;
+  // height markers
+  const m1=cl(t,a+D*.28,a+D*.4),m2=cl(t,a+D*.7,a+D*.8);
+  if(m1>0)h+=`<div style="position:absolute;left:120px;top:${G-sl}px;width:840px;border-top:5px dashed #ffffffcc;opacity:${m1.toFixed(3)}"></div>`+pill(300,G-sl-70,'400 m',{p:m1,size:46,dot:'#1d7a4c'});
+  if(m2>0)h+=`<div style="position:absolute;left:600px;top:${G-bh}px;width:360px;border-top:5px dashed #ffc94acc;opacity:${m2.toFixed(3)}"></div>`+pill(780,G-bh-70,'443 m',{p:m2,size:46,dot:C.gold});
+  h+=TX(300,G+60,'Ever Given',{size:40,p:cl(t,a+D*.2,a+D*.35)})+TX(780,G+60,'Empire State Bldg.',{size:40,p:cl(t,a+D*.55,a+D*.7)});
+  return h},
+ queue(t,a0){const a=S(a0),D=DU(a0);let h='';
+  // overview: Mediterranean (top) – canal – Red Sea (bottom), Ever Given wedged near the south end
+  h+=`<div style="position:absolute;inset:0;background:${C.sand}"></div>`;
+  h+=`<div style="position:absolute;left:0;top:0;width:1080px;height:470px;background:linear-gradient(${C.water2},${C.water})"></div><div style="position:absolute;left:0;top:1170px;width:1080px;height:330px;background:linear-gradient(${C.water},${C.water2})"></div>`;
+  h+=`<svg style="position:absolute;left:0;top:0" width=1080 height=1920><path d="M540 460 C520 600 560 700 530 820 C505 930 560 1050 545 1180" stroke="${C.water}" stroke-width=46 fill=none /></svg>`;
+  h+=smallShip(541,1110,110,62,'#1d7a4c');
+  const q=sg(t,a+.2,a+D*.85),n=Math.floor(q*90);// 90 icons ≈ 450 ships
+  const cols=['#e8573f','#3a7bd5','#f2a93b','#2fa36b','#8c5bd6','#59606b'];
+  for(let i=0;i<n;i++){const top=i%2===0,k=Math.floor(i/2),r=Math.floor(k/9),c2=k%9;const x=70+c2*118+(r%2)*40,y=top?400-r*68:1240+r*58;if(!top&&y>1480)continue;
+   const pop=bo(cl(t,a+.2+i*(D*.65/90),a+.45+i*(D*.65/90)));h+=qShip(x,y,lerp(10,84,pop),cols[i%cols.length])}
+  h+=pill(540,440,'Mediterranean',{p:cl(t,a,a+.3),size:30,dot:C.water2})+pill(540,1210,'Red Sea',{p:cl(t,a,a+.3),size:30,dot:C.water2});
+  h+=card(800,700,420,`<div style="font:700 110px/1 P;color:${C.red2}">${Math.round(450*q)}</div><div style="font:500 30px P;color:#4a5b6c">ships waiting</div>`,cl(t,a+.2,a+.5));
+  h+=pill(290,1110,'Ever Given →',{p:cl(t,a+.3,a+.6),size:30,dot:'#1d7a4c'});
+  return h}
+};
+function fgLayer(t){let h='';const N=TL.lines.length,seen=new Set();
+ for(let k=0;k<N;k++){const ty=SP(k).type;if(!ANIM[ty])continue;const [a0,b0]=seqRange(k);if(seen.has(a0))continue;seen.add(a0);
+  const a=S(a0)-.4,b=b0+1<N?S(b0+1)+.4:TL.dur+1;if(t<a||t>b)continue;const op=cl(t,a,a+.45)*(1-cl(t,b-.45,b));if(op<=0)continue;
+  h+=`<div style="position:absolute;inset:0;opacity:${op.toFixed(3)};transform:scale(${(1+.03*(1-op)).toFixed(4)})">${ANIM[ty](t,a0,b0)}</div>`}
+ return h}
+function draw(t){if(!TL)return;T=t;drawMap(t);
+ const fh=fgLayer(t);if(fh!==$('fg')._h){$('fg').innerHTML=fh;$('fg')._h=fh}
+ $('pat').style.transform=`translateY(${(-(t/TL.dur*52*8)%52).toFixed(1)}px)`;
+ const c=t>=TL.lines[TL.lines.length-1].end-.02?'':MG.captions(t,{y:1570,size:66,maxWords:3,stageW:1080,w:940,upper:true});if(c!==$('cap')._h){$('cap').innerHTML=c;$('cap')._h=c}
+ MG.grainTick(t)}
+window.setTimeline=tl=>{MG.TL=TL=tl;window.ready=false;Promise.all([document.fonts.load('700 50px P'),document.fonts.load('500 50px P')]).then(()=>{fontsOk=true},()=>{fontsOk=true})};
+Object.defineProperty(window,'ready',{configurable:true,get(){return fontsOk},set(v){}});
+window.sfxEvents=()=>{const ev=[],N=TL.lines.length,add=(k,t,o={})=>ev.push(Object.assign({k,t:+t.toFixed(3)},o));
+ for(let i=1;i<N;i++){const a=SP(i-1).type,b=SP(i).type;if(a!==b||b==='map')add(i%2?'whoosh':'swish',S(i)-.3,{d:.6})}
+ for(let i=0;i<N;i++){const sp=SP(i),a=S(i),D=DU(i);
+  (sp.pins||[]).forEach((pn,k)=>add('pop',a+(pn.delay!=null?D*pn.delay:.25+k*.35)));
+  if(i===0){add('impact',a+D*.47);for(let k=0;k<8;k++)add('tick',a+D*(.35+k*.055),{f:1700-k*70})}
+  if(sp.route==='suez'){add('whoosh',a+.2,{d:1.4});add('ding',a+D*.4)}
+  if(sp.route==='cape'){add('impact',a+.25);add('whoosh',a+D*.2,{d:2});for(let k=0;k<8;k++)add('tick',a+D*(.3+k*.037),{f:1400-k*50});add('error',a+D*.72)}
+  if(sp.choice){add('pop',a+D*.17);add('pop',a+D*.47)}
+  if(sp.type==='canal'&&sp.step==='stuck'){add('pop',a+.25);add('thud',a+D*.5);add('impact',a+D*.56);add('error',a+D*.64)}
+  if(sp.type==='tower'){add('swish',a+.1,{d:.8});add('pop',a+D*.3);add('pop',a+D*.72);add('ding',a+D*.78)}
+  if(sp.type==='queue')for(let k=0;k<10;k++)add('blip',a+.3+k*D*.07);
+  if(sp.type==='canal'&&sp.step==='dig'){for(let k=0;k<6;k++)add('click',a+.4+k*D*.13);add('pop',a+D*.5);add('pop',a+D*.65)}
+  if(sp.type==='canal'&&sp.step==='free'){add('ding',a+D*.38);add('cash',a+D*.42);add('whoosh',a+D*.5,{d:1})}
+ }
+ ev.sort((a,b)=>a.t-b.t);const out=[];for(const e of ev){if(e.t<0)e.t=0;if(!out.find(o=>o.k==e.k&&Math.abs(o.t-e.t)<.12))out.push(e)}return out};
+window.draw=draw;
+MG.finish($('stage'),1080,1920,.04,'#0a2a5022',65);
+</script>
