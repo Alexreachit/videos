@@ -16,7 +16,7 @@
  "music": {
   "style": "tt",
   "bpm": 96,
-  "gain": 0.14,
+  "gain": 0.2,
   "duck_ratio": 2
  },
  "sfx_vary": true,

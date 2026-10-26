@@ -76,7 +76,7 @@ Rendern auf GitHub: Projektname in `mg/render_queue.txt` eintragen und pushen (W
 - Loop: Hintergrund-Animation über ganze Zyklen von TL.dur, Hook-Objekt bei lt=0 ruhig (bob:0).
 
 ## TikTok-Musik (2026-10-25, Alex wollte eigene leise Musik passend zu Abschnitten)
-- `"music":{"style":"tt","bpm":96,"gain":0.14,"duck_ratio":2}` – leiser Groove (Kick/Shaker/Bass/Pluck), ~20 dB unter der Stimme.
+- `"music":{"style":"tt","bpm":96,"gain":0.2,"duck_ratio":2}` (Alex 26.10.: 0.14 war zu leise) – leiser Groove (Kick/Shaker/Bass/Pluck), ~20 dB unter der Stimme.
 - `spec.mood` = tense/calm/bright (gilt bis zur nächsten Änderung), `spec.cut: true` = kurzer Musik-Stopp vor der Zeile + tiefer Bass-Hit (Wendepunkte der Story).
 - Kein Fade, damit der Loop nahtlos bleibt. Vorbild: @schraffur (Musik bricht bei Abschnittswechseln kurz ab).
 
