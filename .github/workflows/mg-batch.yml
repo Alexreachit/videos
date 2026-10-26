@@ -39,13 +39,20 @@ jobs:
         with:
           python-version: "3.12"
       - name: Programme installieren
-        timeout-minutes: 12
+        timeout-minutes: 25
         run: |
+          set -o pipefail
+          {
           APT="-o Acquire::Retries=5 -o Acquire::http::Timeout=20 -o Acquire::https::Timeout=20"
-          for i in 1 2 3; do timeout 180 sudo apt-get $APT update && break; echo "apt update retry $i"; sleep 5; done
-          for i in 1 2 3; do timeout 300 sudo apt-get $APT install -y ffmpeg fonts-dejavu-core fonts-liberation && break; echo "apt install retry $i"; sleep 5; done
-          pip install edge-tts numpy playwright
-          for i in 1 2 3; do timeout 300 python -m playwright install --with-deps chromium && break; echo "playwright retry $i"; done
+          echo "== ffmpeg"; if ! command -v ffmpeg; then
+            for i in 1 2 3; do timeout 240 sudo apt-get $APT install -y --no-install-recommends ffmpeg && break; timeout 180 sudo apt-get $APT update; done
+          fi
+          echo "== fonts"; timeout 240 sudo apt-get $APT install -y --no-install-recommends fonts-dejavu-core fonts-liberation || echo "fonts skipped"
+          echo "== pip"; for i in 1 2 3; do timeout 240 pip install edge-tts numpy playwright && break; sleep 5; done
+          echo "== chromium"; for i in 1 2 3; do timeout 300 python -m playwright install chromium && break; sleep 5; done
+          python -c "from playwright.sync_api import sync_playwright as s;p=s().start();p.chromium.launch().close();print('chromium ok')" || { echo "== deps"; timeout 400 sudo python -m playwright install-deps chromium; }
+          ffmpeg -version | head -1
+          } 2>&1 | tee install.log
       - name: Video bauen (Stimme Andrew, Animation, Ton)
         run: python mg/produce.py "${{ matrix.projekt }}" --workers 4 2>&1 | tee build.log
       - name: Groesse pruefen (GitHub-Grenze 100 MB)
@@ -83,4 +90,5 @@ jobs:
           path: |
             output/*_final.mp4*
             build.log
+            install.log
           retention-days: 14
