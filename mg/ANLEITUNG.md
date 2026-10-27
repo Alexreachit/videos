@@ -117,3 +117,7 @@ Rendern auf GitHub: Projektname in `mg/render_queue.txt` eintragen und pushen (W
 - Videos (TikTok, wo passend auch YT) beginnen mit "Why you should never ..." / "Why you shouldn't ..." / "Why you should ..." als erstem Satz.
 - Themen muessen wirklich spannend sein und viele Leute betreffen (Alltag + Geld + Geschichte), nicht trocken. Die Begruendung kommt als ueberraschende, belegte Geschichte/Zahl.
 - Erster Satz = Hook (Titel gross im Bild ab Frame 0), danach sofort die erste ueberraschende Zahl.
+
+## TikTok-Laenge ab 2026-10-27
+- Ziel ca. 25 s (max. ~30 s): ~70 Woerter, 7-8 kurze Saetze, rate +16 %, lead 0.05 / gap 0.08, Szenenwechsel alle ~3 s, Ueberblendungen 0.25 s.
+- Zaehler/Diagramme muessen exakt beim gesprochenen Wort stehen (bei kurzen Zeilen frueh starten: ab ~20 % der Zeile).
