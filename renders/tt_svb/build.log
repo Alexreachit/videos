@@ -1,11 +1,13 @@
-Zeile 0: 0.10-5.76  Why you should never keep all your money in one bank. Forty-two billion dollars left this one in a single day.
-Zeile 1: 5.96-10.52  It was Silicon Valley Bank in California, the go-to bank for tech startups.
-Zeile 2: 10.72-16.17  On March eighth, twenty twenty-three, it admitted a one-point-eight-billion-dollar loss on its bonds.
-Zeile 3: 16.37-21.56  Founders panicked in group chats, and everyone pulled their money out with a few taps on their phones.
-Zeile 4: 21.76-28.36  By the next morning, another hundred billion dollars was lined up to leave. That's eighty-one percent of all deposits.
-Zeile 5: 28.56-33.02  So regulators shut the bank down, less than two days after the bad news.
-Zeile 6: 33.22-39.15  And about eighty-six percent of the money was above the insured limit of two hundred fifty thousand dollars.
-Zeile 7: 39.35-43.86  Then the government stepped in, and every single depositor got all of their money back.
-Zeile 8: 44.06-46.60  Would you have pulled your money out too? Tell me below.
-1401 Frames in 73s
-FERTIG output/tt_svb_final.mp4 46.7s
+TTS Versuch 1 fehlgeschlagen: No audio was received. Please verify that your parameters are correct.
+Zeile 0: 0.05-2.19  Why you should never keep all your money in one bank.
+Zeile 1: 2.27-7.16  In twenty twenty-three, forty-two billion dollars left Silicon Valley Bank in one day.
+TTS Versuch 1 fehlgeschlagen: 429, message='Invalid response status', url='wss://api.msedgeservices.com/tts/cognitiveservices/websocket/v1?Ocp-Apim-Subscription-Key=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=c7d645d98440434b80b7790717873ac0&Sec-MS-GEC=0CBB49A1A81FC0A6-C0F1463135201A8155738CF55D2A817991D6D4CBD2A788D45154C53B7B3D5C35&Sec-MS-GEC-Version=2-143.0.3650.75'
+Zeile 2: 7.24-9.95  It started with a one-point-eight-billion-dollar loss.
+Zeile 3: 10.03-13.51  Founders panicked in group chats and pulled everything out.
+Zeile 4: 13.59-16.33  Less than two days later, the bank was shut down.
+Zeile 5: 16.41-19.12  And eighty-six percent of the money wasn't insured.
+TTS Versuch 1 fehlgeschlagen: 429, message='Invalid response status', url='wss://api.msedgeservices.com/tts/cognitiveservices/websocket/v1?Ocp-Apim-Subscription-Key=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=cd39172e1ede40f6882fe17c5e43660a&Sec-MS-GEC=0CBB49A1A81FC0A6-C0F1463135201A8155738CF55D2A817991D6D4CBD2A788D45154C53B7B3D5C35&Sec-MS-GEC-Version=2-143.0.3650.75'
+Zeile 6: 19.20-21.89  Only a last-minute government rescue saved them.
+Zeile 7: 21.97-23.84  Would you have pulled your money out?
+718 Frames in 85s
+FERTIG output/tt_svb_final.mp4 23.94s
