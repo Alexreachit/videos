@@ -10,28 +10,26 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 L = []
 def A(t, s, **k): L.append(dict(text=t, spec=s, **k))
 SC = [-121.96, 37.35]
-A("Why you should never keep all your money in one bank. Forty-two billion dollars left this one in a single day.",
-  dict(type="hero", title=["WHY YOU SHOULD NEVER", "KEEP ALL YOUR MONEY", "IN ONE BANK"], mood="tense"), rate="+12%")
-A("It was Silicon Valley Bank in California, the go-to bank for tech startups.",
-  dict(type="map", cam=[-98, 39, 2.0], cam2=[-121.5, 37.0, 10], pins=[dict(at=SC, label="Silicon Valley Bank", col="red", delay=.45)]))
-A("On March eighth, twenty twenty-three, it admitted a one-point-eight-billion-dollar loss on its bonds.",
+A("Why you should never keep all your money in one bank.",
+  dict(type="hero", title=["WHY YOU SHOULD NEVER", "KEEP ALL YOUR MONEY", "IN ONE BANK"], mood="tense"))
+A("In twenty twenty-three, forty-two billion dollars left Silicon Valley Bank in one day.",
+  dict(type="map", cam=[-98, 39, 2.0], cam2=[-121.5, 37.0, 10], pins=[dict(at=SC, label="Silicon Valley Bank", col="red", delay=.3)]))
+A("It started with a one-point-eight-billion-dollar loss.",
   dict(type="loss"))
-A("Founders panicked in group chats, and everyone pulled their money out with a few taps on their phones.",
+A("Founders panicked in group chats and pulled everything out.",
   dict(type="panic"))
-A("By the next morning, another hundred billion dollars was lined up to leave. That's eighty-one percent of all deposits.",
-  dict(type="queue"))
-A("So regulators shut the bank down, less than two days after the bad news.",
+A("Less than two days later, the bank was shut down.",
   dict(type="closed", cut=True))
-A("And about eighty-six percent of the money was above the insured limit of two hundred fifty thousand dollars.",
+A("And eighty-six percent of the money wasn't insured.",
   dict(type="pie"))
-A("Then the government stepped in, and every single depositor got all of their money back.",
+A("Only a last-minute government rescue saved them.",
   dict(type="rescue"))
-A("Would you have pulled your money out too? Tell me below.",
+A("Would you have pulled your money out?",
   dict(type="hero", choice=True))
 P = dict(title="TikTok: $42 billion left one bank in one day (SVB, Sam + detailed coded scenes)",
          _sources=open(__file__).read().split("import json")[0].replace("# ", "").strip(),
-         size=[1080, 1920], fps=30, scene="scene.html", voice="en-US-AndrewMultilingualNeural", rate="+10%",
-         lead=0.1, gap=0.2, tail=0.1, crf=22, music=dict(style="tt", bpm=96, gain=0.2, duck_ratio=2),
+         size=[1080, 1920], fps=30, scene="scene.html", voice="en-US-AndrewMultilingualNeural", rate="+16%",
+         lead=0.05, gap=0.08, tail=0.1, crf=22, music=dict(style="tt", bpm=96, gain=0.2, duck_ratio=2),
          sfx_vary=True, sfx_gain=0.42, lines=L)
 json.dump(P, open("project.json", "w"), indent=1, ensure_ascii=False)
 print(len(L), "lines", sum(len(l["text"].split()) for l in L), "words")

@@ -8,9 +8,9 @@
  "fps": 30,
  "scene": "scene.html",
  "voice": "en-US-AndrewMultilingualNeural",
- "rate": "+10%",
- "lead": 0.1,
- "gap": 0.2,
+ "rate": "+16%",
+ "lead": 0.05,
+ "gap": 0.08,
  "tail": 0.1,
  "crf": 22,
  "music": {
@@ -23,7 +23,7 @@
  "sfx_gain": 0.42,
  "lines": [
   {
-   "text": "Why you should never keep all your money in one bank. Forty-two billion dollars left this one in a single day.",
+   "text": "Why you should never keep all your money in one bank.",
    "spec": {
     "type": "hero",
     "title": [
@@ -32,11 +32,10 @@
      "IN ONE BANK"
     ],
     "mood": "tense"
-   },
-   "rate": "+12%"
+   }
   },
   {
-   "text": "It was Silicon Valley Bank in California, the go-to bank for tech startups.",
+   "text": "In twenty twenty-three, forty-two billion dollars left Silicon Valley Bank in one day.",
    "spec": {
     "type": "map",
     "cam": [
@@ -57,50 +56,44 @@
       ],
       "label": "Silicon Valley Bank",
       "col": "red",
-      "delay": 0.45
+      "delay": 0.3
      }
     ]
    }
   },
   {
-   "text": "On March eighth, twenty twenty-three, it admitted a one-point-eight-billion-dollar loss on its bonds.",
+   "text": "It started with a one-point-eight-billion-dollar loss.",
    "spec": {
     "type": "loss"
    }
   },
   {
-   "text": "Founders panicked in group chats, and everyone pulled their money out with a few taps on their phones.",
+   "text": "Founders panicked in group chats and pulled everything out.",
    "spec": {
     "type": "panic"
    }
   },
   {
-   "text": "By the next morning, another hundred billion dollars was lined up to leave. That's eighty-one percent of all deposits.",
-   "spec": {
-    "type": "queue"
-   }
-  },
-  {
-   "text": "So regulators shut the bank down, less than two days after the bad news.",
+   "text": "Less than two days later, the bank was shut down.",
    "spec": {
     "type": "closed",
     "cut": true
    }
   },
   {
-   "text": "And about eighty-six percent of the money was above the insured limit of two hundred fifty thousand dollars.",
+   "text": "And eighty-six percent of the money wasn't insured.",
    "spec": {
     "type": "pie"
    }
   },
   {
-   "text": "Then the government stepped in, and every single depositor got all of their money back.",
+   "text": "Only a last-minute government rescue saved them.",
    "spec": {
     "type": "rescue"
    }
   },
   {
-   "text": "Would you have pulled your money out too? Tell me below.",
+   "text": "Would you have pulled your money out?",
    "spec": {
     "type": "hero",
     "choice": true
