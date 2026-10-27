@@ -23,12 +23,13 @@
  "sfx_gain": 0.42,
  "lines": [
   {
-   "text": "Forty-two billion dollars left this bank in one single day.",
+   "text": "Why you should never keep all your money in one bank. Forty-two billion dollars left this one in a single day.",
    "spec": {
     "type": "hero",
     "title": [
-     "$42 BILLION",
-     "GONE IN ONE DAY"
+     "WHY YOU SHOULD NEVER",
+     "KEEP ALL YOUR MONEY",
+     "IN ONE BANK"
     ],
     "mood": "tense"
    },
@@ -99,7 +100,7 @@
    }
   },
   {
-   "text": "Would you have pulled your money out too? Tell me below, and remember:",
+   "text": "Would you have pulled your money out too? Tell me below.",
    "spec": {
     "type": "hero",
     "choice": true

@@ -10,8 +10,8 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 L = []
 def A(t, s, **k): L.append(dict(text=t, spec=s, **k))
 SC = [-121.96, 37.35]
-A("Forty-two billion dollars left this bank in one single day.",
-  dict(type="hero", title=["$42 BILLION", "GONE IN ONE DAY"], mood="tense"), rate="+12%")
+A("Why you should never keep all your money in one bank. Forty-two billion dollars left this one in a single day.",
+  dict(type="hero", title=["WHY YOU SHOULD NEVER", "KEEP ALL YOUR MONEY", "IN ONE BANK"], mood="tense"), rate="+12%")
 A("It was Silicon Valley Bank in California, the go-to bank for tech startups.",
   dict(type="map", cam=[-98, 39, 2.0], cam2=[-121.5, 37.0, 10], pins=[dict(at=SC, label="Silicon Valley Bank", col="red", delay=.45)]))
 A("On March eighth, twenty twenty-three, it admitted a one-point-eight-billion-dollar loss on its bonds.",
@@ -26,7 +26,7 @@ A("And about eighty-six percent of the money was above the insured limit of two 
   dict(type="pie"))
 A("Then the government stepped in, and every single depositor got all of their money back.",
   dict(type="rescue"))
-A("Would you have pulled your money out too? Tell me below, and remember:",
+A("Would you have pulled your money out too? Tell me below.",
   dict(type="hero", choice=True))
 P = dict(title="TikTok: $42 billion left one bank in one day (SVB, Sam + detailed coded scenes)",
          _sources=open(__file__).read().split("import json")[0].replace("# ", "").strip(),
