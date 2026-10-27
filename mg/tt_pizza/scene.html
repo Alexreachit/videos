@@ -1,0 +1,304 @@
+<!doctype html><meta charset=utf-8><style>
+@font-face{font-family:P;src:url(fonts/Poppins-Bold.ttf);font-weight:700}
+@font-face{font-family:P;src:url(fonts/Poppins-Medium.ttf);font-weight:500}
+html,body{margin:0;background:#2f86d0}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;font-family:P,Arial,sans-serif;background:radial-gradient(circle at 50% 42%,#8fd3ff 0%,#4fa6e6 48%,#2a76c0 100%)}
+#pat{position:absolute;inset:-60px;opacity:.13;background-image:radial-gradient(circle,#ffffff 1.8px,transparent 2.4px);background-size:52px 52px}
+#mapwrap{position:absolute;inset:0;opacity:0}
+#mapsvg{position:absolute;left:0;top:0}
+#mapov,#imgs,#fg{position:absolute;inset:0}
+#cap{position:absolute;inset:0;z-index:60}
+.land{fill:#f4f8fc;stroke:#7fb0da;stroke-width:1.2;vector-effect:non-scaling-stroke}
+.st{fill:none;stroke:#a9c9e6;stroke-width:1;vector-effect:non-scaling-stroke}
+</style>
+<div id=stage><div id=pat></div>
+ <div id=mapwrap><svg id=mapsvg width=1080 height=1920><g id=mapg></g></svg><div id=mapov></div></div>
+ <div id=imgs></div><div id=fg></div><div id=cap></div></div>
+<script src="../lib/core.js"></script>
+<script src="../lib/mapdata.js"></script>
+<script>
+// TikTok 9:16 – Bitcoin pizza: realistic Gemini scenes + Florida map zoom + forum post, receipt, price chart (sky theme, YT11 style)
+const {cl,ez,ei,bo,el,lerp}=MG,$=MG.$,W=1080,H=1920,CX=540,CY=860;
+const C={cream:'#fff6e6',gold:'#ffc94a',green:'#3ddc84',green2:'#1fa45a',red:'#ff5b4a',red2:'#d6402e',orange:'#ff9f43',blue:'#2f86d0',ink:'#14202c',sand:'#f1d39a',sand2:'#d9b16b',water:'#3f9fe0',water2:'#2b7fc4'};
+let TL=null,fontsOk=false;
+const S=i=>TL.lines[i].start,E=i=>TL.lines[i].end,DU=i=>E(i)-S(i),SP=i=>TL.lines[i].spec;
+const sg=(t,a,b)=>ei(cl(t,a,b));
+// ---------- building blocks
+function TX(x,y,txt,o={}){const p=o.p??1;if(p<=0)return'';const sz=o.size||64,s=o.s??1;
+ return `<div style="position:absolute;left:${x}px;top:${y}px;transform:translate(-50%,-50%) translateY(${((1-Math.min(1,p))*22).toFixed(1)}px) scale(${s.toFixed(3)}) rotate(${o.rot||0}deg);opacity:${Math.min(1,p).toFixed(3)};font:700 ${sz}px/1.05 P,Arial;color:${o.col||C.cream};white-space:nowrap;text-align:center;text-shadow:${MG.outline(o.ol||Math.max(3,Math.round(sz/13)))},0 ${sz/9}px ${sz/3}px #0a2a5099">${txt}</div>`}
+function pill(x,y,txt,o={}){const p=o.p??1;if(p<=0)return'';const sz=o.size||36,s=bo(Math.min(1,p))*(o.s??1);
+ const dot=o.dot?`<span style="display:inline-block;width:${sz*.62}px;height:${sz*.62}px;border-radius:50%;background:${o.dot};margin-right:${sz*.3}px;vertical-align:-${sz*.06}px"></span>`:'';
+ return `<div style="position:absolute;left:${x}px;top:${y}px;transform:translate(-50%,-50%) scale(${s.toFixed(3)});opacity:${Math.min(1,p*2).toFixed(3)};padding:${sz*.34}px ${sz*.7}px;border-radius:${sz*1.2}px;background:${o.bg||'#ffffffee'};color:${o.fg||C.ink};font:700 ${sz}px/1.1 P,Arial;white-space:nowrap;box-shadow:0 10px 26px #0a2a5066">${dot}${txt}</div>`}
+function card(x,y,w,inner,p,o={}){if(p<=0)return'';const s=bo(Math.min(1,p));
+ return `<div style="position:absolute;left:${x-w/2}px;top:${y}px;width:${w}px;box-sizing:border-box;transform:scale(${s.toFixed(3)}) rotate(${o.rot||0}deg);transform-origin:50% 0;opacity:${Math.min(1,p*2).toFixed(3)};padding:${o.pad||'20px 30px'};border-radius:30px;background:${o.bg||'#ffffffee'};box-shadow:0 22px 46px #0a2a5066;color:${C.ink};text-align:${o.align||'center'}">${inner}</div>`}
+function stamp(x,y,txt,p,col=C.red,rot=-8,sz=70){if(p<=0)return'';const s=lerp(2.2,1,ez(Math.min(1,p)));return `<div style="position:absolute;left:${x}px;top:${y}px;transform:translate(-50%,-50%) rotate(${rot}deg) scale(${s.toFixed(3)});opacity:${Math.min(1,p*2.5).toFixed(3)};padding:10px 30px;border:8px solid ${col};border-radius:18px;color:${col};font:700 ${sz}px/1 P;letter-spacing:3px;background:#ffffffdd;white-space:nowrap">${txt}</div>`}
+// ---------- detailed coded art
+const SAM=k=>`img/${k}.png`;
+function sam(k,x,y,w,o={}){if((o.op??1)<=0.001||w<=1)return'';return `<img src="${SAM(k)}" style="position:absolute;left:0;top:0;width:${w.toFixed(1)}px;transform:translate(${(x-w/2).toFixed(1)}px,${(y-w/2).toFixed(1)}px) rotate(${(o.rot||0).toFixed(2)}deg) scaleX(${o.flip?-1:1});opacity:${(o.op??1).toFixed(3)};filter:drop-shadow(0 26px 30px #0a2a5088)">`}
+function pizzaSVG(id){let s=`<defs><radialGradient id="cr${id}" cx=.5 cy=.45 r=.55><stop offset=.8 stop-color="#f3c066"/><stop offset=1 stop-color="#c67a2a"/></radialGradient><radialGradient id="pp${id}" cx=.4 cy=.35 r=.7><stop offset=0 stop-color="#ef5a3c"/><stop offset=1 stop-color="#a32616"/></radialGradient></defs>
+ <circle cx=100 cy=100 r=97 fill="url(#cr${id})" stroke="#8a4a14" stroke-width=3 /><circle cx=100 cy=100 r=84 fill="#e0502c"/><circle cx=100 cy=100 r=81 fill="#ffd25e"/>`;
+ for(let i=0;i<16;i++){const a=MG.rnd(i+3)*6.283,r=MG.rnd(i+7)*70;s+=`<ellipse cx=${(100+Math.cos(a)*r).toFixed(1)} cy=${(100+Math.sin(a)*r).toFixed(1)} rx=${(6+MG.rnd(i)*9).toFixed(1)} ry=${(4+MG.rnd(i+1)*6).toFixed(1)} fill="#fff0a6" opacity=.85 />`}
+ const pp=[[70,62],[122,58],[148,100],[58,112],[100,96],[128,140],[80,148],[42,80],[160,70],[104,168]];
+ pp.forEach((p,i)=>{s+=`<circle cx=${p[0]} cy=${p[1]} r=13 fill="url(#pp${id})" stroke="#7a1c10" stroke-width=1.5 /><circle cx=${p[0]-4} cy=${p[1]-3} r=1.8 fill="#7a1c10"/><circle cx=${p[0]+4} cy=${p[1]+3} r=1.6 fill="#7a1c10"/>`});
+ [[86,78,30],[136,118,-40],[62,136,70],[112,128,10]].forEach(l=>{s+=`<ellipse cx=${l[0]} cy=${l[1]} rx=8 ry=4 fill="#3a9a4a" transform="rotate(${l[2]} ${l[0]} ${l[1]})"/>`});
+ for(let i=0;i<4;i++){const a=i*Math.PI/4;s+=`<line x1=${(100+Math.cos(a)*92).toFixed(1)} y1=${(100+Math.sin(a)*92).toFixed(1)} x2=${(100-Math.cos(a)*92).toFixed(1)} y2=${(100-Math.sin(a)*92).toFixed(1)} stroke="#e8b048" stroke-width=2.2 opacity=.8 />`}
+ return s}
+function pizza(x,y,d,id,rot=0){return `<svg style="position:absolute;left:${x-d/2}px;top:${y-d/2}px;transform:rotate(${rot}deg);filter:drop-shadow(0 ${d/25}px ${d/18}px #0a2a5066)" width=${d} height=${d} viewBox="0 0 200 200">${pizzaSVG(id)}</svg>`}
+function steam(x,y,w,t,op=1){let s='';for(let i=0;i<3;i++){const ph=(t*.6+i/3)%1,yy=-ph*w*.9,o=Math.sin(ph*Math.PI)*.7*op;let d=`M${(i-1)*w*.25} 0`;for(let k=1;k<=6;k++)d+=` Q${((i-1)*w*.25+(k%2?1:-1)*w*.06).toFixed(1)} ${(-k*w*.075+w*.035).toFixed(1)} ${((i-1)*w*.25).toFixed(1)} ${(-k*w*.075).toFixed(1)}`;s+=`<path d="${d}" transform="translate(0 ${yy.toFixed(1)})" stroke="#fff" stroke-width=${(w/40).toFixed(1)} fill=none stroke-linecap=round opacity=${o.toFixed(2)} />`}
+ return `<svg style="position:absolute;left:${x}px;top:${y}px;overflow:visible" width=1 height=1>${s}</svg>`}
+// open pizza box (front tray + lid), centre x,y, width w
+function openBox(x,y,w,id,t){const h=w*.62;return `<svg style="position:absolute;left:${x-w/2}px;top:${y-h*1.25}px;overflow:visible;filter:drop-shadow(0 24px 30px #0a2a5077)" width=${w} height=${h*1.9} viewBox="0 0 200 236">
+ <path d="M14 96 L30 6 L170 6 L186 96 Z" fill="#e2c38d" stroke="#8a6a3a" stroke-width=3 /><path d="M30 6 L170 6 L166 20 L34 20 Z" fill="#cfae74"/><circle cx=72 cy=56 r=9 fill="#c99d55" opacity=.5 /><circle cx=132 cy=40 r=6 fill="#c99d55" opacity=.4 />
+ <path d="M8 100 L192 100 L200 220 L0 220 Z" fill="#ecd3a2" stroke="#8a6a3a" stroke-width=3 /><path d="M0 220 L200 220 L200 236 L0 236 Z" fill="#cfae74" stroke="#8a6a3a" stroke-width=3 />
+ <g transform="translate(26 102) scale(.74 .58)">${pizzaSVG(id)}</g></svg>`+steam(x,y-h*.35,w*.6,t)}
+function closedBox(x,y,w,rot=0){const h=w*.16;return `<svg style="position:absolute;left:${x-w/2}px;top:${y-h/2}px;transform:rotate(${rot}deg);overflow:visible;filter:drop-shadow(0 16px 20px #0a2a5066)" width=${w} height=${h*2.2} viewBox="0 0 200 70"><path d="M10 0 L190 0 L200 30 L0 30 Z" fill="#e8cb93" stroke="#8a6a3a" stroke-width=3 /><rect x=0 y=30 width=200 height=30 fill="#d7b57a" stroke="#8a6a3a" stroke-width=3 /><rect x=78 y=36 width=44 height=18 rx=3 fill="#e8473a"/><circle cx=60 cy=14 r=5 fill="#c99d55" opacity=.5 /></svg>`}
+function bundle(x,y,w){const h=w*.42;return `<svg style="position:absolute;left:${x-w/2}px;top:${y-h/2}px;overflow:visible" width=${w} height=${h} viewBox="0 0 160 68"><rect x=0 y=10 width=160 height=56 rx=4 fill="#3f8a4a" stroke="#1f4d27" stroke-width=3 /><g stroke="#2e6b38" stroke-width=1.5>${[18,26,34,42,50,58].map(v=>`<line x1=2 y1=${v} x2=158 y2=${v}/>`).join('')}</g><rect x=0 y=0 width=160 height=24 rx=4 fill="#7cc786" stroke="#1f4d27" stroke-width=3 /><rect x=6 y=4 width=148 height=16 rx=3 fill="none" stroke="#3f8a4a" stroke-width=2 /><circle cx=80 cy=12 r=7 fill="#3f8a4a"/><rect x=62 y=0 width=36 height=66 fill="#f3e6b0" stroke="#b39a4a" stroke-width=2 /><text x=80 y=46 font-family=P font-size=22 font-weight=700 fill="#8a6a1a" text-anchor=middle>$</text></svg>`}
+function coin(x,y,d,rot=0){return `<div style="position:absolute;left:${x-d/2}px;top:${y-d/2}px;width:${d}px;height:${d}px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffe08a,#f7a325 55%,#c97a10);border:${d/18}px solid #fff3c4;box-shadow:0 ${d/12}px ${d/6}px #0a2a5088,inset 0 0 0 ${d/14}px #e08c12;transform:rotate(${rot}deg);display:flex;align-items:center;justify-content:center;font:700 ${d*.55}px/1 P;color:#fff;text-shadow:0 3px 0 #b86d0a">₿</div>`}
+function palm(x,y,s,t){const sw=Math.sin(t*1.6)*4;let fr='';for(let i=0;i<7;i++){const a=-160+i*25+sw;fr+=`<path d="M0 0 Q${(Math.cos(a*Math.PI/180)*60).toFixed(1)} ${(Math.sin(a*Math.PI/180)*60-30).toFixed(1)} ${(Math.cos(a*Math.PI/180)*120).toFixed(1)} ${(Math.sin(a*Math.PI/180)*120+30).toFixed(1)}" stroke="#2f9a4a" stroke-width=22 fill=none stroke-linecap=round /><path d="M0 0 Q${(Math.cos(a*Math.PI/180)*60).toFixed(1)} ${(Math.sin(a*Math.PI/180)*60-30).toFixed(1)} ${(Math.cos(a*Math.PI/180)*120).toFixed(1)} ${(Math.sin(a*Math.PI/180)*120+30).toFixed(1)}" stroke="#56c06a" stroke-width=8 fill=none stroke-linecap=round />`}
+ let tr='';for(let i=0;i<9;i++)tr+=`<path d="M${(-14+i*1.2).toFixed(1)} ${-i*44} L${(14+i*1.2).toFixed(1)} ${-i*44} L${(12+i*1.4).toFixed(1)} ${-i*44-40} L${(-12+i*1.4).toFixed(1)} ${-i*44-40} Z" fill="${i%2?'#a8743c':'#b9844a'}" stroke="#6a4520" stroke-width=3 />`;
+ return `<svg style="position:absolute;left:${x}px;top:${y}px;overflow:visible" width=1 height=1><g transform="scale(${s})">${tr}<g transform="translate(12 -396) rotate(${sw.toFixed(1)})">${fr}<circle cx=-8 cy=10 r=10 fill="#7a4a1a"/><circle cx=10 cy=14 r=10 fill="#8a5a24"/></g></g></svg>`}
+function house(x,y,w){return `<svg style="position:absolute;left:${x-w/2}px;top:${y-w*.8}px;overflow:visible;filter:drop-shadow(0 20px 24px #0a2a5055)" width=${w} height=${w*.8} viewBox="0 0 500 400">
+ <rect x=40 y=170 width=420 height=230 fill="#fff4dc" stroke="#14202c" stroke-width=6 /><path d="M10 180 L250 40 L490 180 Z" fill="#e0703a" stroke="#14202c" stroke-width=6 stroke-linejoin=round />
+ ${[0,1,2,3].map(r=>`<path d="M${40+r*30} ${163-r*28} L${460-r*30} ${163-r*28}" stroke="#b8542a" stroke-width=4 />`).join('')}
+ <rect x=205 y=245 width=90 height=155 rx=6 fill="#3a7bd5" stroke="#14202c" stroke-width=6 /><circle cx=278 cy=328 r=7 fill="#ffc94a"/><rect x=190 y=392 width=120 height=14 fill="#c9b08a" stroke="#14202c" stroke-width=4 />
+ ${[80,340].map(wx=>`<rect x=${wx} y=235 width=80 height=80 rx=4 fill="#bfe3ff" stroke="#14202c" stroke-width=6 /><line x1=${wx+40} y1=235 x2=${wx+40} y2=315 stroke="#14202c" stroke-width=4 /><line x1=${wx} y1=275 x2=${wx+80} y2=275 stroke="#14202c" stroke-width=4 /><rect x=${wx-18} y=232 width=16 height=86 fill="#2fa36b" stroke="#14202c" stroke-width=4 /><rect x=${wx+82} y=232 width=16 height=86 fill="#2fa36b" stroke="#14202c" stroke-width=4 />`).join('')}
+ <rect x=60 y=330 width=110 height=26 rx=10 fill="#ff8fb0" stroke="#14202c" stroke-width=3 /><rect x=330 y=330 width=110 height=26 rx=10 fill="#ff8fb0" stroke="#14202c" stroke-width=3 /></svg>`}
+function deliveryCar(x,y,w,spin){const r=spin;return `<svg style="position:absolute;left:${x-w/2}px;top:${y-w*.55}px;overflow:visible;filter:drop-shadow(0 16px 18px #0a2a5066)" width=${w} height=${w*.55} viewBox="0 0 400 220">
+ <rect x=150 y=8 width=110 height=40 rx=8 fill="#fff" stroke="#14202c" stroke-width=5 /><text x=205 y=38 font-family=P font-size=26 font-weight=700 fill="#e8473a" text-anchor=middle>PIZZA</text>
+ <path d="M20 170 L20 120 Q24 96 60 92 L110 56 Q124 48 150 48 L280 48 Q306 48 320 64 L352 100 Q384 104 388 130 L388 170 Z" fill="#e8473a" stroke="#14202c" stroke-width=6 stroke-linejoin=round />
+ <path d="M122 64 L200 64 L200 100 L84 100 Z" fill="#cfe3f5" stroke="#14202c" stroke-width=5 /><path d="M214 64 L290 64 L326 100 L214 100 Z" fill="#cfe3f5" stroke="#14202c" stroke-width=5 /><rect x=356 y=112 width=24 height=14 rx=4 fill="#ffe08a"/>
+ ${[95,305].map(cx=>`<g transform="translate(${cx} 172) rotate(${r.toFixed(1)})"><circle r=38 fill="#2b2f36" stroke="#14202c" stroke-width=5 /><circle r=18 fill="#c9d1da"/><rect x=-3 y=-18 width=6 height=36 fill="#8a96a3"/><rect x=-18 y=-3 width=36 height=6 fill="#8a96a3"/></g>`).join('')}</svg>`}
+// ---------- MAP (Florida zoom)
+let mapBuilt=false;
+function buildMap(){let h='';for(const k in WORLD)h+=`<path id="c_${k}" class=land d="${WORLD[k]}"/>`;h+='<g id=usst>';for(const k in USST)h+=`<path id="s_${k}" class=st d="${USST[k]}"/>`;h+='</g>';$('mapg').innerHTML=h;mapBuilt=true}
+function camOf(c){const [x,y]=MAPP(c[0],c[1]);return {x,y,z:c[2]}}
+function scr(cam,lon,lat){const [x,y]=MAPP(lon,lat),s=.96*cam.z;return [CX+(x-cam.x)*s,CY+(y-cam.y)*s]}
+function mapVis(t){let v=0;const N=TL.lines.length;for(let k=0;k<N;k++){if(SP(k).type!=='map')continue;const a=S(k)-.4,b=k+1<N?S(k+1)+.35:TL.dur+1;v=Math.max(v,cl(t,a,a+.4)*(1-cl(t,b-.4,b)))}return v}
+function drawMap(t){const v=mapVis(t);$('mapwrap').style.opacity=v.toFixed(3);if(v<=0){if($('mapov')._h){$('mapov').innerHTML='';$('mapov')._h=''}return}
+ if(!mapBuilt)buildMap();let j=0;TL.lines.forEach((l,k)=>{if(SP(k).type==='map')j=k});const sp=SP(j),a=S(j),D=DU(j);
+ const c1=camOf(sp.cam),c2=camOf(sp.cam2),q0=sg(t,a-.4,a+.6),q=sg(t,a+D*.15,a+D*.6);
+ const from={x:c1.x,y:c1.y,z:c1.z*.5};let c={x:lerp(from.x,c1.x,q0),y:lerp(from.y,c1.y,q0),z:Math.exp(lerp(Math.log(from.z),Math.log(c1.z),q0))};
+ c={x:lerp(c.x,c2.x,q),y:lerp(c.y,c2.y,q),z:Math.exp(lerp(Math.log(c.z),Math.log(c2.z),q))};const s=.96*c.z;
+ $('mapg').setAttribute('transform',`translate(${(CX-c.x*s).toFixed(2)},${(CY-c.y*s).toFixed(2)}) scale(${s.toFixed(4)})`);
+ const on=t>a+D*.4;if($('mapg')._fl!==on){const f=$('s_FL');if(f){f.style.fill=on?'#ffe8a8':'';f.style.stroke=on?'#e0a020':'';f.style.strokeWidth=on?3:''}$('mapg')._fl=on}
+ let ov='';(sp.pins||[]).forEach((pn,k)=>{const [x,y]=scr(c,pn.at[0],pn.at[1]);const st=a+D*pn.delay,qq=cl(t,st,st+.35);if(qq<=0)return;
+  ov+=`<div style="position:absolute;left:${x-17}px;top:${y-17}px;width:34px;height:34px;border-radius:50%;background:${C.red};border:6px solid #fff;box-sizing:border-box;transform:scale(${bo(qq).toFixed(3)});box-shadow:0 0 0 ${(10+8*Math.sin(t*6)).toFixed(1)}px #ff5b4a44"></div>`+pill(x,y-70,pn.label,{p:cl(t,st+.1,st+.45),size:36,dot:C.red})});
+ if(sp.post){const pq=cl(t,a+D*.6,a+D*.75);if(pq>0){
+  ov+=`<div style="position:absolute;left:70px;top:1110px;width:940px;border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 30px 60px #0a2a5088;transform:translateY(${((1-ez(pq))*120).toFixed(1)}px) rotate(-1.5deg);opacity:${Math.min(1,pq*2).toFixed(3)};font-family:Verdana,Arial,sans-serif;color:#222">
+   <div style="background:linear-gradient(#5b7fa6,#3f5f86);color:#fff;padding:14px 22px;font:bold 26px Verdana">Bitcoin Forum › Marketplace</div>
+   <div style="display:flex;gap:22px;padding:22px"><div style="flex:none;width:88px;height:88px;border-radius:8px;background:#d8e2ee;display:flex;align-items:center;justify-content:center;font:700 52px P;color:#8aa0b8">?</div>
+   <div><div style="font:bold 34px Verdana;color:#2a4e7a">Pizza for bitcoins?</div><div style="font:22px Verdana;color:#777;margin:6px 0 12px">May 18, 2010</div>
+   <div style="font:27px/1.35 Verdana">“I'll pay 10,000 bitcoins for a couple of pizzas.. like maybe 2 large ones”</div></div></div></div>`}}
+ if(ov!==$('mapov')._h){$('mapov').innerHTML=ov;$('mapov')._h=ov}}
+// ---------- coded segments
+const ANIM={
+ hero(t,k){const sp=SP(k),a=S(k),D=DU(k);let h='';const first=k===0,p=first?1:el(cl(t,a-.3,a+.4));
+  // ground shadow + table
+  h+=`<div style="position:absolute;left:120px;top:1330px;width:840px;height:60px;border-radius:50%;background:#0a2a5033"></div>`;
+  h+=sam('samthink',330,1060,lerp(0,640,p),{rot:Math.sin(t*1.5)*1.2});
+  h+=closedBox(760,1290,430);h+=openBox(760,1260,400,'h'+k,t);
+  if(sp.title){const q=1-cl(t,a+D*.75,a+D*.95);if(q>0)h+=`<div style="opacity:${q.toFixed(3)}">${TX(540,250,sp.title[0],{size:120,col:C.gold})}${TX(540,370,sp.title[1],{size:58})}</div>`;
+   const pq=sg(t,a+D*.25,a+D*.55);if(pq>0&&q>0)h+=pill(760,780,'= $'+MG.fmt(lerp(0,798,pq),0)+' million',{p:q*cl(t,a+D*.25,a+D*.35),size:44,bg:C.red2,fg:'#fff'})}
+  if(sp.choice){const end=TL.dur,out=1-cl(t,end-.75,end-.25);
+   h+=`<div style="opacity:${out.toFixed(3)}">`+TX(540,260,'WHAT WOULD YOU DO?',{size:62,p:cl(t,a+.1,a+.4)})+pill(540,470,'🍕 EAT THE PIZZA',{p:cl(t,a+D*.2,a+D*.35),size:58,bg:'#fff'})+pill(540,620,'₿ KEEP THE BITCOIN',{p:cl(t,a+D*.4,a+D*.55),size:58,bg:C.orange,fg:'#fff'})+`</div>`;
+   const tin=cl(t,end-.6,end-.08);if(tin>0)h+=`<div style="opacity:${tin.toFixed(3)}">${TX(540,250,'$798 MILLION',{size:120,col:C.gold})}${TX(540,370,'FOR TWO PIZZAS',{size:58})}</div>`}
+  return h},
+ deal(t,a0){const a=S(a0),D=DU(a0);let h='';const q=sg(t,a+.2,a+D*.45);
+  for(let i=0;i<16;i++){const qi=cl(t,a+.1+i*.05,a+.5+i*.05);if(qi<=0)continue;h+=coin(300+((i*53)%160)-80,980-i*24*ez(qi)-(1-ez(qi))*320,140,(i*37)%60-30)}
+  h+=TX(300,1160,MG.fmt(10000*q,0)+' BTC',{size:78,col:C.gold,p:cl(t,a+.2,a+.5)});
+  h+=TX(560,800,'=',{size:140,p:cl(t,a+D*.35,a+D*.45)});
+  const pq=cl(t,a+D*.4,a+D*.55);h+=pizza(800,690,lerp(0,300,bo(pq)),'d1',t*8)+pizza(820,960,lerp(0,300,bo(cl(t,a+D*.45,a+D*.6))),'d2',-t*8);
+  h+=card(800,1130,360,`<div style="font:500 30px P;color:#4a5b6c">worth back then</div><div style="font:700 110px/1 P;color:${C.green2}">$41</div>`,cl(t,a+D*.6,a+D*.72))+
+   pill(540,1420,'1 bitcoin ≈ $0.004',{p:cl(t,a+D*.78,a+D*.9),size:48,dot:C.orange})+pill(540,330,'"2 large ones"',{p:cl(t,a+.2,a+.5),size:52,dot:C.red});
+  return h},
+ deliver(t,a0){const a=S(a0),D=DU(a0);let h='';const sp=SP(a0);
+  h+=`<div style="position:absolute;left:0;top:1240px;width:1080px;height:700px;background:linear-gradient(#6cc06f,#3f9a52)"></div><div style="position:absolute;left:0;top:1330px;width:1080px;height:110px;background:#5d6670;border-top:8px solid #c9d1da"></div>`;
+  for(let i=0;i<8;i++)h+=`<div style="position:absolute;left:${i*150+20}px;top:1380px;width:80px;height:10px;background:#ffd94a"></div>`;
+  h+=palm(120,1250,.95,t)+house(640,1250,620)+palm(980,1260,.8,t+1);
+  const cq=sg(t,a-.2,a+D*.4),cx=lerp(-300,300,cq);h+=deliveryCar(cx,1400,380,cq*720);
+  const dq=cl(t,a+D*.3,a+D*.45);h+=sam('samhappy',640,1150,lerp(0,330,el(dq)));
+  const bq=sg(t,a+D*.45,a+D*.7);if(bq>0){const bx=lerp(cx+40,700,bq),by=lerp(1300,1180,bq)-Math.sin(bq*Math.PI)*260;h+=closedBox(bx,by,180,bq*360)+closedBox(bx,by-28,180,bq*360)}
+  (sp.chips||[]).forEach((c2,i)=>{h+=pill(540,260+i*110,c2,{p:cl(t,a+.3+i*.6,a+.6+i*.6),size:48,dot:i?C.orange:C.green})});
+  return h},
+ money(t,a0){const a=S(a0),D=DU(a0);let h='';const q=sg(t,a+.1,a+D*.8),rows=Math.floor(q*26);
+  h+=`<div style="position:absolute;left:0;top:1360px;width:1080px;height:600px;background:linear-gradient(#6cc06f,#3f9a52)"></div>`;
+  for(let r=0;r<rows;r++)for(let c=0;c<3;c++){const x=660+(c-1)*130+((r%2)*20-10),y=1340-r*40;h+=bundle(x,y,140)}
+  if(q<1&&rows<26){const x=660+((rows%2)*20-10),y=1340-rows*40-60*(1-((t*3)%1));h+=bundle(x,y,140)}
+  h+=closedBox(250,1335,230)+closedBox(250,1300,230);h+=sam('samthink',250,1100,330,{rot:-4});
+  h+=TX(540,250,'×'+MG.fmt(19000000*sg(t,a+.2,a+D*.75),0),{size:118,col:C.gold,p:cl(t,a,a+.3)})+pill(540,390,'what he paid',{p:cl(t,a+D*.5,a+D*.65),size:44});
+  h+=pill(250,1450,'$41',{p:cl(t,a+.2,a+.5),size:44,dot:C.green2})+pill(660,1450,'$798M',{p:cl(t,a+D*.5,a+D*.65),size:44,dot:C.green2});
+  return h},
+ party(t,a0){const a=S(a0),D=DU(a0);let h='';
+  // bunting
+  let bt='';for(let i=0;i<12;i++){const x=i*95+10,sw=Math.sin(t*2+i)*4;bt+=`<path d="M${x} 150 L${x+90} 150 L${x+45+sw} 225 Z" fill="${['#ff5b4a','#ffc94a','#3a7bd5','#2fa36b'][i%4]}" stroke="#14202c" stroke-width=3 />`}
+  h+=`<svg style="position:absolute;left:0;top:0" width=1080 height=400><path d="M0 150 Q540 175 1080 150" stroke="#14202c" stroke-width=4 fill=none />${bt}</svg>`;
+  // confetti
+  for(let i=0;i<70;i++){const x=(MG.rnd(i)*1080+Math.sin(t*2+i)*30),y=((MG.rnd(i+40)*1900+(t-a)*(180+MG.rnd(i+9)*160))%1900),c=['#ff5b4a','#ffc94a','#3a7bd5','#2fa36b','#fff','#ff8fb0'][i%6];h+=`<div style="position:absolute;left:${x.toFixed(0)}px;top:${y.toFixed(0)}px;width:16px;height:26px;background:${c};transform:rotate(${((t*200+i*40)%360).toFixed(0)}deg) scaleX(${Math.cos(t*5+i).toFixed(2)});opacity:${cl(t,a-.2,a+.3).toFixed(2)}"></div>`}
+  // table with pizzas + coins
+  h+=`<div style="position:absolute;left:60px;top:1250px;width:960px;height:60px;border-radius:14px;background:#c98a4a;border:6px solid #14202c"></div><div style="position:absolute;left:110px;top:1310px;width:40px;height:200px;background:#a8743c;border:6px solid #14202c"></div><div style="position:absolute;left:930px;top:1310px;width:40px;height:200px;background:#a8743c;border:6px solid #14202c"></div>`;
+  h+=pizza(240,1235,230,'q1',0)+pizza(840,1235,230,'q2',20)+coin(470,1240,90,-10)+coin(560,1250,80,15)+coin(640,1236,90,5);
+  h+=sam('samhappy',540,980,lerp(0,520,el(cl(t,a-.2,a+.5))));
+  // calendar page
+  const cq=cl(t,a+D*.25,a+D*.4);if(cq>0)h+=`<div style="position:absolute;left:640px;top:360px;width:330px;border-radius:24px;overflow:hidden;background:#fff;box-shadow:0 26px 50px #0a2a5088;transform:rotate(6deg) scale(${bo(cq).toFixed(3)});text-align:center"><div style="background:${C.red2};color:#fff;font:700 44px/1 P;padding:16px">MAY</div><div style="font:700 150px/1.1 P;color:${C.ink}">22</div><div style="font:700 30px P;color:${C.orange};padding-bottom:18px">every year</div></div>`;
+  h+=pill(320,470,'Bitcoin Pizza Day',{p:cl(t,a+D*.55,a+D*.7),size:44,bg:C.orange,fg:'#fff'});
+  return h},
+ receipt(t,a0){const a=S(a0),D=DU(a0);let h='';const q=sg(t,a-.1,a+D*.45),hh=lerp(0,760,q);
+  h+=`<div style="position:absolute;left:290px;top:230px;width:500px;height:${hh.toFixed(0)}px;overflow:hidden;background:#fffdf6;box-shadow:0 30px 60px #0a2a5088;transform:rotate(-2deg) scale(1.42);transform-origin:50% 0;font-family:'Courier New',monospace;color:#222;padding:0 36px;box-sizing:border-box">
+   <div style="padding-top:34px;text-align:center;font:bold 34px 'Courier New'">PIZZA ORDER</div><div style="text-align:center;font:24px 'Courier New';color:#666">May 22, 2010 · Florida</div>
+   <div style="border-top:3px dashed #999;margin:22px 0"></div><div style="display:flex;justify-content:space-between;font:28px 'Courier New'"><span>2x Large Pizza</span><span>✓</span></div>
+   <div style="border-top:3px dashed #999;margin:22px 0"></div><div style="font:bold 30px 'Courier New'">PAID WITH:</div><div style="font:bold 52px 'Courier New';color:#d9820f;margin:10px 0">10,000 BTC</div><div style="font:26px 'Courier New';color:#666">(≈ $41.00 at the time)</div>
+   <div style="border-top:3px dashed #999;margin:22px 0"></div><div style="text-align:center;font:22px 'Courier New';color:#888">THANK YOU</div></div>`;
+  h+=stamp(560,1300,'FIRST BITCOIN PURCHASE',cl(t,a+D*.55,a+D*.65),C.green2,-6,50);return h},
+ chart(t,a0){const a=S(a0),D=DU(a0);let h='';
+  // BTC price (approx., log scale): May 2010 → Oct 2026
+  const P=[[2010.4,.004],[2010.99,.3],[2011.45,30],[2011.99,4.7],[2012.99,13.5],[2013.92,1100],[2014.99,320],[2015.99,430],[2016.99,960],[2017.96,19000],[2018.99,3700],[2019.99,7200],[2020.99,29000],[2021.86,67000],[2022.99,16500],[2023.99,42000],[2024.99,93000],[2025.8,110000],[2026.82,79769]];
+  const X=v=>110+(v-2010.4)/(2026.82-2010.4)*860,Y=v=>1180-(Math.log10(v)+3)/(5.2+3)*720,q=sg(t,a+.3,a+D*.75);
+  let d='',tip=[X(P[0][0]),Y(P[0][1])];const tx=2010.4+q*(2026.82-2010.4);
+  for(let i=0;i<P.length;i++){if(P[i][0]<=tx){d+=(i?'L':'M')+X(P[i][0]).toFixed(1)+' '+Y(P[i][1]).toFixed(1);tip=[X(P[i][0]),Y(P[i][1])]}else{const p0=P[i-1],f=(tx-p0[0])/(P[i][0]-p0[0]),lv=lerp(Math.log10(p0[1]),Math.log10(P[i][1]),f);tip=[X(tx),Y(Math.pow(10,lv))];d+='L'+tip[0].toFixed(1)+' '+tip[1].toFixed(1);break}}
+  h+=`<svg style="position:absolute;left:0;top:0" width=1080 height=1920><rect x=90 y=420 width=900 height=800 rx=30 fill="#ffffff22" />${[2012,2016,2020,2024].map(y=>`<line x1=${X(y)} y1=440 x2=${X(y)} y2=1190 stroke="#ffffff33" stroke-width=3 /><text x=${X(y)} y=1250 fill="#fff" font-family=P font-size=34 font-weight=700 text-anchor=middle>${y}</text>`).join('')}<path d="${d}" stroke="#fff" stroke-width=18 fill=none stroke-linejoin=round stroke-linecap=round opacity=.6 /><path d="${d}" stroke="${C.orange}" stroke-width=9 fill=none stroke-linejoin=round stroke-linecap=round /></svg>`;
+  h+=`<div style="position:absolute;left:${tip[0]-22}px;top:${tip[1]-22}px;width:44px;height:44px;border-radius:50%;background:${C.orange};border:7px solid #fff;box-sizing:border-box;box-shadow:0 0 0 ${(10+8*Math.sin(t*7)).toFixed(1)}px #ff9f4355"></div>`;
+  const val=Math.pow(10,lerp(Math.log10(41),Math.log10(797694000),q));
+  h+=card(540,130,880,`<div style="font:500 32px P;color:#4a5b6c">10,000 BTC are worth</div><div style="font:700 98px/1.05 P;color:${q>.98?C.green2:C.ink}">$${MG.fmt(val,0)}</div>`,cl(t,a+.1,a+.4));
+  h+=pill(540,1340,'1 BTC = $79,769 · Oct 27, 2026',{p:cl(t,a+D*.78,a+D*.9),size:38,dot:C.orange});return h}
+};
+function fgLayer(t){let h='';const N=TL.lines.length;
+ for(let k=0;k<N;k++){const ty=SP(k).type;if(!ANIM[ty])continue;const a=k===0?-1:S(k)-.4,b=k+1<N?S(k+1)+.4:TL.dur+1;if(t<a||t>b)continue;const op=cl(t,a,a+.45)*(1-cl(t,b-.45,b));if(op<=0)continue;
+  h+=`<div style="position:absolute;inset:0;opacity:${op.toFixed(3)};transform:scale(${(1+.03*(1-op)).toFixed(4)})">${ANIM[ty](t,k)}</div>`}
+ return h}
+function draw(t){if(!TL)return;drawMap(t);
+ const fh=fgLayer(t);if(fh!==$('fg')._h){$('fg').innerHTML=fh;$('fg')._h=fh}
+ $('pat').style.transform=`translateY(${(-(t/TL.dur*52*8)%52).toFixed(1)}px)`;
+ const c=t>=TL.lines[TL.lines.length-1].end-.02?'':MG.captions(t,{y:1570,size:66,maxWords:3,stageW:1080,w:940,upper:true});if(c!==$('cap')._h){$('cap').innerHTML=c;$('cap')._h=c}
+ MG.grainTick(t)}
+let imgReady=false;
+window.setTimeline=tl=>{MG.TL=TL=tl;MG.preload(['samhappy','samthink'].map(SAM));Promise.all([document.fonts.load('700 50px P'),document.fonts.load('500 50px P')]).then(()=>{fontsOk=true},()=>{fontsOk=true})};
+Object.defineProperty(window,'ready',{configurable:true,get(){return imgReady&&fontsOk},set(v){imgReady=v}});
+window.sfxEvents=()=>{const ev=[],N=TL.lines.length,add=(k,t,o={})=>ev.push(Object.assign({k,t:+t.toFixed(3)},o));
+ for(let i=1;i<N;i++)add(i%2?'whoosh':'swish',S(i)-.3,{d:.6});
+ const s=k=>S(k),d=k=>DU(k);
+ add('impact',s(0)+d(0)*.55);
+ add('pop',s(1)+d(1)*.45);add('swish',s(1)+d(1)*.6);
+ for(let i=0;i<8;i++)add('tick',s(2)+.25+i*.11,{f:1700-i*60});add('ding',s(2)+d(2)*.6);
+ add('pop',s(3)+.3);add('pop',s(3)+.9);
+ for(let i=0;i<5;i++)add('click',s(4)+i*d(4)*.09);add('impact',s(4)+d(4)*.58);
+ for(let i=0;i<10;i++)add('tick',s(5)+d(5)*(.3+i*.045),{f:1200+i*60});add('cash',s(5)+d(5)*.78);
+ add('impact',s(6)+.2);add('ding',s(6)+d(6)*.6);
+ add('pop',s(7)+.3);add('pop',s(7)+.9);
+ add('pop',s(8)+d(8)*.22);add('pop',s(8)+d(8)*.42);
+ ev.sort((a,b)=>a.t-b.t);const out=[];for(const e of ev){if(e.t<0)e.t=0;if(!out.find(o=>o.k==e.k&&Math.abs(o.t-e.t)<.12))out.push(e)}return out};
+window.draw=draw;
+MG.finish($('stage'),1080,1920,.04,'#0a2a5022',65);
+</script>
+<script src="../lib/mapdata.js"></script>
+<script>
+// TikTok 9:16 – Bitcoin pizza: realistic Gemini scenes + Florida map zoom + forum post, receipt, price chart (sky theme, YT11 style)
+const {cl,ez,ei,bo,el,lerp}=MG,$=MG.$,W=1080,H=1920,CX=540,CY=860;
+const C={cream:'#fff6e6',gold:'#ffc94a',green:'#3ddc84',green2:'#1fa45a',red:'#ff5b4a',red2:'#d6402e',orange:'#ff9f43',blue:'#2f86d0',ink:'#14202c',sand:'#f1d39a',sand2:'#d9b16b',water:'#3f9fe0',water2:'#2b7fc4'};
+let TL=null,fontsOk=false;
+const S=i=>TL.lines[i].start,E=i=>TL.lines[i].end,DU=i=>E(i)-S(i),SP=i=>TL.lines[i].spec;
+const sg=(t,a,b)=>ei(cl(t,a,b));
+// ---------- building blocks
+function TX(x,y,txt,o={}){const p=o.p??1;if(p<=0)return'';const sz=o.size||64,s=o.s??1;
+ return `<div style="position:absolute;left:${x}px;top:${y}px;transform:translate(-50%,-50%) translateY(${((1-Math.min(1,p))*22).toFixed(1)}px) scale(${s.toFixed(3)}) rotate(${o.rot||0}deg);opacity:${Math.min(1,p).toFixed(3)};font:700 ${sz}px/1.05 P,Arial;color:${o.col||C.cream};white-space:nowrap;text-align:center;text-shadow:${MG.outline(o.ol||Math.max(3,Math.round(sz/13)))},0 ${sz/9}px ${sz/3}px #0a2a5099">${txt}</div>`}
+function pill(x,y,txt,o={}){const p=o.p??1;if(p<=0)return'';const sz=o.size||36,s=bo(Math.min(1,p))*(o.s??1);
+ const dot=o.dot?`<span style="display:inline-block;width:${sz*.62}px;height:${sz*.62}px;border-radius:50%;background:${o.dot};margin-right:${sz*.3}px;vertical-align:-${sz*.06}px"></span>`:'';
+ return `<div style="position:absolute;left:${x}px;top:${y}px;transform:translate(-50%,-50%) scale(${s.toFixed(3)});opacity:${Math.min(1,p*2).toFixed(3)};padding:${sz*.34}px ${sz*.7}px;border-radius:${sz*1.2}px;background:${o.bg||'#ffffffee'};color:${o.fg||C.ink};font:700 ${sz}px/1.1 P,Arial;white-space:nowrap;box-shadow:0 10px 26px #0a2a5066">${dot}${txt}</div>`}
+function card(x,y,w,inner,p,o={}){if(p<=0)return'';const s=bo(Math.min(1,p));
+ return `<div style="position:absolute;left:${x-w/2}px;top:${y}px;width:${w}px;box-sizing:border-box;transform:scale(${s.toFixed(3)}) rotate(${o.rot||0}deg);transform-origin:50% 0;opacity:${Math.min(1,p*2).toFixed(3)};padding:${o.pad||'20px 30px'};border-radius:30px;background:${o.bg||'#ffffffee'};box-shadow:0 22px 46px #0a2a5066;color:${C.ink};text-align:${o.align||'center'}">${inner}</div>`}
+function stamp(x,y,txt,p,col=C.red,rot=-8,sz=70){if(p<=0)return'';const s=lerp(2.2,1,ez(Math.min(1,p)));return `<div style="position:absolute;left:${x}px;top:${y}px;transform:translate(-50%,-50%) rotate(${rot}deg) scale(${s.toFixed(3)});opacity:${Math.min(1,p*2.5).toFixed(3)};padding:10px 30px;border:8px solid ${col};border-radius:18px;color:${col};font:700 ${sz}px/1 P;letter-spacing:3px;background:#ffffffdd;white-space:nowrap">${txt}</div>`}
+const IMG=k=>`img/${k}.jpg`;
+// ---------- MAP (Florida zoom)
+let mapBuilt=false;
+function buildMap(){let h='';for(const k in WORLD)h+=`<path id="c_${k}" class=land d="${WORLD[k]}"/>`;h+='<g id=usst>';for(const k in USST)h+=`<path id="s_${k}" class=st d="${USST[k]}"/>`;h+='</g>';$('mapg').innerHTML=h;mapBuilt=true}
+function camOf(c){const [x,y]=MAPP(c[0],c[1]);return {x,y,z:c[2]}}
+function scr(cam,lon,lat){const [x,y]=MAPP(lon,lat),s=.96*cam.z;return [CX+(x-cam.x)*s,CY+(y-cam.y)*s]}
+function mapVis(t){let v=0;const N=TL.lines.length;for(let k=0;k<N;k++){if(SP(k).type!=='map')continue;const a=S(k)-.4,b=k+1<N?S(k+1)+.35:TL.dur+1;v=Math.max(v,cl(t,a,a+.4)*(1-cl(t,b-.4,b)))}return v}
+function drawMap(t){const v=mapVis(t);$('mapwrap').style.opacity=v.toFixed(3);if(v<=0){if($('mapov')._h){$('mapov').innerHTML='';$('mapov')._h=''}return}
+ if(!mapBuilt)buildMap();let j=0;TL.lines.forEach((l,k)=>{if(SP(k).type==='map')j=k});const sp=SP(j),a=S(j),D=DU(j);
+ const c1=camOf(sp.cam),c2=camOf(sp.cam2),q0=sg(t,a-.4,a+.6),q=sg(t,a+D*.15,a+D*.6);
+ const from={x:c1.x,y:c1.y,z:c1.z*.5};let c={x:lerp(from.x,c1.x,q0),y:lerp(from.y,c1.y,q0),z:Math.exp(lerp(Math.log(from.z),Math.log(c1.z),q0))};
+ c={x:lerp(c.x,c2.x,q),y:lerp(c.y,c2.y,q),z:Math.exp(lerp(Math.log(c.z),Math.log(c2.z),q))};const s=.96*c.z;
+ $('mapg').setAttribute('transform',`translate(${(CX-c.x*s).toFixed(2)},${(CY-c.y*s).toFixed(2)}) scale(${s.toFixed(4)})`);
+ const on=t>a+D*.4;if($('mapg')._fl!==on){const f=$('s_FL');if(f){f.style.fill=on?'#ffe8a8':'';f.style.stroke=on?'#e0a020':'';f.style.strokeWidth=on?3:''}$('mapg')._fl=on}
+ let ov='';(sp.pins||[]).forEach((pn,k)=>{const [x,y]=scr(c,pn.at[0],pn.at[1]);const st=a+D*pn.delay,qq=cl(t,st,st+.35);if(qq<=0)return;
+  ov+=`<div style="position:absolute;left:${x-17}px;top:${y-17}px;width:34px;height:34px;border-radius:50%;background:${C.red};border:6px solid #fff;box-sizing:border-box;transform:scale(${bo(qq).toFixed(3)});box-shadow:0 0 0 ${(10+8*Math.sin(t*6)).toFixed(1)}px #ff5b4a44"></div>`+pill(x,y-70,pn.label,{p:cl(t,st+.1,st+.45),size:36,dot:C.red})});
+ if(sp.post){const pq=cl(t,a+D*.6,a+D*.75);if(pq>0){
+  ov+=`<div style="position:absolute;left:70px;top:1110px;width:940px;border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 30px 60px #0a2a5088;transform:translateY(${((1-ez(pq))*120).toFixed(1)}px) rotate(-1.5deg);opacity:${Math.min(1,pq*2).toFixed(3)};font-family:Verdana,Arial,sans-serif;color:#222">
+   <div style="background:linear-gradient(#5b7fa6,#3f5f86);color:#fff;padding:14px 22px;font:bold 26px Verdana">Bitcoin Forum › Marketplace</div>
+   <div style="display:flex;gap:22px;padding:22px"><div style="flex:none;width:88px;height:88px;border-radius:8px;background:#d8e2ee;display:flex;align-items:center;justify-content:center;font:700 52px P;color:#8aa0b8">?</div>
+   <div><div style="font:bold 34px Verdana;color:#2a4e7a">Pizza for bitcoins?</div><div style="font:22px Verdana;color:#777;margin:6px 0 12px">May 18, 2010</div>
+   <div style="font:27px/1.35 Verdana">“I'll pay 10,000 bitcoins for a couple of pizzas.. like maybe 2 large ones”</div></div></div></div>`}}
+ if(ov!==$('mapov')._h){$('mapov').innerHTML=ov;$('mapov')._h=ov}}
+// ---------- full-screen realistic scenes (Gemini)
+function imgLayer(t){let h='';const N=TL.lines.length;
+ for(let k=0;k<N;k++){const sp=SP(k);if(sp.type!=='img')continue;const a=k==0?-1:S(k)-.4,b=k+1<N?S(k+1)+.4:TL.dur+1;if(t<a||t>b)continue;
+  const op=cl(t,a,a+.45)*(1-cl(t,b-.45,b));if(op<=0)continue;
+  const ka=k==0?0:a,kb=k+1<N?b:TL.dur,u=cl(t,ka,kb);
+  let z=1.04+.08*u,dx=(k%2?-1:1)*30*(u-.5);if(sp.choice){z=1.12-.08*u;dx=30*(.5-u)}
+  let ov='';
+  (sp.chips||[]).forEach((c2,i)=>{ov+=pill(540,260+i*110,c2,{p:cl(t,S(k)+.3+i*.6,S(k)+.6+i*.6),size:48,dot:i?C.gold:C.green})});
+  if(sp.title){const q=1-cl(t,S(k)+DU(k)*.75,S(k)+DU(k)*.95);if(q>0)ov+=`<div style="opacity:${q.toFixed(3)}">${TX(540,250,sp.title[0],{size:120,col:C.gold})}${TX(540,370,sp.title[1],{size:58})}</div>`}
+  if(sp.big){const a2=S(k),D2=DU(k),q=sg(t,a2+.2,a2+D2*.7);ov+=TX(540,300,'×'+MG.fmt(19000000*q,0),{size:118,col:C.gold,p:cl(t,a2,a2+.3)})+pill(540,440,'what he paid',{p:cl(t,a2+D2*.5,a2+D2*.65),size:44})}
+  if(sp.choice){const end=TL.dur,out=1-cl(t,end-.75,end-.25),a2=S(k),D2=DU(k);
+   ov+=`<div style="opacity:${out.toFixed(3)}">`+TX(540,260,'WHAT WOULD YOU DO?',{size:62,p:cl(t,a2+.1,a2+.4)})+pill(540,470,'🍕 EAT THE PIZZA',{p:cl(t,a2+D2*.2,a2+D2*.35),size:58,bg:'#fff'})+pill(540,620,'₿ KEEP THE BITCOIN',{p:cl(t,a2+D2*.4,a2+D2*.55),size:58,bg:C.orange,fg:'#fff'})+`</div>`;
+   const tin=cl(t,end-.6,end-.08);if(tin>0)ov+=`<div style="opacity:${tin.toFixed(3)}">${TX(540,250,'$798 MILLION',{size:120,col:C.gold})}${TX(540,370,'FOR TWO PIZZAS',{size:58})}</div>`}
+  h+=`<div style="position:absolute;inset:0;opacity:${op.toFixed(3)}"><img src="${IMG(sp.img)}" style="position:absolute;left:0;top:0;width:1080px;height:1920px;object-fit:cover;transform:translateX(${dx.toFixed(1)}px) scale(${z.toFixed(4)})"><div style="position:absolute;inset:0;background:linear-gradient(180deg,#0a2a5055 0%,transparent 26%,transparent 66%,#0a2a5088 100%)"></div>${ov}</div>`}
+ return h}
+// ---------- coded segments
+function coin(x,y,d,rot=0){return `<div style="position:absolute;left:${x-d/2}px;top:${y-d/2}px;width:${d}px;height:${d}px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffe08a,#f7a325 55%,#c97a10);border:${d/18}px solid #fff3c4;box-shadow:0 ${d/12}px ${d/6}px #0a2a5088,inset 0 0 0 ${d/14}px #e08c12;transform:rotate(${rot}deg);display:flex;align-items:center;justify-content:center;font:700 ${d*.55}px/1 P;color:#fff;text-shadow:0 3px 0 #b86d0a">₿</div>`}
+const ANIM={
+ deal(t,a0){const a=S(a0),D=DU(a0);let h='';const q=sg(t,a+.2,a+D*.45);
+  for(let i=0;i<14;i++){const qi=cl(t,a+.1+i*.05,a+.5+i*.05);if(qi<=0)continue;h+=coin(380+((i*53)%140)-70,880-i*26*ez(qi)-(1-ez(qi))*300,150,(i*37)%60-30)}
+  h+=TX(380,1080,MG.fmt(10000*q,0)+' BTC',{size:84,col:C.gold,p:cl(t,a+.2,a+.5)});
+  h+=TX(700,700,'=',{size:140,p:cl(t,a+D*.5,a+D*.6)});
+  h+=card(800,560,360,`<div style="font:500 30px P;color:#4a5b6c">back then</div><div style="font:700 110px/1 P;color:${C.green2}">$41</div>`,cl(t,a+D*.55,a+D*.7))+
+   pill(540,1250,'1 bitcoin ≈ $0.004',{p:cl(t,a+D*.75,a+D*.88),size:48,dot:C.orange})+pill(540,330,'2 large pizzas',{p:cl(t,a+.2,a+.5),size:48,dot:C.red});
+  return h},
+ receipt(t,a0){const a=S(a0),D=DU(a0);let h='';const q=sg(t,a-.1,a+D*.45),hh=lerp(0,760,q);
+  h+=`<div style="position:absolute;left:290px;top:230px;width:500px;height:${hh.toFixed(0)}px;overflow:hidden;background:#fffdf6;box-shadow:0 30px 60px #0a2a5088;transform:rotate(-2deg) scale(1.42);transform-origin:50% 0;font-family:'Courier New',monospace;color:#222;padding:0 36px;box-sizing:border-box">
+   <div style="padding-top:34px;text-align:center;font:bold 34px 'Courier New'">PIZZA ORDER</div><div style="text-align:center;font:24px 'Courier New';color:#666">May 22, 2010 · Florida</div>
+   <div style="border-top:3px dashed #999;margin:22px 0"></div><div style="display:flex;justify-content:space-between;font:28px 'Courier New'"><span>2x Large Pizza</span><span>✓</span></div>
+   <div style="border-top:3px dashed #999;margin:22px 0"></div><div style="font:bold 30px 'Courier New'">PAID WITH:</div><div style="font:bold 52px 'Courier New';color:#d9820f;margin:10px 0">10,000 BTC</div><div style="font:26px 'Courier New';color:#666">(≈ $41.00 at the time)</div>
+   <div style="border-top:3px dashed #999;margin:22px 0"></div><div style="text-align:center;font:22px 'Courier New';color:#888">THANK YOU</div></div>`;
+  h+=stamp(560,1300,'FIRST BITCOIN PURCHASE',cl(t,a+D*.55,a+D*.65),C.green2,-6,50);return h},
+ chart(t,a0){const a=S(a0),D=DU(a0);let h='';
+  // BTC price (approx., log scale): May 2010 → Oct 2026
+  const P=[[2010.4,.004],[2010.99,.3],[2011.45,30],[2011.99,4.7],[2012.99,13.5],[2013.92,1100],[2014.99,320],[2015.99,430],[2016.99,960],[2017.96,19000],[2018.99,3700],[2019.99,7200],[2020.99,29000],[2021.86,67000],[2022.99,16500],[2023.99,42000],[2024.99,93000],[2025.8,110000],[2026.82,79769]];
+  const X=v=>110+(v-2010.4)/(2026.82-2010.4)*860,Y=v=>1180-(Math.log10(v)+3)/(5.2+3)*720,q=sg(t,a+.3,a+D*.75);
+  let d='',tip=[X(P[0][0]),Y(P[0][1])];const tx=2010.4+q*(2026.82-2010.4);
+  for(let i=0;i<P.length;i++){if(P[i][0]<=tx){d+=(i?'L':'M')+X(P[i][0]).toFixed(1)+' '+Y(P[i][1]).toFixed(1);tip=[X(P[i][0]),Y(P[i][1])]}else{const p0=P[i-1],f=(tx-p0[0])/(P[i][0]-p0[0]),lv=lerp(Math.log10(p0[1]),Math.log10(P[i][1]),f);tip=[X(tx),Y(Math.pow(10,lv))];d+='L'+tip[0].toFixed(1)+' '+tip[1].toFixed(1);break}}
+  h+=`<svg style="position:absolute;left:0;top:0" width=1080 height=1920><rect x=90 y=420 width=900 height=800 rx=30 fill="#ffffff22" />${[2012,2016,2020,2024].map(y=>`<line x1=${X(y)} y1=440 x2=${X(y)} y2=1190 stroke="#ffffff33" stroke-width=3 /><text x=${X(y)} y=1250 fill="#fff" font-family=P font-size=34 font-weight=700 text-anchor=middle>${y}</text>`).join('')}<path d="${d}" stroke="#fff" stroke-width=18 fill=none stroke-linejoin=round stroke-linecap=round opacity=.6 /><path d="${d}" stroke="${C.orange}" stroke-width=9 fill=none stroke-linejoin=round stroke-linecap=round /></svg>`;
+  h+=`<div style="position:absolute;left:${tip[0]-22}px;top:${tip[1]-22}px;width:44px;height:44px;border-radius:50%;background:${C.orange};border:7px solid #fff;box-sizing:border-box;box-shadow:0 0 0 ${(10+8*Math.sin(t*7)).toFixed(1)}px #ff9f4355"></div>`;
+  const val=Math.pow(10,lerp(Math.log10(41),Math.log10(797694000),q));
+  h+=card(540,130,880,`<div style="font:500 32px P;color:#4a5b6c">10,000 BTC are worth</div><div style="font:700 98px/1.05 P;color:${q>.98?C.green2:C.ink}">$${MG.fmt(val,0)}</div>`,cl(t,a+.1,a+.4));
+  h+=pill(540,1340,'1 BTC = $79,769 · Oct 27, 2026',{p:cl(t,a+D*.78,a+D*.9),size:38,dot:C.orange});return h}
+};
+function fgLayer(t){let h='';const N=TL.lines.length;
+ for(let k=0;k<N;k++){const ty=SP(k).type;if(!ANIM[ty])continue;const a=S(k)-.4,b=k+1<N?S(k+1)+.4:TL.dur+1;if(t<a||t>b)continue;const op=cl(t,a,a+.45)*(1-cl(t,b-.45,b));if(op<=0)continue;
+  h+=`<div style="position:absolute;inset:0;opacity:${op.toFixed(3)};transform:scale(${(1+.03*(1-op)).toFixed(4)})">${ANIM[ty](t,k)}</div>`}
+ return h}
+function draw(t){if(!TL)return;drawMap(t);
+ const ih=imgLayer(t);if(ih!==$('imgs')._h){$('imgs').innerHTML=ih;$('imgs')._h=ih}
+ const fh=fgLayer(t);if(fh!==$('fg')._h){$('fg').innerHTML=fh;$('fg')._h=fh}
+ $('pat').style.transform=`translateY(${(-(t/TL.dur*52*8)%52).toFixed(1)}px)`;
+ const c=t>=TL.lines[TL.lines.length-1].end-.02?'':MG.captions(t,{y:1570,size:66,maxWords:3,stageW:1080,w:940,upper:true});if(c!==$('cap')._h){$('cap').innerHTML=c;$('cap')._h=c}
+ MG.grainTick(t)}
+let imgReady=false;
+window.setTimeline=tl=>{MG.TL=TL=tl;MG.preload(['p1','p2','p3','p4'].map(IMG));Promise.all([document.fonts.load('700 50px P'),document.fonts.load('500 50px P')]).then(()=>{fontsOk=true},()=>{fontsOk=true})};
+Object.defineProperty(window,'ready',{configurable:true,get(){return imgReady&&fontsOk},set(v){imgReady=v}});
+window.sfxEvents=()=>{const ev=[],N=TL.lines.length,add=(k,t,o={})=>ev.push(Object.assign({k,t:+t.toFixed(3)},o));
+ for(let i=1;i<N;i++)add(i%2?'whoosh':'swish',S(i)-.3,{d:.6});
+ const s=k=>S(k),d=k=>DU(k);
+ add('impact',s(0)+d(0)*.55);
+ add('pop',s(1)+d(1)*.45);add('swish',s(1)+d(1)*.6);
+ for(let i=0;i<8;i++)add('tick',s(2)+.25+i*.11,{f:1700-i*60});add('ding',s(2)+d(2)*.6);
+ add('pop',s(3)+.3);add('pop',s(3)+.9);
+ for(let i=0;i<5;i++)add('click',s(4)+i*d(4)*.09);add('impact',s(4)+d(4)*.58);
+ for(let i=0;i<10;i++)add('tick',s(5)+d(5)*(.3+i*.045),{f:1200+i*60});add('cash',s(5)+d(5)*.78);
+ add('impact',s(6)+.2);add('ding',s(6)+d(6)*.6);
+ add('pop',s(7)+.3);add('pop',s(7)+.9);
+ add('pop',s(8)+d(8)*.22);add('pop',s(8)+d(8)*.42);
+ ev.sort((a,b)=>a.t-b.t);const out=[];for(const e of ev){if(e.t<0)e.t=0;if(!out.find(o=>o.k==e.k&&Math.abs(o.t-e.t)<.12))out.push(e)}return out};
+window.draw=draw;
+MG.finish($('stage'),1080,1920,.04,'#0a2a5022',65);
+</script>
