@@ -112,3 +112,8 @@ Rendern auf GitHub: Projektname in `mg/render_queue.txt` eintragen und pushen (W
 ## Stimme & Musik am Stueck (Feedback 2026-10-26, tt_suez)
 - Keine Pitch-Verschiebung (pitch) und keine Lautstaerke-Spruenge (volume) pro Zeile: ab +7 Hz/+8 % klingt Andrew wie eine andere Person. Emotion nur ueber Text, Satzzeichen und leichte rate-Unterschiede (+8 % bis +12 %).
 - Musik-Stimmung hoechstens 2-3 Wechsel pro TikTok; keinen "bright"-Wechsel mit Cut kurz vor dem Ende – das faellt als Bruch auf.
+
+## Hook-Format ab 2026-10-27 (Wunsch Kanalbesitzer)
+- Videos (TikTok, wo passend auch YT) beginnen mit "Why you should never ..." / "Why you shouldn't ..." / "Why you should ..." als erstem Satz.
+- Themen muessen wirklich spannend sein und viele Leute betreffen (Alltag + Geld + Geschichte), nicht trocken. Die Begruendung kommt als ueberraschende, belegte Geschichte/Zahl.
+- Erster Satz = Hook (Titel gross im Bild ab Frame 0), danach sofort die erste ueberraschende Zahl.
