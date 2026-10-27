@@ -1,0 +1,109 @@
+{
+ "title": "TikTok: $42 billion left one bank in one day (SVB, Sam + detailed coded scenes)",
+ "_sources": "TikTok \"$42 billion left one bank in one day\" (Silicon Valley Bank, March 2023) -> project.json\nSources (checked 2026-10-26/27, same as YT 11):\nFed Vice Chair Barr, Senate testimony 28.03.2023 (via CNBC): $42B withdrawn on March 9, ~$100B scheduled for March 10 -> $142B of ~$175B deposits = 81%.\nWikipedia \"Collapse of Silicon Valley Bank\" (call report data): HQ Santa Clara, CA; ~86% of deposits uninsured; $1.8B loss on securities sale announced March 8 (evening);\n  closed by California DFPI / FDIC receivership on the morning of March 10 (<2 days later); 3rd-largest US bank failure.\nFDIC / Treasury / Fed joint statement 12.03.2023: systemic risk exception, all depositors fully protected.\nFDIC: $250,000 per depositor, per insured bank, per ownership category.",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+10%",
+ "lead": 0.1,
+ "gap": 0.2,
+ "tail": 0.1,
+ "crf": 22,
+ "music": {
+  "style": "tt",
+  "bpm": 96,
+  "gain": 0.2,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.42,
+ "lines": [
+  {
+   "text": "Forty-two billion dollars left this bank in one single day.",
+   "spec": {
+    "type": "hero",
+    "title": [
+     "$42 BILLION",
+     "GONE IN ONE DAY"
+    ],
+    "mood": "tense"
+   },
+   "rate": "+12%"
+  },
+  {
+   "text": "It was Silicon Valley Bank in California, the go-to bank for tech startups.",
+   "spec": {
+    "type": "map",
+    "cam": [
+     -98,
+     39,
+     2.0
+    ],
+    "cam2": [
+     -121.5,
+     37.0,
+     10
+    ],
+    "pins": [
+     {
+      "at": [
+       -121.96,
+       37.35
+      ],
+      "label": "Silicon Valley Bank",
+      "col": "red",
+      "delay": 0.45
+     }
+    ]
+   }
+  },
+  {
+   "text": "On March eighth, twenty twenty-three, it admitted a one-point-eight-billion-dollar loss on its bonds.",
+   "spec": {
+    "type": "loss"
+   }
+  },
+  {
+   "text": "Founders panicked in group chats, and everyone pulled their money out with a few taps on their phones.",
+   "spec": {
+    "type": "panic"
+   }
+  },
+  {
+   "text": "By the next morning, another hundred billion dollars was lined up to leave. That's eighty-one percent of all deposits.",
+   "spec": {
+    "type": "queue"
+   }
+  },
+  {
+   "text": "So regulators shut the bank down, less than two days after the bad news.",
+   "spec": {
+    "type": "closed",
+    "cut": true
+   }
+  },
+  {
+   "text": "And about eighty-six percent of the money was above the insured limit of two hundred fifty thousand dollars.",
+   "spec": {
+    "type": "pie"
+   }
+  },
+  {
+   "text": "Then the government stepped in, and every single depositor got all of their money back.",
+   "spec": {
+    "type": "rescue"
+   }
+  },
+  {
+   "text": "Would you have pulled your money out too? Tell me below, and remember:",
+   "spec": {
+    "type": "hero",
+    "choice": true
+   }
+  }
+ ]
+}
