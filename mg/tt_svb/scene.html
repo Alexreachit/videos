@@ -75,7 +75,7 @@ function drawMap(t){const v=mapVis(t);$('mapwrap').style.opacity=v.toFixed(3);if
 function moneyStream(t,x0,y0,dir,n,int){let h='';for(let i=0;i<n;i++){const ph=((t*.55+MG.rnd(i)*1)%1),sp=MG.rnd(i+30);const x=x0+(MG.rnd(i+7)-.5)*120+dir[0]*ph*(600+sp*300)+Math.sin(t*3+i)*30*ph,y=y0+dir[1]*ph*(700+sp*300)-Math.sin(ph*Math.PI)*120;h+=bill(x,y,lerp(40,150,ph),(t*120+i*47)%360*(MG.rnd(i+3)>.5?1:-1)*.4,int*Math.min(1,ph*6)*(1-Math.max(0,ph-.85)/.15))}return h}
 const ANIM={
  hero(t,k){const sp=SP(k),a=S(k),D=DU(k);let h=skyBG();const p=k===0?1:el(cl(t,a-.3,a+.4));
-  h+=bank2(540,1420,820,{crack:k===0?sg(t,a+D*.5,a+D*.9):1});
+  h+=bank2(540,1420,820,{crack:1});
   h+=moneyStream(t,540,1250,[.15,1],26,1);
   h+=sam('samthink',230,1420,lerp(0,560,p),{rot:Math.sin(t*1.5)*1.2});
   if(sp.title){const q=1-cl(t,a+D*.78,a+D*.96);if(q>0)h+=`<div style="opacity:${q.toFixed(3)}">${TX(540,240,sp.title[0],{size:124,col:C.gold})}${TX(540,365,sp.title[1],{size:60})}</div>`}
