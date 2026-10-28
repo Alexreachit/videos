@@ -1,0 +1,76 @@
+{
+ "title": "TikTok: Why you should never throw away your old LEGO (Sam + detailed coded scenes)",
+ "_sources": "TikTok \"Why you should never throw away your old LEGO\" -> project.json\nSources (checked 2026-10-28):\nHSE University news \"LEGO sets: a more profitable investment than gold\" + working paper Dobrynskaya & Kishilova (HSE, 2020):\n  2,322 new, unopened sets released 1987-2015; secondary-market prices of retired sets grow ~10-11% per year; beat gold, stocks, bonds;\n  resale prices usually start rising 2-3 years after a set is retired.\nMental Floss (study coverage): 2007 Millennium Falcon set, originally $499.99, sold for nearly $4,000 in 2016.\n(No LEGO logo or Star Wars ship drawn – generic bricks/boxes only.)",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+16%",
+ "lead": 0.05,
+ "gap": 0.08,
+ "tail": 0.1,
+ "crf": 22,
+ "music": {
+  "style": "tt",
+  "bpm": 100,
+  "gain": 0.2,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.42,
+ "lines": [
+  {
+   "text": "Why you should never throw away your old LEGO.",
+   "spec": {
+    "type": "hero",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "A study of over two thousand sets found something crazy.",
+   "spec": {
+    "type": "study"
+   }
+  },
+  {
+   "text": "Unopened LEGO grew about eleven percent per year.",
+   "spec": {
+    "type": "grow"
+   }
+  },
+  {
+   "text": "That beat stocks, bonds, and even gold.",
+   "spec": {
+    "type": "race"
+   }
+  },
+  {
+   "text": "This set cost five hundred dollars in two thousand seven.",
+   "spec": {
+    "type": "price"
+   }
+  },
+  {
+   "text": "Nine years later, people paid almost four thousand.",
+   "spec": {
+    "type": "price"
+   }
+  },
+  {
+   "text": "Just keep the box sealed, because prices usually rise after a set is retired.",
+   "spec": {
+    "type": "sealed"
+   }
+  },
+  {
+   "text": "Would you open it, or keep it sealed?",
+   "spec": {
+    "type": "hero",
+    "choice": true
+   }
+  }
+ ]
+}

@@ -121,3 +121,16 @@ Rendern auf GitHub: Projektname in `mg/render_queue.txt` eintragen und pushen (W
 ## TikTok-Laenge ab 2026-10-27
 - Ziel ca. 25 s (max. ~30 s): ~70 Woerter, 7-8 kurze Saetze, rate +16 %, lead 0.05 / gap 0.08, Szenenwechsel alle ~3 s, Ueberblendungen 0.25 s.
 - Zaehler/Diagramme muessen exakt beim gesprochenen Wort stehen (bei kurzen Zeilen frueh starten: ab ~20 % der Zeile).
+
+## TikTok-Themenliste (vom Kanalbesitzer abgesegnet, 2026-10-28)
+- Why you should never buy a diamond ring (De Beers 1947 "A diamond is forever", Wiederverkaufswert)
+- Why you should never tell a car dealer how you're paying (Gewinn ueber Finanzierung)
+- Why you should never exchange money at the airport
+- Why you should never go grocery shopping hungry
+- Why you should never buy bottled water
+- Why you should never accept the first salary offer
+- Why you should never buy a phone on release day
+- Why you should never buy a timeshare
+- Why you should never ignore compound interest (Manhattan fuer 24 $)
+- erledigt: Why you should never throw away your old LEGO (tt_lego)
+- NICHT: Hyperinflation/"Geld unter der Matratze" (gefiel ihm nicht)
