@@ -134,3 +134,11 @@ Rendern auf GitHub: Projektname in `mg/render_queue.txt` eintragen und pushen (W
 - Why you should never ignore compound interest (Manhattan fuer 24 $)
 - erledigt: Why you should never throw away your old LEGO (tt_lego)
 - NICHT: Hyperinflation/"Geld unter der Matratze" (gefiel ihm nicht)
+
+## Algorithmus-Erkenntnisse (dmscales, "Longform/Shorts Algorithm Explained", vom Kanalbesitzer geschickt 2026-10-28)
+- YouTube muss sofort verstehen, WORUM es geht und FUER WEN: klarer Titel (Thema woertlich), Beschreibung mit Keywords + Kapiteln, Thumbnail mit klar erkennbaren Objekten/Gesichtern/wenig grossem Text (YouTube "liest" das Thumbnail).
+- Nische konsequent halten (Geld/Wirtschaft erklaert) -> Zielgruppe wird schneller erkannt; keine Themen-Spruenge.
+- Getestet wird in Wellen (kleine Gruppe -> mehr Impressions). Entscheidend: 1) CTR (Thumbnail+Titel+Idee, Schnitt ~4-5 %, <3 % wird nicht gepusht), 2) Retention (wichtiger als CTR: Kurve flach + hoch, kleiner Anfangs-Knick -> Hook!), 3) Session-Zeit.
+- Steiler Abfall am Anfang = Hook schlecht; steile Kurve insgesamt = Story/Idee schlecht.
+- Shorts: Hook ab Frame 0, perfekte Retention kann ein Short retten; Loop -> >100 % Wiedergabe; breit verstaendliche Animations-Themen gehen auch auf neuen Kanaelen viral.
+- Kanal "legit" wirken lassen: Profilbild, Banner, Beschreibung, gleichmaessiges Branding.
