@@ -1,0 +1,72 @@
+{
+ "title": "Short: Felicity Ace – sank with 4,000 luxury cars (map + Gemini objects)",
+ "_sources": "YouTube Short / TikTok: Felicity Ace – the ship that sank with 4,000 luxury cars -> project.json\nSources (checked 2026-10-28):\nFreightWaves (01.03.2022) & gCaptain (01.03.2022): fire broke out Wed 16 Feb 2022 ~90 nm SW of the Azores; ~4,000 VW Group vehicles\n  (Audi, Bentley, Lamborghini, Porsche); route Emden (Germany) -> Davisville, Rhode Island (US); all 22 crew evacuated safely;\n  cargo valued at $401 million (Bloomberg); ship towed toward the Azores, sank Tue 1 Mar 2022 ~220 nm off the Azores;\n  lithium-ion batteries of EVs on board reportedly complicated firefighting.",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+16%",
+ "lead": 0.05,
+ "gap": 0.08,
+ "tail": 0.1,
+ "crf": 20,
+ "music": {
+  "style": "ttdark",
+  "bpm": 140,
+  "gain": 0.22,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.42,
+ "lines": [
+  {
+   "text": "This ship sank with four thousand luxury cars on board.",
+   "spec": {
+    "type": "hero"
+   }
+  },
+  {
+   "text": "In February twenty twenty-two, the Felicity Ace left Germany for the United States.",
+   "spec": {
+    "type": "map",
+    "stage": 1
+   }
+  },
+  {
+   "text": "It was carrying Porsches, Bentleys and Lamborghinis worth about four hundred million dollars.",
+   "spec": {
+    "type": "cargo"
+   }
+  },
+  {
+   "text": "But near the Azores, a fire broke out.",
+   "spec": {
+    "type": "map",
+    "stage": 2,
+    "cut": true
+   }
+  },
+  {
+   "text": "All twenty-two crew members were rescued, but the ship kept burning for days.",
+   "spec": {
+    "type": "burn"
+   }
+  },
+  {
+   "text": "Then, while it was being towed, it sank into the Atlantic.",
+   "spec": {
+    "type": "sink"
+   }
+  },
+  {
+   "text": "Would you still ship your dream car across the ocean?",
+   "spec": {
+    "type": "hero",
+    "choice": true
+   }
+  }
+ ]
+}
