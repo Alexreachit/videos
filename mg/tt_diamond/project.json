@@ -1,0 +1,70 @@
+{
+ "title": "TikTok: Why you should never buy a diamond ring (Sam + Gemini objects + code animation)",
+ "_sources": "TikTok \"Why you should never buy a diamond ring\" -> project.json\nSources (checked 2026-10-28):\nAmerican RadioWorks \"With This Ring\" / Marketing Society \"A tagline is forever\": \"A diamond is forever\" written 1947 by Frances Gerety (N.W. Ayer) for De Beers;\n  the campaign made the diamond engagement ring the standard in the US.\nMarketplace (22.02.2013) \"Diamonds are not a jewel of an investment\": owner of a $10,000 ring – best offer \"35 percent of what I paid\".\nTheStreet via Yahoo Finance (02.04.2026) \"Price of diamonds crashes to lowest level this century\": natural 1-carat avg ~$6,000 (2021) -> ~$4,200 (2025) ≈ -30%;\n  lab-grown diamonds cost 73-83% less than natural (BriteCo). Lab-grown = same carbon crystal as natural (chemically identical).",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+16%",
+ "lead": 0.05,
+ "gap": 0.08,
+ "tail": 0.1,
+ "crf": 22,
+ "music": {
+  "style": "ttdark",
+  "bpm": 140,
+  "gain": 0.22,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.42,
+ "lines": [
+  {
+   "text": "Why you should never buy a diamond ring.",
+   "spec": {
+    "type": "hero"
+   }
+  },
+  {
+   "text": "In nineteen forty-seven, an ad agency gave De Beers four words: a diamond is forever.",
+   "spec": {
+    "type": "ad"
+   }
+  },
+  {
+   "text": "That slogan made a diamond ring the must-have for every engagement.",
+   "spec": {
+    "type": "must"
+   }
+  },
+  {
+   "text": "But try selling one. One owner was offered just thirty-five percent of what he paid.",
+   "spec": {
+    "type": "resell"
+   }
+  },
+  {
+   "text": "And natural diamond prices fell about thirty percent since twenty twenty-one.",
+   "spec": {
+    "type": "crash",
+    "cut": true
+   }
+  },
+  {
+   "text": "Lab-grown diamonds are chemically the same, and cost up to eighty percent less.",
+   "spec": {
+    "type": "lab"
+   }
+  },
+  {
+   "text": "Would you still buy a natural diamond?",
+   "spec": {
+    "type": "hero",
+    "choice": true
+   }
+  }
+ ]
+}
