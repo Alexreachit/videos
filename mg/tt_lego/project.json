@@ -14,9 +14,9 @@
  "tail": 0.1,
  "crf": 22,
  "music": {
-  "style": "tt",
-  "bpm": 100,
-  "gain": 0.2,
+  "style": "ttdark",
+  "bpm": 140,
+  "gain": 0.22,
   "duck_ratio": 2
  },
  "sfx_vary": true,
@@ -25,8 +25,7 @@
   {
    "text": "Why you should never throw away your old LEGO.",
    "spec": {
-    "type": "hero",
-    "mood": "bright"
+    "type": "hero"
    }
   },
   {

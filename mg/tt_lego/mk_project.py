@@ -10,7 +10,7 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 L = []
 def A(t, s, **k): L.append(dict(text=t, spec=s, **k))
 A("Why you should never throw away your old LEGO.",
-  dict(type="hero", mood="bright"))
+  dict(type="hero"))
 A("A study of over two thousand sets found something crazy.",
   dict(type="study"))
 A("Unopened LEGO grew about eleven percent per year.",
@@ -28,7 +28,7 @@ A("Would you open it, or keep it sealed?",
 P = dict(title="TikTok: Why you should never throw away your old LEGO (Sam + detailed coded scenes)",
          _sources=open(__file__).read().split("import json")[0].replace("# ", "").strip(),
          size=[1080, 1920], fps=30, scene="scene.html", voice="en-US-AndrewMultilingualNeural", rate="+16%",
-         lead=0.05, gap=0.08, tail=0.1, crf=22, music=dict(style="tt", bpm=100, gain=0.2, duck_ratio=2),
+         lead=0.05, gap=0.08, tail=0.1, crf=22, music=dict(style="ttdark", bpm=140, gain=0.22, duck_ratio=2),
          sfx_vary=True, sfx_gain=0.42, lines=L)
 json.dump(P, open("project.json", "w"), indent=1, ensure_ascii=False)
 print(len(L), "lines", sum(len(l["text"].split()) for l in L), "words")

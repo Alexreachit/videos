@@ -249,8 +249,72 @@ def music_tt(dur, cfg):
         put(out, np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-t * 3.2), tc, .55)
     return out
 
+def music_ttdark(dur, cfg):
+    """Erwachsener TikTok-Beat (selbst erzeugt): moderner Lo-Fi/Trap-Groove in Moll – 808-Bass mit Glide, Clap auf 2/4,
+    Hi-Hats in Sechzehnteln mit kleinen Rolls, warmes gefiltertes Pad, sparsame tiefe Rhodes-Toene. Keine Marimba/Pluck-Melodie.
+    Eine Stimmung durchgehend (kein Kinder-Dur), spec.cut = kurzer Stopp + 808-Hit. Kein Fade, Loop bleibt nahtlos."""
+    bpm = cfg.get("bpm", 140); beat = 60 / bpm; bar = beat * 4; n = int(SR * dur)
+    mid = lambda m: 440 * 2 ** ((m - 69) / 12); rng = np.random.default_rng(11)
+    out = np.zeros(n)
+    def put(sig, t0, g=1.0):
+        i = int(t0 * SR); m = min(len(sig), n - i)
+        if m > 0 and i >= 0: out[i:i+m] += sig[:m] * g
+    def lp(x, a=.08):   # einfacher Tiefpass (warm)
+        y = np.zeros_like(x); acc = 0.0
+        for i in range(len(x)): acc += a * (x[i] - acc); y[i] = acc
+        return y
+    # Halftime-Trap: 1 Akkord pro Takt, Am – F – C – G (i–VI–III–VII), tief und warm
+    PROG = [(57, 60, 64), (53, 57, 60), (48, 52, 55), (55, 59, 62)]
+    nb = int(dur / bar) + 2
+    # Pad einmal pro Akkord vorberechnen
+    padc = {}
+    for ch in PROG:
+        l = bar + .25; t = np.arange(int(l * SR)) / SR
+        sig = sum(np.sin(2*np.pi*mid(m)*t*(1+d)) + .45*np.sin(2*np.pi*2*mid(m)*t*(1-d)) for m in ch for d in (-.003, .003))
+        env = np.minimum(t / .25, 1) * np.minimum((l - t) / .25, 1)
+        padc[ch] = lp(sig * env, .06)
+    for b in range(nb):
+        t0 = b * bar; ch = PROG[b % 4]
+        put(padc[ch], t0, .018)
+        # 808: Grundton, lang, mit Pitch-Glide beim Einsatz
+        for k, ln in ((0, 1.5), (2.5, .9)):
+            l = ln * beat; t = np.arange(int(l * SR)) / SR; f0 = mid(ch[0] - 24)
+            f = f0 * (1 + .9 * np.exp(-t * 40)); ph = 2*np.pi*np.cumsum(f)/SR
+            sig = np.tanh(2.2*np.sin(ph)) * np.exp(-t * 1.6) * np.minimum(t / .004, 1) * np.minimum((l - t) / .02, 1)
+            put(sig, t0 + k * beat, .2)
+        # Kick unter dem 808
+        for k in (0, 2.5):
+            l = .22; t = np.arange(int(l * SR)) / SR; f = 45 + 110 * np.exp(-t * 35)
+            put(np.sin(2*np.pi*np.cumsum(f)/SR) * np.exp(-t * 14), t0 + k * beat, .3)
+        # Clap auf 2 und 4 (Halftime: Schlag 3)
+        for k in (2,):
+            l = .25; nz = rng.standard_normal(int(l * SR)); ta = np.arange(len(nz)) / SR
+            env = (np.exp(-ta * 22) + .6*np.exp(-np.maximum(ta-.012,0)*60)*(ta>.012)) * np.minimum(ta/.002,1)
+            put(np.diff(nz, prepend=0) * env, t0 + k * beat, .045)
+        # Hi-Hats in Sechzehnteln, jeden 2. Takt ein Roll
+        for k in range(16):
+            l = .035; nz = np.diff(np.diff(rng.standard_normal(int(l * SR)), prepend=0), prepend=0); ta = np.arange(len(nz)) / SR
+            put(nz * np.exp(-ta * 140), t0 + k * beat / 4, .010 if k % 2 else .016)
+        if b % 2 == 1:
+            for r in range(6):
+                l = .02; nz = np.diff(np.diff(rng.standard_normal(int(l * SR)), prepend=0), prepend=0); ta = np.arange(len(nz)) / SR
+                put(nz * np.exp(-ta * 200), t0 + 3.5 * beat + r * beat / 12, .008 + r * .0015)
+        # sparsame tiefe Rhodes-Toene (nur Grundton/Terz, leise, dunkel)
+        for k, m in ((0, ch[1] - 12), (1.5, ch[2] - 12)):
+            l = 1.2; t = np.arange(int(l * SR)) / SR
+            sig = (np.sin(2*np.pi*mid(m)*t) + .35*np.sin(2*np.pi*2*mid(m)*t)*np.exp(-t*6)) * np.exp(-t * 2.5) * np.minimum(t / .01, 1)
+            put(sig, t0 + k * beat, .03)
+    for tc in cfg.get("_cuts", []):
+        a, b2 = tc - .4, tc; g = np.ones(n); i0, i1 = int(max(a, 0) * SR), int(min(b2, dur) * SR)
+        if i1 > i0:
+            ramp = np.linspace(0, 1, i1 - i0); g[i0:i1] = np.where(ramp < .15, 1 - ramp / .15, 0); out *= g
+        l = 1.4; t = np.arange(int(l * SR)) / SR; f = mid(33) * (1 + .8 * np.exp(-t * 30))
+        put(np.tanh(2*np.sin(2*np.pi*np.cumsum(f)/SR)) * np.exp(-t * 2), tc, .32)
+    return out
+
 def music_bed(dur, cfg):
     """Selbst synthetisiertes Musikbett: Pad-Akkorde, Bass, Kick/Hi-Hat, Pluck-Arpeggio. Frei von Rechten."""
+    if cfg.get("style") == "ttdark": return music_ttdark(dur, cfg)
     if cfg.get("style") == "tt": return music_tt(dur, cfg)
     if cfg.get("style") == "adaptive": return music_adaptive(dur, cfg)
     if cfg.get("style") == "soft": return music_soft(dur, cfg)
