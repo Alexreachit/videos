@@ -39,3 +39,8 @@
 - 48-h-Echtzeit: 2.640 Aufrufe; Abos weiter 9. Analytics-Tageswerte noch bis 28.10. (keine neuen Engaged/Traffic/Länder-Daten).
 - Erkenntnis: Felicity-Welle nach ~18 h vorbei, SVB läuft länger nach -> Bank/Geld-Story trägt länger als Schiffsstory.
 - Keine Korrekturen nötig. ys_knight wartet weiter auf Alex' "ja". TikToks dealer/diamond/lego: Upload blockiert – MP4s nicht im Session-Workspace, kein PC-Ordner verbunden.
+
+## Hochgeladen 2026-10-29 21:15 (mit Alex' OK)
+- ys_knight -> Short "$460 Million Lost in 45 Minutes 💸" (ID wPULT1cjzHg), privat, geplant öffentlich 30.10.2026 19:00 (GMT+1). Beschreibung mit SEC- und Wikipedia-Quelle, #money #finance #stockmarket #shorts. Vorabprüfung: keine Probleme.
+- Upload-Weg: MP4 vom Branch renders (renders/<projekt>/<projekt>_final.mp4), auf <10 MB neu kodiert (x264 2-Pass 2700k), nach /mnt/user-data/outputs, dann Chrome file_upload.
+- Alex 29.10.: Langform-Aufrufe zählen viel mehr als Shorts-Aufrufe (100 Langform > 1.000 Shorts).
