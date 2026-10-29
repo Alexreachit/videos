@@ -33,3 +33,9 @@
 - Nach Fertigstellung: Alex zeigen; bei "ja" privat hochladen + Timer 19:00.
 
 - 2026-10-29 15:45: ys_knight fertig (26,3 s, Loop geprüft), an Alex geschickt – wartet auf sein "ja" für Upload + Timer 19:00.
+
+## Lauf 2026-10-29 16:05 (Routine)
+- Shorts (Liste): Felicity Ace 1.273 (+11 seit 13:00, stagniert; Ø 67,3 % angesehen, 15 Likes) | SVB 1.127 (+135, wächst noch) | Ever Given 1.223 | $100 lost $23: 284 | New vs Used: 208.
+- 48-h-Echtzeit: 2.640 Aufrufe; Abos weiter 9. Analytics-Tageswerte noch bis 28.10. (keine neuen Engaged/Traffic/Länder-Daten).
+- Erkenntnis: Felicity-Welle nach ~18 h vorbei, SVB läuft länger nach -> Bank/Geld-Story trägt länger als Schiffsstory.
+- Keine Korrekturen nötig. ys_knight wartet weiter auf Alex' "ja". TikToks dealer/diamond/lego: Upload blockiert – MP4s nicht im Session-Workspace, kein PC-Ordner verbunden.
