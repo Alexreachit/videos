@@ -20,3 +20,14 @@
 
 ## Tests
 - Posting-Zeit 18–20 Uhr (Ziel: mehr US/UK). Auswertung ab 2026-11-05.
+
+## Freigegeben 2026-10-29 13:15 – Start erst 15:15 (Wunsch Alex)
+- Knight Capital: Hook "Why you should never ignore an error email."
+- Fakten (SEC Press Release 2013-222, 16.10.2013; Wikipedia Knight Capital Group): 1.8.2012, ~45 Min nach Börsenstart, Verlust >$460 Mio.;
+  1 von 8 Servern ohne neuen Code -> alter defekter Code (2005) aktiv; >4 Mio. Orders, 397 Mio. Aktien; 97 automatische Warn-Mails vor Börsenstart, niemand reagierte;
+  Aktie -70 %+; 5.8.2012 ~$400 Mio. Rettungskapital (Jefferies u. a.); vorher größter US-Aktienhändler (~17 % NYSE-Volumen); Jersey City.
+- Skript-Entwurf (~27 s): 1) Why you should never ignore an error email. This mistake cost four hundred sixty million dollars. 2) In twenty twelve, Knight Capital was one of America's biggest stock traders.
+  3) But one of its eight servers was missing a software update. 4) When the market opened, it fired off four million orders in forty-five minutes.
+  5) Before that, the system had sent ninety-seven warning emails. Nobody acted on them. 6) It needed a four-hundred-million-dollar rescue just four days later. 7) Would you have read those emails?
+- Gemini-Objekte: Server-Rack, Laptop mit Posteingang, Büroturm, Wecker, brennender Geldstapel (+ vorhandene: arrowdown, cash, Sam).
+- Nach Fertigstellung: Alex zeigen; bei "ja" privat hochladen + Timer 19:00.
