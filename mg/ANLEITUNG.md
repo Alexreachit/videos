@@ -142,3 +142,7 @@ Rendern auf GitHub: Projektname in `mg/render_queue.txt` eintragen und pushen (W
 - Steiler Abfall am Anfang = Hook schlecht; steile Kurve insgesamt = Story/Idee schlecht.
 - Shorts: Hook ab Frame 0, perfekte Retention kann ein Short retten; Loop -> >100 % Wiedergabe; breit verstaendliche Animations-Themen gehen auch auf neuen Kanaelen viral.
 - Kanal "legit" wirken lassen: Profilbild, Banner, Beschreibung, gleichmaessiges Branding.
+
+## Ablauf ab 2026-10-29 (Wunsch Kanalbesitzer)
+- VOR jedem neuen Video/TikTok/Short erst die Idee (Thema + Hook + kurzer Ablauf) vorschlagen und auf sein OK warten – erst dann recherchieren/Bilder erzeugen/bauen.
+- Nicht jedes Video mit Schiffen/Karten "auf Krampf" – Karte und Schiffsthemen nur, wenn es wirklich passt; Themen abwechseln.
