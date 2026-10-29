@@ -43,7 +43,7 @@ function ticker(t,y){let h=`<div style="position:absolute;left:-40px;right:-40px
  for(let i=0;i<14;i++){const x=((i*170-t*160)%2380+2380)%2380-200,up=MG.rnd(i+3)>.35;h+=`<div style="position:absolute;left:${x.toFixed(0)}px;top:12px;font:700 36px P;color:${up?C.green:C.red}">${up?'▲':'▼'}${(MG.rnd(i)*3+.2).toFixed(1)}%</div>`}
  return h+'</div>'}
 function hookTitle(){return TX(540,190,'WHY YOU SHOULD NEVER',{size:62})+TX(540,310,'IGNORE AN',{size:104,col:C.gold})+TX(540,430,'ERROR EMAIL',{size:118,col:C.red})}
-function mails(t,n,cx,cy,r0,op=1){let h='';for(let i=0;i<n;i++){const ph=(t*.35+i/n)%1,ang=i*2.399+t*.4,r=r0+ph*260;
+function mails(t,n,cx,cy,r0,op=1){let h='';for(let i=0;i<n;i++){const sp=Math.max(1,Math.round(.35*TL.dur))/TL.dur,ph=(t*sp+i/n)%1,ang=i*2.399+t*2*Math.PI*Math.max(1,Math.round(.4*TL.dur/(2*Math.PI)))/TL.dur,r=r0+ph*260;
   const x=cx+Math.cos(ang)*r,y=cy+Math.sin(ang)*r*.75-ph*80,o=Math.sin(ph*Math.PI)*op;h+=obj('mail',x,y,lerp(90,170,ph),{rot:fl(t,i,14),op:o})}return h}
 const money=v=>'$'+MG.fmt(Math.round(v),0);
 const ANIM={
@@ -109,7 +109,7 @@ function fgLayer(t){let h='';const N=TL.lines.length;
   const a=k===0?-1:S(k)-.2,b=k+1<N?S(k+1)+.2:TL.dur+1;if(t<a||t>b)continue;
   const qi=k===0?1:ei(cl(t,a,a+.32)),qo=k+1<N?ei(cl(t,b-.32,b)):0;
   const dx=(1-qi)*1150-qo*1150,blur=Math.abs(dx)>4?Math.min(14,Math.abs(dx)/40):0;
-  const st=k===0?0:S(k),en=k+1<N?S(k+1):TL.dur,u=cl(t,st,en),z=1+.06*u;
+  const st=k===0?0:S(k),en=k+1<N?S(k+1):TL.dur,u=cl(t,st,en),z=1+.06*u*(k+1<N?1:1-ei(cl(t,TL.dur-.7,TL.dur-.05)));
   h+=`<div style="position:absolute;inset:0;transform:translateX(${dx.toFixed(1)}px) scale(${z.toFixed(4)});transform-origin:540px 900px;${blur?`filter:blur(${blur.toFixed(1)}px);`:''}">${ANIM[ty](t,k)}</div>`}
  return h}
 function draw(t){if(!TL)return;
