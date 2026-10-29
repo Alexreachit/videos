@@ -84,16 +84,16 @@ const ANIM={
   h+=`<div style="position:absolute;left:660px;top:330px;min-width:120px;height:120px;padding:0 20px;box-sizing:border-box;border-radius:60px;background:${C.red};color:#fff;font:700 74px/120px P;text-align:center;box-shadow:0 12px 26px #0006;transform:scale(${(1+.12*Math.sin(n*1.7)).toFixed(3)})">${n}</div>`;
   h+=pill(540,220,'⏰ before 9:30 AM',{p:cl(t,a,a+.25),size:46});
   h+=stamp(540,1180,'IGNORED',cl(t,a+D*.78,a+D*.9),C.red,-8,96);return h},
- orders(t,k){const a=S(k),D=DU(k);let h=floor(t);const q=sg(t,a+.05,a+D*.92);
+ orders(t,k){const a=S(k),D=DU(k);let h=floor(t);const q=sg(t,a+.05,a+D*.92),qc=sg(t,a+.05,a+D*.55),qm=sg(t,a+.2,a+D*.85);
   // order chips flying out of the monitor
   for(let i=0;i<16;i++){const ph=(t*1.6+i/16)%1;if(q<=0)break;const x=540+(MG.rnd(i)-.5)*900*ph,y=900-ph*520+(MG.rnd(i+9)-.5)*80;
    h+=`<div style="position:absolute;left:${x.toFixed(0)}px;top:${y.toFixed(0)}px;transform:translate(-50%,-50%) scale(${(.6+ph*.6).toFixed(2)});opacity:${Math.sin(ph*Math.PI).toFixed(2)};padding:8px 18px;border-radius:14px;background:${i%3?C.green2:C.red2};color:#fff;font:700 30px P">${i%3?'BUY':'SELL'}</div>`}
   h+=obj('monitor',540,990+fl(t,1,4)+Math.sin(t*30)*3*q,600);
-  h+=TX(540,250,MG.fmt(Math.round(4000000*q),0),{size:140,col:C.gold});
+  h+=TX(540,250,MG.fmt(Math.round(4000000*qc),0),{size:140,col:C.gold});
   h+=pill(540,400,'orders',{p:cl(t,a,a+.2),size:48});
   h+=obj('watch',840,1300+fl(t,2,6),lerp(0,260,el(cl(t,a+.1,a+.5))),{rot:Math.sin(t*9)*6});
-  h+=pill(560,1330,Math.round(45*q)+' MIN',{p:cl(t,a+.1,a+.35),size:54,bg:C.ink,fg:'#fff'});return h},
- crash(t,k){const a=S(k),D=DU(k);let h=floor(t);const q=sg(t,a+.05,a+D*.55);
+  h+=pill(560,1330,Math.round(45*qm)+' MIN',{p:cl(t,a+.1,a+.35),size:54,bg:C.ink,fg:'#fff'});return h},
+ crash(t,k){const a=S(k),D=DU(k);let h=floor(t);const q=sg(t,a+.05,a+D*.45);
   // stock line chart: flat-ish then a cliff (-70%)
   const pts=[];for(let i=0;i<=40;i++){const x=i/40;let v=x<.45?.85+Math.sin(i*1.3)*.03:lerp(.85,.22,ez(cl(x,.45,.8)))+Math.sin(i*2.1)*.02;pts.push([90+x*900,560+(1-v)*620])}
   const m=Math.max(2,Math.round(q*41));const d='M'+pts.slice(0,m).map(p=>p[0].toFixed(0)+','+p[1].toFixed(0)).join(' L');
