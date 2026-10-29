@@ -1,0 +1,70 @@
+{
+ "title": "Short: Why you should never ignore an error email (Knight Capital)",
+ "_sources": "Short/TikTok \"Why you should never ignore an error email\" (Knight Capital, 1 Aug 2012) -> project.json\nSources (checked 2026-10-29):\nSEC Press Release 2013-222 (16 Oct 2013) \"SEC Charges Knight Capital With Violations of Market Access Rule\":\n  1 Aug 2012, ~45 minutes after open; one of eight servers did not get the new code (old \"Power Peg\" code);\n  more than 4 million orders while trying to fill 212 customer orders; 397 million shares; loss of more than $460 million;\n  97 automated emails referencing \"Power Peg disabled\" sent to Knight staff before the 9:30 a.m. open, not acted on.\nWikipedia \"Knight Capital Group\": largest US equities trader (~17.3% NYSE / 16.9% NASDAQ share);\n  stock fell over 70% within two days; ~$400 million rescue investment (Jefferies-led group) on 5-6 Aug 2012.",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+16%",
+ "lead": 0.05,
+ "gap": 0.08,
+ "tail": 0.1,
+ "crf": 20,
+ "music": {
+  "style": "ttdark",
+  "bpm": 140,
+  "gain": 0.22,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.42,
+ "lines": [
+  {
+   "text": "Why you should never ignore an error email. One cost four hundred sixty million dollars.",
+   "spec": {
+    "type": "hero"
+   }
+  },
+  {
+   "text": "In twenty twelve, Knight Capital was a giant of US stock trading.",
+   "spec": {
+    "type": "tower"
+   }
+  },
+  {
+   "text": "But one of its eight servers missed a software update.",
+   "spec": {
+    "type": "servers"
+   }
+  },
+  {
+   "text": "Before the market opened, it sent ninety-seven warning emails. Nobody acted.",
+   "spec": {
+    "type": "emails"
+   }
+  },
+  {
+   "text": "Then that server fired four million orders in forty-five minutes.",
+   "spec": {
+    "type": "orders",
+    "cut": true
+   }
+  },
+  {
+   "text": "Knight's stock crashed over seventy percent, and it needed a rescue.",
+   "spec": {
+    "type": "crash"
+   }
+  },
+  {
+   "text": "Would you have read those emails?",
+   "spec": {
+    "type": "hero",
+    "choice": true
+   }
+  }
+ ]
+}
