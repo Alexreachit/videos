@@ -1,0 +1,70 @@
+{
+ "title": "TikTok: Why you should never tell a car dealer how you're paying",
+ "_sources": "TikTok \"Why you should never tell a car dealer how you're paying\" -> project.json\nSources (checked 2026-10-29):\nWardsAuto (27.04.2026) on Q1 2026 Presidio-NCM Average Dealership Performance Benchmark (4,000+ US franchised dealers):\n  F&I income per retail unit $1,727; new-vehicle gross profit per vehicle $1,781 -> \"almost as much\".\nAmerican Banker: dealer markup on the bank's buy rate \"often ranges from 2 to 2.5 percentage points\" (dealer participation).\nOwn calculations (standard annuity): $40,000 at 7%: 60 months -> $792/mo, $7,523 interest; 84 months -> $604/mo, $10,711 interest (+$3,188).\n  $40,000 over 60 months at 6% vs 8%: total interest $6,399 vs $8,663 -> +$2,265.",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+16%",
+ "lead": 0.05,
+ "gap": 0.08,
+ "tail": 0.1,
+ "crf": 20,
+ "music": {
+  "style": "ttdark",
+  "bpm": 140,
+  "gain": 0.22,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.42,
+ "lines": [
+  {
+   "text": "Why you should never tell a car dealer how you're paying.",
+   "spec": {
+    "type": "hero"
+   }
+  },
+  {
+   "text": "Dealers make almost as much on financing and add-ons as on the car itself.",
+   "spec": {
+    "type": "profit"
+   }
+  },
+  {
+   "text": "Ask for low monthly payments, and they can just stretch the loan, so you pay thousands more.",
+   "spec": {
+    "type": "stretch"
+   }
+  },
+  {
+   "text": "They can also add about two percentage points to your rate.",
+   "spec": {
+    "type": "rate",
+    "cut": true
+   }
+  },
+  {
+   "text": "On forty thousand dollars, that's over two thousand extra.",
+   "spec": {
+    "type": "extra"
+   }
+  },
+  {
+   "text": "So negotiate the price first, and bring a loan offer from your own bank.",
+   "spec": {
+    "type": "tips"
+   }
+  },
+  {
+   "text": "Did you know this trick?",
+   "spec": {
+    "type": "hero",
+    "choice": true
+   }
+  }
+ ]
+}
