@@ -146,3 +146,7 @@ Rendern auf GitHub: Projektname in `mg/render_queue.txt` eintragen und pushen (W
 ## Ablauf ab 2026-10-29 (Wunsch Kanalbesitzer)
 - VOR jedem neuen Video/TikTok/Short erst die Idee (Thema + Hook + kurzer Ablauf) vorschlagen und auf sein OK warten – erst dann recherchieren/Bilder erzeugen/bauen.
 - Nicht jedes Video mit Schiffen/Karten "auf Krampf" – Karte und Schiffsthemen nur, wenn es wirklich passt; Themen abwechseln.
+
+## Bewertung von Aufrufen (Alex 2026-10-29)
+- Shorts-Aufrufe sind viel leichter zu bekommen als Aufrufe auf langen Videos. 100 Aufrufe auf einem langen Video zählen mehr als 1.000 auf einem Short.
+- In Analysen Shorts und lange Videos getrennt bewerten. Bei langen Videos vor allem auf Aufrufe, CTR, Wiedergabezeit und Abos achten, nicht auf rohe Shorts-Zahlen.
