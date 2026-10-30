@@ -1,0 +1,2911 @@
+{
+ "title": "YouTube 12: The Most Expensive Mistakes in History",
+ "_sources": "YouTube 12 (long form, 16:9): \"The Most Expensive Mistakes in History\" -> project.json\nSources (checked 2026-10-30):\n#7 Mars Climate Orbiter: Deseret News 1 Oct 1999 \"Metric miscalculation becomes cosmic blunder\" ($125M orbiter, vanished Sept 23,\n   Lockheed Martin Astronautics sent data in pounds of force, JPL assumed newtons); 19FortyFive (2026): flew 416 million miles. 1 lbf = 4.448 N.\n#6 Mizuho / J-Com: InvestmentNews (\"$121M award...\"): Dec 8, 2005, sold 610,000 shares at 1 yen instead of 1 share at 610,000 yen,\n   loss 40.7bn yen, court: TSE 70% to blame, 10.7bn yen (~$121M); Finextra: TSE glitch, cancel failed; BBC via TU Delft page: order\n   41 times the outstanding shares. ~40bn yen ~ $340M at 2005 rates (Gamestar: $335M).\n#5 Knight Capital: SEC press release 2013-222 (see ys_knight).\n#4 James Howells: Decrypt (2025): drive with keys to 8,000 BTC thrown out by former partner in 2013, appeal lost 2025;\n   The Register (11 Feb 2025): Newport landfill, ~100,000 t area, wants to buy the site, council plans to close/cap it;\n   Decrypt 2021: offered council a share. BTC ~ $79,769 (CoinGecko 27 Oct 2026) -> 8,000 BTC ~ $638M.\n#3 Citibank / Revlon: Insurance Journal / Reuters 12 Sep 2022: Aug 11, 2020, meant to pay $7.8M interest, paid off $894M loan due 2023,\n   ~$500M not returned by 10 asset managers, Feb 2021 Judge Furman ruled for lenders, 2nd Circuit reversed 3-0 (Sept 2022).\n#2 Samsung Securities: Business Standard 11 Apr 2018: dividend 1,000 won/share became 1,000 shares/share, 2.8bn shares\n   (>30x issued shares), 111.8 trillion won ($104.8bn), 16 staff sold 5 million shares (~$186.9M); BloombergQuint: CEO resigned.\n#1 Ronald Wayne: Fortune 12 Dec 2025: 10% stake, cashed out 12 days after Apple's inception for $800, later $1,500 to forfeit any claim,\n   Apple ~ $4 trillion, stake \"could now be worth between $75 billion and $360 billion\"; Outlook Business: \"no regrets\".",
+ "size": [
+  1920,
+  1080
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+0%",
+ "lead": 0.6,
+ "gap": 0.48,
+ "tail": 3.0,
+ "crf": 21,
+ "music": {
+  "style": "ttdark",
+  "bpm": 140,
+  "gain": 0.15,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.4,
+ "lines": [
+  {
+   "text": "In twenty twelve, one company lost four hundred sixty million dollars in forty-five minutes.",
+   "spec": {
+    "type": "beat",
+    "scene": "intro",
+    "els": [
+     {
+      "e": "title",
+      "at": -1
+     },
+     {
+      "e": "obj",
+      "k": "server",
+      "x": 560,
+      "y": 600,
+      "w": 380,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "count",
+      "x": 1300,
+      "y": 560,
+      "to": 460,
+      "at": 0.45,
+      "end": 0.85,
+      "pre": "−$",
+      "suf": "M",
+      "size": 130,
+      "col": "red",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "in 45 minutes",
+      "x": 1300,
+      "y": 700,
+      "size": 40,
+      "at": 0.8,
+      "dot": "red",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "sky",
+    "mood": "tense"
+   }
+  },
+  {
+   "text": "In twenty twenty, a bank accidentally sent out nearly nine hundred million dollars.",
+   "spec": {
+    "type": "beat",
+    "scene": "intro",
+    "els": [
+     {
+      "e": "obj",
+      "k": "bank",
+      "x": 560,
+      "y": 620,
+      "w": 400,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "fly",
+      "k": "cash",
+      "fx": 640,
+      "fy": 600,
+      "tx": 1500,
+      "ty": 380,
+      "w": 150,
+      "at": 0.3,
+      "end": 0.8,
+      "n": 6,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "count",
+      "x": 1300,
+      "y": 560,
+      "to": 894,
+      "at": 0.4,
+      "end": 0.85,
+      "pre": "$",
+      "suf": "M",
+      "size": 130,
+      "col": "red",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "sent by mistake",
+      "x": 1300,
+      "y": 700,
+      "size": 40,
+      "at": 0.8,
+      "dot": "red",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "And one man gave up a piece of Apple for just eight hundred dollars.",
+   "spec": {
+    "type": "beat",
+    "scene": "intro",
+    "els": [
+     {
+      "e": "obj",
+      "k": "samthink",
+      "x": 560,
+      "y": 640,
+      "w": 460,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "obj",
+      "k": "contract",
+      "x": 1300,
+      "y": 600,
+      "w": 320,
+      "at": 0.2,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "stamp",
+      "txt": "$800",
+      "x": 1300,
+      "y": 780,
+      "at": 0.7,
+      "col": "red",
+      "sz": 90,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Some of these mistakes nearly destroyed a company. Others became famous lessons that banks and engineers still learn from today.",
+   "spec": {
+    "type": "beat",
+    "scene": "intro",
+    "els": [
+     {
+      "e": "obj",
+      "k": "samthink",
+      "x": 560,
+      "y": 640,
+      "w": 460,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "📉 nearly destroyed companies",
+      "x": 1320,
+      "y": 450,
+      "size": 44,
+      "at": 0.1,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "📚 still taught today",
+      "x": 1320,
+      "y": 600,
+      "size": 44,
+      "at": 0.55,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "These are some of the most expensive mistakes in history.",
+   "spec": {
+    "type": "beat",
+    "scene": "intro",
+    "els": [
+     {
+      "e": "ladder",
+      "at": 0,
+      "out": [
+       2,
+       0.99
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Some were typos. Some were software bugs. And one was simply a bad decision.",
+   "spec": {
+    "type": "beat",
+    "scene": "intro",
+    "els": [
+     {
+      "e": "pill",
+      "txt": "⌨️ typos",
+      "x": 470,
+      "y": 860,
+      "size": 40,
+      "at": 0.05,
+      "out": [
+       1,
+       0.99
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "🐛 software bugs",
+      "x": 960,
+      "y": 860,
+      "size": 40,
+      "at": 0.3,
+      "out": [
+       1,
+       0.99
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "🤦 one bad decision",
+      "x": 1470,
+      "y": 860,
+      "size": 40,
+      "at": 0.65,
+      "out": [
+       1,
+       0.99
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "We'll count them down, from number seven to number one. And number one is so big, it barely feels real.",
+   "spec": {
+    "type": "beat",
+    "scene": "intro",
+    "els": [
+     {
+      "e": "ladderhi",
+      "at": 0.55,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Number seven. In nineteen ninety-nine, NASA's Mars Climate Orbiter had flown four hundred sixteen million miles to reach Mars.",
+   "spec": {
+    "type": "beat",
+    "scene": "mars",
+    "els": [
+     {
+      "e": "chap",
+      "n": 7,
+      "sub": "THE WRONG UNITS",
+      "at": 0,
+      "out": [
+       0,
+       0.45
+      ]
+     },
+     {
+      "e": "obj",
+      "k": "mars",
+      "x": 1420,
+      "y": 560,
+      "w": 600,
+      "at": 0.1,
+      "out": [
+       2,
+       0
+      ]
+     },
+     {
+      "e": "probe",
+      "at": 0.35,
+      "out": [
+       2,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "416 million miles",
+      "x": 560,
+      "y": 820,
+      "size": 40,
+      "at": 0.6,
+      "dot": "gold",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "space",
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "On September twenty-third, it was supposed to swing into orbit. Instead, it flew far too close to the planet, and was never heard from again.",
+   "spec": {
+    "type": "beat",
+    "scene": "mars",
+    "els": [
+     {
+      "e": "orbit",
+      "x": 1420,
+      "y": 560,
+      "rx": 420,
+      "ry": 170,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "planned orbit",
+      "x": 1420,
+      "y": 260,
+      "size": 36,
+      "at": 0.1,
+      "dot": "green",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "stamp",
+      "txt": "SIGNAL LOST",
+      "x": 960,
+      "y": 200,
+      "at": 0.82,
+      "col": "red",
+      "sz": 76,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "The reason? Lockheed Martin, which built the spacecraft, sent its thruster data in pounds of force. NASA's navigation team assumed the numbers were in newtons.",
+   "spec": {
+    "type": "beat",
+    "scene": "mars",
+    "els": [
+     {
+      "e": "card",
+      "x": 520,
+      "y": 330,
+      "w": 620,
+      "big": "pound-force",
+      "small": "LOCKHEED MARTIN · spacecraft builder",
+      "at": 0.15,
+      "col": "red",
+      "out": [
+       1,
+       0.99
+      ]
+     },
+     {
+      "e": "card",
+      "x": 1400,
+      "y": 330,
+      "w": 620,
+      "big": "newtons",
+      "small": "NASA navigation team",
+      "at": 0.62,
+      "col": "green",
+      "out": [
+       1,
+       0.99
+      ]
+     },
+     {
+      "e": "tx",
+      "txt": "≠",
+      "x": 960,
+      "y": 420,
+      "size": 180,
+      "at": 0.7,
+      "col": "gold",
+      "out": [
+       1,
+       0.99
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "One pound of force is about four and a half newtons. So every correction was off by more than four times, and nobody noticed.",
+   "spec": {
+    "type": "beat",
+    "scene": "mars",
+    "els": [
+     {
+      "e": "tx",
+      "txt": "1 lbf ≈ 4.45 N",
+      "x": 960,
+      "y": 700,
+      "size": 96,
+      "at": 0.05,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "count",
+      "x": 960,
+      "y": 840,
+      "to": 4.45,
+      "at": 0.45,
+      "end": 0.75,
+      "pre": "off by ×",
+      "dec": 2,
+      "size": 70,
+      "col": "red",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "And because the numbers didn't look obviously wrong, the error kept growing quietly, mile after mile.",
+   "spec": {
+    "type": "beat",
+    "scene": "mars",
+    "els": [
+     {
+      "e": "obj",
+      "k": "probe",
+      "x": 960,
+      "y": 560,
+      "w": 360,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "drift",
+      "at": 0.1,
+      "end": 0.9,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "A hundred and twenty-five million dollar spacecraft, lost because two teams used different units.",
+   "spec": {
+    "type": "beat",
+    "scene": "mars",
+    "els": [
+     {
+      "e": "obj",
+      "k": "probe",
+      "x": 600,
+      "y": 520,
+      "w": 520,
+      "at": 0,
+      "gray": 1,
+      "rot": -14,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "count",
+      "x": 1320,
+      "y": 480,
+      "to": 125,
+      "at": 0.05,
+      "end": 0.5,
+      "pre": "$",
+      "suf": "M",
+      "size": 140,
+      "col": "red",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "stamp",
+      "txt": "LOST",
+      "x": 1320,
+      "y": 660,
+      "at": 0.6,
+      "col": "red",
+      "sz": 90,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Lesson one: the most dangerous errors are the ones that look completely normal.",
+   "spec": {
+    "type": "beat",
+    "scene": "mars",
+    "els": [
+     {
+      "e": "obj",
+      "k": "samthink",
+      "x": 520,
+      "y": 620,
+      "w": 480,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "card",
+      "x": 1260,
+      "y": 380,
+      "w": 760,
+      "big": "Lesson #1",
+      "small": "The worst errors look completely normal",
+      "at": 0.2,
+      "col": "gold",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "But at least that one was in space. Number six happened with a single keyboard.",
+   "spec": {
+    "type": "beat",
+    "scene": "mars",
+    "els": [
+     {
+      "e": "obj",
+      "k": "keyboard",
+      "x": 1260,
+      "y": 600,
+      "w": 420,
+      "at": 0.3,
+      "out": [
+       99,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Number six. Tokyo, December eighth, two thousand five.",
+   "spec": {
+    "type": "map",
+    "cam": [
+     138,
+     37,
+     3.2
+    ],
+    "cam2": [
+     139.69,
+     35.69,
+     7
+    ],
+    "chap": 6,
+    "chapsub": "THE SWAPPED NUMBERS",
+    "pins": [
+     {
+      "at": [
+       139.69,
+       35.69
+      ],
+      "label": "Tokyo Stock Exchange",
+      "col": "red",
+      "delay": 0.45
+     }
+    ]
+   }
+  },
+  {
+   "text": "A trader at Mizuho Securities wanted to sell one share of a new company called J-Com, for six hundred ten thousand yen.",
+   "spec": {
+    "type": "beat",
+    "scene": "mizuho",
+    "els": [
+     {
+      "e": "obj",
+      "k": "keyboard",
+      "x": 520,
+      "y": 600,
+      "w": 520,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "ticket",
+      "x": 1320,
+      "y": 520,
+      "a": "SELL  1 share",
+      "b": "at ¥610,000",
+      "ok": true,
+      "at": 0.35,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "sky",
+    "mood": "tense"
+   }
+  },
+  {
+   "text": "Instead, the numbers got swapped. The order said: sell six hundred ten thousand shares, for one yen each.",
+   "spec": {
+    "type": "beat",
+    "scene": "mizuho",
+    "els": [
+     {
+      "e": "obj",
+      "k": "keyboard",
+      "x": 520,
+      "y": 600,
+      "w": 520,
+      "at": 0,
+      "glow": true,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "ticket",
+      "x": 1320,
+      "y": 520,
+      "a": "SELL  610,000 shares",
+      "b": "at ¥1 each",
+      "ok": false,
+      "at": 0.3,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "In finance, this is called a fat-finger error. Someone hits the wrong key, or types the right numbers into the wrong box.",
+   "spec": {
+    "type": "beat",
+    "scene": "mizuho",
+    "els": [
+     {
+      "e": "obj",
+      "k": "keyboard",
+      "x": 520,
+      "y": 600,
+      "w": 520,
+      "at": 0,
+      "glow": true,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "tx",
+      "txt": "FAT-FINGER ERROR",
+      "x": 1320,
+      "y": 460,
+      "size": 84,
+      "at": 0.1,
+      "col": "gold",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "wrong key · wrong box",
+      "x": 1320,
+      "y": 600,
+      "size": 44,
+      "at": 0.5,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "And J-Com didn't even have that many shares. The order was forty-one times bigger than all the shares that existed.",
+   "spec": {
+    "type": "beat",
+    "scene": "mizuho",
+    "els": [
+     {
+      "e": "obj",
+      "k": "certs",
+      "x": 330,
+      "y": 560,
+      "w": 340,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "bars",
+      "x": 620,
+      "y": 380,
+      "w": 1150,
+      "rows": [
+       [
+        "all J-Com shares",
+        1,
+        "blue"
+       ],
+       [
+        "the order",
+        41,
+        "red"
+       ]
+      ],
+      "at": 0.2,
+      "end": 0.75,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "41× more than existed",
+      "x": 1200,
+      "y": 760,
+      "size": 44,
+      "at": 0.78,
+      "bg": "red",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Mizuho tried to cancel it right away, but a glitch at the Tokyo Stock Exchange kept the cancel from going through.",
+   "spec": {
+    "type": "beat",
+    "scene": "mizuho",
+    "els": [
+     {
+      "e": "button",
+      "x": 760,
+      "y": 520,
+      "txt": "CANCEL",
+      "at": 0.1,
+      "press": 0.35,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "obj",
+      "k": "server",
+      "x": 1360,
+      "y": 540,
+      "w": 360,
+      "at": 0.4,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "stamp",
+      "txt": "ERROR",
+      "x": 1360,
+      "y": 760,
+      "at": 0.7,
+      "col": "red",
+      "sz": 80,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "The damage: about forty billion yen, more than three hundred million dollars, from one swapped number.",
+   "spec": {
+    "type": "beat",
+    "scene": "mizuho",
+    "els": [
+     {
+      "e": "obj",
+      "k": "burn",
+      "x": 560,
+      "y": 560,
+      "w": 460,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "count",
+      "x": 1320,
+      "y": 460,
+      "to": 40,
+      "at": 0.05,
+      "end": 0.4,
+      "pre": "−¥",
+      "suf": "B",
+      "size": 140,
+      "col": "red",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "≈ $340 million",
+      "x": 1320,
+      "y": 620,
+      "size": 52,
+      "at": 0.5,
+      "bg": "red",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Years later, a court said the exchange was mostly to blame, and ordered it to pay around a hundred and twenty million dollars. It still left a huge hole.",
+   "spec": {
+    "type": "beat",
+    "scene": "mizuho",
+    "els": [
+     {
+      "e": "obj",
+      "k": "scales",
+      "x": 560,
+      "y": 560,
+      "w": 460,
+      "at": 0,
+      "out": [
+       99,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "court: exchange 70% to blame",
+      "x": 1320,
+      "y": 380,
+      "size": 40,
+      "at": 0.25,
+      "dot": "gold",
+      "out": [
+       99,
+       0
+      ]
+     },
+     {
+      "e": "count",
+      "x": 1320,
+      "y": 540,
+      "to": 121,
+      "at": 0.45,
+      "end": 0.7,
+      "pre": "+$",
+      "suf": "M",
+      "size": 110,
+      "col": "green",
+      "out": [
+       99,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "still a huge loss",
+      "x": 1320,
+      "y": 700,
+      "size": 40,
+      "at": 0.8,
+      "bg": "red",
+      "out": [
+       99,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Since then, trading systems have added more automatic checks to block orders that are clearly impossible. But as number five shows, software can fail in other ways.",
+   "spec": {
+    "type": "beat",
+    "scene": "mizuho",
+    "els": [
+     {
+      "e": "pill",
+      "txt": "✅ more automatic checks",
+      "x": 1320,
+      "y": 860,
+      "size": 40,
+      "at": 0.1,
+      "dot": "green",
+      "out": [
+       99,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Number five. August first, twenty twelve. Knight Capital was one of the biggest stock traders in America.",
+   "spec": {
+    "type": "map",
+    "cam": [
+     -98,
+     39,
+     1.0
+    ],
+    "cam2": [
+     -74.07,
+     40.72,
+     7
+    ],
+    "chap": 5,
+    "chapsub": "THE FORGOTTEN SERVER",
+    "pins": [
+     {
+      "at": [
+       -74.07,
+       40.72
+      ],
+      "label": "Knight Capital · Jersey City",
+      "col": "red",
+      "delay": 0.55
+     }
+    ]
+   }
+  },
+  {
+   "text": "That morning, it installed new trading software on its eight servers. But on one of them, the update never arrived.",
+   "spec": {
+    "type": "beat",
+    "scene": "knight",
+    "els": [
+     {
+      "e": "servers",
+      "at": 0,
+      "bad": 0.6,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "1 of 8 missed the update",
+      "x": 960,
+      "y": 160,
+      "size": 44,
+      "at": 0.7,
+      "bg": "red",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "sky",
+    "mood": "tense"
+   }
+  },
+  {
+   "text": "Before the market opened, the system sent ninety-seven warning emails. Nobody acted on them.",
+   "spec": {
+    "type": "beat",
+    "scene": "knight",
+    "els": [
+     {
+      "e": "obj",
+      "k": "laptop",
+      "x": 640,
+      "y": 600,
+      "w": 560,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "obj",
+      "k": "mail",
+      "x": 1300,
+      "y": 420,
+      "w": 280,
+      "at": 0.1,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "count",
+      "x": 1300,
+      "y": 640,
+      "to": 97,
+      "at": 0.15,
+      "end": 0.6,
+      "suf": " emails",
+      "size": 110,
+      "col": "red",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "stamp",
+      "txt": "IGNORED",
+      "x": 960,
+      "y": 820,
+      "at": 0.8,
+      "col": "red",
+      "sz": 86,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "At nine thirty, the market opened, and that one server woke up old code that hadn't been used in years.",
+   "spec": {
+    "type": "beat",
+    "scene": "knight",
+    "els": [
+     {
+      "e": "obj",
+      "k": "monitor",
+      "x": 640,
+      "y": 580,
+      "w": 560,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "⏰ 9:30 AM · market opens",
+      "x": 1320,
+      "y": 400,
+      "size": 44,
+      "at": 0.05,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "old code · unused for years",
+      "x": 1320,
+      "y": 560,
+      "size": 40,
+      "at": 0.6,
+      "bg": "red",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "In forty-five minutes, it fired off more than four million orders.",
+   "spec": {
+    "type": "beat",
+    "scene": "knight",
+    "els": [
+     {
+      "e": "obj",
+      "k": "monitor",
+      "x": 640,
+      "y": 580,
+      "w": 560,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "orders",
+      "at": 0.05,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "count",
+      "x": 1320,
+      "y": 420,
+      "to": 4000000,
+      "at": 0.1,
+      "end": 0.8,
+      "size": 110,
+      "col": "gold",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "orders",
+      "x": 1320,
+      "y": 540,
+      "size": 44,
+      "at": 0.1,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "obj",
+      "k": "watch",
+      "x": 1320,
+      "y": 720,
+      "w": 220,
+      "at": 0.2,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "cut": true
+   }
+  },
+  {
+   "text": "By the time it was stopped, Knight had lost four hundred sixty million dollars.",
+   "spec": {
+    "type": "beat",
+    "scene": "knight",
+    "els": [
+     {
+      "e": "obj",
+      "k": "burn",
+      "x": 560,
+      "y": 580,
+      "w": 480,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "count",
+      "x": 1320,
+      "y": 520,
+      "to": 460,
+      "at": 0.2,
+      "end": 0.8,
+      "pre": "−$",
+      "suf": "M",
+      "size": 150,
+      "col": "red",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "That's more than ten million dollars, every single minute.",
+   "spec": {
+    "type": "beat",
+    "scene": "knight",
+    "els": [
+     {
+      "e": "count",
+      "x": 1320,
+      "y": 480,
+      "to": 10.2,
+      "at": 0.1,
+      "end": 0.7,
+      "pre": "$",
+      "suf": "M / minute",
+      "dec": 1,
+      "size": 110,
+      "col": "red",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "obj",
+      "k": "watch",
+      "x": 560,
+      "y": 560,
+      "w": 360,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Its stock crashed more than seventy percent, and days later it needed a four hundred million dollar rescue just to survive.",
+   "spec": {
+    "type": "beat",
+    "scene": "knight",
+    "els": [
+     {
+      "e": "chart",
+      "kind": "crash",
+      "x": 200,
+      "y": 260,
+      "w": 1100,
+      "h": 560,
+      "at": 0,
+      "end": 0.45,
+      "out": [
+       99,
+       0
+      ]
+     },
+     {
+      "e": "count",
+      "x": 1550,
+      "y": 400,
+      "to": 70,
+      "at": 0.2,
+      "end": 0.45,
+      "pre": "−",
+      "suf": "%",
+      "size": 130,
+      "col": "red",
+      "out": [
+       99,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "🛟 $400M rescue",
+      "x": 1550,
+      "y": 620,
+      "size": 48,
+      "at": 0.7,
+      "bg": "green",
+      "out": [
+       99,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "A year later, Knight was taken over by a rival, and the company disappeared as an independent firm.",
+   "spec": {
+    "type": "beat",
+    "scene": "knight",
+    "els": [
+     {
+      "e": "stamp",
+      "txt": "TAKEN OVER · 2013",
+      "x": 1550,
+      "y": 820,
+      "at": 0.3,
+      "col": "red",
+      "sz": 48,
+      "out": [
+       99,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Number four. A city called Newport, in Wales.",
+   "spec": {
+    "type": "map",
+    "cam": [
+     -3,
+     54,
+     2.2
+    ],
+    "cam2": [
+     -2.99,
+     51.58,
+     7
+    ],
+    "chap": 4,
+    "chapsub": "THE HARD DRIVE IN THE TRASH",
+    "pins": [
+     {
+      "at": [
+       -2.99,
+       51.58
+      ],
+      "label": "Newport, Wales",
+      "col": "red",
+      "delay": 0.5
+     }
+    ]
+   }
+  },
+  {
+   "text": "In the early days of bitcoin, a computer engineer named James Howells collected around eight thousand bitcoin, back when they were worth almost nothing.",
+   "spec": {
+    "type": "beat",
+    "scene": "howells",
+    "els": [
+     {
+      "e": "obj",
+      "k": "hdd",
+      "x": 560,
+      "y": 560,
+      "w": 420,
+      "at": 0,
+      "out": [
+       1,
+       0.55
+      ]
+     },
+     {
+      "e": "btc",
+      "x": 1320,
+      "y": 560,
+      "at": 0.3,
+      "end": 0.75,
+      "out": [
+       2,
+       0
+      ]
+     },
+     {
+      "e": "count",
+      "x": 1320,
+      "y": 820,
+      "to": 8000,
+      "at": 0.3,
+      "end": 0.75,
+      "suf": " BTC",
+      "size": 70,
+      "col": "gold",
+      "out": [
+       2,
+       0
+      ]
+     }
+    ],
+    "bg": "sky",
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "In twenty thirteen, an old hard drive holding the keys to those coins was thrown out with the trash, and it ended up in the local landfill.",
+   "spec": {
+    "type": "beat",
+    "scene": "howells",
+    "els": [
+     {
+      "e": "obj",
+      "k": "landfill",
+      "x": 560,
+      "y": 600,
+      "w": 620,
+      "at": 0.45,
+      "out": [
+       99,
+       0
+      ]
+     },
+     {
+      "e": "fly",
+      "k": "hdd",
+      "fx": 560,
+      "fy": 560,
+      "tx": 560,
+      "ty": 560,
+      "w": 200,
+      "at": 0.35,
+      "end": 0.65,
+      "n": 1,
+      "drop": true,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "2013",
+      "x": 560,
+      "y": 220,
+      "size": 48,
+      "at": 0,
+      "dot": "gold",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Today, those eight thousand bitcoin would be worth more than six hundred million dollars.",
+   "spec": {
+    "type": "beat",
+    "scene": "howells",
+    "els": [
+     {
+      "e": "count",
+      "x": 1320,
+      "y": 480,
+      "to": 600,
+      "at": 0.2,
+      "end": 0.8,
+      "pre": "$",
+      "suf": "M+",
+      "size": 140,
+      "col": "green",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "1 BTC ≈ $80,000 (Oct 2026)",
+      "x": 1320,
+      "y": 640,
+      "size": 38,
+      "at": 0.5,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "And the drive isn't sitting on top. He believes it's buried somewhere in an area holding around a hundred thousand tonnes of waste.",
+   "spec": {
+    "type": "beat",
+    "scene": "howells",
+    "els": [
+     {
+      "e": "count",
+      "x": 1320,
+      "y": 480,
+      "to": 100000,
+      "at": 0.45,
+      "end": 0.8,
+      "suf": " tonnes",
+      "size": 110,
+      "col": "gold",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "somewhere in here",
+      "x": 560,
+      "y": 260,
+      "size": 40,
+      "at": 0.3,
+      "dot": "red",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "For over ten years, he tried to get permission to dig. He offered the city a share of the money. He even talked about buying the whole landfill.",
+   "spec": {
+    "type": "beat",
+    "scene": "howells",
+    "els": [
+     {
+      "e": "pill",
+      "txt": "⛏️ asked to dig",
+      "x": 1320,
+      "y": 340,
+      "size": 44,
+      "at": 0.05,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "🤝 offered the city a share",
+      "x": 1320,
+      "y": 490,
+      "size": 44,
+      "at": 0.35,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "🏷️ wanted to buy the landfill",
+      "x": 1320,
+      "y": 640,
+      "size": 44,
+      "at": 0.7,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "But in twenty twenty-five, the courts said no. And the city plans to close the site for good.",
+   "spec": {
+    "type": "beat",
+    "scene": "howells",
+    "els": [
+     {
+      "e": "obj",
+      "k": "gavel",
+      "x": 1320,
+      "y": 480,
+      "w": 320,
+      "at": 0,
+      "out": [
+       99,
+       0
+      ]
+     },
+     {
+      "e": "stamp",
+      "txt": "CASE REJECTED",
+      "x": 1320,
+      "y": 680,
+      "at": 0.2,
+      "col": "red",
+      "sz": 64,
+      "out": [
+       99,
+       0
+      ]
+     },
+     {
+      "e": "stamp",
+      "txt": "SITE CLOSING",
+      "x": 560,
+      "y": 260,
+      "at": 0.75,
+      "col": "red",
+      "sz": 64,
+      "rot": 6,
+      "out": [
+       99,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Still, at least that money was never really in someone else's hands. Number three is about a bank that sent away almost a billion dollars by accident.",
+   "spec": {
+    "type": "beat",
+    "scene": "howells",
+    "els": [
+     {
+      "e": "obj",
+      "k": "bank",
+      "x": 1320,
+      "y": 820,
+      "w": 260,
+      "at": 0.5,
+      "out": [
+       99,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Number three. New York, August eleventh, twenty twenty.",
+   "spec": {
+    "type": "map",
+    "cam": [
+     -98,
+     39,
+     1.0
+    ],
+    "cam2": [
+     -74.0,
+     40.71,
+     7
+    ],
+    "chap": 3,
+    "chapsub": "THE $900 MILLION OOPS",
+    "pins": [
+     {
+      "at": [
+       -74.0,
+       40.71
+      ],
+      "label": "Citibank · New York",
+      "col": "red",
+      "delay": 0.5
+     }
+    ]
+   }
+  },
+  {
+   "text": "Citibank was supposed to send a routine interest payment for the cosmetics company Revlon. About seven point eight million dollars.",
+   "spec": {
+    "type": "beat",
+    "scene": "citi",
+    "els": [
+     {
+      "e": "obj",
+      "k": "bank",
+      "x": 560,
+      "y": 580,
+      "w": 440,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "card",
+      "x": 1320,
+      "y": 400,
+      "w": 600,
+      "big": "$7.8M",
+      "small": "interest payment · planned",
+      "at": 0.45,
+      "col": "green",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "sky",
+    "mood": "tense"
+   }
+  },
+  {
+   "text": "Instead, after a mix-up in how the payment was entered, it paid back Revlon's entire loan. Nearly nine hundred million dollars, years before it was due.",
+   "spec": {
+    "type": "beat",
+    "scene": "citi",
+    "els": [
+     {
+      "e": "obj",
+      "k": "bank",
+      "x": 560,
+      "y": 580,
+      "w": 440,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "fly",
+      "k": "cash",
+      "fx": 640,
+      "fy": 560,
+      "tx": 1700,
+      "ty": 300,
+      "w": 140,
+      "at": 0.35,
+      "end": 0.85,
+      "n": 10,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "count",
+      "x": 1320,
+      "y": 520,
+      "to": 894,
+      "at": 0.35,
+      "end": 0.75,
+      "pre": "$",
+      "suf": "M",
+      "size": 140,
+      "col": "red",
+      "from_": 7.8,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "loan wasn't due until 2023",
+      "x": 1320,
+      "y": 680,
+      "size": 40,
+      "at": 0.8,
+      "dot": "red",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "That's more than a hundred times bigger than the payment it was supposed to make.",
+   "spec": {
+    "type": "beat",
+    "scene": "citi",
+    "els": [
+     {
+      "e": "bars",
+      "x": 520,
+      "y": 380,
+      "w": 1150,
+      "rows": [
+       [
+        "planned: $7.8M",
+        7.8,
+        "green"
+       ],
+       [
+        "sent: $894M",
+        894,
+        "red"
+       ]
+      ],
+      "at": 0.1,
+      "end": 0.7,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "114× too much",
+      "x": 1100,
+      "y": 800,
+      "size": 48,
+      "at": 0.75,
+      "bg": "red",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Some lenders sent the money back. But others kept about five hundred million dollars, and basically said: thanks, that's ours now.",
+   "spec": {
+    "type": "beat",
+    "scene": "citi",
+    "els": [
+     {
+      "e": "people",
+      "x": 560,
+      "y": 640,
+      "n": 10,
+      "at": 0.3,
+      "out": [
+       2,
+       0
+      ]
+     },
+     {
+      "e": "count",
+      "x": 1320,
+      "y": 480,
+      "to": 500,
+      "at": 0.35,
+      "end": 0.65,
+      "pre": "$",
+      "suf": "M",
+      "size": 130,
+      "col": "red",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "kept by 10 asset managers",
+      "x": 1320,
+      "y": 640,
+      "size": 40,
+      "at": 0.5,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "💬 \"Thanks, that's ours now.\"",
+      "x": 560,
+      "y": 300,
+      "size": 40,
+      "at": 0.8,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "And in twenty twenty-one, a judge actually agreed with them.",
+   "spec": {
+    "type": "beat",
+    "scene": "citi",
+    "els": [
+     {
+      "e": "obj",
+      "k": "scales",
+      "x": 1320,
+      "y": 520,
+      "w": 420,
+      "at": 0,
+      "rot": -8,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "stamp",
+      "txt": "LENDERS WIN · 2021",
+      "x": 1320,
+      "y": 780,
+      "at": 0.45,
+      "col": "red",
+      "sz": 56,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Citibank appealed. In twenty twenty-two, a higher court reversed the ruling, and said Citi had the right to get its money back.",
+   "spec": {
+    "type": "beat",
+    "scene": "citi",
+    "els": [
+     {
+      "e": "obj",
+      "k": "gavel",
+      "x": 560,
+      "y": 520,
+      "w": 340,
+      "at": 0,
+      "out": [
+       99,
+       0
+      ]
+     },
+     {
+      "e": "stamp",
+      "txt": "REVERSED · 2022",
+      "x": 1320,
+      "y": 260,
+      "at": 0.35,
+      "col": "green",
+      "sz": 64,
+      "out": [
+       99,
+       0
+      ]
+     },
+     {
+      "e": "fly",
+      "k": "cash",
+      "fx": 1750,
+      "fy": 420,
+      "tx": 1320,
+      "ty": 700,
+      "w": 130,
+      "at": 0.6,
+      "end": 0.95,
+      "n": 8,
+      "out": [
+       99,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Two years of court fights, all because of a few clicks. It became a famous lesson about how payment screens and approvals are designed.",
+   "spec": {
+    "type": "beat",
+    "scene": "citi",
+    "els": [
+     {
+      "e": "pill",
+      "txt": "lesson: design + double approvals",
+      "x": 1320,
+      "y": 800,
+      "size": 40,
+      "at": 0.5,
+      "dot": "gold",
+      "out": [
+       99,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Number two. Seoul, South Korea, April twenty eighteen.",
+   "spec": {
+    "type": "map",
+    "cam": [
+     127.5,
+     36.5,
+     3.5
+    ],
+    "cam2": [
+     126.98,
+     37.57,
+     7
+    ],
+    "chap": 2,
+    "chapsub": "THE GHOST SHARES",
+    "pins": [
+     {
+      "at": [
+       126.98,
+       37.57
+      ],
+      "label": "Samsung Securities · Seoul",
+      "col": "red",
+      "delay": 0.5
+     }
+    ]
+   }
+  },
+  {
+   "text": "Samsung Securities wanted to pay its employees a dividend of one thousand won per share. That's less than one dollar.",
+   "spec": {
+    "type": "beat",
+    "scene": "samsung",
+    "els": [
+     {
+      "e": "obj",
+      "k": "certs",
+      "x": 560,
+      "y": 580,
+      "w": 420,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "card",
+      "x": 1320,
+      "y": 380,
+      "w": 640,
+      "big": "₩1,000",
+      "small": "dividend per share · less than $1",
+      "at": 0.3,
+      "col": "green",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "sky"
+   }
+  },
+  {
+   "text": "But an employee entered one thousand shares, instead of one thousand won.",
+   "spec": {
+    "type": "beat",
+    "scene": "samsung",
+    "els": [
+     {
+      "e": "obj",
+      "k": "keyboard",
+      "x": 560,
+      "y": 600,
+      "w": 520,
+      "at": 0,
+      "glow": true,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "card",
+      "x": 1320,
+      "y": 380,
+      "w": 640,
+      "big": "1,000 SHARES",
+      "small": "per share · instead of ₩1,000",
+      "at": 0.3,
+      "col": "red",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "In seconds, about two point eight billion new shares appeared out of thin air. More than thirty times all the shares that really existed.",
+   "spec": {
+    "type": "beat",
+    "scene": "samsung",
+    "els": [
+     {
+      "e": "ghosts",
+      "x": 560,
+      "y": 600,
+      "at": 0.05,
+      "end": 0.6,
+      "out": [
+       1,
+       0.99
+      ]
+     },
+     {
+      "e": "count",
+      "x": 1320,
+      "y": 440,
+      "to": 2.8,
+      "at": 0.1,
+      "end": 0.5,
+      "suf": "B shares",
+      "dec": 1,
+      "size": 120,
+      "col": "gold",
+      "out": [
+       1,
+       0.99
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": ">30× all real shares",
+      "x": 1320,
+      "y": 600,
+      "size": 44,
+      "at": 0.6,
+      "bg": "red",
+      "out": [
+       1,
+       0.99
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "On paper, they were worth around a hundred and five billion dollars.",
+   "spec": {
+    "type": "beat",
+    "scene": "samsung",
+    "els": [
+     {
+      "e": "count",
+      "x": 1320,
+      "y": 760,
+      "to": 105,
+      "at": 0.2,
+      "end": 0.8,
+      "pre": "$",
+      "suf": "B",
+      "size": 130,
+      "col": "red",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "These were ghost shares. But sixteen employees sold about five million of them anyway, worth around a hundred and eighty-seven million dollars.",
+   "spec": {
+    "type": "beat",
+    "scene": "samsung",
+    "els": [
+     {
+      "e": "people",
+      "x": 560,
+      "y": 640,
+      "n": 16,
+      "at": 0.3,
+      "out": [
+       2,
+       0
+      ]
+     },
+     {
+      "e": "count",
+      "x": 1320,
+      "y": 440,
+      "to": 5,
+      "at": 0.4,
+      "end": 0.65,
+      "suf": "M shares sold",
+      "size": 96,
+      "col": "gold",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "≈ $187 million",
+      "x": 1320,
+      "y": 600,
+      "size": 48,
+      "at": 0.8,
+      "bg": "red",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "The company's CEO later resigned.",
+   "spec": {
+    "type": "beat",
+    "scene": "samsung",
+    "els": [
+     {
+      "e": "stamp",
+      "txt": "CEO RESIGNED",
+      "x": 1320,
+      "y": 480,
+      "at": 0.15,
+      "col": "red",
+      "sz": 80,
+      "out": [
+       99,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "South Korea's regulators stepped in, and even years later, courts were still ordering Samsung Securities to pay compensation to investors.",
+   "spec": {
+    "type": "beat",
+    "scene": "samsung",
+    "els": [
+     {
+      "e": "obj",
+      "k": "scales",
+      "x": 560,
+      "y": 560,
+      "w": 420,
+      "at": 0.1,
+      "out": [
+       99,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "⚖️ compensation ordered · even in 2026",
+      "x": 1320,
+      "y": 680,
+      "size": 40,
+      "at": 0.5,
+      "out": [
+       99,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "A hundred and five billion dollars on paper is huge. But the number one mistake on this list wasn't a typo at all.",
+   "spec": {
+    "type": "beat",
+    "scene": "samsung",
+    "els": [
+     {
+      "e": "pill",
+      "txt": "no typo · no bug",
+      "x": 1320,
+      "y": 820,
+      "size": 40,
+      "at": 0.6,
+      "bg": "red",
+      "out": [
+       99,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "And number one. California, nineteen seventy-six.",
+   "spec": {
+    "type": "map",
+    "cam": [
+     -98,
+     39,
+     1.0
+    ],
+    "cam2": [
+     -122.1,
+     37.38,
+     6
+    ],
+    "chap": 1,
+    "chapsub": "THE $800 DECISION",
+    "pins": [
+     {
+      "at": [
+       -122.1,
+       37.38
+      ],
+      "label": "California · 1976",
+      "col": "gold",
+      "delay": 0.5
+     }
+    ]
+   }
+  },
+  {
+   "text": "Steve Jobs and Steve Wozniak were starting a new computer company called Apple. They brought in a third partner, Ronald Wayne, and gave him ten percent.",
+   "spec": {
+    "type": "beat",
+    "scene": "wayne",
+    "els": [
+     {
+      "e": "obj",
+      "k": "garage",
+      "x": 560,
+      "y": 560,
+      "w": 560,
+      "at": 0,
+      "out": [
+       4,
+       0
+      ]
+     },
+     {
+      "e": "pie",
+      "x": 1360,
+      "y": 520,
+      "r": 220,
+      "at": 0.5,
+      "end": 0.85,
+      "out": [
+       4,
+       0
+      ]
+     }
+    ],
+    "bg": "sky",
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "Back then, Apple was just a tiny startup, and nobody knew if it would survive.",
+   "spec": {
+    "type": "beat",
+    "scene": "wayne",
+    "els": [
+     {
+      "e": "pill",
+      "txt": "tiny startup · no guarantee",
+      "x": 1360,
+      "y": 860,
+      "size": 40,
+      "at": 0.2,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "But just twelve days later, Wayne gave up his share. For eight hundred dollars.",
+   "spec": {
+    "type": "beat",
+    "scene": "wayne",
+    "els": [
+     {
+      "e": "pill",
+      "txt": "12 days later",
+      "x": 1760,
+      "y": 180,
+      "size": 40,
+      "at": 0.05,
+      "dot": "red",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "stamp",
+      "txt": "SOLD FOR $800",
+      "x": 1360,
+      "y": 840,
+      "at": 0.6,
+      "col": "red",
+      "sz": 72,
+      "out": [
+       2,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Why? He later said he felt like he was standing in the shadow of giants.",
+   "spec": {
+    "type": "beat",
+    "scene": "wayne",
+    "els": [
+     {
+      "e": "pill",
+      "txt": "💬 \"standing in the shadow of giants\"",
+      "x": 960,
+      "y": 170,
+      "size": 44,
+      "at": 0.3,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Later, he took another fifteen hundred dollars to drop any claim to the company.",
+   "spec": {
+    "type": "beat",
+    "scene": "wayne",
+    "els": [
+     {
+      "e": "obj",
+      "k": "contract",
+      "x": 560,
+      "y": 560,
+      "w": 380,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "+$1,500 · no more claims",
+      "x": 1360,
+      "y": 420,
+      "size": 48,
+      "at": 0.4,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Today, Apple is worth around four trillion dollars.",
+   "spec": {
+    "type": "beat",
+    "scene": "wayne",
+    "els": [
+     {
+      "e": "count",
+      "x": 960,
+      "y": 440,
+      "to": 4,
+      "at": 0.1,
+      "end": 0.7,
+      "pre": "$",
+      "suf": " TRILLION",
+      "size": 150,
+      "col": "gold",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "Apple today (approx.)",
+      "x": 960,
+      "y": 620,
+      "size": 40,
+      "at": 0.3,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Even after all the new shares Apple created over the years, his ten percent could be worth somewhere between seventy-five and three hundred sixty billion dollars.",
+   "spec": {
+    "type": "beat",
+    "scene": "wayne",
+    "els": [
+     {
+      "e": "range",
+      "x": 260,
+      "y": 520,
+      "w": 1400,
+      "lo": 75,
+      "hi": 360,
+      "max": 400,
+      "at": 0.5,
+      "end": 0.9,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "tx",
+      "txt": "his 10% today (estimate)",
+      "x": 960,
+      "y": 300,
+      "size": 60,
+      "at": 0.1,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "And the wildest part? He says he has no regrets.",
+   "spec": {
+    "type": "beat",
+    "scene": "wayne",
+    "els": [
+     {
+      "e": "obj",
+      "k": "samhappy",
+      "x": 560,
+      "y": 620,
+      "w": 480,
+      "at": 0,
+      "out": [
+       99,
+       0
+      ]
+     },
+     {
+      "e": "stamp",
+      "txt": "NO REGRETS",
+      "x": 1320,
+      "y": 480,
+      "at": 0.5,
+      "col": "green",
+      "sz": 90,
+      "out": [
+       99,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "So what do all these mistakes have in common? Most of them weren't made by stupid people.",
+   "spec": {
+    "type": "beat",
+    "scene": "outro",
+    "els": [
+     {
+      "e": "obj",
+      "k": "samthink",
+      "x": 480,
+      "y": 620,
+      "w": 480,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "tx",
+      "txt": "What do they have in common?",
+      "x": 1260,
+      "y": 300,
+      "size": 64,
+      "at": 0.05,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "sky",
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "They were made by smart people, in a hurry, trusting a number they never double-checked.",
+   "spec": {
+    "type": "beat",
+    "scene": "outro",
+    "els": [
+     {
+      "e": "pill",
+      "txt": "smart people",
+      "x": 1260,
+      "y": 460,
+      "size": 44,
+      "at": 0.1,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "in a hurry",
+      "x": 1260,
+      "y": 580,
+      "size": 44,
+      "at": 0.3,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "no double-check",
+      "x": 1260,
+      "y": 700,
+      "size": 44,
+      "at": 0.6,
+      "bg": "red",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "A unit nobody converted. A number typed the wrong way round. Ninety-seven emails nobody read.",
+   "spec": {
+    "type": "beat",
+    "scene": "outro",
+    "els": [
+     {
+      "e": "card",
+      "x": 400,
+      "y": 300,
+      "w": 480,
+      "big": "lbf ≠ N",
+      "small": "a unit nobody converted",
+      "at": 0.05,
+      "col": "red",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "card",
+      "x": 960,
+      "y": 300,
+      "w": 480,
+      "big": "610,000 ⇄ 1",
+      "small": "numbers swapped",
+      "at": 0.35,
+      "col": "red",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "card",
+      "x": 1520,
+      "y": 300,
+      "w": 480,
+      "big": "97 emails",
+      "small": "nobody read",
+      "at": 0.7,
+      "col": "red",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "So next time you send money, sign something, or hit confirm, take five extra seconds. It might be the cheapest insurance you'll ever get.",
+   "spec": {
+    "type": "beat",
+    "scene": "outro",
+    "els": [
+     {
+      "e": "button",
+      "x": 640,
+      "y": 520,
+      "txt": "CONFIRM",
+      "at": 0.05,
+      "press": null,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "count",
+      "x": 1320,
+      "y": 480,
+      "to": 5,
+      "at": 0.3,
+      "end": 0.6,
+      "suf": " seconds",
+      "size": 120,
+      "col": "green",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "the cheapest insurance",
+      "x": 1320,
+      "y": 640,
+      "size": 44,
+      "at": 0.7,
+      "dot": "green",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Because as you just saw, the biggest losses rarely come from one huge decision. They come from tiny moments that nobody took seriously.",
+   "spec": {
+    "type": "beat",
+    "scene": "outro",
+    "els": [
+     {
+      "e": "tx",
+      "txt": "tiny moments → huge losses",
+      "x": 960,
+      "y": 480,
+      "size": 80,
+      "at": 0.3,
+      "col": "gold",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Which of these mistakes shocked you the most? Tell me in the comments. And if you want more stories like this, subscribe.",
+   "spec": {
+    "type": "beat",
+    "scene": "outro",
+    "els": [
+     {
+      "e": "obj",
+      "k": "samhappy",
+      "x": 560,
+      "y": 600,
+      "w": 560,
+      "at": 0,
+      "out": [
+       99,
+       0
+      ]
+     },
+     {
+      "e": "card",
+      "x": 1300,
+      "y": 300,
+      "w": 720,
+      "big": "Which one shocked you?",
+      "small": "tell me in the comments 👇",
+      "at": 0.05,
+      "col": "ink",
+      "out": [
+       99,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "🔔 Subscribe for more money stories",
+      "x": 1300,
+      "y": 640,
+      "size": 44,
+      "at": 0.55,
+      "bg": "red",
+      "out": [
+       99,
+       0
+      ]
+     }
+    ]
+   }
+  }
+ ]
+}
