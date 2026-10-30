@@ -62,3 +62,12 @@
 - Technik: git fetch/pull hing im Container (Timeout) -> Push über GitHub-MCP.
 
 ## 2026-10-30 14:15: tt_tulip (Tulpenmanie, Hook 'Why you should never buy something just because everyone else is') fertig, 24,5 s, Loop ok – an Alex geschickt, wartet auf Feedback/OK.
+
+## Lauf 2026-10-30 16:50 (Routine)
+- 10 Abos (unverändert). 48-h-Echtzeit: 2.426 Aufrufe. Analytics-Tageswerte weiter nur bis 29.10. (keine neuen Engaged/Traffic/Länder-Daten).
+- Shorts: Felicity 1.273 | Ever Given 1.225 | SVB 1.120 | $100: 284 | New vs Used 210 -> alle stehen weiter. Knight-Short wPULT1cjzHg geplant 30.10. 19:00 (ok).
+- Langform Bank-Video KDOq1pF040k: 428 Aufrufe (seit Veröff.), weiter nur 3 einzelne Zuschauer, CTR 0,9 % bei 1.741 Impressionen, 99,3 % YouTube-Suche -> Hover-Vorschau-Aufrufe, kein echtes Wachstum. Andere Langvideos 5–38 Aufrufe.
+- Keine Korrekturen nötig. Entwurfs-Leiche "846c1dee…" weiter offen (Alex fragen).
+- yt_mistakes12 (Langvideo "Most Expensive Mistakes", enthält Knight, Citibank, Wayne/Apple, Bitcoin-Festplatte, Mars Orbiter …) wird gerade in einer anderen Session gebaut/gerendert – hier nicht angefasst. Damit sind die offenen Ideen Bitcoin-Festplatte + Wayne verbraucht.
+- tt_tulip wartet weiter auf Alex' Feedback/OK.
+- Neue Short-Ideen an Alex (warten auf OK): Victor Lustig verkaufte den Eiffelturm (1925) | Blockbuster lehnte Netflix für $50 Mio. ab (2000) | Hunt-Brüder & Silber-Donnerstag (1980).
