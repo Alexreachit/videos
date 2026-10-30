@@ -71,3 +71,4 @@
 - yt_mistakes12 (Langvideo "Most Expensive Mistakes", enthält Knight, Citibank, Wayne/Apple, Bitcoin-Festplatte, Mars Orbiter …) wird gerade in einer anderen Session gebaut/gerendert – hier nicht angefasst. Damit sind die offenen Ideen Bitcoin-Festplatte + Wayne verbraucht.
 - tt_tulip wartet weiter auf Alex' Feedback/OK.
 - Neue Short-Ideen an Alex (warten auf OK): Victor Lustig verkaufte den Eiffelturm (1925) | Blockbuster lehnte Netflix für $50 Mio. ab (2000) | Hunt-Brüder & Silber-Donnerstag (1980).
+## 2026-10-30 18:35: yt_mistakes12 'The Most Expensive Mistakes in History' fertig (8:39, Kapitel ok, Thumbnail 'ONE MISTAKE = $900M'), an Alex geschickt – wartet auf OK für Upload.
