@@ -50,3 +50,12 @@
 - Langform Bank-Video (KDOq1pF040k): 150 Aufrufe, davon 141 in 48 h, ABER nur 3 einzelne Zuschauer, 0,2 h Wiedergabezeit (~5 s/Aufruf), 98,7 % YouTube-Suche, CTR 0,8 % bei 771 Impressionen -> wahrscheinlich keine echten Zuschauer (wiederholte Aufrufe/Bot), nicht als Erfolg werten.
 - Alte Entwurfs-Leiche in Videos: "846c1dee ce8b 4962 ..." (4:48, Entwurf) – Alex fragen, ob löschen.
 - Knight-Short geplant 30.10. 19:00.
+
+## Lauf 2026-10-30 12:00 (Routine)
+- 10 Abos (unverändert). 48-h-Echtzeit: 2.274 Aufrufe. 28 Tage (bis 29.10.): 4.514 Aufrufe, 18,8 h, +8 Abos (Shorts +4, Videos +3); Shorts 91,7 % der Aufrufe.
+- Shorts (Liste): Felicity 1.272 | Ever Given 1.225 | SVB 1.120 | $100 lost $23: 284 | New vs Used 210 -> alle stehen. Ø angesehen: SVB 69 %, Felicity 68 %, New vs Used 72 %, Ever Given 57 %, $100 59 %.
+- Langform Bank-Video (KDOq1pF040k): 254 Aufrufe, weiterhin nur 3 einzelne Zuschauer, CTR 0,7 % bei 1.285 Impressionen, 98,8 % YouTube-Suche (Suchbegriff "i quit the bank collapsed helen") -> weiter künstliche/Wiederholungs-Aufrufe, NICHT als Erfolg werten. Analytics zählt nur 121 (YouTube filtert bereits).
+- Länder 28 T: DE 16,5 %, US 11,7 % (vorher 1,9 %!), IN 6,5 %, PH 4,1 %, UK 3,4 %, CA 2,6 %. US Ø 0:29 = beste Wiedergabe -> englische Geld-Stories erreichen jetzt die USA.
+- Knight-Short wPULT1cjzHg: geplant 30.10. 19:00, ok.
+- Keine Korrekturen nötig. Keine freigegebene Idee offen -> Alex erneut gefragt (Tulpen, Bitcoin-Festplatte, neu: Ronald Wayne/Apple-Anteil für $800).
+- Technik: git fetch/pull hing im Container (Timeout) -> Push über GitHub-MCP.
