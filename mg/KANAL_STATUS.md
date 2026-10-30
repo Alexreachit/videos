@@ -44,3 +44,9 @@
 - ys_knight -> Short "$460 Million Lost in 45 Minutes 💸" (ID wPULT1cjzHg), privat, geplant öffentlich 30.10.2026 19:00 (GMT+1). Beschreibung mit SEC- und Wikipedia-Quelle, #money #finance #stockmarket #shorts. Vorabprüfung: keine Probleme.
 - Upload-Weg: MP4 vom Branch renders (renders/<projekt>/<projekt>_final.mp4), auf <10 MB neu kodiert (x264 2-Pass 2700k), nach /mnt/user-data/outputs, dann Chrome file_upload.
 - Alex 29.10.: Langform-Aufrufe zählen viel mehr als Shorts-Aufrufe (100 Langform > 1.000 Shorts).
+
+## Check 2026-10-30 (Alex fragte "Wie sieht der Kanal aus")
+- 10 Abos (+1). 48 h: 2.582 Aufrufe. Felicity 1.277, SVB-Short 1.129 (beide stehen fast).
+- Langform Bank-Video (KDOq1pF040k): 150 Aufrufe, davon 141 in 48 h, ABER nur 3 einzelne Zuschauer, 0,2 h Wiedergabezeit (~5 s/Aufruf), 98,7 % YouTube-Suche, CTR 0,8 % bei 771 Impressionen -> wahrscheinlich keine echten Zuschauer (wiederholte Aufrufe/Bot), nicht als Erfolg werten.
+- Alte Entwurfs-Leiche in Videos: "846c1dee ce8b 4962 ..." (4:48, Entwurf) – Alex fragen, ob löschen.
+- Knight-Short geplant 30.10. 19:00.
