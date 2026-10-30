@@ -73,3 +73,5 @@
 - Neue Short-Ideen an Alex (warten auf OK): Victor Lustig verkaufte den Eiffelturm (1925) | Blockbuster lehnte Netflix für $50 Mio. ab (2000) | Hunt-Brüder & Silber-Donnerstag (1980).
 ## 2026-10-30 18:35: yt_mistakes12 'The Most Expensive Mistakes in History' fertig (8:39, Kapitel ok, Thumbnail 'ONE MISTAKE = $900M'), an Alex geschickt – wartet auf OK für Upload.
 - 2026-10-30 ~17:00 Alex: Tulpen-Short (tt_tulip) "nicht so geil" -> NICHT hochladen.
+- Grund (Alex): Thema langweilig -> lieber spannendere/modernere Geld-Storys, keine trockene Historie.
+- FREIGEGEBEN 2026-10-30 ~17:05: Short "Eiffelturm-Betrug" (Victor Lustig 1925), Hook "Why you should never buy something that's too good to be true". Nächster Lauf: Fakten belegen (Primär-/seriöse Quellen), dann bauen.
