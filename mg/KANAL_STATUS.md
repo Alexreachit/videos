@@ -58,6 +58,7 @@
 - Länder 28 T: DE 16,5 %, US 11,7 % (vorher 1,9 %!), IN 6,5 %, PH 4,1 %, UK 3,4 %, CA 2,6 %. US Ø 0:29 = beste Wiedergabe -> englische Geld-Stories erreichen jetzt die USA.
 - Knight-Short wPULT1cjzHg: geplant 30.10. 19:00, ok.
 - Keine Korrekturen nötig. Keine freigegebene Idee offen -> Alex erneut gefragt (Tulpen, Bitcoin-Festplatte, neu: Ronald Wayne/Apple-Anteil für $800).
+- Alex 30.10.: Bank-Video-Aufrufe kommen aus Hover-Vorschau in der Suche; Einstieg sagte nicht sofort, worum es geht -> Regel in ANLEITUNG ergänzt (Hook ab Sek. 0, stumm verständlich).
 - Technik: git fetch/pull hing im Container (Timeout) -> Push über GitHub-MCP.
 
 ## 2026-10-30 14:15: tt_tulip (Tulpenmanie, Hook 'Why you should never buy something just because everyone else is') fertig, 24,5 s, Loop ok – an Alex geschickt, wartet auf Feedback/OK.

@@ -150,3 +150,8 @@ Rendern auf GitHub: Projektname in `mg/render_queue.txt` eintragen und pushen (W
 ## Bewertung von Aufrufen (Alex 2026-10-29)
 - Shorts-Aufrufe sind viel leichter zu bekommen als Aufrufe auf langen Videos. 100 Aufrufe auf einem langen Video zählen mehr als 1.000 auf einem Short.
 - In Analysen Shorts und lange Videos getrennt bewerten. Bei langen Videos vor allem auf Aufrufe, CTR, Wiedergabezeit und Abos achten, nicht auf rohe Shorts-Zahlen.
+
+## Langform-Einstieg für Hover-Vorschau (Erkenntnis Alex 2026-10-30)
+- Viele Aufrufe langer Videos kommen aus der YouTube-Suche per Hover-Vorschau (Video spielt kurz an, ohne Klick). Beim Bank-Video wurde in den ersten Sekunden nicht klar, was passiert -> niemand blieb.
+- Darum ab Sekunde 0: worum es geht + größte Zahl/These sofort als großer Text im Bild (Vorschau läuft oft stumm) und im ersten Satz; Bewegung ab Frame 0; kein Titel-/Logo-Intro.
+- Die ersten ~5 s müssen auch ohne Ton verständlich und neugierig machend sein (Frage/Konflikt sichtbar).
