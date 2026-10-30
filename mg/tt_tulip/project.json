@@ -1,0 +1,70 @@
+{
+ "title": "TikTok: Why you should never buy something just because everyone else is (Tulip mania)",
+ "_sources": "TikTok/Short \"Why you should never buy something just because everyone else is\" (Tulip mania 1637) -> project.json\nSources (checked 2026-10-30):\nHistory.com, Dave Roos \"There Never Was a Real Tulip Fever\" (on Anne Goldgar, \"Tulipmania\", 2007):\n  prices spiked Dec 1636 - Feb 1637; Switzer bulb rose 12-fold; most expensive recorded sale 5,000 guilders\n  = \"the going rate for a nice house in 1637\"; 300 guilders = what a skilled craftsman earned in a year; Haarlem centre of the trade.\nWikipedia \"Tulip mania\": collapse by end of first week of February 1637; first sign Feb 3 in Haarlem, auction found no buyers;\n  fall \"faster and more dramatic than the rise\"; contracts traded without bulbs changing hands (\"windhandel\").",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+16%",
+ "lead": 0.05,
+ "gap": 0.08,
+ "tail": 0.1,
+ "crf": 20,
+ "music": {
+  "style": "ttdark",
+  "bpm": 140,
+  "gain": 0.22,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.42,
+ "lines": [
+  {
+   "text": "Why you should never buy something just because everyone else is.",
+   "spec": {
+    "type": "hero"
+   }
+  },
+  {
+   "text": "In the sixteen-thirties, tulips became the hottest thing to trade in Holland.",
+   "spec": {
+    "type": "holland"
+   }
+  },
+  {
+   "text": "Within weeks, one bulb got twelve times more expensive.",
+   "spec": {
+    "type": "rise"
+   }
+  },
+  {
+   "text": "The priciest one sold for five thousand guilders. That's the price of a nice house.",
+   "spec": {
+    "type": "house"
+   }
+  },
+  {
+   "text": "A craftsman earned about three hundred a year.",
+   "spec": {
+    "type": "wage"
+   }
+  },
+  {
+   "text": "Then in February, a Haarlem auction found no buyers, and prices crashed.",
+   "spec": {
+    "type": "crash",
+    "cut": true
+   }
+  },
+  {
+   "text": "Would you have bought a tulip?",
+   "spec": {
+    "type": "hero",
+    "choice": true
+   }
+  }
+ ]
+}
