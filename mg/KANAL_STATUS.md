@@ -75,3 +75,4 @@
 - 2026-10-30 ~17:00 Alex: Tulpen-Short (tt_tulip) "nicht so geil" -> NICHT hochladen.
 - Grund (Alex): Thema langweilig -> lieber spannendere/modernere Geld-Storys, keine trockene Historie.
 - FREIGEGEBEN 2026-10-30 ~17:05: Short "Eiffelturm-Betrug" (Victor Lustig 1925), Hook "Why you should never buy something that's too good to be true". Nächster Lauf: Fakten belegen (Primär-/seriöse Quellen), dann bauen.
+- 2026-10-30 22:35: Knight-Short wPULT1cjzHg seit 19:00 öffentlich, erst 11 Aufrufe nach 3,5 h (Felicity/SVB hatten am 1. Tag >1.000) -> morgen erneut prüfen; Shorts zünden teils verzögert.
