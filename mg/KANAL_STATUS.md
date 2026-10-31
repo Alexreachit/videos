@@ -85,3 +85,7 @@
 - Keine Korrekturen nötig. Entwurfs-Leichen "846c1dee…" und doppelter Piloten-Entwurf weiter offen (Alex fragen). yt_mistakes12 noch nicht hochgeladen (wartet auf Alex' OK).
 - ys_eiffel (freigegebene Eiffelturm-Idee) gebaut: Fakten Smithsonian 2012 + Wikipedia Victor Lustig + toureiffel.paris (7.300 t Metall); Betrag variiert je Quelle -> keine Summe im Video.
   Eiffelturm als Code-Gitter (zerlegt sich in Schrott-Haufen), Betrüger als Silhouette, Sam als Händler; Render über mg-batch (Run 41182923899).
+- 2026-10-31 09:35: ys_eiffel fertig gerendert (25,1 s, Loop: letzter = erster Frame, Lautstärke Ø -20 dB / max -2,9 dB, Standbilder geprüft).
+  Hochgeladen als PRIVAT: Short "A Con Man Sold the Eiffel Tower 🗼" (ID JX4IgkbE9Vo), Beschreibung mit 3 Quellen + #money #scam #history #shorts, "nicht für Kinder".
+  -> wartet auf Alex' OK zum Planen (Vorschlag: heute 31.10. oder So 1.11., 19:00).
+- Neue Ideen an Alex (warten auf OK): Blockbuster lehnt Netflix für $50 Mio. ab (2000) | GameStop-Squeeze 2021 (Hedgefonds gegen Reddit) | Fyre Festival (Luxus-Festival, das es nie gab, 2017).
