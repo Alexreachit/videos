@@ -106,3 +106,5 @@
 - Eiffel v1 JX4IgkbE9Vo ist nicht mehr im Kanal (gelöscht). Eiffel v2 mTgQrkky1Oc weiter PRIVAT, wartet auf Alex' OK zum Planen. ys_gme fertig, noch nicht hochgeladen (wartet auf Alex' OK).
 - Keine Korrekturen nötig. Entwurfs-Leiche "846c1dee…" weiter offen. Offene Ideen (warten auf OK): Blockbuster/Netflix | Fyre Festival.
 - 2026-10-31 21:29: Mit Alex' OK ('Ja Eiffel Short jetzt hochladen') Eiffel v2 mTgQrkky1Oc auf ÖFFENTLICH gestellt (sofort, nicht geplant).
+
+## 2026-10-31 23:35: ys_binance (Binance-Hack 29.10.2026, 'Why you should never keep all your crypto on one exchange') fertig, 30 s, Sam-Unterbrechung v1 + suspense. Quellen Al Jazeera/TRM/TechCrunch. GameStop final mit Sam (ys_gme_sam) ebenfalls fertig. Beide warten auf Alex' OK.
