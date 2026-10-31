@@ -13,7 +13,7 @@ A("In January twenty twenty-one, hedge funds bet that GameStop's stock would cra
 A("They had shorted about a hundred forty percent of its tradable shares.", dict(type="short"))
 A("Then a Reddit forum with millions of members started buying.", dict(type="reddit"))
 A("The stock exploded from seventeen dollars to over four hundred eighty.", dict(type="explode", cut=True))
-A("Wait! Follow for more stories like this!", dict(type="samyell"))
+A("WAIT!!! FOLLOW for more stories like this!!!", dict(type="samyell"), rate="+28%", pitch="+14Hz", volume="+50%", afx="highpass=f=170,equalizer=f=1800:t=q:w=1.2:g=7,equalizer=f=3500:t=q:w=1:g=4,acompressor=threshold=-24dB:ratio=8:attack=3:release=60:makeup=6,volume=3dB,asoftclip=type=tanh,volume=2dB")
 A("Anyway. Short sellers lost billions. One hedge fund needed a two point seven five billion dollar rescue.", dict(type="loss"))
 A("Would you have bought GameStop?", dict(type="hero", choice=True))
 P = dict(title="Short DEMO: GameStop + Sam follow interrupt",

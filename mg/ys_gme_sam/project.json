@@ -54,10 +54,14 @@
    }
   },
   {
-   "text": "Wait! Follow for more stories like this!",
+   "text": "WAIT!!! FOLLOW for more stories like this!!!",
    "spec": {
     "type": "samyell"
-   }
+   },
+   "rate": "+28%",
+   "pitch": "+14Hz",
+   "volume": "+50%",
+   "afx": "highpass=f=170,equalizer=f=1800:t=q:w=1.2:g=7,equalizer=f=3500:t=q:w=1:g=4,acompressor=threshold=-24dB:ratio=8:attack=3:release=60:makeup=6,volume=3dB,asoftclip=type=tanh,volume=2dB"
   },
   {
    "text": "Anyway. Short sellers lost billions. One hedge fund needed a two point seven five billion dollar rescue.",

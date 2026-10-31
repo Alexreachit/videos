@@ -579,7 +579,7 @@ def main():
         d = dur_of(mp3)
         start = max(t + ln.get("pause", 0), ln.get("min_start", 0))  # pause = dramatische Pause vor der Zeile
         lines.append({"text": ln["text"], "start": round(start, 3), "end": round(start + d, 3), "file": str(mp3),
-                      "spec": ln.get("spec"), "words": [[w, round(a, 3), round(b, 3)] for w, a, b in words]})
+                      "spec": ln.get("spec"), "afx": ln.get("afx"), "words": [[w, round(a, 3), round(b, 3)] for w, a, b in words]})
         t = start + d + cfg.get("gap", .3)
         print(f"Zeile {i}: {start:.2f}-{start+d:.2f}  {ln['text']}", flush=True)
     total = round(lines[-1]["end"] + cfg.get("tail", 1.5), 2)
@@ -625,7 +625,7 @@ def main():
     ins = []; fl = []
     for i, l in enumerate(lines):
         ins += ["-i", l["file"]]
-        fl.append(f"[{i}:a]aresample={SR},aformat=channel_layouts=stereo,volume={voice_gain(l['file'])}dB,adelay={int(l['start']*1000)}|{int(l['start']*1000)}[v{i}]")
+        fl.append(f"[{i}:a]{(l['afx'] + ',') if l.get('afx') else ''}aresample={SR},aformat=channel_layouts=stereo,volume={voice_gain(l['file'])}dB,adelay={int(l['start']*1000)}|{int(l['start']*1000)}[v{i}]")
     mix = "".join(f"[v{i}]" for i in range(len(lines))) + f"amix=inputs={len(lines)}:normalize=0,apad=whole_dur={total}[voice]"  # apad: sonst schneidet der Mix die letzte Zeile ab
     n = len(lines)
     graph = ";".join(fl + [mix,
