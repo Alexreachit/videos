@@ -76,3 +76,12 @@
 - Grund (Alex): Thema langweilig -> lieber spannendere/modernere Geld-Storys, keine trockene Historie.
 - FREIGEGEBEN 2026-10-30 ~17:05: Short "Eiffelturm-Betrug" (Victor Lustig 1925), Hook "Why you should never buy something that's too good to be true". Nächster Lauf: Fakten belegen (Primär-/seriöse Quellen), dann bauen.
 - 2026-10-30 22:35: Knight-Short wPULT1cjzHg seit 19:00 öffentlich, erst 11 Aufrufe nach 3,5 h (Felicity/SVB hatten am 1. Tag >1.000) -> morgen erneut prüfen; Shorts zünden teils verzögert.
+
+## Lauf 2026-10-31 09:00 (Routine)
+- 10 Abos (unverändert). 48-h-Echtzeit: 1.277 Aufrufe (davon Bank-Langvideo 966, SVB-Short 222, Felicity 49). Analytics-Tageswerte weiter nur bis 29.10.
+- Shorts: Felicity 1.287 | Ever Given 1.225 | SVB 1.120 | $100: 284 | New vs Used 210 | Knight wPULT1cjzHg: 21–22 Aufrufe nach ~14 h, Ø 65,6 % angesehen, 0 Likes -> zündet bisher nicht.
+- Langform Bank-Video KDOq1pF040k: 978 Aufrufe, aber nur 0,6 h Wiedergabezeit (~2 s/Aufruf), 99,6 % YouTube-Suche -> weiterhin Hover-Vorschau-Aufrufe, kein echtes Wachstum. Andere Langvideos 5–77 Aufrufe.
+- Erkenntnis: Knight (Firmen-/Börsen-Panne, abstrakt) zündet nicht wie Felicity/SVB (greifbare Objekte: Autos, Schiff, eigenes Bankkonto). Thumbnail/erste Sekunde braucht ein sofort erkennbares Objekt.
+- Keine Korrekturen nötig. Entwurfs-Leichen "846c1dee…" und doppelter Piloten-Entwurf weiter offen (Alex fragen). yt_mistakes12 noch nicht hochgeladen (wartet auf Alex' OK).
+- ys_eiffel (freigegebene Eiffelturm-Idee) gebaut: Fakten Smithsonian 2012 + Wikipedia Victor Lustig + toureiffel.paris (7.300 t Metall); Betrag variiert je Quelle -> keine Summe im Video.
+  Eiffelturm als Code-Gitter (zerlegt sich in Schrott-Haufen), Betrüger als Silhouette, Sam als Händler; Render über mg-batch (Run 41182923899).
