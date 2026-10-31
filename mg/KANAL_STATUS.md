@@ -89,3 +89,6 @@
   Hochgeladen als PRIVAT: Short "A Con Man Sold the Eiffel Tower 🗼" (ID JX4IgkbE9Vo), Beschreibung mit 3 Quellen + #money #scam #history #shorts, "nicht für Kinder".
   -> wartet auf Alex' OK zum Planen (Vorschlag: heute 31.10. oder So 1.11., 19:00).
 - Neue Ideen an Alex (warten auf OK): Blockbuster lehnt Netflix für $50 Mio. ab (2000) | GameStop-Squeeze 2021 (Hedgefonds gegen Reddit) | Fyre Festival (Luxus-Festival, das es nie gab, 2017).
+
+## 2026-10-31 15:25: ys_gme (GameStop-Squeeze, 'Why you should never bet against the internet') fertig, 25,4 s, heller Tag-Look nach Alex' Wunsch ('lieber hellere Hintergründe').
+- Neu: Team-Look-Paket (Parallax-Skyline 3 Ebenen, Kamera-Shake/Zoom-Punches, Lichtstrahlen, Partikel-Bursts, Kinetic Type, Schatten, Farb-Grading), alles loop-sicher periodisch. Controller von Gemini verworfen (Xbox-Logo). Wartet auf Alex' OK.
