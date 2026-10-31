@@ -105,3 +105,4 @@
 - Länder 28 T: DE 13,8 % (Ø 0:20), US 10,3 % (Ø 0:28), IN 6,0 %, PH 4,1 %, UK 2,9 %, ID 2,7 %, CA 2,2 %. Publikum 88 % männlich, 25–34 J. 35 %, 99,4 % neue Zuschauer.
 - Eiffel v1 JX4IgkbE9Vo ist nicht mehr im Kanal (gelöscht). Eiffel v2 mTgQrkky1Oc weiter PRIVAT, wartet auf Alex' OK zum Planen. ys_gme fertig, noch nicht hochgeladen (wartet auf Alex' OK).
 - Keine Korrekturen nötig. Entwurfs-Leiche "846c1dee…" weiter offen. Offene Ideen (warten auf OK): Blockbuster/Netflix | Fyre Festival.
+- 2026-10-31 21:29: Mit Alex' OK ('Ja Eiffel Short jetzt hochladen') Eiffel v2 mTgQrkky1Oc auf ÖFFENTLICH gestellt (sofort, nicht geplant).
