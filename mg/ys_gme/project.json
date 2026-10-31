@@ -1,0 +1,70 @@
+{
+ "title": "Short: Why you should never bet against the internet (GameStop)",
+ "_sources": "Short/TikTok \"Why you should never bet against the internet\" (GameStop short squeeze, Jan 2021) -> project.json\nSources (checked 2026-10-31): Wikipedia \"GameStop short squeeze\":\n  GME at $17.25 at the start of January 2021; intraday all-time high $483.00 on Jan 28, 2021 (pre-market briefly >$500);\n  ~140% of the public float sold short as of Jan 22, 2021; r/wallstreetbets grew to 6 million users by Jan 29;\n  short sellers' losses reported at $6 billion on Jan 26; Melvin Capital: Citadel & partners $2B + Point72 $750M = $2.75B,\n  fund down 53% in January.",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+16%",
+ "lead": 0.05,
+ "gap": 0.08,
+ "tail": 0.1,
+ "crf": 20,
+ "music": {
+  "style": "ttdark",
+  "bpm": 140,
+  "gain": 0.22,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.45,
+ "lines": [
+  {
+   "text": "Why you should never bet against the internet.",
+   "spec": {
+    "type": "hero"
+   }
+  },
+  {
+   "text": "In January twenty twenty-one, hedge funds bet that GameStop's stock would crash.",
+   "spec": {
+    "type": "bets"
+   }
+  },
+  {
+   "text": "They had shorted about a hundred forty percent of its tradable shares.",
+   "spec": {
+    "type": "short"
+   }
+  },
+  {
+   "text": "Then a Reddit forum with millions of members started buying.",
+   "spec": {
+    "type": "reddit"
+   }
+  },
+  {
+   "text": "The stock exploded from seventeen dollars to over four hundred eighty.",
+   "spec": {
+    "type": "explode",
+    "cut": true
+   }
+  },
+  {
+   "text": "Short sellers lost billions. One hedge fund needed a two point seven five billion dollar rescue.",
+   "spec": {
+    "type": "loss"
+   }
+  },
+  {
+   "text": "Would you have bought GameStop?",
+   "spec": {
+    "type": "hero",
+    "choice": true
+   }
+  }
+ ]
+}
