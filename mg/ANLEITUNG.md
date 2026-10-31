@@ -165,3 +165,8 @@ Rendern auf GitHub: Projektname in `mg/render_queue.txt` eintragen und pushen (W
   Uhr doppelt so schnell, Riser) -> am ersten spec.cut 0,4 s Stille + Boom + voller ttdark-Beat (Drop) -> letzte Zeile zurück auf Hook-Niveau (Loop).
 - spec.cut deshalb auf den Höhepunkt der Story legen (die krasse Zahl / der Wendepunkt), nur EIN cut pro Short.
 - Helle Hintergründe bevorzugt (Alex 31.10.: "hellere Hintergründe kommen besser an").
+
+## Sam-Unterbrechung "FOLLOW!!" (Alex 31.10.2026)
+- Ausnahme von der Stimm-Regel NUR für Sams Schrei-Zeile: rate +28%, pitch +14Hz, volume +50%, afx=Shout-Filter (siehe ys_gme_sam/mk_project.py).
+  Erzähler (Andrew) bleibt immer ohne Pitch/Volume-Änderung.
+- Platzierung direkt NACH dem Höhepunkt, harter Schnitt (kein Swipe), ~2,5 s, danach "Anyway." vom Erzähler. Nicht in jedem Video (Test: 2–3 mit, 2–3 ohne).
