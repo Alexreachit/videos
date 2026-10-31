@@ -170,3 +170,4 @@ Rendern auf GitHub: Projektname in `mg/render_queue.txt` eintragen und pushen (W
 - Sams Schrei-Zeile: GLEICHE Stimme (kein Pitch! Alex: "hört sich komplett anders an"), nur rate +22%, volume +50%, leichte Kompression +3 dB (afx).
   Erzähler (Andrew) bleibt immer ohne Pitch/Volume-Änderung.
 - Platzierung direkt NACH dem Höhepunkt, harter Schnitt (kein Swipe), ~2,5 s, danach "Anyway." vom Erzähler. Nicht in jedem Video (Test: 2–3 mit, 2–3 ohne).
+- 31.10. 23:00 Alex: Vokal-Dehnung ("Waaaait", stretch) klingt "komplett anders" -> NICHT verwenden. FINAL für Sam-Schrei: Text "WAIT!!! FOLLOW for more stories like this!!!", rate +22%, volume +50%, afx leichte Kompression +3 dB, KEIN pitch, KEIN stretch.

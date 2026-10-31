@@ -110,7 +110,7 @@ const ANIM={
   const sh=Math.sin(t*55)*14*(1-pout),rot=Math.sin(t*37)*3;
   h+=obj('samyell',540+sh,y,1150*s,{rot});
   const ws=TL.lines[k].words||[],wEnd=ws.length?S(k)+ws[0][2]:a+D*.4;
-  if(t<wEnd+.05){const st=1+.12*cl(t,a,wEnd);h+=TX(540,300,'WAAAAIT!!!',{size:118,col:'#fff',s:st*(1+Math.sin(t*40)*.03)})}
+  if(t<wEnd+.05){const st=1+.12*cl(t,a,wEnd);h+=TX(540,300,'WAIT!!!',{size:118,col:'#fff',s:st*(1+Math.sin(t*40)*.03)})}
   else h+=KT(540,300,'FOLLOW!!',t,wEnd+.05,{size:190,col:'#fff',stag:.05});
   h+=pill(540,500,'for more money stories 💸',{p:cl(t,a+D*.55,a+D*.7),size:46,bg:C.red2,fg:'#fff'});
   return h},
