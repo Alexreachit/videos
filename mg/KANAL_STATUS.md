@@ -97,3 +97,11 @@
 - v1 (dunkler Knight-Stil, Code-Turm) verworfen. v2 im hellen Sky-Stil wie SVB/Felicity: Himmel + Wolken + Paris-Dächer, Europa->Paris-Kartenzoom (Frankreich gelb, Pin), Gemini-Objekte eiffel/conman/scrap (Download über Alex' Downloads-Ordner, Freigabe erteilt), Turm versinkt -> Schrotthaufen, Überblendungen wie SVB.
 - Hochgeladen als PRIVAT: "A Con Man Sold the Eiffel Tower 🗼" ID mTgQrkky1Oc (24,9 s). Alte v1 JX4IgkbE9Vo ist noch privat im Kanal -> Alex bitten, sie zu löschen (lösche ich nicht selbst).
 - Wartet auf Alex' OK zum Planen (19:00).
+
+## Lauf 2026-10-31 ~20:30 (Routine)
+- 10 Abos (unverändert). 48-h-Echtzeit: 1.143 Aufrufe (Bank-Langvideo 1.055, Knight 37, Felicity 33). 28 Tage (bis 30.10.): 5.414 Aufrufe (+900 ggü. 29.10.), 19,3 h, +8 Abos.
+- Shorts: Felicity 1.302 (+15) | Ever Given 1.225 | SVB 1.120 | $100: 284 | New vs Used 210 | Knight wPULT1cjzHg 32–37 nach ~25 h (91,9 % Shorts-Feed, Bindungsdaten noch nicht da) -> bleibt schwach.
+- Langform: "The Most Expensive Mistakes in History" (6GQUuQxR_Bs) heute öffentlich (andere Session/Alex), nach ~2 h noch 0 Aufrufe, CTR noch nicht verfügbar -> nächster Lauf prüfen. Bank-Video KDOq1pF040k 1.045 (weiter Hover-Vorschau, nicht als Erfolg werten). Andere Langvideos 5–36.
+- Länder 28 T: DE 13,8 % (Ø 0:20), US 10,3 % (Ø 0:28), IN 6,0 %, PH 4,1 %, UK 2,9 %, ID 2,7 %, CA 2,2 %. Publikum 88 % männlich, 25–34 J. 35 %, 99,4 % neue Zuschauer.
+- Eiffel v1 JX4IgkbE9Vo ist nicht mehr im Kanal (gelöscht). Eiffel v2 mTgQrkky1Oc weiter PRIVAT, wartet auf Alex' OK zum Planen. ys_gme fertig, noch nicht hochgeladen (wartet auf Alex' OK).
+- Keine Korrekturen nötig. Entwurfs-Leiche "846c1dee…" weiter offen. Offene Ideen (warten auf OK): Blockbuster/Netflix | Fyre Festival.
