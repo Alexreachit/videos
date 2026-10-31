@@ -389,8 +389,85 @@ def music_suspense(dur, cfg):
     out += groove * g
     return out
 
+def music_cinematic(dur, cfg):
+    """Doku-/Trailer-Spannung wie bei Finanz-/Story-Kanaelen ("dark tense cinematic ostinato"): wiederholtes Klavier-Motiv in Moll,
+    warme tiefe Streicher, weiche tiefe Pulse. Baut sich Zeile fuer Zeile auf (Klavier lauter, Oktav-Dopplung, weiche tiefe Trommeln).
+    Am ersten spec.cut: 0,4 s Stille + Boom + ttdark-Beat (Drop), Klavier laeuft leise weiter. Letzte Zeile zurueck auf Hook-Niveau (Loop).
+    KEIN Ticken, KEIN Rausch-Riser, KEIN Tremolo (Alex 31.10.: 'nervig')."""
+    bpm = cfg.get("bpm", 140); beat = 60 / bpm; bar = beat * 4; n = int(SR * dur); tt = np.arange(n) / SR
+    mid = lambda m: 440 * 2 ** ((m - 69) / 12)
+    spans = cfg.get("_moods", []); starts = [a for a, b, m in spans] or [0.0]
+    cuts = cfg.get("_cuts", []); drop = cuts[0] if cuts else starts[min(len(starts) - 1, len(starts) // 2 + 1)]
+    l1 = starts[1] if len(starts) > 1 else 0.0; last = starts[-1] if len(starts) > 2 else dur
+    def Eat(t):
+        if t < l1: return .3
+        if t < drop: return .35 + .65 * ((t - l1) / max(drop - l1, .1)) ** 1.2
+        if t < last: return 1.0
+        return 1.0 - .7 * min(1, (t - last) / .5)
+    out = np.zeros(n)
+    def put(sig, t0, g=1.0):
+        i = int(t0 * SR); m = min(len(sig), n - i)
+        if m > 0 and i >= 0: out[i:i+m] += sig[:m] * g
+    def lp(x, a):
+        y = np.zeros_like(x); acc = 0.0
+        for i in range(len(x)): acc += a * (x[i] - acc); y[i] = acc
+        return y
+    PROG = [(57, 60, 64), (53, 57, 60), (48, 52, 55), (55, 59, 62)]   # Am F C G (i VI III VII), 2 Takte pro Akkord
+    piano = {}
+    def pn(m, l=.9):
+        if (m, l) not in piano:
+            t = np.arange(int(l * SR)) / SR; f = mid(m)
+            sig = (np.sin(2*np.pi*f*t) + .5*np.sin(2*np.pi*2*f*t)*np.exp(-t*5) + .2*np.sin(2*np.pi*3*f*t)*np.exp(-t*8)) * np.exp(-t * 3.2) * np.minimum(t / .004, 1)
+            piano[(m, l)] = sig * np.minimum((l - t) / .05, 1)
+        return piano[(m, l)]
+    nb = int(dur / bar) + 2
+    pad = np.zeros(n)
+    for b in range(nb):
+        ch = PROG[(b // 2) % 4]; t0 = b * bar
+        # tiefe warme Streicher (gefiltert, ohne Tremolo)
+        l = bar + .3; t = np.arange(int(l * SR)) / SR
+        sig = sum(np.sin(2*np.pi*mid(m - 12)*t*(1+d)) + .3*np.sin(2*np.pi*mid(m)*t*(1-d)) for m in ch for d in (-.0015, .0015))
+        env = np.minimum(t / .35, 1) * np.minimum((l - t) / .3, 1)
+        i0 = int(t0 * SR); m_ = min(len(sig), n - i0)
+        if m_ > 0: pad[i0:i0+m_] += (sig * env)[:m_]
+        # Klavier-Ostinato in Achteln: Grundton - Quinte - Terz - Quinte (Moll-Muster wie Doku-Trailer)
+        pat = (ch[0], ch[2], ch[1], ch[2], ch[0], ch[2], ch[1] + 12, ch[2])
+        for k in range(8):
+            ts = t0 + k * beat / 2
+            if ts >= dur: break
+            e = Eat(ts); post = drop <= ts < last
+            g = (.030 + .040 * e) * (.55 if post else 1) * (1.15 if k == 0 else 1)
+            put(pn(pat[k]), ts, g)
+            if e > .6 and not post: put(pn(pat[k] + 12, .6), ts, .022 * (e - .6) / .4)   # Oktav-Dopplung im Aufbau
+        # weicher tiefer Puls auf 1 (und 3 ab mittlerem Aufbau)
+        for k in (0, 2):
+            ts = t0 + k * beat; e = Eat(min(ts, dur - .01))
+            if drop <= ts < last or (k == 2 and e < .55): continue
+            l = .6; t = np.arange(int(l * SR)) / SR; f = mid(33) * (1 + .3 * np.exp(-t * 20))
+            put(np.sin(2*np.pi*np.cumsum(f)/SR) * np.exp(-t * 4.5) * np.minimum(t/.005, 1), ts, .10 + .12 * e)
+        # weiche tiefe Trommeln (Taiko-artig) im spaeten Aufbau
+        for k in (1.5, 3, 3.5):
+            ts = t0 + k * beat
+            if not (l1 <= ts < drop - .4) or Eat(ts) < .75: continue
+            l = .35; t = np.arange(int(l * SR)) / SR; f = 70 + 60 * np.exp(-t * 25)
+            put(np.sin(2*np.pi*np.cumsum(f)/SR) * np.exp(-t * 9), ts, .14 * Eat(ts))
+    Ev = np.array([Eat(x) for x in tt[::441]]); Ev = np.interp(tt, tt[::441], Ev)
+    pad = lp(pad, .03)
+    out += pad * (.014 + .012 * Ev)
+    # Stille vor dem Drop + Boom
+    i0, i1 = int(max(drop - .4, 0) * SR), int(min(drop, dur) * SR)
+    if i1 > i0: out[i0:i1] *= np.linspace(1, 0, i1 - i0) ** 6
+    l = 1.8; t = np.arange(int(l * SR)) / SR; f = mid(33) * (1 + 1.2 * np.exp(-t * 25))
+    put(np.tanh(2.2*np.sin(2*np.pi*np.cumsum(f)/SR)) * np.exp(-t * 1.6), drop, .32)
+    # Drop: ttdark-Beat bis zur letzten Zeile
+    c2 = dict(cfg); c2["_cuts"] = []; groove = music_ttdark(dur, c2)
+    g = np.zeros(n); g[tt >= drop] = 1.0; lm = tt >= last; g[lm] = 1 - np.clip((tt[lm] - last) / .5, 0, 1)
+    out += groove * g * .9
+    return out
+
 def music_bed(dur, cfg):
     """Selbst synthetisiertes Musikbett: Pad-Akkorde, Bass, Kick/Hi-Hat, Pluck-Arpeggio. Frei von Rechten."""
+    if cfg.get("style") == "cinematic": return music_cinematic(dur, cfg)
     if cfg.get("style") == "suspense": return music_suspense(dur, cfg)
     if cfg.get("style") == "ttdark": return music_ttdark(dur, cfg)
     if cfg.get("style") == "tt": return music_tt(dur, cfg)

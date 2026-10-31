@@ -171,3 +171,8 @@ Rendern auf GitHub: Projektname in `mg/render_queue.txt` eintragen und pushen (W
   Erzähler (Andrew) bleibt immer ohne Pitch/Volume-Änderung.
 - Platzierung direkt NACH dem Höhepunkt, harter Schnitt (kein Swipe), ~2,5 s, danach "Anyway." vom Erzähler. Nicht in jedem Video (Test: 2–3 mit, 2–3 ohne).
 - 31.10. 23:00 Alex: Vokal-Dehnung ("Waaaait", stretch) klingt "komplett anders" -> NICHT verwenden. FINAL für Sam-Schrei: Text "WAIT!!! FOLLOW for more stories like this!!!", rate +22%, volume +50%, afx leichte Kompression +3 dB, KEIN pitch, KEIN stretch.
+
+## Musik: "cinematic" ersetzt "suspense" (Alex 31.10. 23:30: Spannungs-Sound "nervig")
+- suspense NICHT mehr verwenden (Ticken, Rausch-Riser, Tremolo nerven).
+- Standard für Shorts: style="cinematic" = Doku/Trailer-Stil: Klavier-Ostinato in Moll (Am F C G), warme tiefe Streicher,
+  weiche tiefe Pulse; Aufbau über Lautstärke, Oktav-Dopplung, weiche Taiko-Trommeln; am spec.cut 0,4 s Stille + Boom + ttdark-Beat.
