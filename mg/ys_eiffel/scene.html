@@ -1,0 +1,163 @@
+<!doctype html><meta charset=utf-8><style>
+@font-face{font-family:P;src:url(fonts/Poppins-Bold.ttf);font-weight:700}
+@font-face{font-family:P;src:url(fonts/Poppins-Medium.ttf);font-weight:500}
+html,body{margin:0;background:#0b1a33}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;font-family:P,Arial,sans-serif;background:radial-gradient(circle at 50% 42%,#3d6fb8 0%,#1d3c6e 50%,#0b1a33 100%)}
+#pat{position:absolute;inset:-60px;opacity:.13;background-image:radial-gradient(circle,#ffffff 1.8px,transparent 2.4px);background-size:52px 52px}
+#mapwrap{position:absolute;inset:0;opacity:0}
+#mapsvg{position:absolute;left:0;top:0}
+#mapov,#imgs,#fg{position:absolute;inset:0}
+#cap{position:absolute;inset:0;z-index:60}
+.land{fill:#f4f8fc;stroke:#7fb0da;stroke-width:1.2;vector-effect:non-scaling-stroke}
+.st{fill:none;stroke:#a9c9e6;stroke-width:1;vector-effect:non-scaling-stroke}
+</style>
+<div id=stage><div id=pat></div>
+ <div id=deco style="position:absolute;inset:0"></div><div id=fg></div><div id=cap></div></div>
+<script src="../lib/core.js"></script>
+<script src="../lib/mapdata.js"></script>
+<script>
+// Short 9:16 – Eiffel Tower scam (Victor Lustig 1925): Sam + Gemini objects + code animation (sky theme, YT11 style)
+const {cl,ez,ei,bo,el,lerp}=MG,$=MG.$,W=1080,H=1920,CX=540,CY=860;
+const C={cream:'#fff6e6',gold:'#ffc94a',green:'#3ddc84',green2:'#1fa45a',red:'#ff5b4a',red2:'#d6402e',orange:'#ff9f43',blue:'#2f86d0',ink:'#14202c',sand:'#f1d39a',sand2:'#d9b16b',water:'#3f9fe0',water2:'#2b7fc4'};
+let TL=null,fontsOk=false;
+const S=i=>TL.lines[i].start,E=i=>TL.lines[i].end,DU=i=>E(i)-S(i),SP=i=>TL.lines[i].spec;
+const sg=(t,a,b)=>ei(cl(t,a,b));
+// ---------- building blocks
+function TX(x,y,txt,o={}){const p=o.p??1;if(p<=0)return'';const sz=o.size||64,s=o.s??1;
+ return `<div style="position:absolute;left:${x}px;top:${y}px;transform:translate(-50%,-50%) translateY(${((1-Math.min(1,p))*22).toFixed(1)}px) scale(${s.toFixed(3)}) rotate(${o.rot||0}deg);opacity:${Math.min(1,p).toFixed(3)};font:700 ${sz}px/1.05 P,Arial;color:${o.col||C.cream};white-space:nowrap;text-align:center;text-shadow:${MG.outline(o.ol||Math.max(3,Math.round(sz/13)))},0 ${sz/9}px ${sz/3}px #0a2a5099">${txt}</div>`}
+function pill(x,y,txt,o={}){const p=o.p??1;if(p<=0)return'';const sz=o.size||36,s=bo(Math.min(1,p))*(o.s??1);
+ const dot=o.dot?`<span style="display:inline-block;width:${sz*.62}px;height:${sz*.62}px;border-radius:50%;background:${o.dot};margin-right:${sz*.3}px;vertical-align:-${sz*.06}px"></span>`:'';
+ return `<div style="position:absolute;left:${x}px;top:${y}px;transform:translate(-50%,-50%) scale(${s.toFixed(3)});opacity:${Math.min(1,p*2).toFixed(3)};padding:${sz*.34}px ${sz*.7}px;border-radius:${sz*1.2}px;background:${o.bg||'#ffffffee'};color:${o.fg||C.ink};font:700 ${sz}px/1.1 P,Arial;white-space:nowrap;box-shadow:0 10px 26px #0a2a5066">${dot}${txt}</div>`}
+function card(x,y,w,inner,p,o={}){if(p<=0)return'';const s=bo(Math.min(1,p));
+ return `<div style="position:absolute;left:${x-w/2}px;top:${y}px;width:${w}px;box-sizing:border-box;transform:scale(${s.toFixed(3)}) rotate(${o.rot||0}deg);transform-origin:50% 0;opacity:${Math.min(1,p*2).toFixed(3)};padding:${o.pad||'20px 30px'};border-radius:30px;background:${o.bg||'#ffffffee'};box-shadow:0 22px 46px #0a2a5066;color:${C.ink};text-align:${o.align||'center'}">${inner}</div>`}
+function stamp(x,y,txt,p,col=C.red,rot=-8,sz=70){if(p<=0)return'';const s=lerp(2.2,1,ez(Math.min(1,p)));return `<div style="position:absolute;left:${x}px;top:${y}px;transform:translate(-50%,-50%) rotate(${rot}deg) scale(${s.toFixed(3)});opacity:${Math.min(1,p*2.5).toFixed(3)};padding:10px 30px;border:8px solid ${col};border-radius:18px;color:${col};font:700 ${sz}px/1 P;letter-spacing:3px;background:#ffffffdd;white-space:nowrap">${txt}</div>`}
+const IM=k=>`img/${k}.png`;
+function obj(k,x,y,w,o={}){const op=o.op??1;if(op<=0.001||w<=1)return'';return `<img src="${IM(k)}" style="position:absolute;left:0;top:0;width:${w.toFixed(1)}px;transform:translate(${(x-w/2).toFixed(1)}px,${(y-w/2).toFixed(1)}px) rotate(${(o.rot||0).toFixed(2)}deg) scaleX(${o.flip?-1:1});opacity:${op.toFixed(3)};filter:drop-shadow(0 ${(w/22).toFixed(0)}px ${(w/16).toFixed(0)}px #0a2a5066)">`}
+const fl=(t,i,a=10)=>Math.sin(t*2.1+i*1.7)*a;
+function samImg(k,x,y,w){if(w<2)return'';return `<img src="${IM(k)}" style="position:absolute;left:0;top:0;width:${w.toFixed(1)}px;transform:translate(${(x-w/2).toFixed(1)}px,${(y-w/2).toFixed(1)}px);filter:drop-shadow(0 26px 30px #0a2a5088)">`}
+function bgDeco(t){let h='';for(let i=0;i<9;i++){const x=(MG.rnd(i)*1180-50+t*(9+MG.rnd(i+4)*10))%1180-50,y=MG.rnd(i+20)*1700+80+Math.sin(t*.7+i)*30;h+=`<div style="position:absolute;left:${x.toFixed(0)}px;top:${y.toFixed(0)}px;font:700 ${(34+MG.rnd(i+7)*36).toFixed(0)}px P;color:#fff;opacity:.12;transform:rotate(${(t*20+i*40)%360}deg)">${['$','▲','▼','@'][i%4]}</div>`}return h}
+function bgDeco2(t){let h='';const u=t/TL.dur;for(let i=0;i<9;i++){const x=((MG.rnd(i)*1180+u*1180*(1+(i%2)))%1180)-50,y=MG.rnd(i+20)*1700+80+Math.sin(u*2*Math.PI*(1+i%3)+i)*30;
+ h+=`<div style="position:absolute;left:${x.toFixed(0)}px;top:${y.toFixed(0)}px;font:700 ${(34+MG.rnd(i+7)*36).toFixed(0)}px P;color:#fff;opacity:.12;transform:rotate(${(u*360*(i%2?1:-1)+i*40).toFixed(1)}deg)">${['$','₣','✦','?'][i%4]}</div>`}return h}
+// Paris skyline ground strip
+function ground(t){let h=`<div style="position:absolute;left:-60px;right:-60px;top:1330px;height:700px;background:linear-gradient(#2a5a97,#173763);border-top:6px solid #8fc3ff55"></div>`;
+ for(let i=0;i<9;i++){const w=90+MG.rnd(i+40)*70,hh=60+MG.rnd(i+50)*90,x=i*130-40;h+=`<div style="position:absolute;left:${x}px;top:${1330-hh}px;width:${w}px;height:${hh}px;background:#1f477d;opacity:.55;border-radius:10px 10px 0 0"></div>`}
+ return h}
+// ---------- Eiffel tower as lattice segments (code-drawn, can be dismantled)
+const TW={};
+function towerSegs(){if(TW.segs)return TW.segs;const cx=540,base=1300,top=420,HH=base-top;
+ const w=h=>232*Math.pow(1-h,2.3)+16, Y=h=>base-h*HH, P1=.2,P2=.46;
+ const inn=h=>w(h)-lerp(100,62,h/P1);
+ const segs=[];const add=(x1,y1,x2,y2,wd=7,c='#d9843f')=>segs.push({x1,y1,x2,y2,wd,c});
+ const lv=[0,.05,.1,.15,P1,.27,.34,.4,P2,.54,.62,.7,.78,.86,.93];
+ for(let i=0;i<lv.length-1;i++){const a=lv[i],b=lv[i+1];
+  for(const sg of [-1,1]){add(cx+sg*w(a),Y(a),cx+sg*w(b),Y(b),10);
+   if(b<=P1){add(cx+sg*inn(a),Y(a),cx+sg*inn(b),Y(b),8);add(cx+sg*w(a),Y(a),cx+sg*inn(b),Y(b),4,'#b8692f');add(cx+sg*inn(a),Y(a),cx+sg*w(b),Y(b),4,'#b8692f')}}
+  if(a>=P1){add(cx-w(a),Y(a),cx+w(b),Y(b),4,'#b8692f');add(cx+w(a),Y(a),cx-w(b),Y(b),4,'#b8692f')}}
+ // arch between legs
+ const ax0=inn(0),ay=Y(0),ah=Y(.155);let px=cx-ax0,py=ay;for(let j=1;j<=8;j++){const q=j/8,x=cx-ax0+2*ax0*q,y=ay-(ay-ah)*Math.sin(q*Math.PI);add(px,py,x,y,8);px=x;py=y}
+ // platforms + spire
+ for(const [h,ext,th] of [[P1,34,16],[P2,22,12],[.93,10,10]])add(cx-w(h)-ext,Y(h),cx+w(h)+ext,Y(h),th,'#f0a050');
+ add(cx,Y(.93),cx,Y(1)-20,8,'#f0a050');
+ segs.forEach((s,i)=>{s.mx=(s.x1+s.x2)/2;s.my=(s.y1+s.y2)/2;s.len=Math.hypot(s.x2-s.x1,s.y2-s.y1);s.ang=Math.atan2(s.y2-s.y1,s.x2-s.x1);
+  s.order=1-(s.my-top)/HH; // top falls first
+  const r1=MG.rnd(i*3+1),r2=MG.rnd(i*3+2);s.tx=300+r1*480+(r2-.5)*60;s.ty=1250-Math.pow(1-Math.abs(r1-.5)*2,1.2)*170*r2-10;s.ta=(r2-.5)*.5});
+ return TW.segs=segs}
+// tower(t, scale, ox, oy, dis) dis 0..1 dismantle progress (per-segment staggered)
+function tower(t,o={}){const segs=towerSegs(),sc=o.s??1,ox=o.x??540,oy=o.y??1300,dis=o.dis??0,op=o.op??1;if(op<=0||sc<=0)return'';
+ let l='';for(const s of segs){const q=ei(cl(dis*1.6-s.order*.6,0,1));let x1=s.x1,y1=s.y1,x2=s.x2,y2=s.y2;
+  if(q>0){const mx=lerp(s.mx,s.tx,q),my=lerp(s.my,s.ty,q)-Math.sin(q*Math.PI)*120,an=lerp(s.ang,s.ta,q)+Math.sin(q*Math.PI)*2.5,L=s.len/2;
+   x1=mx-Math.cos(an)*L;y1=my-Math.sin(an)*L;x2=mx+Math.cos(an)*L;y2=my+Math.sin(an)*L}
+  l+=`<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="${s.c}" stroke-width="${s.wd}" stroke-linecap="round"/>`}
+ return `<svg width="1080" height="1920" style="position:absolute;left:0;top:0;opacity:${op.toFixed(3)};transform-origin:540px 1300px;transform:translate(${(ox-540).toFixed(1)}px,${(oy-1300).toFixed(1)}px) scale(${sc.toFixed(4)});filter:drop-shadow(0 18px 22px #0a2a5088)">
+ <g stroke="#7a3f18" opacity=".35" transform="translate(6,8)">${l.replace(/stroke="#[0-9a-f]+"/g,'')}</g>${l}</svg>`}
+// mysterious con man silhouette (top hat, cane) – no face
+function conman(x,y,s,o={}){if(s<=0)return'';const op=o.op??1;
+ return `<svg width="400" height="640" viewBox="0 0 400 640" style="position:absolute;left:${x-200}px;top:${y-320}px;transform:scale(${s.toFixed(3)}) rotate(${(o.rot||0).toFixed(2)}deg);opacity:${op.toFixed(3)};filter:drop-shadow(0 0 22px #ffc94a88) drop-shadow(0 24px 26px #0a2a5099)">
+ <rect x="140" y="20" width="120" height="120" rx="10" fill="#1a2238"/><rect x="100" y="132" width="200" height="22" rx="11" fill="#1a2238"/><rect x="140" y="112" width="120" height="16" fill="#d6402e"/>
+ <circle cx="200" cy="210" r="62" fill="#1a2238"/><path d="M160 232 q40 22 80 0" stroke="#ffc94a" stroke-width="7" fill="none" stroke-linecap="round" opacity=".9"/>
+ <path d="M90 300 q110-40 220 0 l20 250 h-260z" fill="#1a2238"/><path d="M200 290 l-28 120 l28 30 l28-30z" fill="#ffc94a" opacity=".85"/>
+ <rect x="110" y="540" width="70" height="90" fill="#1a2238"/><rect x="220" y="540" width="70" height="90" fill="#1a2238"/>
+ <path d="M330 330 l30 300" stroke="#c98a2e" stroke-width="12" stroke-linecap="round"/><circle cx="330" cy="328" r="14" fill="#ffc94a"/></svg>`}
+function hookTitle(){return TX(540,170,'WHY YOU SHOULD NEVER BUY',{size:58})+TX(540,280,'SOMETHING THAT\'S',{size:84,col:C.cream})+TX(540,395,'TOO GOOD',{size:118,col:C.gold})+TX(540,505,'TO BE TRUE',{size:96,col:C.red})}
+function tag(x,y,txt,p,t){if(p<=0)return'';const sw=Math.sin(t*3)*6;return `<div style="position:absolute;left:${x}px;top:${y}px;transform:translate(-50%,0) rotate(${(sw+(1-ez(p))*-40).toFixed(1)}deg) scale(${bo(Math.min(1,p)).toFixed(3)});transform-origin:50% -60px;opacity:${Math.min(1,p*2).toFixed(2)}"><div style="position:absolute;left:50%;top:-60px;width:4px;height:60px;background:#fff6"></div><div style="padding:16px 34px;border-radius:16px;background:${C.gold};color:${C.ink};font:700 58px P;box-shadow:0 14px 30px #0a2a5077;white-space:nowrap">FOR SALE</div></div>`}
+const ANIM={
+ hero(t,k){const sp=SP(k),a=S(k),D=DU(k);let h=ground(t);
+  const tq=k===0?1:1;h+=tower(t,{s:.82,y:1300,x:600});
+  h+=samImg('samthink',190,1225+fl(t,5,5),440);
+  if(k===0){const q=1-cl(t,a+D*.5,a+D*.6);if(q>0)h+=`<div style="opacity:${q.toFixed(3)}">${hookTitle()}</div>`;
+   const c=cl(t,a+D*.58,a+D*.7);if(c>0){h+=TX(540,230,'SOMEONE BOUGHT',{size:84,p:c})+TX(540,350,'THE EIFFEL TOWER',{size:96,col:C.gold,p:cl(t,a+D*.62,a+D*.74)});
+    h+=tag(760,720,'',cl(t,a+D*.66,a+D*.8),t);h+=stamp(600,960,'SOLD',cl(t,a+D*.82,a+D*.92),C.red,-10,120)}}
+  if(sp.choice){const end=TL.dur,out=1-cl(t,end-.6,end-.2);
+   h+=`<div style="opacity:${out.toFixed(3)}">`+TX(540,230,'WOULD YOU BUY IT?',{size:84,p:cl(t,a+.05,a+.3)})+pill(540,400,'🗼 TAKE MY MONEY',{p:cl(t,a+D*.15,a+D*.3),size:54,bg:C.green2,fg:'#fff'})+pill(540,540,'🚩 TOO GOOD TO BE TRUE',{p:cl(t,a+D*.35,a+D*.5),size:50,bg:'#fff'})+`</div>`;
+   const tin=cl(t,end-.5,end-.06);if(tin>0)h+=`<div style="opacity:${tin.toFixed(3)}">${hookTitle()}</div>`}
+  return h},
+ official(t,k){const a=S(k),D=DU(k);let h=ground(t);
+  h+=tower(t,{s:.5,x:860,y:1300,op:.55});
+  h+=TX(540,230,'1925',{size:180,col:C.gold,p:cl(t,a,a+.25)});
+  h+=pill(540,400,'con man VICTOR LUSTIG',{p:cl(t,a+D*.15,a+D*.3),size:50,bg:C.ink,fg:'#fff'});
+  h+=conman(330,960+fl(t,1,6),el(cl(t,a+.05,a+.5))*1);
+  // forged papers from the typewriter
+  h+=obj('typewriter',770,1180+fl(t,2,4),lerp(0,380,el(cl(t,a+D*.3,a+D*.55))));
+  const cq=ei(cl(t,a+D*.5,a+D*.85));if(cq>0)h+=obj('contract',lerp(770,740,cq),lerp(1100,800,cq)+fl(t,3,6),lerp(120,330,cq),{rot:lerp(0,8,cq)});
+  h+=stamp(740,700,'MINISTRY',cl(t,a+D*.78,a+D*.9),C.blue,-8,64);
+  h+=pill(540,560,'fake government official',{p:cl(t,a+D*.55,a+D*.68),size:42,bg:C.red2,fg:'#fff'});return h},
+ iron(t,k){const a=S(k),D=DU(k);let h=ground(t);const dis=cl(t,a+D*.22,a+D*.82);
+  h+=tower(t,{s:lerp(.82,1,ei(cl(t,a-.2,a+.4))),x:lerp(600,540,ei(cl(t,a-.2,a+.4))),y:1300,dis});
+  h+=pill(540,230,'"It will be torn down"',{p:cl(t,a,a+.25),size:52});
+  const q=sg(t,a+D*.45,a+D*.92);if(q>0.01){h+=TX(540,400,MG.fmt(Math.round(7300*q),0)+' TONS',{size:130,col:C.gold,p:cl(t,a+D*.45,a+D*.55)});
+   h+=pill(540,540,'of scrap iron',{p:cl(t,a+D*.55,a+D*.65),size:46,bg:'#d9843f',fg:'#fff'})}
+  h+=samImg('samhappy',170,1240+fl(t,4,5),lerp(0,380,el(cl(t,a+D*.6,a+D*.85))));return h},
+ bribe(t,k){const a=S(k),D=DU(k);let h=ground(t);
+  h+=samImg('samhappy',250,1180+fl(t,4,5),480);h+=pill(250,820,'scrap dealer',{p:cl(t,a,a+.2),size:40,bg:'#fff'});
+  h+=conman(820,1010+fl(t,1,6),.9);
+  // cash stacks fly from Sam to the con man
+  for(let i=0;i<4;i++){const q=ei(cl(t,a+.1+i*D*.12,a+.45+i*D*.12));if(q<=0)continue;const x=lerp(340,730,q),y=lerp(1060,1150,q)-Math.sin(q*Math.PI)*260;h+=obj('cash',x,y,lerp(150,190,q),{rot:lerp(-10,8,q)+i*3})}
+  h+=TX(540,250,'💰 PAID',{size:120,col:C.green,p:cl(t,a,a+.25)});
+  h+=pill(540,410,'+ a secret bribe 🤫',{p:cl(t,a+D*.6,a+D*.75),size:54,bg:C.gold});return h},
+ vanish(t,k){const a=S(k),D=DU(k);let h=ground(t);const q=ei(cl(t,a+D*.3,a+D*.85));
+  // speed lines
+  if(q>0)for(let i=0;i<8;i++){const y=820+i*60,ln=200+MG.rnd(i+60)*300;h+=`<div style="position:absolute;left:${(lerp(820,1250,q)-ln-120).toFixed(0)}px;top:${y}px;width:${ln.toFixed(0)}px;height:10px;border-radius:5px;background:#fff;opacity:${(.5*Math.sin(q*Math.PI)).toFixed(2)}"></div>`}
+  h+=conman(lerp(820,1400,q),1010,.9,{op:1-cl(q,.6,1),rot:q*8});
+  h+=obj('cash',lerp(750,1330,q),1150,lerp(220,180,q),{op:1-cl(q,.6,1)});
+  h+=samImg('samsad',250,1180+fl(t,4,5),480);
+  h+=stamp(540,560,'GONE',cl(t,a+D*.7,a+D*.85),C.red,-8,150);
+  h+=TX(540,250,'VANISHED',{size:120,col:C.cream,p:cl(t,a,a+.25)});return h},
+ shame(t,k){const a=S(k),D=DU(k);let h=ground(t);
+  h+=samImg('samsad',300,1170+fl(t,4,5),500);
+  h+=pill(540,250,'🚓 Call the police?',{p:cl(t,a,a+.2),size:56});
+  h+=stamp(540,400,'TOO EMBARRASSED',cl(t,a+D*.25,a+D*.38),C.red,-5,58);
+  const r=el(cl(t,a+D*.55,a+D*.8));h+=conman(820,1000+fl(t,1,6),r*.85);
+  h+=TX(540,580,'ROUND 2',{size:130,col:C.gold,p:cl(t,a+D*.6,a+D*.72)});
+  h+=tower(t,{s:.32*ei(cl(t,a+D*.62,a+D*.85)),x:910,y:720,op:cl(t,a+D*.62,a+D*.75)});return h}
+};
+function fgLayer(t){let h='';const N=TL.lines.length;
+ for(let k=0;k<N;k++){const ty=SP(k).type;if(!ANIM[ty])continue;
+  const a=k===0?-1:S(k)-.2,b=k+1<N?S(k+1)+.2:TL.dur+1;if(t<a||t>b)continue;
+  const qi=k===0?1:ei(cl(t,a,a+.32)),qo=k+1<N?ei(cl(t,b-.32,b)):0;
+  const dx=(1-qi)*1150-qo*1150,blur=Math.abs(dx)>4?Math.min(14,Math.abs(dx)/40):0;
+  const st=k===0?0:S(k),en=k+1<N?S(k+1):TL.dur,u=cl(t,st,en),z=1+.06*u*(k+1<N?1:1-ei(cl(t,TL.dur-.7,TL.dur-.05)));
+  h+=`<div style="position:absolute;inset:0;transform:translateX(${dx.toFixed(1)}px) scale(${z.toFixed(4)});transform-origin:540px 900px;${blur?`filter:blur(${blur.toFixed(1)}px);`:''}">${ANIM[ty](t,k)}</div>`}
+ return h}
+function draw(t){if(!TL)return;
+ $('deco').innerHTML=bgDeco2(t);
+ const fh=fgLayer(t);if(fh!==$('fg')._h){$('fg').innerHTML=fh;$('fg')._h=fh}
+ $('pat').style.transform=`translateY(${(-(t/TL.dur*52*8)%52).toFixed(1)}px)`;
+ const c=t>=TL.lines[TL.lines.length-1].end-.02?'':MG.captions(t,{y:1570,size:66,maxWords:3,stageW:1080,w:940,upper:true});if(c!==$('cap')._h){$('cap').innerHTML=c;$('cap')._h=c}
+ MG.grainTick(t)}
+let imgReady=false;
+window.setTimeline=tl=>{MG.TL=TL=tl;MG.preload(['samthink','samhappy','samsad','cash','typewriter','contract'].map(IM));Promise.all([document.fonts.load('700 50px P'),document.fonts.load('500 50px P')]).then(()=>{fontsOk=true},()=>{fontsOk=true})};
+Object.defineProperty(window,'ready',{configurable:true,get(){return imgReady&&fontsOk},set(v){imgReady=v}});
+window.sfxEvents=()=>{const ev=[],N=TL.lines.length,add=(k,t,o={})=>ev.push(Object.assign({k,t:+t.toFixed(3)},o));
+ for(let i=1;i<N;i++)add(i%2?'whoosh':'swish',S(i)-.22,{d:.45});
+ for(let k=0;k<N;k++){const sp=SP(k),ty=sp.type,a=S(k),d=DU(k);
+  if(ty==='hero'&&k===0){add('impact',a+.05);add('pop',a+d*.6);add('swish',a+d*.68,{d:.4});add('impact',a+d*.84)}
+  if(ty==='hero'&&sp.choice){add('pop',a+d*.17);add('pop',a+d*.37)}
+  if(ty==='official'){add('ding',a+.05);add('pop',a+d*.2);add('type',a+d*.35,{n:6});add('impact',a+d*.8)}
+  if(ty==='iron'){for(let i=0;i<6;i++)add('thud',a+d*(.3+i*.09));add('cash',a+d*.9)}
+  if(ty==='bribe'){for(let i=0;i<4;i++)add('swish',a+.2+i*d*.12,{d:.3});add('cash',a+d*.62)}
+  if(ty==='vanish'){add('whoosh',a+d*.3,{d:.6});add('impact',a+d*.72)}
+  if(ty==='shame'){add('pop',a+.05);add('impact',a+d*.3);add('ding',a+d*.62)}}
+ ev.sort((a,b)=>a.t-b.t);const out=[];for(const e of ev){if(e.t<0)e.t=0;if(!out.find(o=>o.k==e.k&&Math.abs(o.t-e.t)<.12))out.push(e)}return out};
+window.draw=draw;
+MG.finish($('stage'),1080,1920,.04,'#0a2a5022',65);
+</script>

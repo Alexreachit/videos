@@ -1,0 +1,70 @@
+{
+ "title": "Short: Why you should never buy something that's too good to be true (Eiffel Tower scam)",
+ "_sources": "Short \"Why you should never buy something that's too good to be true\" (Victor Lustig sells the Eiffel Tower, 1925) -> project.json\nSources (checked 2026-10-31):\nSmithsonian Magazine, \"The Smoothest Con Man That Ever Lived\" (2012): 1925 Paris; Lustig contacted the city's big scrap-metal\n  dealers; mark Andre Poisson paid cash plus a bribe; Lustig fled; returned later to repeat the scheme, fled to the US when police were tipped off.\nWikipedia \"Victor Lustig\": posed as Deputy Director-General of the Ministry of Posts and Telegraphs, forged government stationery,\n  meeting in an expensive hotel; claimed upkeep was too costly and the tower would be sold for scrap; Poisson too ashamed to go to the police;\n  second attempt later in 1925 -> police informed, Lustig fled to the US. (Amount paid varies by source, therefore no figure in the video.)\ntoureiffel.paris \"15 essential things to know about the Eiffel Tower\": metal structure ~7,300 t; originally planned for 20 years.",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+16%",
+ "lead": 0.05,
+ "gap": 0.08,
+ "tail": 0.1,
+ "crf": 20,
+ "music": {
+  "style": "ttdark",
+  "bpm": 140,
+  "gain": 0.22,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.42,
+ "lines": [
+  {
+   "text": "Why you should never buy something that's too good to be true. A man once bought the Eiffel Tower.",
+   "spec": {
+    "type": "hero"
+   }
+  },
+  {
+   "text": "In nineteen twenty-five, con man Victor Lustig posed as a French government official.",
+   "spec": {
+    "type": "official"
+   }
+  },
+  {
+   "text": "He told scrap dealers the tower would be torn down for its seven thousand tons of iron.",
+   "spec": {
+    "type": "iron"
+   }
+  },
+  {
+   "text": "One dealer paid him, plus a secret bribe.",
+   "spec": {
+    "type": "bribe"
+   }
+  },
+  {
+   "text": "Then Lustig vanished with the money.",
+   "spec": {
+    "type": "vanish",
+    "cut": true
+   }
+  },
+  {
+   "text": "The buyer was too embarrassed to call the police, so Lustig came back to try again.",
+   "spec": {
+    "type": "shame"
+   }
+  },
+  {
+   "text": "Would you have fallen for it?",
+   "spec": {
+    "type": "hero",
+    "choice": true
+   }
+  }
+ ]
+}
