@@ -92,3 +92,8 @@
 
 ## 2026-10-31 15:25: ys_gme (GameStop-Squeeze, 'Why you should never bet against the internet') fertig, 25,4 s, heller Tag-Look nach Alex' Wunsch ('lieber hellere Hintergründe').
 - Neu: Team-Look-Paket (Parallax-Skyline 3 Ebenen, Kamera-Shake/Zoom-Punches, Lichtstrahlen, Partikel-Bursts, Kinetic Type, Schatten, Farb-Grading), alles loop-sicher periodisch. Controller von Gemini verworfen (Xbox-Logo). Wartet auf Alex' OK.
+
+## 2026-10-31 ~15:30: Eiffel-Short neu gebaut (Alex: Stil passte nicht, dunkler Hintergrund; Knight hat auch unterperformt)
+- v1 (dunkler Knight-Stil, Code-Turm) verworfen. v2 im hellen Sky-Stil wie SVB/Felicity: Himmel + Wolken + Paris-Dächer, Europa->Paris-Kartenzoom (Frankreich gelb, Pin), Gemini-Objekte eiffel/conman/scrap (Download über Alex' Downloads-Ordner, Freigabe erteilt), Turm versinkt -> Schrotthaufen, Überblendungen wie SVB.
+- Hochgeladen als PRIVAT: "A Con Man Sold the Eiffel Tower 🗼" ID mTgQrkky1Oc (24,9 s). Alte v1 JX4IgkbE9Vo ist noch privat im Kanal -> Alex bitten, sie zu löschen (lösche ich nicht selbst).
+- Wartet auf Alex' OK zum Planen (19:00).

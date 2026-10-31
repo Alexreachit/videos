@@ -155,3 +155,7 @@ Rendern auf GitHub: Projektname in `mg/render_queue.txt` eintragen und pushen (W
 - Viele Aufrufe langer Videos kommen aus der YouTube-Suche per Hover-Vorschau (Video spielt kurz an, ohne Klick). Beim Bank-Video wurde in den ersten Sekunden nicht klar, was passiert -> niemand blieb.
 - Darum ab Sekunde 0: worum es geht + größte Zahl/These sofort als großer Text im Bild (Vorschau läuft oft stumm) und im ersten Satz; Bewegung ab Frame 0; kein Titel-/Logo-Intro.
 - Die ersten ~5 s müssen auch ohne Ton verständlich und neugierig machend sein (Frage/Konflikt sichtbar).
+
+## Shorts-Stil verbindlich (Alex 2026-10-31)
+- Shorts IMMER im hellen Sky-Stil wie tt_svb / ys_felicity / tt_suez (Vorlage: mg/tt_svb/scene.html bzw. mg/ys_eiffel): heller Himmel-Verlauf, Karte (hellblau/weiß) wo passend, große Gemini-Hauptobjekte, Überblendungen. KEIN dunkler Navy-Hintergrund wie ys_knight (Knight + Eiffel v1 wurden deshalb abgelehnt / liefen schlecht).
+- Gemini-Bilder holen: im Gemini-Tab per JS als PNG herunterladen (<a download>) -> landet in C:\Users\Alex\Downloads -> device_stage_files -> keyout.py.
