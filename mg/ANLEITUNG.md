@@ -167,6 +167,6 @@ Rendern auf GitHub: Projektname in `mg/render_queue.txt` eintragen und pushen (W
 - Helle Hintergründe bevorzugt (Alex 31.10.: "hellere Hintergründe kommen besser an").
 
 ## Sam-Unterbrechung "FOLLOW!!" (Alex 31.10.2026)
-- Ausnahme von der Stimm-Regel NUR für Sams Schrei-Zeile: rate +28%, pitch +14Hz, volume +50%, afx=Shout-Filter (siehe ys_gme_sam/mk_project.py).
+- Sams Schrei-Zeile: GLEICHE Stimme (kein Pitch! Alex: "hört sich komplett anders an"), nur rate +22%, volume +50%, leichte Kompression +3 dB (afx).
   Erzähler (Andrew) bleibt immer ohne Pitch/Volume-Änderung.
 - Platzierung direkt NACH dem Höhepunkt, harter Schnitt (kein Swipe), ~2,5 s, danach "Anyway." vom Erzähler. Nicht in jedem Video (Test: 2–3 mit, 2–3 ohne).
