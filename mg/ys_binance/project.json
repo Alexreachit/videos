@@ -1,0 +1,79 @@
+{
+ "title": "Short: Why you should never keep all your crypto on one exchange (Binance hack 2026)",
+ "_sources": "Short/TikTok \"Why you should never keep all your crypto on one exchange\" (Binance hack, 29 Oct 2026) -> project.json\nSources (checked 2026-10-31):\nAl Jazeera 30 Oct 2026 \"Binance says $6.3bn stolen in biggest crypto heist in history\": ~$6.3bn stolen, ~$3bn frozen,\n  deposits+withdrawals suspended, Binance: user funds safe, will cover all losses; initial investigation: engineer's compromised laptop;\n  bitcoin -~5% below $77,000; TRM: high confidence North Korea's TraderTraitor (linked to Lazarus).\nTRM Labs blog: USD 6.36bn moved out across ten blockchains on Oct 29, 2026, most within ~20 minutes from 20:05 UTC;\n  largest crypto theft on record; Bybit Feb 2025 ~USD 1.5bn -> roughly four times larger; ~USD 2.7bn frozen as of Oct 30 00:30 UTC.\nTechCrunch 29 Oct 2026: withdrawals suspended; \"user funds are completely safe\".",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+16%",
+ "lead": 0.05,
+ "gap": 0.08,
+ "tail": 0.1,
+ "crf": 20,
+ "music": {
+  "style": "suspense",
+  "bpm": 140,
+  "gain": 0.24,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.45,
+ "lines": [
+  {
+   "text": "Why you should never keep all your crypto on one exchange.",
+   "spec": {
+    "type": "hero"
+   }
+  },
+  {
+   "text": "On October twenty-ninth, hackers broke into Binance, the world's biggest crypto exchange.",
+   "spec": {
+    "type": "breakin"
+   }
+  },
+  {
+   "text": "Early findings point to one engineer's hacked laptop.",
+   "spec": {
+    "type": "laptop"
+   }
+  },
+  {
+   "text": "Within about twenty minutes, six point three billion dollars were drained.",
+   "spec": {
+    "type": "drain",
+    "cut": true
+   }
+  },
+  {
+   "text": "WAIT!!! FOLLOW for more stories like this!!!",
+   "spec": {
+    "type": "samyell"
+   },
+   "rate": "+22%",
+   "volume": "+50%",
+   "afx": "acompressor=threshold=-22dB:ratio=4:attack=4:release=80:makeup=4,volume=3dB"
+  },
+  {
+   "text": "Anyway. It's the biggest crypto theft ever, about four times the old record.",
+   "spec": {
+    "type": "record"
+   }
+  },
+  {
+   "text": "Experts suspect North Korean hackers, and Binance froze all withdrawals.",
+   "spec": {
+    "type": "suspect"
+   }
+  },
+  {
+   "text": "Would your crypto be safe?",
+   "spec": {
+    "type": "hero",
+    "choice": true
+   }
+  }
+ ]
+}
