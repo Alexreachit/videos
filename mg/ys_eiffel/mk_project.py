@@ -11,7 +11,7 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 L = []
 def A(t, s, **k): L.append(dict(text=t, spec=s, **k))
 A("Why you should never buy something that's too good to be true. A man once bought the Eiffel Tower.", dict(type="hero"))
-A("In nineteen twenty-five, con man Victor Lustig posed as a French government official.", dict(type="official"))
+A("In nineteen twenty-five, con man Victor Lustig posed as a French government official.", dict(type="map"))
 A("He told scrap dealers the tower would be torn down for its seven thousand tons of iron.", dict(type="iron"))
 A("One dealer paid him, plus a secret bribe.", dict(type="bribe"))
 A("Then Lustig vanished with the money.", dict(type="vanish", cut=True))
