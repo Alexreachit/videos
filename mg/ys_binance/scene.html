@@ -145,11 +145,10 @@ Object.defineProperty(window,'ready',{configurable:true,get(){return imgReady&&f
 window.sfxEvents=()=>{const ev=[],N=TL.lines.length,add=(k,t,o={})=>ev.push(Object.assign({k,t:+t.toFixed(3)},o));
  for(let i=1;i<N;i++)if(SP(i).type!=='samyell')add(i%2?'whoosh':'swish',S(i)-.22,{d:.45});
  for(let k=0;k<N;k++){const sp=SP(k),ty=sp.type,a=S(k),d=DU(k);
-  if(ty==='hero'&&k===0){add('impact',a+.05);add('riser',a+d*.3,{d:1})}
-  if(ty==='hero'&&sp.choice){add('pop',a+d*.17);add('pop',a+d*.37)}
+  if(ty==='hero'&&k===0){add('impact',a+.05);add('pop',a+d*.37)}
   if(ty==='breakin'){add('impact',a+d*.3);add('error',a+d*.33);add('pop',a+d*.6)}
   if(ty==='laptop'){add('error',a+.1);add('blip',a+d*.3);add('impact',a+d*.47)}
-  if(ty==='drain'){add('riser',a,{d:d*.8});for(let i=0;i<10;i++)add('coin',a+d*(.05+i*.08));add('impact',a+d*.85)}
+  if(ty==='drain'){for(let i=0;i<10;i++)add('coin',a+d*(.05+i*.08));add('impact',a+d*.85)}
   if(ty==='samyell'){add('impact',a+.02);add('pop',a+.15);add('error',a+.25);add('whoosh',a+d*.82,{d:.4})}
   if(ty==='record'){add('pop',a+.15);add('thud',a+d*.35);add('thud',a+d*.5);add('impact',a+d*.88)}
   if(ty==='suspect'){add('impact',a+.12);add('pop',a+.35);add('thud',a+d*.62);add('ding',a+d*.8)}}

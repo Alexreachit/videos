@@ -371,7 +371,7 @@ def music_suspense(dur, cfg):
             put(np.sin(2*np.pi*np.cumsum(f)/SR) * np.exp(-t * 10), t0, g * (1.1 - .6 * E[i]))
     # 6) Riser von Zeile 1 bis zum Drop (Rauschen + Sweep), endet 0,4 s vorher
     r0, r1 = l1, drop - .4
-    if r1 > r0 + .5:
+    if cfg.get("riser", False) and r1 > r0 + .5:   # Alex 31.10.: steigendes Geraeusch nervt -> standardmaessig AUS
         l = r1 - r0; t = np.arange(int(l * SR)) / SR; q = t / l
         sweep = np.sin(2*np.pi*np.cumsum(180 + 1400 * q**2)/SR); nz = lp(rng.standard_normal(len(t)), .05 + .4 * q**2)
         put((sweep * .5 + nz * 1.4) * q**2.2, r0, .05)

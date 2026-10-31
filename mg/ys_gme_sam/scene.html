@@ -157,12 +157,11 @@ Object.defineProperty(window,'ready',{configurable:true,get(){return imgReady&&f
 window.sfxEvents=()=>{const ev=[],N=TL.lines.length,add=(k,t,o={})=>ev.push(Object.assign({k,t:+t.toFixed(3)},o));
  for(let i=1;i<N;i++)if(SP(i).type!=='samyell')add(i%2?'whoosh':'swish',S(i)-.22,{d:.45});
  for(let k=0;k<N;k++){const sp=SP(k),ty=sp.type,a=S(k),d=DU(k);
-  if(ty==='hero'&&k===0){add('impact',a+.05);add('riser',a+d*.3,{d:1})}
-  if(ty==='hero'&&sp.choice){add('pop',a+d*.17);add('pop',a+d*.37)}
+  if(ty==='hero'&&k===0){add('impact',a+.05);add('pop',a+d*.37)}
   if(ty==='bets'){add('thud',a+d*.45);for(let i=0;i<5;i++)add('tick',a+d*.55+i*.1,{f:700-i*60});add('impact',a+d*.62)}
   if(ty==='short'){for(let i=0;i<9;i++)add('tick',a+d*(.2+i*.05),{f:1000+i*90});add('error',a+d*.66);add('impact',a+d*.74)}
   if(ty==='reddit'){for(let i=0;i<8;i++)add('blip',a+.15+i*d*.09);add('impact',a+d*.76)}
-  if(ty==='explode'){add('riser',a,{d:d*.8});for(let i=0;i<10;i++)add('tick',a+d*(.05+i*.08),{f:1100+i*110});add('impact',a+d*.85);add('ding',a+d*.88)}
+  if(ty==='explode'){for(let i=0;i<10;i++)add('tick',a+d*(.05+i*.08),{f:1100+i*110});add('impact',a+d*.85);add('ding',a+d*.88)}
   if(ty==='samyell'){add('impact',a+.02);add('pop',a+.15);add('error',a+.25);add('whoosh',a+d*.82,{d:.4})}
   if(ty==='loss'){add('thud',a+.1);add('error',a+d*.3);add('cash',a+d*.65);add('ding',a+d*.66)}}
  ev.sort((a,b)=>a.t-b.t);const out=[];for(const e of ev){if(e.t<0)e.t=0;if(!out.find(o=>o.k==e.k&&Math.abs(o.t-e.t)<.12))out.push(e)}return out};

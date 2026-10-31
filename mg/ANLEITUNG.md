@@ -176,3 +176,5 @@ Rendern auf GitHub: Projektname in `mg/render_queue.txt` eintragen und pushen (W
 - suspense NICHT mehr verwenden (Ticken, Rausch-Riser, Tremolo nerven).
 - Standard für Shorts: style="cinematic" = Doku/Trailer-Stil: Klavier-Ostinato in Moll (Am F C G), warme tiefe Streicher,
   weiche tiefe Pulse; Aufbau über Lautstärke, Oktav-Dopplung, weiche Taiko-Trommeln; am spec.cut 0,4 s Stille + Boom + ttdark-Beat.
+- KORREKTUR 31.10. 23:35: Alex meinte NICHT die Musik, sondern das steigende Riser-Geräusch (wird lauter + höher, z. B. am Anfang und vor dem Drop).
+  -> SFX 'riser' NIE verwenden; Rausch-Riser in music_suspense standardmäßig aus. Musik "suspense" (ohne Riser) bleibt Standard; "cinematic" als Alternative.
