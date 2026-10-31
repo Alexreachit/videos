@@ -109,8 +109,10 @@ const ANIM={
   const pin=cl(t,a,a+.3),pout=cl(t,a+D*.82,a+D),s=lerp(.35,1,bo(pin)),y=lerp(2300,1150,ez(pin))+pout*pout*1400;
   const sh=Math.sin(t*55)*14*(1-pout),rot=Math.sin(t*37)*3;
   h+=obj('samyell',540+sh,y,1150*s,{rot});
-  h+=KT(540,300,'FOLLOW!!',t,a+.12,{size:190,col:'#fff',stag:.05});
-  h+=pill(540,500,'for more money stories 💸',{p:cl(t,a+D*.35,a+D*.5),size:46,bg:C.red2,fg:'#fff'});
+  const ws=TL.lines[k].words||[],wEnd=ws.length?S(k)+ws[0][2]:a+D*.4;
+  if(t<wEnd+.05){const st=1+.25*cl(t,a,wEnd);h+=TX(540,300,'WAAAAIT!!!',{size:150,col:'#fff',s:st*(1+Math.sin(t*40)*.03)})}
+  else h+=KT(540,300,'FOLLOW!!',t,wEnd+.05,{size:190,col:'#fff',stag:.05});
+  h+=pill(540,500,'for more money stories 💸',{p:cl(t,a+D*.55,a+D*.7),size:46,bg:C.red2,fg:'#fff'});
   return h},
  loss(t,k){const a=S(k),D=DU(k);let h='';
   h+=shadow(330,1470,420,.9)+obj('bear',330,1220+fl(t,1,6)+Math.sin(t*25)*3,460);

@@ -576,6 +576,17 @@ def main():
         mp3 = out / "voice" / f"{i:02d}.mp3"
         if fake: words = fake_tts(ln["text"], mp3)
         else: words = tts_andrew(ln["text"], mp3, cfg["voice"], ln.get("rate", cfg["rate"]), pitch=ln.get("pitch", "+0Hz"), volume=ln.get("volume", "+0%"))  # Emotion je Zeile: rate/pitch/volume
+        if ln.get("stretch") and words:   # Vokal eines Wortes dehnen ("Waaaaait!"), Tonhoehe bleibt (atempo)
+            st = ln["stretch"]; w, wa, wb = words[st.get("word", 0)]; L = wb - wa
+            s0, s1 = wa + st.get("a", .3) * L, wa + st.get("b", .7) * L; f = float(st.get("factor", 4)); chain = []
+            r = 1 / f
+            while r < .5: chain.append("atempo=0.5"); r /= .5
+            chain.append(f"atempo={r:.4f}"); src = mp3.with_name(mp3.stem + "_raw.mp3"); mp3.replace(src)
+            fc = (f"[0:a]atrim=0:{s0:.3f},asetpts=PTS-STARTPTS[x];[0:a]atrim={s0:.3f}:{s1:.3f},asetpts=PTS-STARTPTS,{','.join(chain)}[y];"
+                  f"[0:a]atrim={s1:.3f},asetpts=PTS-STARTPTS[z];[x][y][z]concat=n=3:v=0:a=1[o]")
+            subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(src), "-filter_complex", fc, "-map", "[o]", str(mp3)], check=True)
+            add = (s1 - s0) * (f - 1)
+            words = [(ww, a2 + (add if a2 >= s1 else 0), b2 + (add if b2 > s0 else 0)) for ww, a2, b2 in words]
         d = dur_of(mp3)
         start = max(t + ln.get("pause", 0), ln.get("min_start", 0))  # pause = dramatische Pause vor der Zeile
         lines.append({"text": ln["text"], "start": round(start, 3), "end": round(start + d, 3), "file": str(mp3),
