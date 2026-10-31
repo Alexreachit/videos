@@ -312,8 +312,86 @@ def music_ttdark(dur, cfg):
         put(np.tanh(2*np.sin(2*np.pi*np.cumsum(f)/SR)) * np.exp(-t * 2), tc, .32)
     return out
 
+def music_suspense(dur, cfg):
+    """Spannungsaufbau wie im Trailer (selbst erzeugt): Hook leise (Drone + tickende Uhr + Herzschlag), danach baut sich alles
+    Zeile fuer Zeile auf (Puls-Bass in Achteln, Streicher-Tremolo das heller wird, Uhr wird doppelt so schnell, Riser).
+    Am ersten spec.cut: 0,4 s Stille, Boom, dann der volle ttdark-Beat (Drop). In der letzten Zeile zurueck auf Hook-Niveau,
+    damit der Loop nahtlos bleibt. Moll (Am F Dm E), kein Kinder-Dur, keine Melodie."""
+    bpm = cfg.get("bpm", 140); beat = 60 / bpm; bar = beat * 4; n = int(SR * dur); tt = np.arange(n) / SR
+    mid = lambda m: 440 * 2 ** ((m - 69) / 12); rng = np.random.default_rng(23)
+    spans = cfg.get("_moods", []); starts = [a for a, b, m in spans] or [0.0]
+    cuts = cfg.get("_cuts", []); drop = cuts[0] if cuts else starts[min(len(starts) - 1, len(starts) // 2 + 1)]
+    l1 = starts[1] if len(starts) > 1 else 0.0; last = starts[-1] if len(starts) > 2 else dur
+    E = np.full(n, .3)
+    bmask = (tt >= l1) & (tt < drop); E[bmask] = .35 + .65 * ((tt[bmask] - l1) / max(drop - l1, .1)) ** 1.3
+    E[(tt >= drop) & (tt < last)] = 1.0
+    lm = tt >= last; E[lm] = 1.0 - .7 * np.clip((tt[lm] - last) / .5, 0, 1)
+    pre = (tt < drop).astype(float)
+    out = np.zeros(n)
+    def put(sig, t0, g=1.0, buf=None):
+        b_ = out if buf is None else buf; i = int(t0 * SR); m = min(len(sig), n - i)
+        if m > 0 and i >= 0: b_[i:i+m] += sig[:m] * g
+    def lp(x, a):
+        y = np.zeros_like(x); acc = 0.0; arr = np.ndim(a) > 0
+        for i in range(len(x)): acc += (a[i] if arr else a) * (x[i] - acc); y[i] = acc
+        return y
+    PROG = [(57, 60, 64), (53, 57, 60), (50, 53, 57), (52, 56, 59)]   # Am F Dm E (E-Dur = Leitton, Spannung)
+    # 1) Drone (immer)
+    drone = (np.sin(2*np.pi*mid(33)*tt) + .5*np.sin(2*np.pi*mid(40)*tt) + .25*np.sin(2*np.pi*mid(45)*tt*1.002)) * (.8 + .2*np.sin(2*np.pi*tt/4))
+    out += drone * .028
+    # 2) Streicher-Tremolo: dunkel -> hell mit E
+    strings = np.zeros(n); nb = int(dur / bar) + 2
+    for b in range(nb):
+        ch = PROG[(b // 2) % 4]; t0 = b * bar; l = bar + .2; t = np.arange(int(l * SR)) / SR
+        sig = sum(sum(np.sin(2*np.pi*mid(m)*h*t*(1+d)) / h for h in (1, 2, 3, 4)) for m in ch + (ch[0] + 12,) for d in (-.002, .002))
+        env = np.minimum(t / .15, 1) * np.minimum((l - t) / .15, 1); put(sig * env, t0, 1, strings)
+    trem = .65 + .35 * np.sin(2*np.pi*(bpm / 60 * 2)*tt)
+    dark, bright = lp(strings, .02), lp(strings, .18)
+    out += (dark * (1 - E) + bright * E) * trem * (.010 + .016 * E)
+    # 3) Uhr: Achtel, ab E>.65 Sechzehntel
+    for k in range(int(dur / (beat / 4)) + 1):
+        t0 = k * beat / 4; i = min(int(t0 * SR), n - 1); e = E[i]
+        if k % 2 == 1 and e < .65: continue
+        l = .018; nz = np.diff(np.diff(rng.standard_normal(int(l * SR)), prepend=0), prepend=0); ta = np.arange(len(nz)) / SR
+        put(nz * np.exp(-ta * 260), t0, (.016 if k % 4 == 0 else .010) * (.7 + .5 * e) * (1 if (t0 < drop or t0 >= last) else .5))
+    # 4) Puls-Bass in Achteln (nur Aufbau)
+    for k in range(int(dur / (beat / 2)) + 1):
+        t0 = k * beat / 2
+        if drop <= t0 < last: continue
+        i = min(int(t0 * SR), n - 1); ch = PROG[(int(t0 / bar) // 2) % 4]
+        l = beat / 2 * .85; t = np.arange(int(l * SR)) / SR
+        sig = np.tanh(1.8*np.sin(2*np.pi*mid(ch[0]-24)*t)) * np.exp(-t * 6) * np.minimum(t / .004, 1)
+        put(sig, t0, .05 + .11 * E[i])
+    # 5) Herzschlag pro Takt (leiser je hoeher E)
+    for b in range(int(dur / bar) + 1):
+        for off, g in ((0, .16), (.28, .11)):
+            t0 = b * bar + off
+            if drop <= t0 < last: continue
+            i = min(int(t0 * SR), n - 1); l = .3; t = np.arange(int(l * SR)) / SR; f = 38 + 50 * np.exp(-t * 20)
+            put(np.sin(2*np.pi*np.cumsum(f)/SR) * np.exp(-t * 10), t0, g * (1.1 - .6 * E[i]))
+    # 6) Riser von Zeile 1 bis zum Drop (Rauschen + Sweep), endet 0,4 s vorher
+    r0, r1 = l1, drop - .4
+    if r1 > r0 + .5:
+        l = r1 - r0; t = np.arange(int(l * SR)) / SR; q = t / l
+        sweep = np.sin(2*np.pi*np.cumsum(180 + 1400 * q**2)/SR); nz = lp(rng.standard_normal(len(t)), .05 + .4 * q**2)
+        put((sweep * .5 + nz * 1.4) * q**2.2, r0, .05)
+    out *= np.where((pre > 0) | lm, 1, .55)   # nach dem Drop traegt der Beat, Aufbau-Schichten leiser
+    # 7) Stille vor dem Drop + Boom
+    i0, i1 = int(max(drop - .4, 0) * SR), int(min(drop, dur) * SR)
+    if i1 > i0: out[i0:i1] *= np.linspace(1, 0, i1 - i0) ** 6
+    l = 1.8; t = np.arange(int(l * SR)) / SR; f = mid(33) * (1 + 1.2 * np.exp(-t * 25))
+    put(np.tanh(2.4*np.sin(2*np.pi*np.cumsum(f)/SR)) * np.exp(-t * 1.6), drop, .34)
+    nz = rng.standard_normal(int(1.2 * SR)); ta = np.arange(len(nz)) / SR; put(lp(nz, .3) * np.exp(-ta * 3) , drop, .05)
+    # 8) Drop: voller ttdark-Beat bis zur letzten Zeile, dann weich raus
+    c2 = dict(cfg); c2["_cuts"] = []; groove = music_ttdark(dur, c2)
+    g = np.zeros(n); g[(tt >= drop)] = 1.0; g[lm] = 1 - np.clip((tt[lm] - last) / .5, 0, 1)
+    sil = (tt >= drop - .4) & (tt < drop); g[sil] = 0
+    out += groove * g
+    return out
+
 def music_bed(dur, cfg):
     """Selbst synthetisiertes Musikbett: Pad-Akkorde, Bass, Kick/Hi-Hat, Pluck-Arpeggio. Frei von Rechten."""
+    if cfg.get("style") == "suspense": return music_suspense(dur, cfg)
     if cfg.get("style") == "ttdark": return music_ttdark(dur, cfg)
     if cfg.get("style") == "tt": return music_tt(dur, cfg)
     if cfg.get("style") == "adaptive": return music_adaptive(dur, cfg)

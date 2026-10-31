@@ -159,3 +159,9 @@ Rendern auf GitHub: Projektname in `mg/render_queue.txt` eintragen und pushen (W
 ## Shorts-Stil verbindlich (Alex 2026-10-31)
 - Shorts IMMER im hellen Sky-Stil wie tt_svb / ys_felicity / tt_suez (Vorlage: mg/tt_svb/scene.html bzw. mg/ys_eiffel): heller Himmel-Verlauf, Karte (hellblau/weiß) wo passend, große Gemini-Hauptobjekte, Überblendungen. KEIN dunkler Navy-Hintergrund wie ys_knight (Knight + Eiffel v1 wurden deshalb abgelehnt / liefen schlecht).
 - Gemini-Bilder holen: im Gemini-Tab per JS als PNG herunterladen (<a download>) -> landet in C:\Users\Alex\Downloads -> device_stage_files -> keyout.py.
+
+## Musik "suspense" (ab 31.10.2026, Wunsch Alex: Musik soll Spannung aufbauen, damit Leute länger schauen)
+- style="suspense": Hook leise (Drone, tickende Uhr, Herzschlag) -> ab Zeile 1 Aufbau (Puls-Bass, Streicher-Tremolo wird heller,
+  Uhr doppelt so schnell, Riser) -> am ersten spec.cut 0,4 s Stille + Boom + voller ttdark-Beat (Drop) -> letzte Zeile zurück auf Hook-Niveau (Loop).
+- spec.cut deshalb auf den Höhepunkt der Story legen (die krasse Zahl / der Wendepunkt), nur EIN cut pro Short.
+- Helle Hintergründe bevorzugt (Alex 31.10.: "hellere Hintergründe kommen besser an").

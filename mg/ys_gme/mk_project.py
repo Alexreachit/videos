@@ -18,7 +18,7 @@ A("Would you have bought GameStop?", dict(type="hero", choice=True))
 P = dict(title="Short: Why you should never bet against the internet (GameStop)",
          _sources=open(__file__).read().split("import json")[0].replace("# ", "").strip(),
          size=[1080, 1920], fps=30, scene="scene.html", voice="en-US-AndrewMultilingualNeural", rate="+16%",
-         lead=0.05, gap=0.08, tail=0.1, crf=20, music=dict(style="ttdark", bpm=140, gain=0.22, duck_ratio=2),
+         lead=0.05, gap=0.08, tail=0.1, crf=20, music=dict(style="suspense", bpm=140, gain=0.24, duck_ratio=2),
          sfx_vary=True, sfx_gain=0.45, lines=L)
 json.dump(P, open("project.json", "w"), indent=1, ensure_ascii=False)
 print(len(L), "lines", sum(len(l["text"].split()) for l in L), "words")

@@ -14,9 +14,9 @@
  "tail": 0.1,
  "crf": 20,
  "music": {
-  "style": "ttdark",
+  "style": "suspense",
   "bpm": 140,
-  "gain": 0.22,
+  "gain": 0.24,
   "duck_ratio": 2
  },
  "sfx_vary": true,
