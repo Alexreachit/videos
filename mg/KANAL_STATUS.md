@@ -117,3 +117,6 @@
 - Erkenntnis: Betrugs-Story mit weltbekanntem Objekt (Eiffelturm) + heller Sky-Stil zündet sofort; abstrakte Firmenpanne (Knight) trotz besserer Bindung nicht. -> Weiter: bekanntes Objekt/Ort + Betrug/Drama.
 - Keine Korrekturen nötig, nichts geändert. ys_gme_sam + ys_binance warten weiter auf Alex' OK (Upload privat).
 - Neue Ideen an Alex (warten auf OK): Charles Ponzi (1920, Briefmarken-Coupons, Original-Schneeballsystem) | Fyre Festival (2017) | Blockbuster lehnt Netflix für $50 Mio. ab (2000).
+- 2026-11-01 ~11:20 Alex: "Ja Binance für heute 20:00 hochladen und GameStop nicht" -> ys_gme/ys_gme_sam NICHT hochladen.
+- Hochgeladen: Short "$6.3 Billion Stolen From Binance in 20 Minutes 🔓" (ID D_iUTxxy97k), geplant öffentlich 01.11.2026 20:00 (GMT+1), "nicht für Kinder", Vorabprüfung ok.
+  Fakten vorher erneut geprüft (CNBC/NPR/PBS 30.–31.10.: $6,3 Mrd., FBI bestätigt Nordkorea, Auszahlungen inzwischen wieder aktiv). Quellen in der Beschreibung: Al Jazeera, TRM Labs, TechCrunch, NPR.
