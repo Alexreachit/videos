@@ -1,0 +1,79 @@
+{
+ "title": "Short: Why you should never hide your cash in the walls (Escobar's rats)",
+ "_sources": "Short/TikTok \"Why you should never hide your cash in the walls\" (Pablo Escobar's cartel cash) -> project.json\nSources (checked 2026-11-01):\nBusiness Insider (via AP), \"Legendary drug lord Pablo Escobar lost $2.1 billion in cash each year\": Roberto Escobar (Pablo's brother,\n  the cartel's chief accountant) wrote in \"The Accountant's Story\" that they wrote off 10% of the money each year due to rodents,\n  water damage or loss; estimated ~$2.1 billion per year; cash stashed in farm fields, dilapidated warehouses and inside walls of\n  cartel members' homes; ~$2,500 a month spent on rubber bands.\nBritannica \"Pablo Escobar: 8 interesting facts\": cartel reportedly took in an estimated $420 million a week at its peak;\n  much of the cash kept in warehouses and fields; ~10% ($2.1bn) lost each year per his brother (rats, elements, lost).",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+16%",
+ "lead": 0.05,
+ "gap": 0.08,
+ "tail": 0.1,
+ "crf": 20,
+ "music": {
+  "style": "suspense",
+  "bpm": 140,
+  "gain": 0.24,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.45,
+ "lines": [
+  {
+   "text": "Why you should never hide your cash in the walls.",
+   "spec": {
+    "type": "hero"
+   }
+  },
+  {
+   "text": "Pablo Escobar's cartel had so much cash, it hid it inside walls and fields.",
+   "spec": {
+    "type": "hide"
+   }
+  },
+  {
+   "text": "They spent about twenty-five hundred dollars a month just on rubber bands.",
+   "spec": {
+    "type": "bands"
+   }
+  },
+  {
+   "text": "His brother said rats, water and losses wiped out ten percent a year.",
+   "spec": {
+    "type": "rats"
+   }
+  },
+  {
+   "text": "An estimated two point one billion dollars a year.",
+   "spec": {
+    "type": "loss",
+    "cut": true
+   }
+  },
+  {
+   "text": "WAIT!!! FOLLOW for more stories like this!!!",
+   "spec": {
+    "type": "samyell"
+   },
+   "rate": "+22%",
+   "volume": "+50%",
+   "afx": "acompressor=threshold=-22dB:ratio=4:attack=4:release=80:makeup=4,volume=3dB"
+  },
+  {
+   "text": "Anyway. They just wrote it off.",
+   "spec": {
+    "type": "writeoff"
+   }
+  },
+  {
+   "text": "Where would you hide a billion dollars?",
+   "spec": {
+    "type": "hero",
+    "choice": true
+   }
+  }
+ ]
+}
