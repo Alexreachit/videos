@@ -120,3 +120,11 @@
 - 2026-11-01 ~11:20 Alex: "Ja Binance für heute 20:00 hochladen und GameStop nicht" -> ys_gme/ys_gme_sam NICHT hochladen.
 - Hochgeladen: Short "$6.3 Billion Stolen From Binance in 20 Minutes 🔓" (ID D_iUTxxy97k), geplant öffentlich 01.11.2026 20:00 (GMT+1), "nicht für Kinder", Vorabprüfung ok.
   Fakten vorher erneut geprüft (CNBC/NPR/PBS 30.–31.10.: $6,3 Mrd., FBI bestätigt Nordkorea, Auszahlungen inzwischen wieder aktiv). Quellen in der Beschreibung: Al Jazeera, TRM Labs, TechCrunch, NPR.
+
+## Lauf 2026-11-01 ~16:55 (Routine)
+- 10 Abos (unverändert). 48-h-Echtzeit: 2.014 Aufrufe (Eiffel 1.216, Bank-Langvideo 694, Knight 56). Analytics-Tageswerte weiter nur bis 31.10. (Engaged/Traffic/Länder unverändert ggü. 10:15).
+- Shorts: Eiffel mTgQrkky1Oc 1.213–1.216 nach ~19 h (seit 10:15 nur +15; Ø 67,4 % angesehen, 11 Likes) -> Welle nach ~13 h vorbei, gleiches Muster wie Felicity. | Felicity 1.303 | Ever Given 1.225 | SVB 1.118 | $100: 284 | New vs Used 210 | Knight 53–56.
+- Langform "Most Expensive Mistakes" 6GQUuQxR_Bs: nach ~1,5 Tagen 1 Aufruf, 58 Impressionen, CTR 1,7 % (<3 % -> wird nicht gepusht). Vorschlag an Alex: Thumbnail/Titel testen (konkretes Objekt statt Text). Bank-Video KDOq1pF040k 1.125 (Hover-Aufrufe).
+- Erkenntnis: Shorts-Wellen dauern ~12–18 h und stoppen bei ~1.200–1.300 Aufrufen -> Takt: alle 1–2 Tage ein neuer Short, damit immer eine Welle läuft.
+- Binance-Short D_iUTxxy97k weiter geplant 01.11. 20:00 (ok). Keine Korrekturen, nichts geändert.
+- Offene Ideen (warten weiter auf Alex' OK): Charles Ponzi (1920) | Fyre Festival (2017) | Blockbuster lehnt Netflix für $50 Mio. ab (2000). Entwurfs-Leiche "846c1dee…" weiter offen.
