@@ -128,3 +128,5 @@
 - Erkenntnis: Shorts-Wellen dauern ~12–18 h und stoppen bei ~1.200–1.300 Aufrufen -> Takt: alle 1–2 Tage ein neuer Short, damit immer eine Welle läuft.
 - Binance-Short D_iUTxxy97k weiter geplant 01.11. 20:00 (ok). Keine Korrekturen, nichts geändert.
 - Offene Ideen (warten weiter auf Alex' OK): Charles Ponzi (1920) | Fyre Festival (2017) | Blockbuster lehnt Netflix für $50 Mio. ab (2000). Entwurfs-Leiche "846c1dee…" weiter offen.
+
+## 2026-11-01 18:35: ys_escobar ('Why you should never hide your cash in the walls', Escobar-Ratten) fertig, 24,3 s, Sam-Schrei v1, suspense ohne Riser. Wartet auf Alex' OK.
