@@ -108,3 +108,12 @@
 - 2026-10-31 21:29: Mit Alex' OK ('Ja Eiffel Short jetzt hochladen') Eiffel v2 mTgQrkky1Oc auf ÖFFENTLICH gestellt (sofort, nicht geplant).
 
 ## 2026-10-31 23:35: ys_binance (Binance-Hack 29.10.2026, 'Why you should never keep all your crypto on one exchange') fertig, 30 s, Sam-Unterbrechung v1 + suspense. Quellen Al Jazeera/TRM/TechCrunch. GameStop final mit Sam (ys_gme_sam) ebenfalls fertig. Beide warten auf Alex' OK.
+
+## Lauf 2026-11-01 ~10:15 (Routine)
+- 10 Abos (unverändert). 48-h-Echtzeit: 2.199 Aufrufe (vorher 1.143). 28 Tage (bis 31.10.): 6.805 Aufrufe (+1.391), 22,0 h, +8 Abos.
+- Shorts: Eiffel v2 mTgQrkky1Oc 1.199 in ~13 h (97,6 % Shorts-Feed, Ø 0:16 = 66,5 %) -> zweiter Felicity-Moment! | Felicity 1.302–1.308 | Ever Given 1.225 | SVB 1.118 | $100: 284 | New vs Used 210 | Knight 47 (Ø 77 % angesehen, aber kaum ausgespielt).
+- Langform "Most Expensive Mistakes" 6GQUuQxR_Bs: nach ~16 h nur 1 Aufruf, 17 Impressionen, CTR 5,9 % (zu wenig Daten) -> YouTube testet kaum an; weiter beobachten. Bank-Video KDOq1pF040k weiter Hover-Aufrufe.
+- Länder 28 T: Indonesien 13,8 % (vorher 2,7 % -> Eiffel-Welle), DE 10,9 %, US 8,2 %, IN 4,8 %, PH 3,3 %.
+- Erkenntnis: Betrugs-Story mit weltbekanntem Objekt (Eiffelturm) + heller Sky-Stil zündet sofort; abstrakte Firmenpanne (Knight) trotz besserer Bindung nicht. -> Weiter: bekanntes Objekt/Ort + Betrug/Drama.
+- Keine Korrekturen nötig, nichts geändert. ys_gme_sam + ys_binance warten weiter auf Alex' OK (Upload privat).
+- Neue Ideen an Alex (warten auf OK): Charles Ponzi (1920, Briefmarken-Coupons, Original-Schneeballsystem) | Fyre Festival (2017) | Blockbuster lehnt Netflix für $50 Mio. ab (2000).
