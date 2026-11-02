@@ -1,0 +1,70 @@
+{
+ "title": "Short: Why you should never flex your money on Instagram (Hushpuppi)",
+ "_sources": "Short/TikTok \"Why you should never flex your money on Instagram\" (Ray Hushpuppi) -> project.json\nSources (checked 2026-11-02):\nNBC News / Al Jazeera 8 Nov 2022: Ramon Abbas \"Ray Hushpuppi\", 2M+ Instagram followers, posts of private jets, ultra-expensive cars,\n  high-end clothes & watches; sentenced to 135 months (11+ years); admitted conspiring to launder over $300 million in 18 months\n  (much of the intended loss did not materialize); $1.7M restitution; arrested in Dubai in 2020.\nQuartz (2020) \"How the FBI used Instagram and Snapchat to track down an alleged conman in Dubai\": FBI matched his Instagram posts to\n  passport photos and used Instagram/Snapchat/Apple records to confirm identity and his Dubai residence (Palazzo Versace);\n  Dubai Police operation \"Fox Hunt 2\": six raids, twelve suspects, more than $40 million in cash seized.\nWikipedia \"Hushpuppi\": arrested June 2020; >150M dirhams (~$40M) cash and 13 luxury cars seized; Gucci/Fendi/Louis Vuitton bags in posts.",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+16%",
+ "lead": 0.05,
+ "gap": 0.08,
+ "tail": 0.1,
+ "crf": 20,
+ "music": {
+  "style": "suspense",
+  "bpm": 140,
+  "gain": 0.24,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.45,
+ "lines": [
+  {
+   "text": "Why you should never flex your money on Instagram.",
+   "spec": {
+    "type": "hero"
+   }
+  },
+  {
+   "text": "Ray Hushpuppi showed two million followers private jets, luxury cars and designer bags.",
+   "spec": {
+    "type": "flex"
+   }
+  },
+  {
+   "text": "But the FBI used his own posts to confirm who he was, and where he lived.",
+   "spec": {
+    "type": "fbi"
+   }
+  },
+  {
+   "text": "In twenty twenty, Dubai police raided his crew and seized over forty million dollars in cash.",
+   "spec": {
+    "type": "raid",
+    "cut": true
+   }
+  },
+  {
+   "text": "He admitted conspiring to launder over three hundred million dollars.",
+   "spec": {
+    "type": "launder"
+   }
+  },
+  {
+   "text": "And got more than eleven years in prison.",
+   "spec": {
+    "type": "prison"
+   }
+  },
+  {
+   "text": "Would you flex your money online?",
+   "spec": {
+    "type": "hero",
+    "choice": true
+   }
+  }
+ ]
+}
