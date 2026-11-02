@@ -137,3 +137,5 @@
 - Langform "Most Expensive Mistakes" 6GQUuQxR_Bs: 3 Aufrufe, 142 Impressionen, CTR 1,4 % -> wird nicht gepusht; Thumbnail/Titel-Test weiter empfohlen. Bank-Video KDOq1pF040k 1.130 (Hover-Aufrufe, Zuwachs flacht ab).
 - Erkenntnis: Binance (aktuelle Krypto-News, 30 s, abstrakt, mit Sam-Unterbrechung) fällt wie Knight durch; nur 41 % Bindung -> Zuschauer steigen früh aus. Gewinner bleiben greifbare Objekte/Orte (Eiffelturm, Autos, Schiff, Bankkonto) + ~25 s. Sam-Schrei-Test: 1x mit = schwach (noch zu wenig Daten).
 - Keine Korrekturen, nichts im Studio geändert. ys_escobar wartet weiter auf Alex' OK (Upload). Offene Ideen: Ponzi | Fyre Festival | Blockbuster/Netflix. Entwurfs-Leiche "846c1dee…" weiter offen.
+
+## 2026-11-02 14:55: ys_hush ('Why you should never flex your money on Instagram', Hushpuppi) fertig, 25,4 s, OHNE Sam-Schrei (Vergleich zu ys_escobar MIT). Wartet auf Alex' OK.
