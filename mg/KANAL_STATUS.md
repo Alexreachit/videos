@@ -139,3 +139,11 @@
 - Keine Korrekturen, nichts im Studio geändert. ys_escobar wartet weiter auf Alex' OK (Upload). Offene Ideen: Ponzi | Fyre Festival | Blockbuster/Netflix. Entwurfs-Leiche "846c1dee…" weiter offen.
 
 ## 2026-11-02 14:55: ys_hush ('Why you should never flex your money on Instagram', Hushpuppi) fertig, 25,4 s, OHNE Sam-Schrei (Vergleich zu ys_escobar MIT). Wartet auf Alex' OK.
+
+## Lauf 2026-11-02 ~16:00 (Routine)
+- 10 Abos (unverändert). 48-h-Echtzeit: 1.423 Aufrufe (Eiffel 1.262, Bank-Langvideo 68, Binance 52). 28 T (bis 01.11.): 6.885 Aufrufe, 22,5 h, +8 Abos.
+- Shorts: Binance D_iUTxxy97k 49–52 nach ~21 h, Ø 41,2 %, 2 Likes -> endgültig Flop | Eiffel 1.203 (Liste) | Felicity 1.304 | Ever Given 1.225 | SVB 1.120 | $100: 284 | New vs Used 210 | Knight 57–58 (Ø 83 % angesehen, aber kaum ausgespielt).
+- Langform "Most Expensive Mistakes" 6GQUuQxR_Bs: 3 Aufrufe, 168 Impressionen, CTR 1,2 % -> Thumbnail/Titel-Test weiter empfohlen.
+- Länder 28 T: ID 14,9 %, DE 14,7 %, US 11,7 % (Ø 0:24), IN 4,7 %, PH 4,5 %, UK 2,8 %.
+- Erkenntnis: Seit Eiffel (31.10.) keine neue Welle -> Kanal steht; dringend nächster greifbarer Short nötig (ys_escobar oder ys_hush fertig, warten auf OK).
+- Keine Korrekturen, nichts im Studio geändert. Offene Ideen: Ponzi | Fyre Festival | Blockbuster/Netflix.
