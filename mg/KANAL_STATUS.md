@@ -130,3 +130,10 @@
 - Offene Ideen (warten weiter auf Alex' OK): Charles Ponzi (1920) | Fyre Festival (2017) | Blockbuster lehnt Netflix für $50 Mio. ab (2000). Entwurfs-Leiche "846c1dee…" weiter offen.
 
 ## 2026-11-01 18:35: ys_escobar ('Why you should never hide your cash in the walls', Escobar-Ratten) fertig, 24,3 s, Sam-Schrei v1, suspense ohne Riser. Wartet auf Alex' OK.
+
+## Lauf 2026-11-02 ~10:00 (Routine)
+- 10 Abos (unverändert). 48-h-Echtzeit: 1.447 Aufrufe (Eiffel 1.218, Bank-Langvideo 131, Binance 48). Analytics-Tageswerte weiter nur bis 31.10. (28 T: 6.784 Aufrufe, 22,0 h, +8 Abos; Länder unverändert ggü. 01.11.).
+- Shorts: Binance D_iUTxxy97k (seit 01.11. 20:00 öffentlich) nur 48–49 Aufrufe nach ~15 h, Ø 41,2 % angesehen (Eiffel 67 %), 2 Likes, 91,7 % Shorts-Feed -> zündet nicht. | Eiffel 1.202 (Liste) / 1.218 (Echtzeit), steht | Felicity 1.303 | Ever Given 1.225 | SVB 1.120 | $100: 284 | New vs Used 210 | Knight 57.
+- Langform "Most Expensive Mistakes" 6GQUuQxR_Bs: 3 Aufrufe, 142 Impressionen, CTR 1,4 % -> wird nicht gepusht; Thumbnail/Titel-Test weiter empfohlen. Bank-Video KDOq1pF040k 1.130 (Hover-Aufrufe, Zuwachs flacht ab).
+- Erkenntnis: Binance (aktuelle Krypto-News, 30 s, abstrakt, mit Sam-Unterbrechung) fällt wie Knight durch; nur 41 % Bindung -> Zuschauer steigen früh aus. Gewinner bleiben greifbare Objekte/Orte (Eiffelturm, Autos, Schiff, Bankkonto) + ~25 s. Sam-Schrei-Test: 1x mit = schwach (noch zu wenig Daten).
+- Keine Korrekturen, nichts im Studio geändert. ys_escobar wartet weiter auf Alex' OK (Upload). Offene Ideen: Ponzi | Fyre Festival | Blockbuster/Netflix. Entwurfs-Leiche "846c1dee…" weiter offen.
