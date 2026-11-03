@@ -1,0 +1,76 @@
+{
+ "title": "Short: Why you should never laugh at a small idea (Blockbuster vs Netflix)",
+ "_sources": "Short/TikTok \"Why you should never laugh at a small idea\" (Blockbuster vs. Netflix) -> project.json\nSources (checked 2026-11-03):\nMarketplace (8 Sep 2020, interview Reed Hastings, \"No Rules Rules\"): in 2000 Hastings + Marc Randolph proposed that Blockbuster buy\n  Netflix for $50 million; CEO John Antioco turned it down; Blockbuster then ~$6 billion revenue and nearly 9,000 stores,\n  Netflix ~100 employees, ~300,000 subscribers, lost $57 million that year.\nNZ Herald / Marc Randolph (\"That Will Never Work\"): Antioco was \"struggling not to laugh\" at the $50M offer.\nWikipedia \"Blockbuster LLC\": peak 9,094 stores (2004); filed for bankruptcy protection 2010 (Sept 2010); one franchise store left (Bend, Oregon).\nNetflix market cap: Nasdaq ~$256 billion (2 Nov 2026), CompaniesMarketCap ~$260 billion (Nov 2026), StockAnalysis $270B (23 Oct 2026)\n  -> \"about two hundred fifty billion dollars\".",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+16%",
+ "lead": 0.05,
+ "gap": 0.08,
+ "tail": 0.1,
+ "crf": 20,
+ "music": {
+  "style": "suspense",
+  "bpm": 140,
+  "gain": 0.24,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.45,
+ "lines": [
+  {
+   "text": "Why you should never laugh at a small idea.",
+   "spec": {
+    "type": "hero"
+   }
+  },
+  {
+   "text": "In two thousand, Netflix offered to sell itself to Blockbuster for fifty million dollars.",
+   "spec": {
+    "type": "offer"
+   }
+  },
+  {
+   "text": "Blockbuster had nearly nine thousand stores.",
+   "spec": {
+    "type": "giant"
+   }
+  },
+  {
+   "text": "Netflix mailed DVDs in red envelopes, and lost fifty-seven million that year.",
+   "spec": {
+    "type": "tiny"
+   }
+  },
+  {
+   "text": "Blockbuster's CEO said no, and could barely keep from laughing.",
+   "spec": {
+    "type": "laugh"
+   }
+  },
+  {
+   "text": "In twenty ten, Blockbuster went bankrupt.",
+   "spec": {
+    "type": "bust"
+   }
+  },
+  {
+   "text": "Today, Netflix is worth about two hundred fifty billion dollars.",
+   "spec": {
+    "type": "boom",
+    "cut": true
+   }
+  },
+  {
+   "text": "Would you have laughed too?",
+   "spec": {
+    "type": "hero",
+    "choice": true
+   }
+  }
+ ]
+}
