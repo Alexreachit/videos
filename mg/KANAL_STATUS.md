@@ -147,3 +147,8 @@
 - Länder 28 T: ID 14,9 %, DE 14,7 %, US 11,7 % (Ø 0:24), IN 4,7 %, PH 4,5 %, UK 2,8 %.
 - Erkenntnis: Seit Eiffel (31.10.) keine neue Welle -> Kanal steht; dringend nächster greifbarer Short nötig (ys_escobar oder ys_hush fertig, warten auf OK).
 - Keine Korrekturen, nichts im Studio geändert. Offene Ideen: Ponzi | Fyre Festival | Blockbuster/Netflix.
+
+## 2026-11-03 ~23:00: ys_blockbuster fertig (Alex wählte Blockbuster/Netflix)
+- Hook 'Why you should never laugh at a small idea', 27,6 s, heller Sky-Stil, Musik suspense, OHNE Sam-Schrei. Objekte Videothek/roter DVD-Umschlag/TV per Code gezeichnet (Gerät war offline, kein Gemini-Download möglich).
+- Fakten: Marketplace 2020 (Hastings: $50 Mio. Angebot 2000, ~9.000 Filialen, Netflix 300.000 Abos, -$57 Mio.), NZ Herald/Randolph (Antioco "struggling not to laugh"), Wikipedia Blockbuster (Insolvenz 2010, 1 Filiale Bend/Oregon), Nasdaq/CompaniesMarketCap Börsenwert Netflix ~$256–260 Mrd. (Nov 2026).
+- Loop geprüft (erster ≈ letzter Frame), Lautstärke Ø -20,4 dB / max -3,7 dB. An Alex geschickt – wartet auf OK für Upload (privat) + Termin.
