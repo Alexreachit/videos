@@ -1,0 +1,2520 @@
+{
+ "title": "YouTube 13: Every Trick Your Supermarket Uses on You",
+ "_sources": "YouTube 13 (long form, 16:9): \"Every Trick Your Supermarket Uses on You\" -> project.json\nSources (checked 2026-11-05):\nHook 76%: Supermarket News 8 May 2012 \"POPAI: 76% of Decisions Made In-Store\" (POPAI 2012 Shopper Engagement Study).\n#1 Cart: Tasting Table \"Grocery Carts Have Gotten Bigger So You'll Buy More Things\" – marketing consultant Martin Lindstrom told Today\n   that when cart size doubled (2009-2011) people bought 40% more (consultant claim, attributed as such).\n#2 Produce/bakery at entrance: The Daily Meal (citing National Geographic, Mental Floss): produce up front \"sets the tone\", lighting;\n   Mental Floss: stores stage baked goods near the entrance.\n#3 Music: Milliman 1982, Journal of Marketing (via Pipedown / HubSpot): slow-tempo music -> 38.2% higher sales volume than fast tempo;\n   no statistically significant difference between no music and slow music.\n#4 Milk: NPR Planet Money 1 Aug 2014 (Kestenbaum): BJ's dairy buyer Rob Olsen calls it \"building the basket\"; Pollan: walk past goods;\n   Russ Roberts/Olsen: trucks deliver to the back, big cold room, cold chain -> verdict: both. Mental Floss same.\n#5 Eye level / slotting: CNN Business via KVIA 21 May 2022: brands pay \"slotting fees\"; best spots are eye level, end caps, checkout.\n   Supermarket News 24 Nov 2003 on FTC report: slotting fees for a national launch from a little under $1M to more than $2M.\n#6 End caps: University of South Carolina Moore School 2019 (Ferguson): endcap display without discount raises sales ~60%.\n#7 Price endings: Chicago Booth Review \"Yours for only $19.99\" (Anderson & Simester): catalog item at $44, $49, $54 -\n   demand almost identical at $44 and $54, significantly higher at $49.\n#8 Quantity surcharge: Victoria University of Wellington news Sept 2026 (Banerjee/Feld): ~3,000 prices, 40 products, 38 supermarkets,\n   26% had a quantity surcharge; cheese 1kg $1.90/100g vs 700g $1.71/100g; other countries 10-30%.\n#9 Shrinkflation: BLS Beyond the Numbers Vol.12 No.2 (Feb 2023): most size changes household paper products (716, 2015-21), snacks (509);\n   overall CPI effect very small (~0.01%/yr).\n#10 Checkout: CNN via KVIA 2022: shoppers spent $6 billion in checkout areas last year (IRI); top UK chains removed candy from checkouts.\nBeat them: PNAS 2015 Xu, Schwarz, Wyer \"Hunger promotes acquisition of nonfood objects\" (EurekAlert 17 Feb 2015): hungry participants\n   took ~70% more binder clips; hungrier department-store shoppers spent 64% more.",
+ "size": [
+  1920,
+  1080
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+4%",
+ "lead": 0.5,
+ "gap": 0.4,
+ "tail": 3.0,
+ "crf": 21,
+ "music": {
+  "style": "ttdark",
+  "bpm": 140,
+  "gain": 0.13,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.4,
+ "lines": [
+  {
+   "text": "You walk into a supermarket to buy one thing. Milk.",
+   "spec": {
+    "type": "beat",
+    "scene": "intro",
+    "els": [
+     {
+      "e": "doors",
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "obj",
+      "k": "samhappy",
+      "x": 960,
+      "y": 640,
+      "w": 520,
+      "at": 0.15,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "obj",
+      "k": "milk",
+      "x": 1420,
+      "y": 420,
+      "w": 220,
+      "at": 0.7,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "shopping list: 🥛 milk",
+      "x": 1420,
+      "y": 640,
+      "size": 40,
+      "at": 0.75,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "store",
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "Twenty minutes later, you walk out with a full cart, and you're not even sure how it happened.",
+   "spec": {
+    "type": "beat",
+    "scene": "intro",
+    "els": [
+     {
+      "e": "obj",
+      "k": "samcart",
+      "x": 760,
+      "y": 640,
+      "w": 640,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "clock",
+      "at": 0.05,
+      "x": 1420,
+      "y": 330,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "receipt",
+      "at": 0.45,
+      "x": 1420,
+      "y": 560,
+      "mode": "long",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "cut": true
+   }
+  },
+  {
+   "text": "That's not an accident. In one big industry study, seventy-six percent of buying decisions were made inside the store.",
+   "spec": {
+    "type": "beat",
+    "scene": "intro",
+    "els": [
+     {
+      "e": "obj",
+      "k": "samthink",
+      "x": 520,
+      "y": 640,
+      "w": 520,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "count",
+      "x": 1300,
+      "y": 420,
+      "to": 76,
+      "at": 0.5,
+      "end": 0.8,
+      "suf": "%",
+      "size": 170,
+      "col": "gold",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "of buying decisions made IN the store",
+      "x": 1300,
+      "y": 600,
+      "size": 40,
+      "at": 0.7,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "POPAI shopper study · 2012",
+      "x": 1300,
+      "y": 700,
+      "size": 30,
+      "at": 0.8,
+      "dot": "gold",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Supermarkets know that. So every step of your trip, from the cart to the checkout, has been planned.",
+   "spec": {
+    "type": "beat",
+    "scene": "intro",
+    "els": [
+     {
+      "e": "plan",
+      "at": 0,
+      "route": 1,
+      "end": 0.9,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Today, we'll walk through a supermarket together, station by station, and I'll show you ten tricks hiding in plain sight.",
+   "spec": {
+    "type": "beat",
+    "scene": "intro",
+    "els": [
+     {
+      "e": "plan",
+      "at": -1,
+      "route": 1,
+      "stations": 1,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "10 tricks · 5 stations",
+      "x": 960,
+      "y": 110,
+      "size": 44,
+      "at": 0.6,
+      "bg": "red",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Some are sneaky. Some are actually fair. And at the end, I'll show you four simple ways to beat them.",
+   "spec": {
+    "type": "beat",
+    "scene": "intro",
+    "els": [
+     {
+      "e": "obj",
+      "k": "samhappy",
+      "x": 520,
+      "y": 640,
+      "w": 520,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "😈 sneaky",
+      "x": 1300,
+      "y": 360,
+      "size": 48,
+      "at": 0.05,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "🤝 actually fair",
+      "x": 1300,
+      "y": 500,
+      "size": 48,
+      "at": 0.3,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "🛡️ 4 ways to beat them",
+      "x": 1300,
+      "y": 640,
+      "size": 48,
+      "at": 0.65,
+      "bg": "green",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Station one. The entrance. And trick number one starts before you even walk in. The cart.",
+   "spec": {
+    "type": "beat",
+    "scene": "entrance",
+    "els": [
+     {
+      "e": "station",
+      "at": 0,
+      "n": 1,
+      "name": "THE ENTRANCE",
+      "out": [
+       0,
+       0.45
+      ]
+     },
+     {
+      "e": "trick",
+      "at": 0.55,
+      "n": 1,
+      "name": "THE CART",
+      "out": [
+       0,
+       0.99
+      ]
+     },
+     {
+      "e": "obj",
+      "k": "cart",
+      "x": 960,
+      "y": 600,
+      "w": 520,
+      "at": 0.75,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "store",
+    "mood": "calm",
+    "trick": 1,
+    "st": 1
+   }
+  },
+  {
+   "text": "Shopping carts have gotten bigger over the years. And a big, empty cart quietly tells you: fill me up.",
+   "spec": {
+    "type": "beat",
+    "scene": "entrance",
+    "els": [
+     {
+      "e": "cartgrow",
+      "at": 0,
+      "x": 960,
+      "y": 600,
+      "end": 0.5,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "kt",
+      "txt": "fill me up.",
+      "x": 960,
+      "y": 170,
+      "size": 96,
+      "at": 0.7,
+      "col": "gold",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Marketing consultant Martin Lindstrom has said that when cart sizes doubled, shoppers bought about forty percent more.",
+   "spec": {
+    "type": "beat",
+    "scene": "entrance",
+    "els": [
+     {
+      "e": "obj",
+      "k": "samcart",
+      "x": 600,
+      "y": 620,
+      "w": 560,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "2× bigger cart",
+      "x": 1340,
+      "y": 360,
+      "size": 48,
+      "at": 0.45,
+      "dot": "gold",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "count",
+      "x": 1340,
+      "y": 530,
+      "to": 40,
+      "at": 0.65,
+      "end": 0.9,
+      "pre": "+",
+      "suf": "%",
+      "size": 160,
+      "col": "green",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "bought (his claim)",
+      "x": 1340,
+      "y": 680,
+      "size": 36,
+      "at": 0.85,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "It's one consultant's claim, not a lab study. But the idea is simple: an empty space feels like a job that isn't finished.",
+   "spec": {
+    "type": "beat",
+    "scene": "entrance",
+    "els": [
+     {
+      "e": "obj",
+      "k": "cart",
+      "x": 600,
+      "y": 600,
+      "w": 520,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "⚠️ claim · not a study",
+      "x": 1340,
+      "y": 360,
+      "size": 40,
+      "at": 0.05,
+      "bg": "red",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "card",
+      "x": 1340,
+      "y": 470,
+      "w": 640,
+      "big": "empty = unfinished",
+      "small": "your brain wants to fill it",
+      "at": 0.55,
+      "col": "ink",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Trick number two. Walk in, and what's the first thing you see? Fruit and vegetables.",
+   "spec": {
+    "type": "beat",
+    "scene": "entrance2",
+    "els": [
+     {
+      "e": "trick",
+      "at": 0,
+      "n": 2,
+      "name": "FRESH FIRST",
+      "out": [
+       0,
+       0.99
+      ]
+     },
+     {
+      "e": "produce",
+      "at": 0.6,
+      "out": [
+       2,
+       0
+      ]
+     }
+    ],
+    "bg": "store"
+   }
+  },
+  {
+   "text": "Bright colors, careful lighting, everything stacked like a market stall.",
+   "spec": {
+    "type": "beat",
+    "scene": "entrance2",
+    "els": [
+     {
+      "e": "spot",
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "🎨 bright colors",
+      "x": 1600,
+      "y": 250,
+      "size": 38,
+      "at": 0.05,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "💡 spotlights",
+      "x": 1600,
+      "y": 360,
+      "size": 38,
+      "at": 0.3,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "🧺 market-stall look",
+      "x": 1600,
+      "y": 470,
+      "size": 38,
+      "at": 0.55,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "It sets the tone for the whole trip: this place is fresh, colorful, and worth slowing down for.",
+   "spec": {
+    "type": "beat",
+    "scene": "entrance2",
+    "els": [
+     {
+      "e": "obj",
+      "k": "samhappy",
+      "x": 420,
+      "y": 660,
+      "w": 460,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "kt",
+      "txt": "fresh · colorful · slow down",
+      "x": 1220,
+      "y": 200,
+      "size": 70,
+      "at": 0.2,
+      "col": "gold",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "produce",
+      "at": -1,
+      "mini": 1,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "And many stores put the bakery close to the door, so one of the first things you smell is fresh bread.",
+   "spec": {
+    "type": "beat",
+    "scene": "entrance2",
+    "els": [
+     {
+      "e": "bread",
+      "at": 0,
+      "x": 1200,
+      "y": 600,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "smell",
+      "at": 0.3,
+      "x": 1200,
+      "y": 430,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "obj",
+      "k": "samhappy",
+      "x": 480,
+      "y": 640,
+      "w": 460,
+      "at": 0.1,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Trick number three is something you've probably never noticed. The music.",
+   "spec": {
+    "type": "beat",
+    "scene": "music",
+    "els": [
+     {
+      "e": "trick",
+      "at": 0,
+      "n": 3,
+      "name": "THE MUSIC",
+      "out": [
+       0,
+       0.99
+      ]
+     },
+     {
+      "e": "obj",
+      "k": "speaker",
+      "x": 960,
+      "y": 560,
+      "w": 480,
+      "at": 0.5,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "sky",
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "In nineteen eighty-two, a researcher named Ronald Milliman tested background music in a supermarket.",
+   "spec": {
+    "type": "beat",
+    "scene": "music",
+    "els": [
+     {
+      "e": "obj",
+      "k": "speaker",
+      "x": 560,
+      "y": 560,
+      "w": 420,
+      "at": 0,
+      "out": [
+       2,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "📚 Journal of Marketing · 1982",
+      "x": 1320,
+      "y": 380,
+      "size": 40,
+      "at": 0.3,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "card",
+      "x": 1320,
+      "y": 470,
+      "w": 600,
+      "big": "Milliman",
+      "small": "music test in a real supermarket",
+      "at": 0.5,
+      "col": "ink",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "On some days, the store played fast music. On other days, slow music.",
+   "spec": {
+    "type": "beat",
+    "scene": "music",
+    "els": [
+     {
+      "e": "notes",
+      "at": 0,
+      "x": 1150,
+      "y": 520,
+      "mode": "both",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "With slow music, sales were thirty-eight percent higher.",
+   "spec": {
+    "type": "beat",
+    "scene": "music",
+    "els": [
+     {
+      "e": "notes",
+      "at": -1,
+      "x": 1150,
+      "y": 520,
+      "mode": "slow",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "count",
+      "x": 1150,
+      "y": 860,
+      "to": 38.2,
+      "at": 0.2,
+      "end": 0.7,
+      "pre": "+",
+      "suf": "% sales",
+      "dec": 1,
+      "size": 110,
+      "col": "green",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "cut": true
+   }
+  },
+  {
+   "text": "The idea: slower music, slower steps, more time in front of the shelves.",
+   "spec": {
+    "type": "beat",
+    "scene": "music",
+    "els": [
+     {
+      "e": "obj",
+      "k": "samcart",
+      "x": 1320,
+      "y": 620,
+      "w": 520,
+      "at": 0,
+      "slow": 1,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "🐢 slower steps",
+      "x": 560,
+      "y": 760,
+      "size": 44,
+      "at": 0.3,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "But here's the twist. The same study found no clear difference between slow music and no music at all.",
+   "spec": {
+    "type": "beat",
+    "scene": "music2",
+    "els": [
+     {
+      "e": "obj",
+      "k": "samthink",
+      "x": 480,
+      "y": 640,
+      "w": 500,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "vs",
+      "at": 0.1,
+      "a": "🐢 slow music",
+      "b": "🔇 no music",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "stamp",
+      "txt": "NO CLEAR DIFFERENCE",
+      "x": 1260,
+      "y": 760,
+      "at": 0.7,
+      "col": "gold",
+      "sz": 56,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "sky"
+   }
+  },
+  {
+   "text": "So maybe the real trick is simply not playing fast music.",
+   "spec": {
+    "type": "beat",
+    "scene": "music2",
+    "els": [
+     {
+      "e": "stamp",
+      "txt": "NO FAST MUSIC",
+      "x": 1260,
+      "y": 520,
+      "at": 0.2,
+      "col": "red",
+      "sz": 80,
+      "rot": -5,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "obj",
+      "k": "speaker",
+      "x": 480,
+      "y": 600,
+      "w": 380,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "But the biggest trick of all is built into the floor plan itself. And it's waiting at the very back.",
+   "spec": {
+    "type": "beat",
+    "scene": "music2",
+    "els": [
+     {
+      "e": "plan",
+      "at": 0,
+      "route": 2,
+      "end": 0.95,
+      "hl": "back",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "mood": "tense"
+   }
+  },
+  {
+   "text": "Station two. The back wall. Trick number four. The milk.",
+   "spec": {
+    "type": "beat",
+    "scene": "back",
+    "els": [
+     {
+      "e": "station",
+      "at": 0,
+      "n": 2,
+      "name": "THE BACK WALL",
+      "out": [
+       0,
+       0.5
+      ]
+     },
+     {
+      "e": "trick",
+      "at": 0.5,
+      "n": 4,
+      "name": "THE MILK",
+      "out": [
+       0,
+       0.99
+      ]
+     }
+    ],
+    "bg": "aisle",
+    "mood": "tense",
+    "trick": 4,
+    "st": 2,
+    "dolly": 1
+   }
+  },
+  {
+   "text": "Almost everyone needs milk, eggs, or butter. So where are they? Usually at the very back of the store.",
+   "spec": {
+    "type": "beat",
+    "scene": "back",
+    "els": [
+     {
+      "e": "dairyglow",
+      "at": 0.35,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "🥛 milk · 🥚 eggs · 🧈 butter",
+      "x": 960,
+      "y": 150,
+      "size": 44,
+      "at": 0.05,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "kt",
+      "txt": "the very back.",
+      "x": 960,
+      "y": 880,
+      "size": 80,
+      "at": 0.7,
+      "col": "gold",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "To get there, you walk past aisle after aisle of other stuff.",
+   "spec": {
+    "type": "beat",
+    "scene": "back2",
+    "els": [
+     {
+      "e": "plan",
+      "at": 0,
+      "route": 3,
+      "end": 0.95,
+      "items": 1,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "sky"
+   }
+  },
+  {
+   "text": "A dairy buyer told NPR the industry even has a name for this. Building the basket.",
+   "spec": {
+    "type": "beat",
+    "scene": "back2",
+    "els": [
+     {
+      "e": "obj",
+      "k": "cart",
+      "x": 560,
+      "y": 620,
+      "w": 460,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "fill",
+      "at": 0.25,
+      "x": 560,
+      "y": 560,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "kt",
+      "txt": "BUILDING THE BASKET",
+      "x": 1300,
+      "y": 470,
+      "size": 84,
+      "at": 0.55,
+      "col": "gold",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "dairy buyer · NPR 2014",
+      "x": 1300,
+      "y": 600,
+      "size": 34,
+      "at": 0.75,
+      "dot": "gold",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "The longer your walk, the more chances to grab something you never planned to buy.",
+   "spec": {
+    "type": "beat",
+    "scene": "back2",
+    "els": [
+     {
+      "e": "receipt",
+      "at": 0,
+      "x": 1320,
+      "y": 520,
+      "mode": "long",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "obj",
+      "k": "samcart",
+      "x": 560,
+      "y": 640,
+      "w": 540,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "But to be fair, there's a boring reason too. Delivery trucks unload at the back, and the big cold rooms are right there.",
+   "spec": {
+    "type": "beat",
+    "scene": "back3",
+    "els": [
+     {
+      "e": "obj",
+      "k": "truck",
+      "x": 520,
+      "y": 620,
+      "w": 560,
+      "at": 0.05,
+      "drive": 1,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "coldroom",
+      "at": 0.4,
+      "x": 1360,
+      "y": 560,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "🤝 fair point",
+      "x": 960,
+      "y": 150,
+      "size": 44,
+      "at": 0.1,
+      "bg": "green",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "sky",
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "Milk has to stay cold the whole way, from the truck, to the cold room, to the fridge. Keeping that trip short just makes sense.",
+   "spec": {
+    "type": "beat",
+    "scene": "back3",
+    "els": [
+     {
+      "e": "chain",
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "So it's probably both. Convenient for the store, and very good for sales.",
+   "spec": {
+    "type": "beat",
+    "scene": "back3",
+    "els": [
+     {
+      "e": "card",
+      "x": 600,
+      "y": 380,
+      "w": 640,
+      "big": "logistics ✓",
+      "small": "trucks + cold rooms",
+      "at": 0.05,
+      "col": "green",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "card",
+      "x": 1320,
+      "y": 380,
+      "w": 640,
+      "big": "sales ✓",
+      "small": "you walk past everything",
+      "at": 0.4,
+      "col": "red",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "tx",
+      "txt": "+",
+      "x": 960,
+      "y": 500,
+      "size": 140,
+      "at": 0.3,
+      "col": "gold",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Station three. The aisles. Trick number five. Look straight ahead at any shelf.",
+   "spec": {
+    "type": "beat",
+    "scene": "aisles",
+    "els": [
+     {
+      "e": "station",
+      "at": 0,
+      "n": 3,
+      "name": "THE AISLES",
+      "out": [
+       0,
+       0.5
+      ]
+     },
+     {
+      "e": "trick",
+      "at": 0.45,
+      "n": 5,
+      "name": "EYE LEVEL",
+      "out": [
+       0,
+       0.99
+      ]
+     },
+     {
+      "e": "shelf",
+      "at": 0.7,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "sky",
+    "mood": "tense",
+    "trick": 5,
+    "st": 3
+   }
+  },
+  {
+   "text": "The products right at eye level are the ones you're most likely to grab. And that spot is not free.",
+   "spec": {
+    "type": "beat",
+    "scene": "aisles",
+    "els": [
+     {
+      "e": "shelf",
+      "at": -1,
+      "eye": 0.05,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "stamp",
+      "txt": "NOT FREE",
+      "x": 1500,
+      "y": 760,
+      "at": 0.75,
+      "col": "red",
+      "sz": 64,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Brands pay supermarkets so-called slotting fees, to get onto the shelves, and into the best spots.",
+   "spec": {
+    "type": "beat",
+    "scene": "aisles",
+    "els": [
+     {
+      "e": "shelf",
+      "at": -1,
+      "eye": -1,
+      "pay": 0.2,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "💸 slotting fees",
+      "x": 1730,
+      "y": 300,
+      "size": 44,
+      "at": 0.1,
+      "bg": "red",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "In two thousand three, a report by the US Federal Trade Commission found that getting one new product onto shelves nationwide could cost from under one million, to over two million dollars.",
+   "spec": {
+    "type": "beat",
+    "scene": "aisles2",
+    "els": [
+     {
+      "e": "card",
+      "x": 560,
+      "y": 300,
+      "w": 640,
+      "big": "FTC report · 2003",
+      "small": "slotting fees for one national launch",
+      "at": 0.05,
+      "col": "ink",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "range",
+      "at": 0.45,
+      "x": 980,
+      "y": 520,
+      "w": 820,
+      "lo": 1,
+      "hi": 2,
+      "max": 2.4,
+      "lab": "M",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "obj",
+      "k": "cash",
+      "x": 560,
+      "y": 700,
+      "w": 360,
+      "at": 0.3,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "sky"
+   }
+  },
+  {
+   "text": "So next time, look above and below eye level too. The best spot isn't always the best deal.",
+   "spec": {
+    "type": "beat",
+    "scene": "aisles2",
+    "els": [
+     {
+      "e": "shelf",
+      "at": 0,
+      "eye": -1,
+      "look": 0.1,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Trick number six is waiting at the end of every aisle. Those big displays are called end caps.",
+   "spec": {
+    "type": "beat",
+    "scene": "aisles3",
+    "els": [
+     {
+      "e": "trick",
+      "at": 0,
+      "n": 6,
+      "name": "END CAPS",
+      "out": [
+       0,
+       0.99
+      ]
+     },
+     {
+      "e": "endcap",
+      "at": 0.5,
+      "x": 1160,
+      "y": 600,
+      "out": [
+       2,
+       0
+      ]
+     },
+     {
+      "e": "obj",
+      "k": "samthink",
+      "x": 480,
+      "y": 650,
+      "w": 460,
+      "at": 0.55,
+      "out": [
+       2,
+       0
+      ]
+     }
+    ],
+    "bg": "aisle",
+    "dolly": 1
+   }
+  },
+  {
+   "text": "They look like special offers. But researchers at the University of South Carolina estimated that just putting a product on an end cap raises its sales by about sixty percent, even with no discount at all.",
+   "spec": {
+    "type": "beat",
+    "scene": "aisles3",
+    "els": [
+     {
+      "e": "pill",
+      "txt": "looks like a deal…",
+      "x": 1220,
+      "y": 120,
+      "size": 40,
+      "at": 0.05,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "count",
+      "x": 1630,
+      "y": 500,
+      "to": 60,
+      "at": 0.5,
+      "end": 0.78,
+      "pre": "+",
+      "suf": "%",
+      "size": 150,
+      "col": "green",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "sales",
+      "x": 1630,
+      "y": 620,
+      "size": 40,
+      "at": 0.7,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "stamp",
+      "txt": "NO DISCOUNT",
+      "x": 1630,
+      "y": 760,
+      "at": 0.85,
+      "col": "red",
+      "sz": 54,
+      "rot": 6,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Sixty percent more sales, without the price changing by a single cent.",
+   "spec": {
+    "type": "beat",
+    "scene": "aisles4",
+    "els": [
+     {
+      "e": "bars",
+      "at": 0,
+      "x": 520,
+      "y": 330,
+      "w": 1000,
+      "rows": [
+       [
+        "normal shelf",
+        100,
+        "blue"
+       ],
+       [
+        "end cap",
+        160,
+        "green"
+       ]
+      ],
+      "end": 0.55,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "same price 🏷️",
+      "x": 1520,
+      "y": 820,
+      "size": 44,
+      "at": 0.6,
+      "bg": "red",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "sky"
+   }
+  },
+  {
+   "text": "Okay. So far, the tricks were about where things are. The next three are about the numbers on the price tag.",
+   "spec": {
+    "type": "beat",
+    "scene": "aisles4",
+    "els": [
+     {
+      "e": "receipt",
+      "at": 0,
+      "x": 600,
+      "y": 520,
+      "mode": "tricks",
+      "upto": 6,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "obj",
+      "k": "tag",
+      "x": 1400,
+      "y": 560,
+      "w": 420,
+      "at": 0.55,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "mood": "tense"
+   }
+  },
+  {
+   "text": "And one of them is probably happening right now, in your own kitchen.",
+   "spec": {
+    "type": "beat",
+    "scene": "aisles4",
+    "els": [
+     {
+      "e": "kitchen",
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "stamp",
+      "txt": "?!",
+      "x": 1500,
+      "y": 300,
+      "at": 0.6,
+      "col": "red",
+      "sz": 110,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Station four. The price tag. Trick number seven. Why does so much cost four ninety-nine, instead of five dollars?",
+   "spec": {
+    "type": "beat",
+    "scene": "price",
+    "els": [
+     {
+      "e": "station",
+      "at": 0,
+      "n": 4,
+      "name": "THE PRICE TAG",
+      "out": [
+       0,
+       0.4
+      ]
+     },
+     {
+      "e": "trick",
+      "at": 0.4,
+      "n": 7,
+      "name": "THE 9 ENDING",
+      "out": [
+       0,
+       0.99
+      ]
+     },
+     {
+      "e": "bigtag",
+      "at": 0.55,
+      "x": 960,
+      "y": 560,
+      "a": "$4.99",
+      "b": "$5.00",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "sky",
+    "mood": "calm",
+    "trick": 7,
+    "st": 4
+   }
+  },
+  {
+   "text": "Two marketing professors tested this with a clothing catalog. The same item was offered at forty-four dollars, forty-nine dollars, and fifty-four dollars.",
+   "spec": {
+    "type": "beat",
+    "scene": "price",
+    "els": [
+     {
+      "e": "tags3",
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "At forty-four and fifty-four, demand was almost the same. But at forty-nine, it sold significantly more.",
+   "spec": {
+    "type": "beat",
+    "scene": "price",
+    "els": [
+     {
+      "e": "tags3",
+      "at": -1,
+      "bars": 0.05,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "cut": true
+   }
+  },
+  {
+   "text": "A higher price, and more sales. Just because it ended in a nine.",
+   "spec": {
+    "type": "beat",
+    "scene": "price2",
+    "els": [
+     {
+      "e": "obj",
+      "k": "samyell",
+      "x": 520,
+      "y": 640,
+      "w": 520,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "kt",
+      "txt": "higher price → more sales",
+      "x": 1300,
+      "y": 420,
+      "size": 70,
+      "at": 0.1,
+      "col": "gold",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "tx",
+      "txt": "…9",
+      "x": 1300,
+      "y": 600,
+      "size": 160,
+      "at": 0.55,
+      "col": "red",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "sky"
+   }
+  },
+  {
+   "text": "Trick number eight. The big pack is always the better deal, right?",
+   "spec": {
+    "type": "beat",
+    "scene": "bulk",
+    "els": [
+     {
+      "e": "trick",
+      "at": 0,
+      "n": 8,
+      "name": "THE BIG PACK",
+      "out": [
+       0,
+       0.99
+      ]
+     },
+     {
+      "e": "packs",
+      "at": 0.45,
+      "out": [
+       2,
+       0
+      ]
+     }
+    ],
+    "bg": "sky",
+    "mood": "tense"
+   }
+  },
+  {
+   "text": "Not always. This year, a researcher in New Zealand checked around three thousand prices, in thirty-eight supermarkets.",
+   "spec": {
+    "type": "beat",
+    "scene": "bulk2",
+    "els": [
+     {
+      "e": "nz",
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "count",
+      "x": 1320,
+      "y": 420,
+      "to": 3000,
+      "at": 0.4,
+      "end": 0.65,
+      "suf": " prices",
+      "size": 100,
+      "col": "gold",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "38 supermarkets · 2026",
+      "x": 1320,
+      "y": 560,
+      "size": 40,
+      "at": 0.7,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "sky"
+   }
+  },
+  {
+   "text": "About one in four products cost more per gram in the bigger pack.",
+   "spec": {
+    "type": "beat",
+    "scene": "bulk2",
+    "els": [
+     {
+      "e": "grid",
+      "at": 0,
+      "n": 4,
+      "bad": 1,
+      "x": 960,
+      "y": 480,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "26% · bigger pack = pricier per gram",
+      "x": 960,
+      "y": 820,
+      "size": 44,
+      "at": 0.6,
+      "bg": "red",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "cut": true
+   }
+  },
+  {
+   "text": "In one example, a big block of cheese cost more per hundred grams than a smaller block of the same brand.",
+   "spec": {
+    "type": "beat",
+    "scene": "bulk3",
+    "els": [
+     {
+      "e": "packs",
+      "at": 0,
+      "cheese": 1,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "sky"
+   }
+  },
+  {
+   "text": "Studies in other countries have found the same thing in roughly ten to thirty percent of cases. So check the small price per kilo, or per ounce, on the shelf label.",
+   "spec": {
+    "type": "beat",
+    "scene": "bulk3",
+    "els": [
+     {
+      "e": "unitlabel",
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "other countries: 10–30%",
+      "x": 1440,
+      "y": 220,
+      "size": 40,
+      "at": 0.05,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Trick number nine. The pack looks the same. The price looks the same. But there's less inside.",
+   "spec": {
+    "type": "beat",
+    "scene": "shrink",
+    "els": [
+     {
+      "e": "trick",
+      "at": 0,
+      "n": 9,
+      "name": "THE SHRINKING PACK",
+      "out": [
+       0,
+       0.99
+      ]
+     },
+     {
+      "e": "shrink",
+      "at": 0.4,
+      "out": [
+       2,
+       0
+      ]
+     }
+    ],
+    "bg": "sky",
+    "mood": "tense"
+   }
+  },
+  {
+   "text": "It's called shrinkflation.",
+   "spec": {
+    "type": "beat",
+    "scene": "shrink",
+    "els": [
+     {
+      "e": "kt",
+      "txt": "SHRINKFLATION",
+      "x": 960,
+      "y": 150,
+      "size": 110,
+      "at": 0.05,
+      "col": "red",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "cut": true
+   }
+  },
+  {
+   "text": "The US Bureau of Labor Statistics tracks it. Household paper products, like paper towels, had the most size changes, followed by snacks like chips.",
+   "spec": {
+    "type": "beat",
+    "scene": "shrink2",
+    "els": [
+     {
+      "e": "bars",
+      "at": 0.15,
+      "x": 420,
+      "y": 330,
+      "w": 1080,
+      "rows": [
+       [
+        "🧻 household paper",
+        716,
+        "red"
+       ],
+       [
+        "🍟 snacks",
+        509,
+        "gold"
+       ]
+      ],
+      "end": 0.85,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "size changes recorded · 2015–2021 (BLS)",
+      "x": 960,
+      "y": 230,
+      "size": 36,
+      "at": 0.05,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "sky"
+   }
+  },
+  {
+   "text": "To be fair, the government's analysis found it barely moves overall inflation. But for the products it hits, you're simply paying more for less.",
+   "spec": {
+    "type": "beat",
+    "scene": "shrink2",
+    "els": [
+     {
+      "e": "pill",
+      "txt": "🤝 overall inflation: tiny effect",
+      "x": 960,
+      "y": 260,
+      "size": 44,
+      "at": 0.05,
+      "bg": "green",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "shrink",
+      "at": 0.4,
+      "mini": 1,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "stamp",
+      "txt": "MORE FOR LESS",
+      "x": 1460,
+      "y": 640,
+      "at": 0.75,
+      "col": "red",
+      "sz": 60,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "You've made it through the whole store. Your cart is full. But there's one last trap, and it's the one you can't walk around.",
+   "spec": {
+    "type": "beat",
+    "scene": "shrink3",
+    "els": [
+     {
+      "e": "obj",
+      "k": "samcart",
+      "x": 560,
+      "y": 640,
+      "w": 560,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "receipt",
+      "at": 0.2,
+      "x": 1340,
+      "y": 520,
+      "mode": "tricks",
+      "upto": 9,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "sky",
+    "mood": "tense"
+   }
+  },
+  {
+   "text": "Station five. The checkout. Trick number ten.",
+   "spec": {
+    "type": "beat",
+    "scene": "checkout",
+    "els": [
+     {
+      "e": "station",
+      "at": 0,
+      "n": 5,
+      "name": "THE CHECKOUT",
+      "out": [
+       0,
+       0.55
+      ]
+     },
+     {
+      "e": "trick",
+      "at": 0.55,
+      "n": 10,
+      "name": "THE LINE",
+      "out": [
+       0,
+       0.99
+      ]
+     }
+    ],
+    "bg": "sky",
+    "mood": "tense",
+    "trick": 10,
+    "st": 5
+   }
+  },
+  {
+   "text": "You're waiting in line. You're bored, maybe a bit tired. And right next to you: candy, drinks, snacks. Small stuff you can grab with one hand.",
+   "spec": {
+    "type": "beat",
+    "scene": "checkout",
+    "els": [
+     {
+      "e": "belt",
+      "at": 0,
+      "out": [
+       2,
+       0
+      ]
+     },
+     {
+      "e": "obj",
+      "k": "samthink",
+      "x": 300,
+      "y": 660,
+      "w": 440,
+      "at": 0.1,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "grab",
+      "at": 0.7,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "According to the market research firm IRI, shoppers in the US spent about six billion dollars in one year, just in checkout areas.",
+   "spec": {
+    "type": "beat",
+    "scene": "checkout",
+    "els": [
+     {
+      "e": "count",
+      "x": 1480,
+      "y": 220,
+      "to": 6,
+      "at": 0.4,
+      "end": 0.75,
+      "pre": "$",
+      "suf": " BILLION",
+      "size": 110,
+      "col": "gold",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "in one year · checkout areas (IRI)",
+      "x": 1480,
+      "y": 330,
+      "size": 34,
+      "at": 0.7,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "cut": true
+   }
+  },
+  {
+   "text": "Some big supermarket chains in the UK have even removed candy from their checkouts completely.",
+   "spec": {
+    "type": "beat",
+    "scene": "checkout2",
+    "els": [
+     {
+      "e": "uk",
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "sky"
+   }
+  },
+  {
+   "text": "So how do you beat a store that was designed to make you spend more? Here are four simple moves.",
+   "spec": {
+    "type": "beat",
+    "scene": "beat",
+    "els": [
+     {
+      "e": "obj",
+      "k": "samyell",
+      "x": 960,
+      "y": 640,
+      "w": 520,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "kt",
+      "txt": "4 ways to beat them",
+      "x": 960,
+      "y": 170,
+      "size": 90,
+      "at": 0.4,
+      "col": "gold",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "sky",
+    "mood": "bright",
+    "trick": 0,
+    "st": 6
+   }
+  },
+  {
+   "text": "One: bring a list, and stick to it.",
+   "spec": {
+    "type": "beat",
+    "scene": "beat2",
+    "els": [
+     {
+      "e": "tips",
+      "at": 0,
+      "upto": 1,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "sky"
+   }
+  },
+  {
+   "text": "Two: if you only need a few things, take a basket instead of a cart.",
+   "spec": {
+    "type": "beat",
+    "scene": "beat2",
+    "els": [
+     {
+      "e": "tips",
+      "at": -1,
+      "upto": 2,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Three: look up, look down, and check the unit price before you grab the big pack.",
+   "spec": {
+    "type": "beat",
+    "scene": "beat2",
+    "els": [
+     {
+      "e": "tips",
+      "at": -1,
+      "upto": 3,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "And four, the easiest one: don't shop hungry.",
+   "spec": {
+    "type": "beat",
+    "scene": "beat2",
+    "els": [
+     {
+      "e": "tips",
+      "at": -1,
+      "upto": 4,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "In a study published in twenty fifteen, hungry people asked for about seventy percent more binder clips. Not food. Binder clips.",
+   "spec": {
+    "type": "beat",
+    "scene": "beat3",
+    "els": [
+     {
+      "e": "clips",
+      "at": 0,
+      "x": 1320,
+      "y": 560,
+      "end": 0.6,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "obj",
+      "k": "samthink",
+      "x": 480,
+      "y": 640,
+      "w": 480,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "count",
+      "x": 1320,
+      "y": 220,
+      "to": 70,
+      "at": 0.3,
+      "end": 0.6,
+      "pre": "+",
+      "suf": "%",
+      "size": 120,
+      "col": "red",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "sky"
+   }
+  },
+  {
+   "text": "And shoppers leaving a department store who were hungrier had spent sixty-four percent more.",
+   "spec": {
+    "type": "beat",
+    "scene": "beat3",
+    "els": [
+     {
+      "e": "obj",
+      "k": "samsad",
+      "x": 480,
+      "y": 640,
+      "w": 480,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "count",
+      "x": 1320,
+      "y": 460,
+      "to": 64,
+      "at": 0.3,
+      "end": 0.7,
+      "pre": "+",
+      "suf": "% spent",
+      "size": 130,
+      "col": "red",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "PNAS · 2015",
+      "x": 1320,
+      "y": 620,
+      "size": 36,
+      "at": 0.6,
+      "dot": "gold",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Supermarkets aren't evil. Some of these tricks are just good business, and some, like the cold rooms at the back, are simply logistics.",
+   "spec": {
+    "type": "beat",
+    "scene": "outro",
+    "els": [
+     {
+      "e": "obj",
+      "k": "samhappy",
+      "x": 520,
+      "y": 640,
+      "w": 500,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "receipt",
+      "at": 0.2,
+      "x": 1320,
+      "y": 520,
+      "mode": "tricks",
+      "upto": 10,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "store",
+    "mood": "calm",
+    "trick": 0,
+    "st": 0
+   }
+  },
+  {
+   "text": "But once you've seen them, you can't unsee them.",
+   "spec": {
+    "type": "beat",
+    "scene": "outro",
+    "els": [
+     {
+      "e": "kt",
+      "txt": "you can't unsee them.",
+      "x": 960,
+      "y": 520,
+      "size": 100,
+      "at": 0.1,
+      "col": "gold",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "So, which trick has gotten you the most? The milk at the back, the nine-ninety-nine prices, or the candy at the checkout? Tell me in the comments.",
+   "spec": {
+    "type": "beat",
+    "scene": "outro",
+    "els": [
+     {
+      "e": "poll",
+      "at": 0,
+      "out": [
+       99,
+       0
+      ]
+     },
+     {
+      "e": "obj",
+      "k": "samthink",
+      "x": 330,
+      "y": 680,
+      "w": 380,
+      "at": 0,
+      "out": [
+       99,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "And if you want more stories about where your money really goes, subscribe.",
+   "spec": {
+    "type": "beat",
+    "scene": "outro",
+    "els": [
+     {
+      "e": "pill",
+      "txt": "🔔 Subscribe for more money stories",
+      "x": 960,
+      "y": 120,
+      "size": 48,
+      "at": 0.2,
+      "bg": "red",
+      "out": [
+       99,
+       0
+      ]
+     }
+    ]
+   }
+  }
+ ]
+}
