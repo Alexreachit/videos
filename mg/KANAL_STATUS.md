@@ -160,3 +160,9 @@
 - Länder 28 T: ID 14,7 %, DE 14,5 %, US 11,5 %, IN 4,7 %, PH 4,4 %.
 - Erkenntnis: Ohne neuen Short fällt der Kanal sofort auf ~30 Aufrufe/Tag -> Shorts-Takt ist alles. 3 fertige Shorts liegen ungenutzt (ys_escobar, ys_hush, ys_blockbuster).
 - Keine Korrekturen, nichts im Studio geändert. ys_market (Supermarkt-Tricks) wird gerade in einer anderen Session gebaut – hier nicht angefasst. Keine neuen Ideen vorgeschlagen (Rückstau fertiger Videos). Entwurfs-Leiche "846c1dee…" weiter offen.
+
+## 2026-11-04 — ys_market (Supermarkt / Milch hinten) als YT Short veröffentlicht
+- ID iBQu_8S41dI — https://youtube.com/shorts/iBQu_8S41dI — öffentlich, nicht für Kinder, 23 s
+- Titel: "Why the Milk Is Always at the Back of the Supermarket 🥛 #shorts"
+- Alltags-Thema (Test: allgemeines Interesse statt Crime/Finanz), helle Gang-Welt, ohne Sam-Schrei, Musik suspense
+- Gleiches Video als TikTok (Alex lädt hoch)
