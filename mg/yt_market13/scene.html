@@ -273,7 +273,7 @@ function beatLayer(t){let h='';const N=TL.lines.length,seen=new Set();
    const f=R2[e.e];if(!f)continue;const s=f(e,t,pin);if(s)inner+=pout<1?`<div style="position:absolute;inset:0;opacity:${pout.toFixed(3)}">${s}</div>`:s}
   const ent=1-op;h+=`<div style="position:absolute;inset:0;opacity:${op.toFixed(3)};transform:translateX(${(t<S(a0)?ent*80:-ent*80).toFixed(1)}px) scale(${(1+.03*ent).toFixed(4)})">${inner}</div>`}
  return h}
-function hud(t){let k=0;for(let i=0;i<TL.lines.length;i++)if(t>=S(i)-.2)k=i;let n=0;for(let i=0;i<=k;i++)if(SP(i).trick!=null)n=SP(i).trick;
+function hud(t){let k=0;for(let i=0;i<TL.lines.length;i++)if(t>=S(i)-.2)k=i;let n=0;for(let i=0;i<=k;i++){if(SP(i).trick!=null)n=SP(i).trick;for(const e of SP(i).els)if(e.e==='trick'&&t>=e._t0)n=e.n}
  if(!n)return'';// hide during station wipes
  const inSt=SP(k).els.some(e=>e.e==='station'&&t>=e._t0&&t<=e._t1);if(inSt)return'';
  let d='';for(let i=1;i<=10;i++)d+=`<div style="width:${i===n?34:18}px;height:18px;border-radius:9px;background:${i<=n?C.gold:'#ffffff66'};margin-left:7px;box-shadow:0 2px 6px #0a2a5055"></div>`;
