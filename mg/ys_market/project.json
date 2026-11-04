@@ -1,0 +1,70 @@
+{
+ "title": "Short: Why the milk is always at the back of the supermarket",
+ "_sources": "Short/TikTok \"Why the milk is always at the very back of the supermarket\" (supermarket tricks) -> project.json\nSources (checked 2026-11-04):\nMental Floss \"Why Grocery Stores Put Dairy in the Back\": layout makes shoppers walk past other products (\"building the basket\");\n  counterpoint Michael Pollan (NPR 2014): cold chain / delivery trucks unload at the back, so coolers sit there.\nCNN via KVIA (21 May 2022) \"Why stores always put candy and soda near the cash register\": shoppers spent $6 billion in checkout\n  areas in a year (IRI); brands pay stores \"slotting fees\" for the best spots incl. eye-level shelves, end caps, checkout.\nHubSpot \"music psychology marketing\" on Milliman (1982, Journal of Marketing): supermarket, 9 weeks, slow (60 BPM) vs fast (108 BPM)\n  music -> customers spent 38% more with slow music.",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+16%",
+ "lead": 0.05,
+ "gap": 0.08,
+ "tail": 0.1,
+ "crf": 20,
+ "music": {
+  "style": "suspense",
+  "bpm": 140,
+  "gain": 0.24,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.45,
+ "lines": [
+  {
+   "text": "Why the milk is always at the very back of the supermarket.",
+   "spec": {
+    "type": "hero"
+   }
+  },
+  {
+   "text": "To reach it, you walk past dozens of other products. It's called building the basket.",
+   "spec": {
+    "type": "map"
+   }
+  },
+  {
+   "text": "Eye level? Brands pay to be there.",
+   "spec": {
+    "type": "eyelevel"
+   }
+  },
+  {
+   "text": "And shoppers spend about six billion dollars a year just at the checkout.",
+   "spec": {
+    "type": "checkout"
+   }
+  },
+  {
+   "text": "In one study, slow music made shoppers spend thirty-eight percent more.",
+   "spec": {
+    "type": "music",
+    "cut": true
+   }
+  },
+  {
+   "text": "To be fair, the coolers are also near the delivery doors.",
+   "spec": {
+    "type": "fair"
+   }
+  },
+  {
+   "text": "Did you notice any of these tricks?",
+   "spec": {
+    "type": "hero",
+    "choice": true
+   }
+  }
+ ]
+}
