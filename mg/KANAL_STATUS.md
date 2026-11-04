@@ -152,3 +152,11 @@
 - Hook 'Why you should never laugh at a small idea', 27,6 s, heller Sky-Stil, Musik suspense, OHNE Sam-Schrei. Objekte Videothek/roter DVD-Umschlag/TV per Code gezeichnet (Gerät war offline, kein Gemini-Download möglich).
 - Fakten: Marketplace 2020 (Hastings: $50 Mio. Angebot 2000, ~9.000 Filialen, Netflix 300.000 Abos, -$57 Mio.), NZ Herald/Randolph (Antioco "struggling not to laugh"), Wikipedia Blockbuster (Insolvenz 2010, 1 Filiale Bend/Oregon), Nasdaq/CompaniesMarketCap Börsenwert Netflix ~$256–260 Mrd. (Nov 2026).
 - Loop geprüft (erster ≈ letzter Frame), Lautstärke Ø -20,4 dB / max -3,7 dB. An Alex geschickt – wartet auf OK für Upload (privat) + Termin.
+
+## Lauf 2026-11-04 ~22:45 (Routine)
+- 10 Abos (unverändert). 48-h-Echtzeit: nur 58 Aufrufe (vorher 1.423) -> Kanal steht komplett, seit 2.11. kein neuer Short veröffentlicht. 28 T (07.10.–03.11.): 6.973 Aufrufe, 23,6 h, +8 Abos.
+- Shorts: Felicity 1.310 | Eiffel 1.257 | Ever Given ~1.225 | SVB 1.120 | Binance 55 (Ø 45,2 %, 2 Likes) | Knight 57 | $100: 284 | New vs Used 210 -> alle stehen.
+- Langform "Most Expensive Mistakes" 6GQUuQxR_Bs: 15 Aufrufe, 9 einzelne Zuschauer, 382 Impressionen, CTR 2,1 % (steigt leicht, weiter <3 %). Bank-Video KDOq1pF040k 1.142 (Hover-Aufrufe vorbei). Andere Langvideos 5–9.
+- Länder 28 T: ID 14,7 %, DE 14,5 %, US 11,5 %, IN 4,7 %, PH 4,4 %.
+- Erkenntnis: Ohne neuen Short fällt der Kanal sofort auf ~30 Aufrufe/Tag -> Shorts-Takt ist alles. 3 fertige Shorts liegen ungenutzt (ys_escobar, ys_hush, ys_blockbuster).
+- Keine Korrekturen, nichts im Studio geändert. ys_market (Supermarkt-Tricks) wird gerade in einer anderen Session gebaut – hier nicht angefasst. Keine neuen Ideen vorgeschlagen (Rückstau fertiger Videos). Entwurfs-Leiche "846c1dee…" weiter offen.
