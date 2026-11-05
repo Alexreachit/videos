@@ -779,11 +779,22 @@ def main():
         pg.goto("file://" + str((HERE / proj / cfg["scene"]).resolve())); pg.evaluate("tl=>window.setTimeline(tl)", tl)
         events = pg.evaluate("window.sfxEvents()"); br.close()
     # 3) Frames parallel
-    nfr = int(total * fps); step = math.ceil(nfr / workers)
-    jobs = [(proj, a, min(nfr, a + step), size, fps, out) for a in range(0, nfr, step)]
-    t0 = time.time()
-    with Pool(workers) as pool: pool.map(render_range, jobs)
-    print(f"{nfr} Frames in {time.time()-t0:.0f}s", flush=True)
+    nfr = int(total * fps)
+    if "--frames-from" in sys.argv:   # Frames wurden in Teil-Jobs gerendert (mg-chunks.yml) -> nur zusammensetzen
+        src = Path(sys.argv[sys.argv.index("--frames-from") + 1])
+        for f in src.rglob("*.jpg"): shutil.copy(f, out / "fr" / f.name)
+        miss = [i for i in range(nfr) if not (out / "fr" / f"{i:05d}.jpg").exists()]
+        if miss: raise SystemExit(f"fehlende Frames: {miss[:10]} ... ({len(miss)})")
+    else:
+        fa, fb = 0, nfr
+        if "--chunk" in sys.argv:     # nur Teilstueck k/N rendern (fuer parallele GitHub-Jobs), dann Ende
+            k, N = map(int, sys.argv[sys.argv.index("--chunk") + 1].split("/")); per = math.ceil(nfr / N); fa, fb = k * per, min(nfr, (k + 1) * per)
+        step = math.ceil((fb - fa) / workers)
+        jobs = [(proj, a, min(fb, a + step), size, fps, out) for a in range(fa, fb, step)]
+        t0 = time.time()
+        with Pool(workers) as pool: pool.map(render_range, jobs)
+        print(f"{fb - fa} Frames in {time.time()-t0:.0f}s", flush=True)
+        if "--chunk" in sys.argv: print("CHUNK", fa, fb); return
     run(["ffmpeg", "-y", "-loglevel", "error", "-framerate", str(fps), "-i", str(out / "fr" / "%05d.jpg"),
          "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", str(cfg.get("crf", 19)), "-preset", "slow", str(out / "video.mp4")])
     # 4) Ton: SFX+Musik synthetisieren, Stimme platzieren, mischen (Musik unter der Stimme abgesenkt)
