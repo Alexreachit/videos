@@ -5,24 +5,26 @@ html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#8fd0f5
 #stage{position:absolute;inset:0;overflow:hidden;background:linear-gradient(#4fa9ec 0%,#8fd0f5 38%,#cdeefc 52%,#e8f8ff 60%)}
 #sun{position:absolute;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,#fffbe8 0%,#fff3b8aa 18%,#ffe9a033 45%,transparent 70%)}
 canvas{position:absolute;left:0;top:0;width:1080px;height:1920px}
-#ov,#ui{position:absolute;inset:0}
+#ov,#ui,#map{position:absolute;inset:0}
+#map{background:radial-gradient(ellipse at 50% 45%,#5cc3f2,#2b97d8 75%)}
 .card{position:absolute;background:#fff;border:7px solid #232838;border-radius:28px;box-shadow:0 14px 0 #2328384d,0 26px 40px #0003;font-family:IB,P,Arial;font-weight:900;color:#232838}
 .pill{position:absolute;font-family:IB,P,Arial;font-weight:900;border:7px solid #232838;border-radius:22px;padding:8px 30px;box-shadow:0 10px 0 #2328384d;white-space:nowrap}
 .lbl{position:absolute;font-family:IB,P,Arial;font-weight:900;white-space:nowrap;color:#fff;text-align:center}
-</style></head><body><div id="stage"><div id="sun"></div><canvas id="cv"></canvas><div id="ov"></div><div id="ui"></div></div>
-<script src="../lib/core.js"></script><script src="../lib/gl3d.js"></script><script src="../lib/samrig.js"></script>
+</style></head><body><div id="stage"><div id="sun"></div><canvas id="cv"></canvas><div id="ov"></div><div id="map"></div><div id="ui"></div></div>
+<script src="../lib/core.js"></script><script src="../lib/gl3d.js"></script><script src="../lib/samrig.js"></script><script src="../lib/mapdata.js"></script>
 <script>
 const W = 1080, H = 1920, G = GL3D, {cl, ez, ei, bo, el, lerp} = MG;
 const $ = id => document.getElementById(id);
 const OL = '#232838';
 // ---------------- Welt ----------------
 const w = G.World($('cv'), W, H);
-w.fog = G.hex('#d9f2fd'); w.fogN = 70; w.fogF = 260; w.sky = G.hex('#d6efff'); w.gnd = G.hex('#c9b07c');
+w.fog = G.hex('#d9f2fd'); w.fogN = 110; w.fogF = 380; w.sky = G.hex('#d6efff'); w.gnd = G.hex('#c9b07c');
 w.sun = G.v.norm([.5, .78, .42]); w.shadowSize = 26;
 
 // Inselhoehe (gleiche Funktion fuer Gelaende + Platzierung)
-const IR = 15;
+const S = 1.9, IR = 15 * S;
 function iH(x, z) {
+  x /= S; z /= S;
   const r = Math.hypot(x, z), a = Math.atan2(z, x);
   const R = 11.2 + .9 * Math.sin(a * 3 + .5) + .5 * Math.sin(a * 5 - 1.2);
   const u = r / R;
@@ -32,7 +34,7 @@ function iH(x, z) {
   return h;
 }
 (function island() {
-  const g = new G.Geo(), NR = 30, NS = 72, P = (i, j) => { const r = IR * Math.pow(i / NR, .9), a = j / NS * 6.2832 + (i % 2) * .5 / NS * 6.2832, x = Math.cos(a) * r, z = Math.sin(a) * r; return [x, iH(x, z), z] };
+  const g = new G.Geo(), NR = 52, NS = 120, P = (i, j) => { const r = IR * Math.pow(i / NR, .9), a = j / NS * 6.2832 + (i % 2) * .5 / NS * 6.2832, x = Math.cos(a) * r, z = Math.sin(a) * r; return [x, iH(x, z), z] };
   const col = (a, b, c) => { const h = (a[1] + b[1] + c[1]) / 3, s = G.hash(a[0] * 3.1, c[2] * 1.7);
     if (h < -.25) return G.hex('#e9c98a').map(v => v * (.92 + .06 * s));
     if (h < .55) return G.hex('#f4dca0').map(v => v * (.95 + .07 * s));
@@ -48,9 +50,9 @@ function iH(x, z) {
 // Meer: Ringe, innen fein
 (function sea() {
   const g = new G.Geo(), NR = 46, NS = 90, k = G.hex('#22a9d8');
-  const P = (i, j) => { const r = 6 + 300 * Math.pow(i / NR, 2.2), a = (j + (i % 2) * .5) / NS * 6.2832; return [Math.cos(a) * r, -.12, Math.sin(a) * r] };
+  const P = (i, j) => { const r = 6 * S + 330 * Math.pow(i / NR, 2.2), a = (j + (i % 2) * .5) / NS * 6.2832; return [Math.cos(a) * r, -.12, Math.sin(a) * r] };
   for (let i = 0; i < NR; i++) for (let j = 0; j < NS; j++) { const a = P(i, j), b = P(i, j + 1), c = P(i + 1, j + 1), d = P(i + 1, j); g.tri(a, b, c, k); g.tri(a, c, d, k.map(v => v * .97)) }
-  w.mesh(g, { wave: .22, foam: 10.6, cast: false, recv: true });
+  w.mesh(g, { wave: .22, foam: 10.6 * S, cast: false, recv: true });
 })();
 // Palmen
 function palm(x, z, hgt, lean, yaw, seed) {
@@ -71,11 +73,12 @@ function palm(x, z, hgt, lean, yaw, seed) {
   for (let i = 0; i < 3; i++) g.add(G.ico(.2, 1, '#6b4426', .1, i), G.m4.compose([px + Math.cos(i * 2.1) * .25, py - .25, Math.sin(i * 2.1) * .25]));
   return w.mesh(g.vary(.05, seed), { pos: [x, y - .1, z], rot: [0, yaw, 0] });
 }
-palm(-6.2, -3.5, 5.2, 1, .3, 1); palm(-7.6, -1.4, 4.2, 1.2, -.4, 2); palm(6.4, -4.8, 5.6, 1, 2.6, 3); palm(8.1, 1.6, 4.4, 1.3, 3.4, 4); palm(-3.5, -7.5, 4.8, .9, 1.4, 5); palm(3, -8, 3.8, 1.1, 1.9, 6);
+palm(-6.2 * S, -3.5 * S, 5.2, 1, .3, 1); palm(-7.6 * S, -1.4 * S, 4.2, 1.2, -.4, 2); palm(6.4 * S, -4.8 * S, 5.6, 1, 2.6, 3); palm(8.1 * S, 1.6 * S, 4.4, 1.3, 3.4, 4); palm(-3.5 * S, -7.5 * S, 4.8, .9, 1.4, 5); palm(3 * S, -8 * S, 3.8, 1.1, 1.9, 6);
+palm(-7.5, -6.5, 5, 1, .9, 7); palm(-9.5, -4.2, 4.2, 1.2, 2.2, 8); palm(8.5, -7.2, 5.4, 1, 2.9, 9); palm(10.8, -5, 4.3, 1.2, 1.2, 10); palm(-13, 6, 4.6, 1, .5, 11); palm(14, 5, 4.8, 1.1, 2.4, 12); palm(-4, -14, 5, 1, 1.7, 13); palm(5.5, -15, 4.4, 1.1, .2, 14);
 // Felsen + Buesche
-[[9.6, 4.2, .9], [-9.4, 3.6, 1.1], [10.8, -2, .7], [-2, 9.8, .8], [4.5, 9.2, .6], [-10.5, -4, .7]].forEach(([x, z, s], i) =>
+[[9.6, 4.2, .9], [-9.4, 3.6, 1.1], [10.8, -2, .7], [-2, 9.8, .8], [4.5, 9.2, .6], [-10.5, -4, .7]].map(([x, z, s]) => [x * S, z * S, s * 1.3]).forEach(([x, z, s], i) =>
   w.mesh(G.ico(s, 1, '#9aa3ad', .28, i + 10, .7).vary(.08, i), { pos: [x, iH(x, z) + s * .2, z], rot: [0, i, 0] }));
-[[-5, 1.2, .8], [5.4, -1.6, .7], [-2.8, -4.6, .9], [6.6, 3.8, .6], [-6.3, 4, .7]].forEach(([x, z, s], i) =>
+[[-5, 1.2, .8], [5.4, -1.6, .7], [-2.8, -4.6, .9], [6.6, 3.8, .6], [-6.3, 4, .7], [-11, -9, .9], [12, -9, .8], [-15, 1, .9], [15, -1, .8], [0, -12, 1], [-9, 11, .8], [10, 11, .7]].forEach(([x, z, s], i) =>
   w.mesh(G.ico(s, 1, i % 2 ? '#4fb24a' : '#5ec456', .22, i + 30, .75).vary(.08, i), { pos: [x, iH(x, z) + s * .35, z] }));
 // Wolken
 const clouds = [];
@@ -127,6 +130,7 @@ const CH = [1.35, 0, 3.5]; CH[1] = iH(CH[0], CH[2]);
 const chest = w.mesh(G.box(1.1, .62, .72, '#8a5428', { base: true }).add(G.box(1.16, .1, .78, '#ffd166', { base: true }), G.m4.compose([0, .5, 0])).add(G.box(.18, .66, .76, '#ffd166', { base: true }), G.m4.compose([-.36, 0, 0])).add(G.box(.18, .66, .76, '#ffd166', { base: true }), G.m4.compose([.36, 0, 0])), { pos: [...CH], rot: [0, -.35, 0] });
 const lid = w.mesh(new G.Geo().add(G.box(1.12, .26, .74, '#9a6030', { base: true }).add(G.box(.2, .3, .78, '#ffd166', { base: true }), G.m4.compose([-.36, 0, 0])).add(G.box(.2, .3, .78, '#ffd166', { base: true }), G.m4.compose([.36, 0, 0])), G.m4.compose([0, 0, .37])), { parent: chest, pos: [0, .62, -.37], cast: true });
 lid.geoOff = true;
+const COINS = [0, 1, 2, 3, 4].map(k => ({ m: w.mesh(G.cyl(.2, .2, .06, 14, '#ffc94a', { cap: '#ffe07a' }), { parent: null, emis: .25, vis: false }), k }));
 const glow = w.mesh(G.box(.9, .05, .55, '#ffe680'), { parent: chest, pos: [0, .5, 0], emis: .9, shade: .2, cast: false });
 const coco = w.mesh(G.ico(.2, 1, '#6b4426', .12, 9), { parent: chest, pos: [0, .4, 0] });
 // Bauplaetze (gestrichelte Quadrate) – Haeuser, Bank, Strasse
@@ -144,6 +148,35 @@ for (let i = 0; i < 22; i++) {
 }
 const beams = [-1, 1, 0].map((s, i) => w.mesh(G.cyl(.5, 3.2, 60, 16, '#fff6c8', { open: true }), { pos: [s * 5, hS, -3 - 2 * Math.abs(s)], rot: [0, 0, s * .25], alpha: 0, emis: 1.2, shade: 0, cast: false, recv: false, additive: true, vis: false }));
 
+// ---------------- Karten-Intro (Australien -> Insel) ----------------
+const TM = 1.75;
+const ISL = MAPP(155.6, -19.6), AUSC = MAPP(134, -25), C0 = MAPP(143, -22), W0 = 560, W1 = 2.3;
+(function buildMap() {
+  let p = '';
+  for (let lo = 90; lo <= 190; lo += 10) { const a = MAPP(lo, 10), b = MAPP(lo, -50); p += `<path d="M${a[0]},${a[1]}L${b[0]},${b[1]}" stroke="#fff" stroke-opacity=".18" stroke-width="2" vector-effect="non-scaling-stroke"/>` }
+  for (let la = 10; la >= -50; la -= 10) { const a = MAPP(90, la), b = MAPP(190, la); p += `<path d="M${a[0]},${a[1]}L${b[0]},${b[1]}" stroke="#fff" stroke-opacity=".18" stroke-width="2" vector-effect="non-scaling-stroke"/>` }
+  for (const k in WORLD) p += `<path d="${WORLD[k]}" fill="${k === 'AUS' ? '#ffd166' : '#8fd36b'}" stroke="${k === 'AUS' ? OL : '#ffffff'}" stroke-width="${k === 'AUS' ? 5 : 2.5}" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>`;
+  // unsere Insel
+  p += `<g transform="translate(${ISL[0]},${ISL[1]})"><path d="${(() => { let d = ''; for (let i = 0; i <= 40; i++) { const a = i / 40 * 6.2832, r = .95 + .08 * Math.sin(a * 3 + .5) + .05 * Math.sin(a * 5 - 1.2); d += (i ? 'L' : 'M') + (Math.cos(a) * r).toFixed(3) + ',' + (Math.sin(a) * r).toFixed(3) } return d + 'Z' })()}" fill="#f4dca0" stroke="#fff" stroke-width="3" vector-effect="non-scaling-stroke"/><circle r=".68" fill="#6cbf55"/></g>`;
+  $('map').innerHTML = `<svg id="msv" width="1080" height="1920" viewBox="0 0 10 10" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0">${p}</svg><div id="mlab"></div>`;
+})();
+function mapView(t) {
+  const u = ei(cl(t, .25, TM)), wd = W0 * Math.pow(W1 / W0, u), k = (wd - W1) / (W0 - W1);
+  const cx = ISL[0] + (C0[0] - ISL[0]) * k, cy = ISL[1] + (C0[1] - ISL[1]) * k, hd = wd * 1920 / 1080;
+  return { x0: cx - wd / 2, y0: cy - hd / 2, wd, hd };
+}
+function drawMap(t) {
+  const m = $('map'), op = 1 - ez(cl(t, TM - .22, TM + .12));
+  m.style.opacity = op; m.style.display = op <= .001 ? 'none' : 'block'; if (op <= .001) return;
+  const v = mapView(t); $('msv').setAttribute('viewBox', `${v.x0} ${v.y0} ${v.wd} ${v.hd}`);
+  const sc = p => [(p[0] - v.x0) / v.wd * 1080, (p[1] - v.y0) / v.hd * 1920];
+  const a = sc(AUSC), i = sc(ISL), la = 1 - ez(cl(t, .7, 1.1)), pin = 1;
+  $('mlab').innerHTML = (la > .01 ? `<div class="lbl" style="left:${a[0]}px;top:${a[1]}px;transform:translate(-50%,-50%) scale(${la});font-size:74px;color:${OL};text-shadow:0 0 0 #0000">AUSTRALIEN</div>` : '') +
+    `<div style="position:absolute;left:${i[0]}px;top:${i[1]}px;transform:translate(-50%,-100%) scale(${pin * (1 - ez(cl(t, TM - .45, TM - .15)))});transform-origin:50% 100%;display:flex;flex-direction:column;align-items:center">
+      <div class="pill" style="position:relative;font-size:56px;color:#fff;background:#ff5d5d;text-shadow:${shadowTxt(OL, 4)}">UNSERE INSEL</div>
+      <svg width="70" height="90" viewBox="0 0 70 90"><path d="M35,88 C35,88 6,52 6,32 A29,29 0 1,1 64,32 C64,52 35,88 35,88Z" fill="#ff5d5d" stroke="${OL}" stroke-width="6"/><circle cx="35" cy="32" r="11" fill="#fff"/></svg></div>`;
+}
+
 // ---------------- Timeline-Helfer ----------------
 const Lt = i => MG.L(i);
 function wt(i, re) { const l = Lt(i); if (!l.words) return l.start; for (const x of l.words) if (re.test(x[0])) return l.start + x[1]; return l.start }
@@ -151,22 +184,25 @@ function wt(i, re) { const l = Lt(i); if (!l.words) return l.start; for (const x
 function camKeys() {
   const P = (x, y, z) => [SP[0] + x, hS + y, SP[2] + z];
   const K = [];
-  K.push({ t: 0, pos: [8, 62, 78], at: [0, 0, 0], fov: 38 });
+  K.push({ t: 0, pos: [.4, 165, 4], at: [0, 0, 0], fov: 36 });
+  K.push({ t: TM, pos: [.4, 165, 4], at: [0, 0, 0], fov: 36 });
+  K.push({ t: TM + .75, pos: [9, 46, 52], at: [0, 0, 1], fov: 40 });
   K.push({ t: Lt(0).end - .35, pos: P(1.3, 2.4, 9.5), at: P(.5, 1.2, 0), fov: 44 });
   K.push({ t: Lt(1).start + .1, pos: P(1.3, 2.4, 9.5), at: P(.5, 1.2, 0), fov: 44 });
-  K.push({ t: Lt(1).end + .05, pos: P(-4.6, 2.2, 8.4), at: P(-2.2, 1.3, -1.2), fov: 46 });
+  K.push({ t: Lt(1).end + .05, pos: P(-1.6, 2.7, 10.8), at: P(-2.1, 1.2, -1.0), fov: 46 });
   K.push({ t: Lt(2).start + .35, pos: P(.7, 2.6, 6.6), at: P(.1, 1.15, 0), fov: 42 });
   K.push({ t: Lt(3).end, pos: P(-.3, 2.4, 6.0), at: P(-.4, 1.15, 0), fov: 42 });
-  K.push({ t: Lt(4).start + 1.2, pos: [17, 17, 30], at: [0, 4.2, -1], fov: 46 });
-  K.push({ t: Lt(4).end + .1, pos: [13, 15, 31], at: [0, 4.6, -1], fov: 46 });
+  K.push({ t: Lt(4).start + 1.2, pos: [20, 19, 33], at: [0, 4.2, -1], fov: 46 });
+  K.push({ t: Lt(4).end + .1, pos: [15, 17, 34], at: [0, 4.6, -1], fov: 46 });
   K.push({ t: Lt(5).start + .6, pos: P(-5, 3.2, 7.5), at: [-2.5, hS + .3, -1], fov: 46 });
-  K.push({ t: Lt(5).end, pos: [0, hS + 13, 19], at: [0, hS, .8], fov: 50 });
+  K.push({ t: Lt(5).end, pos: [0, hS + 19, 27], at: [0, hS, -.5], fov: 52 });
   K.push({ t: Lt(6).start + .5, pos: P(-.3, 3.8, 7.6), at: [-1.8, hS + .4, -1.6], fov: 48 });
   K.push({ t: Lt(6).end, pos: P(-.2, 3.6, 7.0), at: [-1.7, hS + .4, -1.6], fov: 48 });
   K.push({ t: Lt(7).start + .45, pos: P(1.9, 2.2, 7.4), at: P(.8, 1.0, 0), fov: 42 });
   K.push({ t: Lt(7).end, pos: P(1.7, 2.0, 6.6), at: P(.8, 1.0, 0), fov: 42 });
-  K.push({ t: Lt(8).start + .45, pos: P(.4, 2.5, 8.6), at: P(.2, 1.45, 0), fov: 44 });
-  K.push({ t: Lt(9).start, pos: P(.4, 2.4, 8.0), at: P(.2, 1.45, 0), fov: 44 });
+  K.push({ t: Lt(8).end, pos: P(1.5, 2.3, 7.2), at: P(.8, 1.2, 0), fov: 44 });
+  K.push({ t: Lt(9).start + .45, pos: P(.4, 2.5, 8.6), at: P(.2, 1.45, 0), fov: 44 });
+  K.push({ t: Lt(10).start, pos: P(.4, 2.4, 8.0), at: P(.2, 1.45, 0), fov: 44 });
   K.push({ t: 999, pos: P(.3, 2.2, 6.4), at: P(.2, 1.4, 0), fov: 44 });
   return K;
 }
@@ -175,7 +211,7 @@ function camAt(t) {
   const K = KEYS; let i = 0; while (i < K.length - 2 && t > K[i + 1].t) i++;
   const a = K[i], b = K[i + 1], end = b.t > 900 ? MG.TL.dur : b.t, u = ei(cl(t, a.t, end));
   // Erster Flug: weich ohne Halt
-  const f = i == 0 ? (1 - Math.pow(1 - cl(t, a.t, end), 2.4)) : u;
+  const f = i == 1 ? ei(cl(t, a.t, end)) : i == 2 ? (1 - Math.pow(1 - cl(t, a.t, end), 2.2)) : u;
   return { pos: G.v.lerp(a.pos, b.pos, f), at: G.v.lerp(a.at, b.at, f), fov: lerp(a.fov, b.fov, f) };
 }
 
@@ -239,15 +275,19 @@ function passport(t, t0, t1) {
 }
 function treasury(t, t0, t1) {
   const s = pop(t, t0) * fade(t, t1, t1 + .25); if (s <= .01) return '';
-  const tc = wt(7, /zwanzig/i), v = Math.round(20 * ez(cl(t, tc - .1, tc + .5))), tk = wt(7, /kokos/i);
+  const tc = wt(7, /zwanzig/i), tk = wt(7, /kokos/i);
+  let v = Math.round(20 * ez(cl(t, tc - .1, tc + .5)));
+  COINS.forEach(c => { if (t > c.t1) v += 10 });
+  const lk = wt(8, /like/i) - .15, ls = pop(t, lk, .4);
   return `<div class="lbl" style="left:0;width:1080px;top:240px;transform:scale(${s})"><div class="pill" style="position:relative;display:inline-block;font-size:56px;color:${OL};background:#fff">STAATSKASSE</div>
    <div style="font-size:230px;line-height:1;margin-top:10px;color:#35e08a;text-shadow:${shadowTxt(OL, 8)}">${v} €</div>
-   ${t > tk - .05 ? `<div style="font-size:92px;color:#fff;transform:scale(${pop(t, tk - .05, .4)});text-shadow:${shadowTxt(OL, 6)}">+ 1 KOKOSNUSS</div>` : ''}</div>`;
+   ${t > tk - .05 ? `<div style="font-size:92px;color:#fff;transform:scale(${pop(t, tk - .05, .4)});text-shadow:${shadowTxt(OL, 6)}">+ 1 KOKOSNUSS</div>` : ''}
+   ${t > lk ? `<div class="pill" style="position:relative;display:inline-block;margin-top:18px;font-size:76px;color:#fff;background:#fe2c55;transform:rotate(-2deg) scale(${ls});text-shadow:${shadowTxt(OL, 4)}"><svg width="70" height="62" viewBox="0 0 24 22" style="vertical-align:-6px"><path d="M12 21 C-6 9 4-3 12 4 C20-3 30 9 12 21Z" fill="#fff" stroke="${OL}" stroke-width="1.6"/></svg> 1 LIKE = +10 €</div>` : ''}</div>`;
 }
 const iconHarbor = `<svg viewBox="0 0 100 100" width="170" height="170"><path d="M10,70 Q30,62 50,70 T90,70" stroke="#3aa0e0" stroke-width="8" fill="none" stroke-linecap="round"/><path d="M50,14 L50,62" stroke="${OL}" stroke-width="8" stroke-linecap="round"/><circle cx="50" cy="16" r="7" fill="none" stroke="${OL}" stroke-width="6"/><path d="M34,26 L66,26" stroke="${OL}" stroke-width="7" stroke-linecap="round"/><path d="M24,46 Q28,64 50,64 Q72,64 76,46" stroke="${OL}" stroke-width="8" fill="none" stroke-linecap="round"/><path d="M18,52 L24,44 L32,50 M82,52 L76,44 L68,50" stroke="${OL}" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 const iconBank = `<svg viewBox="0 0 100 100" width="170" height="170"><path d="M12,36 L50,14 L88,36 Z" fill="#ffd166" stroke="${OL}" stroke-width="6" stroke-linejoin="round"/><rect x="18" y="40" width="64" height="6" fill="${OL}"/>${[24, 40, 56, 72].map(x => `<rect x="${x - 3}" y="48" width="10" height="26" fill="#e9eef5" stroke="${OL}" stroke-width="4"/>`).join('')}<rect x="12" y="76" width="76" height="10" rx="2" fill="#ffd166" stroke="${OL}" stroke-width="6"/><text x="50" y="35" text-anchor="middle" font-family="IB,Arial" font-weight="900" font-size="16" fill="${OL}">$</text></svg>`;
 function choiceCards(t, t0, t1) {
-  const ta = wt(8, /hafen/i) - .1, tb = wt(8, /bank/i) - .1, out = fade(t, t1, t1 + .25);
+  const ta = wt(9, /hafen/i) - .1, tb = wt(9, /bank/i) - .1, out = fade(t, t1, t1 + .25);
   const card = (x, rot, s, ic, lab, bg) => s <= .01 ? '' : `<div class="card" style="left:${x}px;top:300px;width:400px;height:420px;transform:translateX(-50%) rotate(${rot}deg) scale(${s * out});text-align:center;background:${bg}">${ic}<div style="font-size:64px;margin-top:6px">${lab}</div></div>`;
   const wob = Math.sin(t * 3) * 2;
   return card(300, -6 + wob, pop(t, ta), iconHarbor, 'HAFEN?', '#fff') + card(780, 6 - wob, pop(t, tb), iconBank, 'BANK?', '#fff') +
@@ -280,7 +320,8 @@ function samPose(t) {
   else if (i == 5) { o.armR = [.5, -2.85]; o.mouth = 'o'; o.look = [Math.sin(rt * 2) * 6, -2] }
   else if (i == 6) { o.armL = [1.45, -.1]; o.mouth = 'grin'; o.armR = [.3, .3]; o.look = [-6, 0] }
   else if (i == 7) { const u = ez(cl(t, wt(7, /kokos/i) - .2, wt(7, /kokos/i) + .2)); o.armL = [lerp(.12, .95, u), lerp(.1, -1.25, u)]; o.armR = [lerp(.12, .95, u), lerp(.1, -1.25, u)]; o.mouth = u > .5 ? 'flat' : 'smile'; o.look = [6, 0] }
-  else if (i == 8) { o.armR = [.45, -2.75]; o.armL = [.2, .1]; o.mouth = 'hmm'; o.look = [4, -3] }
+  else if (i == 8) { const u = ez(cl(rt, .1, .4)); o.armL = [lerp(.12, 2.6, u), .2]; o.armR = [lerp(.12, 2.6, u), .2]; o.mouth = 'grin'; o.bob = Math.max(0, Math.sin(cl(rt, .6, 1.3) * Math.PI)) * 30; o.look = [5, -2] }
+  else if (i == 9) { o.armR = [.45, -2.75]; o.armL = [.2, .1]; o.mouth = 'hmm'; o.look = [4, -3] }
   else { o.armR = [1.5, -.15]; o.mouth = 'grin' }
   if (t > l.end + .05) o.talk = 0;
   return o;
@@ -305,13 +346,13 @@ function samLayer(t) {
 window.setTimeline = tl => { MG.TL = tl; KEYS = camKeys() };
 window.draw = function (t) {
   const c = camAt(t); w.cam.pos = c.pos; w.cam.at = c.at; w.cam.fov = c.fov;
-  w.shadowCenter = [c.at[0], 0, c.at[2]]; w.shadowSize = Math.min(40, 14 + Math.hypot(...G.v.sub(c.pos, c.at)) * .6);
+  w.shadowCenter = [c.at[0], 0, c.at[2]]; w.shadowSize = Math.min(60, 14 + Math.hypot(...G.v.sub(c.pos, c.at)) * .6);
   // Sonne im Bild (CSS) passend zur Kamera-Richtung
   const sp = w.project(G.v.lerp(c.pos, [c.pos[0] + w.sun[0] * 100, c.pos[1] + w.sun[1] * 100, c.pos[2] + w.sun[2] * 100], 1));
   $('sun').style.cssText = `left:${sp.x - 260}px;top:${Math.min(sp.y, 1100) - 260}px;opacity:${sp.vis ? 1 : 0}`;
   // Wolken + Moewen
   clouds.forEach((m, i) => { m.pos = [m.base[0] + ((t * (1.2 + .3 * i)) % 400), m.base[1], m.base[2]] });
-  gulls.forEach(({ b, wl, wr, i }) => { const a = t * (.32 + .06 * i) + i * 2.1, R = 9 + 3 * i; b.pos = [Math.cos(a) * R, 9 + 2.5 * i + Math.sin(t * 1.3 + i) * .6, Math.sin(a) * R - 2]; b.rot = [0, -a, .35]; const f = Math.sin(t * 9 + i * 2) * .55; wl.rot = [0, 0, -f]; wr.rot = [0, 0, f] });
+  gulls.forEach(({ b, wl, wr, i }) => { const a = t * (.32 + .06 * i) + i * 2.1, R = 14 + 4 * i; b.pos = [Math.cos(a) * R, 9 + 2.5 * i + Math.sin(t * 1.3 + i) * .6, Math.sin(a) * R - 2]; b.rot = [0, -a, .35]; const f = Math.sin(t * 9 + i * 2) * .55; wl.rot = [0, 0, -f]; wr.rot = [0, 0, f] });
   // Flagge
   const pl = Lt(0).end - .55, pu = cl(t, pl - .08, pl + .3);
   pole.vis = t > pl - .08; pole.scl = [1, Math.max(.01, el(pu)), 1]; pole.pos = [FX[0], FX[1] - .05, FX[2]];
@@ -332,7 +373,12 @@ window.draw = function (t) {
   const kt = wt(7, /kokos/i) - .1, ku = cl(t, kt, kt + .7);
   coco.pos = [.0 + .9 * ku, .4 + Math.max(0, 1.6 * Math.sin(ku * Math.PI)) * (ku < 1 ? 1 : 0) + (ku >= 1 ? -.1 + .06 : 0), .25 * ku]; coco.rot = [ku * 7, 0, ku * 4]; coco.vis = t > co;
   if (ku >= 1) coco.pos = [.9, -.06 + .2, .25];
+  const ck = wt(8, /zehn/i) - .1;
+  COINS.forEach(c => { c.t0 = ck + c.k * .32; c.t1 = c.t0 + .45; const u = cl(t, c.t0, c.t1); c.m.vis = u > 0 && u < 1;
+    const s = [CH[0] - 1.4 + c.k * .5, CH[1] + 3.2, CH[2] + 1.6], e = [CH[0], CH[1] + .55, CH[2]];
+    c.m.pos = [lerp(s[0], e[0], u), lerp(s[1], e[1], u) + Math.sin(u * Math.PI) * 1.2, lerp(s[2], e[2], u)]; c.m.rot = [1.2 + u * 6, u * 3, 0] });
   w.render(t);
+  drawMap(t);
   // ---- Overlays ----
   let ov = '';
   ov += samLayer(t);
@@ -349,15 +395,15 @@ window.draw = function (t) {
   ui += followPill(t, wt(3, /bürger/i) - .1, Lt(4).start - .15);
   ui += goalText(t, Lt(4).start, Lt(5).start - .1);
   ui += passport(t, Lt(6).start + .05, Lt(7).start - .2);
-  ui += treasury(t, Lt(7).start + .1, Lt(8).start - .15);
-  ui += choiceCards(t, Lt(8).start, Lt(9).start - .1);
-  ui += commentCard(t, Lt(9).start + .05);
+  ui += treasury(t, Lt(7).start + .1, Lt(9).start - .15);
+  ui += choiceCards(t, Lt(9).start, Lt(10).start - .1);
+  ui += commentCard(t, Lt(10).start + .05);
   ui += MG.captions(t, { y: 1470, size: 84, maxWords: 3, hl: '#ffd166', upper: true, stageW: 1080 }).replace(/'Arial Black',Arial/, 'IB,Arial');
   $('ui').innerHTML = ui;
 };
 window.sfxEvents = function () {
   const E = [], L = Lt;
-  E.push({ k: 'whoosh', t: 0, d: 1.4 }, { k: 'pop', t: .02 });
+  E.push({ k: 'pop', t: .1 }, { k: 'whoosh', t: .35, d: 1.3 }, { k: 'whoosh', t: TM - .15, d: 1.2 });
   E.push({ k: 'impact', t: L(0).end - .55 });
   E.push({ k: 'pop', t: L(0).end - .2 });
   E.push({ k: 'thud', t: L(1).start }, { k: 'swish', t: L(1).start + .1, d: .5 });
@@ -368,8 +414,10 @@ window.sfxEvents = function () {
   PL.forEach(p => E.push({ k: 'tap', t: wt(5, p.re) - .15 }));
   E.push({ k: 'swish', t: L(6).start + .05, d: .4 }, { k: 'impact', t: wt(6, /eins/i) });
   E.push({ k: 'whoosh', t: L(7).start, d: .6 }, { k: 'thud', t: L(7).start + .2 }, { k: 'cash', t: wt(7, /zwanzig/i) }, { k: 'pop', t: wt(7, /kokos/i) });
-  E.push({ k: 'pop', t: wt(8, /hafen/i) - .1 }, { k: 'pop', t: wt(8, /bank/i) - .1 });
-  E.push({ k: 'swish', t: L(9).start + .05, d: .4 }, { k: 'ding', t: L(9).start + 1.15 });
+  COINS.forEach(c => E.push({ k: 'cash', t: wt(8, /zehn/i) - .1 + c.k * .32 + .45 }));
+  E.push({ k: 'pop', t: wt(8, /like/i) - .15 });
+  E.push({ k: 'pop', t: wt(9, /hafen/i) - .1 }, { k: 'pop', t: wt(9, /bank/i) - .1 });
+  E.push({ k: 'swish', t: L(10).start + .05, d: .4 }, { k: 'ding', t: L(10).start + 1.15 });
   return E;
 };
 </script></body></html>

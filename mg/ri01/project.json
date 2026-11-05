@@ -74,6 +74,12 @@
    }
   },
   {
+   "text": "Und für jeden Like kommen zehn Euro in die Kasse!",
+   "spec": {
+    "type": "likes"
+   }
+  },
+  {
    "text": "Also, was bauen wir zuerst? Einen Hafen oder eine Bank?",
    "spec": {
     "type": "choice"

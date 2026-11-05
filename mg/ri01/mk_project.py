@@ -13,6 +13,7 @@ A("Unser Ziel: das reichste Land der Welt.", dict(type="goal", mood="bright"))
 A("Aber schau dich um. Keine Häuser, keine Bank, nicht mal eine Straße.", dict(type="empty", mood="calm"))
 A("Folg jetzt, und du bekommst Reisepass Nummer eins.", dict(type="passport"))
 A("Unsere Staatskasse: zwanzig Euro... und eine Kokosnuss.", dict(type="treasury"))
+A("Und für jeden Like kommen zehn Euro in die Kasse!", dict(type="likes"))
 A("Also, was bauen wir zuerst? Einen Hafen oder eine Bank?", dict(type="choice"))
 A("Der Top-Kommentar entscheidet.", dict(type="comment"))
 P = dict(title="TikTok-Serie Roundhead Island – Tag 1 (Deutsch)",
