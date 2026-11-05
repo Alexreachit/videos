@@ -185,3 +185,4 @@
 - Erkenntnis: Alltags-Thema ohne Drama (Milch hinten) zündet deutlich schwächer als Betrug/Katastrophe mit bekanntem Objekt (Eiffel, Felicity) -> bei Crime/Drama-Geldstorys bleiben.
 - Keine Korrekturen, nichts im Studio geändert. Keine neuen Ideen vorgeschlagen (Rückstau: ys_escobar, ys_hush, ys_blockbuster, yt_market13, ri01 warten auf Alex' OK/Feedback).
 - 2026-11-05 12:30: ri01 v2 nach Alex' Wunsch: Insel 1,9x größer (Platz für spätere Bauten), Karten-Intro (Australien -> Pin "Unsere Insel" -> Zoom in 3D, wegen Andrews Akzent), neue Zeile "Und für jeden Like kommen zehn Euro in die Kasse!" (Pill "1 LIKE = +10 €", Münzen fliegen in die Truhe). 35,3 s, Ø -21 dB / max -3,6 dB. Wartet auf Alex' OK.
+- 2026-11-05 15:50: ri01 v3 (Andrew, Musik playful leise, mehr SFX + Meer/Möwen, realistischere Grafik) über neuen Workflow mg-chunks gerendert (10 Min statt >1 h). 35,3 s, Ø -21 dB / max -3,2 dB. An Alex geschickt, wartet auf OK.
