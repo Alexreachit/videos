@@ -90,9 +90,11 @@ def render_range(args):
         pg.goto("file://" + str((HERE / proj / "scene.html").resolve()))
         pg.evaluate("tl=>window.setTimeline(tl)", json.load(open(out / "timeline.json")))
         pg.wait_for_function("window.ready===undefined||window.ready===true", timeout=120000)
+        t0 = time.time()
         for i in range(a, b):
             pg.evaluate(f"draw({i/fps})")
             pg.screenshot(path=str(out / "fr" / f"{i:05d}.jpg"), type="jpeg", quality=90)
+            if (i - a) % 100 == 99: print(f"  Worker {a}: {i - a + 1}/{b - a} Frames, {time.time() - t0:.0f}s", flush=True)
         br.close()
 
 

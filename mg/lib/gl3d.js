@@ -178,7 +178,7 @@ precision mediump float; out vec4 o; void main(){ o=vec4(1.); }`;
   }
 
   G.World = function (canvas, W, H, SS = 1) {
-    const gl = canvas.getContext('webgl2', { antialias: true, alpha: true, premultipliedAlpha: false, preserveDrawingBuffer: true });
+    const gl = canvas.getContext('webgl2', { antialias: SS < 1.3, alpha: true, premultipliedAlpha: false, preserveDrawingBuffer: true });
     if (!gl) throw new Error('kein WebGL2');
     canvas.width = Math.round(W * SS); canvas.height = Math.round(H * SS);
     const P = prog(gl, VS, FS), S = prog(gl, SVS, SFS);
