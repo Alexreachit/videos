@@ -1,21 +1,13 @@
-# Runde 4 (2026-11-05): ALLE deutschen Sprecher (de-DE/de-AT/de-CH) + alle Multilingual-Stimmen mit demselben deutschen Text
-# fuer die Serie "Roundhead Island" (Alex will Stimme wie im FC-Asche-Video bzw. Auswahl aller deutschen Sprecher).
-import asyncio, edge_tts, os, json
-os.makedirs("output/voices", exist_ok=True)
-for f in os.listdir("output/voices"): os.remove(os.path.join("output/voices", f))
-TXT = "Tag eins: Ich habe gerade mein eigenes Land gegründet. Willkommen auf Roundhead Island! Und für jeden Like kommen zehn Euro in die Kasse."
-async def main():
-    vs = await edge_tts.list_voices()
-    sel = [v for v in vs if v["Locale"].startswith("de-") or "Multilingual" in v["ShortName"]]
-    info = []
-    for v in sel:
-        n = v["ShortName"]
-        try:
-            await edge_tts.Communicate(TXT, n, rate="+10%").save(f"output/voices/{n}.mp3"); ok = True
-        except Exception as e:
-            ok = False
-        info.append({"name": n, "gender": v.get("Gender"), "locale": v["Locale"], "ok": ok,
-                     "personalities": v.get("VoiceTag", {}).get("VoicePersonalities"), "categories": v.get("VoiceTag", {}).get("ContentCategories")})
-    json.dump(info, open("output/voices/voices.json", "w"), indent=1, ensure_ascii=False)
-    print(json.dumps(info, indent=1, ensure_ascii=False))
-asyncio.run(main())
+# 2026-11-05: Nur die Stimme fuer ein Projekt erzeugen (Andrew + Wortzeiten), damit Frames woanders gerendert werden koennen.
+# Ergebnis: renders/voices/<projekt>/NN.mp3 + words.json  -> lokal: produce.py <projekt> --voice-from <ordner>
+import json, os, sys
+sys.path.insert(0, "mg"); import produce
+PROJ = "ri01"
+cfg = json.load(open(f"mg/{PROJ}/project.json", encoding="utf-8"))
+out = f"output/voices/{PROJ}"; os.makedirs(out, exist_ok=True)
+W = []
+for i, ln in enumerate(cfg["lines"]):
+    mp3 = f"{out}/{i:02d}.mp3"
+    words = produce.tts_andrew(ln["text"], mp3, cfg["voice"], ln.get("rate", cfg["rate"]))
+    W.append([[w, a, b] for w, a, b in words]); print(i, ln["text"], flush=True)
+json.dump(W, open(f"{out}/words.json", "w"), ensure_ascii=False)

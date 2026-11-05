@@ -728,7 +728,10 @@ def main():
     t = cfg.get("lead", 0.3); lines = []
     for i, ln in enumerate(cfg["lines"]):
         mp3 = out / "voice" / f"{i:02d}.mp3"
-        if fake: words = fake_tts(ln["text"], mp3)
+        if "--voice-from" in sys.argv:   # fertige Stimme (z. B. vom GitHub-Lauf) wiederverwenden
+            vd = Path(sys.argv[sys.argv.index("--voice-from") + 1]); shutil.copy(vd / f"{i:02d}.mp3", mp3)
+            words = [tuple(x) for x in json.load(open(vd / "words.json"))[i]]
+        elif fake: words = fake_tts(ln["text"], mp3)
         else: words = tts_andrew(ln["text"], mp3, cfg["voice"], ln.get("rate", cfg["rate"]), pitch=ln.get("pitch", "+0Hz"), volume=ln.get("volume", "+0%"))  # Emotion je Zeile: rate/pitch/volume
         if ln.get("stretch") and words:   # Vokal eines Wortes dehnen ("Waaaaait!"), Tonhoehe bleibt (atempo)
             st = ln["stretch"]; w, wa, wb = words[st.get("word", 0)]; L = wb - wa
