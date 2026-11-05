@@ -133,10 +133,10 @@ uniform vec3 uSun,uSunCol,uSky,uGnd,uFog,uCam,uTint; uniform float uFogN,uFogF,u
 uniform sampler2DShadow uSh; uniform sampler2D uTex;
 out vec4 o;
 float shadow(){ vec3 p=vL.xyz/vL.w*.5+.5; if(p.x<0.||p.x>1.||p.y<0.||p.y>1.||p.z>1.) return 1.; float s=0.; vec2 tx=vec2(1./2048.);
- for(int x=-2;x<=2;x++) for(int y=-2;y<=2;y++) s+=texture(uSh,vec3(p.xy+vec2(x,y)*tx*1.6,p.z-.0015)); return s/25.; }
+ for(int x=-1;x<=1;x++) for(int y=-1;y<=1;y++) s+=texture(uSh,vec3(p.xy+vec2(x,y)*tx*2.2,p.z-.0015)); return s/9.; }
 float h21(vec2 p){ p=fract(p*vec2(123.34,456.21)); p+=dot(p,p+45.32); return fract(p.x*p.y); }
 float vn(vec2 p){ vec2 i=floor(p),f=fract(p); f=f*f*(3.-2.*f); return mix(mix(h21(i),h21(i+vec2(1,0)),f.x),mix(h21(i+vec2(0,1)),h21(i+vec2(1,1)),f.x),f.y); }
-float fbm(vec2 p){ float a=.5,s=0.; for(int i=0;i<5;i++){ s+=a*vn(p); p*=2.03; a*=.5; } return s; }
+float fbm(vec2 p){ float a=.5,s=0.; for(int i=0;i<3;i++){ s+=a*vn(p); p*=2.03; a*=.5; } return s; }
 void main(){
  vec3 nf=normalize(cross(dFdx(vW),dFdy(vW))); vec3 n=uSmooth>.5?normalize(vN):nf; if(dot(nf,uCam-vW)<0.){ nf=-nf; if(uSmooth<.5) n=-n; }
  vec3 col=vC; if(uUseTex>.5){ vec4 tx=texture(uTex,vU); if(tx.a<.05) discard; col=mix(col,tx.rgb,tx.a);}
