@@ -1,0 +1,272 @@
+[
+ {
+  "name": "en-AU-WilliamMultilingualNeural",
+  "gender": "Male",
+  "locale": "en-AU",
+  "ok": true,
+  "personalities": [
+   "Friendly",
+   "Positive"
+  ],
+  "categories": [
+   "General"
+  ]
+ },
+ {
+  "name": "en-US-AndrewMultilingualNeural",
+  "gender": "Male",
+  "locale": "en-US",
+  "ok": true,
+  "personalities": [
+   "Warm",
+   "Confident",
+   "Authentic",
+   "Honest"
+  ],
+  "categories": [
+   "Conversation",
+   "Copilot"
+  ]
+ },
+ {
+  "name": "en-US-AvaMultilingualNeural",
+  "gender": "Female",
+  "locale": "en-US",
+  "ok": true,
+  "personalities": [
+   "Expressive",
+   "Caring",
+   "Pleasant",
+   "Friendly"
+  ],
+  "categories": [
+   "Conversation",
+   "Copilot"
+  ]
+ },
+ {
+  "name": "en-US-BrianMultilingualNeural",
+  "gender": "Male",
+  "locale": "en-US",
+  "ok": true,
+  "personalities": [
+   "Approachable",
+   "Casual",
+   "Sincere"
+  ],
+  "categories": [
+   "Conversation",
+   "Copilot"
+  ]
+ },
+ {
+  "name": "en-US-EmmaMultilingualNeural",
+  "gender": "Female",
+  "locale": "en-US",
+  "ok": true,
+  "personalities": [
+   "Cheerful",
+   "Clear",
+   "Conversational"
+  ],
+  "categories": [
+   "Conversation",
+   "Copilot"
+  ]
+ },
+ {
+  "name": "fr-FR-VivienneMultilingualNeural",
+  "gender": "Female",
+  "locale": "fr-FR",
+  "ok": true,
+  "personalities": [
+   "Friendly",
+   "Positive"
+  ],
+  "categories": [
+   "General"
+  ]
+ },
+ {
+  "name": "fr-FR-RemyMultilingualNeural",
+  "gender": "Male",
+  "locale": "fr-FR",
+  "ok": true,
+  "personalities": [
+   "Friendly",
+   "Positive"
+  ],
+  "categories": [
+   "General"
+  ]
+ },
+ {
+  "name": "de-AT-IngridNeural",
+  "gender": "Female",
+  "locale": "de-AT",
+  "ok": true,
+  "personalities": [
+   "Friendly",
+   "Positive"
+  ],
+  "categories": [
+   "General"
+  ]
+ },
+ {
+  "name": "de-AT-JonasNeural",
+  "gender": "Male",
+  "locale": "de-AT",
+  "ok": true,
+  "personalities": [
+   "Friendly",
+   "Positive"
+  ],
+  "categories": [
+   "General"
+  ]
+ },
+ {
+  "name": "de-DE-SeraphinaMultilingualNeural",
+  "gender": "Female",
+  "locale": "de-DE",
+  "ok": true,
+  "personalities": [
+   "Friendly",
+   "Positive"
+  ],
+  "categories": [
+   "General"
+  ]
+ },
+ {
+  "name": "de-DE-FlorianMultilingualNeural",
+  "gender": "Male",
+  "locale": "de-DE",
+  "ok": true,
+  "personalities": [
+   "Friendly",
+   "Positive"
+  ],
+  "categories": [
+   "General"
+  ]
+ },
+ {
+  "name": "de-DE-AmalaNeural",
+  "gender": "Female",
+  "locale": "de-DE",
+  "ok": true,
+  "personalities": [
+   "Friendly",
+   "Positive"
+  ],
+  "categories": [
+   "General"
+  ]
+ },
+ {
+  "name": "de-DE-ConradNeural",
+  "gender": "Male",
+  "locale": "de-DE",
+  "ok": true,
+  "personalities": [
+   "Friendly",
+   "Positive"
+  ],
+  "categories": [
+   "General"
+  ]
+ },
+ {
+  "name": "de-DE-KatjaNeural",
+  "gender": "Female",
+  "locale": "de-DE",
+  "ok": true,
+  "personalities": [
+   "Friendly",
+   "Positive"
+  ],
+  "categories": [
+   "General"
+  ]
+ },
+ {
+  "name": "de-DE-KillianNeural",
+  "gender": "Male",
+  "locale": "de-DE",
+  "ok": true,
+  "personalities": [
+   "Friendly",
+   "Positive"
+  ],
+  "categories": [
+   "General"
+  ]
+ },
+ {
+  "name": "de-CH-JanNeural",
+  "gender": "Male",
+  "locale": "de-CH",
+  "ok": true,
+  "personalities": [
+   "Friendly",
+   "Positive"
+  ],
+  "categories": [
+   "General"
+  ]
+ },
+ {
+  "name": "de-CH-LeniNeural",
+  "gender": "Female",
+  "locale": "de-CH",
+  "ok": true,
+  "personalities": [
+   "Friendly",
+   "Positive"
+  ],
+  "categories": [
+   "General"
+  ]
+ },
+ {
+  "name": "it-IT-GiuseppeMultilingualNeural",
+  "gender": "Male",
+  "locale": "it-IT",
+  "ok": false,
+  "personalities": [
+   "Friendly",
+   "Positive"
+  ],
+  "categories": [
+   "General"
+  ]
+ },
+ {
+  "name": "ko-KR-HyunsuMultilingualNeural",
+  "gender": "Male",
+  "locale": "ko-KR",
+  "ok": false,
+  "personalities": [
+   "Friendly",
+   "Positive"
+  ],
+  "categories": [
+   "General"
+  ]
+ },
+ {
+  "name": "pt-BR-ThalitaMultilingualNeural",
+  "gender": "Female",
+  "locale": "pt-BR",
+  "ok": true,
+  "personalities": [
+   "Friendly",
+   "Positive"
+  ],
+  "categories": [
+   "General"
+  ]
+ }
+]
