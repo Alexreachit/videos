@@ -166,3 +166,8 @@
 - Titel: "Why the Milk Is Always at the Back of the Supermarket 🥛 #shorts"
 - Alltags-Thema (Test: allgemeines Interesse statt Crime/Finanz), helle Gang-Welt, ohne Sam-Schrei, Musik suspense
 - Gleiches Video als TikTok (Alex lädt hoch)
+
+## 2026-11-05 — yt_market13 "Every Trick Your Supermarket Uses on You" fertig (7:21), wartet auf Alex' OK
+- Langvideo, 10 Tricks in 5 "Stationen" + 4 Tipps, alle Fakten mit Quellen in mk_project.py
+- Neu im Stil: 3D-Supermarkt-Welt (scharf + Unschärfe-Hintergrund), Dolly-Kamera, Zoom-Punches, Wackeln bei Stempeln, Stations-Wischkarten, Trick-Badge dockt als Titel an, Fortschritts-HUD (Trick n/10), Laufweg-Karte, Kassenzettel-Tracker als Re-Hook alle ~2 min
+- Thumbnail: Milch an der Rückwand rot eingekreist, Sam schreit, "IT'S A TRAP" + "10 TRICKS"
