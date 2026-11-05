@@ -171,3 +171,8 @@
 - Langvideo, 10 Tricks in 5 "Stationen" + 4 Tipps, alle Fakten mit Quellen in mk_project.py
 - Neu im Stil: 3D-Supermarkt-Welt (scharf + Unschärfe-Hintergrund), Dolly-Kamera, Zoom-Punches, Wackeln bei Stempeln, Stations-Wischkarten, Trick-Badge dockt als Titel an, Fortschritts-HUD (Trick n/10), Laufweg-Karte, Kassenzettel-Tracker als Re-Hook alle ~2 min
 - Thumbnail: Milch an der Rückwand rot eingekreist, Sam schreit, "IT'S A TRAP" + "10 TRICKS"
+
+## 2026-11-05 ~12:05: NEUE TikTok-Serie "Roundhead Island" (Alex wählte sie aus 3 Vorschlägen; Vorlage FC-Asche-Video)
+- Folge 1 ri01 "Tag 1" fertig (32,4 s, DEUTSCH, Andrew Multilingual), Lautstärke Ø -21,4 dB / max -3,1 dB. Renders/ri01/ri01_final.mp4.
+- Neu: eigene WebGL-3D-Engine (Insel, Meer-Shader, Schatten, Kamerafahrten) + animierter Sam. Ende: Hafen oder Bank? -> Top-Kommentar entscheidet Folge 2.
+- Wartet auf Alex' Feedback (deutsche Aussprache von Andrew prüfen!).
