@@ -184,3 +184,4 @@
 - Länder 28 T: ID 14,4 % (Ø 0:20), DE 14,3 % (0:19), US 11,3 % (0:24), IN 4,6 %, PH 4,4 %, UK 2,7 %, CA 1,7 %.
 - Erkenntnis: Alltags-Thema ohne Drama (Milch hinten) zündet deutlich schwächer als Betrug/Katastrophe mit bekanntem Objekt (Eiffel, Felicity) -> bei Crime/Drama-Geldstorys bleiben.
 - Keine Korrekturen, nichts im Studio geändert. Keine neuen Ideen vorgeschlagen (Rückstau: ys_escobar, ys_hush, ys_blockbuster, yt_market13, ri01 warten auf Alex' OK/Feedback).
+- 2026-11-05 12:30: ri01 v2 nach Alex' Wunsch: Insel 1,9x größer (Platz für spätere Bauten), Karten-Intro (Australien -> Pin "Unsere Insel" -> Zoom in 3D, wegen Andrews Akzent), neue Zeile "Und für jeden Like kommen zehn Euro in die Kasse!" (Pill "1 LIKE = +10 €", Münzen fliegen in die Truhe). 35,3 s, Ø -21 dB / max -3,6 dB. Wartet auf Alex' OK.
