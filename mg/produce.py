@@ -84,17 +84,30 @@ def fake_tts(text, mp3):
 def render_range(args):
     proj, a, b, size, fps, out = args
     from playwright.sync_api import sync_playwright
+    tl = json.load(open(out / "timeline.json"))
     with sync_playwright() as p:
-        br = p.chromium.launch()
-        pg = br.new_page(viewport={"width": size[0], "height": size[1]})
-        pg.goto("file://" + str((HERE / proj / "scene.html").resolve()))
-        pg.evaluate("tl=>window.setTimeline(tl)", json.load(open(out / "timeline.json")))
-        pg.wait_for_function("window.ready===undefined||window.ready===true", timeout=120000)
-        t0 = time.time()
-        for i in range(a, b):
-            pg.evaluate(f"draw({i/fps})")
-            pg.screenshot(path=str(out / "fr" / f"{i:05d}.jpg"), type="jpeg", quality=90)
-            if (i - a) % 100 == 99: print(f"  Worker {a}: {i - a + 1}/{b - a} Frames, {time.time() - t0:.0f}s", flush=True)
+        def open_page():
+            br = p.chromium.launch()
+            pg = br.new_page(viewport={"width": size[0], "height": size[1]})
+            pg.set_default_timeout(90000)
+            pg.goto("file://" + str((HERE / proj / "scene.html").resolve()))
+            pg.evaluate("tl=>window.setTimeline(tl)", tl)
+            pg.wait_for_function("window.ready===undefined||window.ready===true", timeout=120000)
+            return br, pg
+        br, pg = open_page()
+        t0 = time.time(); i = a; fails = 0
+        while i < b:
+            try:
+                pg.evaluate(f"draw({i/fps})")
+                pg.screenshot(path=str(out / "fr" / f"{i:05d}.jpg"), type="jpeg", quality=90, timeout=90000)
+                i += 1
+                if (i - a) % 100 == 0: print(f"  Worker {a}: {i - a}/{b - a} Frames, {time.time() - t0:.0f}s", flush=True)
+            except Exception as e:   # haengender/abgestuerzter Browser -> neu starten und Frame wiederholen
+                fails += 1; print(f"  Worker {a}: Frame {i} Fehler ({type(e).__name__}), Browser-Neustart {fails}", flush=True)
+                if fails > 8: raise
+                try: br.close()
+                except Exception: pass
+                br, pg = open_page()
         br.close()
 
 
