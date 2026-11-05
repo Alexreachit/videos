@@ -45,11 +45,18 @@ jobs:
       - uses: actions/download-artifact@v4
         with: { name: voice, path: voice }
       - name: Programme
+        timeout-minutes: 15
         run: |
           for i in 1 2 3; do pip install numpy playwright && break; sleep 5; done
           for i in 1 2 3; do timeout 300 python -m playwright install chromium && break; sleep 5; done
-          python -c "from playwright.sync_api import sync_playwright as s;p=s().start();p.chromium.launch().close();print('chromium ok')" || sudo python -m playwright install-deps chromium
-          command -v ffmpeg || sudo apt-get install -y --no-install-recommends ffmpeg
+          python -c "from playwright.sync_api import sync_playwright as s;p=s().start();p.chromium.launch().close();print('chromium ok')" || timeout 400 sudo python -m playwright install-deps chromium
+          if ! command -v ffmpeg; then
+            timeout 200 sudo apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=20 install -y --no-install-recommends ffmpeg || true
+          fi
+          if ! command -v ffmpeg; then
+            pip install static-ffmpeg && static_ffmpeg_paths && F=$(python -c "import static_ffmpeg.run as r;print(r.get_or_fetch_platform_executables_else_raise()[0])") && sudo ln -sf "$F" /usr/local/bin/ffmpeg && sudo ln -sf "$(dirname "$F")/ffprobe" /usr/local/bin/ffprobe
+          fi
+          ffmpeg -version | head -1
       - run: python mg/produce.py "${{ needs.voice.outputs.p }}" --voice-from voice --chunk ${{ matrix.k }}/$N --workers 4
       - uses: actions/upload-artifact@v4
         with: { name: "fr-${{ matrix.k }}", path: "output/mg_${{ needs.voice.outputs.p }}/fr", retention-days: 3 }
@@ -66,11 +73,18 @@ jobs:
       - uses: actions/download-artifact@v4
         with: { pattern: "fr-*", path: frames }
       - name: Programme
+        timeout-minutes: 15
         run: |
           for i in 1 2 3; do pip install numpy playwright && break; sleep 5; done
           for i in 1 2 3; do timeout 300 python -m playwright install chromium && break; sleep 5; done
-          python -c "from playwright.sync_api import sync_playwright as s;p=s().start();p.chromium.launch().close();print('chromium ok')" || sudo python -m playwright install-deps chromium
-          command -v ffmpeg || sudo apt-get install -y --no-install-recommends ffmpeg
+          python -c "from playwright.sync_api import sync_playwright as s;p=s().start();p.chromium.launch().close();print('chromium ok')" || timeout 400 sudo python -m playwright install-deps chromium
+          if ! command -v ffmpeg; then
+            timeout 200 sudo apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=20 install -y --no-install-recommends ffmpeg || true
+          fi
+          if ! command -v ffmpeg; then
+            pip install static-ffmpeg && static_ffmpeg_paths && F=$(python -c "import static_ffmpeg.run as r;print(r.get_or_fetch_platform_executables_else_raise()[0])") && sudo ln -sf "$F" /usr/local/bin/ffmpeg && sudo ln -sf "$(dirname "$F")/ffprobe" /usr/local/bin/ffprobe
+          fi
+          ffmpeg -version | head -1
       - run: python mg/produce.py "${{ needs.voice.outputs.p }}" --voice-from voice --frames-from frames 2>&1 | tee build.log
       - name: In Branch renders ablegen
         run: |
