@@ -176,3 +176,11 @@
 - Folge 1 ri01 "Tag 1" fertig (32,4 s, DEUTSCH, Andrew Multilingual), Lautstärke Ø -21,4 dB / max -3,1 dB. Renders/ri01/ri01_final.mp4.
 - Neu: eigene WebGL-3D-Engine (Insel, Meer-Shader, Schatten, Kamerafahrten) + animierter Sam. Ende: Hafen oder Bank? -> Top-Kommentar entscheidet Folge 2.
 - Wartet auf Alex' Feedback (deutsche Aussprache von Andrew prüfen!).
+
+## Lauf 2026-11-05 ~12:30 (Routine)
+- 10 Abos (unverändert). 48-h-Echtzeit: 177 Aufrufe (vorher 58) – fast nur Milch-Short. 28 T (08.10.–04.11.): 7.111 Aufrufe (+138), 24,3 h, +8 Abos.
+- Shorts: Milch/Supermarkt iBQu_8S41dI 124–128 nach ~1 Tag, 99,2 % Shorts-Feed, unter dem Kanal-Normalbereich (30–670 laut Studio, Eiffel/Felicity >1.200 am 1. Tag), Bindungsdaten noch nicht da | Felicity 1.311 | Eiffel 1.257 | Ever Given 1.225 | SVB 1.123 | $100: 284 | New vs Used 210 | Knight 57 | Binance 55 -> alle stehen.
+- Langform "Most Expensive Mistakes" 6GQUuQxR_Bs: 16 Aufrufe, 9 einzelne Zuschauer, 430 Impressionen, CTR 1,9 % (75 % Videovorschläge). Bank-Video KDOq1pF040k ~11 Aufrufe/48 h.
+- Länder 28 T: ID 14,4 % (Ø 0:20), DE 14,3 % (0:19), US 11,3 % (0:24), IN 4,6 %, PH 4,4 %, UK 2,7 %, CA 1,7 %.
+- Erkenntnis: Alltags-Thema ohne Drama (Milch hinten) zündet deutlich schwächer als Betrug/Katastrophe mit bekanntem Objekt (Eiffel, Felicity) -> bei Crime/Drama-Geldstorys bleiben.
+- Keine Korrekturen, nichts im Studio geändert. Keine neuen Ideen vorgeschlagen (Rückstau: ys_escobar, ys_hush, ys_blockbuster, yt_market13, ri01 warten auf Alex' OK/Feedback).
