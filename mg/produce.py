@@ -678,6 +678,17 @@ def synth(events, dur, music=True):
             add(x * np.exp(-np.arange(len(x))/SR*12) * .35, t)
         elif k == "ding":
             for i, f in enumerate((1318.5, 1760, 2637)): add(tone(f, 1.2, .3, .003, .7, (1, 2)), t + i*.05)
+        elif k == "wave":   # Meeresrauschen: Welle laeuft an, bricht, zieht sich zurueck (Stereo-breit)
+            l = e.get("d", 3.2); m = int(l * SR); ta = np.arange(m) / SR
+            nz = rng.standard_normal(m); a1 = lp(nz, 9) - lp(nz, 140); a2 = lp(rng.standard_normal(m), 4) - lp(nz, 30)
+            sw = np.sin(np.pi * np.clip(ta / l, 0, 1)) ** 1.5; crash = np.exp(-((ta - l * .42) / (l * .12)) ** 2)
+            sig = (a1 * sw * .9 + a2 * crash * .5) * e.get("g", 1.0)
+            base_add(sig * .55, t, -.6); base_add(np.roll(sig, int(.013 * SR)) * .55, t, .6)
+        elif k == "gull":   # Moewenruf: zwei kurze, abfallende Schreie
+            for j in range(2):
+                l = .32; ta = np.arange(int(l * SR)) / SR; f = 1500 - 700 * (ta / l) + 120 * np.sin(2 * np.pi * 28 * ta)
+                ph = 2 * np.pi * np.cumsum(f) / SR; sig = (np.sin(ph) + .5 * np.sin(2 * ph) + .25 * np.sin(3 * ph)) * np.sin(np.pi * ta / l) ** .6
+                base_add(sig * .05 * e.get("g", 1.0), t + j * .4, e.get("pan", .4))
     return L, R, music_arr
 
 

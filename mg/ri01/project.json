@@ -16,11 +16,12 @@
  "music": {
   "style": "playful",
   "bpm": 150,
-  "gain": 0.22,
+  "gain": 0.13,
+  "ambience": 0.02,
   "duck_ratio": 2
  },
  "sfx_vary": true,
- "sfx_gain": 0.45,
+ "sfx_gain": 0.55,
  "lines": [
   {
    "text": "Tag eins: Ich habe gerade mein eigenes Land gegründet.",

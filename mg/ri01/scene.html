@@ -444,6 +444,13 @@ window.sfxEvents = function () {
   E.push({ k: 'pop', t: wt(8, /like/i) - .15 });
   E.push({ k: 'pop', t: wt(9, /hafen/i) - .1 }, { k: 'pop', t: wt(9, /bank/i) - .1 });
   E.push({ k: 'swish', t: L(10).start + .05, d: .4 }, { k: 'ding', t: L(10).start + 1.15 });
+  // mehr Sounds (Alex 05.11.): Meeresrauschen, Moewen, Kamera-Swishes, Zaehler-Ticks, Tippen
+  E.push({ k: 'wave', t: TM - .3, d: 3.4, g: .55 }, { k: 'gull', t: TM + 1.2, pan: -.4 }, { k: 'wave', t: L(2).start + .4, d: 3.2, g: .4 });
+  E.push({ k: 'wave', t: L(5).start - .2, d: 3.6, g: .5 }, { k: 'gull', t: L(5).start + 1.4, pan: .5 }, { k: 'wave', t: L(9).start - .3, d: 3.4, g: .45 }, { k: 'gull', t: L(10).start + .3, pan: -.3 });
+  E.push({ k: 'pop', t: .05 }, { k: 'swish', t: L(2).start + .1, d: .35 }, { k: 'swish', t: L(6).start + .2, d: .35 }, { k: 'whoosh', t: L(9).start + .1, d: .5 });
+  for (let i = 0; i < 6; i++) E.push({ k: 'tick', t: wt(7, /zwanzig/i) - .05 + i * .09 });
+  E.push({ k: 'type', t: L(10).start + .55, n: 10 }, { k: 'pop', t: L(10).start + 1.15 });
+  E.push({ k: 'pop', t: wt(3, /bürger/i) + .25 }, { k: 'shimmer', t: L(4).start + .1 });
   return E;
 };
 </script></body></html>
