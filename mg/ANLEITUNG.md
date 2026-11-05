@@ -178,3 +178,9 @@ Rendern auf GitHub: Projektname in `mg/render_queue.txt` eintragen und pushen (W
   weiche tiefe Pulse; Aufbau über Lautstärke, Oktav-Dopplung, weiche Taiko-Trommeln; am spec.cut 0,4 s Stille + Boom + ttdark-Beat.
 - KORREKTUR 31.10. 23:35: Alex meinte NICHT die Musik, sondern das steigende Riser-Geräusch (wird lauter + höher, z. B. am Anfang und vor dem Drop).
   -> SFX 'riser' NIE verwenden; Rausch-Riser in music_suspense standardmäßig aus. Musik "suspense" (ohne Riser) bleibt Standard; "cinematic" als Alternative.
+
+## TikTok-Serie "Roundhead Island" (Alex 2026-11-05, Vorlage: FC-Asche-Video)
+- DEUTSCH (Alex 05.11.: "erstell die Videos auf deutsch"), Stimme weiter Andrew (Multilingual spricht deutschen Text), Sam spricht in Ich-Form.
+- Format: "Tag N", 1 Follow = 1 Bürger, Ziel "reichstes Land der Welt", am Ende 2 Optionen + "Der Top-Kommentar entscheidet". Nächste Folge setzt den Gewinner-Kommentar um und zeigt die echte Follower-Zahl als Einwohner.
+- Technik NEU: echte 3D-Welt mit eigener WebGL-Engine mg/lib/gl3d.js (Low-Poly, Flat Shading, Sonnen-Schatten, Wellen-Shader, Schaum, Nebel, Canvas-Texturen, Hologramm-Transparenz, Projektion für HTML-Overlays) + animierter Sam mg/lib/samrig.js (Gelenke, Lippen-Flattern nach Wortzeiten, Blinzeln). Vorlage: mg/ri01.
+- three.js/Kenney-Downloads sind aus dem Container gesperrt -> alles selbst gebaut, läuft im normalen produce.py (Chromium-WebGL/SwiftShader).
