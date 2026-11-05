@@ -465,8 +465,59 @@ def music_cinematic(dur, cfg):
     out += groove * g * .9
     return out
 
+def music_playful(dur, cfg):
+    """Froehliche Cartoon-/Comedy-Musik wie im FC-Asche-Vorbild (Analyse 05.11.: Dur, huepfender Bass C-D-E-F-G, kein harter Beat,
+    durchgehende Ambience). Pizzicato-Bass + Ukulele (Karplus-Strong), Xylophon-Melodie, leiser Shaker, Meeres-Rauschen."""
+    bpm = cfg.get("bpm", 150); beat = 60 / bpm; bar = beat * 4; n = int(SR * dur); y = np.zeros(n); tt = np.arange(n) / SR
+    mid = lambda m: 440 * 2 ** ((m - 69) / 12); rng = np.random.default_rng(5); cache = {}
+    def put(sig, t0, g=1.0):
+        i = int(t0 * SR); m = min(len(sig), n - i)
+        if m > 0 and i >= 0: y[i:i+m] += sig[:m] * g
+    def ks(m, l, damp=.996, bright=.5):   # Karplus-Strong gezupfte Saite
+        key = (m, round(l, 3), damp, bright)
+        if key in cache: return cache[key]
+        P = max(2, int(SR / mid(m))); N = int(l * SR); out = np.zeros(N + P)
+        buf = np.random.default_rng(m).uniform(-1, 1, P)
+        buf = buf * bright + np.convolve(buf, [.5, .5], 'same') * (1 - bright)
+        out[:P] = buf
+        for i in range(P, N + P, P):
+            seg = out[i - P:i]; nxt = damp * .5 * (seg + np.roll(seg, 1)); k = min(P, N + P - i); out[i:i + k] = nxt[:k]
+        sig = out[:N] * np.minimum(np.arange(N) / (.002 * SR), 1) * np.minimum((N - np.arange(N)) / (.02 * SR), 1)
+        cache[key] = sig; return sig
+    def xylo(m, l=.45):
+        t = np.arange(int(l * SR)) / SR; f = mid(m)
+        return (np.sin(2*np.pi*f*t) + .35*np.sin(2*np.pi*3.93*f*t)*np.exp(-t*25) + .15*np.sin(2*np.pi*9.5*f*t)*np.exp(-t*60)) * np.exp(-t*7) * np.minimum(t/.001, 1)
+    PROG = [(48, 52, 55), (45, 48, 52), (41, 45, 48), (43, 47, 50)]   # C Am F G (Dur, froehlich)
+    BASS = [[0, 7, 12, 7], [0, 7, 12, 4], [0, 7, 12, 7], [0, 7, 5, 4]]
+    MEL = [[76, None, 79, None, 76, 74, 72, None], [72, None, 76, None, 74, 72, 69, None],
+           [69, 72, 77, None, 76, None, 72, None], [74, None, 71, 72, 74, None, 79, None]]
+    nb = int(dur / bar) + 1
+    for b in range(nb):
+        t0 = b * bar; ch = PROG[b % 4]; root = ch[0] - 12
+        for k in range(4):   # Pizzicato-Bass (Oom-pah, huepfend)
+            put(ks(root + BASS[b % 4][k], beat * .9, .993, .3), t0 + k * beat, .32)
+        for k in (1, 3):     # Ukulele-Strum auf 2 und 4
+            for j, m in enumerate(ch + (ch[0] + 12,)):
+                put(ks(m + 12, beat * 1.1, .994, .7), t0 + k * beat + j * .012, .09)
+        for k in (1.5, 3.5): # kurzer Offbeat-Strum
+            for j, m in enumerate(ch):
+                put(ks(m + 12, beat * .4, .985, .7), t0 + k * beat + j * .01, .05)
+        if b >= 1:           # Xylophon-Melodie (ab Takt 2)
+            for k, m in enumerate(MEL[b % 4]):
+                if m is not None and not (b % 8 == 7 and k > 3): put(xylo(m), t0 + k * beat / 2, .07)
+        for k in range(8):   # Shaker
+            l = .05; nz = np.diff(rng.standard_normal(int(l * SR)), prepend=0); ta = np.arange(len(nz)) / SR
+            put(nz * np.exp(-ta * 80) * np.minimum(ta / .004, 1), t0 + k * beat / 2, .016 if k % 2 else .01)
+    # Meeres-Ambience: gefiltertes Rauschen mit langsamen Wellen
+    nz = rng.standard_normal(n); lp = np.convolve(nz, np.ones(60) / 60, 'same'); lp = lp - np.convolve(lp, np.ones(800) / 800, 'same')
+    swell = .55 + .45 * np.sin(2 * np.pi * tt / 6.5) ** 2
+    y += lp * swell * cfg.get("ambience", .05) * 6
+    fade = np.minimum(tt / .3, 1) * np.clip((dur - tt) / 1.2, 0, 1)
+    return y * fade
+
 def music_bed(dur, cfg):
     """Selbst synthetisiertes Musikbett: Pad-Akkorde, Bass, Kick/Hi-Hat, Pluck-Arpeggio. Frei von Rechten."""
+    if cfg.get("style") == "playful": return music_playful(dur, cfg)
     if cfg.get("style") == "cinematic": return music_cinematic(dur, cfg)
     if cfg.get("style") == "suspense": return music_suspense(dur, cfg)
     if cfg.get("style") == "ttdark": return music_ttdark(dur, cfg)

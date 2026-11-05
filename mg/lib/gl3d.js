@@ -34,19 +34,27 @@
   G.hash = hash;
 
   // ---------- Geometrie-Bauer: Dreiecks-Listen {p:[], c:[], uv:[]} ----------
-  function Geo() { this.p = []; this.c = []; this.uv = [] }
+  function Geo() { this.p = []; this.c = []; this.uv = []; this.n = [] }
   Geo.prototype.tri = function (a, b, c, col, ua, ub, uc) {
     this.p.push(...a, ...b, ...c); this.c.push(...col, ...col, ...col);
+    const fn = norm(cross(sub(b, a), sub(c, a))); this.n.push(...fn, ...fn, ...fn);
     this.uv.push(...(ua || [0, 0]), ...(ub || [0, 0]), ...(uc || [0, 0])); return this;
   };
   Geo.prototype.quad = function (a, b, c, d, col, uvs) { this.tri(a, b, c, col, uvs && uvs[0], uvs && uvs[1], uvs && uvs[2]); return this.tri(a, c, d, col, uvs && uvs[0], uvs && uvs[2], uvs && uvs[3]) };
   Geo.prototype.add = function (g, m) {
-    for (let i = 0; i < g.p.length; i += 3) { const v = m ? m4.xf(m, [g.p[i], g.p[i+1], g.p[i+2]]) : [g.p[i], g.p[i+1], g.p[i+2]]; this.p.push(v[0], v[1], v[2]) }
+    for (let i = 0; i < g.p.length; i += 3) { const v = m ? m4.xf(m, [g.p[i], g.p[i+1], g.p[i+2]]) : [g.p[i], g.p[i+1], g.p[i+2]]; this.p.push(v[0], v[1], v[2]);
+      let nx = g.n[i], ny = g.n[i+1], nz = g.n[i+2]; if (m) { const a = m[0]*nx + m[4]*ny + m[8]*nz, b = m[1]*nx + m[5]*ny + m[9]*nz, c = m[2]*nx + m[6]*ny + m[10]*nz; const q = norm([a, b, c]); nx = q[0]; ny = q[1]; nz = q[2] } this.n.push(nx, ny, nz) }
     this.c.push(...g.c); this.uv.push(...g.uv); return this;
   };
   // Farbe je Dreieck leicht variieren (wirkt lebendiger)
   Geo.prototype.vary = function (amt = .06, seed = 1) {
     for (let i = 0; i < this.c.length; i += 9) { const k = 1 + (hash(i, seed) - .5) * 2 * amt; for (let j = 0; j < 9; j++) this.c[i + j] = Math.min(1, this.c[i + j] * k) } return this;
+  };
+  Geo.prototype.smooth = function (q = 1000) {
+    const acc = {}, key = i => Math.round(this.p[i] * q) + ',' + Math.round(this.p[i+1] * q) + ',' + Math.round(this.p[i+2] * q);
+    for (let i = 0; i < this.p.length; i += 3) { const k = key(i); const a = acc[k] || (acc[k] = [0, 0, 0]); a[0] += this.n[i]; a[1] += this.n[i+1]; a[2] += this.n[i+2] }
+    for (let i = 0; i < this.p.length; i += 3) { const a = norm(acc[key(i)]); this.n[i] = a[0]; this.n[i+1] = a[1]; this.n[i+2] = a[2] }
+    this.smoothed = true; return this;
   };
   G.Geo = Geo;
   const C = c => typeof c === 'string' ? G.hex(c) : c;
@@ -108,28 +116,47 @@
 
   // ---------- Renderer ----------
   const VS = `#version 300 es
-in vec3 aP; in vec3 aC; in vec2 aU;
+in vec3 aP; in vec3 aC; in vec2 aU; in vec3 aN;
 uniform mat4 uM,uVP,uLVP; uniform float uT,uWave;
-out vec3 vW; out vec3 vC; out vec4 vL; out vec2 vU;
-void main(){ vec4 w=uM*vec4(aP,1.);
- if(uWave>0.){ w.y+=uWave*(sin(w.x*.33+uT*1.7)*.5+sin(w.z*.41-uT*1.25)*.45+sin((w.x-w.z)*.9+uT*2.3)*.18); }
+out vec3 vW; out vec3 vC; out vec4 vL; out vec2 vU; out vec3 vN;
+void main(){ vec4 w=uM*vec4(aP,1.); vN=normalize(mat3(uM)*aN);
+ if(uWave>0.){ float x=w.x,z=w.z;
+   w.y+=uWave*(sin(x*.33+uT*1.7)*.5+sin(z*.41-uT*1.25)*.45+sin((x-z)*.9+uT*2.3)*.18+sin(x*1.7+z*1.3+uT*3.1)*.06);
+   float dx=uWave*(cos(x*.33+uT*1.7)*.165+cos((x-z)*.9+uT*2.3)*.162+cos(x*1.7+z*1.3+uT*3.1)*.102);
+   float dz=uWave*(cos(z*.41-uT*1.25)*.1845-cos((x-z)*.9+uT*2.3)*.162+cos(x*1.7+z*1.3+uT*3.1)*.078);
+   vN=normalize(vec3(-dx,1.,-dz)); }
  vW=w.xyz; vC=aC; vU=aU; vL=uLVP*w; gl_Position=uVP*w; }`;
   const FS = `#version 300 es
 precision highp float; precision highp sampler2DShadow;
-in vec3 vW; in vec3 vC; in vec4 vL; in vec2 vU;
-uniform vec3 uSun,uSunCol,uSky,uGnd,uFog,uCam,uTint; uniform float uFogN,uFogF,uAlpha,uEmis,uTintA,uFoamR,uT,uUseTex,uShade,uRecv;
+in vec3 vW; in vec3 vC; in vec4 vL; in vec2 vU; in vec3 vN;
+uniform vec3 uSun,uSunCol,uSky,uGnd,uFog,uCam,uTint; uniform float uFogN,uFogF,uAlpha,uEmis,uTintA,uFoamR,uT,uUseTex,uShade,uRecv,uSmooth,uTerrain,uWater,uSpec;
 uniform sampler2DShadow uSh; uniform sampler2D uTex;
 out vec4 o;
 float shadow(){ vec3 p=vL.xyz/vL.w*.5+.5; if(p.x<0.||p.x>1.||p.y<0.||p.y>1.||p.z>1.) return 1.; float s=0.; vec2 tx=vec2(1./2048.);
- for(int x=-1;x<=1;x++) for(int y=-1;y<=1;y++) s+=texture(uSh,vec3(p.xy+vec2(x,y)*tx*1.5,p.z-.0015)); return s/9.; }
+ for(int x=-2;x<=2;x++) for(int y=-2;y<=2;y++) s+=texture(uSh,vec3(p.xy+vec2(x,y)*tx*1.6,p.z-.0015)); return s/25.; }
+float h21(vec2 p){ p=fract(p*vec2(123.34,456.21)); p+=dot(p,p+45.32); return fract(p.x*p.y); }
+float vn(vec2 p){ vec2 i=floor(p),f=fract(p); f=f*f*(3.-2.*f); return mix(mix(h21(i),h21(i+vec2(1,0)),f.x),mix(h21(i+vec2(0,1)),h21(i+vec2(1,1)),f.x),f.y); }
+float fbm(vec2 p){ float a=.5,s=0.; for(int i=0;i<5;i++){ s+=a*vn(p); p*=2.03; a*=.5; } return s; }
 void main(){
- vec3 n=normalize(cross(dFdx(vW),dFdy(vW))); if(dot(n,uCam-vW)<0.) n=-n;
+ vec3 nf=normalize(cross(dFdx(vW),dFdy(vW))); vec3 n=uSmooth>.5?normalize(vN):nf; if(dot(nf,uCam-vW)<0.){ nf=-nf; if(uSmooth<.5) n=-n; }
  vec3 col=vC; if(uUseTex>.5){ vec4 tx=texture(uTex,vU); if(tx.a<.05) discard; col=mix(col,tx.rgb,tx.a);}
+ if(uTerrain>.5){ float y=vW.y, nz=fbm(vW.xz*.35), nz2=fbm(vW.xz*2.2), sl=1.-n.y;
+   vec3 g1=vec3(.36,.68,.27), g2=vec3(.47,.76,.30), g3=vec3(.30,.58,.22);
+   vec3 grass=mix(mix(g1,g2,smoothstep(.35,.7,nz)),g3,smoothstep(.55,.85,nz2)*.5);
+   grass*=.94+.12*vn(vW.xz*5.);
+   vec3 sand=mix(vec3(.93,.83,.6),vec3(.97,.89,.68),nz2)*(.95+.08*vn(vW.xz*14.));
+   vec3 wet=vec3(.78,.66,.45);
+   float gs=smoothstep(.5+.25*nz,.85+.25*nz,y);
+   col=mix(mix(wet,sand,smoothstep(-.15,.25,y)),grass,gs);
+   col=mix(col,col*.82,smoothstep(.25,.6,sl)); }
  col=mix(col,uTint,uTintA);
  float sh=uRecv>.5?shadow():1.;
  float d=max(dot(n,uSun),0.);
  vec3 amb=mix(uGnd,uSky,n.y*.5+.5);
  vec3 c=col*(amb*.62+uSunCol*d*mix(.35,1.,sh)*.72);
+ vec3 V=normalize(uCam-vW), Hh=normalize(V+uSun);
+ if(uSpec>0.) c+=uSunCol*pow(max(dot(n,Hh),0.),40.)*uSpec*sh;
+ if(uWater>.5){ float fr=pow(1.-max(dot(n,V),0.),3.); c=mix(c,uSky*1.05,fr*.55); c+=uSunCol*pow(max(dot(n,Hh),0.),180.)*1.4*sh; }
  c=mix(col,c,uShade)+col*uEmis;
  if(uFoamR>0.){ float r=length(vW.xz);
    float shallow=smoothstep(uFoamR+9.,uFoamR+.5,r); c=mix(c,c*vec3(.75,1.25,1.12)+vec3(.05,.12,.1),shallow*.85);
@@ -150,10 +177,10 @@ precision mediump float; out vec4 o; void main(){ o=vec4(1.); }`;
     return { p, U };
   }
 
-  G.World = function (canvas, W, H) {
+  G.World = function (canvas, W, H, SS = 1) {
     const gl = canvas.getContext('webgl2', { antialias: true, alpha: true, premultipliedAlpha: false, preserveDrawingBuffer: true });
     if (!gl) throw new Error('kein WebGL2');
-    canvas.width = W; canvas.height = H;
+    canvas.width = Math.round(W * SS); canvas.height = Math.round(H * SS);
     const P = prog(gl, VS, FS), S = prog(gl, SVS, SFS);
     // Shadow map
     const SM = 2048, stex = gl.createTexture();
@@ -174,13 +201,13 @@ precision mediump float; out vec4 o; void main(){ o=vec4(1.); }`;
     w.mesh = function (geo, o = {}) {
       const vao = gl.createVertexArray(); gl.bindVertexArray(vao);
       const mk = (arr, loc, n, dyn) => { const b = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, b); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(arr), dyn ? gl.DYNAMIC_DRAW : gl.STATIC_DRAW); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, n, gl.FLOAT, false, 0, 0); return b };
-      const lp = gl.getAttribLocation(P.p, 'aP'), lc = gl.getAttribLocation(P.p, 'aC'), lu = gl.getAttribLocation(P.p, 'aU');
-      const bp = mk(geo.p, lp, 3, o.dynamic); mk(geo.c, lc, 3); mk(geo.uv, lu, 2);
+      const lp = gl.getAttribLocation(P.p, 'aP'), lc = gl.getAttribLocation(P.p, 'aC'), lu = gl.getAttribLocation(P.p, 'aU'), ln = gl.getAttribLocation(P.p, 'aN');
+      const bp = mk(geo.p, lp, 3, o.dynamic); mk(geo.c, lc, 3); mk(geo.uv, lu, 2); const bn = mk(geo.n.length ? geo.n : new Array(geo.p.length).fill(0), ln, 3, o.dynamic);
       gl.bindVertexArray(null);
-      const ob = Object.assign({ vao, bp, n: geo.p.length / 3, pos: [0, 0, 0], rot: [0, 0, 0], scl: [1, 1, 1], vis: true, alpha: 1, emis: 0, tint: [1, 1, 1], tintA: 0, wave: 0, foam: 0, cast: true, recv: true, shade: 1, tex: null, parent: null }, o);
+      const ob = Object.assign({ vao, bp, bn, smooth: !!geo.smoothed, terrain: 0, water: 0, spec: 0, n: geo.p.length / 3, pos: [0, 0, 0], rot: [0, 0, 0], scl: [1, 1, 1], vis: true, alpha: 1, emis: 0, tint: [1, 1, 1], tintA: 0, wave: 0, foam: 0, cast: true, recv: true, shade: 1, tex: null, parent: null }, o);
       w.objs.push(ob); return ob;
     };
-    w.update = function (ob, geo) { gl.bindBuffer(gl.ARRAY_BUFFER, ob.bp); gl.bufferSubData(gl.ARRAY_BUFFER, 0, new Float32Array(geo.p)) };
+    w.update = function (ob, geo) { gl.bindBuffer(gl.ARRAY_BUFFER, ob.bp); gl.bufferSubData(gl.ARRAY_BUFFER, 0, new Float32Array(geo.p)); if (geo.n.length) { gl.bindBuffer(gl.ARRAY_BUFFER, ob.bn); gl.bufferSubData(gl.ARRAY_BUFFER, 0, new Float32Array(geo.n)) } };
     w.texture = function (cv) { const t = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, t); gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, cv); gl.generateMipmap(gl.TEXTURE_2D); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR); return t };
     w.matrix = function (ob) { const l = m4.compose(ob.pos, ob.rot, ob.scl); return ob.parent ? m4.mul(w.matrix(ob.parent), l) : l };
     w.vp = function () {
@@ -205,7 +232,7 @@ precision mediump float; out vec4 o; void main(){ o=vec4(1.); }`;
       for (const o of list) if (o.cast && o.alpha >= 1) { gl.uniformMatrix4fv(S.U.uM, false, w.matrix(o)); gl.bindVertexArray(o.vao); gl.drawArrays(gl.TRIANGLES, 0, o.n) }
       gl.disable(gl.POLYGON_OFFSET_FILL);
       // Haupt-Pass
-      gl.bindFramebuffer(gl.FRAMEBUFFER, null); gl.viewport(0, 0, W, H); gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+      gl.bindFramebuffer(gl.FRAMEBUFFER, null); gl.viewport(0, 0, canvas.width, canvas.height); gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
       gl.useProgram(P.p); const U = P.U;
       gl.uniformMatrix4fv(U.uVP, false, w.vp()); gl.uniformMatrix4fv(U.uLVP, false, LVP);
       gl.uniform3fv(U.uSun, L); gl.uniform3fv(U.uSunCol, w.sunCol); gl.uniform3fv(U.uSky, w.sky); gl.uniform3fv(U.uGnd, w.gnd); gl.uniform3fv(U.uFog, w.fog); gl.uniform3fv(U.uCam, w.cam.pos);
@@ -216,6 +243,7 @@ precision mediump float; out vec4 o; void main(){ o=vec4(1.); }`;
         gl.uniformMatrix4fv(U.uM, false, w.matrix(o)); gl.uniform1f(U.uWave, o.wave); gl.uniform1f(U.uFoamR, o.foam);
         gl.uniform1f(U.uAlpha, o.alpha); gl.uniform1f(U.uEmis, o.emis); gl.uniform3fv(U.uTint, o.tint); gl.uniform1f(U.uTintA, o.tintA);
         gl.uniform1f(U.uShade, o.shade); gl.uniform1f(U.uRecv, o.recv ? 1 : 0);
+        gl.uniform1f(U.uSmooth, (o.smooth || o.wave > 0) ? 1 : 0); gl.uniform1f(U.uTerrain, o.terrain); gl.uniform1f(U.uWater, o.water || (o.wave > 0 ? 1 : 0)); gl.uniform1f(U.uSpec, o.spec);
         gl.activeTexture(gl.TEXTURE1); gl.bindTexture(gl.TEXTURE_2D, o.tex || white); gl.uniform1f(U.uUseTex, o.tex ? 1 : 0);
         gl.bindVertexArray(o.vao); gl.drawArrays(gl.TRIANGLES, 0, o.n);
       };

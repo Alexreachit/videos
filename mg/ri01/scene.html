@@ -17,12 +17,12 @@ const W = 1080, H = 1920, G = GL3D, {cl, ez, ei, bo, el, lerp} = MG;
 const $ = id => document.getElementById(id);
 const OL = '#232838';
 // ---------------- Welt ----------------
-const w = G.World($('cv'), W, H);
+const w = G.World($('cv'), W, H, 1.5);
 w.fog = G.hex('#d9f2fd'); w.fogN = 110; w.fogF = 380; w.sky = G.hex('#d6efff'); w.gnd = G.hex('#c9b07c');
 w.sun = G.v.norm([.5, .78, .42]); w.shadowSize = 26;
 
 // Inselhoehe (gleiche Funktion fuer Gelaende + Platzierung)
-const S = 1.9, IR = 15 * S;
+const S = 1.9, IR = 15 * S, SP0 = [0, 0, 3];
 function iH(x, z) {
   x /= S; z /= S;
   const r = Math.hypot(x, z), a = Math.atan2(z, x);
@@ -45,13 +45,13 @@ function iH(x, z) {
     if (i == 0) { g.tri(a, c, d, col(a, c, d)); continue }
     g.tri(a, b, c, col(a, b, c)); g.tri(a, c, d, col(a, c, d));
   }
-  w.mesh(g, { cast: true });
+  w.mesh(g.smooth(), { cast: true, terrain: 1 });
 })();
 // Meer: Ringe, innen fein
 (function sea() {
-  const g = new G.Geo(), NR = 46, NS = 90, k = G.hex('#22a9d8');
+  const g = new G.Geo(), NR = 46, NS = 90, k = G.hex('#1d9bd3');
   const P = (i, j) => { const r = 6 * S + 330 * Math.pow(i / NR, 2.2), a = (j + (i % 2) * .5) / NS * 6.2832; return [Math.cos(a) * r, -.12, Math.sin(a) * r] };
-  for (let i = 0; i < NR; i++) for (let j = 0; j < NS; j++) { const a = P(i, j), b = P(i, j + 1), c = P(i + 1, j + 1), d = P(i + 1, j); g.tri(a, b, c, k); g.tri(a, c, d, k.map(v => v * .97)) }
+  for (let i = 0; i < NR; i++) for (let j = 0; j < NS; j++) { const a = P(i, j), b = P(i, j + 1), c = P(i + 1, j + 1), d = P(i + 1, j); g.tri(a, b, c, k); g.tri(a, c, d, k) }
   w.mesh(g, { wave: .22, foam: 10.6 * S, cast: false, recv: true });
 })();
 // Palmen
@@ -60,7 +60,7 @@ function palm(x, z, hgt, lean, yaw, seed) {
   let px = 0, py = 0;
   for (let i = 0; i < seg; i++) {
     const u = i / seg, r0 = .28 - .1 * u, r1 = .28 - .1 * (u + 1 / seg), sh = hgt / seg;
-    const c = G.cyl(r0, r1 * 1.12, sh * 1.02, 7, i % 2 ? '#a4744a' : '#8d6240', { rot: i * .4 });
+    const c = G.cyl(r0, r1 * 1.12, sh * 1.02, 10, i % 2 ? '#a4744a' : '#94683f', { rot: i * .4, open: true }).smooth();
     const bx = lean * u * u * hgt * .35, bx1 = lean * (u + 1 / seg) * (u + 1 / seg) * hgt * .35;
     g.add(c, G.m4.compose([bx, i * sh, 0], [0, 0, -(bx1 - bx) / sh], 1));
     px = bx1; py = (i + 1) * sh;
@@ -70,21 +70,34 @@ function palm(x, z, hgt, lean, yaw, seed) {
     const lf = G.leaf(2.6 + .5 * G.hash(i, seed), .42, .55 + .2 * G.hash(seed, i), i % 2 ? '#3fae49' : '#55c457');
     g.add(lf, G.m4.compose([px, py, 0], [0, i / n * 6.2832 + seed, -.25 + .25 * G.hash(i * 3, seed)], 1));
   }
-  for (let i = 0; i < 3; i++) g.add(G.ico(.2, 1, '#6b4426', .1, i), G.m4.compose([px + Math.cos(i * 2.1) * .25, py - .25, Math.sin(i * 2.1) * .25]));
-  return w.mesh(g.vary(.05, seed), { pos: [x, y - .1, z], rot: [0, yaw, 0] });
+  for (let i = 0; i < 3; i++) g.add(G.ico(.2, 2, '#6b4426', .06, i).smooth(), G.m4.compose([px + Math.cos(i * 2.1) * .25, py - .25, Math.sin(i * 2.1) * .25]));
+  return w.mesh(g, { pos: [x, y - .1, z], rot: [0, yaw, 0] });
 }
 palm(-6.2 * S, -3.5 * S, 5.2, 1, .3, 1); palm(-7.6 * S, -1.4 * S, 4.2, 1.2, -.4, 2); palm(6.4 * S, -4.8 * S, 5.6, 1, 2.6, 3); palm(8.1 * S, 1.6 * S, 4.4, 1.3, 3.4, 4); palm(-3.5 * S, -7.5 * S, 4.8, .9, 1.4, 5); palm(3 * S, -8 * S, 3.8, 1.1, 1.9, 6);
 palm(-7.5, -6.5, 5, 1, .9, 7); palm(-9.5, -4.2, 4.2, 1.2, 2.2, 8); palm(8.5, -7.2, 5.4, 1, 2.9, 9); palm(10.8, -5, 4.3, 1.2, 1.2, 10); palm(-13, 6, 4.6, 1, .5, 11); palm(14, 5, 4.8, 1.1, 2.4, 12); palm(-4, -14, 5, 1, 1.7, 13); palm(5.5, -15, 4.4, 1.1, .2, 14);
 // Felsen + Buesche
 [[9.6, 4.2, .9], [-9.4, 3.6, 1.1], [10.8, -2, .7], [-2, 9.8, .8], [4.5, 9.2, .6], [-10.5, -4, .7]].map(([x, z, s]) => [x * S, z * S, s * 1.3]).forEach(([x, z, s], i) =>
-  w.mesh(G.ico(s, 1, '#9aa3ad', .28, i + 10, .7).vary(.08, i), { pos: [x, iH(x, z) + s * .2, z], rot: [0, i, 0] }));
+  w.mesh(G.ico(s, 2, '#a3abb4', .22, i + 10, .7).smooth(), { spec: .25, pos: [x, iH(x, z) + s * .2, z], rot: [0, i, 0] }));
 [[-5, 1.2, .8], [5.4, -1.6, .7], [-2.8, -4.6, .9], [6.6, 3.8, .6], [-6.3, 4, .7], [-11, -9, .9], [12, -9, .8], [-15, 1, .9], [15, -1, .8], [0, -12, 1], [-9, 11, .8], [10, 11, .7]].forEach(([x, z, s], i) =>
-  w.mesh(G.ico(s, 1, i % 2 ? '#4fb24a' : '#5ec456', .22, i + 30, .75).vary(.08, i), { pos: [x, iH(x, z) + s * .35, z] }));
+  w.mesh(G.ico(s, 2, i % 2 ? '#3f9e3c' : '#4cae45', .16, i + 30, .75).smooth(), { spec: .15, pos: [x, iH(x, z) + s * .35, z] }));
+// Grasbueschel + kleine Blumen (eine Mesh)
+(function tufts() {
+  const g = new G.Geo();
+  for (let k = 0; k < 2600; k++) {
+    const a = G.hash(k, 1) * 6.2832, r = Math.sqrt(G.hash(k, 2)) * 17.5, x = Math.cos(a) * r, z = Math.sin(a) * r, y = iH(x, z);
+    if (y < .75 || Math.hypot(x - SP0[0], z - SP0[2]) < 1.2) continue;
+    const c = G.hex(G.hash(k, 3) > .5 ? '#3c8f32' : '#4fa63f'), hgt = .1 + .13 * G.hash(k, 4);
+    for (let b = 0; b < 3; b++) { const q = b * 2.1 + k, dx = Math.cos(q) * .04, dz = Math.sin(q) * .04, lx = Math.cos(q) * .07, lz = Math.sin(q) * .07;
+      g.tri([x - dx, y, z - dz], [x + dx, y, z + dz], [x + lx * .8, y + hgt, z + lz * .8], c) }
+    if (G.hash(k, 6) > .9) g.add(G.ico(.06, 0, G.hash(k, 7) > .5 ? '#ffffff' : '#ffd84a'), G.m4.compose([x + .1, y + hgt * .8, z]));
+  }
+  w.mesh(g, { cast: false });
+})();
 // Wolken
 const clouds = [];
 [[-70, 38, -120, 1.2], [40, 44, -150, 1.6], [110, 36, -60, 1.1], [-130, 42, -30, 1.4], [0, 50, -200, 2], [-40, 34, 90, 1.1], [90, 40, 80, 1.3]].forEach(([x, y, z, s], i) => {
   const g = new G.Geo();
-  for (let k = 0; k < 6; k++) { const r = (3 + 2.5 * G.hash(k, i)) * s; g.add(G.ico(r, 1, '#ffffff', .12, k + i * 7, .7), G.m4.compose([(k - 2.5) * 3.2 * s, G.hash(k * 2, i) * 1.5 * s, G.hash(k, i * 3) * 2 * s])) }
+  for (let k = 0; k < 6; k++) { const r = (3 + 2.5 * G.hash(k, i)) * s; g.add(G.ico(r, 2, '#ffffff', .08, k + i * 7, .7).smooth(), G.m4.compose([(k - 2.5) * 3.2 * s, G.hash(k * 2, i) * 1.5 * s, G.hash(k, i * 3) * 2 * s])) }
   clouds.push(w.mesh(g, { pos: [x, y, z], cast: false, recv: false, shade: .35, emis: .1, base: [x, y, z] }));
 });
 // Moewen
@@ -132,7 +145,7 @@ const lid = w.mesh(new G.Geo().add(G.box(1.12, .26, .74, '#9a6030', { base: true
 lid.geoOff = true;
 const COINS = [0, 1, 2, 3, 4].map(k => ({ m: w.mesh(G.cyl(.2, .2, .06, 14, '#ffc94a', { cap: '#ffe07a' }), { parent: null, emis: .25, vis: false }), k }));
 const glow = w.mesh(G.box(.9, .05, .55, '#ffe680'), { parent: chest, pos: [0, .5, 0], emis: .9, shade: .2, cast: false });
-const coco = w.mesh(G.ico(.2, 1, '#6b4426', .12, 9), { parent: chest, pos: [0, .4, 0] });
+const coco = w.mesh(G.ico(.2, 2, '#6b4426', .06, 9).smooth(), { parent: chest, pos: [0, .4, 0] });
 // Bauplaetze (gestrichelte Quadrate) – Haeuser, Bank, Strasse
 function dashed(wd, dp, n) { const g = new G.Geo(); const seg = (x0, z0, x1, z1) => { for (let i = 0; i < n; i++) { if (i % 2) continue; const a = i / n, b = (i + 1) / n; const ax = lerp(x0, x1, a), az = lerp(z0, z1, a), bx = lerp(x0, x1, b), bz = lerp(z0, z1, b); const L = Math.hypot(bx - ax, bz - az); g.add(G.box(L, .06, .14, '#ffffff'), G.m4.compose([(ax + bx) / 2, .03, (az + bz) / 2], [0, -Math.atan2(bz - az, bx - ax), 0])) } };
   const x = wd / 2, z = dp / 2; seg(-x, -z, x, -z); seg(x, -z, x, z); seg(x, z, -x, z); seg(-x, z, -x, -z); return g }
@@ -350,7 +363,20 @@ window.draw = function (t) {
   // Sonne im Bild (CSS) passend zur Kamera-Richtung
   const sp = w.project(G.v.lerp(c.pos, [c.pos[0] + w.sun[0] * 100, c.pos[1] + w.sun[1] * 100, c.pos[2] + w.sun[2] * 100], 1));
   $('sun').style.cssText = `left:${sp.x - 260}px;top:${Math.min(sp.y, 1100) - 260}px;opacity:${sp.vis ? 1 : 0}`;
-  // Wolken + Moewen
+  // Grasbueschel + kleine Blumen (eine Mesh)
+(function tufts() {
+  const g = new G.Geo();
+  for (let k = 0; k < 2600; k++) {
+    const a = G.hash(k, 1) * 6.2832, r = Math.sqrt(G.hash(k, 2)) * 17.5, x = Math.cos(a) * r, z = Math.sin(a) * r, y = iH(x, z);
+    if (y < .75 || Math.hypot(x - SP0[0], z - SP0[2]) < 1.2) continue;
+    const c = G.hex(G.hash(k, 3) > .5 ? '#3c8f32' : '#4fa63f'), hgt = .1 + .13 * G.hash(k, 4);
+    for (let b = 0; b < 3; b++) { const q = b * 2.1 + k, dx = Math.cos(q) * .04, dz = Math.sin(q) * .04, lx = Math.cos(q) * .07, lz = Math.sin(q) * .07;
+      g.tri([x - dx, y, z - dz], [x + dx, y, z + dz], [x + lx * .8, y + hgt, z + lz * .8], c) }
+    if (G.hash(k, 6) > .9) g.add(G.ico(.06, 0, G.hash(k, 7) > .5 ? '#ffffff' : '#ffd84a'), G.m4.compose([x + .1, y + hgt * .8, z]));
+  }
+  w.mesh(g, { cast: false });
+})();
+// Wolken + Moewen
   clouds.forEach((m, i) => { m.pos = [m.base[0] + ((t * (1.2 + .3 * i)) % 400), m.base[1], m.base[2]] });
   gulls.forEach(({ b, wl, wr, i }) => { const a = t * (.32 + .06 * i) + i * 2.1, R = 14 + 4 * i; b.pos = [Math.cos(a) * R, 9 + 2.5 * i + Math.sin(t * 1.3 + i) * .6, Math.sin(a) * R - 2]; b.rot = [0, -a, .35]; const f = Math.sin(t * 9 + i * 2) * .55; wl.rot = [0, 0, -f]; wr.rot = [0, 0, f] });
   // Flagge

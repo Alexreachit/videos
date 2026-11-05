@@ -14,9 +14,9 @@
  "tail": 1.4,
  "crf": 20,
  "music": {
-  "style": "tt",
-  "bpm": 100,
-  "gain": 0.2,
+  "style": "playful",
+  "bpm": 150,
+  "gain": 0.22,
   "duck_ratio": 2
  },
  "sfx_vary": true,

@@ -19,7 +19,7 @@ A("Der Top-Kommentar entscheidet.", dict(type="comment"))
 P = dict(title="TikTok-Serie Roundhead Island – Tag 1 (Deutsch)",
          _sources="Fiktive Community-Serie (keine Faktenbehauptungen).",
          size=[1080, 1920], fps=30, scene="scene.html", voice="en-US-AndrewMultilingualNeural", rate="+16%",
-         lead=0.05, gap=0.12, tail=1.4, crf=20, music=dict(style="tt", bpm=100, gain=0.2, duck_ratio=2),
+         lead=0.05, gap=0.12, tail=1.4, crf=20, music=dict(style="playful", bpm=150, gain=0.22, duck_ratio=2),
          sfx_vary=True, sfx_gain=0.45, lines=L)
 json.dump(P, open("project.json", "w"), indent=1, ensure_ascii=False)
 print(len(L), "lines", sum(len(l["text"].split()) for l in L), "words")
