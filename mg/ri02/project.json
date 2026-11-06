@@ -16,7 +16,7 @@
  "music": {
   "style": "playful",
   "bpm": 150,
-  "gain": 0.13,
+  "gain": 0.11,
   "ambience": 0.02,
   "duck_ratio": 2
  },
