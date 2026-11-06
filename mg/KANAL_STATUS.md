@@ -202,3 +202,11 @@
 - 2026-11-06 ~15:50: ri02 v2 nach Alex' Feedback (44,9 s, Ø -20,4 dB / max -2,9 dB, Run 42244453056): Rückblick nennt Ziel ("reichstes Land der Welt", "1 Follow = 1 Einwohner", Startkapital),
   Einwohner leben (Kopf + Arme: atmen, schwanken, umschauen, jubeln/hüpfen, Bauch halten bei Hunger, Hand heben bei Abstimmung), Benluca im Krabbenkostüm (Kapuze, Stielaugen, Scheren, Beine),
   Abstimmung in 2 Zeilen: Fisch-Karte, dann Karte mit Nachbarinseln + Pfeil + Piratenboot; mehr SFX (Wellen durchgehend, Möwen, 3x Magenknurren, Platschen, Scheren-Klappern). An Alex geschickt.
+
+## Lauf 2026-11-06 ~16:00 (Routine)
+- 10 Abos (unverändert). 48-h-Echtzeit: 316 Aufrufe (vorher 177) – davon Milch-Short 271. 28 T (09.10.–05.11.): 7.234 Aufrufe (+123), 24,7 h, +8 Abos.
+- Shorts: Milch/Supermarkt iBQu_8S41dI 253 (Liste) / 271 (Echtzeit) nach ~1 T 17 h, Ø 85–89 % angesehen (bester Wert des Kanals!), 4 Likes -> wächst langsam weiter statt Welle | Felicity 1.311 | Eiffel 1.257 | Ever Given 1.225 | SVB 1.124 | $100: 285 | New vs Used 210 | Knight 57 | Binance 55 -> stehen.
+- Langform "Most Expensive Mistakes" 6GQUuQxR_Bs: 18 Aufrufe, 13 einzelne Zuschauer, 542 Impressionen, CTR 2,0 % (77,8 % Videovorschläge). Bank-Video KDOq1pF040k 1.158. Supermarkt-Langvideo pOQrpecPeRU weiter PRIVAT (wartet auf Termin-OK).
+- Länder 28 T: ID 14,1 % (Ø 0:20), DE 14,0 % (0:19), US 11,5 % (0:24), IN 4,5 %, PH 4,3 %, UK 2,6 %, CA 1,7 %, PL 1,2 %.
+- Erkenntnis: Milch-Short hat zwar weniger Reichweite, aber die höchste Bindung (85–89 %) -> kurze, klare Frage-Hooks ("Why is X always Y?") halten Zuschauer; Reichweite kommt bisher trotzdem nur bei Drama + bekanntem Objekt.
+- Keine Korrekturen, nichts im Studio geändert. Keine neuen Ideen (Rückstau: ys_escobar, ys_hush, ys_blockbuster, yt_market13 privat, ri01/ri02). Entwurfs-Leiche "846c1dee…" weiter offen.
