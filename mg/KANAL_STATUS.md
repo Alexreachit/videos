@@ -211,3 +211,4 @@
 - Erkenntnis: Milch-Short hat zwar weniger Reichweite, aber die höchste Bindung (85–89 %) -> kurze, klare Frage-Hooks ("Why is X always Y?") halten Zuschauer; Reichweite kommt bisher trotzdem nur bei Drama + bekanntem Objekt.
 - Keine Korrekturen, nichts im Studio geändert. Keine neuen Ideen (Rückstau: ys_escobar, ys_hush, ys_blockbuster, yt_market13 privat, ri01/ri02). Entwurfs-Leiche "846c1dee…" weiter offen.
 - 2026-11-06 ~16:30: ri02 v3 final (Alex: 'fast perfekt', Musik minimal leiser): music gain 0.13 -> 0.11 (~2 dB leiser in Sprechpausen), 44,8 s, Run 42250660397. An Alex geschickt. Für weitere Folgen: gain 0.11 als Standard.
+- 2026-11-06 ~17:05: ri02 v4 (Alex: Startkapital aus dem Rückblick raus, sonst zu lang): Rückblick = Land gegründet -> Ziel reichstes Land -> 'Und jeder Follower wird ein Einwohner der Insel' -> Paul/Hafen. 41,9 s, Run 42256318846. An Alex geschickt.
