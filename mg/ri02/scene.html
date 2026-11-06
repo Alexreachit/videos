@@ -296,7 +296,7 @@ function recapChips(t) {
   if (t < Lt(3).start - .1 || t > Lt(4).start + .1) return '';
   const out = fade(t, Lt(4).start - .15, Lt(4).start + .1);
   const chip = (t0, txt, bg, y, rot, fs = 84) => t < t0 ? '' : `<div class="pill" style="left:50%;top:${y}px;transform:translateX(-50%) rotate(${rot}deg) scale(${pop(t, t0) * out});font-size:${fs}px;color:#fff;background:${bg};text-shadow:${shadowTxt(OL, 5)}">${txt}</div>`;
-  return chip(wt(3, /follower/i) - .15, '1 FOLLOW = 1 EINWOHNER', '#ff5d5d', 260, -3, 70) + chip(wt(3, /zwanzig/i) - .1, '20 €', '#35c35a', 430, 2) + chip(wt(3, /kokos/i) - .1, '+ 1 KOKOSNUSS', '#8a5428', 600, -2);
+  return chip(wt(3, /follower/i) - .15, '1 FOLLOW = 1 EINWOHNER', '#ff5d5d', 300, -3, 76);
 }
 function voteCard(t) {
   const t0 = Lt(4).start + .05, t1 = Lt(5).start - .2, s = pop(t, t0, .45) * fade(t, t1, t1 + .25); if (s <= .01) return '';
@@ -565,7 +565,7 @@ window.sfxEvents = function () {
   E.push({ k: 'pop', t: .05 }, { k: 'whoosh', t: .2, d: 1.4 }, { k: 'chime', t: .25 });
   E.push({ k: 'whoosh', t: L(1).start - .15, d: .7 }, { k: 'swish', t: L(1).start, d: .5 }, { k: 'tick', t: L(1).start + .05 }, { k: 'tick', t: L(1).start + .2 }, { k: 'tick', t: L(1).start + .35 });
   E.push({ k: 'shimmer', t: L(2).start }, { k: 'chime', t: wt(2, /reichste/i) });
-  E.push({ k: 'pop', t: wt(3, /follower/i) - .15 }, { k: 'cash', t: wt(3, /zwanzig/i) - .1 }, { k: 'pop', t: wt(3, /kokos/i) - .1 });
+  E.push({ k: 'pop', t: wt(3, /follower/i) - .15 }, { k: 'ding', t: wt(3, /einwohner/i) });
   E.push({ k: 'swish', t: L(4).start + .05, d: .4 }, { k: 'ding', t: wt(4, /hafen/i) - .1 });
   E.push({ k: 'whoosh', t: L(5).start - .1, d: .8 }, { k: 'impact', t: L(5).start + .05 });
   crowd.forEach((c, i) => { if (i % 3 == 0) E.push({ k: 'pop', t: crowdT(c) }) });
