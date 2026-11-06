@@ -50,6 +50,7 @@
     // Kopf
     const lx = (o.look || [0, 0])[0], ly = (o.look || [0, 0])[1];
     g += `<g transform="rotate(${tilt.toFixed(2)},100,140)">`;
+    if (o.hood) g += o.hood;
     g += `<circle cx="100" cy="86" r="64" fill="${SK}" stroke="${OL}" stroke-width="6"/>`;
     g += `<path d="M48,108 A64,64 0 0,0 150,122 A70,70 0 0,1 48,108 Z" fill="${SKD}" opacity=".85"/>`;
     g += `<ellipse cx="78" cy="56" rx="16" ry="10" fill="#fff" opacity=".45" transform="rotate(-30,78,56)"/>`;
@@ -63,6 +64,10 @@
     g += `</g>`;
     if (o.prop) g += `<g transform="translate(${R.hx.toFixed(1)},${R.hy.toFixed(1)})">${o.prop}</g>`;
     g += R.svg;
+    if (o.claw) { const cl = (x, y, sd, op) => `<g transform="translate(${x.toFixed(1)},${y.toFixed(1)}) scale(${sd},1) rotate(${-20 - 25 * op})"><path d="M-4,6 C-30,8 -34,-30 -10,-40 C-4,-30 -8,-18 2,-12 Z" fill="${o.claw}" stroke="${OL}" stroke-width="5" stroke-linejoin="round"/></g>` +
+      `<g transform="translate(${x.toFixed(1)},${y.toFixed(1)}) scale(${sd},1) rotate(${10 + 20 * op})"><path d="M-4,4 C-26,14 -40,-10 -24,-26 C-18,-14 -10,-6 2,-4 Z" fill="${o.claw}" stroke="${OL}" stroke-width="5" stroke-linejoin="round"/></g>` +
+      `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="14" fill="${o.claw}" stroke="${OL}" stroke-width="5"/>`;
+      const op = o.clawOpen || 0; g += cl(L.hx, L.hy, 1, op) + cl(R.hx, R.hy, -1, op) }
     g += `</g>`;
     if (o.sw) g = g.split(SW).join(o.sw).split(SWD).join(o.swd || o.sw);
     if (o.pa) g = g.split(PA).join(o.pa);

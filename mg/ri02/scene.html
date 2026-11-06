@@ -172,11 +172,12 @@ const crowd = [];
 (function people() {
   const avoid = [[0, 3, 1.5], [-1.25, 3.5, 1.3], [1.35, 3.5, 1.3], [1.55, 2.2, 1], [-4.6, 1.2, 1.6], [-3.5, 2.2, 1.4]];
   let k = 0, tries = 0;
+  const armGeo = col => new G.Geo().add(G.cyl(.075, .065, .4, 8, col).smooth(), G.m4.compose([0, -.4, 0])).add(G.ico(.085, 1, SAMC).smooth(), G.m4.compose([0, -.45, 0]));
   while (crowd.length < 70 && tries < 4000) {
     tries++;
     const a = G.hash(tries, 41) * 6.2832, r = 2.2 + 8.5 * Math.sqrt(G.hash(tries, 43));
     const x = Math.cos(a) * r, z = Math.sin(a) * r * .8 + .5;
-    if (z > 2.4 && Math.abs(x) < 3.2) continue;           // nicht vor Sam/Kamera
+    if (z > 2.4 && Math.abs(x) < 3.2) continue;
     if (z > 7.5) continue;
     if (avoid.some(([ax, az, ar]) => Math.hypot(x - ax, z - az) < ar)) continue;
     if (crowd.some(c => Math.hypot(c.x - x, c.z - z) < .85)) continue;
@@ -185,10 +186,15 @@ const crowd = [];
     const g = new G.Geo();
     g.add(G.cyl(.09, .08, .5, 8, '#6b4226'), G.m4.compose([-.11, 0, 0])).add(G.cyl(.09, .08, .5, 8, '#6b4226'), G.m4.compose([.11, 0, 0]));
     g.add(G.cyl(.27, .23, .55, 12, col).smooth(), G.m4.compose([0, .45, 0]));
-    g.add(G.ico(.33, 2, SAMC).smooth(), G.m4.compose([0, 1.27, 0]));
-    g.add(G.ico(.04, 1, OL), G.m4.compose([-.1, 1.3, .3])).add(G.ico(.04, 1, OL), G.m4.compose([.1, 1.3, .3]));
+    const hg = new G.Geo().add(G.ico(.33, 2, SAMC).smooth(), G.m4.compose([0, .3, 0]))
+      .add(G.ico(.042, 1, OL), G.m4.compose([-.1, .34, .3])).add(G.ico(.042, 1, OL), G.m4.compose([.1, .34, .3]))
+      .add(G.box(.13, .025, .02, OL), G.m4.compose([0, .2, .315]));
     const yaw = Math.atan2(-x * .25, 6) + (G.hash(k, 9) - .5) * .5;
-    crowd.push({ m: w.mesh(g, { pos: [x, y, z], rot: [0, yaw, 0], scl: [s, s, s] }), x, y, z, s, d: G.hash(k, 7), k });
+    const body = w.mesh(g, { pos: [x, y, z], rot: [0, yaw, 0], scl: [s, s, s] });
+    const head = w.mesh(hg, { parent: body, pos: [0, .97, 0] });
+    const aL = w.mesh(armGeo(col), { parent: body, pos: [-.27, .92, 0], rot: [0, 0, -.12] });
+    const aR = w.mesh(armGeo(col), { parent: body, pos: [.27, .92, 0], rot: [0, 0, .12] });
+    crowd.push({ m: body, head, aL, aR, x, y, z, s, yaw, d: G.hash(k, 7), ph: G.hash(k, 13) * 6.28, k });
     k++;
   }
   crowd.sort((a, b) => a.d - b.d);
@@ -235,22 +241,22 @@ function camKeys() {
   K.push({ t: 0, pos: [16, 30, 50], at: [2, 0, 8], fov: 42 });
   K.push({ t: Lt(0).end + .05, pos: [8, 14, 26], at: [0, .8, 2], fov: 44 });
   K.push({ t: Lt(1).start + .45, pos: P(1.2, 2.5, 9.2), at: P(.5, 1.15, 0), fov: 44 });
-  K.push({ t: Lt(2).end, pos: P(1.6, 2.2, 7.6), at: P(.8, 1.05, 0), fov: 42 });
-  K.push({ t: Lt(3).end, pos: P(.6, 2.4, 8.0), at: P(.3, 1.2, 0), fov: 44 });
-  K.push({ t: Lt(4).start + .7, pos: P(0, 9, 17), at: P(0, .6, -1.5), fov: 50 });
-  K.push({ t: Lt(4).end, pos: P(-1, 8, 15.5), at: P(0, .6, -1.5), fov: 50 });
-  K.push({ t: Lt(5).start + .45, pos: P(2.1, 2.4, 7.2), at: P(.9, 1.0, 0), fov: 42 });
-  K.push({ t: Lt(5).end, pos: P(1.8, 2.2, 6.6), at: P(.9, 1.0, 0), fov: 42 });
-  K.push({ t: Lt(6).start + .55, pos: [-13, 15, 52], at: [5.5, 2, 26], fov: 50 });
-  K.push({ t: Lt(6).end, pos: [-11, 13, 49], at: [5.5, 1.6, 26], fov: 50 });
-  K.push({ t: Lt(7).start + .35, pos: [-1.2, 3.6, 31], at: [5.6, .5, 21.5], fov: 46 });
-  K.push({ t: Lt(7).end, pos: [.2, 3.2, 30], at: [5.6, .5, 21.5], fov: 46 });
-  K.push({ t: Lt(8).start + .5, pos: P(-.7, 2.3, 7.4), at: P(-.6, 1.15, 0), fov: 44 });
-  K.push({ t: Lt(8).end, pos: P(-.6, 2.2, 6.8), at: P(-.6, 1.15, 0), fov: 44 });
-  K.push({ t: Lt(9).end, pos: P(-.4, 2.2, 7.6), at: P(-.3, 1.15, 0), fov: 44 });
-  K.push({ t: Lt(10).end, pos: P(.1, 2.4, 8.2), at: P(0, 1.25, 0), fov: 44 });
-  K.push({ t: Lt(11).start + .45, pos: P(.2, 2.6, 9.0), at: P(0, 1.45, 0), fov: 46 });
-  K.push({ t: Lt(12).start, pos: P(.2, 2.5, 8.4), at: P(0, 1.45, 0), fov: 46 });
+  K.push({ t: Lt(3).end, pos: P(1.6, 2.2, 7.6), at: P(.8, 1.05, 0), fov: 42 });
+  K.push({ t: Lt(4).end, pos: P(.6, 2.4, 8.0), at: P(.3, 1.2, 0), fov: 44 });
+  K.push({ t: Lt(5).start + .7, pos: P(0, 9, 17), at: P(0, .6, -1.5), fov: 50 });
+  K.push({ t: Lt(5).end, pos: P(-1, 8, 15.5), at: P(0, .6, -1.5), fov: 50 });
+  K.push({ t: Lt(6).start + .45, pos: P(2.1, 2.4, 7.2), at: P(.9, 1.0, 0), fov: 42 });
+  K.push({ t: Lt(6).end, pos: P(1.8, 2.2, 6.6), at: P(.9, 1.0, 0), fov: 42 });
+  K.push({ t: Lt(7).start + .55, pos: [-13, 15, 52], at: [5.5, 2, 26], fov: 50 });
+  K.push({ t: Lt(7).end, pos: [-11, 13, 49], at: [5.5, 1.6, 26], fov: 50 });
+  K.push({ t: Lt(8).start + .35, pos: [-1.2, 3.6, 31], at: [5.6, .5, 21.5], fov: 46 });
+  K.push({ t: Lt(8).end, pos: [.2, 3.2, 30], at: [5.6, .5, 21.5], fov: 46 });
+  K.push({ t: Lt(9).start + .5, pos: P(-.7, 2.3, 7.4), at: P(-.6, 1.15, 0), fov: 44 });
+  K.push({ t: Lt(9).end, pos: P(-.6, 2.2, 6.8), at: P(-.6, 1.15, 0), fov: 44 });
+  K.push({ t: Lt(10).end, pos: P(-.4, 2.2, 7.6), at: P(-.3, 1.15, 0), fov: 44 });
+  K.push({ t: Lt(11).end, pos: P(.1, 2.4, 8.2), at: P(0, 1.25, 0), fov: 44 });
+  K.push({ t: Lt(12).start + .45, pos: P(.2, 2.6, 9.0), at: P(0, 1.45, 0), fov: 46 });
+  K.push({ t: Lt(14).start, pos: P(.2, 2.5, 8.4), at: P(0, 1.45, 0), fov: 46 });
   K.push({ t: 999, pos: P(.2, 2.3, 7.4), at: P(0, 1.4, 0), fov: 46 });
   return K;
 }
@@ -261,10 +267,10 @@ function camAt(t) {
   return { pos: G.v.lerp(a.pos, b.pos, u), at: G.v.lerp(a.at, b.at, u), fov: lerp(a.fov, b.fov, u) };
 }
 // Zustaende
-const recap = t => t >= Lt(1).start - .05 && t < Lt(4).start - .05;
-function crowdT(c) { const a = Lt(4).start + .1, b = wt(4, /einwohner/i) + .2; return a + (b - a) * c.d }
-function coinT(k) { const a = wt(5, /bringen/i), b = Lt(5).end; return [a + (b - a - .4) * k / (NCOIN - 1), a + (b - a - .4) * k / (NCOIN - 1) + .45] }
-function plankT(i) { const a = Lt(7).start + .15, b = wt(7, /boot/i) - .1; return a + (b - a) * i / (NPL - 1) }
+const recap = t => t >= Lt(1).start - .05 && t < Lt(5).start - .05;
+function crowdT(c) { const a = Lt(5).start + .1, b = wt(5, /einwohner/i) + .2; return a + (b - a) * c.d }
+function coinT(k) { const a = wt(6, /bringen/i), b = Lt(6).end; return [a + (b - a - .4) * k / (NCOIN - 1), a + (b - a - .4) * k / (NCOIN - 1) + .45] }
+function plankT(i) { const a = Lt(8).start + .15, b = wt(8, /boot/i) - .1; return a + (b - a) * i / (NPL - 1) }
 
 // ---------------- UI-Bausteine ----------------
 const shadowTxt = (c = OL, r = 5) => MG.outline(r).replace(/#000/g, c);
@@ -280,15 +286,21 @@ function recapBadge(t) {
   const s = pop(t, Lt(1).start - .05, .3), blink = Math.floor(t * 2.5) % 2;
   return `<div class="pill" style="left:60px;top:120px;transform:rotate(-2deg) scale(${s});transform-origin:0 50%;font-size:54px;color:#fff;background:#ff5d5d;text-shadow:${shadowTxt(OL, 3)}"><span style="opacity:${blink ? 1 : .4}">◀◀</span> RÜCKBLICK: TAG 1</div>`;
 }
+function goalText(t) {
+  const t0 = Lt(2).start - .05, t1 = Lt(3).start - .1, s = pop(t, t0, .45) * fade(t, t1, t1 + .2); if (s <= .01) return '';
+  const s2 = pop(t, wt(2, /reichste/i) - .05, .45);
+  return `<div class="lbl" style="left:0;width:1080px;top:250px;transform:scale(${s})"><div style="font-size:74px;text-shadow:${shadowTxt(OL, 5)}">UNSER ZIEL:</div>
+   <div style="font-size:116px;line-height:1.02;color:#ffd166;transform:scale(${s2});text-shadow:${shadowTxt(OL, 7)},0 0 60px #fff6">REICHSTES LAND<br>DER WELT</div></div>`;
+}
 function recapChips(t) {
-  if (t < Lt(2).start - .1 || t > Lt(3).start + .1) return '';
-  const out = fade(t, Lt(3).start - .15, Lt(3).start + .1);
-  const chip = (t0, txt, bg, y, rot) => t < t0 ? '' : `<div class="pill" style="left:50%;top:${y}px;transform:translateX(-50%) rotate(${rot}deg) scale(${pop(t, t0) * out});font-size:84px;color:#fff;background:${bg};text-shadow:${shadowTxt(OL, 5)}">${txt}</div>`;
-  return chip(wt(2, /einwohner/i) - .15, '1 EINWOHNER', '#ff5d5d', 300, -3) + chip(wt(2, /zwanzig/i) - .1, '20 €', '#35c35a', 470, 2) + chip(wt(2, /kokos/i) - .1, '1 KOKOSNUSS', '#8a5428', 640, -2);
+  if (t < Lt(3).start - .1 || t > Lt(4).start + .1) return '';
+  const out = fade(t, Lt(4).start - .15, Lt(4).start + .1);
+  const chip = (t0, txt, bg, y, rot, fs = 84) => t < t0 ? '' : `<div class="pill" style="left:50%;top:${y}px;transform:translateX(-50%) rotate(${rot}deg) scale(${pop(t, t0) * out});font-size:${fs}px;color:#fff;background:${bg};text-shadow:${shadowTxt(OL, 5)}">${txt}</div>`;
+  return chip(wt(3, /follower/i) - .15, '1 FOLLOW = 1 EINWOHNER', '#ff5d5d', 260, -3, 70) + chip(wt(3, /zwanzig/i) - .1, '20 €', '#35c35a', 430, 2) + chip(wt(3, /kokos/i) - .1, '+ 1 KOKOSNUSS', '#8a5428', 600, -2);
 }
 function voteCard(t) {
-  const t0 = Lt(3).start + .05, t1 = Lt(4).start - .2, s = pop(t, t0, .45) * fade(t, t1, t1 + .25); if (s <= .01) return '';
-  const hs = pop(t, wt(3, /hafen/i) - .1, .45);
+  const t0 = Lt(4).start + .05, t1 = Lt(5).start - .2, s = pop(t, t0, .45) * fade(t, t1, t1 + .25); if (s <= .01) return '';
+  const hs = pop(t, wt(4, /hafen/i) - .1, .45);
   return `<div class="card" style="left:50%;top:250px;width:860px;transform:translateX(-50%) rotate(-2deg) scale(${s});padding:30px 36px;display:flex;gap:26px;align-items:flex-start">
    <div style="width:110px;height:110px;flex:none;border-radius:50%;background:#cfd6e3;border:5px solid ${OL}"></div>
    <div style="flex:1"><div style="font:700 36px P,Arial;color:#6b7280">${TOPC_USER} <span style="background:#fe2c55;color:#fff;border-radius:10px;padding:2px 14px;font-size:30px">Top-Kommentar</span></div>
@@ -296,27 +308,27 @@ function voteCard(t) {
    <div class="pill" style="left:50%;top:600px;transform:translateX(-50%) rotate(3deg) scale(${hs});font-size:96px;color:#fff;background:#2a8fd6;text-shadow:${shadowTxt(OL, 6)}">⚓ HAFEN!</div>`;
 }
 function counterCard(t) {
-  const t0 = Lt(4).start + .05, t1 = Lt(5).start - .1, s = pop(t, t0) * fade(t, t1, t1 + .25); if (s <= .01) return '';
+  const t0 = Lt(5).start + .05, t1 = Lt(6).start - .1, s = pop(t, t0) * fade(t, t1, t1 + .25); if (s <= .01) return '';
   let n = 1; crowd.forEach(c => { if (t > crowdT(c)) n++ }); n = Math.min(NEINW, Math.round(1 + (NEINW - 1) * (n - 1) / crowd.length));
   const tl = crowdT(crowd[crowd.length - 1]), bump = 1 + .25 * Math.sin(Math.PI * cl(t, tl, tl + .4));
   return `<div class="card" style="left:50%;top:300px;transform:translateX(-50%) rotate(2deg) scale(${s});padding:18px 56px 6px;text-align:center">
    <div style="font-size:50px;letter-spacing:2px">EINWOHNER</div><div style="font-size:210px;line-height:1;color:#ff5d5d;text-shadow:0 8px 0 #2328382a;transform:scale(${bump})">${n}</div></div>`;
 }
 function treasury(t) {
-  const t0 = Lt(5).start + .05, t1 = Lt(8).start - .25;
-  const inHarbor = t > Lt(6).start + .3;
+  const t0 = Lt(6).start + .05, t1 = Lt(9).start - .25;
+  const inHarbor = t > Lt(7).start + .3;
   const s = pop(t, t0) * fade(t, t1, t1 + .25); if (s <= .01) return '';
   let v = KASSE0; COINS2.forEach(c => { const [a, b] = coinT(c.k); v += (KASSE1 - KASSE0) / NCOIN * cl(t, b - .05, b + .05) }); v = Math.round(v / 10) * 10;
-  const pay = wt(7, /boot/i) + .25; if (t > pay) v = Math.round(KASSE1 - KOSTEN * ez(cl(t, pay + .1, pay + .7)));
+  const pay = wt(8, /boot/i) + .25; if (t > pay) v = Math.round(KASSE1 - KOSTEN * ez(cl(t, pay + .1, pay + .7)));
   const cost = t > pay ? `<div class="pill" style="position:relative;display:inline-block;margin-top:14px;font-size:70px;color:#fff;background:#ff5d5d;transform:rotate(-3deg) scale(${pop(t, pay, .4)});text-shadow:${shadowTxt(OL, 4)}">STEG + BOOT: −${KOSTEN} €</div>` : '';
   const sc = inHarbor ? .62 : 1, top = inHarbor ? 120 : 240;
-  const lk = Lt(5).start + .2;
+  const lk = Lt(6).start + .2;
   return `<div class="lbl" style="left:0;width:1080px;top:${top}px;transform:scale(${s * sc});transform-origin:50% 0"><div class="pill" style="position:relative;display:inline-block;font-size:56px;color:${OL};background:#fff">STAATSKASSE</div>
    <div style="font-size:230px;line-height:1;margin-top:10px;color:${t > pay + .1 ? '#ffd166' : '#35e08a'};text-shadow:${shadowTxt(OL, 8)}">${v} €</div>
    ${t > lk && !inHarbor ? `<div class="pill" style="position:relative;display:inline-block;margin-top:14px;font-size:70px;color:#fff;background:#fe2c55;transform:rotate(-2deg) scale(${pop(t, lk, .4)});text-shadow:${shadowTxt(OL, 4)}"><svg width="64" height="56" viewBox="0 0 24 22" style="vertical-align:-6px"><path d="M12 21 C-6 9 4-3 12 4 C20-3 30 9 12 21Z" fill="#fff" stroke="${OL}" stroke-width="1.6"/></svg> 86 LIKES × 10 €</div>` : ''}${cost}</div>`;
 }
 function tooExpensive(t) {
-  const t0 = wt(6, /nicht/i) - .15, t1 = Lt(7).start + .2, s = pop(t, t0, .3) * fade(t, t1, t1 + .2); if (s <= .01) return '';
+  const t0 = wt(7, /nicht/i) - .15, t1 = Lt(8).start + .2, s = pop(t, t0, .3) * fade(t, t1, t1 + .2); if (s <= .01) return '';
   return `<div style="position:absolute;left:50%;top:700px;transform:translate(-50%,-50%) rotate(-10deg) scale(${lerp(2.2, 1, ez(cl(t, t0, t0 + .2))) * s});border:14px solid #ff3b3b;border-radius:26px;padding:6px 36px;color:#ff3b3b;background:#ffffffe6;font:900 120px/1.05 IB,Arial;opacity:${Math.min(1, (t - t0) * 6)}">ZU TEUER!</div>`;
 }
 function labelAt(p, html, t, t0, t1, opt = {}) {
@@ -330,7 +342,7 @@ const DONER = `<svg viewBox="0 0 120 100" width="250" height="208"><path d="M10,
  <path d="M14,54 Q60,22 106,54 L98,90 Q60,66 22,90 Z" fill="#f2d39e" stroke="${OL}" stroke-width="5" stroke-linejoin="round"/></svg>`;
 const COCO = `<svg viewBox="0 0 100 100" width="190" height="190"><circle cx="50" cy="54" r="38" fill="#6b4426" stroke="${OL}" stroke-width="6"/><circle cx="40" cy="44" r="5" fill="${OL}"/><circle cx="58" cy="42" r="5" fill="${OL}"/><circle cx="50" cy="58" r="5" fill="${OL}"/><path d="M30,36 Q36,28 44,30" stroke="#a8784e" stroke-width="5" fill="none" stroke-linecap="round"/></svg>`;
 function dreamBubble(t) {
-  const t0 = Lt(10).start + .05, tk = wt(10, /kokos/i) - .15, t1 = Lt(11).start - .1;
+  const t0 = Lt(11).start + .05, tk = wt(11, /kokos/i) - .15, t1 = Lt(12).start - .1;
   const s = pop(t, t0, .45) * fade(t, t1, t1 + .2); if (s <= .01) return '';
   const q = w.project([BL[0], BL[1] + 1.9, BL[2]]);
   const swap = t > tk, poof = cl(t, tk - .1, tk + .3);
@@ -349,17 +361,56 @@ const iconFish = `<svg viewBox="0 0 100 100" width="180" height="180"><path d="M
  <path d="M22,66 Q46,44 72,66 Q46,88 22,66 Z" fill="#60a5fa" stroke="${OL}" stroke-width="6" stroke-linejoin="round"/><path d="M72,66 L90,54 L90,78 Z" fill="#60a5fa" stroke="${OL}" stroke-width="6" stroke-linejoin="round"/><circle cx="36" cy="63" r="4.5" fill="${OL}"/></svg>`;
 const iconRaid = `<svg viewBox="0 0 100 100" width="180" height="180"><path d="M20,80 Q50,92 80,80 L74,66 L26,66 Z" fill="#8a5428" stroke="${OL}" stroke-width="6" stroke-linejoin="round"/><path d="M50,66 L50,12" stroke="${OL}" stroke-width="6"/>
  <path d="M52,14 L84,22 L84,52 L52,58 Z" fill="#232838" stroke="${OL}" stroke-width="4" stroke-linejoin="round"/><circle cx="68" cy="32" r="8" fill="#fff"/><path d="M60,46 L76,40 M60,40 L76,46" stroke="#fff" stroke-width="4" stroke-linecap="round"/></svg>`;
+const NB = [[650, 190, 1.0], [800, 420, .8], [560, 470, .65]];  // Nachbarinseln (x, y, Groesse) in der Karte 900x620
+function islandPath(cx, cy, r, seed) { let d = ''; for (let i = 0; i <= 36; i++) { const a = i / 36 * 6.2832, rr = r * (1 + .12 * Math.sin(a * 3 + seed) + .07 * Math.sin(a * 5 - seed * 2)); d += (i ? 'L' : 'M') + (cx + Math.cos(a) * rr).toFixed(1) + ',' + (cy + Math.sin(a) * rr * .8).toFixed(1) } return d + 'Z' }
+function isl(cx, cy, r, seed, home) {
+  return `<path d="${islandPath(cx, cy, r * 1.22, seed)}" fill="#f4dca0" stroke="#fff" stroke-width="4"/><path d="${islandPath(cx, cy, r, seed)}" fill="${home ? '#6cbf55' : '#8fd36b'}" stroke="${OL}" stroke-width="3"/>`;
+}
+function mapCard(t, t0, w0 = 900) {
+  // Karte wie im Intro von Tag 1: unsere Insel + Nachbarinseln, Pfeil + Piratenboot
+  const ar = ez(cl(t, t0 + .35, t0 + 1.4));
+  const S0 = [215, 430], E0 = [NB[0][0] - 70, NB[0][1] + 40], C1 = [330, 160];
+  const bez = u => [(1 - u) * (1 - u) * S0[0] + 2 * u * (1 - u) * C1[0] + u * u * E0[0], (1 - u) * (1 - u) * S0[1] + 2 * u * (1 - u) * C1[1] + u * u * E0[1]];
+  const L = 560, b = bez(Math.max(.001, ar)), b2 = bez(Math.max(.002, ar - .02)), ang = Math.atan2(b[1] - b2[1], b[0] - b2[0]) * 57.3;
+  const fruit = (x, y, k) => [[-18, 0, '#ffd84a'], [4, -8, '#ff5d5d'], [22, 2, '#35c35a'], [-4, 10, '#e09a2b']].slice(0, 2 + k).map(([dx, dy, c]) => `<circle cx="${x + dx}" cy="${y + dy}" r="11" fill="${c}" stroke="${OL}" stroke-width="3"/>`).join('');
+  return `<svg viewBox="0 0 900 620" width="${w0}" height="${w0 * 620 / 900}" style="display:block;border-radius:30px">
+   <defs><radialGradient id="sea" cx="50%" cy="45%" r="75%"><stop offset="0" stop-color="#5cc3f2"/><stop offset="1" stop-color="#2b97d8"/></radialGradient></defs>
+   <rect width="900" height="620" fill="url(#sea)"/>
+   ${[120, 260, 400, 540].map(y => `<path d="M0,${y} L900,${y}" stroke="#fff" stroke-opacity=".15" stroke-width="2"/>`).join('')}${[150, 300, 450, 600, 750].map(x => `<path d="M${x},0 L${x},620" stroke="#fff" stroke-opacity=".15" stroke-width="2"/>`).join('')}
+   ${[0, 1, 2, 3, 4, 5].map(i => { const x = (i * 157 + t * 30) % 900, y = 60 + (i * 97) % 520; return `<path d="M${x},${y} q12,-8 24,0 t24,0" stroke="#fff" stroke-opacity=".5" stroke-width="4" fill="none" stroke-linecap="round"/>` }).join('')}
+   ${NB.map(([x, y, r], i) => isl(x, y, 62 * r, i + 2, false) + fruit(x, y - 4, i == 0 ? 2 : 1)).join('')}
+   ${isl(S0[0], S0[1] + 30, 80, 1, true)}
+   <g transform="translate(${S0[0] + 8},${S0[1] + 4})"><path d="M0,0 L0,-62" stroke="${OL}" stroke-width="5"/><rect x="0" y="-62" width="44" height="28" fill="#2f4372" stroke="${OL}" stroke-width="3"/><circle cx="22" cy="-48" r="8" fill="#f7e4b5"/></g>
+   <text x="${S0[0]}" y="${S0[1] + 135}" text-anchor="middle" font-family="IB,Arial" font-weight="900" font-size="34" fill="#fff" stroke="${OL}" stroke-width="7" paint-order="stroke">WIR</text>
+   ${NB.slice(0, 1).map(([x, y]) => `<text x="${x}" y="${y - 70}" text-anchor="middle" font-family="IB,Arial" font-weight="900" font-size="34" fill="#ffd166" stroke="${OL}" stroke-width="7" paint-order="stroke">NACHBARN</text>`).join('')}
+   <path d="M${S0[0]},${S0[1]} Q${C1[0]},${C1[1]} ${E0[0]},${E0[1]}" stroke="#ff5d5d" stroke-width="12" fill="none" stroke-linecap="round" stroke-dasharray="26 18" pathLength="${L}" style="stroke-dashoffset:0" opacity="${ar > 0 ? 1 : 0}" clip-path="none" mask="url(#mk)"/>
+   <defs><mask id="mk"><path d="M${S0[0]},${S0[1]} Q${C1[0]},${C1[1]} ${E0[0]},${E0[1]}" stroke="#fff" stroke-width="20" fill="none" pathLength="100" stroke-dasharray="${(ar * 100).toFixed(2)} 200"/></mask></defs>
+   ${ar > .02 ? `<g transform="translate(${b[0].toFixed(1)},${b[1].toFixed(1)}) rotate(${ang.toFixed(1)})"><path d="M-6,-24 L28,0 L-6,24 Z" fill="#ff5d5d" stroke="${OL}" stroke-width="5" stroke-linejoin="round"/></g>` : ''}
+   ${ar > .02 && ar < .999 ? `<g transform="translate(${bez(Math.max(0, ar - .12))[0].toFixed(1)},${(bez(Math.max(0, ar - .12))[1] - 6 + Math.sin(t * 9) * 3).toFixed(1)})"><path d="M-22,6 L22,6 L14,18 L-14,18 Z" fill="#8a5428" stroke="${OL}" stroke-width="3"/><path d="M0,6 L0,-26" stroke="${OL}" stroke-width="3"/><path d="M1,-25 L22,-18 L1,-10 Z" fill="${OL}"/><circle cx="9" cy="-18" r="3" fill="#fff"/></g>` : ''}
+  </svg>`;
+}
 function choiceCards(t) {
-  const ta = wt(11, /fischen/i) - .15, tb = wt(11, /ausrauben|nachbar/i) - .15, t1 = Lt(12).start - .1, out = fade(t, t1, t1 + .25);
-  const card = (x, rot, s, ic, lab, sub, bg) => s <= .01 ? '' : `<div class="card" style="left:${x}px;top:290px;width:440px;height:450px;transform:translateX(-50%) rotate(${rot}deg) scale(${s * out});text-align:center;background:${bg}">${ic}<div style="font-size:52px;margin-top:2px">${lab}</div><div style="font:700 34px P,Arial;color:#6b7280">${sub}</div></div>`;
-  const wob = Math.sin(t * 3) * 2;
-  return card(285, -6 + wob, pop(t, ta), iconFish, 'FISCHEN?', 'mit dem Boot', '#fff') + card(795, 6 - wob, pop(t, tb), iconRaid, 'AUSRAUBEN?', 'die Nachbarinseln', '#fff') +
-    (t > tb + .25 ? `<div class="lbl" style="left:540px;top:830px;transform:translate(-50%,-50%) scale(${pop(t, tb + .25) * out});font-size:96px;color:#ff5d5d;text-shadow:${shadowTxt(OL, 6)}">ODER</div>` : '');
+  const tf = Lt(12).start + .05, tr = Lt(13).start + .05, tc = Lt(14).start, out = 1;
+  let h = '';
+  // Fisch-Karte: gross in der Mitte (Zeile 12), dann klein nach links
+  const sf = pop(t, tf, .4); if (sf > .01) {
+    const m = ei(cl(t, tr - .1, tr + .35)), x = lerp(540, 250, m), y = lerp(260, 230, m), k = lerp(1.15, .72, m);
+    h += `<div class="card" style="left:${x}px;top:${y}px;width:440px;height:430px;transform:translateX(-50%) rotate(${lerp(-3, -7, m) + Math.sin(t * 3) * 1.5}deg) scale(${sf * k});transform-origin:50% 0;text-align:center">${iconFish}<div style="font-size:60px;margin-top:2px">FISCHEN?</div><div style="font:700 36px P,Arial;color:#6b7280">mit dem Boot</div></div>`;
+  }
+  // Karte Nachbarinseln: gross (Zeile 13), dann klein nach rechts (Zeile 14)
+  const sr = pop(t, tr + .05, .45); if (sr > .01) {
+    const m = ei(cl(t, tc - .1, tc + .35)), x = lerp(540, 790, m), y = lerp(560, 230, m), k = lerp(1, .5, m);
+    h += `<div style="position:absolute;left:${x}px;top:${y}px;transform:translateX(-50%) rotate(${lerp(2, 6, m) + Math.sin(t * 3 + 1) * 1}deg) scale(${sr * k});transform-origin:50% 0">
+      <div class="pill" style="position:relative;display:block;width:max-content;margin:0 auto 18px;font-size:${lerp(78, 110, m)}px;color:#fff;background:#232838;text-shadow:${shadowTxt('#000', 3)}">☠ AUSRAUBEN?</div>
+      <div style="border:8px solid ${OL};border-radius:36px;box-shadow:0 14px 0 #2328384d;overflow:hidden">${mapCard(t, tr + .05)}</div></div>`;
+  }
+  if (t > tc + .3) h += `<div class="lbl" style="left:487px;top:360px;transform:translate(-50%,-50%) rotate(-4deg) scale(${pop(t, tc + .3)});font-size:78px;color:#ff5d5d;text-shadow:${shadowTxt(OL, 6)}">ODER</div>`;
+  return h;
 }
 function commentCard(t) {
-  const t0 = Lt(12).start + .05, s = pop(t, t0, .45); if (s <= .01) return '';
+  const t0 = Lt(14).start + .35, s = pop(t, t0, .45); if (s <= .01) return '';
   const typed = 'Schreib es in die Kommentare'.slice(0, Math.max(0, Math.floor((t - t0 - .4) * 18)));
-  return `<div class="card" style="left:50%;top:300px;width:860px;transform:translateX(-50%) rotate(-2deg) scale(${s});padding:30px 36px;display:flex;gap:26px;align-items:center">
+  return `<div class="card" style="left:50%;top:830px;width:860px;transform:translateX(-50%) rotate(-2deg) scale(${s});padding:30px 36px;display:flex;gap:26px;align-items:center">
    <div style="width:110px;height:110px;flex:none;border-radius:50%;background:#ffd166;border:5px solid ${OL};font:900 70px/100px IB,Arial;text-align:center">?</div>
    <div style="flex:1"><div style="font:700 36px P,Arial;color:#6b7280">Du <span style="background:#fe2c55;color:#fff;border-radius:10px;padding:2px 14px;font-size:30px">Top-Kommentar?</span></div>
     <div style="font-size:54px;margin-top:8px;min-height:64px">${typed || '&nbsp;'}<span style="opacity:${Math.floor(t * 3) % 2 ? 1 : 0}">|</span></div></div></div>`;
@@ -372,28 +423,42 @@ function samPose(t) {
   let o = { mouth: 'smile', talk, blink: MG_SAM.blink(t), armL: [.12, .1], armR: [.12, .1], bob: 0 };
   if (i == 0) { const wv = Math.sin(t * 9) * .35; o.armR = [2.55 + wv * .4, .25 + wv]; o.mouth = 'grin' }
   else if (i == 1) { o.armL = [1.3, -.1]; o.mouth = 'smile'; o.look = [-4, 0] }
-  else if (i == 2) { o.armR = [.95, -1.25]; o.armL = [.95, -1.25]; o.mouth = 'flat'; o.look = [5, 0] }
-  else if (i == 3) { const u = ez(cl(rt, .2, .5)); o.armR = [lerp(.12, 2.6, u), .2]; o.mouth = 'grin' }
-  else if (i == 4) { const u = ez(cl(rt, 0, .4)); o.armL = [lerp(.12, 2.6, u), .2]; o.armR = [lerp(.12, 2.6, u), .2]; o.mouth = 'grin'; o.bob = Math.max(0, Math.sin(cl(rt, .3, 1.0) * Math.PI)) * 40 }
-  else if (i == 5) { const u = ez(cl(rt, .1, .4)); o.armL = [lerp(.12, 2.6, u), .2]; o.armR = [lerp(.12, 2.6, u), .2]; o.mouth = 'grin'; o.bob = Math.max(0, Math.sin(cl(rt, .6, 1.3) * Math.PI)) * 30; o.look = [5, -2] }
-  else if (i == 8) { o.armL = [1.4, -.1]; o.mouth = 'grin'; o.look = [-6, 0] }
-  else if (i == 9) { o.armL = [.5, -1.6]; o.armR = [.5, -1.6]; o.mouth = 'sad'; o.tilt = -.06 }
-  else if (i == 10) { o.armR = [.45, -2.75]; o.mouth = t > wt(10, /kokos/i) ? 'flat' : 'smile'; o.look = [-4, -3] }
-  else if (i == 11) { o.armR = [.45, -2.75]; o.armL = [.2, .1]; o.mouth = 'hmm'; o.look = [4, -3] }
+  else if (i == 2) { const u = ez(cl(rt, 0, .4)); o.armL = [lerp(.12, 2.6, u), .2]; o.armR = [lerp(.12, 2.6, u), .2]; o.mouth = 'grin'; o.bob = Math.max(0, Math.sin(cl(rt, .3, 1.0) * Math.PI)) * 34 }
+  else if (i == 3) { o.armR = [.95, -1.25]; o.armL = [.95, -1.25]; o.mouth = 'smile'; o.look = [5, 0] }
+  else if (i == 4) { const u = ez(cl(rt, .2, .5)); o.armR = [lerp(.12, 2.6, u), .2]; o.mouth = 'grin' }
+  else if (i == 5) { const u = ez(cl(rt, 0, .4)); o.armL = [lerp(.12, 2.6, u), .2]; o.armR = [lerp(.12, 2.6, u), .2]; o.mouth = 'grin'; o.bob = Math.max(0, Math.sin(cl(rt, .3, 1.0) * Math.PI)) * 40 }
+  else if (i == 6) { const u = ez(cl(rt, .1, .4)); o.armL = [lerp(.12, 2.6, u), .2]; o.armR = [lerp(.12, 2.6, u), .2]; o.mouth = 'grin'; o.bob = Math.max(0, Math.sin(cl(rt, .6, 1.3) * Math.PI)) * 30; o.look = [5, -2] }
+  else if (i == 9) { o.armL = [1.4, -.1]; o.mouth = 'grin'; o.look = [-6, 0] }
+  else if (i == 10) { o.armL = [.5, -1.6]; o.armR = [.5, -1.6]; o.mouth = 'sad'; o.tilt = -.06 }
+  else if (i == 11) { o.armR = [.45, -2.75]; o.mouth = t > wt(11, /kokos/i) ? 'flat' : 'smile'; o.look = [-4, -3] }
+  else if (i == 12 || i == 13) { o.armR = [.45, -2.75]; o.armL = [.2, .1]; o.mouth = 'hmm'; o.look = [4, -3] }
   else { o.armR = [1.5, -.15]; o.mouth = 'grin' }
   if (t > l.end + .05) o.talk = 0;
   return o;
 }
-const HAT = `<path d="M74,30 L100,-46 L126,30 Z" fill="#ffd166" stroke="${OL}" stroke-width="6" stroke-linejoin="round"/><path d="M84,2 L116,2 M91,-22 L109,-22" stroke="#ff5d5d" stroke-width="8"/><circle cx="100" cy="-48" r="13" fill="#ff5d5d" stroke="${OL}" stroke-width="5"/>`;
+// Krabben-Kostuem: rote Kapuze mit Stielaugen, Scheren statt Haende, Krabbenbeine
+const CR = '#e8483c', CRD = '#b8322a';
+function crabHood(t) {
+  const sw = Math.sin(t * 3) * 6;
+  const legs = [0, 1, 2].map(k => `<path d="M${54 - k * 2},${178 + k * 20} q-26,${-8 + k * 6} -36,${14 + k * 4}" stroke="${OL}" stroke-width="15" fill="none" stroke-linecap="round"/><path d="M${54 - k * 2},${178 + k * 20} q-26,${-8 + k * 6} -36,${14 + k * 4}" stroke="${CR}" stroke-width="8" fill="none" stroke-linecap="round"/>` +
+    `<path d="M${146 + k * 2},${178 + k * 20} q26,${-8 + k * 6} 36,${14 + k * 4}" stroke="${OL}" stroke-width="15" fill="none" stroke-linecap="round"/><path d="M${146 + k * 2},${178 + k * 20} q26,${-8 + k * 6} 36,${14 + k * 4}" stroke="${CR}" stroke-width="8" fill="none" stroke-linecap="round"/>`).join('');
+  return legs + `<circle cx="100" cy="84" r="88" fill="${CR}" stroke="${OL}" stroke-width="6"/><path d="M26,110 A82,82 0 0,0 174,110 A90,90 0 0,1 26,110Z" fill="${CRD}" opacity=".6"/>` +
+    `<circle cx="58" cy="34" r="7" fill="#ffffff66"/><circle cx="142" cy="40" r="6" fill="#ffffff55"/><circle cx="40" cy="70" r="5" fill="#ffffff44"/>`;
+}
+function crabEyes(t, blink) {
+  const sw = Math.sin(t * 3.2) * 5, b = 1 - .85 * blink;
+  return [[-1, 70], [1, 130]].map(([sd, x]) => `<path d="M${x},14 Q${x + sd * 4},-14 ${x + sd * 10 + sw},-34" stroke="${OL}" stroke-width="16" fill="none" stroke-linecap="round"/><path d="M${x},14 Q${x + sd * 4},-14 ${x + sd * 10 + sw},-34" stroke="${CR}" stroke-width="8" fill="none" stroke-linecap="round"/>` +
+    `<circle cx="${x + sd * 10 + sw}" cy="-44" r="20" fill="#fff" stroke="${OL}" stroke-width="5"/><ellipse cx="${x + sd * 10 + sw + 3}" cy="-42" rx="8" ry="${9 * b}" fill="${OL}"/>`).join('');
+}
 function benPose(t) {
-  const i = MG.cur(t), rt = t - Lt(i).start;
-  let o = { mouth: 'grin', blink: MG_SAM.blink(t + 1.3), armL: [.15, .1], armR: [.15, .1], bob: 0, sw: '#d64545', swd: '#a83232', hat: HAT, talk: 0 };
-  const e0 = Lt(8).start;
+  const i = MG.cur(t), rt = t - Lt(i).start, bl = MG_SAM.blink(t + 1.3);
+  let o = { mouth: 'grin', blink: bl, armL: [.3, .1], armR: [.3, .1], bob: 0, sw: CR, swd: CRD, pa: CR, hood: crabHood(t), hat: crabEyes(t, bl), claw: CR, clawOpen: .5 + .5 * Math.sin(t * 6), talk: 0 };
+  const e0 = Lt(9).start;
   if (t < e0 + 1.2) { const u = cl(t, e0, e0 + 1.0); o.bob = Math.abs(Math.sin(u * Math.PI * 3)) * 70 * (1 - u); o.armL = [2.5, .3]; o.armR = [2.5, .3] }
-  if (i == 8 && rt > 1.0) { const wv = Math.sin(t * 9) * .35; o.armL = [2.55 + wv * .4, .25 + wv] }
-  if (i == 9) { o.armL = [.45, -1.75]; o.armR = [.45, -1.75]; o.mouth = 'o'; o.talk = .2 + .15 * Math.sin(t * 20); o.tilt = .06 }
-  if (i == 10) { const k = wt(10, /kokos/i); o.mouth = t > k ? 'sad' : 'grin'; o.look = [3, -6]; o.armR = t > k ? [.3, .1] : [1.2, -1.5]; o.tilt = t > k ? .1 : 0 }
-  if (i >= 11) { o.mouth = 'smile'; o.look = [5, -2] }
+  if (i == 9 && rt > 1.0) { const wv = Math.sin(t * 8) * .3; o.armL = [2.4 + wv * .4, .3 + wv]; o.armR = [2.4 - wv * .4, .3 - wv]; o.clawOpen = .5 + .5 * Math.sin(t * 14) }
+  if (i == 10) { o.armL = [.45, -1.75]; o.armR = [.45, -1.75]; o.mouth = 'o'; o.talk = .2 + .15 * Math.sin(t * 20); o.tilt = .06; o.clawOpen = 0 }
+  if (i == 11) { const k = wt(11, /kokos/i); o.mouth = t > k ? 'sad' : 'grin'; o.look = [3, -6]; o.armR = t > k ? [.3, .1] : [1.2, -1.5]; o.tilt = t > k ? .1 : 0 }
+  if (i >= 12) { o.mouth = 'smile'; o.look = [5, -2]; if (i == 13) { o.armR = [2.3, .4]; o.clawOpen = .5 + .5 * Math.sin(t * 16); o.mouth = 'grin' } }
   return o;
 }
 function figure(p, o, H3 = 1.75) {
@@ -402,14 +467,14 @@ function figure(p, o, H3 = 1.75) {
 }
 function charLayer(t) {
   let h = '';
-  if (t > Lt(8).start - .05) {
-    const e0 = Lt(8).start, u = ez(cl(t, e0, e0 + 1.0)), p = [BL[0] - 3.5 * (1 - u), BL[1], BL[2]];
-    h += figure(p, benPose(t), 1.55);
-    const q = w.project([p[0], p[1] + 2.35, p[2]]);
-    if (q.vis && t < Lt(11).start - .2) { const s = pop(t, wt(8, /ben/i) - .1, .4) * fade(t, Lt(10).start - .2, Lt(10).start + .05);
+  if (t > Lt(9).start - .05) {
+    const e0 = Lt(9).start, u = ez(cl(t, e0, e0 + 1.0)), p = [BL[0] - 3.5 * (1 - u), BL[1], BL[2]];
+    h += figure(p, benPose(t), 1.5);
+    const q = w.project([p[0], p[1] + 2.75, p[2]]);
+    if (q.vis && t < Lt(12).start - .2) { const s = pop(t, wt(9, /ben/i) - .1, .4) * fade(t, Lt(11).start - .2, Lt(11).start + .05);
       if (s > .01) h += `<div style="position:absolute;left:${q.x}px;top:${q.y}px;transform:translate(-50%,-100%) scale(${s});transform-origin:50% 100%;display:flex;flex-direction:column;align-items:center">
         <div class="pill" style="position:relative;font-size:40px;color:${OL};background:#ffd166;padding:2px 22px">★ MASKOTTCHEN ★</div>
-        <div class="pill" style="position:relative;margin-top:10px;font-size:72px;color:#fff;background:#d64545;text-shadow:${shadowTxt(OL, 4)}">BENLUCA</div>
+        <div class="pill" style="position:relative;margin-top:10px;font-size:72px;color:#fff;background:#e8483c;text-shadow:${shadowTxt(OL, 4)}">BENLUCA</div>
         <div style="width:0;height:0;border:20px solid transparent;border-top:26px solid ${OL}"></div></div>` }
   }
   h += figure(SP, samPose(t));
@@ -430,22 +495,39 @@ window.draw = function (t) {
   // Truhe immer offen, Kokosnuss liegt drin
   lid.rot = [-1.75, 0, 0]; coco.pos = [.24, .68, .05]; coco.rot = [0, 0, 0];
   // Bevoelkerung: heute da, im Rueckblick weg, ab Zeile 4 ploppt sie auf
-  const sad = t > Lt(9).start + .2 && t < Lt(11).start;
+  // Bevoelkerung lebt: atmen, schwanken, umschauen; jubeln/huepfen bei guten News, traurig bei Hunger, abstimmen am Ende
+  const cheerW = [[0, Lt(1).start - .1], [wt(5, /hundertacht/i), Lt(6).end], [wt(9, /maskottchen/i), Lt(9).end + .2], [Lt(14).start + .2, 99]];
+  const cheering = cheerW.some(([a, b]) => t > a && t < b);
+  const sadP = cl(t, Lt(10).start + .1, Lt(10).start + .5) * (1 - cl(t, Lt(12).start - .2, Lt(12).start + .2));
+  const lookUp = t > Lt(11).start + .2 && t < wt(11, /kokos/i);
   crowd.forEach(p => { const t0 = crowdT(p), u = R ? 0 : (t < Lt(1).start ? 1 : cl(t, t0, t0 + .4));
-    p.m.vis = u > 0; const s = p.s * Math.max(.01, bo(u));
-    const hop = t < Lt(1).start || t > Lt(11).start ? Math.max(0, Math.sin(t * 7 + p.d * 30)) * .12 * (p.k % 3 == 0) : 0;
-    p.m.scl = [s, s * (sad ? .94 : 1), s]; p.m.pos = [p.x, p.y + hop, p.z]; p.m.rot[2] = sad ? .08 * Math.sin(p.d * 9) : 0 });
+    p.m.vis = u > 0; const s = p.s * Math.max(.01, bo(u)), ph = p.ph;
+    const breathe = 1 + .025 * Math.sin(t * 2.1 + ph);
+    let hop = 0, sway = .05 * Math.sin(t * 1.4 + ph), hx = 0, hy = .35 * Math.sin(t * .6 + ph * 2) * Math.max(0, Math.sin(t * .35 + ph)), hz = 0;
+    let aL = -.12 - .04 * Math.sin(t * 2 + ph), aR = .12 + .04 * Math.sin(t * 2 + ph), axL = 0, axR = 0;
+    // frisch aufgeploppt: kurzer Freudensprung
+    const fresh = t > t0 && t < t0 + .9 && !R && t > Lt(1).start;
+    if (cheering || fresh) { const f = t * (6 + 2 * p.d) + ph; hop = Math.max(0, Math.sin(f)) * .32 * (p.k % 3 != 2 || fresh ? 1 : .4);
+      const wv = Math.sin(t * 10 + ph) * .35; aL = -2.5 - wv; aR = (p.k % 2 ? 2.5 + wv : .2); hy *= .3 }
+    if (sadP > 0) { hx = lerp(hx, .42, sadP); sway *= 1 - sadP; aL = lerp(aL, -.05, sadP); aR = lerp(aR, .05, sadP);
+      if (p.k % 3 == 0) { axL = lerp(0, -1.1, sadP); axR = axL; aL = lerp(aL, .35, sadP); aR = lerp(aR, -.35, sadP) } }   // Bauch halten
+    if (lookUp) { hx = -.35; hy = .2 * Math.sin(ph) }
+    // Abstimmung: Haelfte Hand hoch bei "fischen", andere Haelfte bei "ausrauben"
+    if (t > wt(12, /fischen/i) && t < Lt(14).start && p.k % 2 == 0) { aR = 2.8 + .15 * Math.sin(t * 8 + ph) }
+    if (t > wt(13, /rauben|nachbar/i) && t < Lt(14).start && p.k % 2 == 1) { aL = -2.8 - .15 * Math.sin(t * 8 + ph); hop = Math.max(0, Math.sin(t * 7 + ph)) * .15 }
+    p.m.scl = [s, s * breathe * (1 - .05 * sadP), s]; p.m.pos = [p.x, p.y + hop, p.z]; p.m.rot = [0, p.yaw, sway];
+    p.head.rot = [hx, hy, 0]; p.aL.rot = [axL, 0, aL]; p.aR.rot = [axR, 0, aR] });
   // Muenzen: 860 € fallen in die Truhe
   let landed = 0;
   COINS2.forEach(cn => { const [a, b] = coinT(cn.k), u = cl(t, a, b); cn.m.vis = u > 0 && u < 1; if (t > b) landed++;
     const s = [CH[0] - 1.6 + (cn.k % 6) * .64, CH[1] + 3.4, CH[2] + 1.4], e = [CH[0], CH[1] + .35, CH[2]];
     cn.m.pos = [lerp(s[0], e[0], u), lerp(s[1], e[1], u) + Math.sin(u * Math.PI) * 1.1, lerp(s[2], e[2], u)]; cn.m.rot = [1.2 + u * 6, u * 3, 0] });
-  const pay = wt(7, /boot/i) + .35, past = R || (t > Lt(1).start && t < wt(5, /bringen/i));
+  const pay = wt(8, /boot/i) + .35, past = R || (t > Lt(1).start && t < wt(6, /bringen/i));
   let ph = past ? .55 : (t < Lt(1).start ? 1.1 : .55 + .6 * landed / NCOIN);
   if (t > pay) ph = lerp(1.15, .62, ez(cl(t, pay, pay + .6)));
   pile.scl = [1.75, ph, .95];
   // Grosser Hafen (Hologramm) baut sich auf, dann "zu teuer" -> faellt zusammen
-  const h0 = Lt(6).start + .3, hx = wt(6, /nicht/i) - .1;
+  const h0 = Lt(7).start + .3, hx = wt(7, /nicht/i) - .1;
   bigH.forEach(b => { const u = el(cl(t, h0 + b.d * .07, h0 + .55 + b.d * .07)), down = ei(cl(t, hx, hx + .45));
     b.m.vis = t > h0 && down < 1; b.m.scl = [1, Math.max(.01, u * (1 - down)), 1];
     b.m.alpha = .7 * Math.min(1, u * 2) * (1 - down) * (.85 + .15 * Math.sin(t * 8 + b.d * 3));
@@ -453,50 +535,55 @@ window.draw = function (t) {
   // Steg: heute fertig, im Rueckblick weg, Zeile 7 Brett fuer Brett
   planks.forEach(p => { const t0 = plankT(p.i), u = t < Lt(1).start ? 1 : cl(t, t0, t0 + .25);
     p.m.vis = u > 0; p.m.pos = [PX, DY + 1.6 * (1 - ez(u)), p.z]; p.m.rot = [0, .3 * (1 - u), 0] });
-  const bt = wt(7, /boot/i) - .2, bu = t < Lt(1).start ? 1 : ez(cl(t, bt, bt + .7));
+  const bt = wt(8, /boot/i) - .2, bu = t < Lt(1).start ? 1 : ez(cl(t, bt, bt + .7));
   boat.vis = bu > 0; boat.pos = [BOAT[0], BOAT[1] + Math.sin(t * 2.2) * .06, BOAT[2] + 9 * (1 - bu)]; boat.rot = [Math.sin(t * 1.7) * .04, .08, Math.sin(t * 2.2 + 1) * .05];
   w.render(t);
   // Rueckblick-Look: entsaettigt + warm
   $('cv').style.filter = R ? 'sepia(.45) saturate(.75) contrast(1.04) brightness(1.03)' : 'none';
   // ---- Overlays ----
   let ov = charLayer(t);
-  ov += labelAt([PX, DY + 1.2, PZ1 - .6], `<div class="pill" style="position:relative;font-size:52px;color:#fff;background:#2a8fd6;text-shadow:${shadowTxt(OL, 3)}">⚓ UNSER HAFEN</div>`, t, wt(7, /boot/i) + .1, Lt(8).start - .3, { k: 1.5 });
+  ov += labelAt([PX, DY + 1.2, PZ1 - .6], `<div class="pill" style="position:relative;font-size:52px;color:#fff;background:#2a8fd6;text-shadow:${shadowTxt(OL, 3)}">⚓ UNSER HAFEN</div>`, t, wt(8, /boot/i) + .1, Lt(9).start - .3, { k: 1.5 });
   $('ov').innerHTML = ov;
   // Flash bei Rueckblick-Start und -Ende
-  const f1 = cl(t, Lt(1).start - .1, Lt(1).start + .25), f2 = cl(t, Lt(4).start - .1, Lt(4).start + .25);
+  const f1 = cl(t, Lt(1).start - .1, Lt(1).start + .25), f2 = cl(t, Lt(5).start - .1, Lt(5).start + .25);
   const fl = Math.max(f1 > 0 && f1 < 1 ? Math.sin(f1 * Math.PI) : 0, f2 > 0 && f2 < 1 ? Math.sin(f2 * Math.PI) : 0);
   $('fx').innerHTML = (R ? `<div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%,transparent 55%,#3a2a1066 100%)"></div>` +
     `<div style="position:absolute;left:0;right:0;top:${(t * 900) % 2100 - 100}px;height:26px;background:#ffffff22"></div>` : '') +
     (fl > 0 ? `<div style="position:absolute;inset:0;background:#fff;opacity:${fl * .85}"></div>` : '');
   // UI oben + Untertitel
   let ui = '';
-  ui += dayPill(t) + recapBadge(t) + recapChips(t) + voteCard(t) + counterCard(t) + treasury(t) + tooExpensive(t);
+  ui += dayPill(t) + recapBadge(t) + goalText(t) + recapChips(t) + voteCard(t) + counterCard(t) + treasury(t) + tooExpensive(t);
   ui += dreamBubble(t) + choiceCards(t) + commentCard(t);
   ui += MG.captions(t, { y: 1470, size: 84, maxWords: 3, hl: '#ffd166', upper: true, stageW: 1080 }).replace(/'Arial Black',Arial/, 'IB,Arial');
   $('ui').innerHTML = ui;
 };
 window.sfxEvents = function () {
-  const E = [], L = Lt;
-  E.push({ k: 'pop', t: .05 }, { k: 'whoosh', t: .2, d: 1.4 }, { k: 'chime', t: .25 }, { k: 'wave', t: .3, d: 3.2, g: .5 }, { k: 'gull', t: 1.0, pan: -.4 });
+  const E = [], L = Lt, D = MG.TL.dur;
+  // Meeresrauschen durchgehend (leise), lauter wenn Kamera am Wasser ist; Moewen verteilt
+  for (let x = 0; x < D - 1; x += 3.1) E.push({ k: 'wave', t: x, d: 3.4, g: (x > L(7).start - .5 && x < L(9).start) || x < L(1).start ? .6 : .28 });
+  [1.0, 6.5, 13.2, L(8).start + .6, L(10).start + .3, L(12).start + .4, L(14).start + .5].forEach((x, i) => E.push({ k: 'gull', t: x, pan: i % 2 ? .5 : -.4 }));
+  E.push({ k: 'pop', t: .05 }, { k: 'whoosh', t: .2, d: 1.4 }, { k: 'chime', t: .25 });
   E.push({ k: 'whoosh', t: L(1).start - .15, d: .7 }, { k: 'swish', t: L(1).start, d: .5 }, { k: 'tick', t: L(1).start + .05 }, { k: 'tick', t: L(1).start + .2 }, { k: 'tick', t: L(1).start + .35 });
-  E.push({ k: 'pop', t: wt(2, /einwohner/i) - .15 }, { k: 'cash', t: wt(2, /zwanzig/i) - .1 }, { k: 'pop', t: wt(2, /kokos/i) - .1 });
-  E.push({ k: 'swish', t: L(3).start + .05, d: .4 }, { k: 'ding', t: wt(3, /hafen/i) - .1 });
-  E.push({ k: 'whoosh', t: L(4).start - .1, d: .8 }, { k: 'impact', t: L(4).start + .05 });
-  crowd.forEach((c, i) => { if (i % 4 == 0) E.push({ k: 'pop', t: crowdT(c) }) });
-  E.push({ k: 'chime', t: crowdT(crowd[crowd.length - 1]) + .1 });
-  E.push({ k: 'whoosh', t: L(5).start, d: .6 });
+  E.push({ k: 'shimmer', t: L(2).start }, { k: 'chime', t: wt(2, /reichste/i) });
+  E.push({ k: 'pop', t: wt(3, /follower/i) - .15 }, { k: 'cash', t: wt(3, /zwanzig/i) - .1 }, { k: 'pop', t: wt(3, /kokos/i) - .1 });
+  E.push({ k: 'swish', t: L(4).start + .05, d: .4 }, { k: 'ding', t: wt(4, /hafen/i) - .1 });
+  E.push({ k: 'whoosh', t: L(5).start - .1, d: .8 }, { k: 'impact', t: L(5).start + .05 });
+  crowd.forEach((c, i) => { if (i % 3 == 0) E.push({ k: 'pop', t: crowdT(c) }) });
+  E.push({ k: 'chime', t: crowdT(crowd[crowd.length - 1]) + .1 }, { k: 'bell', t: crowdT(crowd[crowd.length - 1]) + .3 });
+  E.push({ k: 'whoosh', t: L(6).start, d: .6 });
   COINS2.forEach(c => E.push({ k: 'cash', t: coinT(c.k)[1] }));
-  E.push({ k: 'whoosh', t: L(6).start, d: 1.0 }, { k: 'shimmer', t: L(6).start + .35 }, { k: 'error', t: wt(6, /nicht/i) - .1 }, { k: 'thud', t: wt(6, /nicht/i) + .25 });
-  E.push({ k: 'wave', t: L(6).start + .2, d: 3.4, g: .55 }, { k: 'gull', t: L(7).start + .6, pan: .5 });
+  E.push({ k: 'whoosh', t: L(7).start, d: 1.0 }, { k: 'shimmer', t: L(7).start + .35 }, { k: 'error', t: wt(7, /nicht/i) - .1 }, { k: 'thud', t: wt(7, /nicht/i) + .25 }, { k: 'splash', t: wt(7, /nicht/i) + .35, d: .8 });
   planks.forEach(p => E.push({ k: 'hammer', t: plankT(p.i) + .2 }));
-  E.push({ k: 'whoosh', t: wt(7, /boot/i) - .2, d: .7 }, { k: 'cash', t: wt(7, /boot/i) + .25 }, { k: 'pop', t: wt(7, /boot/i) + .1 });
-  E.push({ k: 'whoosh', t: L(8).start - .1, d: .7 });
-  for (let i = 0; i < 3; i++) E.push({ k: 'tap', t: L(8).start + .1 + i * .33 });
-  E.push({ k: 'chime', t: wt(8, /ben/i) - .05 }, { k: 'pop', t: wt(8, /ben/i) - .1 });
-  E.push({ k: 'growl', t: L(9).start + .15, d: 1.2 }, { k: 'growl', t: wt(9, /essen/i), d: .9, g: .8 });
-  E.push({ k: 'pop', t: L(10).start + .05 }, { k: 'shimmer', t: L(10).start + .3 }, { k: 'error', t: wt(10, /kokos/i) - .15 }, { k: 'thud', t: wt(10, /kokos/i) });
-  E.push({ k: 'whoosh', t: L(11).start, d: .5 }, { k: 'pop', t: wt(11, /fischen/i) - .15 }, { k: 'pop', t: wt(11, /ausrauben|nachbar/i) - .15 }, { k: 'wave', t: L(11).start, d: 3.2, g: .4 });
-  E.push({ k: 'swish', t: L(12).start + .05, d: .4 }, { k: 'type', t: L(12).start + .45, n: 14 });
+  E.push({ k: 'whoosh', t: wt(8, /boot/i) - .2, d: .7 }, { k: 'splash', t: wt(8, /boot/i) + .3, d: .9 }, { k: 'cash', t: wt(8, /boot/i) + .35 }, { k: 'pop', t: wt(8, /boot/i) + .1 });
+  E.push({ k: 'whoosh', t: L(9).start - .1, d: .7 });
+  for (let i = 0; i < 3; i++) E.push({ k: 'tap', t: L(9).start + .1 + i * .33 });
+  E.push({ k: 'chime', t: wt(9, /ben/i) - .05 }, { k: 'pop', t: wt(9, /ben/i) - .1 });
+  for (let i = 0; i < 4; i++) E.push({ k: 'click', t: wt(9, /krabbe/i) + i * .12 });   // Scheren-Klappern
+  E.push({ k: 'growl', t: L(10).start + .1, d: 1.3 }, { k: 'growl', t: wt(10, /nichts/i), d: .9, g: .8 }, { k: 'growl', t: L(10).end - .2, d: 1.1, g: .7 });
+  E.push({ k: 'pop', t: L(11).start + .05 }, { k: 'shimmer', t: L(11).start + .3 }, { k: 'error', t: wt(11, /kokos/i) - .15 }, { k: 'thud', t: wt(11, /kokos/i) }, { k: 'growl', t: wt(11, /kokos/i) + .35, d: .8, g: .7 });
+  E.push({ k: 'whoosh', t: L(12).start, d: .5 }, { k: 'pop', t: L(12).start + .05 }, { k: 'splash', t: wt(12, /fischen/i), d: .6, g: .7 });
+  E.push({ k: 'whoosh', t: L(13).start, d: .6 }, { k: 'paper', t: L(13).start + .1 }, { k: 'swish', t: L(13).start + .4, d: 1.0 }, { k: 'impact', t: wt(13, /rauben/i) });
+  E.push({ k: 'swish', t: L(14).start, d: .4 }, { k: 'pop', t: L(14).start + .3 }, { k: 'type', t: L(14).start + .75, n: 14 });
   return E;
 };
 </script></body></html>

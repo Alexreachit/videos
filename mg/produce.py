@@ -710,6 +710,11 @@ def synth(events, dur, music=True):
             ph = 2 * np.pi * np.cumsum(f) / SR; am = (.55 + .45 * np.sin(2 * np.pi * 9 * ta) ** 2) * np.sin(np.pi * ta / l) ** .8
             sig = (np.sin(ph) + .6 * np.sin(2 * ph) + .3 * np.sin(3 * ph)) * am + lp(rng.normal(0, 1, len(ta)), 60) * am * 1.5
             base_add(sig * .32 * e.get("g", 1.0), t)
+        elif k == "splash":  # Wasser-Platschen (Boot, Muenzen ins Wasser)
+            l = e.get("d", .7); m = int(l * SR); ta = np.arange(m) / SR; nz = rng.standard_normal(m)
+            sig = (lp(nz, 3) - lp(nz, 25)) * np.exp(-ta * 6) * np.minimum(ta / .01, 1)
+            for j in range(5): sig[int((.05 + .08 * j) * SR):int((.05 + .08 * j) * SR) + 900] += np.sin(2 * np.pi * (900 + 300 * j) * np.arange(900) / SR) * np.exp(-np.arange(900) / 200) * .3
+            base_add(sig * .5 * e.get("g", 1.0), t, -.3); base_add(np.roll(sig, 300) * .5 * e.get("g", 1.0), t, .3)
         elif k == "hammer":  # Holzklopfen (Steg wird gebaut)
             add(tone(320, .12, .55, .001, .05, (1, 2.3)), t); add(np.diff(lp(rng.normal(0, 1, int(.02*SR)), 3), prepend=0) * .8, t)
     return L, R, music_arr
