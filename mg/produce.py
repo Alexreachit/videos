@@ -704,6 +704,14 @@ def synth(events, dur, music=True):
                 l = .32; ta = np.arange(int(l * SR)) / SR; f = 1500 - 700 * (ta / l) + 120 * np.sin(2 * np.pi * 28 * ta)
                 ph = 2 * np.pi * np.cumsum(f) / SR; sig = (np.sin(ph) + .5 * np.sin(2 * ph) + .25 * np.sin(3 * ph)) * np.sin(np.pi * ta / l) ** .6
                 base_add(sig * .05 * e.get("g", 1.0), t + j * .4, e.get("pan", .4))
+        elif k == "growl":  # Magenknurren: tiefes, gurgelndes Brummen mit Tonhoehen-Wackeln
+            l = e.get("d", 1.1); ta = np.arange(int(l * SR)) / SR
+            f = 95 + 35 * np.sin(2 * np.pi * 2.3 * ta) + 20 * np.sin(2 * np.pi * 7.1 * ta)
+            ph = 2 * np.pi * np.cumsum(f) / SR; am = (.55 + .45 * np.sin(2 * np.pi * 9 * ta) ** 2) * np.sin(np.pi * ta / l) ** .8
+            sig = (np.sin(ph) + .6 * np.sin(2 * ph) + .3 * np.sin(3 * ph)) * am + lp(rng.normal(0, 1, len(ta)), 60) * am * 1.5
+            base_add(sig * .32 * e.get("g", 1.0), t)
+        elif k == "hammer":  # Holzklopfen (Steg wird gebaut)
+            add(tone(320, .12, .55, .001, .05, (1, 2.3)), t); add(np.diff(lp(rng.normal(0, 1, int(.02*SR)), 3), prepend=0) * .8, t)
     return L, R, music_arr
 
 

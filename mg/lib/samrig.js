@@ -59,10 +59,13 @@
       g += `<ellipse cx="${84 + lx}" cy="${86 + ly}" rx="6.5" ry="${(7.5 * bl).toFixed(2)}" fill="${OL}"/><ellipse cx="${118 + lx}" cy="${86 + ly}" rx="6.5" ry="${(7.5 * bl).toFixed(2)}" fill="${OL}"/>`;
       g += mouth(o.mouth || 'smile', o.talk, 101 + lx * .6, 112 + ly * .5);
     }
+    if (o.hat) g += o.hat;
     g += `</g>`;
     if (o.prop) g += `<g transform="translate(${R.hx.toFixed(1)},${R.hy.toFixed(1)})">${o.prop}</g>`;
     g += R.svg;
     g += `</g>`;
+    if (o.sw) g = g.split(SW).join(o.sw).split(SWD).join(o.swd || o.sw);
+    if (o.pa) g = g.split(PA).join(o.pa);
     const ghost = o.ghost ? ` opacity="${o.ghostA == null ? .8 : o.ghostA}" style="filter:grayscale(1) brightness(1.9)"` : '';
     return `<svg viewBox="-20 -10 240 365" width="${o.w || 240}" height="${(o.w || 240) * 365 / 240}" style="overflow:visible"${ghost}>${g}</svg>`;
   }

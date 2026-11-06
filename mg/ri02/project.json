@@ -1,0 +1,112 @@
+{
+ "title": "TikTok-Serie Roundhead Island – Tag 2 (Deutsch)",
+ "_sources": "Fiktive Community-Serie (keine Faktenbehauptungen). Zahlen von Alex: 108 Follower, 86 Likes auf Tag 1.",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+16%",
+ "lead": 0.05,
+ "gap": 0.12,
+ "tail": 1.4,
+ "crf": 20,
+ "music": {
+  "style": "playful",
+  "bpm": 150,
+  "gain": 0.13,
+  "ambience": 0.02,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.55,
+ "lines": [
+  {
+   "text": "Tag zwei auf Roundhead Island!",
+   "spec": {
+    "type": "day",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Rückblick: Gestern habe ich mein eigenes Land gegründet.",
+   "spec": {
+    "type": "recap",
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "Ein Einwohner, zwanzig Euro und eine Kokosnuss.",
+   "spec": {
+    "type": "recap2"
+   }
+  },
+  {
+   "text": "Dann habt ihr abgestimmt: Wir bauen einen Hafen!",
+   "spec": {
+    "type": "vote"
+   }
+  },
+  {
+   "text": "Und jetzt sind wir schon hundertacht Einwohner!",
+   "spec": {
+    "type": "crowd",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Eure Likes bringen achthundertsechzig Euro!",
+   "spec": {
+    "type": "money"
+   }
+  },
+  {
+   "text": "Für einen großen Hafen reicht das nicht...",
+   "spec": {
+    "type": "bigharbor",
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "Aber für einen kleinen Steg und ein Boot!",
+   "spec": {
+    "type": "pier",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Und wir haben ein Maskottchen: Ben Luca!",
+   "spec": {
+    "type": "mascot"
+   }
+  },
+  {
+   "text": "Nur ein Problem: Wir haben nichts zu essen.",
+   "spec": {
+    "type": "hunger",
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "Viele wollen einen Dönermann... aber wir haben nur eine Kokosnuss.",
+   "spec": {
+    "type": "doner"
+   }
+  },
+  {
+   "text": "Also, mit dem Boot: fischen gehen? Oder die Nachbarinseln ausrauben?",
+   "spec": {
+    "type": "choice",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Der Top-Kommentar entscheidet.",
+   "spec": {
+    "type": "comment"
+   }
+  }
+ ]
+}

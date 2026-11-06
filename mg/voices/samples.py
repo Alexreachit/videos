@@ -2,7 +2,7 @@
 # Ergebnis: renders/voices/<projekt>/NN.mp3 + words.json  -> lokal: produce.py <projekt> --voice-from <ordner>
 import json, os, sys
 sys.path.insert(0, "mg"); import produce
-PROJ = "ri01"
+PROJ = "ri02"
 cfg = json.load(open(f"mg/{PROJ}/project.json", encoding="utf-8"))
 out = f"output/voices/{PROJ}"; os.makedirs(out, exist_ok=True)
 W = []
