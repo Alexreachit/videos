@@ -199,3 +199,6 @@
   -> großer Hafen als Hologramm "ZU TEUER!" -> kleiner Steg + Boot (-800 €) -> Maskottchen Benluca (roter Pulli, Partyhut) -> nichts zu essen (Magenknurren) -> Dönermann-Wunsch (Traumblase) -> nur Kokosnuss
   -> Abstimmung: mit dem Boot fischen ODER Nachbarinseln ausrauben. Neu: SFX growl/hammer, samrig sw/pa/hat-Optionen.
   Hinweis: Kommentartext von Paul ist nicht wörtlich (TikTok-Kommentare in Chrome nicht gefunden – dort ist ein anderes TikTok-Konto eingeloggt); Karte zeigt "Paul – will den Hafen!".
+- 2026-11-06 ~15:50: ri02 v2 nach Alex' Feedback (44,9 s, Ø -20,4 dB / max -2,9 dB, Run 42244453056): Rückblick nennt Ziel ("reichstes Land der Welt", "1 Follow = 1 Einwohner", Startkapital),
+  Einwohner leben (Kopf + Arme: atmen, schwanken, umschauen, jubeln/hüpfen, Bauch halten bei Hunger, Hand heben bei Abstimmung), Benluca im Krabbenkostüm (Kapuze, Stielaugen, Scheren, Beine),
+  Abstimmung in 2 Zeilen: Fisch-Karte, dann Karte mit Nachbarinseln + Pfeil + Piratenboot; mehr SFX (Wellen durchgehend, Möwen, 3x Magenknurren, Platschen, Scheren-Klappern). An Alex geschickt.
