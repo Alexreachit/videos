@@ -190,3 +190,7 @@
 - Upload-Weg für große Dateien (>10 MB): MP4 in 9,5-MB-Stücke splitten, einzeln per file_upload in ein selbst angelegtes <input type=file> laden, im Browser per JS zu einem File zusammensetzen und per DataTransfer in YouTubes input[name=Filedata] setzen -> volle Qualität ohne Neukodierung.
 - ri01 (Roundhead Island Tag 1, aktueller Render 35,3 s vom Branch renders) erneut an Alex geschickt.
 - 2026-11-05 17:05: ri01 Truhe repariert (Alex: 'Truhe bugt'): Deckel flimmerte (Z-Fighting) + überschwang, Truhe war innen massiv (Münzen verschwanden auf dem Deckel, Kokosnuss flog daneben). Jetzt hohle Truhe mit Goldhaufen, der mit jeder Münze wächst, Kokosnuss fällt hinein, Deckel öffnet sauber. Render mg-chunks Run 42068991125, 35,3 s. An Alex geschickt.
+
+## Lauf 2026-11-06 ~14:30 (Routine, geplant 07:47 UTC)
+- Abgebrochen: Chrome-Erweiterung nicht erreichbar (PC aus/Chrome zu). Keine Analyse, nichts im Studio geändert.
+- Offen bei Alex: yt_market13 (pOQrpecPeRU, privat) Termin-OK; fertige Shorts ys_escobar, ys_hush, ys_blockbuster Upload-OK; ri01 Feedback; Entwurfs-Leiche "846c1dee…" löschen?
