@@ -194,3 +194,8 @@
 ## Lauf 2026-11-06 ~14:30 (Routine, geplant 07:47 UTC)
 - Abgebrochen: Chrome-Erweiterung nicht erreichbar (PC aus/Chrome zu). Keine Analyse, nichts im Studio geändert.
 - Offen bei Alex: yt_market13 (pOQrpecPeRU, privat) Termin-OK; fertige Shorts ys_escobar, ys_hush, ys_blockbuster Upload-OK; ri01 Feedback; Entwurfs-Leiche "846c1dee…" löschen?
+- 2026-11-06 ~15:00: ri02 "Tag 2" fertig (38,7 s, Ø -20,6 dB / max -2,9 dB), Render mg-chunks Run 42236295903, renders/ri02/ri02_final.mp4. An Alex geschickt, wartet auf Feedback.
+  Story (Alex freigegeben): Rückblick Tag 1 (Sepia, "◀◀ RÜCKBLICK") -> Paul (Top-Kommentar) will den Hafen -> 108 Einwohner (3D-Menge ploppt auf) -> 86 Likes = 860 € (Kasse 20 -> 880 €)
+  -> großer Hafen als Hologramm "ZU TEUER!" -> kleiner Steg + Boot (-800 €) -> Maskottchen Benluca (roter Pulli, Partyhut) -> nichts zu essen (Magenknurren) -> Dönermann-Wunsch (Traumblase) -> nur Kokosnuss
+  -> Abstimmung: mit dem Boot fischen ODER Nachbarinseln ausrauben. Neu: SFX growl/hammer, samrig sw/pa/hat-Optionen.
+  Hinweis: Kommentartext von Paul ist nicht wörtlich (TikTok-Kommentare in Chrome nicht gefunden – dort ist ein anderes TikTok-Konto eingeloggt); Karte zeigt "Paul – will den Hafen!".
