@@ -164,7 +164,7 @@ PL.forEach(p => { p.y = iH(p.x, p.z) + .02; p.m = w.mesh(dashed(p.w, p.d, 14), {
 // Echte Zahlen (Alex 06.11.): 108 Follower, 86 Likes auf Tag 1 -> 860 € (+20 € Startkapital)
 const NEINW = 108, KASSE0 = 20, KASSE1 = 880, KOSTEN = 800;
 // Top-Kommentar (Hafen) aus Tag 1 – Text/Name von Alex
-const TOPC_USER = 'COMMENT_USER', TOPC_TEXT = 'COMMENT_TEXT';
+const TOPC_USER = 'Paul', TOPC_TEXT = 'will den Hafen!';
 const SAMC = '#f7e4b5';
 // ---- Bevoelkerung (3D, ~70 Figuren stehen fuer 108 Einwohner) ----
 const SWC = ['#d64545', '#2fa36b', '#e09a2b', '#7a55c7', '#2a8fd6', '#e05d9a', '#3c4a63', '#c7a32f', '#1f9e9e'];
@@ -241,8 +241,8 @@ function camKeys() {
   K.push({ t: Lt(4).end, pos: P(-1, 8, 15.5), at: P(0, .6, -1.5), fov: 50 });
   K.push({ t: Lt(5).start + .45, pos: P(2.1, 2.4, 7.2), at: P(.9, 1.0, 0), fov: 42 });
   K.push({ t: Lt(5).end, pos: P(1.8, 2.2, 6.6), at: P(.9, 1.0, 0), fov: 42 });
-  K.push({ t: Lt(6).start + .55, pos: [-8, 11, 44], at: [5.5, 1.5, 25], fov: 50 });
-  K.push({ t: Lt(6).end, pos: [-6, 9.5, 41], at: [5.5, 1.2, 25], fov: 50 });
+  K.push({ t: Lt(6).start + .55, pos: [-13, 15, 52], at: [5.5, 2, 26], fov: 50 });
+  K.push({ t: Lt(6).end, pos: [-11, 13, 49], at: [5.5, 1.6, 26], fov: 50 });
   K.push({ t: Lt(7).start + .35, pos: [-1.2, 3.6, 31], at: [5.6, .5, 21.5], fov: 46 });
   K.push({ t: Lt(7).end, pos: [.2, 3.2, 30], at: [5.6, .5, 21.5], fov: 46 });
   K.push({ t: Lt(8).start + .5, pos: P(-.7, 2.3, 7.4), at: P(-.6, 1.15, 0), fov: 44 });
@@ -298,7 +298,7 @@ function voteCard(t) {
 function counterCard(t) {
   const t0 = Lt(4).start + .05, t1 = Lt(5).start - .1, s = pop(t, t0) * fade(t, t1, t1 + .25); if (s <= .01) return '';
   let n = 1; crowd.forEach(c => { if (t > crowdT(c)) n++ }); n = Math.min(NEINW, Math.round(1 + (NEINW - 1) * (n - 1) / crowd.length));
-  const done = n >= NEINW, bump = done ? pop(t, crowdT(crowd[crowd.length - 1]), .4) : 1;
+  const tl = crowdT(crowd[crowd.length - 1]), bump = 1 + .25 * Math.sin(Math.PI * cl(t, tl, tl + .4));
   return `<div class="card" style="left:50%;top:300px;transform:translateX(-50%) rotate(2deg) scale(${s});padding:18px 56px 6px;text-align:center">
    <div style="font-size:50px;letter-spacing:2px">EINWOHNER</div><div style="font-size:210px;line-height:1;color:#ff5d5d;text-shadow:0 8px 0 #2328382a;transform:scale(${bump})">${n}</div></div>`;
 }
@@ -330,17 +330,19 @@ const DONER = `<svg viewBox="0 0 120 100" width="250" height="208"><path d="M10,
  <path d="M14,54 Q60,22 106,54 L98,90 Q60,66 22,90 Z" fill="#f2d39e" stroke="${OL}" stroke-width="5" stroke-linejoin="round"/></svg>`;
 const COCO = `<svg viewBox="0 0 100 100" width="190" height="190"><circle cx="50" cy="54" r="38" fill="#6b4426" stroke="${OL}" stroke-width="6"/><circle cx="40" cy="44" r="5" fill="${OL}"/><circle cx="58" cy="42" r="5" fill="${OL}"/><circle cx="50" cy="58" r="5" fill="${OL}"/><path d="M30,36 Q36,28 44,30" stroke="#a8784e" stroke-width="5" fill="none" stroke-linecap="round"/></svg>`;
 function dreamBubble(t) {
-  const t0 = Lt(10).start + .05, tk = wt(10, /kokos/i) - .2, t1 = Lt(11).start - .1;
+  const t0 = Lt(10).start + .05, tk = wt(10, /kokos/i) - .15, t1 = Lt(11).start - .1;
   const s = pop(t, t0, .45) * fade(t, t1, t1 + .2); if (s <= .01) return '';
-  const q = w.project([BL[0] + .1, BL[1] + 2.3, BL[2]]); if (!q.vis) return '';
-  const swap = t > tk, poof = cl(t, tk - .12, tk + .12), inner = swap ? COCO : DONER, sc = swap ? pop(t, tk, .35) : 1 - ez(cl(t, tk - .12, tk));
-  return `<div style="position:absolute;left:${q.x + 40}px;top:${q.y - 120}px;transform:translate(-20%,-100%) scale(${s});transform-origin:0 100%">
-   <div style="position:absolute;left:-30px;bottom:-60px;width:44px;height:44px;border-radius:50%;background:#fff;border:6px solid ${OL}"></div>
-   <div style="position:absolute;left:10px;bottom:-14px;width:70px;height:70px;border-radius:50%;background:#fff;border:6px solid ${OL}"></div>
-   <div style="position:relative;width:440px;height:330px;border-radius:50%;background:#fff;border:7px solid ${OL};box-shadow:0 12px 0 #2328384d;display:flex;flex-direction:column;align-items:center;justify-content:center">
-    <div style="transform:scale(${Math.max(.01, sc)}) rotate(${Math.sin(t * 4) * 4}deg)">${inner}</div>
-    <div style="font:900 50px IB,Arial;color:${swap ? '#8a5428' : '#ff5d5d'};margin-top:-6px">${swap ? 'NUR DAS…' : 'DÖNERMANN?'}</div>
-    ${poof > 0 && poof < 1 ? `<div style="position:absolute;inset:40px;border-radius:50%;border:16px solid #ffd166;transform:scale(${.6 + .8 * poof});opacity:${1 - poof}"></div>` : ''}
+  const q = w.project([BL[0], BL[1] + 1.9, BL[2]]);
+  const swap = t > tk, poof = cl(t, tk - .1, tk + .3);
+  const sc = swap ? pop(t, tk, .35) : 1 - ez(cl(t, tk - .15, tk));
+  const inner = (swap ? COCO : DONER).replace(/width="\d+" height="\d+"/, swap ? 'width="230" height="230"' : 'width="290" height="242"');
+  const tail = q.vis ? [0, 1, 2].map(i => { const u = .25 + i * .25, x = lerp(400, q.x, u), y = lerp(780, q.y - 40, u), r = 46 - i * 12;
+    return `<div style="position:absolute;left:${x - r / 2}px;top:${y - r / 2}px;width:${r}px;height:${r}px;border-radius:50%;background:#fff;border:6px solid ${OL};transform:scale(${pop(t, t0 + .05 * i, .3) * fade(t, t1, t1 + .2)})"></div>` }).join('') : '';
+  return tail + `<div style="position:absolute;left:540px;top:520px;transform:translate(-50%,-50%) scale(${s}) rotate(${Math.sin(t * 2) * 1.5}deg)">
+   <div style="position:relative;width:640px;height:470px;border-radius:50%;background:#fff;border:8px solid ${OL};box-shadow:0 14px 0 #2328384d;display:flex;flex-direction:column;align-items:center;justify-content:center">
+    <div style="height:290px;display:flex;align-items:center;transform:scale(${Math.max(.01, sc)}) rotate(${Math.sin(t * 4) * 4}deg)">${inner}</div>
+    <div style="font:900 64px IB,Arial;color:${swap ? '#8a5428' : '#ff5d5d'};text-shadow:0 4px 0 #2328381a">${swap ? 'NUR DAS…' : 'DÖNERMANN?'}</div>
+    ${poof > 0 && poof < 1 ? `<div style="position:absolute;inset:60px;border-radius:50%;border:18px solid #ffd166;transform:scale(${.5 + .9 * poof});opacity:${1 - poof}"></div>` : ''}
    </div></div>`;
 }
 const iconFish = `<svg viewBox="0 0 100 100" width="180" height="180"><path d="M18,18 Q40,10 52,40" stroke="${OL}" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M52,40 L52,52" stroke="${OL}" stroke-width="2"/>
@@ -349,10 +351,10 @@ const iconRaid = `<svg viewBox="0 0 100 100" width="180" height="180"><path d="M
  <path d="M52,14 L84,22 L84,52 L52,58 Z" fill="#232838" stroke="${OL}" stroke-width="4" stroke-linejoin="round"/><circle cx="68" cy="32" r="8" fill="#fff"/><path d="M60,46 L76,40 M60,40 L76,46" stroke="#fff" stroke-width="4" stroke-linecap="round"/></svg>`;
 function choiceCards(t) {
   const ta = wt(11, /fischen/i) - .15, tb = wt(11, /ausrauben|nachbar/i) - .15, t1 = Lt(12).start - .1, out = fade(t, t1, t1 + .25);
-  const card = (x, rot, s, ic, lab, sub, bg) => s <= .01 ? '' : `<div class="card" style="left:${x}px;top:290px;width:420px;height:450px;transform:translateX(-50%) rotate(${rot}deg) scale(${s * out});text-align:center;background:${bg}">${ic}<div style="font-size:58px;margin-top:2px">${lab}</div><div style="font:700 34px P,Arial;color:#6b7280">${sub}</div></div>`;
+  const card = (x, rot, s, ic, lab, sub, bg) => s <= .01 ? '' : `<div class="card" style="left:${x}px;top:290px;width:440px;height:450px;transform:translateX(-50%) rotate(${rot}deg) scale(${s * out});text-align:center;background:${bg}">${ic}<div style="font-size:52px;margin-top:2px">${lab}</div><div style="font:700 34px P,Arial;color:#6b7280">${sub}</div></div>`;
   const wob = Math.sin(t * 3) * 2;
-  return card(295, -6 + wob, pop(t, ta), iconFish, 'FISCHEN?', 'mit dem Boot', '#fff') + card(785, 6 - wob, pop(t, tb), iconRaid, 'AUSRAUBEN?', 'die Nachbarinseln', '#fff') +
-    (t > tb + .25 ? `<div class="lbl" style="left:540px;top:500px;transform:translate(-50%,-50%) scale(${pop(t, tb + .25)});font-size:90px;color:#ff5d5d;text-shadow:${shadowTxt(OL, 6)}">ODER</div>` : '');
+  return card(285, -6 + wob, pop(t, ta), iconFish, 'FISCHEN?', 'mit dem Boot', '#fff') + card(795, 6 - wob, pop(t, tb), iconRaid, 'AUSRAUBEN?', 'die Nachbarinseln', '#fff') +
+    (t > tb + .25 ? `<div class="lbl" style="left:540px;top:830px;transform:translate(-50%,-50%) scale(${pop(t, tb + .25) * out});font-size:96px;color:#ff5d5d;text-shadow:${shadowTxt(OL, 6)}">ODER</div>` : '');
 }
 function commentCard(t) {
   const t0 = Lt(12).start + .05, s = pop(t, t0, .45); if (s <= .01) return '';
@@ -458,7 +460,7 @@ window.draw = function (t) {
   $('cv').style.filter = R ? 'sepia(.45) saturate(.75) contrast(1.04) brightness(1.03)' : 'none';
   // ---- Overlays ----
   let ov = charLayer(t);
-  ov += labelAt([PX, DY + 1.2, PZ1 - .6], `<div class="pill" style="position:relative;font-size:52px;color:#fff;background:#2a8fd6;text-shadow:${shadowTxt(OL, 3)}">⚓ UNSER HAFEN</div>`, t, wt(7, /boot/i) + .1, Lt(8).start - .3, { k: 1 });
+  ov += labelAt([PX, DY + 1.2, PZ1 - .6], `<div class="pill" style="position:relative;font-size:52px;color:#fff;background:#2a8fd6;text-shadow:${shadowTxt(OL, 3)}">⚓ UNSER HAFEN</div>`, t, wt(7, /boot/i) + .1, Lt(8).start - .3, { k: 1.5 });
   $('ov').innerHTML = ov;
   // Flash bei Rueckblick-Start und -Ende
   const f1 = cl(t, Lt(1).start - .1, Lt(1).start + .25), f2 = cl(t, Lt(4).start - .1, Lt(4).start + .25);
