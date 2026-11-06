@@ -210,3 +210,4 @@
 - Länder 28 T: ID 14,1 % (Ø 0:20), DE 14,0 % (0:19), US 11,5 % (0:24), IN 4,5 %, PH 4,3 %, UK 2,6 %, CA 1,7 %, PL 1,2 %.
 - Erkenntnis: Milch-Short hat zwar weniger Reichweite, aber die höchste Bindung (85–89 %) -> kurze, klare Frage-Hooks ("Why is X always Y?") halten Zuschauer; Reichweite kommt bisher trotzdem nur bei Drama + bekanntem Objekt.
 - Keine Korrekturen, nichts im Studio geändert. Keine neuen Ideen (Rückstau: ys_escobar, ys_hush, ys_blockbuster, yt_market13 privat, ri01/ri02). Entwurfs-Leiche "846c1dee…" weiter offen.
+- 2026-11-06 ~16:30: ri02 v3 final (Alex: 'fast perfekt', Musik minimal leiser): music gain 0.13 -> 0.11 (~2 dB leiser in Sprechpausen), 44,8 s, Run 42250660397. An Alex geschickt. Für weitere Folgen: gain 0.11 als Standard.
