@@ -1,6 +1,6 @@
 name: Blender-Animation in Teilen (20 Runner)
 
-# mg/blender_chunks_queue.txt: "<ordner>/<skript.py> <name> <anzahl_frames> [extra args]"
+# mg/blender_chunks_queue.txt: "<ordner>/<skript.py> <name> <anzahl_frames> [startframe] [extra args]"
 # Jeder Runner rendert 1/20 der Frames (Cycles CPU), kodiert sie zu einem Teil-MP4; der letzte Job fuegt alles zusammen
 # und legt renders/<name>/<name>_silent.mp4 im Branch "renders" ab.
 on:
@@ -39,9 +39,9 @@ jobs:
       - name: Frames rendern
         run: |
           L=$(grep -v '^#' mg/blender_chunks_queue.txt | awk 'NF{print; exit}')
-          S=$(echo $L | awk '{print $1}'); NAME=$(echo $L | awk '{print $2}'); TOT=$(echo $L | awk '{print $3}'); EX=$(echo $L | cut -d' ' -f4-)
-          [ "$EX" = "$L" ] && EX=""
-          K=${{ matrix.k }}; A=$(( K * TOT / N )); B=$(( (K + 1) * TOT / N - 1 ))
+          S=$(echo $L | awk '{print $1}'); NAME=$(echo $L | awk '{print $2}'); TOT=$(echo $L | awk '{print $3}'); ST=$(echo $L | awk '{print $4}'); EX=$(echo $L | cut -d' ' -f5-)
+          [ -z "$ST" ] && ST=0; [ "$EX" = "$L" ] && EX=""
+          K=${{ matrix.k }}; A=$(( ST + K * (TOT - ST) / N )); B=$(( ST + (K + 1) * (TOT - ST) / N - 1 ))
           echo "NAME=$NAME" >> $GITHUB_ENV
           mkdir -p fr
           ./bl/blender -b --factory-startup -P "mg/$S" -- "$PWD/fr" frames=$A-$B $EX 2>&1 | grep -E "STILL|FRAMES|CUTS|Error|Traceback|Saved" | tail -40

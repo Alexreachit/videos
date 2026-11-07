@@ -2,6 +2,6 @@ Nebelstein. Eine Stadt, in der sich der Nebel niemals lichtet. <break time="1.2s
 Letzte Nacht, um genau dreizehn Minuten nach Mitternacht, blieben alle Uhren der Stadt gleichzeitig stehen. <break time="1.2s" />
 Und im Laden des alten Uhrmachers fand man ihn. Tot. Die Tür war von innen verschlossen. <break time="1.2s" />
 Kommissar Theo übernimmt den Fall. Doch seine Laterne flackert. Und das tut sie nur, wenn jemand lügt. <break time="1.2s" />
-Der Täter lebt noch hier, in Nebelstein. Und vielleicht … bist du es. <break time="1.2s" />
-Folge dem Kanal und schreib „Ich bin dabei“ in die Kommentare. Dann ziehst du nach Nebelstein. Als Bewohner. Und als Verdächtiger. <break time="1.2s" />
-Jetzt entscheidest du: Was untersucht Theo zuerst? Die stehengebliebene Uhr, den Raben am Fenster, oder den Schlüssel? Der Kommentar mit den meisten Likes entscheidet.
+Der Täter lebt noch hier, in Nebelstein. Und vielleicht bist du es. <break time="1.0s" />
+Folge dem Kanal, und du ziehst nach Nebelstein. Vielleicht wirst du Theos Assistent. Vielleicht die Witwe des Uhrmachers. Oder der nächste Verdächtige. <break time="1.0s" />
+Und in den Kommentaren entscheidest du, was als Nächstes passiert. Untersucht Theo die stehengebliebene Uhr, den Raben am Fenster, oder den Schlüssel? Der Kommentar mit den meisten Likes entscheidet.

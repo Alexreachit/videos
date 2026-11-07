@@ -40,7 +40,7 @@ ass = ["[Script Info]", "ScriptType: v4.00+", "PlayResX: 1080", "PlayResY: 1920"
        "Style: Title,Cinzel Decorative Black,118,&H006BD8FF,&H00FFFFFF,&H00241612,&H64000000,0,0,0,0,100,100,4,0,1,6,6,8,40,40,330,1",
        "Style: Sub,Lilita One,64,&H00FFFFFF,&H00FFFFFF,&H00241612,&H64000000,0,0,0,0,100,100,3,0,1,5,3,8,40,40,470,1",
        "Style: Box,Lilita One,62,&H00FFFFFF,&H00FFFFFF,&H00382218,&HD0382218,0,0,0,0,100,100,1,0,3,18,0,7,0,0,0,1",
-       "Style: Big,Lilita One,96,&H006BD8FF,&H00FFFFFF,&H00241612,&H64000000,0,0,0,0,100,100,2,0,1,7,4,8,40,40,300,1",
+       "Style: Big,Lilita One,84,&H006BD8FF,&H00FFFFFF,&H00241612,&H64000000,0,0,0,0,100,100,2,0,1,7,4,8,40,40,300,1",
        "", "[Events]", "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text"]
 def ev(a, b, style, txt, layer=0): ass.append(f"Dialogue: {layer},{ts(a)},{ts(b)},{style},,0,0,0,,{txt}")
 GOLD = r"{\c&H6BD8FF&}"; WH = r"{\c&HFFFFFF&}"
@@ -70,17 +70,18 @@ stop_t = (int(round(segt(1, .72) * FPS))) / FPS
 ev(stop_t, SEG[1]["end"] + .3, "Big", r"{\fad(80,300)\an8\pos(540,250)\t(0,120,\fscx115\fscy115)\t(120,260,\fscx100\fscy100)}00:13", 3)
 # Laterne / Luege
 ev(segt(3, .62), SEG[3]["end"] + .2, "Box", r"{\an5\pos(540,330)\fad(150,200)}  LATERNE FLACKERT = LÜGE  ", 3)
-# Mitmachen
+# Mitmachen: Folgen reicht -> Rolle in Nebelstein
 c0 = SEG[5]["start"]
-ev(c0 + .1, SEG[5]["end"] + .4, "Box", r"{\an5\pos(540,300)\fad(200,200)\t(0,150,\fscx110\fscy110)\t(150,300,\fscx100\fscy100)}  1. FOLGEN  ", 3)
-ev(segt(5, .22), SEG[5]["end"] + .4, "Box", r"{\an5\pos(540,420)\fad(200,200)}  2. KOMMENTIERE: »ICH BIN DABEI«  ", 3)
-ev(segt(5, .55), SEG[5]["end"] + .4, "Sub", r"{\an5\pos(540,540)\fad(200,200)}= DU WOHNST IN NEBELSTEIN", 3)
-# Abstimmung
+ev(c0 + .1, SEG[5]["end"] + .4, "Box", r"{\an5\pos(540,290)\fad(200,200)\t(0,150,\fscx110\fscy110)\t(150,300,\fscx100\fscy100)}  FOLGEN = DU ZIEHST NACH NEBELSTEIN  ", 3)
+for k, (lab, frac) in enumerate((("THEOS ASSISTENT?", .40), ("DIE WITWE DES UHRMACHERS?", .59), ("DER NÄCHSTE VERDÄCHTIGE?", .83))):
+    ev(segt(5, frac), SEG[5]["end"] + .4, "Sub", r"{\an5\pos(540," + str(420 + k * 90) + r")\fad(150,200)\t(0,120,\fscx112\fscy112)\t(120,240,\fscx100\fscy100)}" + lab, 3)
+# Abstimmung in den Kommentaren
 v0 = SEG[6]["start"]
-ev(v0 + .1, DUR, "Big", r"{\fad(200,0)\an8\pos(540,190)}WAS ZUERST?", 3)
-for k, (lab, frac) in enumerate((("A  ·  DIE UHR", .30), ("B  ·  DER RABE", .42), ("C  ·  DER SCHLÜSSEL", .58))):
-    ev(segt(6, frac), DUR, "Box", r"{\an5\pos(540," + str(360 + k * 120) + r")\fad(150,0)\t(0,120,\fscx112\fscy112)\t(120,240,\fscx100\fscy100)}  " + lab + "  ", 3)
-ev(segt(6, .80), DUR, "Sub", r"{\an5\pos(540,760)\fad(200,0)}SCHREIB A, B ODER C!", 3)
+ev(v0 + .1, DUR, "Big", r"{\fad(200,0)\an8\pos(540,190)}WAS PASSIERT ALS NÄCHSTES?", 3)
+VOTE = ((("A  ·  DIE UHR", .50), ("B  ·  DER RABE", .58), ("C  ·  DER SCHLÜSSEL", .69)))
+for k, (lab, frac) in enumerate(VOTE):
+    ev(segt(6, frac), DUR, "Box", r"{\an5\pos(540," + str(380 + k * 120) + r")\fad(150,0)\t(0,120,\fscx112\fscy112)\t(120,240,\fscx100\fscy100)}  " + lab + "  ", 3)
+ev(segt(6, .78), DUR, "Sub", r"{\an5\pos(540,780)\fad(200,0)}KOMMENTIERE A, B ODER C!", 3)
 open(os.path.join(HERE, "ep01.ass"), "w", encoding="utf-8").write("\n".join(ass) + "\n")
 
 # ---------------------------------------------------------------- Musik (eigene Komposition, d-Moll, mysterioes)
@@ -152,8 +153,8 @@ b0 = CUT[1] / FPS
 for tt in np.arange(b0, stop_t, .5): add(tick(), tt, .5)
 add(tick(1800), stop_t, .9)
 add(crackle(SEG[3]["end"] - segt(3, .36)), segt(3, .36), .25)
-add(shimmer(), segt(4, .55), .35)
-for frac in (.30, .42, .58): add(ding(), segt(6, frac), .25)
+add(shimmer(), segt(4, .70), .35)
+for frac in (.50, .58, .69): add(ding(), segt(6, frac), .25)
 add(tick(2200), SEG[2]["start"] + .2, .0)
 
 mix = VOICE * 1.0 + mus * .32 + sfx * .5

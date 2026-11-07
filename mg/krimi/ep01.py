@@ -132,8 +132,8 @@ RES = []
 for i, (x, y, c, hk) in enumerate([(-1.6, 24, "#7a5cc4", 0), (-.6, 25.2, "#3f8f6a", 1), (.5, 24.4, "#c25a4a", 2), (1.5, 25.4, "#3e6aa8", 3), (2.4, 24.2, "#a8743e", 0)]):
     RES.append(L.build_resident((x, y, 0), coat=c, hatkind=hk, rotz=0, dark=True))
 SIGN = []
-for i, (x, y, c, hk, rz) in enumerate([(-1.7, 31, "#7a5cc4", 0, .35), (-.6, 30.2, "#3f8f6a", 1, .15), (.6, 30.4, "#c25a4a", 2, -.1), (1.7, 31.2, "#3e6aa8", 3, -.35)]):
-    SIGN.append(L.build_resident((x, y, 0), coat=c, hatkind=hk, rotz=rz, sign="DEIN NAME?"))
+for i, (x, y, c, hk, rz, sg) in enumerate([(-1.7, 31, "#7a5cc4", 0, .35, "ASSISTENT?"), (-.6, 30.2, "#3f8f6a", 1, .15, "NACHBAR?"), (.6, 30.4, "#c25a4a", 3, -.1, "WITWE?"), (1.7, 31.2, "#3e6aa8", 2, -.35, "VERDÄCHTIG?")]):
+    SIGN.append(L.build_resident((x, y, 0), coat=c, hatkind=hk, rotz=rz, sign=sg))
 
 def arealight(name, pos, tgt, energy, size, col):
     l = bpy.data.lights.new(name, "AREA"); l.energy = energy; l.size = size; l.color = col
@@ -224,27 +224,29 @@ for lid in TH["lids"]:
 # 5 Silhouetten im Nebel, Augen leuchten auf
 c5 = camera("c5", 32); e0, e1 = CUT[4], CUT[5]
 look(c5, 0, (.4, 17.5, 1.3), (.4, 25, 1.0), e0); look(c5, 0, (.5, 21.4, 1.2), (.5, 24.4, 1.15), e1); shot(4, c5); mist(e0, 1.5, 14)
-eyes_on = segf(4, .55)
+eyes_on = segf(4, .70)
 for k, r in enumerate(RES):
     for ey in r["eyes"]:
         kf(ey, "scale", e0, Vector((0.001, .001, .001))); kf(ey, "scale", eyes_on + k * 2, Vector((0.001, .001, .001))); kf(ey, "scale", eyes_on + k * 2 + 4, Vector((1, .5, 1)))
 # 6 Platz: Bewohner mit Schildern "DEIN NAME?" – Kamera kreist
-c6 = camera("c6", 22); g0, g1 = CUT[5], CUT[6]
-for k in range(5):
-    t = k / 4; ang = math.radians(-25 + 50 * t)
-    look(c6, 0, (math.sin(ang) * 5.2, 30.8 - math.cos(ang) * 5.2, 1.6 - .2 * t), (0, 30.8, .95), g0 + int((g1 - g0) * t))
+c6 = camera("c6", 28); g0, g1 = CUT[5], CUT[6]
+# Kamera zeigt nacheinander die Rollen: Assistent -> Witwe -> Verdaechtig
+look(c6, 0, (0, 25.4, 1.7), (0, 30.8, .95), g0)
+look(c6, 0, (0, 26.2, 1.6), (0, 30.8, .95), segf(5, .30))
+for frac, (rx, ry) in ((.40, (-1.7, 31)), (.52, (-1.7, 31)), (.59, (.6, 30.4)), (.74, (.6, 30.4)), (.83, (1.7, 31.2)), (1.0, (1.7, 31.2))):
+    look(c6, 0, (rx * .55, ry - 3.2, 1.3), (rx, ry, .95), segf(5, frac) if frac < 1 else g1)
 shot(5, c6); mist(g0, 6, 30)
 for k, r in enumerate(SIGN):
     for fr in range(g0, g1 + 1, 6): kf(r["root"], "location", fr, Vector((r["root"].location.x, r["root"].location.y, abs(math.sin((fr - g0) / FPS * 5 + k)) * .06)))
 # 7 Hinweise: Taschenuhr -> Rabe -> Schluessel -> Totale
 c7 = camera("c7", 35); h0, h1 = CUT[6], CUT[7]
 look(c7, 0, PW + Vector((.0, -.9, .5)), PW, h0)
-look(c7, 0, PW + Vector((.05, -.75, .4)), PW, segf(6, .30))
-look(c7, 0, WN + Vector((2.6, -.9, .1)), RAV.location + Vector((0, 0, .35)), segf(6, .40))
-look(c7, 0, WN + Vector((2.35, -.75, .05)), RAV.location + Vector((0, 0, .35)), segf(6, .52))
-look(c7, 0, KEY + Vector((-1.1, -.6, .15)), KEY, segf(6, .60))
-look(c7, 0, KEY + Vector((-1.0, -.45, .1)), KEY, segf(6, .72))
-look(c7, 0, R0 + Vector((.2, -3.0, 2.3)), R0 + Vector((-.4, 1.2, 1.0)), segf(6, .82))
+look(c7, 0, PW + Vector((.05, -.75, .4)), PW, segf(6, .50))
+look(c7, 0, WN + Vector((2.6, -.9, .1)), RAV.location + Vector((0, 0, .35)), segf(6, .55))
+look(c7, 0, WN + Vector((2.35, -.75, .05)), RAV.location + Vector((0, 0, .35)), segf(6, .64))
+look(c7, 0, KEY + Vector((-1.1, -.6, .15)), KEY, segf(6, .69))
+look(c7, 0, KEY + Vector((-1.0, -.45, .1)), KEY, segf(6, .77))
+look(c7, 0, R0 + Vector((.2, -3.0, 2.3)), R0 + Vector((-.4, 1.2, 1.0)), segf(6, .85))
 look(c7, 0, R0 + Vector((.2, -3.3, 2.4)), R0 + Vector((-.4, 1.2, 1.0)), h1)
 shot(6, c7); mist(h0, 30, 200)
 for c in cams:
@@ -260,7 +262,7 @@ def vis(root, frame, hidden):
         o.hide_render = hidden; o.keyframe_insert("hide_render", frame=frame)
 for r in SIGN: vis(r["root"], 0, True); vis(r["root"], g0, False)
 # Rabe dreht den Kopf
-kf(RAV, "rotation_euler", h0, -math.pi / 2, 2); kf(RAV, "rotation_euler", segf(6, .45), -math.pi / 2 + .5, 2)
+kf(RAV, "rotation_euler", h0, -math.pi / 2, 2); kf(RAV, "rotation_euler", segf(6, .60), -math.pi / 2 + .5, 2)
 
 # ===================================================== RENDER
 S.render.engine = 'CYCLES'; S.cycles.device = 'CPU'
