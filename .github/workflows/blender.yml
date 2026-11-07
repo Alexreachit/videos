@@ -27,10 +27,10 @@ jobs:
           ./bl/blender --version | head -1
       - name: Skript ausfuehren
         run: |
-          S=$(grep -v '^#' mg/blender_queue.txt | awk 'NF{print $1; exit}')
+          S=$(grep -v '^#' mg/blender_queue.txt | awk 'NF{print $1; exit}'); A=$(grep -v '^#' mg/blender_queue.txt | awk 'NF{$1=""; print; exit}')
           D=$(dirname "$S"); export OUT="$PWD/out/$(basename $D)"; mkdir -p "$OUT"
           echo "D=$(basename $D)" >> $GITHUB_ENV
-          ./bl/blender -b --factory-startup -P "mg/$S" -- "$OUT" 2>&1 | tee "$OUT/blender.log" | grep -v "^Fra:" | tail -200
+          ./bl/blender -b --factory-startup -P "mg/$S" -- "$OUT" $A 2>&1 | tee "$OUT/blender.log" | grep -v "^Fra:" | tail -200
       - name: In Branch renders ablegen
         run: |
           git config --global user.name "mg-bot"; git config --global user.email "mg-bot@users.noreply.github.com"
