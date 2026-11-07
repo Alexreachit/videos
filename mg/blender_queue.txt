@@ -1,2 +1,2 @@
-krimi/char_theo.py preview
-# 1794016851
+krimi/char_theo.py
+# 1794017130

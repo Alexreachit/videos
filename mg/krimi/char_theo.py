@@ -90,7 +90,7 @@ def meta(name, m, elems, res=.012):
     o.parent = ROOT; return o
 
 SKIN = mat("skin", "#f6c7a1", .42, sss=.18)
-COAT = mat("coat", "#e0a43a", .62, sheen=.35)
+COAT = mat("coat", "#e6992a", .62, sheen=.35)
 COATD = mat("coatd", "#b77a1e", .55, sheen=.25)
 SCARF = mat("scarf", "#16838d", .7, sheen=.5)
 HAT = mat("hat", "#33384a", .6, sheen=.45)
@@ -134,7 +134,8 @@ for sx in (-1, 1):
 tube([Vector((-.03, -.165, .99)), Vector((-.07, -.17, .86)), Vector((-.05, -.19, .70))], .012, COATD)  # Mantelkante
 # Hochgeklappter Kragen + Schal
 torus((0, 0, 1.03), .145, .045, COATD, scl=(1, .88, 1.15))
-torus((0, 0, 1.08), .13, .055, SCARF, scl=(1, .9, 1))
+torus((0, 0, 1.075), .135, .068, SCARF, scl=(1, .9, 1))
+sphere((.05, -.165, 1.04), .055, (1, .7, .9), SCARF, seg=32)
 meta("ScarfEnd", SCARF, [('CAPSULE', (.07, -.16, 1.03), (.09, -.2, .83), .045)])
 # Haende (rundliche Cartoon-Haende)
 sphere(WR_L, .062, (.95, .9, 1.1), SKIN); sphere((WR_L[0] + .035, WR_L[1] - .03, WR_L[2] + .01), .025, (1, 1, 1), SKIN, seg=24)
@@ -169,7 +170,7 @@ for sx in (-1, 1):
     tube([b + Vector((-sx * .048, 0, -.004 + (.014 if sx > 0 else 0))), b, b + Vector((sx * .048, .008, (.014 if sx < 0 else -.004)))], .015, BROW)
     sphere(onhead(sx * .175, HZ - .075, -.004), .036, (1, .28, .68), BLUSH, seg=24)
 sphere(onhead(0, HZ - .05, .012), .038, (1, .9, .85), SKIN, seg=32)          # Nase
-tube([onhead(-.058, HZ - .135, .004), onhead(.004, HZ - .148, .006), onhead(.062, HZ - .122, .004)], .009, MOUTH)
+tube([onhead(-.058, HZ - .135, .004), onhead(.004, HZ - .148, .006), onhead(.062, HZ - .122, .004)], .012, MOUTH)
 # Haare: eine weiche Masse + Strähnen vorne
 hair = [('ELLIPSOID', (0, .05, HZ + .07), .3, (1.04, 1.0, .82))]
 for i, x in enumerate([-.19, -.11, -.02, .07, .16, .22]):
@@ -197,7 +198,7 @@ area("fill", Vector((3.0, -2.6, 1.6)), 3.5, 120, (.85, .92, 1))
 area("rim", Vector((1.8, 2.6, 2.8)), 2, 500, (.75, .9, 1), Vector((0, 0, 1.2)))
 area("rim2", Vector((-2.2, 2.2, 2.0)), 2, 220, (1, .9, .8), Vector((0, 0, 1.0)))
 cam = bpy.data.cameras.new("cam"); co = bpy.data.objects.new("cam", cam); sc.collection.objects.link(co); sc.camera = co
-sc.render.engine = 'CYCLES'; sc.cycles.device = 'CPU'; sc.cycles.samples = 48 if PREVIEW else 160; sc.cycles.use_denoising = True
+sc.render.engine = 'CYCLES'; sc.cycles.device = 'CPU'; sc.cycles.samples = 48 if PREVIEW else 110; sc.cycles.use_denoising = True
 try: sc.cycles.denoiser = 'OPENIMAGEDENOISE'
 except Exception: pass
 sc.render.film_transparent = True
