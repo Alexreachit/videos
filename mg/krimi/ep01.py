@@ -229,7 +229,7 @@ for k, r in enumerate(RES):
     for ey in r["eyes"]:
         kf(ey, "scale", e0, Vector((0.001, .001, .001))); kf(ey, "scale", eyes_on + k * 2, Vector((0.001, .001, .001))); kf(ey, "scale", eyes_on + k * 2 + 4, Vector((1, .5, 1)))
 # 6 Platz: Bewohner mit Schildern "DEIN NAME?" – Kamera kreist
-c6 = camera("c6", 30); g0, g1 = CUT[5], CUT[6]
+c6 = camera("c6", 22); g0, g1 = CUT[5], CUT[6]
 for k in range(5):
     t = k / 4; ang = math.radians(-25 + 50 * t)
     look(c6, 0, (math.sin(ang) * 5.2, 30.8 - math.cos(ang) * 5.2, 1.6 - .2 * t), (0, 30.8, .95), g0 + int((g1 - g0) * t))
@@ -240,8 +240,8 @@ for k, r in enumerate(SIGN):
 c7 = camera("c7", 35); h0, h1 = CUT[6], CUT[7]
 look(c7, 0, PW + Vector((.0, -.9, .5)), PW, h0)
 look(c7, 0, PW + Vector((.05, -.75, .4)), PW, segf(6, .30))
-look(c7, 0, WN + Vector((1.7, -.6, -.2)), RAV.location + Vector((0, 0, .3)), segf(6, .40))
-look(c7, 0, WN + Vector((1.5, -.5, -.25)), RAV.location + Vector((0, 0, .3)), segf(6, .52))
+look(c7, 0, WN + Vector((2.6, -.9, .1)), RAV.location + Vector((0, 0, .35)), segf(6, .40))
+look(c7, 0, WN + Vector((2.35, -.75, .05)), RAV.location + Vector((0, 0, .35)), segf(6, .52))
 look(c7, 0, KEY + Vector((-1.1, -.6, .15)), KEY, segf(6, .60))
 look(c7, 0, KEY + Vector((-1.0, -.45, .1)), KEY, segf(6, .72))
 look(c7, 0, R0 + Vector((.2, -3.0, 2.3)), R0 + Vector((-.4, 1.2, 1.0)), segf(6, .82))
@@ -254,12 +254,17 @@ for c in cams:
                 if kp.interpolation != 'BACK': kp.interpolation = 'BEZIER'; kp.handle_left_type = kp.handle_right_type = 'AUTO_CLAMPED'
 for fc in W.animation_data.action.fcurves:
     for kp in fc.keyframe_points: kp.interpolation = 'CONSTANT'
+# Sichtbarkeit: Schilder-Bewohner erst ab Shot 6
+def vis(root, frame, hidden):
+    for o in [root] + list(root.children_recursive):
+        o.hide_render = hidden; o.keyframe_insert("hide_render", frame=frame)
+for r in SIGN: vis(r["root"], 0, True); vis(r["root"], g0, False)
 # Rabe dreht den Kopf
 kf(RAV, "rotation_euler", h0, -math.pi / 2, 2); kf(RAV, "rotation_euler", segf(6, .45), -math.pi / 2 + .5, 2)
 
 # ===================================================== RENDER
 S.render.engine = 'CYCLES'; S.cycles.device = 'CPU'
-S.cycles.samples = int(OPT.get("samples", 28)); S.cycles.use_denoising = True
+S.cycles.samples = int(OPT.get("samples", 14)); S.cycles.use_denoising = True; S.cycles.adaptive_threshold = .05
 try: S.cycles.denoiser = 'OPENIMAGEDENOISE'
 except Exception: pass
 S.cycles.max_bounces = 4; S.cycles.diffuse_bounces = 2; S.cycles.glossy_bounces = 2; S.cycles.transmission_bounces = 2; S.cycles.caustics_reflective = False; S.cycles.caustics_refractive = False
