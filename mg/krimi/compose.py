@@ -38,7 +38,7 @@ ass = ["[Script Info]", "ScriptType: v4.00+", "PlayResX: 1080", "PlayResY: 1920"
        "[V4+ Styles]", "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding",
        "Style: Cap,Lilita One,84,&H00FFFFFF,&H00FFFFFF,&H00301A14,&H96000000,0,0,0,0,100,100,1,0,1,7,4,2,60,60,560,1",
        "Style: Title,Cinzel Decorative Black,118,&H006BD8FF,&H00FFFFFF,&H00241612,&H64000000,0,0,0,0,100,100,4,0,1,6,6,8,40,40,330,1",
-       "Style: Sub,Lilita One,58,&H00FFFFFF,&H00FFFFFF,&H00241612,&H64000000,0,0,0,0,100,100,3,0,1,5,3,8,40,40,470,1",
+       "Style: Sub,Lilita One,64,&H00FFFFFF,&H00FFFFFF,&H00241612,&H64000000,0,0,0,0,100,100,3,0,1,5,3,8,40,40,470,1",
        "Style: Box,Lilita One,62,&H00FFFFFF,&H00FFFFFF,&H00382218,&HD0382218,0,0,0,0,100,100,1,0,3,18,0,7,0,0,0,1",
        "Style: Big,Lilita One,96,&H006BD8FF,&H00FFFFFF,&H00241612,&H64000000,0,0,0,0,100,100,2,0,1,7,4,8,40,40,300,1",
        "", "[Events]", "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text"]
@@ -80,7 +80,7 @@ v0 = SEG[6]["start"]
 ev(v0 + .1, DUR, "Big", r"{\fad(200,0)\an8\pos(540,190)}WAS ZUERST?", 3)
 for k, (lab, frac) in enumerate((("A  ·  DIE UHR", .30), ("B  ·  DER RABE", .42), ("C  ·  DER SCHLÜSSEL", .58))):
     ev(segt(6, frac), DUR, "Box", r"{\an5\pos(540," + str(360 + k * 120) + r")\fad(150,0)\t(0,120,\fscx112\fscy112)\t(120,240,\fscx100\fscy100)}  " + lab + "  ", 3)
-ev(segt(6, .80), DUR, "Sub", r"{\an5\pos(540,760)\fad(200,0)}SCHREIB A, B ODER C IN DIE KOMMENTARE", 3)
+ev(segt(6, .80), DUR, "Sub", r"{\an5\pos(540,760)\fad(200,0)}SCHREIB A, B ODER C!", 3)
 open(os.path.join(HERE, "ep01.ass"), "w", encoding="utf-8").write("\n".join(ass) + "\n")
 
 # ---------------------------------------------------------------- Musik (eigene Komposition, d-Moll, mysterioes)

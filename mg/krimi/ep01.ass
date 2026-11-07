@@ -1,0 +1,134 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1080
+PlayResY: 1920
+WrapStyle: 2
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Cap,Lilita One,84,&H00FFFFFF,&H00FFFFFF,&H00301A14,&H96000000,0,0,0,0,100,100,1,0,1,7,4,2,60,60,560,1
+Style: Title,Cinzel Decorative Black,118,&H006BD8FF,&H00FFFFFF,&H00241612,&H64000000,0,0,0,0,100,100,4,0,1,6,6,8,40,40,330,1
+Style: Sub,Lilita One,64,&H00FFFFFF,&H00FFFFFF,&H00241612,&H64000000,0,0,0,0,100,100,3,0,1,5,3,8,40,40,470,1
+Style: Box,Lilita One,62,&H00FFFFFF,&H00FFFFFF,&H00382218,&HD0382218,0,0,0,0,100,100,1,0,3,18,0,7,0,0,0,1
+Style: Big,Lilita One,96,&H006BD8FF,&H00FFFFFF,&H00241612,&H64000000,0,0,0,0,100,100,2,0,1,7,4,8,40,40,300,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:05.07,0:00:05.47,Cap,,0,0,0,,{\t(0,90,\fscx106\fscy106)\t(90,180,\fscx100\fscy100)}{\c&H6BD8FF&}{\fscx108\fscy108}LETZTE{\fscx100\fscy100}{\c&HFFFFFF&} NACHT, UM
+Dialogue: 0,0:00:05.47,0:00:05.87,Cap,,0,0,0,,LETZTE {\c&H6BD8FF&}{\fscx108\fscy108}NACHT,{\fscx100\fscy100}{\c&HFFFFFF&} UM
+Dialogue: 0,0:00:05.87,0:00:06.07,Cap,,0,0,0,,LETZTE NACHT, {\c&H6BD8FF&}{\fscx108\fscy108}UM{\fscx100\fscy100}{\c&HFFFFFF&}
+Dialogue: 0,0:00:06.07,0:00:06.47,Cap,,0,0,0,,{\t(0,90,\fscx106\fscy106)\t(90,180,\fscx100\fscy100)}{\c&H6BD8FF&}{\fscx108\fscy108}GENAU{\fscx100\fscy100}{\c&HFFFFFF&} DREIZEHN MINUTEN
+Dialogue: 0,0:00:06.47,0:00:06.87,Cap,,0,0,0,,GENAU {\c&H6BD8FF&}{\fscx108\fscy108}DREIZEHN{\fscx100\fscy100}{\c&HFFFFFF&} MINUTEN
+Dialogue: 0,0:00:06.87,0:00:07.47,Cap,,0,0,0,,GENAU DREIZEHN {\c&H6BD8FF&}{\fscx108\fscy108}MINUTEN{\fscx100\fscy100}{\c&HFFFFFF&}
+Dialogue: 0,0:00:07.47,0:00:07.67,Cap,,0,0,0,,{\t(0,90,\fscx106\fscy106)\t(90,180,\fscx100\fscy100)}{\c&H6BD8FF&}{\fscx108\fscy108}NACH{\fscx100\fscy100}{\c&HFFFFFF&} MITTERNACHT, BLIEBEN
+Dialogue: 0,0:00:07.67,0:00:08.47,Cap,,0,0,0,,NACH {\c&H6BD8FF&}{\fscx108\fscy108}MITTERNACHT,{\fscx100\fscy100}{\c&HFFFFFF&} BLIEBEN
+Dialogue: 0,0:00:08.47,0:00:08.87,Cap,,0,0,0,,NACH MITTERNACHT, {\c&H6BD8FF&}{\fscx108\fscy108}BLIEBEN{\fscx100\fscy100}{\c&HFFFFFF&}
+Dialogue: 0,0:00:08.87,0:00:09.27,Cap,,0,0,0,,{\t(0,90,\fscx106\fscy106)\t(90,180,\fscx100\fscy100)}{\c&H6BD8FF&}{\fscx108\fscy108}ALLE{\fscx100\fscy100}{\c&HFFFFFF&} UHREN DER
+Dialogue: 0,0:00:09.27,0:00:09.67,Cap,,0,0,0,,ALLE {\c&H6BD8FF&}{\fscx108\fscy108}UHREN{\fscx100\fscy100}{\c&HFFFFFF&} DER
+Dialogue: 0,0:00:09.67,0:00:09.87,Cap,,0,0,0,,ALLE UHREN {\c&H6BD8FF&}{\fscx108\fscy108}DER{\fscx100\fscy100}{\c&HFFFFFF&}
+Dialogue: 0,0:00:09.87,0:00:10.07,Cap,,0,0,0,,{\t(0,90,\fscx106\fscy106)\t(90,180,\fscx100\fscy100)}{\c&H6BD8FF&}{\fscx108\fscy108}STADT{\fscx100\fscy100}{\c&HFFFFFF&} GLEICHZEITIG STEHEN.
+Dialogue: 0,0:00:10.07,0:00:10.67,Cap,,0,0,0,,STADT {\c&H6BD8FF&}{\fscx108\fscy108}GLEICHZEITIG{\fscx100\fscy100}{\c&HFFFFFF&} STEHEN.
+Dialogue: 0,0:00:10.67,0:00:11.32,Cap,,0,0,0,,STADT GLEICHZEITIG {\c&H6BD8FF&}{\fscx108\fscy108}STEHEN.{\fscx100\fscy100}{\c&HFFFFFF&}
+Dialogue: 0,0:00:12.05,0:00:12.26,Cap,,0,0,0,,{\t(0,90,\fscx106\fscy106)\t(90,180,\fscx100\fscy100)}{\c&H6BD8FF&}{\fscx108\fscy108}UND{\fscx100\fscy100}{\c&HFFFFFF&} IM LADEN
+Dialogue: 0,0:00:12.26,0:00:12.47,Cap,,0,0,0,,UND {\c&H6BD8FF&}{\fscx108\fscy108}IM{\fscx100\fscy100}{\c&HFFFFFF&} LADEN
+Dialogue: 0,0:00:12.47,0:00:12.89,Cap,,0,0,0,,UND IM {\c&H6BD8FF&}{\fscx108\fscy108}LADEN{\fscx100\fscy100}{\c&HFFFFFF&}
+Dialogue: 0,0:00:12.89,0:00:13.10,Cap,,0,0,0,,{\t(0,90,\fscx106\fscy106)\t(90,180,\fscx100\fscy100)}{\c&H6BD8FF&}{\fscx108\fscy108}DES{\fscx100\fscy100}{\c&HFFFFFF&} ALTEN UHRMACHERS
+Dialogue: 0,0:00:13.10,0:00:13.52,Cap,,0,0,0,,DES {\c&H6BD8FF&}{\fscx108\fscy108}ALTEN{\fscx100\fscy100}{\c&HFFFFFF&} UHRMACHERS
+Dialogue: 0,0:00:13.52,0:00:14.15,Cap,,0,0,0,,DES ALTEN {\c&H6BD8FF&}{\fscx108\fscy108}UHRMACHERS{\fscx100\fscy100}{\c&HFFFFFF&}
+Dialogue: 0,0:00:14.15,0:00:14.36,Cap,,0,0,0,,{\t(0,90,\fscx106\fscy106)\t(90,180,\fscx100\fscy100)}{\c&H6BD8FF&}{\fscx108\fscy108}FAND{\fscx100\fscy100}{\c&HFFFFFF&} MAN IHN.
+Dialogue: 0,0:00:14.36,0:00:14.57,Cap,,0,0,0,,FAND {\c&H6BD8FF&}{\fscx108\fscy108}MAN{\fscx100\fscy100}{\c&HFFFFFF&} IHN.
+Dialogue: 0,0:00:14.57,0:00:15.24,Cap,,0,0,0,,FAND MAN {\c&H6BD8FF&}{\fscx108\fscy108}IHN.{\fscx100\fscy100}{\c&HFFFFFF&}
+Dialogue: 0,0:00:15.24,0:00:15.92,Cap,,0,0,0,,{\t(0,90,\fscx106\fscy106)\t(90,180,\fscx100\fscy100)}{\c&H6BD8FF&}{\fscx108\fscy108}TOT.{\fscx100\fscy100}{\c&HFFFFFF&}
+Dialogue: 0,0:00:15.92,0:00:16.13,Cap,,0,0,0,,{\t(0,90,\fscx106\fscy106)\t(90,180,\fscx100\fscy100)}{\c&H6BD8FF&}{\fscx108\fscy108}DIE{\fscx100\fscy100}{\c&HFFFFFF&} TÜR WAR
+Dialogue: 0,0:00:16.13,0:00:16.34,Cap,,0,0,0,,DIE {\c&H6BD8FF&}{\fscx108\fscy108}TÜR{\fscx100\fscy100}{\c&HFFFFFF&} WAR
+Dialogue: 0,0:00:16.34,0:00:16.55,Cap,,0,0,0,,DIE TÜR {\c&H6BD8FF&}{\fscx108\fscy108}WAR{\fscx100\fscy100}{\c&HFFFFFF&}
+Dialogue: 0,0:00:16.55,0:00:16.76,Cap,,0,0,0,,{\t(0,90,\fscx106\fscy106)\t(90,180,\fscx100\fscy100)}{\c&H6BD8FF&}{\fscx108\fscy108}VON{\fscx100\fscy100}{\c&HFFFFFF&} INNEN VERSCHLOSSEN.
+Dialogue: 0,0:00:16.76,0:00:17.17,Cap,,0,0,0,,VON {\c&H6BD8FF&}{\fscx108\fscy108}INNEN{\fscx100\fscy100}{\c&HFFFFFF&} VERSCHLOSSEN.
+Dialogue: 0,0:00:17.17,0:00:18.05,Cap,,0,0,0,,VON INNEN {\c&H6BD8FF&}{\fscx108\fscy108}VERSCHLOSSEN.{\fscx100\fscy100}{\c&HFFFFFF&}
+Dialogue: 0,0:00:18.82,0:00:19.37,Cap,,0,0,0,,{\t(0,90,\fscx106\fscy106)\t(90,180,\fscx100\fscy100)}{\c&H6BD8FF&}{\fscx108\fscy108}KOMMISSAR{\fscx100\fscy100}{\c&HFFFFFF&} THEO ÜBERNIMMT
+Dialogue: 0,0:00:19.37,0:00:19.55,Cap,,0,0,0,,KOMMISSAR {\c&H6BD8FF&}{\fscx108\fscy108}THEO{\fscx100\fscy100}{\c&HFFFFFF&} ÜBERNIMMT
+Dialogue: 0,0:00:19.55,0:00:20.10,Cap,,0,0,0,,KOMMISSAR THEO {\c&H6BD8FF&}{\fscx108\fscy108}ÜBERNIMMT{\fscx100\fscy100}{\c&HFFFFFF&}
+Dialogue: 0,0:00:20.10,0:00:20.28,Cap,,0,0,0,,{\t(0,90,\fscx106\fscy106)\t(90,180,\fscx100\fscy100)}{\c&H6BD8FF&}{\fscx108\fscy108}DEN{\fscx100\fscy100}{\c&HFFFFFF&} FALL.
+Dialogue: 0,0:00:20.28,0:00:20.87,Cap,,0,0,0,,DEN {\c&H6BD8FF&}{\fscx108\fscy108}FALL.{\fscx100\fscy100}{\c&HFFFFFF&}
+Dialogue: 0,0:00:20.87,0:00:21.05,Cap,,0,0,0,,{\t(0,90,\fscx106\fscy106)\t(90,180,\fscx100\fscy100)}{\c&H6BD8FF&}{\fscx108\fscy108}DOCH{\fscx100\fscy100}{\c&HFFFFFF&} SEINE LATERNE
+Dialogue: 0,0:00:21.05,0:00:21.42,Cap,,0,0,0,,DOCH {\c&H6BD8FF&}{\fscx108\fscy108}SEINE{\fscx100\fscy100}{\c&HFFFFFF&} LATERNE
+Dialogue: 0,0:00:21.42,0:00:21.97,Cap,,0,0,0,,DOCH SEINE {\c&H6BD8FF&}{\fscx108\fscy108}LATERNE{\fscx100\fscy100}{\c&HFFFFFF&}
+Dialogue: 0,0:00:21.97,0:00:22.74,Cap,,0,0,0,,{\t(0,90,\fscx106\fscy106)\t(90,180,\fscx100\fscy100)}{\c&H6BD8FF&}{\fscx108\fscy108}FLACKERT.{\fscx100\fscy100}{\c&HFFFFFF&}
+Dialogue: 0,0:00:22.74,0:00:22.92,Cap,,0,0,0,,{\t(0,90,\fscx106\fscy106)\t(90,180,\fscx100\fscy100)}{\c&H6BD8FF&}{\fscx108\fscy108}UND{\fscx100\fscy100}{\c&HFFFFFF&} DAS TUT
+Dialogue: 0,0:00:22.92,0:00:23.11,Cap,,0,0,0,,UND {\c&H6BD8FF&}{\fscx108\fscy108}DAS{\fscx100\fscy100}{\c&HFFFFFF&} TUT
+Dialogue: 0,0:00:23.11,0:00:23.29,Cap,,0,0,0,,UND DAS {\c&H6BD8FF&}{\fscx108\fscy108}TUT{\fscx100\fscy100}{\c&HFFFFFF&}
+Dialogue: 0,0:00:23.29,0:00:23.47,Cap,,0,0,0,,{\t(0,90,\fscx106\fscy106)\t(90,180,\fscx100\fscy100)}{\c&H6BD8FF&}{\fscx108\fscy108}SIE{\fscx100\fscy100}{\c&HFFFFFF&} NUR, WENN
+Dialogue: 0,0:00:23.47,0:00:23.84,Cap,,0,0,0,,SIE {\c&H6BD8FF&}{\fscx108\fscy108}NUR,{\fscx100\fscy100}{\c&HFFFFFF&} WENN
+Dialogue: 0,0:00:23.84,0:00:24.02,Cap,,0,0,0,,SIE NUR, {\c&H6BD8FF&}{\fscx108\fscy108}WENN{\fscx100\fscy100}{\c&HFFFFFF&}
+Dialogue: 0,0:00:24.02,0:00:24.39,Cap,,0,0,0,,{\t(0,90,\fscx106\fscy106)\t(90,180,\fscx100\fscy100)}{\c&H6BD8FF&}{\fscx108\fscy108}JEMAND{\fscx100\fscy100}{\c&HFFFFFF&} LÜGT.
+Dialogue: 0,0:00:24.39,0:00:24.82,Cap,,0,0,0,,JEMAND {\c&H6BD8FF&}{\fscx108\fscy108}LÜGT.{\fscx100\fscy100}{\c&HFFFFFF&}
+Dialogue: 0,0:00:25.53,0:00:25.72,Cap,,0,0,0,,{\t(0,90,\fscx106\fscy106)\t(90,180,\fscx100\fscy100)}{\c&H6BD8FF&}{\fscx108\fscy108}DER{\fscx100\fscy100}{\c&HFFFFFF&} TÄTER LEBT
+Dialogue: 0,0:00:25.72,0:00:26.11,Cap,,0,0,0,,DER {\c&H6BD8FF&}{\fscx108\fscy108}TÄTER{\fscx100\fscy100}{\c&HFFFFFF&} LEBT
+Dialogue: 0,0:00:26.11,0:00:26.30,Cap,,0,0,0,,DER TÄTER {\c&H6BD8FF&}{\fscx108\fscy108}LEBT{\fscx100\fscy100}{\c&HFFFFFF&}
+Dialogue: 0,0:00:26.30,0:00:26.50,Cap,,0,0,0,,{\t(0,90,\fscx106\fscy106)\t(90,180,\fscx100\fscy100)}{\c&H6BD8FF&}{\fscx108\fscy108}NOCH{\fscx100\fscy100}{\c&HFFFFFF&} HIER, IN
+Dialogue: 0,0:00:26.50,0:00:26.89,Cap,,0,0,0,,NOCH {\c&H6BD8FF&}{\fscx108\fscy108}HIER,{\fscx100\fscy100}{\c&HFFFFFF&} IN
+Dialogue: 0,0:00:26.89,0:00:27.08,Cap,,0,0,0,,NOCH HIER, {\c&H6BD8FF&}{\fscx108\fscy108}IN{\fscx100\fscy100}{\c&HFFFFFF&}
+Dialogue: 0,0:00:27.08,0:00:28.09,Cap,,0,0,0,,{\t(0,90,\fscx106\fscy106)\t(90,180,\fscx100\fscy100)}{\c&H6BD8FF&}{\fscx108\fscy108}NEBELSTEIN.{\fscx100\fscy100}{\c&HFFFFFF&}
+Dialogue: 0,0:00:28.09,0:00:28.29,Cap,,0,0,0,,{\t(0,90,\fscx106\fscy106)\t(90,180,\fscx100\fscy100)}{\c&H6BD8FF&}{\fscx108\fscy108}UND{\fscx100\fscy100}{\c&HFFFFFF&} VIELLEICHT …
+Dialogue: 0,0:00:28.29,0:00:28.67,Cap,,0,0,0,,UND {\c&H6BD8FF&}{\fscx108\fscy108}VIELLEICHT{\fscx100\fscy100}{\c&HFFFFFF&} …
+Dialogue: 0,0:00:28.67,0:00:29.30,Cap,,0,0,0,,UND VIELLEICHT {\c&H6BD8FF&}{\fscx108\fscy108}…{\fscx100\fscy100}{\c&HFFFFFF&}
+Dialogue: 0,0:00:29.30,0:00:29.49,Cap,,0,0,0,,{\t(0,90,\fscx106\fscy106)\t(90,180,\fscx100\fscy100)}{\c&H6BD8FF&}{\fscx108\fscy108}BIST{\fscx100\fscy100}{\c&HFFFFFF&} DU ES.
+Dialogue: 0,0:00:29.49,0:00:29.68,Cap,,0,0,0,,BIST {\c&H6BD8FF&}{\fscx108\fscy108}DU{\fscx100\fscy100}{\c&HFFFFFF&} ES.
+Dialogue: 0,0:00:29.68,0:00:30.13,Cap,,0,0,0,,BIST DU {\c&H6BD8FF&}{\fscx108\fscy108}ES.{\fscx100\fscy100}{\c&HFFFFFF&}
+Dialogue: 0,0:00:30.86,0:00:31.27,Cap,,0,0,0,,{\t(0,90,\fscx106\fscy106)\t(90,180,\fscx100\fscy100)}{\c&H6BD8FF&}{\fscx108\fscy108}FOLGE{\fscx100\fscy100}{\c&HFFFFFF&} DEM KANAL
+Dialogue: 0,0:00:31.27,0:00:31.48,Cap,,0,0,0,,FOLGE {\c&H6BD8FF&}{\fscx108\fscy108}DEM{\fscx100\fscy100}{\c&HFFFFFF&} KANAL
+Dialogue: 0,0:00:31.48,0:00:31.90,Cap,,0,0,0,,FOLGE DEM {\c&H6BD8FF&}{\fscx108\fscy108}KANAL{\fscx100\fscy100}{\c&HFFFFFF&}
+Dialogue: 0,0:00:31.90,0:00:32.10,Cap,,0,0,0,,{\t(0,90,\fscx106\fscy106)\t(90,180,\fscx100\fscy100)}{\c&H6BD8FF&}{\fscx108\fscy108}UND{\fscx100\fscy100}{\c&HFFFFFF&} SCHREIB ICH
+Dialogue: 0,0:00:32.10,0:00:32.31,Cap,,0,0,0,,UND {\c&H6BD8FF&}{\fscx108\fscy108}SCHREIB{\fscx100\fscy100}{\c&HFFFFFF&} ICH
+Dialogue: 0,0:00:32.31,0:00:32.52,Cap,,0,0,0,,UND SCHREIB {\c&H6BD8FF&}{\fscx108\fscy108}ICH{\fscx100\fscy100}{\c&HFFFFFF&}
+Dialogue: 0,0:00:32.52,0:00:32.73,Cap,,0,0,0,,{\t(0,90,\fscx106\fscy106)\t(90,180,\fscx100\fscy100)}{\c&H6BD8FF&}{\fscx108\fscy108}BIN{\fscx100\fscy100}{\c&HFFFFFF&} DABEI IN
+Dialogue: 0,0:00:32.73,0:00:33.15,Cap,,0,0,0,,BIN {\c&H6BD8FF&}{\fscx108\fscy108}DABEI{\fscx100\fscy100}{\c&HFFFFFF&} IN
+Dialogue: 0,0:00:33.15,0:00:33.35,Cap,,0,0,0,,BIN DABEI {\c&H6BD8FF&}{\fscx108\fscy108}IN{\fscx100\fscy100}{\c&HFFFFFF&}
+Dialogue: 0,0:00:33.35,0:00:33.56,Cap,,0,0,0,,{\t(0,90,\fscx106\fscy106)\t(90,180,\fscx100\fscy100)}{\c&H6BD8FF&}{\fscx108\fscy108}DIE{\fscx100\fscy100}{\c&HFFFFFF&} KOMMENTARE.
+Dialogue: 0,0:00:33.56,0:00:34.85,Cap,,0,0,0,,DIE {\c&H6BD8FF&}{\fscx108\fscy108}KOMMENTARE.{\fscx100\fscy100}{\c&HFFFFFF&}
+Dialogue: 0,0:00:34.85,0:00:35.06,Cap,,0,0,0,,{\t(0,90,\fscx106\fscy106)\t(90,180,\fscx100\fscy100)}{\c&H6BD8FF&}{\fscx108\fscy108}DANN{\fscx100\fscy100}{\c&HFFFFFF&} ZIEHST DU
+Dialogue: 0,0:00:35.06,0:00:35.27,Cap,,0,0,0,,DANN {\c&H6BD8FF&}{\fscx108\fscy108}ZIEHST{\fscx100\fscy100}{\c&HFFFFFF&} DU
+Dialogue: 0,0:00:35.27,0:00:35.48,Cap,,0,0,0,,DANN ZIEHST {\c&H6BD8FF&}{\fscx108\fscy108}DU{\fscx100\fscy100}{\c&HFFFFFF&}
+Dialogue: 0,0:00:35.48,0:00:35.69,Cap,,0,0,0,,{\t(0,90,\fscx106\fscy106)\t(90,180,\fscx100\fscy100)}{\c&H6BD8FF&}{\fscx108\fscy108}NACH{\fscx100\fscy100}{\c&HFFFFFF&} NEBELSTEIN.
+Dialogue: 0,0:00:35.69,0:00:36.77,Cap,,0,0,0,,NACH {\c&H6BD8FF&}{\fscx108\fscy108}NEBELSTEIN.{\fscx100\fscy100}{\c&HFFFFFF&}
+Dialogue: 0,0:00:36.77,0:00:36.98,Cap,,0,0,0,,{\t(0,90,\fscx106\fscy106)\t(90,180,\fscx100\fscy100)}{\c&H6BD8FF&}{\fscx108\fscy108}ALS{\fscx100\fscy100}{\c&HFFFFFF&} BEWOHNER.
+Dialogue: 0,0:00:36.98,0:00:38.06,Cap,,0,0,0,,ALS {\c&H6BD8FF&}{\fscx108\fscy108}BEWOHNER.{\fscx100\fscy100}{\c&HFFFFFF&}
+Dialogue: 0,0:00:38.06,0:00:38.27,Cap,,0,0,0,,{\t(0,90,\fscx106\fscy106)\t(90,180,\fscx100\fscy100)}{\c&H6BD8FF&}{\fscx108\fscy108}UND{\fscx100\fscy100}{\c&HFFFFFF&} ALS VERDÄCHTIGER.
+Dialogue: 0,0:00:38.27,0:00:38.48,Cap,,0,0,0,,UND {\c&H6BD8FF&}{\fscx108\fscy108}ALS{\fscx100\fscy100}{\c&HFFFFFF&} VERDÄCHTIGER.
+Dialogue: 0,0:00:38.48,0:00:39.56,Cap,,0,0,0,,UND ALS {\c&H6BD8FF&}{\fscx108\fscy108}VERDÄCHTIGER.{\fscx100\fscy100}{\c&HFFFFFF&}
+Dialogue: 0,0:00:40.32,0:00:40.53,Cap,,0,0,0,,{\t(0,90,\fscx106\fscy106)\t(90,180,\fscx100\fscy100)}{\c&H6BD8FF&}{\fscx108\fscy108}JETZT{\fscx100\fscy100}{\c&HFFFFFF&} ENTSCHEIDEST DU:
+Dialogue: 0,0:00:40.53,0:00:41.15,Cap,,0,0,0,,JETZT {\c&H6BD8FF&}{\fscx108\fscy108}ENTSCHEIDEST{\fscx100\fscy100}{\c&HFFFFFF&} DU:
+Dialogue: 0,0:00:41.15,0:00:41.57,Cap,,0,0,0,,JETZT ENTSCHEIDEST {\c&H6BD8FF&}{\fscx108\fscy108}DU:{\fscx100\fscy100}{\c&HFFFFFF&}
+Dialogue: 0,0:00:41.57,0:00:41.78,Cap,,0,0,0,,{\t(0,90,\fscx106\fscy106)\t(90,180,\fscx100\fscy100)}{\c&H6BD8FF&}{\fscx108\fscy108}WAS{\fscx100\fscy100}{\c&HFFFFFF&} UNTERSUCHT THEO
+Dialogue: 0,0:00:41.78,0:00:42.41,Cap,,0,0,0,,WAS {\c&H6BD8FF&}{\fscx108\fscy108}UNTERSUCHT{\fscx100\fscy100}{\c&HFFFFFF&} THEO
+Dialogue: 0,0:00:42.41,0:00:42.62,Cap,,0,0,0,,WAS UNTERSUCHT {\c&H6BD8FF&}{\fscx108\fscy108}THEO{\fscx100\fscy100}{\c&HFFFFFF&}
+Dialogue: 0,0:00:42.62,0:00:43.28,Cap,,0,0,0,,{\t(0,90,\fscx106\fscy106)\t(90,180,\fscx100\fscy100)}{\c&H6BD8FF&}{\fscx108\fscy108}ZUERST?{\fscx100\fscy100}{\c&HFFFFFF&}
+Dialogue: 0,0:00:43.28,0:00:43.49,Cap,,0,0,0,,{\t(0,90,\fscx106\fscy106)\t(90,180,\fscx100\fscy100)}{\c&H6BD8FF&}{\fscx108\fscy108}DIE{\fscx100\fscy100}{\c&HFFFFFF&} STEHENGEBLIEBENE UHR,
+Dialogue: 0,0:00:43.49,0:00:44.75,Cap,,0,0,0,,DIE {\c&H6BD8FF&}{\fscx108\fscy108}STEHENGEBLIEBENE{\fscx100\fscy100}{\c&HFFFFFF&} UHR,
+Dialogue: 0,0:00:44.75,0:00:45.17,Cap,,0,0,0,,DIE STEHENGEBLIEBENE {\c&H6BD8FF&}{\fscx108\fscy108}UHR,{\fscx100\fscy100}{\c&HFFFFFF&}
+Dialogue: 0,0:00:45.17,0:00:45.37,Cap,,0,0,0,,{\t(0,90,\fscx106\fscy106)\t(90,180,\fscx100\fscy100)}{\c&H6BD8FF&}{\fscx108\fscy108}DEN{\fscx100\fscy100}{\c&HFFFFFF&} RABEN AM
+Dialogue: 0,0:00:45.37,0:00:45.79,Cap,,0,0,0,,DEN {\c&H6BD8FF&}{\fscx108\fscy108}RABEN{\fscx100\fscy100}{\c&HFFFFFF&} AM
+Dialogue: 0,0:00:45.79,0:00:46.00,Cap,,0,0,0,,DEN RABEN {\c&H6BD8FF&}{\fscx108\fscy108}AM{\fscx100\fscy100}{\c&HFFFFFF&}
+Dialogue: 0,0:00:46.00,0:00:46.63,Cap,,0,0,0,,{\t(0,90,\fscx106\fscy106)\t(90,180,\fscx100\fscy100)}{\c&H6BD8FF&}{\fscx108\fscy108}FENSTER,{\fscx100\fscy100}{\c&HFFFFFF&} ODER DEN
+Dialogue: 0,0:00:46.63,0:00:47.05,Cap,,0,0,0,,FENSTER, {\c&H6BD8FF&}{\fscx108\fscy108}ODER{\fscx100\fscy100}{\c&HFFFFFF&} DEN
+Dialogue: 0,0:00:47.05,0:00:47.25,Cap,,0,0,0,,FENSTER, ODER {\c&H6BD8FF&}{\fscx108\fscy108}DEN{\fscx100\fscy100}{\c&HFFFFFF&}
+Dialogue: 0,0:00:47.25,0:00:48.13,Cap,,0,0,0,,{\t(0,90,\fscx106\fscy106)\t(90,180,\fscx100\fscy100)}{\c&H6BD8FF&}{\fscx108\fscy108}SCHLÜSSEL?{\fscx100\fscy100}{\c&HFFFFFF&}
+Dialogue: 0,0:00:48.13,0:00:48.34,Cap,,0,0,0,,{\t(0,90,\fscx106\fscy106)\t(90,180,\fscx100\fscy100)}{\c&H6BD8FF&}{\fscx108\fscy108}DER{\fscx100\fscy100}{\c&HFFFFFF&} KOMMENTAR MIT
+Dialogue: 0,0:00:48.34,0:00:48.97,Cap,,0,0,0,,DER {\c&H6BD8FF&}{\fscx108\fscy108}KOMMENTAR{\fscx100\fscy100}{\c&HFFFFFF&} MIT
+Dialogue: 0,0:00:48.97,0:00:49.18,Cap,,0,0,0,,DER KOMMENTAR {\c&H6BD8FF&}{\fscx108\fscy108}MIT{\fscx100\fscy100}{\c&HFFFFFF&}
+Dialogue: 0,0:00:49.18,0:00:49.39,Cap,,0,0,0,,{\t(0,90,\fscx106\fscy106)\t(90,180,\fscx100\fscy100)}{\c&H6BD8FF&}{\fscx108\fscy108}DEN{\fscx100\fscy100}{\c&HFFFFFF&} MEISTEN LIKES
+Dialogue: 0,0:00:49.39,0:00:49.80,Cap,,0,0,0,,DEN {\c&H6BD8FF&}{\fscx108\fscy108}MEISTEN{\fscx100\fscy100}{\c&HFFFFFF&} LIKES
+Dialogue: 0,0:00:49.80,0:00:50.22,Cap,,0,0,0,,DEN MEISTEN {\c&H6BD8FF&}{\fscx108\fscy108}LIKES{\fscx100\fscy100}{\c&HFFFFFF&}
+Dialogue: 0,0:00:50.22,0:00:51.10,Cap,,0,0,0,,{\t(0,90,\fscx106\fscy106)\t(90,180,\fscx100\fscy100)}{\c&H6BD8FF&}{\fscx108\fscy108}ENTSCHEIDET.{\fscx100\fscy100}{\c&HFFFFFF&}
+Dialogue: 2,0:00:00.25,0:00:05.01,Title,,0,0,0,,{\fad(500,400)\blur1.2}NEBELSTEIN
+Dialogue: 2,0:00:00.90,0:00:05.01,Sub,,0,0,0,,{\fad(400,400)}FALL 1  ·  DER UHRMACHER
+Dialogue: 3,0:00:09.70,0:00:11.81,Big,,0,0,0,,{\fad(80,300)\an8\pos(540,250)\t(0,120,\fscx115\fscy115)\t(120,260,\fscx100\fscy100)}00:13
+Dialogue: 3,0:00:22.64,0:00:25.18,Box,,0,0,0,,{\an5\pos(540,330)\fad(150,200)}  LATERNE FLACKERT = LÜGE  
+Dialogue: 3,0:00:30.96,0:00:40.17,Box,,0,0,0,,{\an5\pos(540,300)\fad(200,200)\t(0,150,\fscx110\fscy110)\t(150,300,\fscx100\fscy100)}  1. FOLGEN  
+Dialogue: 3,0:00:32.82,0:00:40.17,Box,,0,0,0,,{\an5\pos(540,420)\fad(200,200)}  2. KOMMENTIERE: »ICH BIN DABEI«  
+Dialogue: 3,0:00:35.76,0:00:40.17,Sub,,0,0,0,,{\an5\pos(540,540)\fad(200,200)}= DU WOHNST IN NEBELSTEIN
+Dialogue: 3,0:00:40.42,0:00:52.91,Big,,0,0,0,,{\fad(200,0)\an8\pos(540,190)}WAS ZUERST?
+Dialogue: 3,0:00:43.61,0:00:52.91,Box,,0,0,0,,{\an5\pos(540,360)\fad(150,0)\t(0,120,\fscx112\fscy112)\t(120,240,\fscx100\fscy100)}  A  ·  DIE UHR  
+Dialogue: 3,0:00:44.93,0:00:52.91,Box,,0,0,0,,{\an5\pos(540,480)\fad(150,0)\t(0,120,\fscx112\fscy112)\t(120,240,\fscx100\fscy100)}  B  ·  DER RABE  
+Dialogue: 3,0:00:46.69,0:00:52.91,Box,,0,0,0,,{\an5\pos(540,600)\fad(150,0)\t(0,120,\fscx112\fscy112)\t(120,240,\fscx100\fscy100)}  C  ·  DER SCHLÜSSEL  
+Dialogue: 3,0:00:49.11,0:00:52.91,Sub,,0,0,0,,{\an5\pos(540,760)\fad(200,0)}SCHREIB A, B ODER C!

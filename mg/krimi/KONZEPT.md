@@ -16,3 +16,6 @@ Komplett eigenes Format, NICHT vergleichbar mit Roundhead Stories / Roundhead Is
 - Figur Theo: mg/krimi/char_theo.py (Metaball-Formen, weiche Studio-Beleuchtung, AgX Punchy). Ergebnis renders/krimi/ (Ansichten, theo.blend, theo.glb).
 - Stimme: ElevenLabs Gratis-Plan (Alex legt Konto an und loggt sich im Browser der App ein; keine kommerzielle Nutzung, "elevenlabs.io" in Titel/Beschreibung).
   Kandidaten (Deutsch, Erzähler): Leon Stern (Fiction/Fantasy), Robert Ranger ("cool storyteller"), Alexander (tiefer TV-Erzähler).
+
+## Folge 1 (2026-11-07)
+- Fertig: renders/ep01/ep01_silent.mp4 (Blender, 20 Runner, ~4 h) + compose.py -> Nebelstein_Folge1.mp4 (52,9 s). Wartet auf Alex' OK.
