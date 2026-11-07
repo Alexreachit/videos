@@ -230,3 +230,5 @@
 - Erkenntnis: Ohne neuen Short sinkt der Kanal weiter (~80 Aufrufe/Tag). Langvideos bekommen kaum Impressionen -> Reichweite kommt nur über Shorts-Wellen.
 - Keine Korrekturen geändert (Tippfehler-Vorschlag "Why is everything so expensive?" wartet weiter auf OK). Nichts im Studio geändert.
 - Offen bei Alex: Upload-OK für fertige Shorts ys_escobar / ys_hush / ys_blockbuster; Idee wählen (Ponzi | Fyre Festival | PayPal $92 Billiarden); Entwurfs-Leiche "846c1dee…" löschen?
+- 2026-11-07 ~19:15: ri03 "Tag 3" fertig (44,0 s, Run 42398708416, renders/ri03/ri03_final.mp4). Zahlen von Alex: 128 Einwohner (+20), 76 % Ausrauben, 50 Likes = 500 € (Kasse 80 -> 580).
+  Story: Nachts mit dem Boot rüber, Benluca spioniert, Schatzkiste mit 1000 € Gold (Kasse 1580 €), Nachbarn (Eckköpfe) machen Licht an und wollen Rache -> Abstimmung: Riesen-Mauer oder Frieden (Gold zurück). Gleiche Anzeigen wie Tag 2, neu: Nachtlicht, Nachbarinsel. Nicht hochgeladen, wartet auf Alex.
