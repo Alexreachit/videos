@@ -17,7 +17,8 @@ const W = 1080, H = 1920, G = GL3D, {cl, ez, ei, bo, el, lerp} = MG;
 const $ = id => document.getElementById(id);
 const OL = '#232838';
 // ---------------- Welt ----------------
-const w = G.World($('cv'), W, H, 1.35);
+const w = G.World($('cv'), W, H, 2);
+w.toon = true; w.rim = .32; w.outline = .0019;
 w.fog = G.hex('#d9f2fd'); w.fogN = 110; w.fogF = 380; w.sky = G.hex('#d6efff'); w.gnd = G.hex('#c9b07c');
 w.sun = G.v.norm([.5, .78, .42]); w.shadowSize = 26;
 
@@ -60,7 +61,7 @@ function palm(x, z, hgt, lean, yaw, seed) {
   let px = 0, py = 0;
   for (let i = 0; i < seg; i++) {
     const u = i / seg, r0 = .28 - .1 * u, r1 = .28 - .1 * (u + 1 / seg), sh = hgt / seg;
-    const c = G.cyl(r0, r1 * 1.12, sh * 1.02, 10, i % 2 ? '#a4744a' : '#94683f', { rot: i * .4, open: true }).smooth();
+    const c = G.cyl(r0, r1 * 1.12, sh * 1.02, 16, i % 2 ? '#b07d4f' : '#9c6d43', { rot: i * .4, open: true }).smooth();
     const bx = lean * u * u * hgt * .35, bx1 = lean * (u + 1 / seg) * (u + 1 / seg) * hgt * .35;
     g.add(c, G.m4.compose([bx, i * sh, 0], [0, 0, -(bx1 - bx) / sh], 1));
     px = bx1; py = (i + 1) * sh;
@@ -70,40 +71,44 @@ function palm(x, z, hgt, lean, yaw, seed) {
     const lf = G.leaf(2.6 + .5 * G.hash(i, seed), .42, .55 + .2 * G.hash(seed, i), i % 2 ? '#3fae49' : '#55c457');
     g.add(lf, G.m4.compose([px, py, 0], [0, i / n * 6.2832 + seed, -.25 + .25 * G.hash(i * 3, seed)], 1));
   }
-  for (let i = 0; i < 3; i++) g.add(G.ico(.2, 2, '#6b4426', .06, i).smooth(), G.m4.compose([px + Math.cos(i * 2.1) * .25, py - .25, Math.sin(i * 2.1) * .25]));
+  for (let i = 0; i < 3; i++) g.add(G.ico(.2, 3, '#6b4426', .02, i).smooth(), G.m4.compose([px + Math.cos(i * 2.1) * .25, py - .25, Math.sin(i * 2.1) * .25]));
   return w.mesh(g, { pos: [x, y - .1, z], rot: [0, yaw, 0] });
 }
 palm(-6.2 * S, -3.5 * S, 5.2, 1, .3, 1); palm(-7.6 * S, -1.4 * S, 4.2, 1.2, -.4, 2); palm(6.4 * S, -4.8 * S, 5.6, 1, 2.6, 3); palm(8.1 * S, 1.6 * S, 4.4, 1.3, 3.4, 4); palm(-3.5 * S, -7.5 * S, 4.8, .9, 1.4, 5); palm(3 * S, -8 * S, 3.8, 1.1, 1.9, 6);
 palm(-7.5, -6.5, 5, 1, .9, 7); palm(-9.5, -4.2, 4.2, 1.2, 2.2, 8); palm(8.5, -7.2, 5.4, 1, 2.9, 9); palm(10.8, -5, 4.3, 1.2, 1.2, 10); palm(-13, 6, 4.6, 1, .5, 11); palm(14, 5, 4.8, 1.1, 2.4, 12); palm(-4, -14, 5, 1, 1.7, 13); palm(5.5, -15, 4.4, 1.1, .2, 14);
 // Felsen + Buesche
 [[9.6, 4.2, .9], [-9.4, 3.6, 1.1], [10.8, -2, .7], [-2, 9.8, .8], [4.5, 9.2, .6], [-10.5, -4, .7]].map(([x, z, s]) => [x * S, z * S, s * 1.3]).forEach(([x, z, s], i) =>
-  w.mesh(G.ico(s, 2, '#a3abb4', .22, i + 10, .7).smooth(), { spec: .25, pos: [x, iH(x, z) + s * .2, z], rot: [0, i, 0] }));
+  w.mesh(G.ico(s, 3, '#aab4c0', .1, i + 10, .7).smooth(), { spec: .3, pos: [x, iH(x, z) + s * .2, z], rot: [0, i, 0] }));
 [[-5, 1.2, .8], [5.4, -1.6, .7], [-2.8, -4.6, .9], [6.6, 3.8, .6], [-6.3, 4, .7], [-11, -9, .9], [12, -9, .8], [-15, 1, .9], [15, -1, .8], [0, -12, 1], [-9, 11, .8], [10, 11, .7]].forEach(([x, z, s], i) =>
-  w.mesh(G.ico(s, 2, i % 2 ? '#3f9e3c' : '#4cae45', .16, i + 30, .75).smooth(), { spec: .15, pos: [x, iH(x, z) + s * .35, z] }));
+  { const g = new G.Geo(), c = i % 2 ? '#43a93f' : '#52b84a'; g.add(G.ico(s, 3, c, .03, i + 30, .85).smooth());
+    g.add(G.ico(s * .72, 3, c, .03, i + 31, .85).smooth(), G.m4.compose([s * .75, -s * .12, s * .2])); g.add(G.ico(s * .66, 3, c, .03, i + 32, .85).smooth(), G.m4.compose([-s * .7, -s * .15, -s * .15]));
+    w.mesh(g, { spec: .2, pos: [x, iH(x, z) + s * .3, z], rot: [0, i * 1.3, 0] }) });
 // Grasbueschel + kleine Blumen (eine Mesh)
 (function tufts() {
   const g = new G.Geo();
-  for (let k = 0; k < 2600; k++) {
+  for (let k = 0; k < 1300; k++) {
     const a = G.hash(k, 1) * 6.2832, r = Math.sqrt(G.hash(k, 2)) * 17.5, x = Math.cos(a) * r, z = Math.sin(a) * r, y = iH(x, z);
     if (y < .75 || Math.hypot(x - SP0[0], z - SP0[2]) < 1.2) continue;
-    const c = G.hex(G.hash(k, 3) > .5 ? '#3c8f32' : '#4fa63f'), hgt = .1 + .13 * G.hash(k, 4);
-    for (let b = 0; b < 3; b++) { const q = b * 2.1 + k, dx = Math.cos(q) * .04, dz = Math.sin(q) * .04, lx = Math.cos(q) * .07, lz = Math.sin(q) * .07;
-      g.tri([x - dx, y, z - dz], [x + dx, y, z + dz], [x + lx * .8, y + hgt, z + lz * .8], c) }
-    if (G.hash(k, 6) > .9) g.add(G.ico(.06, 0, G.hash(k, 7) > .5 ? '#ffffff' : '#ffd84a'), G.m4.compose([x + .1, y + hgt * .8, z]));
+    const c = G.hex(G.hash(k, 3) > .5 ? '#3d9633' : '#4aa63e'), hgt = .12 + .12 * G.hash(k, 4);
+    for (let b = 0; b < 4; b++) { const q = b * 1.57 + k, dx = Math.cos(q + 1.57) * .06, dz = Math.sin(q + 1.57) * .06, lx = Math.cos(q) * .09, lz = Math.sin(q) * .09;
+      const m = [x + lx * .5, y + hgt * .55, z + lz * .5];
+      g.tri([x - dx, y, z - dz], [x + dx, y, z + dz], [m[0] + dx * .6, m[1], m[2] + dz * .6], c); g.tri([x - dx, y, z - dz], [m[0] + dx * .6, m[1], m[2] + dz * .6], [m[0] - dx * .6, m[1], m[2] - dz * .6], c);
+      g.tri([m[0] - dx * .6, m[1], m[2] - dz * .6], [m[0] + dx * .6, m[1], m[2] + dz * .6], [x + lx, y + hgt, z + lz], c) }
+    if (G.hash(k, 6) > .86) g.add(G.ico(.07, 2, G.hash(k, 7) > .5 ? '#ffffff' : '#ffd84a').smooth(), G.m4.compose([x + .12, y + hgt * .8, z]));
   }
-  w.mesh(g, { cast: false });
+  w.mesh(g, { cast: false, outline: false });
 })();
 // Wolken
 const clouds = [];
 [[-70, 38, -120, 1.2], [40, 44, -150, 1.6], [110, 36, -60, 1.1], [-130, 42, -30, 1.4], [0, 50, -200, 2], [-40, 34, 90, 1.1], [90, 40, 80, 1.3]].forEach(([x, y, z, s], i) => {
   const g = new G.Geo();
-  for (let k = 0; k < 6; k++) { const r = (3 + 2.5 * G.hash(k, i)) * s; g.add(G.ico(r, 2, '#ffffff', .08, k + i * 7, .7).smooth(), G.m4.compose([(k - 2.5) * 3.2 * s, G.hash(k * 2, i) * 1.5 * s, G.hash(k, i * 3) * 2 * s])) }
-  clouds.push(w.mesh(g, { pos: [x, y, z], cast: false, recv: false, shade: .35, emis: .1, base: [x, y, z] }));
+  for (let k = 0; k < 6; k++) { const r = (3 + 2.5 * G.hash(k, i)) * s; g.add(G.ico(r, 3, '#ffffff', .03, k + i * 7, .7).smooth(), G.m4.compose([(k - 2.5) * 3.2 * s, G.hash(k * 2, i) * 1.5 * s, G.hash(k, i * 3) * 2 * s])) }
+  clouds.push(w.mesh(g, { pos: [x, y, z], cast: false, recv: false, shade: .25, emis: .12, outline: false, base: [x, y, z] }));
 });
 // Moewen
-const gulls = [0, 1, 2].map(i => { const b = w.mesh(G.ico(.16, 0, '#ffffff', 0, i, .6), { cast: false, recv: false, shade: .6 });
-  const wl = w.mesh(new G.Geo().tri([0, 0, -.12], [-.9, .1, 0], [0, 0, .14], G.hex('#f4f6f8')), { parent: b, cast: false, recv: false, shade: .6 });
-  const wr = w.mesh(new G.Geo().tri([0, 0, -.12], [.9, .1, 0], [0, 0, .14], G.hex('#f4f6f8')), { parent: b, cast: false, recv: false, shade: .6 });
+const gulls = [0, 1, 2].map(i => { const b = w.mesh(G.ico(.16, 2, '#ffffff', 0, i, .6).smooth(), { cast: false, recv: false, shade: .6, outline: false });
+  const wl = w.mesh(new G.Geo().tri([0, 0, -.12], [-.9, .1, 0], [0, 0, .14], G.hex('#f4f6f8')), { parent: b, cast: false, recv: false, shade: .6, outline: false });
+  const wr = w.mesh(new G.Geo().tri([0, 0, -.12], [.9, .1, 0], [0, 0, .14], G.hex('#f4f6f8')), { parent: b, cast: false, recv: false, shade: .6, outline: false });
   return { b, wl, wr, i } });
 
 // Heldenplatz: Sam steht hier
@@ -158,7 +163,7 @@ const coco = w.mesh(G.ico(.2, 2, '#6b4426', .06, 9).smooth(), { parent: chest, p
 function dashed(wd, dp, n) { const g = new G.Geo(); const seg = (x0, z0, x1, z1) => { for (let i = 0; i < n; i++) { if (i % 2) continue; const a = i / n, b = (i + 1) / n; const ax = lerp(x0, x1, a), az = lerp(z0, z1, a), bx = lerp(x0, x1, b), bz = lerp(z0, z1, b); const L = Math.hypot(bx - ax, bz - az); g.add(G.box(L, .06, .14, '#ffffff'), G.m4.compose([(ax + bx) / 2, .03, (az + bz) / 2], [0, -Math.atan2(bz - az, bx - ax), 0])) } };
   const x = wd / 2, z = dp / 2; seg(-x, -z, x, -z); seg(x, -z, x, z); seg(x, z, -x, z); seg(-x, z, -x, -z); return g }
 const PL = [{ x: -2.4, z: -2.6, w: 2.6, d: 2.2, lab: 'HÄUSER', re: /häuser/i }, { x: 4.2, z: -2.4, w: 2.8, d: 2.4, lab: 'BANK', re: /bank/i }, { x: 2.6, z: .4, w: 1.2, d: 4.2, lab: 'STRASSE', re: /straße/i, rot: .25 }];
-PL.forEach(p => { p.y = iH(p.x, p.z) + .02; p.m = w.mesh(dashed(p.w, p.d, 14), { pos: [p.x, p.y, p.z], rot: [0, p.rot || 0, 0], cast: false, emis: .35, shade: .5 }) });
+PL.forEach(p => { p.y = iH(p.x, p.z) + .02; p.m = w.mesh(dashed(p.w, p.d, 14), { pos: [p.x, p.y, p.z], rot: [0, p.rot || 0, 0], cast: false, emis: .35, shade: .5, outline: false }) });
 
 // ======================= TAG 2 =======================
 // Echte Zahlen (Alex 06.11.): 108 Follower, 86 Likes auf Tag 1 -> 860 € (+20 € Startkapital)
@@ -172,7 +177,7 @@ const crowd = [];
 (function people() {
   const avoid = [[0, 3, 1.5], [-1.25, 3.5, 1.3], [1.35, 3.5, 1.3], [1.55, 2.2, 1], [-4.6, 1.2, 1.6], [-3.5, 2.2, 1.4]];
   let k = 0, tries = 0;
-  const armGeo = col => new G.Geo().add(G.cyl(.075, .065, .4, 8, col).smooth(), G.m4.compose([0, -.4, 0])).add(G.ico(.085, 1, SAMC).smooth(), G.m4.compose([0, -.45, 0]));
+  const armGeo = col => new G.Geo().add(G.cyl(.075, .065, .4, 12, col).smooth(), G.m4.compose([0, -.4, 0])).add(G.ico(.085, 2, SAMC).smooth(), G.m4.compose([0, -.45, 0]));
   while (crowd.length < 70 && tries < 4000) {
     tries++;
     const a = G.hash(tries, 41) * 6.2832, r = 2.2 + 8.5 * Math.sqrt(G.hash(tries, 43));
@@ -185,9 +190,9 @@ const crowd = [];
     const col = SWC[k % SWC.length], s = .9 + .2 * G.hash(k, 3);
     const g = new G.Geo();
     g.add(G.cyl(.09, .08, .5, 8, '#6b4226'), G.m4.compose([-.11, 0, 0])).add(G.cyl(.09, .08, .5, 8, '#6b4226'), G.m4.compose([.11, 0, 0]));
-    g.add(G.cyl(.27, .23, .55, 12, col).smooth(), G.m4.compose([0, .45, 0]));
-    const hg = new G.Geo().add(G.ico(.33, 2, SAMC).smooth(), G.m4.compose([0, .3, 0]))
-      .add(G.ico(.042, 1, OL), G.m4.compose([-.1, .34, .3])).add(G.ico(.042, 1, OL), G.m4.compose([.1, .34, .3]))
+    g.add(G.cyl(.27, .23, .55, 18, col).smooth(), G.m4.compose([0, .45, 0]));
+    const hg = new G.Geo().add(G.ico(.33, 3, SAMC).smooth(), G.m4.compose([0, .3, 0]))
+      .add(G.ico(.042, 2, OL), G.m4.compose([-.1, .34, .3])).add(G.ico(.042, 2, OL), G.m4.compose([.1, .34, .3]))
       .add(G.box(.13, .025, .02, OL), G.m4.compose([0, .2, .315]));
     const yaw = Math.atan2(-x * .25, 6) + (G.hash(k, 9) - .5) * .5;
     const body = w.mesh(g, { pos: [x, y, z], rot: [0, yaw, 0], scl: [s, s, s] });

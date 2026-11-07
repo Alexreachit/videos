@@ -1,6 +1,6 @@
 name: Motion Graphics in Teilen (schnell)
 
-# Fuer schwere 3D-Szenen (z. B. ri01): Stimme einmal erzeugen, Frames auf 12 Runner verteilt rendern, dann zusammensetzen.
+# Fuer schwere 3D-Szenen (z. B. ri01): Stimme einmal erzeugen, Frames auf 20 Runner verteilt rendern, dann zusammensetzen.
 # Start: Projektname in mg/chunk_queue.txt eintragen und pushen (eine Zeile). Ergebnis wie gewohnt in Branch "renders".
 on:
   push:
@@ -12,7 +12,7 @@ permissions:
   contents: write
 
 env:
-  N: "12"
+  N: "20"
 
 jobs:
   voice:
@@ -37,7 +37,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        k: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+        k: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

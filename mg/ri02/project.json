@@ -5,14 +5,14 @@
   1080,
   1920
  ],
- "fps": 30,
+ "fps": 60,
  "scene": "scene.html",
  "voice": "en-US-AndrewMultilingualNeural",
  "rate": "+16%",
  "lead": 0.05,
  "gap": 0.12,
  "tail": 1.4,
- "crf": 20,
+ "crf": 18,
  "music": {
   "style": "playful",
   "bpm": 150,

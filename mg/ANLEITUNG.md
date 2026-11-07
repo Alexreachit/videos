@@ -187,3 +187,8 @@ Rendern auf GitHub: Projektname in `mg/render_queue.txt` eintragen und pushen (W
 - 05.11. Alex: Stimme bleibt ANDREW (alle 18 Sprecher angeboten, abgelehnt). Musik: style="playful" (fröhlich-lustig wie Vorbild: Pizzicato-Bass, Ukulele, Xylophon, Shaker), LEISE (gain 0.13), viele SFX, ab und zu Meeresrauschen ("wave") + Möwen ("gull").
 - Grafik "realistischer, nicht verpixelt": glatte Normalen (.smooth()), Gelände-Shader (terrain:1, Gras/Sand-Noise), Wasser mit Reflex/Fresnel, Grasbüschel + Blumen, Supersampling 1,35x (World(..., 1.35)).
 - RENDERN schwerer 3D-Szenen: NICHT mg-batch (1 Runner, >1 h), sondern mg-chunks.yml (Stimme 1x, 12 Runner je ~90 Frames, zusammensetzen; ~10 Min). Start: Workflow "Motion Graphics in Teilen" per workflow_dispatch oder mg/chunk_queue.txt ändern (Projektname).
+- 2026-11-07 Alex: "Grafik um ein Vielfaches besser, eher wie ein moderner Cartoon, weniger Pixel, alles smoother" -> NEUER STANDARD für Roundhead Island:
+  `w.toon = true` (gl3d.js): weiche Cel-Schattierung (2 Lichtbänder), farbige kühle Schatten statt Grau, Randlicht, weichere 16-Tap-Schatten, ruhigere Gras/Sand-Farben,
+  dunkle Tusche-Umrisse um alle 3D-Objekte (passend zu Sams Umriss; `outline:false` für Gras, Wolken, Möwen, Wege, Wasser/Gelände automatisch aus),
+  runde Formen (ico Detail 3, Zylinder 16–18 Segmente, Büsche aus 3 Kugeln), Supersampling 2x (World(..., 2)), 60 fps, crf 18.
+  Rendern über mg-chunks jetzt mit 20 Runnern.
