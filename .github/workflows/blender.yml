@@ -1,0 +1,44 @@
+name: Blender (3D-Figuren + Renders)
+
+# Fuehrt ein Blender-Python-Skript im Hintergrund aus (Blender 4.2 LTS, Cycles CPU).
+# Start: in mg/blender_queue.txt eine Zeile "<ordner>/<skript.py>" eintragen und pushen.
+# Das Skript schreibt nach $OUT; alles darin landet im Branch "renders" unter renders/<ordner>/.
+on:
+  push:
+    branches: [main]
+    paths: ["mg/blender_queue.txt"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  blender:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - name: Blender holen
+        run: |
+          set -e
+          for i in 1 2 3; do curl -fsSL -o b.tar.xz https://download.blender.org/release/Blender4.2/blender-4.2.3-linux-x64.tar.xz && break; sleep 10; done
+          tar -xf b.tar.xz && mv blender-4.2.3-linux-x64 bl
+          sudo apt-get -o Acquire::Retries=3 install -y --no-install-recommends libxi6 libxxf86vm1 libxfixes3 libxrender1 libgl1 libegl1 libxkbcommon0 libsm6 ffmpeg >/dev/null || true
+          ./bl/blender --version | head -1
+      - name: Skript ausfuehren
+        run: |
+          S=$(grep -v '^#' mg/blender_queue.txt | awk 'NF{print $1; exit}')
+          D=$(dirname "$S"); export OUT="$PWD/out/$(basename $D)"; mkdir -p "$OUT"
+          echo "D=$(basename $D)" >> $GITHUB_ENV
+          ./bl/blender -b --factory-startup -P "mg/$S" -- "$OUT" 2>&1 | tee "$OUT/blender.log" | grep -v "^Fra:" | tail -200
+      - name: In Branch renders ablegen
+        run: |
+          git config --global user.name "mg-bot"; git config --global user.email "mg-bot@users.noreply.github.com"
+          for k in 1 2 3 4 5 6 7 8; do
+            rm -rf rb
+            git clone --depth 1 --branch renders "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" rb
+            mkdir -p rb/renders/$D && cp -r out/$D/* rb/renders/$D/
+            cd rb && git add -A && git commit -qm "blender $D (${{ github.sha }})" && git push -q origin renders && cd .. && exit 0
+            cd ..; sleep $((k*7))
+          done
+          exit 1
