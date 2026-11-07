@@ -1,0 +1,834 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:IB;src:url(fonts/Inter-Black.otf);font-weight:900}
+@font-face{font-family:P;src:url(fonts/Poppins-Bold.ttf);font-weight:700}
+@font-face{font-family:'Cinzel Decorative';src:url(fonts/CinzelDecorative-Black.ttf);font-weight:900}
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#8fd0f5}
+#stage{position:absolute;inset:0;overflow:hidden}
+canvas{position:absolute;left:0;top:0;width:1920px;height:1080px}
+#ov,#ui,#fx{position:absolute;inset:0}
+.card{position:absolute;background:#fff;border:7px solid #232838;border-radius:28px;box-shadow:0 14px 0 #2328384d,0 26px 40px #0003;font-family:IB,P,Arial;font-weight:900;color:#232838}
+.pill{position:absolute;font-family:IB,P,Arial;font-weight:900;border:7px solid #232838;border-radius:22px;padding:8px 30px;box-shadow:0 10px 0 #2328384d;white-space:nowrap}
+.lbl{position:absolute;font-family:IB,P,Arial;font-weight:900;white-space:nowrap;color:#fff;text-align:center}
+</style></head><body><div id="stage"><canvas id="cv"></canvas><div id="fx"></div><div id="ui"></div></div>
+<script src="../lib/core.js"></script><script src="../lib/gl3d.js"></script><script src="../lib/samrig.js"></script><script src="../lib/mapdata.js"></script>
+<script>
+// ===================== YT14 Ponzi – 3D-Welt (gl3d Toon) =====================
+const W = 1920, H = 1080, G = GL3D, {cl, ez, ei, bo, el, lerp} = MG;
+const $ = id => document.getElementById(id);
+const OL = '#232838', SKIN = '#f7e4b5', DARK = '#262a40';
+const w = G.World($('cv'), W, H, 2);
+w.toon = true; w.rim = .34; w.outline = .0016;
+w.fog = G.hex('#dff3ff'); w.fogN = 70; w.fogF = 210; w.sky = G.hex('#d6efff'); w.gnd = G.hex('#c9b591');
+w.sun = G.v.norm([.45, .8, -.38]); w.shadowSize = 30;
+const SETX = { ST: 0, HB: -220, DN: -110, BK: 110, PR: 220, DK: 330, PY: 440, MN: 550, VT: 660, SW: 770, RIO: 880, STU: 990, CT: 1100 };
+const SETM = {}; let CUR = null;
+function mk(set, g, o = {}) {
+  const m = w.mesh(g, o); (SETM[set] || (SETM[set] = [])).push(m); m._v = o.vis ?? true; return m;
+}
+const cp = G.m4.compose;
+function tex(wd, ht, fn) { const c = document.createElement('canvas'); c.width = wd; c.height = ht; fn(c.getContext('2d'), wd, ht); return w.texture(c) }
+const TEXQ = []; // Texturen erst nach dem Laden der Schriften bauen
+function texMesh(set, wd, ht, fn, o) { const m = mk(set, G.plane(wd, ht, 1, 1, '#ffffff'), Object.assign({ outline: false, cast: false }, o)); TEXQ.push(() => m.tex = fn()); return m }
+function txt(x, s, X, Y, font, col, o = {}) {
+  x.font = font; x.textAlign = o.al || 'center'; x.textBaseline = 'middle';
+  if (o.stroke) { x.lineWidth = o.stroke; x.strokeStyle = o.sc || OL; x.lineJoin = 'round'; x.strokeText(s, X, Y) }
+  x.fillStyle = col; x.fillText(s, X, Y);
+}
+// ---------- Figuren ----------
+const PCOL = ['#d64545', '#2fa36b', '#e09a2b', '#7a55c7', '#2a8fd6', '#e05d9a', '#3c4a63', '#c7a32f', '#1f9e9e', '#8a5a3c'];
+function person(set, col, o = {}) {
+  const sk = o.dark ? DARK : SKIN, leg = o.dark ? '#1c1f30' : (o.leg || '#5a3d2a');
+  const g = new G.Geo();
+  g.add(G.cyl(.09, .08, .5, 8, leg), cp([-.11, 0, 0])).add(G.cyl(.09, .08, .5, 8, leg), cp([.11, 0, 0]));
+  g.add(G.cyl(.27, .23, .55, 18, col).smooth(), cp([0, .45, 0]));
+  if (o.tie) g.add(G.box(.07, .3, .02, o.tie, { base: true }), cp([0, .66, .245]));
+  const hg = new G.Geo().add(G.ico(.33, 3, sk).smooth(), cp([0, .3, 0]));
+  if (!o.dark) hg.add(G.ico(.042, 2, OL), cp([-.1, .34, .3])).add(G.ico(.042, 2, OL), cp([.1, .34, .3])).add(G.box(.13, .025, .02, OL), cp([0, .2, .315]));
+  if (o.hat == 'fedora') hg.add(G.cyl(.46, .46, .035, 24, o.hatc || DARK).smooth(), cp([0, .5, 0])).add(G.cyl(.27, .24, .3, 20, o.hatc || DARK).smooth(), cp([0, .52, 0])).add(G.cyl(.275, .275, .06, 20, '#55597a'), cp([0, .53, 0]));
+  if (o.hat == 'cap') hg.add(G.cyl(.31, .3, .16, 20, o.hatc || '#2c3e70').smooth(), cp([0, .5, 0])).add(G.box(.34, .03, .2, '#1b1f33', { base: true }), cp([0, .5, .3]));
+  if (o.hat == 'boater') hg.add(G.cyl(.44, .44, .03, 24, '#f2d58a').smooth(), cp([0, .5, 0])).add(G.cyl(.26, .26, .18, 20, '#f2d58a').smooth(), cp([0, .52, 0])).add(G.cyl(.265, .265, .05, 20, '#2b2f45'), cp([0, .57, 0]));
+  if (o.hat == 'bun') hg.add(G.ico(.16, 2, o.hatc || '#6b4226').smooth(), cp([0, .62, -.12]));
+  const s = o.s || 1;
+  const body = mk(set, g, { pos: o.pos || [0, 0, 0], rot: [0, o.yaw || 0, 0], scl: [s, s, s] });
+  const head = mk(set, hg, { parent: body, pos: [0, .97, 0] });
+  const arm = c => new G.Geo().add(G.cyl(.075, .065, .4, 12, c).smooth(), cp([0, -.4, 0])).add(G.ico(.085, 2, sk).smooth(), cp([0, -.45, 0]));
+  const aL = mk(set, arm(col), { parent: body, pos: [-.27, .92, 0], rot: [0, 0, -.12] });
+  const aR = mk(set, arm(col), { parent: body, pos: [.27, .92, 0], rot: [0, 0, .12] });
+  return { m: body, head, aL, aR, s, base: [...(o.pos || [0, 0, 0])], yaw: o.yaw || 0, ph: G.hash(body.n || 1, (o.pos || [0])[0]) * 6.28 + Math.random() * 0 };
+}
+function pose(p, t, k = 'idle', amt = 1) {
+  const ph = p.ph; let hop = 0, aL = -.12 - .04 * Math.sin(t * 2 + ph), aR = .12 + .04 * Math.sin(t * 2 + ph), ax = 0, axR = 0, hx = 0, hy = .12 * Math.sin(t * .7 + ph);
+  if (k == 'cheer') { hop = Math.max(0, Math.sin(t * 7 + ph)) * .25 * amt; const wv = Math.sin(t * 10 + ph) * .35; aL = -2.5 - wv; aR = 2.5 + wv }
+  if (k == 'wave') { aR = 2.4 + Math.sin(t * 9 + ph) * .4 }
+  if (k == 'scared') { aL = -1.5; aR = 1.5; ax = -1.2; axR = -1.2; hx = -.15; hop = Math.abs(Math.sin(t * 22 + ph)) * .03 }
+  if (k == 'sad') { hx = .35; aL = -.05; aR = .05; hy = 0 }
+  if (k == 'angry') { const sh = Math.sin(t * 13 + ph); aL = -2.4 - sh * .3; aR = .3; hop = Math.abs(sh) * .06 }
+  if (k == 'give') { axR = -1.2; aR = .25 }
+  if (k == 'walk') { const f = Math.sin(t * 8 + ph); ax = f * .6; axR = -f * .6; hop = Math.abs(f) * .05 }
+  if (k == 'push') { ax = -1.5; axR = -1.5; aL = -.2; aR = .2; hop = Math.abs(Math.sin(t * 12 + ph)) * .08 }
+  if (k == 'fall') { }
+  p.m.pos = [p.base[0], p.base[1] + hop, p.base[2]]; p.m.rot = [0, p.yaw, .04 * Math.sin(t * 1.3 + ph)];
+  p.head.rot = [hx, hy, 0]; p.aL.rot = [ax, 0, aL]; p.aR.rot = [axR, 0, aR];
+}
+// Ponzi: gesichtslose Silhouette mit Hut (keine Darstellung der realen Person)
+const PZ = {};
+function mkPonzi(set, pos, yaw) { const p = person(set, '#2f3350', { dark: true, hat: 'fedora', s: 1.08, pos, yaw }); p.m.emis = 0; return p }
+// ---------- Bausteine ----------
+const BRICK = ['#c4573e', '#b4634a', '#d0794f', '#a8513f', '#c98a5a', '#9c5a48', '#d9a066'];
+function facadeTex(col, rows, cols, o = {}) {
+  return () => tex(512, 512, (x, wd, ht) => {
+    x.fillStyle = col; x.fillRect(0, 0, wd, ht);
+    x.fillStyle = '#00000018'; for (let r = 0; r < 64; r++) for (let c = 0; c < 18; c++) if ((r * 7 + c * 3) % 5 == 0) x.fillRect(c * 32 + (r % 2) * 16, r * 8, 28, 6);
+    const ww = wd / cols, hh = (ht - (o.shop ? 150 : 40)) / rows;
+    for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+      const X = c * ww + ww * .22, Y = 30 + r * hh + hh * .14, WW = ww * .56, HH = hh * .66;
+      x.fillStyle = '#efe6d2'; x.fillRect(X - 7, Y - 7, WW + 14, HH + 14);
+      x.fillStyle = (r + c) % 3 ? '#7fb6d9' : '#a8d4ee'; x.fillRect(X, Y, WW, HH);
+      x.fillStyle = '#ffffff66'; x.beginPath(); x.moveTo(X, Y + HH * .6); x.lineTo(X + WW * .5, Y); x.lineTo(X + WW * .75, Y); x.lineTo(X, Y + HH); x.fill();
+      x.fillStyle = '#efe6d2'; x.fillRect(X + WW / 2 - 3, Y, 6, HH); x.fillRect(X, Y + HH / 2 - 3, WW, 6);
+    }
+    if (o.shop) { x.fillStyle = o.shop; x.fillRect(0, ht - 150, wd, 150); x.fillStyle = '#a8d4ee'; x.fillRect(40, ht - 120, 150, 110); x.fillRect(wd - 190, ht - 120, 150, 110); x.fillStyle = '#5a3a22'; x.fillRect(wd / 2 - 50, ht - 135, 100, 135); x.fillStyle = '#ffd166'; x.beginPath(); x.arc(wd / 2 + 30, ht - 65, 6, 0, 7); x.fill() }
+    x.fillStyle = '#00000022'; x.fillRect(0, 0, wd, 10);
+  });
+}
+function building(set, x, z, bw, bh, bd, col, o = {}) {
+  const yaw = o.yaw || 0, g = new G.Geo().add(G.box(bw, bh, bd, col, { base: true })).add(G.box(bw + .4, .35, bd + .4, '#e9dfc9', { base: true }), cp([0, bh, 0]));
+  if (o.roof) g.add(G.box(bw * .3, 1.2, bd * .3, '#7a4a3a', { base: true }), cp([bw * .25, bh + .35, 0]));
+  const b = mk(set, g, { pos: [x, 0, z], rot: [0, yaw, 0] });
+  const f = texMesh(set, bw * .98, bh * .98, facadeTex(col, o.rows || 3, o.cols || 3, { shop: o.shop }), { parent: b, pos: [0, bh / 2, bd / 2 + .02] });
+  return b;
+}
+function signMesh(set, parent, pos, sw, sh, lines, bg, fg, o = {}) {
+  return texMesh(set, sw, sh, () => tex(1024, Math.round(1024 * sh / sw), (x, wd, ht) => {
+    x.fillStyle = bg; x.fillRect(0, 0, wd, ht); x.strokeStyle = o.border || '#ffd166'; x.lineWidth = 14; x.strokeRect(12, 12, wd - 24, ht - 24);
+    lines.forEach((l, i) => txt(x, l[0], wd / 2, ht * (lines.length == 1 ? .54 : (i + .7) / (lines.length + .4)), l[1] || `900 ${Math.round(ht * .42)}px IB, P, Arial`, fg));
+  }), Object.assign({ parent, pos, emis: o.emis || 0 }, o.mo || {}));
+}
+function lamp(set, x, z) { mk(set, G.cyl(.08, .06, 3.6, 8, '#2b2f45').add(G.box(.5, .08, .08, '#2b2f45'), cp([.2, 3.5, 0])), { pos: [x, 0, z] }); mk(set, G.ico(.2, 2, '#fff1b8').smooth(), { pos: [x + .42, 3.32, z], emis: .9, outline: false }) }
+function car(set, x, z, yaw, col = '#232838') {
+  const g = new G.Geo().add(G.box(2.6, .55, 1.3, col, { base: true }), cp([0, .45, 0])).add(G.box(1.2, .75, 1.2, col, { base: true }), cp([-.45, 1.0, 0]))
+    .add(G.box(1.0, .5, 1.24, '#a8d4ee', { base: true }), cp([-.45, 1.12, 0])).add(G.box(.9, .45, 1.1, col, { base: true }), cp([.9, .95, 0]))
+    .add(G.box(.08, .4, .9, '#d8d8d8', { base: true }), cp([1.33, .55, 0]));
+  [[-.85, .7], [.85, .7], [-.85, -.7], [.85, -.7]].forEach(([dx, dz]) => g.add(G.cyl(.36, .36, .2, 16, '#14161f', { cap: '#c9c9c9' }).smooth(), cp([dx, .36, dz - (dz > 0 ? .1 : -.1)], [Math.PI / 2, 0, 0])));
+  return mk(set, g, { pos: [x, 0, z], rot: [0, yaw, 0] });
+}
+function tree(set, x, z, s = 1) { mk(set, G.cyl(.18 * s, .14 * s, 1.6 * s, 8, '#8a5a3c'), { pos: [x, 0, z] }); mk(set, G.ico(1.1 * s, 2, '#5fb24c', .12, x * 3 + z, .9).smooth(), { pos: [x, 2.2 * s, z] }) }
+function ground(set, x, z, sx, sz, col, y = 0) { return mk(set, G.box(sx, .2, sz, col, { base: true }).vary(.03, x + z), { pos: [x, y - .2, z], cast: false, outline: false }) }
+function room(set, x, z, rw, rd, rh, wall, floor, o = {}) {
+  ground(set, x, z, rw, rd, floor);
+  mk(set, G.box(rw, rh, .3, wall, { base: true }), { pos: [x, 0, z + rd / 2], cast: false });
+  mk(set, G.box(.3, rh, rd, o.wall2 || wall, { base: true }), { pos: [x - rw / 2, 0, z], cast: false });
+  mk(set, G.box(.3, rh, rd, o.wall2 || wall, { base: true }), { pos: [x + rw / 2, 0, z], cast: false });
+}
+// ===================== Sets =====================
+// ---- ST: Boston, School Street ----
+const ST = {};
+(function () {
+  const S = 'ST';
+  ground(S, 0, 0, 120, 10.2, '#a39d92'); ground(S, 0, 6.6, 120, 3.2, '#ddd3c2', .14); ground(S, 0, -6.6, 120, 3.2, '#ddd3c2', .14);
+  ground(S, 0, 40, 160, 60, '#cfc6b4', -.01); ground(S, 0, -40, 160, 60, '#cfc6b4', -.01);
+  // Strassenmarkierung / Pflaster-Fugen
+  const lines = new G.Geo(); for (let x = -58; x < 58; x += 1.6) lines.add(G.box(.05, .02, 10, '#8f897f', { base: true }), cp([x, 0, 0])); mk(S, lines, { cast: false, outline: false });
+  // Nordseite (Fassaden schauen nach -z)
+  const N = [[-25.5, 8, 10, 4], [-17.5, 8, 7.5, 1], [-9, 9, 11, 2], [0, 8.4, 9, 0], [9, 9, 12, 5], [17.5, 8, 8, 6], [25.5, 8, 10.5, 3]];
+  N.forEach(([x, bw, bh, ci], i) => { const b = building(S, x, 12, bw - .2, bh, 8, BRICK[ci], { yaw: Math.PI, rows: Math.round(bh / 3.2), cols: 3, shop: i == 3 ? '#2f5d4a' : ['#3b6ea5', '#8a4b2a', '#6b4f8a', '', '#2f6f6a', '#9a3b3b', '#4a6a2a'][i] }); if (i == 3) ST.office = b });
+  ST.sign = signMesh(S, ST.office, [0, 2.7, 4.07], 7.4, 1.0, [['SECURITIES EXCHANGE CO.']], '#1f4a3a', '#ffd166', { emis: .05 });
+  ST.banner = signMesh(S, ST.office, [0, 4.9, 4.1], 6.6, 1.5, [['50% PROFIT', '900 92px IB, P, Arial'], ['IN 45 DAYS', '900 92px IB, P, Arial']], '#e8483c', '#ffffff', { border: '#ffffff' });
+  // Suedseite (Fassaden schauen nach +z), Hanover Trust
+  const Sd = [[-24, 9, 9, 2], [-14, 10, 12, 0], [-4, 9, 8, 5], [6, 8, 10, 3], [26, 9, 9, 1]];
+  Sd.forEach(([x, bw, bh, ci], i) => building(S, x, -12, bw - .2, bh, 8, BRICK[ci], { rows: Math.round(bh / 3.2), cols: 3, shop: ['#3b6ea5', '#8a4b2a', '#2f6f6a', '#9a3b3b', '#4a6a2a'][i] }));
+  const hx = 15.5, hb = mk(S, new G.Geo().add(G.box(9.6, 8, 8, '#e8e0cc', { base: true })).add(G.box(10.4, .6, 8.6, '#d9cfb5', { base: true }), cp([0, 8, 0])).add(G.box(10.4, .5, 8.8, '#d9cfb5', { base: true })), { pos: [hx, 0, -12] });
+  for (let i = 0; i < 4; i++) mk(S, G.cyl(.35, .32, 6.2, 16, '#f4efe2').smooth(), { pos: [hx - 3.3 + i * 2.2, .5, -7.6] });
+  mk(S, G.box(10.4, 1.2, 1.2, '#efe7d4', { base: true }), { pos: [hx, 6.7, -7.6] });
+  ST.hsign = signMesh(S, null, [hx, 7.3, -6.95], 7.6, .95, [['HANOVER TRUST']], '#efe7d4', '#3a3f5c', { border: '#c8b98f' });
+  ST.hdoor = mk(S, G.box(2.2, 3.2, .1, '#5a3a22', { base: true }), { pos: [hx, .5, -7.95] });
+  ST.closed = mk(S, new G.Geo().add(G.box(3.2, .3, .08, '#c98c50', { base: true }), cp([0, 0, 0], [0, 0, .6])).add(G.box(3.2, .3, .08, '#c98c50', { base: true }), cp([0, 1.9, 0], [0, 0, -.6])), { pos: [hx - .1, 1.2, -7.85], vis: false });
+  ST.closedSign = signMesh(S, null, [hx, 3.0, -7.78], 2.6, .8, [['CLOSED']], '#ffffff', '#e8483c', { border: '#e8483c', mo: { vis: false } });
+  for (let x = -40; x <= 40; x += 8) { lamp(S, x + 2, 5.25); lamp(S, x - 2, -5.25) }
+  ST.cars = [car(S, -12, 3.2, 0, '#232838'), car(S, 22, -3.4, Math.PI, '#2f5d4a'), car(S, -30, -3.4, Math.PI, '#6b2b2b')];
+  // Schlange vor dem Buero (Blick Richtung Tuer = -x)
+  ST.queue = []; for (let i = 0; i < 44; i++) { const row = i % 2, x = 1.6 + Math.floor(i / 2) * .95 + row * .45, z = 5.75 + row * .8;
+    ST.queue.push(person(S, PCOL[i % PCOL.length], { pos: [x, .14, z], yaw: -Math.PI / 2 + (G.hash(i, 2) - .5) * .3, hat: ['fedora', 'cap', 'boater', 'bun', null][i % 5], hatc: ['#5b4636', '#3c4a63', '#6b4226', '#2b2f45'][i % 4], tie: i % 3 == 0 ? '#e8483c' : null, s: .95 + .1 * G.hash(i, 5) })) }
+  ST.crowd = []; for (let i = 0; i < 30; i++) { const x = -6 + (i % 10) * 1.3 + (G.hash(i, 3) - .5) * .5, z = 1.4 + Math.floor(i / 10) * 1.25 + (G.hash(i, 4) - .5) * .4;
+    ST.crowd.push(person(S, PCOL[(i + 3) % PCOL.length], { pos: [x, 0, z], yaw: (G.hash(i, 6) - .5) * .5, hat: ['cap', 'fedora', 'bun', 'boater', null][i % 5], s: .95 + .1 * G.hash(i, 8) })) }
+  ST.newsboy = person(S, '#e09a2b', { pos: [-6.5, .14, 5.6], yaw: -.4, hat: 'cap', hatc: '#6b4226', s: .82 });
+  ST.paper = texMesh(S, .7, .9, () => tex(256, 330, (x, wd, ht) => { x.fillStyle = '#f4eedf'; x.fillRect(0, 0, wd, ht); txt(x, 'BOSTON POST', wd / 2, 34, '900 30px IB, Arial', '#232838'); x.fillStyle = '#232838'; x.fillRect(16, 60, wd - 32, 6); txt(x, 'PONZI?', wd / 2, 110, '900 56px IB, Arial', '#c0392b'); for (let i = 0; i < 9; i++) { x.fillStyle = '#9a9384'; x.fillRect(20, 160 + i * 17, wd - 40 - (i % 3) * 30, 8) } }), { parent: ST.newsboy.aR, pos: [0, -.55, .18], rot: [-.2, 0, 0] });
+  ST.cops = [person(S, '#2c3e70', { pos: [-1.2, .14, 6.0], yaw: 0, hat: 'cap', hatc: '#1d2a52', leg: '#1d2a52', vis: false }), person(S, '#2c3e70', { pos: [1.2, .14, 6.0], yaw: 0, hat: 'cap', hatc: '#1d2a52', leg: '#1d2a52' })];
+  PZ.ST = mkPonzi(S, [0, .14, 7.2], 0);
+  // Geldscheine (Bank-Run / Regen)
+  ST.bills = []; const bg = G.box(.5, .02, .24, '#7bc47f', { base: true }); for (let i = 0; i < 30; i++) ST.bills.push(mk(S, bg, { cast: false, outline: false }));
+})();
+// ---- HB: Hafen 1903 ----
+const HB = {};
+(function () {
+  const S = 'HB', X = SETX.HB;
+  const g = new G.Geo(), k = G.hex('#2b9fd8'); for (let i = 0; i < 70; i++) for (let j = 0; j < 70; j++) { const P = (a, b) => [X - 100 + a * 200 / 70, -.3, -60 + b * 160 / 70]; g.quad(P(i, j), P(i, j + 1), P(i + 1, j + 1), P(i + 1, j), k) }
+  mk(S, g, { wave: .18, cast: false, water: 1, spec: .4 });
+  ground(S, X, 20, 200, 20, '#cfc6b4', .3); // Kai
+  mk(S, G.box(30, .5, 6, '#9c6d43', { base: true }).vary(.05, 3), { pos: [X, 0, 8] });
+  for (let i = 0; i < 8; i++) mk(S, G.cyl(.25, .25, 1.4, 10, '#7a5230'), { pos: [X - 13 + i * 3.7, -.9, 5.2] });
+  [[-14, 9, 7, 2], [-4, 11, 9, 0], [7, 9, 6, 4], [17, 10, 8, 1]].forEach(([dx, bw, bh, ci]) => building(S, X + dx, 26, bw, bh, 8, BRICK[ci], { yaw: Math.PI, rows: 2, cols: 3 }));
+  for (let i = 0; i < 6; i++) { const c = mk(S, G.box(1, 1, 1, ['#c98c50', '#8a5a3c', '#a8703f'][i % 3], { base: true }), { pos: [X - 8 + i * 1.2 + (i > 2 ? 3 : 0), .5, 9 + (i % 2) * 1.1] }) }
+  const sh = new G.Geo().add(G.box(22, 3, 5, '#2b2f45', { base: true }), cp([0, 0, 0])).add(G.box(22.2, .9, 5.1, '#c0392b', { base: true }), cp([0, -.2, 0]))
+    .add(G.box(14, 2.2, 4, '#f4efe2', { base: true }), cp([0, 3, 0])).add(G.box(9, 1.6, 3.4, '#f4efe2', { base: true }), cp([.5, 5.2, 0]))
+    .add(G.cyl(.75, .75, 3.6, 18, '#e8483c').smooth(), cp([-2.2, 6.6, 0])).add(G.cyl(.78, .78, .9, 18, '#232838').smooth(), cp([-2.2, 9.6, 0]))
+    .add(G.cyl(.75, .75, 3.6, 18, '#e8483c').smooth(), cp([2.6, 6.6, 0])).add(G.cyl(.78, .78, .9, 18, '#232838').smooth(), cp([2.6, 9.6, 0]))
+    .add(G.cyl(.08, .08, 7, 6, '#5a3a22'), cp([-9, 3, 0])).add(G.cyl(.08, .08, 6, 6, '#5a3a22'), cp([8.5, 3, 0]));
+  for (let i = 0; i < 9; i++) sh.add(G.cyl(.25, .25, .05, 12, '#2b2f45'), cp([-6 + i * 1.5, 4.1, -2.02], [Math.PI / 2, 0, 0]));
+  for (let i = 0; i < 9; i++) sh.add(G.cyl(.25, .25, .05, 12, '#a8d4ee'), cp([-6 + i * 1.5, 4.1, -2.05], [Math.PI / 2, 0, 0]));
+  HB.ship = mk(S, sh, { pos: [X + 4, -.6, 1] });
+  HB.smoke = []; for (let i = 0; i < 10; i++) HB.smoke.push(mk(S, G.ico(.6, 2, '#eef1f6', .2, i).smooth(), { cast: false, outline: false }));
+  HB.ponzi = mkPonzi(S, [X, .5, 8.5], Math.PI);
+  HB.case = mk(S, G.box(.5, .36, .18, '#8a5a3c', { base: true }), { parent: HB.ponzi.aR, pos: [0, -.75, 0] });
+  HB.crowd = []; for (let i = 0; i < 10; i++) HB.crowd.push(person(S, PCOL[i % PCOL.length], { pos: [X - 10 + i * 2.1, .5, 12 + (i % 3) * 1.2], yaw: Math.PI + (G.hash(i, 1) - .5), hat: ['cap', 'bun', 'fedora', null][i % 4] }));
+})();
+// ---- DN: Restaurant (Tellerwaescher) ----
+const DN = {};
+(function () {
+  const S = 'DN', X = SETX.DN;
+  room(S, X, 0, 16, 12, 6, '#f2dfbf', '#e9e1d2', { wall2: '#ead3ad' });
+  const fl = new G.Geo(); for (let i = 0; i < 16; i++) for (let j = 0; j < 12; j++) if ((i + j) % 2) fl.add(G.box(1, .02, 1, '#2b2f45', { base: true }), cp([X - 7.5 + i, 0, -5.5 + j])); mk(S, fl, { cast: false, outline: false });
+  mk(S, G.box(10, 1.1, 1.2, '#c0392b', { base: true }).add(G.box(10.2, .1, 1.4, '#f4efe2', { base: true }), cp([0, 1.1, 0])), { pos: [X, 0, 1] });
+  for (let i = 0; i < 6; i++) mk(S, G.cyl(.06, .06, .8, 8, '#9aa3b5').add(G.cyl(.32, .32, .12, 16, '#e8483c').smooth(), cp([0, .8, 0])), { pos: [X - 4 + i * 1.6, 0, -.2] });
+  mk(S, G.box(3, 1, 1, '#c9ced8', { base: true }).add(G.box(2.4, .1, .7, '#7fb6d9', { base: true }), cp([0, 1, 0])), { pos: [X + 2.5, 0, 4.5] });
+  DN.plates = []; const pg = G.cyl(.32, .3, .05, 20, '#ffffff').smooth(); for (let i = 0; i < 12; i++) DN.plates.push(mk(S, pg, { pos: [X + .9, 1.12 + i * .06, 3.6] }));
+  DN.ponzi = mkPonzi(S, [X + 1.6, 0, 3.7], Math.PI);
+  DN.cust = [person(S, '#2a8fd6', { pos: [X - 2.4, .5, -.25], yaw: 0, s: .95 }), person(S, '#e05d9a', { pos: [X - .8, .5, -.25], yaw: 0, hat: 'bun', s: .95 })];
+  DN.boss = person(S, '#f4efe2', { pos: [X - 2, 0, 3.8], yaw: Math.PI / 2, leg: '#232838', tie: '#232838', s: 1.05 });
+  signMesh(S, null, [X, 4.2, 5.82], 5, 1.1, [['DINER']], '#c0392b', '#ffffff', { border: '#ffffff', mo: { rot: [0, Math.PI, 0] } });
+})();
+// ---- BK: Banco Zarossi, Montreal ----
+const BK = {};
+(function () {
+  const S = 'BK', X = SETX.BK;
+  ground(S, X, 0, 90, 70, '#d9d0bf'); ground(S, X, -1, 90, 7, '#a39d92', .02);
+  const b = new G.Geo().add(G.box(14, 7.5, 8, '#efe7d4', { base: true })).add(G.box(15, .7, 9, '#ddd2b8', { base: true }))
+    .add(G.box(15, .7, 9, '#ddd2b8', { base: true }), cp([0, 7.5, 0])).add(G.cyl(9.2, 0, 2.6, 3, '#e5dcc4', { rot: Math.PI / 2 }), cp([0, 8.2, 3.3], [Math.PI / 2, 0, 0], [1, .7, 1]));
+  BK.b = mk(S, b, { pos: [X, 0, 10] });
+  for (let i = 0; i < 6; i++) mk(S, G.cyl(.38, .34, 6.2, 16, '#f7f2e6').smooth(), { pos: [X - 5.5 + i * 2.2, .7, 5.6] });
+  BK.sign = signMesh(S, null, [X, 7.1, 5.48], 9, 1.1, [['BANCO ZAROSSI']], '#efe7d4', '#3a3f5c', { border: '#c8b98f', mo: { rot: [0, Math.PI, 0] } });
+  BK.banner = signMesh(S, null, [X, 4.4, 5.3], 4.8, 1.6, [['6%', '900 120px IB, P, Arial'], ['INTEREST!', '900 76px IB, P, Arial']], '#2fa36b', '#ffffff', { border: '#ffffff', mo: { rot: [0, Math.PI, 0] } });
+  BK.door = mk(S, G.box(2.4, 3.4, .12, '#5a3a22', { base: true }), { pos: [X, .7, 5.95] });
+  BK.closed = signMesh(S, null, [X, 2.4, 5.8], 2.2, .7, [['CLOSED']], '#ffffff', '#e8483c', { border: '#e8483c', mo: { vis: false, rot: [0, Math.PI, 0] } });
+  [[-20, 10, 9, 1], [20, 10, 11, 4], [-31, 9, 8, 6], [31, 9, 7, 2]].forEach(([dx, bw, bh, ci]) => building(S, X + dx, 12, bw, bh, 8, BRICK[ci], { yaw: Math.PI, rows: 3, cols: 3, shop: '#3b6ea5' }));
+  for (let x = -24; x <= 24; x += 8) lamp(S, X + x, 3.3);
+  BK.queue = []; for (let i = 0; i < 14; i++) BK.queue.push(person(S, PCOL[(i + 5) % PCOL.length], { pos: [X - 1.2 - (i % 7) * 1.0 - (i > 6 ? .5 : 0), 0, 4.3 - (i > 6 ? .9 : 0)], yaw: Math.PI / 2 + .3 * (G.hash(i, 9) - .5) + Math.PI, hat: ['fedora', 'bun', 'cap', 'boater', null][i % 5] }));
+  BK.queue.forEach(p => { p.yaw = Math.PI / 2 * 1; p.m.rot = [0, p.yaw, 0] });
+  BK.car = car(S, X + 9, -1.2, 0, '#2b2f45');
+  BK.bag = mk(S, G.ico(.45, 2, '#c9a35a', .1, 4, 1.1).smooth().add(G.box(.2, .25, .2, '#a8803c', { base: true }), cp([0, .38, 0])), { parent: BK.car, pos: [.9, 1.4, 0] });
+  PZ.BK = mkPonzi(S, [X + 6.5, 0, 2.2], -2.4);
+})();
+// ---- PR: Gefaengniszelle ----
+const PR = {};
+(function () {
+  const S = 'PR', X = SETX.PR;
+  room(S, X, 0, 7, 6, 4.4, '#a7afc2', '#7d8496', { wall2: '#99a2b6' });
+  const bars = new G.Geo(); for (let i = 0; i < 15; i++) bars.add(G.cyl(.05, .05, 4.4, 8, '#3a3f5c').smooth(), cp([-3.5 + i * .5, 0, 0]));
+  bars.add(G.box(7, .14, .14, '#3a3f5c', { base: true }), cp([0, 2.6, 0])).add(G.box(7, .14, .14, '#3a3f5c', { base: true }), cp([0, 4.2, 0]));
+  PR.bars = mk(S, bars, { pos: [X, 0, -3] });
+  mk(S, G.box(2.6, .5, 1, '#8a5a3c', { base: true }), { pos: [X - 1.6, 0, 2.3] });
+  mk(S, G.box(1.4, .1, .9, '#c9b98f', { base: true }), { pos: [X - 1.6, .5, 2.3] });
+  const win = new G.Geo().add(G.box(1.2, 1, .05, '#cfe9ff', { base: true })); for (let i = 0; i < 4; i++) win.add(G.box(.06, 1, .08, '#3a3f5c', { base: true }), cp([-.45 + i * .3, 0, 0]));
+  mk(S, win, { pos: [X + 1.2, 2.7, 2.83], emis: .8, cast: false });
+  PR.ponzi = mkPonzi(S, [X - 1.6, .25, 2.2], Math.PI);
+  PR.num = signMesh(S, null, [X - 1.6, 1.25, 1.9], .55, .25, [['6660']], '#ffffff', '#232838', { border: '#232838', mo: { vis: false, rot: [0, Math.PI, 0] } });
+})();
+// ---- DK: riesiger Schreibtisch (Briefe, Coupons, Rechnungen) ----
+const DK = {};
+(function () {
+  const S = 'DK', X = SETX.DK;
+  const top = new G.Geo(); for (let i = 0; i < 14; i++) top.add(G.box(40, .4, 1.5, i % 2 ? '#a8703f' : '#b07a48', { base: true }), cp([0, 0, -10 + i * 1.5]));
+  mk(S, top, { pos: [X, -.4, 0], cast: false, outline: false });
+  mk(S, G.box(40, 14, .4, '#e9f4ff', { base: true }), { pos: [X, -.4, 11], cast: false, outline: false });
+  DK.lamp = mk(S, G.cyl(1.2, 1.2, .3, 20, '#2f5d4a').smooth().add(G.cyl(.12, .12, 5, 8, '#c9a35a'), cp([0, .3, 0])).add(G.cyl(1.6, .5, 1.4, 20, '#2f8a5a', { open: true }).smooth(), cp([1.2, 4.6, 0], [0, 0, -1.9])), { pos: [X + 7, 0, 6] });
+  mk(S, G.ico(1.2, 1, '#fff1b8').smooth(), { pos: [X + 7.4, 4, 6], emis: 1, vis: false });
+  // Globus
+  DK.globe = mk(S, G.ico(1.6, 3, '#4fa9ec').smooth(), { pos: [X - 8, 3.4, 6] });
+  const land = new G.Geo(); for (let i = 0; i < 14; i++) { const a = G.hash(i, 1) * 6.28, b = (G.hash(i, 2) - .5) * 2.2; land.add(G.ico(.55, 2, '#6cbf55', .2, i, .35).smooth(), cp([Math.cos(a) * Math.cos(b) * 1.45, Math.sin(b) * 1.45, Math.sin(a) * Math.cos(b) * 1.45], [0, -a, b + Math.PI / 2])) }
+  DK.land = mk(S, land, { parent: DK.globe });
+  mk(S, G.cyl(1, 1.1, .3, 18, '#5a3a22').add(G.cyl(.12, .12, 1.8, 8, '#c9a35a'), cp([0, .3, 0])), { pos: [X - 8, 0, 6] });
+  // Briefumschlag
+  DK.env = texMesh(S, 4.4, 2.8, () => tex(880, 560, (x, wd, ht) => { x.fillStyle = '#f6ecd6'; x.fillRect(0, 0, wd, ht); x.strokeStyle = '#c0392b'; x.lineWidth = 16; x.setLineDash([40, 30]); x.strokeRect(14, 14, wd - 28, ht - 28); x.setLineDash([]);
+    x.fillStyle = '#e8483c'; x.fillRect(wd - 190, 50, 130, 160); x.fillStyle = '#ffd166'; x.fillRect(wd - 175, 65, 100, 130); txt(x, 'ESPAÑA', wd - 125, 130, '900 26px IB, Arial', '#c0392b');
+    txt(x, 'POR AVIÓN', 160, 80, '900 40px IB, Arial', '#2a6fd6'); txt(x, 'BOSTON, MASS.', wd / 2, 320, '700 54px P, Arial', '#232838'); txt(x, 'U.S.A.', wd / 2, 400, '700 54px P, Arial', '#232838') }), { rot: [-Math.PI / 2, Math.PI, .12], pos: [X - 3, .02, -1] });
+  // Coupons
+  const couponTex = () => tex(640, 440, (x, wd, ht) => { x.fillStyle = '#e9f1d8'; x.fillRect(0, 0, wd, ht); x.strokeStyle = '#2f7a4a'; x.lineWidth = 12; x.strokeRect(16, 16, wd - 32, ht - 32); x.lineWidth = 3; x.strokeRect(34, 34, wd - 68, ht - 68);
+    for (let i = 0; i < 14; i++) { x.beginPath(); x.arc(wd / 2, ht / 2 + 10, 40 + i * 9, 0, 7); x.strokeStyle = '#2f7a4a22'; x.stroke() }
+    txt(x, 'INTERNATIONAL', wd / 2, 90, '900 50px IB, Arial', '#2f6a42'); txt(x, 'REPLY COUPON', wd / 2, 148, '900 50px IB, Arial', '#2f6a42');
+    x.fillStyle = '#ffffffaa'; x.beginPath(); x.arc(wd / 2, 270, 70, 0, 7); x.fill(); txt(x, '✉', wd / 2, 272, '700 80px P, Arial', '#2f6a42'); txt(x, '= 1 STAMP', wd / 2, 385, '900 36px IB, Arial', '#2f6a42') });
+  DK.coupons = []; for (let i = 0; i < 6; i++) DK.coupons.push(texMesh(S, 2.4, 1.65, couponTex, { rot: [-Math.PI / 2, Math.PI, 0], pos: [X, .05 + i * .01, 0], vis: false }));
+  const stampTex = (c, lab) => () => tex(320, 400, (x, wd, ht) => { x.fillStyle = '#fffaf0'; x.fillRect(0, 0, wd, ht); for (let i = 0; i < 10; i++) { x.fillStyle = '#e9f4ff'; x.beginPath(); x.arc(i * 34 + 10, 0, 12, 0, 7); x.arc(i * 34 + 10, ht, 12, 0, 7); x.fill() } x.fillStyle = c; x.fillRect(30, 30, wd - 60, ht - 60);
+    txt(x, lab, wd / 2, ht / 2 - 40, '900 64px IB, Arial', '#fff'); txt(x, 'POSTAGE', wd / 2, ht / 2 + 60, '900 40px IB, Arial', '#ffffffcc') });
+  DK.stampIT = texMesh(S, 1.2, 1.5, stampTex('#2fa36b', 'ITALIA'), { rot: [-Math.PI / 2, Math.PI, 0], pos: [X - 5, .06, 1], vis: false });
+  DK.stampUS = texMesh(S, 1.2, 1.5, stampTex('#2a6fd6', 'U.S.A.'), { rot: [-Math.PI / 2, Math.PI, 0], pos: [X + 5, .06, 1], vis: false });
+  // Coupon-Berg (eine Geometrie, waechst per Skalierung)
+  const mt = new G.Geo(); for (let i = 0; i < 260; i++) { const r = 3.2 * Math.sqrt(G.hash(i, 3)), a = G.hash(i, 4) * 6.28, h = (1 - r / 3.4) * 3.5 * G.hash(i, 5) + .1; mt.add(G.box(.9, .04, .62, i % 3 ? '#e9f1d8' : '#d7e6c1', { base: true }), cp([Math.cos(a) * r, h, Math.sin(a) * r], [(G.hash(i, 6) - .5) * .6, G.hash(i, 7) * 3, (G.hash(i, 8) - .5) * .6])) }
+  DK.mount = mk(S, mt, { pos: [X, 0, 2], vis: false });
+  DK.small = mk(S, G.box(.9, .4, .62, '#e9f1d8', { base: true }), { pos: [X - 6, 0, 2], vis: false });
+  DK.coins = []; const cg = G.cyl(.32, .32, .07, 20, '#ffc94a').smooth(); for (let i = 0; i < 24; i++) DK.coins.push(mk(S, cg, { vis: false }));
+  // Notizblock (Barron) + Kassenbuch (Audit)
+  DK.pad = texMesh(S, 5, 3.4, () => tex(1000, 680, (x, wd, ht) => { x.fillStyle = '#fffdf3'; x.fillRect(0, 0, wd, ht); for (let i = 0; i < 12; i++) { x.fillStyle = '#9ec5ea'; x.fillRect(0, 80 + i * 50, wd, 3) } x.fillStyle = '#e88'; x.fillRect(90, 0, 4, ht);
+    txt(x, 'COUPONS NEEDED:', 130, 150, '700 54px P, Arial', '#232838', { al: 'left' }); txt(x, '160,000,000', 130, 250, '900 96px IB, Arial', '#c0392b', { al: 'left' });
+    txt(x, 'IN CIRCULATION:', 130, 400, '700 54px P, Arial', '#232838', { al: 'left' }); txt(x, '27,000', 130, 500, '900 96px IB, Arial', '#2a6fd6', { al: 'left' }) }), { rot: [-Math.PI / 2, Math.PI, -.06], pos: [X + 1, .05, -1.5], vis: false });
+  DK.pencil = mk(S, G.cyl(.12, .12, 4, 6, '#ffc94a').add(G.cyl(.12, 0, .4, 6, '#f2d2a2'), cp([0, 4, 0])), { pos: [X + 4.2, .2, -2.5], rot: [0, 0, 1.45], vis: false });
+  DK.ledger = texMesh(S, 5.4, 3.6, () => tex(1000, 667, (x, wd, ht) => { x.fillStyle = '#f7f0dc'; x.fillRect(0, 0, wd, ht); x.fillStyle = '#5a3a22'; x.fillRect(wd / 2 - 8, 0, 16, ht);
+    txt(x, 'ASSETS', wd * .25, 70, '900 52px IB, Arial', '#2f7a4a'); txt(x, 'DEBTS', wd * .75, 70, '900 52px IB, Arial', '#c0392b');
+    for (let i = 0; i < 7; i++) { x.fillStyle = '#c9bfa5'; x.fillRect(30, 130 + i * 70, wd / 2 - 60, 3); x.fillRect(wd / 2 + 30, 130 + i * 70, wd / 2 - 60, 3) }
+    txt(x, '$ ? ? ?', wd * .25, 300, '900 70px IB, Arial', '#2f7a4a'); txt(x, 'MILLIONS', wd * .75, 260, '900 70px IB, Arial', '#c0392b'); txt(x, 'MORE', wd * .75, 360, '900 70px IB, Arial', '#c0392b') }), { rot: [-Math.PI / 2, Math.PI, .05], pos: [X, .05, -.5], vis: false });
+  DK.ponzi = mkPonzi(S, [X - 10, 0, -6], 0); DK.ponzi.m.vis = false;
+})();
+// ---- PY: die Pyramide ----
+const PY = {};
+(function () {
+  const S = 'PY', X = SETX.PY;
+  ground(S, X, 0, 120, 90, '#f3e3b5');
+  const back = new G.Geo(); for (let i = 0; i < 9; i++) back.add(G.box(14, 30, .5, i % 2 ? '#7cc6ff' : '#6bb8f5', { base: true }), cp([-63 + i * 14, 0, 0]));
+  mk(S, back, { pos: [X, 0, 14], cast: false, outline: false });
+  PY.N = [10, 15, 23, 34]; PY.tiers = []; PY.ppl = [];
+  const TC = ['#ffd166', '#ffb347', '#ff8f6b', '#ef6f8f'];
+  PY.N.forEach((n, k) => {
+    const y = (3 - k) * .9, z = -k * 1.5, sp = .78, wd = n * sp + .8;
+    const pl = mk(S, G.box(wd, .9, 1.5, TC[k], { base: true, top: '#fff3d6' }), { pos: [X, y - .9 + .0, z] });
+    // Plattform reicht bis zum Boden
+    const leg = mk(S, G.box(wd, Math.max(.01, y - .9 + .001), 1.5, TC[k], { base: true }), { pos: [X, 0, z], vis: y - .9 > .05 });
+    PY.tiers.push({ pl, leg, y, z, k });
+    for (let i = 0; i < n; i++) { const x = X + (i - (n - 1) / 2) * sp; const p = person(S, PCOL[(i * 3 + k) % PCOL.length], { pos: [x, y, z], yaw: Math.PI + (G.hash(i, k) - .5) * .3, s: .78, hat: ['cap', null, 'bun', 'boater', null, 'fedora'][(i + k) % 6] }); p.k = k; p.i = i; PY.ppl.push(p) }
+  });
+  PY.ped = mk(S, G.box(1.6, 3.6, 1.5, '#232838', { base: true, top: '#ffd166' }), { pos: [X, 0, 1.6] });
+  PY.ponzi = mkPonzi(S, [X, 3.6, 1.6], Math.PI);
+  PY.coins = []; const cg = G.cyl(.18, .18, .05, 16, '#ffc94a').smooth(); for (let i = 0; i < 40; i++) PY.coins.push(mk(S, cg, { emis: .25, cast: false }));
+})();
+// ---- MN: Villa in Lexington ----
+const MN = {};
+(function () {
+  const S = 'MN', X = SETX.MN;
+  ground(S, X, 0, 120, 90, '#7cc65f');
+  ground(S, X, -4, 3, 22, '#e3d6bb', .03); ground(S, X + 7, -3, 10, 5, '#e3d6bb', .03);
+  const h = new G.Geo().add(G.box(14, 6.4, 8, '#f3dc8e', { base: true })).add(G.cyl(10.2, 0, 3.2, 4, '#9a4b3a', { rot: Math.PI / 4 }), cp([0, 6.4, 0], [0, 0, 0], [1, 1, .62]))
+    .add(G.box(4.4, 4.2, 2, '#f3dc8e', { base: true }), cp([0, 0, 4.4])).add(G.cyl(3.4, 0, 1.6, 4, '#9a4b3a', { rot: Math.PI / 4 }), cp([0, 4.2, 4.4], [0, 0, 0], [.9, 1, .7]))
+    .add(G.box(1.2, 2.4, .2, '#ffffff', { base: true }), cp([0, 0, 5.42])).add(G.box(.9, 2, .1, '#5a3a22', { base: true }), cp([0, 0, 5.5]))
+    .add(G.box(1.2, 1.6, 1.2, '#b9b0a0', { base: true }), cp([4.5, 7.2, -1]));
+  MN.house = mk(S, h, { pos: [X, 0, 8], rot: [0, Math.PI, 0] });
+  const wins = texMesh(S, 13.6, 6, facadeTex('#f3dc8e', 2, 5), { parent: MN.house, pos: [0, 3.1, 4.03] });
+  MN.lit = []; for (let r = 0; r < 2; r++) for (let c = 0; c < 4; c++) { if (c == 1 || c == 2) { if (r == 0) continue } MN.lit.push(mk(S, G.box(1.2, 1.4, .05, '#ffe08a', { base: true }), { parent: MN.house, pos: [-5 + c * 3.33 + (c > 1 ? 0 : 0), .9 + r * 3, 4.06], emis: 1, vis: false, cast: false, outline: false })) }
+  [[-11, 2, 1.3], [11, 3, 1.2], [-14, 10, 1.6], [15, 9, 1.5], [-7, -6, .9], [8, -8, 1]].forEach(([dx, dz, s]) => tree(S, X + dx, dz, s));
+  for (let i = 0; i < 10; i++) mk(S, G.ico(.55, 2, '#4f9f45', .15, i, .8).smooth(), { pos: [X - 6.5 + (i % 5) * 1.0 + (i > 4 ? 9 : 0), .4, 3.2] });
+  MN.car = car(S, X + 6, -3, Math.PI * .92, '#7a1f2b');
+  MN.ponzi = mkPonzi(S, [X + 3.6, 0, -2.4], -.6);
+  MN.mom = person(S, '#7a55c7', { pos: [X + 4.6, 0, -1.6], yaw: -1.4, hat: 'bun', hatc: '#d9d9d9', s: .9 });
+  MN.coins = []; const cg = G.cyl(.25, .25, .06, 16, '#ffc94a').smooth(); for (let i = 0; i < 26; i++) MN.coins.push(mk(S, cg, { emis: .3, cast: false }));
+})();
+// ---- VT: Geldraum ----
+const VT = {};
+(function () {
+  const S = 'VT', X = SETX.VT;
+  room(S, X, 0, 14, 12, 7, '#e9d6a6', '#c9a46a', { wall2: '#e0c993' });
+  mk(S, G.cyl(2.4, 2.4, .5, 32, '#9aa3b5').smooth().add(G.cyl(.5, .5, .7, 16, '#5d6680').smooth(), cp([0, .3, 0])), { pos: [X + 3.5, 3, 5.6], rot: [Math.PI / 2, 0, 0] });
+  // Geldstapel: viele Buendel, Anzahl sichtbar per Fortschritt
+  VT.bricks = []; const bg = G.box(.9, .32, .45, '#6fbf73', { base: true }).add(G.box(.18, .33, .46, '#f4efe2', { base: true }), cp([0, 0, 0]));
+  for (let i = 0; i < 150; i++) { const col = i % 30, layer = Math.floor(i / 30); const px = X - 5.2 + (col % 10) * .95 + (layer % 2) * .1 + layer * .25, pz = 1.2 + Math.floor(col / 10) * .5 + layer * .2;
+    VT.bricks.push(mk(S, bg, { pos: [px, layer * .33, pz], rot: [0, (G.hash(i, 2) - .5) * .2, 0], vis: false })) }
+  VT.bills = []; const bl = G.box(.55, .02, .26, '#7bc47f', { base: true }); for (let i = 0; i < 60; i++) VT.bills.push(mk(S, bl, { cast: false, outline: false }));
+  VT.ponzi = mkPonzi(S, [X + 1.8, 0, 1.4], -.5);
+})();
+// ---- SW: Florida-Sumpf ----
+const SW = {};
+(function () {
+  const S = 'SW', X = SETX.SW;
+  ground(S, X, 0, 120, 90, '#7a9a4f');
+  const g = new G.Geo(), k = G.hex('#4f7a5a'); for (let i = 0; i < 40; i++) for (let j = 0; j < 30; j++) { const P = (a, b) => [X - 30 + a * 1.5, .05, -14 + b * 1.2]; g.quad(P(i, j), P(i, j + 1), P(i + 1, j + 1), P(i + 1, j), k) }
+  mk(S, g, { wave: .05, cast: false, water: 1, spec: .3, pos: [0, 0, 0] });
+  for (let i = 0; i < 14; i++) mk(S, G.ico(1.6, 2, '#86a85a', .2, i, .25).smooth(), { pos: [X - 20 + G.hash(i, 1) * 40, 0, -8 + G.hash(i, 2) * 26] });
+  const reeds = new G.Geo(); for (let i = 0; i < 120; i++) reeds.add(G.cyl(.04, .01, 1.2 + G.hash(i, 3), 4, i % 2 ? '#5b7f36' : '#6f9a40'), cp([(G.hash(i, 4) - .5) * 40, 0, (G.hash(i, 5) - .5) * 26], [(G.hash(i, 6) - .5) * .4, 0, (G.hash(i, 7) - .5) * .4]));
+  mk(S, reeds, { pos: [X, 0, 0], cast: false });
+  [[-8, 6], [9, 7], [-14, 2], [14, -3], [3, 10]].forEach(([dx, dz]) => { mk(S, G.cyl(.4, .2, 5, 8, '#7a5a3c'), { pos: [X + dx, 0, dz] }); mk(S, G.ico(1.8, 2, '#4f7a3a', .2, dx, .5).smooth(), { pos: [X + dx, 5, dz] }) });
+  SW.sign = mk(S, G.cyl(.1, .1, 3, 6, '#7a5a3c').add(G.cyl(.1, .1, 3, 6, '#7a5a3c'), cp([2.6, 0, 0])), { pos: [X - 1.3, 0, 2] });
+  signMesh(S, null, [X, 2.3, 1.85], 3.4, 1.7, [['LAND FOR SALE!', '900 92px IB, P, Arial'], ['200% IN 60 DAYS', '900 80px IB, P, Arial']], '#ffd166', '#232838', { border: '#232838', mo: { rot: [0, Math.PI, 0] } });
+  SW.ponzi = mkPonzi(S, [X + 2.4, 0, 1.2], Math.PI + .3);
+  SW.gator = mk(S, new G.Geo().add(G.box(2.4, .3, .6, '#3f6a3a', { base: true })).add(G.ico(.12, 1, '#f4efe2'), cp([.9, .32, .2])).add(G.ico(.12, 1, '#f4efe2'), cp([.9, .32, -.2])).add(G.ico(.05, 1, OL), cp([.98, .36, .2])).add(G.ico(.05, 1, OL), cp([.98, .36, -.2])), { pos: [X - 4, -.12, -3], rot: [0, -.4, 0] });
+  SW.buyers = [person(S, '#2a8fd6', { pos: [X + 4.2, 0, -.4], yaw: Math.PI * 1.2, hat: 'boater' }), person(S, '#e09a2b', { pos: [X + 5.3, 0, .2], yaw: Math.PI * 1.25, hat: 'bun' })];
+})();
+// ---- RIO: Krankenhauszimmer mit Blick aufs Meer ----
+const RIO = {};
+(function () {
+  const S = 'RIO', X = SETX.RIO;
+  ground(S, X, 0, 12, 10, '#e9e4da');
+  mk(S, G.box(.3, 5, 10, '#dfe9e6', { base: true }), { pos: [X - 6, 0, 0] }); mk(S, G.box(.3, 5, 10, '#dfe9e6', { base: true }), { pos: [X + 6, 0, 0] });
+  // Rueckwand mit grossem Fenster (vier Teile)
+  mk(S, G.box(12, 1.2, .3, '#dfe9e6', { base: true }), { pos: [X, 0, 5] }); mk(S, G.box(12, 1, .3, '#dfe9e6', { base: true }), { pos: [X, 4, 5] });
+  mk(S, G.box(3, 5, .3, '#dfe9e6', { base: true }), { pos: [X - 4.5, 0, 5] }); mk(S, G.box(3, 5, .3, '#dfe9e6', { base: true }), { pos: [X + 4.5, 0, 5] });
+  mk(S, G.box(.12, 2.8, .32, '#ffffff', { base: true }), { pos: [X, 1.2, 5] });
+  const sea = new G.Geo(), k = G.hex('#2b9fd8'); for (let i = 0; i < 30; i++) for (let j = 0; j < 20; j++) { const P = (a, b) => [X - 60 + a * 4, -1, 8 + b * 4]; sea.quad(P(i, j), P(i, j + 1), P(i + 1, j + 1), P(i + 1, j), k) } mk(S, sea, { wave: .1, cast: false, water: 1 });
+  mk(S, G.ico(9, 3, '#5f9a4f', .15, 3, 1.6).smooth(), { pos: [X + 10, -2, 60], cast: false }); mk(S, G.ico(6, 3, '#6aa857', .1, 5, 1.2).smooth(), { pos: [X - 14, -2, 52], cast: false }); mk(S, G.ico(12, 3, '#4f8a45', .12, 7, .7).smooth(), { pos: [X - 30, -2, 70], cast: false });
+  mk(S, G.box(2.4, .6, 4.6, '#d9d9d9', { base: true }).add(G.box(2.3, .3, 4.5, '#ffffff', { base: true }), cp([0, .6, 0])).add(G.box(2.4, 1.4, .15, '#c9ced8', { base: true }), cp([0, 0, 2.3])).add(G.box(1.4, .25, .9, '#ffffff', { base: true }), cp([0, .9, 1.6])), { pos: [X - 2, 0, 1.2] });
+  RIO.hat = mk(S, G.cyl(.46, .46, .035, 24, DARK).smooth().add(G.cyl(.27, .24, .3, 20, DARK).smooth(), cp([0, .02, 0])).add(G.cyl(.275, .275, .06, 20, '#55597a'), cp([0, .03, 0])), { pos: [X - 1.8, .92, 0], rot: [0, .4, .05] });
+  mk(S, G.box(1, 1, 1, '#c9a46a', { base: true }), { pos: [X + .6, 0, 2.6] });
+  RIO.coins = []; const cg = G.cyl(.14, .14, .04, 14, '#ffc94a').smooth(); for (let i = 0; i < 6; i++) RIO.coins.push(mk(S, cg, { pos: [X + .45 + (i % 3) * .18, 1.02 + Math.floor(i / 3) * .045, 2.5 + (i % 2) * .15] }));
+})();
+// ---- STU: Studio fuer Sam ----
+const STU = {};
+(function () {
+  const S = 'STU', X = SETX.STU;
+  ground(S, X, 0, 60, 40, '#ffe7a8');
+  const bg = new G.Geo(); for (let i = 0; i < 24; i++) { const a0 = Math.PI * (.15 + .7 * i / 24), a1 = Math.PI * (.15 + .7 * (i + 1) / 24); const P = (a, y) => [Math.cos(a) * -16, y, Math.sin(a) * 16 - 4]; bg.quad(P(a0, 0), P(a0, 14), P(a1, 14), P(a1, 0), G.hex(i % 2 ? '#7cc6ff' : '#69b9f8')) }
+  mk(S, bg, { pos: [X, 0, 0], cast: false, outline: false, recv: false });
+  for (let i = 0; i < 10; i++) mk(S, G.ico(.4 + G.hash(i, 1) * .6, 2, ['#ffd166', '#ff8f6b', '#7ee08a', '#ffffff'][i % 4]).smooth(), { pos: [X - 9 + i * 2, 2 + G.hash(i, 2) * 6, 8 + G.hash(i, 3) * 2], emis: .3, cast: false });
+  STU.ped = mk(S, G.ico(2.4, 3, '#ffffff', 0, 1, .14).smooth(), { pos: [X, 0, 0], outline: false, vis: false });
+})();
+// ---- CT: Gericht ----
+const CT = {};
+(function () {
+  const S = 'CT', X = SETX.CT;
+  room(S, X, 0, 16, 12, 7, '#d9b98a', '#8a5a3c', { wall2: '#cfae7f' });
+  mk(S, G.box(6, 2.4, 1.6, '#6b4226', { base: true }).add(G.box(6.4, .2, 1.9, '#5a3418', { base: true }), cp([0, 2.4, 0])), { pos: [X, 0, 3.6] });
+  CT.judge = person(S, '#232838', { pos: [X, .9, 4.6], yaw: Math.PI, hat: 'bun', hatc: '#f4efe2', leg: '#232838' });
+  CT.gavel = mk(S, G.cyl(.04, .04, .7, 6, '#5a3418').add(G.cyl(.14, .14, .4, 10, '#5a3418').smooth(), cp([-.2, .7, 0], [0, 0, Math.PI / 2])), { pos: [X + .8, 2.6, 3.2] });
+  for (let i = 0; i < 2; i++) mk(S, G.box(5, 1, .8, '#6b4226', { base: true }), { pos: [X + (i ? 4 : -4), 0, -2.5] });
+  CT.ponzi = mkPonzi(S, [X, 0, 1.2], 0);
+  signMesh(S, null, [X, 5.3, 5.82], 4, 1, [['COURT']], '#5a3418', '#ffd166', { mo: { rot: [0, Math.PI, 0] } });
+  CT.cops = [person(S, '#2c3e70', { pos: [X - 1.4, 0, .8], yaw: .3, hat: 'cap', hatc: '#1d2a52', leg: '#1d2a52' }), person(S, '#2c3e70', { pos: [X + 1.4, 0, .8], yaw: -.3, hat: 'cap', hatc: '#1d2a52', leg: '#1d2a52' })];
+})();
+// ===================== Kamera je Einstellung =====================
+const Lt = i => MG.L(i);
+function wt(i, re, d = 0) { const l = Lt(i); if (l.words) for (const x of l.words) if (re.test(x[0])) return l.start + x[1] + d; return l.start + (l.end - l.start) * .4 + d }
+const NL = () => MG.TL ? MG.TL.lines.length : 1;
+const nextStart = i => i + 1 < NL() ? Lt(i + 1).start : MG.TL.dur;
+const SPEC = i => (MG.TL && MG.TL.lines[i] && MG.TL.lines[i].spec) || {};
+// [Set, p0, a0, p1, a1, fov] – Koordinaten relativ zum Set
+const SH = {
+  street_wide: ['ST', [-18, 11, -2.5], [6, 1.2, 6.5], [-14, 9, -1.5], [6, 1.2, 6.5], 46],
+  office_door: ['ST', [-3.4, 2.0, 1.4], [0, 3.0, 8], [-2.4, 1.8, 2.6], [0, 3.2, 8], 44],
+  bank_compare: ['ST', [-6, 4.4, -4], [2, 2.2, 6], [-4.6, 3.8, -3], [2, 2.2, 6], 46],
+  money_rain: ['VT', [-6, 4, -6], [-1, 1.5, 1.5], [-4.2, 3, -4.5], [-1, 1.5, 1.5], 46],
+  crash_teaser: ['PY', [-12, 6, -14], [0, 1.5, -1], [-9, 5, -11], [0, 1.5, -1], 46],
+  title: ['PY', [-16, 7.5, -18], [0, 2, 0], [-12, 6, -14.5], [0, 2, 0], 44],
+  map_italy: ['DK', [-14, 5, -4], [-8, 3.4, 6], [-12.5, 4.6, -2.6], [-8, 3.4, 6], 44],
+  ship: ['HB', [-22, 6, -16], [0, 3, 4], [-17, 4.6, -12.5], [0, 3, 4], 46],
+  diner: ['DN', [-4.2, 3.4, -4.6], [1, 1.4, 3.6], [-3, 2.9, -3.4], [1, 1.4, 3.6], 46],
+  bank_ext: ['BK', [-12, 5, -12], [0, 4, 6], [-8.5, 3.6, -9.5], [0, 4, 6], 46],
+  bank_queue: ['BK', [-9.5, 2.3, -1.2], [-3, 1.4, 4.5], [-7.2, 2, -.2], [-3, 1.4, 4.5], 44],
+  bank_flow: ['BK', [-4, 3.2, -6.5], [0, 3, 6], [-3, 2.8, -5.4], [0, 3, 6], 46],
+  bank_crash: ['BK', [2, 2.6, -9.5], [4, 1.8, 0], [5, 2.2, -8.2], [2, 1.8, 0], 48],
+  silhouette_close: ['BK', [4.0, .9, -1.4], [6.5, 1.9, 2.2], [4.9, 1.2, -.2], [6.5, 1.9, 2.2], 38],
+  prison: ['PR', [2.6, 2.6, -6.6], [-1.2, 1.3, 2], [1.8, 2.2, -5.4], [-1.2, 1.3, 2], 46],
+  prison2: ['PR', [-2.6, 1.5, -5.6], [-1.4, 1.2, 2.2], [-2, 1.6, -4.4], [-1.4, 1.2, 2.2], 44],
+  office_ext: ['ST', [-10, 3, -3.4], [0, 3.4, 8], [-8, 3, -2.2], [0, 3.4, 8], 46],
+  desk_letter: ['DK', [-3, 6.4, -6.4], [-3, 0, -1], [-3, 5.2, -5.2], [-3, 0, -1], 44],
+  desk_coupon: ['DK', [0, 5.2, -4.4], [0, 0, 0], [0, 4.4, -3.4], [0, 0, 0], 46],
+  map_europe: ['DK', [-14, 5, -4], [-8, 3.4, 6], [-12.5, 4.6, -2.6], [-8, 3.4, 6], 44],
+  desk_arb: ['DK', [0, 9, -8.4], [0, 0, 1], [0, 8.2, -7.4], [0, 0, 1], 46],
+  desk_arb2: ['DK', [3, 6, -6], [3, 0, 1], [3.6, 5.2, -5], [3.6, 0, 1], 44],
+  coupon_mountain: ['DK', [-9, 3.6, -8.4], [-1, 2, 2], [-7, 5.4, -7.4], [-1, 2, 2], 48],
+  silhouette_close2: ['DK', [-3.4, 1.0, -3.8], [-1.5, 2.1, -.2], [-2.6, 1.3, -2.8], [-1.5, 2.1, -.2], 40],
+  office_sign: ['ST', [-2.8, 2.4, 1.6], [0, 4.2, 8], [-1.6, 2.7, 3], [0, 4.2, 8], 44],
+  first_inv: ['PY', [-5.4, 4.4, -5.2], [0, 2.9, 0], [-4.2, 4, -4.2], [0, 2.9, 0], 46],
+  flow2: ['PY', [-8, 4.4, -9], [0, 2.4, -.8], [-7, 4.1, -8], [0, 2.4, -.8], 46],
+  pyr_1: ['PY', [-9, 5, -11], [0, 2.2, -.8], [-8, 4.6, -10], [0, 2.2, -.8], 46],
+  pyr_2: ['PY', [-9.5, 5.4, -12], [0, 2.1, -1], [-10.5, 5.6, -13], [0, 2.1, -1], 46],
+  pyr_3: ['PY', [-14, 7, -17], [0, 1.5, -2], [-12, 6.6, -15.5], [0, 1.5, -2], 46],
+  word_mouth: ['ST', [5.6, 1.9, 1.4], [12, 1.6, 6.2], [7.6, 1.8, 2], [13, 1.6, 6.2], 44],
+  sam_shout: ['STU', [0, 2.6, -10], [0, 2.4, 0], [0, 2.5, -9], [0, 2.4, 0], 44],
+  street_crowd: ['ST', [-8, 6.4, -8.4], [2, 1.5, 5], [-5, 5, -7.4], [2, 1.5, 5], 46],
+  money_room: ['VT', [-3.6, 2.6, -4], [-1.6, 1.2, 1.4], [-2.6, 2.2, -3], [-1.4, 1.2, 1.4], 44],
+  mansion: ['MN', [-14, 5, -16], [1, 3, 4], [-10, 4, -13], [1, 3, 4], 46],
+  hanover: ['ST', [7.6, 3.2, .4], [15.5, 4.6, -8], [10, 2.8, -.6], [15.5, 4.6, -8], 48],
+  mansion_night: ['MN', [8, 2.4, -9], [2, 3, 4], [6, 2.2, -8], [1, 3, 4], 46],
+  newspaper: ['ST', [-8.8, 1.5, 3.2], [-6.5, 1.3, 5.6], [-8.2, 1.35, 3.9], [-6.5, 1.3, 5.6], 40],
+  math_desk: ['DK', [1, 5.6, -5.6], [1, 0, -1.5], [1, 4.8, -4.8], [1, 0, -1.5], 46],
+  coupon_math: ['DK', [-11, 6, -12], [-3, 2, 2], [-9, 5, -10.5], [-3, 2, 2], 48],
+  coupon_math2: ['DK', [-11.6, 1.8, -2.6], [-10, .3, 2], [-11.2, 1.3, -1.6], [-10, .3, 2], 42],
+  bank_run: ['ST', [-6.4, 3, -3.4], [0, 2, 7], [-4.4, 2.6, -2.2], [0, 2, 7], 46],
+  newspaper2: ['ST', [-12, 4, -6], [-4, 2, 6], [-11, 3.6, -5], [-4, 2, 6], 46],
+  newspaper3: ['ST', [-8.8, 1.5, 3.2], [-6.5, 1.3, 5.6], [-8.2, 1.35, 3.9], [-6.5, 1.3, 5.6], 40],
+  arrest: ['ST', [-1.4, 1.8, .6], [0, 1.5, 7], [-.6, 1.7, 1.6], [0, 1.5, 7], 44],
+  audit: ['DK', [0, 5.2, -4.8], [0, 0, -.5], [0, 4.4, -3.9], [0, 0, -.5], 46],
+  pyr_crash: ['PY', [-12, 6, -14], [0, 1.5, -1], [-9, 4.8, -11], [0, 1.2, -1], 46],
+  hanover_closed: ['ST', [9, 2.4, -1.4], [15.5, 3, -8], [10.6, 2.2, -2.2], [15.5, 3, -8], 46],
+  court: ['CT', [-3.4, 2.5, -6], [0, 2, 3], [-2.2, 2.2, -5], [0, 2, 3], 46],
+  swamp: ['SW', [-6.4, 3.2, -8.4], [1, 1.6, 2], [-4.4, 2.6, -7.2], [1, 1.6, 2], 46],
+  map_brazil: ['DK', [-14, 5, -4], [-8, 3.4, 6], [-12.5, 4.6, -2.6], [-8, 3.4, 6], 44],
+  rio: ['RIO', [-1.4, 1.9, -4.4], [-1.4, 1.2, 3], [-.6, 1.7, -3.4], [-1.6, 1.1, 3], 46],
+  newspaper_prize: ['ST', [-12, 4, -6], [-4, 2, 6], [-11, 3.6, -5], [-4, 2, 6], 46],
+  pyr_big: ['PY', [-30, 16, -36], [0, 2, 0], [-25, 13, -31], [0, 2, 0], 44],
+  sam_studio: ['STU', [0, 2.5, -10], [0, 2.3, 0], [0, 2.45, -9.4], [0, 2.3, 0], 44],
+  pyr_end: ['PY', [-6.4, 2.4, -10], [0, .8, -4.5], [-4.6, 2.1, -8.6], [0, .8, -4.5], 44],
+  sam_end: ['STU', [0, 2.5, -10], [0, 2.3, 0], [0, 2.45, -9.4], [0, 2.3, 0], 44],
+};
+const ABS = (set, v) => [SETX[set] + v[0], v[1], v[2]];
+function lineAt(t) { let k = 0; const n = NL(); for (let i = 0; i < n; i++) if (t >= Lt(i).start - .35) k = i; return k }
+function camAt(t) {
+  const i = lineAt(t), s = SH[SPEC(i).shot] || SH.title, a = Lt(i).start - .35, b = nextStart(i) - .35;
+  const u = ei(cl(t, a, b)) * .85 + cl(t, a, b) * .15;
+  return { i, set: s[0], pos: ABS(s[0], G.v.lerp(s[1], s[3], u)), at: ABS(s[0], G.v.lerp(s[2], s[4], u)), fov: s[5], u, rt: t - Lt(i).start };
+}
+// ===================== Animation je Set =====================
+const shadowTxt = (c = OL, r = 5) => MG.outline(r).replace(/#000/g, c);
+function pop(t, t0, d = .35) { return bo(cl(t, t0, t0 + d)) }
+function fade(t, t0, t1) { return 1 - ez(cl(t, t0, t1)) }
+function wtN(i, re, n, d = 0) { const l = Lt(i); let c = 0; if (l.words) for (const x of l.words) if (re.test(x[0]) && ++c == n) return l.start + x[1] + d; return wt(i, re, d) }
+const frac = x => x - Math.floor(x);
+const arc = (a, b, u, hgt) => [lerp(a[0], b[0], u), lerp(a[1], b[1], u) + Math.sin(u * Math.PI) * hgt, lerp(a[2], b[2], u)];
+const has = (sh, ...a) => a.includes(sh);
+function vis(p, v) { p.m.vis = v; p.head.vis = v; p.aL.vis = v; p.aR.vis = v }
+
+function animST(t, sh, i, rt) {
+  const qOn = has(sh, 'street_wide', 'office_door', 'bank_compare', 'word_mouth', 'street_crowd', 'bank_run', 'newspaper', 'newspaper3', 'arrest', 'newspaper2', 'newspaper_prize');
+  ST.queue.forEach((p, k) => { vis(p, qOn); if (!qOn) return;
+    let ps = 'idle'; if (sh == 'street_crowd') ps = 'cheer'; if (sh == 'bank_run') ps = k % 2 ? 'angry' : 'push'; if (sh == 'word_mouth') ps = k % 3 == 0 ? 'wave' : 'idle'; if (sh == 'arrest') ps = k % 2 ? 'scared' : 'angry';
+    pose(p, t, ps) });
+  const cOn = has(sh, 'street_crowd', 'bank_run', 'arrest', 'newspaper2', 'newspaper_prize');
+  ST.crowd.forEach((p, k) => { vis(p, cOn); if (!cOn) return; let ps = sh == 'street_crowd' ? 'cheer' : sh == 'bank_run' ? (k % 2 ? 'push' : 'angry') : sh == 'arrest' ? (k % 3 ? 'angry' : 'scared') : 'idle';
+    p.yaw = sh == 'arrest' ? Math.PI * .1 * (k % 2 ? 1 : -1) : (G.hash(k, 6) - .5) * .5; pose(p, t, ps);
+    if (sh == 'arrest') { p.m.pos = [p.base[0] + (p.base[0] > 0 ? 1.5 : -1.5), p.m.pos[1], p.base[2] - 1] } });
+  ST.banner.vis = sh != 'office_ext';
+  const pz = PZ.ST, pzOn = has(sh, 'office_door', 'office_ext', 'office_sign', 'bank_run', 'arrest');
+  vis(pz, pzOn);
+  if (pzOn) {
+    pz.base = [0, .14, 7.2]; pz.yaw = 0;
+    if (sh == 'arrest') { const u = ez(cl(rt, .3, Lt(i).end - Lt(i).start)); pz.base = [0, .14, lerp(7.4, 3.6, u)]; pose(pz, t, 'walk'); pz.aL.rot = [.3, 0, -.15]; pz.aR.rot = [.3, 0, .15]; pz.head.rot = [.35, 0, 0] }
+    else pose(pz, t, sh == 'office_door' || sh == 'office_sign' ? 'wave' : sh == 'bank_run' ? 'give' : 'idle');
+  }
+  ST.cops.forEach((c, k) => { vis(c, sh == 'arrest'); if (sh != 'arrest') return; const u = ez(cl(rt, .3, Lt(i).end - Lt(i).start)); c.base = [k ? 1 : -1, .14, lerp(7.2, 3.4, u)]; pose(c, t, 'walk') });
+  ST.closed.vis = ST.closedSign.vis = sh == 'hanover_closed';
+  pose(ST.newsboy, t, has(sh, 'newspaper', 'newspaper3') ? 'wave' : 'idle');
+  if (has(sh, 'newspaper', 'newspaper3')) { ST.newsboy.aR.rot = [0, 0, 2.3 + .2 * Math.sin(t * 6)]; ST.newsboy.m.pos[1] = .14 + Math.abs(Math.sin(t * 5)) * .06 }
+  ST.bills.forEach((b, k) => { b.vis = sh == 'bank_run'; if (!b.vis) return; const f = frac(t * .45 + k / 30), s = [0, 2.6, 7.4], e = [(G.hash(k, 1) - .5) * 10, 0, 1 + G.hash(k, 2) * 4];
+    b.pos = arc(s, e, f, 2.5); b.rot = [f * 9 + k, f * 5, f * 7] });
+  ST.cars[0].pos = [-30 + frac(t / 24) * 60, 0, 3.2];
+}
+function animHB(t, sh, i, rt) {
+  const X = SETX.HB, d = Lt(i).end - Lt(i).start, u = ez(cl(rt, 0, d * .6));
+  HB.ship.pos = [X + lerp(36, 4, u), -.6 + Math.sin(t * 1.3) * .06, 1]; HB.ship.rot = [Math.sin(t * 1.1) * .01, 0, Math.sin(t * .9) * .015];
+  HB.smoke.forEach((s, k) => { const f = frac(t * .35 + k / 10), fx = k % 2 ? 2.6 : -2.2; s.pos = [HB.ship.pos[0] + fx + f * 3, 9.6 + f * 5, 1 + f]; const sc = .5 + f * 1.8; s.scl = [sc, sc, sc]; s.alpha = 1 - f });
+  const on = rt > d * .55; vis(HB.ponzi, on); HB.case.vis = on;
+  if (on) { const v = cl(rt, d * .55, d); HB.ponzi.base = [X + lerp(2.5, -2.5, v), .5, 7.8]; HB.ponzi.yaw = -Math.PI / 2; pose(HB.ponzi, t, 'walk'); HB.ponzi.aR.rot = [0, 0, .1] }
+  HB.crowd.forEach(p => pose(p, t, 'idle'));
+}
+function animDN(t, sh, i, rt) {
+  const X = SETX.DN, tf = wt(i, /fired/i, -.4), ff = cl(t, tf, tf + .7);
+  DN.plates.forEach((p, k) => { const base = [X + .9, 1.12 + k * .06, 3.6]; if (ff <= 0) { p.pos = [base[0] + Math.sin(t * 4 + k) * .01, base[1], base[2]]; p.rot = [0, 0, 0]; return }
+    const v = ez(ff); p.pos = [base[0] - v * (1 + G.hash(k, 1) * 2), lerp(base[1], .03, Math.min(1, v * 1.2)) + Math.sin(v * Math.PI) * .5, base[2] - v * G.hash(k, 2) * 2]; p.rot = [v * 3 * G.hash(k, 3), 0, v * 2] });
+  pose(DN.ponzi, t, t > tf ? 'sad' : 'give'); if (t <= tf) { DN.ponzi.aL.rot = [-1.1 + .2 * Math.sin(t * 9), 0, -.2]; DN.ponzi.aR.rot = [-1.1 - .2 * Math.sin(t * 9), 0, .2] }
+  pose(DN.boss, t, t > wt(i, /got/i, -.2) ? 'angry' : 'idle');
+  DN.cust.forEach(p => pose(p, t, t > tf ? 'scared' : 'idle'));
+}
+function animBK(t, sh, i, rt) {
+  const X = SETX.BK, crash = sh == 'bank_crash' || sh == 'silhouette_close';
+  BK.queue.forEach((p, k) => pose(p, t, crash ? (k % 2 ? 'angry' : 'scared') : sh == 'bank_queue' && t > wt(i, /loved/i, -.2) ? 'cheer' : 'idle'));
+  BK.closed.vis = crash;
+  const fb = crash ? ez(cl(rt, .2, 1.0)) : 0; BK.banner.pos = [X, lerp(4.4, .9, fb), lerp(5.3, 4.7, fb)]; BK.banner.rot = [lerp(0, -1.35, fb), Math.PI, lerp(0, .2, fb)];
+  if (sh == 'bank_crash') { const u = ez(cl(rt, .6, Lt(i).end - Lt(i).start)); BK.car.pos = [X + lerp(9, -26, u), 0, -1.2]; BK.car.rot = [0, Math.PI, 0] } else { BK.car.pos = [X + 9, 0, -1.2]; BK.car.rot = [0, 0, 0] }
+  BK.bag.vis = sh == 'bank_crash';
+  vis(PZ.BK, crash); if (crash) { PZ.BK.base = [X + 6.5, 0, 2.2]; PZ.BK.yaw = sh == 'silhouette_close' ? -2.6 : -2.4; pose(PZ.BK, t, 'idle'); PZ.BK.head.rot = [0, Math.sin(t * .8) * .25, 0] }
+}
+function animPR(t, sh, i, rt) {
+  const X = SETX.PR, p = PR.ponzi; PR.num.vis = sh == 'prison' && i < 20;
+  if (sh == 'prison') { p.base = [X - .4, 0, -2.4]; p.yaw = Math.PI; pose(p, t, 'idle'); p.aL.rot = [-1.4, 0, -.3]; p.aR.rot = [-1.4, 0, .3]; p.head.rot = [.25, 0, 0]; PR.num.pos = [X - .4, 1.05, -2.72] }
+  else { p.base = [X + 1.2, 0, 2.2]; p.yaw = Math.PI * .1 + Math.PI; pose(p, t, 'sad'); p.yaw = 0; p.m.rot = [0, 0, 0] }
+}
+function animDK(t, sh, i, rt) {
+  const X = SETX.DK, d = Lt(i).end - Lt(i).start;
+  DK.globe.rot = [0, t * .3, .25];
+  DK.env.vis = has(sh, 'desk_letter', 'desk_coupon');
+  DK.coupons.forEach(c => c.vis = false); DK.stampIT.vis = DK.stampUS.vis = false; DK.coins.forEach(c => c.vis = false);
+  DK.mount.vis = DK.small.vis = DK.pad.vis = DK.pencil.vis = DK.ledger.vis = false; vis(DK.ponzi, false);
+  if (sh == 'desk_letter') { DK.env.pos = [X - 3, .02 + Math.max(0, .6 - rt) * 3, -1 - Math.max(0, .6 - rt) * 4]; DK.env.rot = [-Math.PI / 2, Math.PI, .12 + Math.max(0, .6 - rt)] }
+  if (sh == 'desk_coupon') { const c = DK.coupons[0], u = ez(cl(rt, .1, 1.1)); c.vis = true; c.pos = [lerp(X - 3, X - .4, u), .06 + Math.sin(u * Math.PI) * 1.4, lerp(-1, .3, u)]; c.rot = [-Math.PI / 2, Math.PI, lerp(.12, -.08, u)];
+    const ts = wt(i, /stamp/i, -.2), v = pop(t, ts, .4); DK.stampUS.vis = v > .01; DK.stampUS.pos = [X + 3, .06, .2]; DK.stampUS.scl = [v, v, v]; DK.stampUS.rot = [-Math.PI / 2, Math.PI, .1] }
+  if (sh == 'desk_arb' || sh == 'desk_arb2') {
+    DK.stampIT.vis = DK.stampUS.vis = true; DK.stampIT.pos = [X - 5, .06, 1]; DK.stampUS.pos = [X + 5, .06, 1]; DK.stampIT.scl = DK.stampUS.scl = [1, 1, 1]; DK.stampIT.rot = [-Math.PI / 2, Math.PI, -.1]; DK.stampUS.rot = [-Math.PI / 2, Math.PI, .1];
+    for (let k = 0; k < 4; k++) { const c = DK.coupons[k], f = frac(t * .4 + k / 4); c.vis = true; c.pos = arc([X - 4, .1, 1], [X + 4, .1, 1], f, 2); c.rot = [-Math.PI / 2, Math.PI, f * .6 - .3]; const sc = .55; c.scl = [sc, sc, sc] }
+    const n = sh == 'desk_arb2' ? 24 : Math.min(24, Math.floor(rt * 3)); DK.coins.forEach((c, k) => { c.vis = k < n; c.pos = [X + 5.6 + (k % 3) * .7 - .7, .04 + Math.floor(k / 3) * .075, -1.2 + (k % 2) * .3] });
+  }
+  if (sh == 'coupon_mountain' || sh == 'silhouette_close2' || sh == 'coupon_math') {
+    DK.mount.vis = true; const g = sh == 'coupon_mountain' ? lerp(.15, 1, ez(cl(rt, .6, d))) : sh == 'coupon_math' ? lerp(1, 1.7, ez(cl(rt, .3, d))) : 1; DK.mount.scl = [g, g, g];
+    if (sh == 'coupon_mountain') { const c = DK.coupons[0]; c.vis = true; c.pos = [X - 5.5, .06, -2]; c.rot = [-Math.PI / 2, Math.PI, .2]; c.scl = [.6, .6, .6] }
+  }
+  if (sh == 'coupon_math' || sh == 'coupon_math2') { DK.small.vis = true; DK.small.pos = [SETX.DK - (sh == 'coupon_math2' ? 10 : 6.5), 0, 2]; DK.mount.vis = sh == 'coupon_math' }
+  if (sh == 'silhouette_close2') { vis(DK.ponzi, true); DK.ponzi.base = [X - 1.5, 0, -.2]; DK.ponzi.yaw = Math.PI + .5; pose(DK.ponzi, t, 'idle'); DK.ponzi.head.rot = [0, Math.sin(t * .6) * .3, 0] }
+  if (sh == 'math_desk') { DK.pad.vis = DK.pencil.vis = true; DK.pencil.pos = [X + 2 + Math.sin(t * 5) * 1.2, .25, -2 + Math.cos(t * 3.3) * .6] }
+  if (sh == 'audit') { DK.ledger.vis = true }
+}
+function animPY(t, sh, i, rt) {
+  const X = SETX.PY, d = Lt(i).end - Lt(i).start;
+  let show = [1, 1, 1, 1];
+  if (sh == 'first_inv') show = [1, 0, 0, 0];
+  if (sh == 'flow2' || sh == 'pyr_1') show = [1, 1, 0, 0];
+  if (sh == 'pyr_2') show = [1, pop(t, wtN(i, /fifteen/i, 2, -.1), .5), 0, 0];
+  if (sh == 'pyr_3') show = [1, 1, pop(t, Lt(i).start + .5, .5), pop(t, wt(i, /round/i, -.2), .5)];
+  let cu = 0; if (sh == 'crash_teaser') cu = cl(rt, .2, 1.8); if (sh == 'pyr_crash') cu = cl(rt, .2, 2.4); if (sh == 'pyr_end') cu = 1;
+  PY.tiers.forEach((tr, k) => { const s = show[k], v = ez(cl((cu * 1.6 - (3 - k) * .12) / .8, 0, 1)); tr.pl.vis = s > .01; tr.leg.vis = s > .01 && tr.leg._v;
+    tr.pl.scl = [1, Math.max(.01, s), 1]; tr.pl.pos = [X, (tr.y - .9) * s - v * .5 * (tr.y > 0 ? 1 : 0), tr.z]; tr.pl.rot = [0, 0, v * (k % 2 ? .18 : -.18)];
+    tr.leg.scl = [1, Math.max(.01, s * (1 - v)), 1] });
+  PY.ppl.forEach(p => { const s = show[p.k]; vis(p, s > .01); if (s <= .01) return; const sc = p.s * Math.max(.01, s);
+    let ps = 'idle'; if (sh == 'title' || sh == 'pyr_big') ps = 'cheer'; if (sh == 'first_inv' && p.k == 0) ps = 'cheer'; if (sh == 'pyr_3' && p.k == 0) ps = 'cheer'; if (sh == 'pyr_end') ps = 'sad';
+    pose(p, t, ps, .6); p.m.scl = [sc, sc, sc];
+    if (cu > 0) { const v = ez(cl((cu * 1.6 - (p.k) * .15 - G.hash(p.i, p.k) * .25) / .7, 0, 1)), sgn = G.hash(p.i, 9) > .5 ? 1 : -1;
+      if (v > 0) { p.m.pos = [p.base[0] + (G.hash(p.i, p.k + 3) - .5) * 3 * v, Math.max(0, lerp(p.base[1], .25, v) + Math.sin(v * Math.PI) * .8), p.base[2] - v * (1.4 + G.hash(p.i, 4) * 2.5)];
+        p.m.rot = [-1.45 * v, p.yaw, sgn * .5 * v]; if (sh != 'pyr_end') { p.aL.rot = [0, 0, -2.6]; p.aR.rot = [0, 0, 2.6] } } }
+  });
+  const pz = PY.ponzi, vz = ez(cl((cu * 1.6) / .6, 0, 1)); vis(pz, sh != 'pyr_end'); pz.base = [X, 3.6 - vz * 3.6, 1.6 + vz * 2.5]; pz.yaw = Math.PI; pose(pz, t, cu > 0 ? 'scared' : (sh == 'first_inv' || sh == 'flow2' ? 'give' : 'wave'));
+  PY.ped.vis = true;
+  // Muenzen
+  const routes = { first_inv: [[-1, 0]], flow2: [[1, -1], [-1, 0]], pyr_1: [[1, 0]], pyr_2: [[1, 0]], pyr_3: [[2, 1], [3, 2], [1, 0]], pyr_big: [[3, 2], [2, 1], [1, 0]], title: [[3, 2], [2, 1], [1, 0]] };
+  const R = cu > 0 ? null : routes[sh];
+  const head = (k, j) => { if (k < 0) return [X, 5.4, 1.6]; const n = PY.N[k], tr = PY.tiers[k]; return [X + ((j % n) - (n - 1) / 2) * .78, tr.y + 1.6, tr.z] };
+  PY.coins.forEach((c, j) => { c.vis = !!R && (sh != 'pyr_2' || show[1] > .9); if (!c.vis) return; const r = R[j % R.length]; if (show[Math.max(0, r[0])] < .9 || show[Math.max(0, r[1])] < .9) { c.vis = false; return }
+    const f = frac(t * .55 + j * .137); c.pos = arc(head(r[0], j * 7), head(r[1], j * 3), f, 1.2); c.rot = [f * 8, f * 4, 0] });
+}
+function animMN(t, sh, i, rt) {
+  MN.lit.forEach(m => m.vis = sh == 'mansion_night'); MN.coins.forEach(c => c.vis = false);
+  pose(MN.ponzi, t, sh == 'mansion' ? 'wave' : 'idle'); pose(MN.mom, t, sh == 'mansion' && t > wt(i, /mother/i, -.2) ? 'wave' : 'idle');
+  vis(MN.mom, sh == 'mansion' && t > wt(i, /mother/i, -.4));
+}
+function animVT(t, sh, i, rt) {
+  const d = Lt(i).end - Lt(i).start, n = sh == 'money_room' ? 150 : Math.floor(150 * ez(cl(rt, .2, d)));
+  VT.bricks.forEach((b, k) => { b.vis = k < n; if (k == n - 1) { const s = bo(cl(frac(rt * 3), 0, 1)); } });
+  VT.bills.forEach((b, k) => { const f = frac(t * .3 + k / 60); b.pos = [SETX.VT - 6 + G.hash(k, 1) * 12 + Math.sin(t + k) * .5, 7 - f * 7, -3 + G.hash(k, 2) * 7]; b.rot = [t * 2 + k, k, t * 3 + k] });
+  VT.ponzi.base = [SETX.VT + 3.2, 0, -1.2]; VT.ponzi.yaw = -.7; pose(VT.ponzi, t, 'cheer', .5);
+}
+function animSW(t, sh, i, rt) { pose(SW.ponzi, t, 'wave'); SW.buyers.forEach(p => pose(p, t, 'idle')); SW.gator.pos = [SETX.SW - 4 + Math.sin(t * .3) * 1.5, -.12 + Math.sin(t * 2) * .03, -3] }
+function animCT(t, sh, i, rt) { pose(CT.judge, t, 'idle'); const g = frac(t * .5); CT.gavel.rot = [0, 0, g < .15 ? -Math.sin(g / .15 * Math.PI) * .9 : 0]; pose(CT.ponzi, t, 'idle'); CT.cops.forEach(c => pose(c, t, 'idle')) }
+const ANIM = { ST: animST, HB: animHB, DN: animDN, BK: animBK, PR: animPR, DK: animDK, PY: animPY, MN: animMN, VT: animVT, SW: animSW, CT: animCT };
+// ---------- Licht ----------
+const DAY = { sunCol: w.sunCol.slice(), sky: w.sky.slice(), gnd: w.gnd.slice(), fog: w.fog.slice(), bg: 'linear-gradient(#5fb2ee 0%,#9fdcff 45%,#e6f6ff 70%)' };
+const LIGHTS = {
+  night: { sunCol: [.45, .55, .9], sky: [.24, .3, .52], gnd: [.12, .14, .24], fog: G.hex('#1b2c55'), bg: 'linear-gradient(#0b1633 0%,#1c2f63 55%,#33508f 80%)' },
+  dusk: { sunCol: [1.15, .78, .52], sky: [.62, .55, .62], gnd: [.42, .3, .25], fog: G.hex('#f2b58a'), bg: 'linear-gradient(#5b5f9e 0%,#f08a6b 55%,#ffd29a 85%)' },
+  dim: { sunCol: [.75, .8, .95], sky: [.5, .55, .7], gnd: [.3, .3, .36], fog: G.hex('#9aa3b5'), bg: 'linear-gradient(#5d6680,#9aa3b5)' },
+  warm: { sunCol: [1.1, .92, .72], sky: [.85, .8, .72], gnd: [.5, .42, .32], fog: G.hex('#ffe2b8'), bg: 'linear-gradient(#ffb36b 0%,#ffd9a0 50%,#fff1d6 80%)' },
+};
+const SHOT_LIGHT = { mansion_night: 'night', bank_crash: 'dusk', silhouette_close: 'dusk', prison: 'dim', prison2: 'dim', rio: 'warm', pyr_end: 'dim', crash_teaser: 'dusk', pyr_crash: 'dusk' };
+// ===================== UI (gleiche Bausteine wie die anderen Videos: weisse Karten, Navy-Rand, IB-Schrift) =====================
+const fmt = n => Math.round(n).toLocaleString('en-US');
+const card = (x, y, inner, s, o = {}) => s <= .01 ? '' : `<div class="card" style="left:${x}px;top:${y}px;transform:translate(-50%,0) rotate(${o.rot || 0}deg) scale(${s});transform-origin:50% 0;padding:${o.pad || '18px 40px'};text-align:center;${o.w ? 'width:' + o.w + 'px;' : ''}${o.bg ? 'background:' + o.bg + ';' : ''}">${inner}</div>`;
+const pill = (x, y, txt, s, o = {}) => s <= .01 ? '' : `<div class="pill" style="left:${x}px;top:${y}px;transform:translate(${o.left ? '0' : '-50%'},-50%) rotate(${o.rot || 0}deg) scale(${s});transform-origin:${o.left ? '0' : '50%'} 50%;font-size:${o.size || 44}px;color:${o.col || '#fff'};background:${o.bg || '#2a6fd6'};text-shadow:${o.col == OL ? 'none' : shadowTxt(OL, 3)}">${txt}</div>`;
+const stampTx = (x, y, txt, t, t0, o = {}) => { if (t < t0) return ''; const k = lerp(2.2, 1, ez(cl(t, t0, t0 + .18))); return `<div style="position:absolute;left:${x}px;top:${y}px;transform:translate(-50%,-50%) rotate(${o.rot ?? -8}deg) scale(${k});border:12px solid ${o.col || '#e8483c'};border-radius:22px;padding:4px 34px;color:${o.col || '#e8483c'};background:#ffffffe8;font:900 ${o.size || 110}px/1.05 IB,Arial;white-space:nowrap">${txt}</div>` };
+const bigNum = (x, y, txt, s, col = '#35e08a', size = 170) => s <= .01 ? '' : `<div class="lbl" style="left:${x}px;top:${y}px;transform:translate(-50%,-50%) scale(${s});font-size:${size}px;line-height:1;color:${col};text-shadow:${shadowTxt(OL, 9)}">${txt}</div>`;
+function labelAt(p, html, s) { const q = w.project(p); if (!q.vis || s <= .01) return ''; return `<div style="position:absolute;left:${q.x}px;top:${q.y}px;transform:translate(-50%,-100%) scale(${s});transform-origin:50% 100%">${html}</div>` }
+const CH = { ch1: ['CHAPTER 1', 'THE MAN WITH $2.50'], ch2: ['CHAPTER 2', 'THE STAMP TRICK'], ch3: ['CHAPTER 3', '50% IN 45 DAYS'], ch4: ['CHAPTER 4', 'PONZI FEVER'], ch5: ['CHAPTER 5', 'THE NEWSPAPER'], ch6: ['CHAPTER 6', 'THE FALL'] };
+let CHAP = [];
+function chapterUI(t) {
+  let h = '', cur = null;
+  for (const c of CHAP) if (t >= c.t - .1) cur = c;
+  if (!cur) return '';
+  const a = cur.t, s = pop(t, a - .05, .45), out = ez(cl(t, a + 2.3, a + 2.8));
+  if (out < 1) h += `<div style="position:absolute;left:0;right:0;top:${lerp(330, 300, s)}px;text-align:center;opacity:${1 - out};transform:scale(${lerp(.9, 1, s)})">
+    <div class="pill" style="position:relative;display:inline-block;font-size:44px;color:#fff;background:#e8483c;text-shadow:${shadowTxt(OL, 3)}">${cur.k[0]}</div><br>
+    <div class="lbl" style="position:relative;display:inline-block;margin-top:24px;font-size:150px;line-height:1;text-shadow:${shadowTxt(OL, 10)}">${cur.k[1]}</div></div>`;
+  if (t > a + 2.5 && lineAt(t) < 55) h += pill(40, 60, `<span style="opacity:.75">${cur.k[0].replace('CHAPTER ', 'CH ')}</span> · ${cur.k[1]}`, pop(t, a + 2.5, .4), { left: true, size: 30, bg: '#ffffff', col: OL });
+  return h;
+}
+// Karten (Weltkarte aus mapdata.js)
+const MAPC = {};
+function mapBase(key, lon0, lon1, lat0, lat1, hi) {
+  if (MAPC[key]) return MAPC[key];
+  const [x0, y1] = MAPP(lon0, lat0), [x1, y0] = MAPP(lon1, lat1);
+  let s = `<rect x="${x0 - 50}" y="${y0 - 50}" width="${x1 - x0 + 100}" height="${y1 - y0 + 100}" fill="#8fd0f5"/>`;
+  for (const k in WORLD) s += `<path d="${WORLD[k]}" fill="${hi[k] || '#f4dca0'}" stroke="${OL}" stroke-width="1.2" stroke-linejoin="round"/>`;
+  return MAPC[key] = { s, vb: `${x0} ${y0} ${x1 - x0} ${y1 - y0}`, k: (x1 - x0) / 1500 };
+}
+function mapCard(t, t0, key, box, hi, pins, arrows, o = {}) {
+  const s = pop(t, t0, .45); if (s <= .01) return '';
+  const m = mapBase(key, ...box, hi), k = m.k;
+  let fg = '';
+  arrows.forEach(([a, b, ta, col]) => { const A = MAPP(...a), B = MAPP(...b), C = [(A[0] + B[0]) / 2, Math.min(A[1], B[1]) - Math.hypot(B[0] - A[0], B[1] - A[1]) * .3], u = ez(cl(t, ta, ta + 1.1));
+    if (u <= 0) return; const L = 2000; fg += `<path d="M${A[0]},${A[1]} Q${C[0]},${C[1]} ${B[0]},${B[1]}" fill="none" stroke="${col || '#e8483c'}" stroke-width="${7 * k}" stroke-dasharray="${18 * k} ${12 * k}" pathLength="1000" style="stroke-dashoffset:0" opacity="${u > 0 ? 1 : 0}" clip-path="none"/>`;
+    const P = (v) => [(1 - v) * (1 - v) * A[0] + 2 * v * (1 - v) * C[0] + v * v * B[0], (1 - v) * (1 - v) * A[1] + 2 * v * (1 - v) * C[1] + v * v * B[1]], q = P(u);
+    fg += `<circle cx="${q[0]}" cy="${q[1]}" r="${11 * k}" fill="${col || '#e8483c'}" stroke="${OL}" stroke-width="${3 * k}"/>` });
+  pins.forEach(([ll, lab, tp, col]) => { const p = MAPP(...ll), v = pop(t, tp, .35); if (v <= .01) return;
+    fg += `<g transform="translate(${p[0]},${p[1]}) scale(${v * k})"><circle r="14" fill="${col || '#e8483c'}" stroke="${OL}" stroke-width="5"/><g transform="translate(22,-22)"><rect x="0" y="-34" width="${lab.length * 25 + 30}" height="50" rx="14" fill="#fff" stroke="${OL}" stroke-width="5"/><text x="15" y="2" font-family="IB,Arial" font-weight="900" font-size="34" fill="${OL}">${lab}</text></g></g>` });
+  return `<div style="position:absolute;left:960px;top:${o.y || 120}px;transform:translateX(-50%) rotate(${o.rot ?? -1.5}deg) scale(${s});transform-origin:50% 0;border:8px solid ${OL};border-radius:34px;overflow:hidden;box-shadow:0 14px 0 #2328384d;width:1180px;height:${o.h || 700}px">
+    <svg viewBox="${m.vb}" width="1180" height="${o.h || 700}" preserveAspectRatio="xMidYMid slice">${m.s}${fg}</svg></div>`;
+}
+function samSVG(t, x, y, wd, o = {}) {
+  const i = MG.cur(t), l = Lt(i);
+  const p = Object.assign({ mouth: 'smile', talk: MG_SAM.talk(t, l) * (t < l.end + .05 ? 1 : 0), blink: MG_SAM.blink(t), armL: [.15, .1], armR: [.15, .1], w: wd }, o);
+  return `<div style="position:absolute;left:${x - wd / 2}px;top:${y - wd * 365 / 240}px">${MG_SAM.svg(p)}</div>`;
+}
+const flagIcon = `<svg width="60" height="60" viewBox="0 0 60 60" style="vertical-align:-12px"><path d="M14 54 V6" stroke="${OL}" stroke-width="6" stroke-linecap="round"/><path d="M16 8 H48 L40 20 L48 32 H16 Z" fill="#e8483c" stroke="${OL}" stroke-width="4" stroke-linejoin="round"/></svg>`;
+function newspaperCard(t, t0, head, sub, date, o = {}) {
+  const u = cl(t, t0, t0 + .7), s = ez(u); if (u <= 0) return '';
+  const rot = lerp(720, o.rot ?? -4, ez(u)), k = lerp(.05, 1, s);
+  return `<div style="position:absolute;left:960px;top:${o.y || 470}px;transform:translate(-50%,-50%) rotate(${rot}deg) scale(${k});width:${o.w || 1000}px;background:#f4eedf;border:8px solid ${OL};border-radius:10px;box-shadow:0 18px 0 #2328384d;padding:24px 40px 30px;font-family:IB,Arial;color:${OL};text-align:center">
+   <div style="font:900 30px P,Arial;display:flex;justify-content:space-between;border-bottom:5px solid ${OL};padding-bottom:6px"><span>${date}</span><span>BOSTON</span></div>
+   <div style="font:900 92px/1 'Cinzel Decorative',IB,serif;margin:12px 0 10px;letter-spacing:2px">BOSTON POST</div>
+   <div style="border-top:5px solid ${OL};border-bottom:2px solid ${OL};height:6px;margin-bottom:16px"></div>
+   <div style="font:900 ${o.hs || 74}px/1.05 IB,Arial;color:#b8322a">${head}</div><div style="font:700 36px P,Arial;margin-top:12px;color:#4a4f66">${sub}</div>
+   <div style="display:flex;gap:20px;margin-top:20px">${[0, 1, 2].map(c => `<div style="flex:1">${[0, 1, 2, 3].map(r => `<div style="height:12px;background:#b9b2a2;margin:9px 0;width:${90 - ((r + c) % 3) * 12}%"></div>`).join('')}</div>`).join('')}</div></div>`;
+}
+function ui(t) {
+  if (!MG.TL) return '';
+  let h = chapterUI(t);
+  const i = lineAt(t), sp = SPEC(i), k = sp.ui, l = Lt(i), a = l.start, e = l.end, nx = nextStart(i), out = fade(t, nx - .3, nx), sh = sp.shot;
+  const S = (t0, d) => pop(t, t0, d) * out;
+  switch (k) {
+    case 'date1920': h += pill(60, 900, 'BOSTON · SUMMER 1920', S(a + .3), { left: true, bg: '#ffffff', col: OL, size: 40 }); break;
+    case 'promise': { const v = ez(cl(t, wt(i, /fifty/i, -.1), wt(i, /fifty/i, .6))); h += card(1340, 170, `<div style="font-size:46px;color:#6b7280">PONZI PROMISED</div><div style="font-size:190px;line-height:1;color:#2fa36b">${Math.round(50 * v)}%</div><div style="font-size:64px;opacity:${t > wt(i, /forty/i, -.1) ? 1 : 0}">IN 45 DAYS</div>`, S(a + .1), { rot: 3 }); break }
+    case 'compare': { const g = ez(cl(t, a + .3, a + 1.2)), g2 = ez(cl(t, wt(i, /year/i, -.2), wt(i, /year/i, .5)));
+      const bar = (lab, pct, col, sub) => `<div style="display:flex;align-items:center;gap:22px;margin:16px 0"><div style="width:250px;text-align:right;font-size:48px">${lab}</div><div style="flex:1;height:96px;border:6px solid ${OL};border-radius:20px;background:#eef1f6;overflow:hidden;position:relative"><div style="position:absolute;inset:0;width:${pct}%;background:${col}"></div></div><div style="width:330px;font-size:58px;text-align:left">${sub}</div></div>`;
+      h += card(960, 230, `<div style="font-size:44px;color:#6b7280">RETURN</div>${bar('PONZI', 100 * g, '#2fa36b', '50% / 45 DAYS')}${bar('BANK', 10 * g, '#2a6fd6', '~5% / <span style="color:#e8483c">YEAR</span>')}`, S(a, .4), { w: 1450, rot: -1.5 });
+      if (g2 > .01) h += stampTx(1500, 690, 'PER YEAR!', t, wt(i, /year/i, -.1), { size: 80 }); break }
+    case 'perday': case 'perday2': { const t0 = wt(i, /two/i, -.1), v = ez(cl(t, t0, t0 + 1.6)); h += `<div class="lbl" style="left:960px;top:200px;transform:translateX(-50%) scale(${S(t0 - .2)})"><div class="pill" style="position:relative;display:inline-block;font-size:46px;color:${OL};background:#ffd166">UP TO</div>
+      <div style="font-size:200px;line-height:1.05;color:#35e08a;text-shadow:${shadowTxt(OL, 10)}">$${fmt(250000 * v)}</div><div class="pill" style="position:relative;display:inline-block;font-size:64px;color:#fff;background:#e8483c;text-shadow:${shadowTxt(OL, 4)}">PER DAY</div></div>`; break }
+    case 'title': { const s = S(a + .2, .6); h += `<div class="lbl" style="left:960px;top:150px;transform:translateX(-50%) scale(${s})"><div class="pill" style="position:relative;display:inline-block;font-size:44px;color:${OL};background:#ffd166">BOSTON · 1920</div><div style="font-size:${t > wt(i, /ponzi/i, -.2) ? 210 : 0}px;line-height:1.05;color:#ffd166;text-shadow:${shadowTxt(OL, 12)};transform:scale(${pop(t, wt(i, /ponzi/i, -.2), .5)})">CHARLES PONZI</div>
+      <div style="font-size:${t > wt(i, /famous/i, -.3) ? 76 : 0}px;margin-top:6px;text-shadow:${shadowTxt(OL, 7)}">THE MOST FAMOUS SCAM IN HISTORY</div></div>`; break }
+    case 'cash250': { const t0 = wt(i, /two/i, -.15); h += bigNum(1480, 300, '$2.50', S(t0, .5), '#35e08a', 190) + pill(1480, 450, 'NOVEMBER 1903', S(a + .3), { bg: '#2a6fd6' });
+      if (t > wt(i, /gambled/i, -.1)) h += pill(1480, 560, '🎲 THE REST: GAMBLED AWAY', S(wt(i, /gambled/i, -.1)), { bg: '#e8483c', size: 38 }); break }
+    case 'fired': h += pill(1400, 200, 'DISHWASHER', S(wt(i, /washed/i, -.1)), { bg: '#2a6fd6', rot: -3 }) + pill(1400, 300, 'WAITER', S(wt(i, /waited/i, -.1)), { bg: '#2fa36b', rot: 2 }) + stampTx(1400, 470, 'FIRED!', t, wt(i, /fired/i, -.05)); break;
+    case 'montreal': h += pill(60, 900, 'MONTREAL · 1907', S(a + .2), { left: true, bg: '#ffffff', col: OL, size: 40 }) + (t > wt(i, /zarossi/i, -.3) ? pill(1400, 220, 'BANK OWNER: LUIGI ZAROSSI', S(wt(i, /zarossi/i, -.3)), { bg: '#2f4372', size: 40 }) : ''); break;
+    case 'sixpct': h += card(1350, 160, `<div style="font-size:44px;color:#6b7280">INTEREST ON DEPOSITS</div><div style="display:flex;gap:50px;justify-content:center;align-items:flex-end;margin-top:10px"><div><div style="font-size:150px;line-height:1;color:#2fa36b">6%</div><div style="font-size:40px">ZAROSSI</div></div><div><div style="font-size:90px;line-height:1;color:#9aa3b5">3%</div><div style="font-size:40px;color:#6b7280">NORMAL</div></div></div>`, S(a + .3), { rot: 2 }) + (t > wt(i, /double/i, -.1) ? stampTx(1350, 620, '2× !', t, wt(i, /double/i, -.1), { col: '#2fa36b', size: 90 }) : ''); break;
+    case 'flow1': case 'flow2': case 'trick': {
+      const t1 = k == 'flow2' ? wt(i, /next/i, -.3) : wt(i, /new/i, -.3), box = (x, y, txt, col, s) => card(x, y, `<div style="font-size:52px;color:${col}">${txt}</div>`, s, { pad: '16px 34px' });
+      h += box(560, 230, k == 'flow1' ? 'NEW DEPOSITS' : 'NEW INVESTORS', '#2fa36b', S(a + .2)) + box(1360, 230, k == 'flow1' ? 'OLD CUSTOMERS' : 'OLD INVESTORS', '#2a6fd6', S(t1));
+      const u = cl(t, t1, t1 + .6); if (u > 0) h += `<svg style="position:absolute;left:0;top:0" width="1920" height="1080"><path d="M780 280 L${780 + 340 * ez(u)} 280" stroke="${OL}" stroke-width="22" stroke-linecap="round"/><path d="M780 280 L${780 + 340 * ez(u)} 280" stroke="#ffd166" stroke-width="12" stroke-linecap="round"/>${u > .9 ? `<path d="M1105 250 L1150 280 L1105 310 Z" fill="#ffd166" stroke="${OL}" stroke-width="6"/>` : ''}</svg><div class="lbl" style="left:960px;top:330px;transform:translateX(-50%);font-size:40px;text-shadow:${shadowTxt(OL, 4)}">${k == 'flow1' ? 'PAYS THE INTEREST' : 'PAYS THE "PROFIT"'}</div>`;
+      if (k == 'trick' && t > wt(i, /perfect/i, -.2)) h += stampTx(960, 560, 'LOOKS PERFECT', t, wt(i, /perfect/i, -.2), { col: '#2fa36b', size: 84, rot: -5 });
+      break }
+    case 'mexico': h += stampTx(560, 300, 'BANK FAILED', t, a + .3, { size: 90 }) + mapCard(t, wt(i, /mexico/i, -.6), 'mex', [-125, -50, 12, 56], { MEX: '#ffd166', CAN: '#f7c6a3', USA: '#f4dca0' }, [[[-73.6, 45.5], 'MONTREAL', wt(i, /mexico/i, -.5)], [[-99.1, 19.4], 'MEXICO', wt(i, /mexico/i, .5)]], [[[-73.6, 45.5], [-99.1, 19.4], wt(i, /mexico/i, -.3)]], { y: 110, h: 560, rot: 2 }).replace('left:960px', 'left:1260px').replace('width:1180px', 'width:900px').replace('width="1180"', 'width="900"'); break;
+    case 'check': h += card(1300, 190, `<div style="text-align:left;font:700 34px P,Arial;color:#6b7280">PAY TO THE ORDER OF ...</div><div style="font-size:120px;line-height:1.1;color:#2a6fd6">$423.58</div><div style="text-align:right;font:italic 700 40px P,Arial;color:#6b7280">signature?</div>`, S(wt(i, /check/i, -.3)), { w: 760, rot: -3, bg: '#e9f6ee' }) + stampTx(1300, 330, 'FORGED', t, wt(i, /fifty/i, .2)) + (t > wt(i, /prison/i, -.2) ? pill(1300, 640, 'PRISON IN CANADA', S(wt(i, /prison/i, -.2)), { bg: '#3a3f5c' }) : ''); break;
+    case 'atlanta': h += pill(60, 900, 'ATLANTA · SECOND PRISON TERM', S(a + .2), { left: true, bg: '#ffffff', col: OL, size: 40 }); break;
+    case 'letter': h += pill(1420, 260, '✉ A LETTER FROM SPAIN', S(wt(i, /letter/i, -.2)), { bg: '#e8483c' }) + (t > wt(i, /international/i, -.2) ? pill(1420, 370, 'INTERNATIONAL REPLY COUPON', S(wt(i, /international/i, -.2)), { bg: '#2fa36b', size: 38 }) : ''); break;
+    case 'irc_how': { const st = [[wt(i, /buy/i, -.1), '🛒 BUY A COUPON', 'COUNTRY A'], [wt(i, /mail/i, -.1), '✉ MAIL IT ABROAD', '→'], [wt(i, /trades/i, -.1), '🔁 TRADE FOR A STAMP', 'COUNTRY B']];
+      h += st.map(([tt, a1, b1], j) => card(420 + j * 540, 150, `<div style="font-size:30px;color:#6b7280">${j + 1}</div><div style="font-size:46px">${a1}</div>`, S(tt), { rot: j % 2 ? 2 : -2, pad: '14px 30px' })).join(''); break }
+    case 'inflation': h += mapCard(t, a + .1, 'eu', [-12, 35, 34, 60], { ITA: '#ffd166', ESP: '#f7c6a3' }, [[[12.5, 42], 'ITALY', wt(i, /italy/i, -.3)], [[-3.7, 40.4], 'SPAIN', a + .4]], [], { y: 80, h: 640 }) + (t > wt(i, /exploded/i, -.2) ? stampTx(1500, 260, 'PRICES ↑↑', t, wt(i, /exploded/i, -.2), { size: 80, rot: 6 }) : '') + (t > wt(i, /cheap/i, -.2) ? stampTx(960, 620, 'COUPONS: CHEAP', t, wt(i, /cheap/i, -.2), { col: '#2fa36b', size: 70, rot: -4 }) : ''); break;
+    case 'arb': h += labelAt(ABS('DK', [-5, .2, 1]), pill(0, 0, 'BUY CHEAP 🇮🇹'.replace('🇮🇹', ''), 1, { bg: '#2fa36b' }).replace('position:absolute', 'position:relative'), S(wt(i, /buy/i, -.1))) + labelAt(ABS('DK', [5, .2, 1]), pill(0, 0, 'TRADE FOR MORE', 1, { bg: '#2a6fd6' }).replace('position:absolute', 'position:relative'), S(wt(i, /trade/i, -.1))) + (t > wt(i, /pocket/i, -.1) ? stampTx(960, 300, '+ PROFIT', t, wt(i, /pocket/i, -.1), { col: '#2fa36b', size: 100 }) : ''); break;
+    case 'pct400': h += pill(560, 220, '✔ LEGAL (ON PAPER)', S(wt(i, /legal/i, -.2)), { bg: '#2fa36b' }) + bigNum(1300, 330, '400%+', S(wt(i, /four/i, -.1), .5), '#ffd166', 230) + (t > wt(i, /claimed/i, -.2) ? pill(1300, 470, 'HE CLAIMED', S(wt(i, /claimed/i, -.2)), { bg: '#e8483c', size: 40 }) : ''); break;
+    case 'catch': h += card(1360, 150, `<div style="font-size:48px">1 COUPON</div><div style="font-size:40px;color:#6b7280">=</div><div style="font-size:48px">1 STAMP</div><div style="font-size:40px;color:#6b7280">=</div><div style="font-size:64px;color:#e8483c">A FEW CENTS</div>`, S(wt(i, /coupon/i, -.2)), { rot: 2 }) + (t > wt(i, /mountains/i, -.2) ? stampTx(560, 300, 'MOUNTAINS NEEDED', t, wt(i, /mountains/i, -.2), { size: 70 }) : ''); break;
+    case 'ch3': h += t > a + 2.6 ? card(1400, 190, `<div style="font-size:40px;color:#6b7280">SECURITIES EXCHANGE CO.</div><div style="font-size:110px;line-height:1.05;color:#2fa36b">+50%</div><div style="font-size:46px">IN 45 DAYS</div><div style="font-size:34px;color:#6b7280;margin-top:8px">or +100% in 90 days</div>`, S(a + 2.6), { rot: 3 }) : ''; break;
+    case 'paid': { const t0 = wt(i, /paid/i, -.2); for (let j = 0; j < 10; j += 3) h += labelAt(ABS('PY', [((j) - 4.5) * .78, 4.4, 0]), `<div class="pill" style="position:relative;font-size:40px;color:#fff;background:#2fa36b;text-shadow:${shadowTxt(OL, 3)}">+50%</div>`, S(t0 + j * .05)); h += pill(960, 160, 'FRIENDS & NEIGHBORS', S(a + .3), { bg: '#ffffff', col: OL }); break }
+    case 'example': {
+      const e1 = wt(i, /hundred/i, -.2), e2 = wt(i, /fifty/i, -.2), e3 = wtN(i, /fifteen/i, 1, -.2), e4 = wtN(i, /fifteen/i, 2, -.2);
+      const row = (tt, a1, b1, col) => t < tt ? '' : `<div style="display:flex;justify-content:space-between;gap:30px;font-size:50px;margin:8px 0;transform:scale(${pop(t, tt, .3)});transform-origin:0 50%"><span>${a1}</span><span style="color:${col}">${b1}</span></div>`;
+      h += card(1440, 110, `<div class="pill" style="position:relative;display:inline-block;font-size:30px;background:#ffd166;color:${OL};border-width:5px;padding:4px 20px">EXAMPLE</div>
+        ${row(e1, '10 people × $100', '$1,000', '#2fa36b')}${row(e2, 'after 45 days: 10 × $150', '$1,500', '#e8483c')}${row(e3, 'missing money', '$1,500', '#e8483c')}${row(e4, 'new people needed', '15', '#2a6fd6')}`, S(a + .1), { w: 860, rot: 1.5, pad: '14px 36px' });
+      break }
+    case 'grow': { const lab = (k2, tt) => labelAt(ABS('PY', [PY.N[k2] * .39 + 1.4, PY.tiers[k2].y + 1.3, PY.tiers[k2].z]), `<div class="pill" style="position:relative;font-size:44px;color:#fff;background:#2a6fd6;text-shadow:${shadowTxt(OL, 3)}">${PY.N[k2]}</div>`, S(tt));
+      h += lab(0, a) + lab(1, a + .2) + lab(2, a + .7) + lab(3, wt(i, /round/i, 0)) + (t > wt(i, /grow/i, -.2) ? stampTx(560, 220, 'MUST KEEP GROWING', t, wt(i, /grow/i, -.2), { size: 70, rot: -5 }) : ''); break }
+    case 'shout': { const s = pop(t, a - .15, .3), sh2 = Math.sin(t * 40) * 6 * cl(1 - (t - a) / .5, 0, 1);
+      h += `<div style="position:absolute;inset:0;background:radial-gradient(circle at 50% 60%,#ffd16655,transparent 60%)"></div>`;
+      h += `<div style="position:absolute;left:${960 + sh2}px;top:1180px;transform:translate(-50%,-100%) scale(${s});transform-origin:50% 100%">${MG_SAM.svg({ w: 760, mouth: 'o', talk: MG_SAM.talk(t, l), blink: 0, armL: [2.6, .3], armR: [2.6, .3] })}</div>`;
+      const bs = pop(t, wt(i, /subscribe/i, -.15), .35); h += `<div style="position:absolute;left:1500px;top:330px;transform:translate(-50%,-50%) rotate(-6deg) scale(${bs * (1 + .05 * Math.sin(t * 12))});background:#e8283c;color:#fff;font:900 84px/1 IB,Arial;padding:26px 54px;border-radius:30px;border:8px solid ${OL};box-shadow:0 12px 0 #2328384d">SUBSCRIBE 🔔</div>`;
+      if (t > wt(i, /free/i, -.1)) h += pill(420, 330, 'IT\'S FREE!', S(wt(i, /free/i, -.1)), { bg: '#2fa36b', rot: 5, size: 60 }); break }
+    case 'perday2': break;
+    case 'wordmouth': break;
+    case 'mansion': h += pill(60, 900, 'LEXINGTON, MASSACHUSETTS', S(a + .2), { left: true, bg: '#ffffff', col: OL, size: 40 }) + (t > wt(i, /mother/i, -.2) ? pill(1450, 250, '🚢 MOM: FIRST CLASS', S(wt(i, /mother/i, -.2)), { bg: '#7a55c7' }) : ''); break;
+    case 'hanover': h += stampTx(1300, 260, 'BOUGHT!', t, wt(i, /controlling/i, -.1), { col: '#2fa36b', size: 100 }) + (t > wt(i, /refused/i, -.3) ? pill(1300, 480, 'THEY ONCE REFUSED HIM A LOAN', S(wt(i, /refused/i, -.3)), { bg: '#e8483c', size: 38 }) : ''); break;
+    case 'rich': h += `<div class="lbl" style="left:960px;top:300px;transform:translateX(-50%);font-size:150px;text-shadow:${shadowTxt(OL, 10)}"><span style="color:#35e08a;opacity:${S(a + .2)}">$2.50</span> <span style="opacity:${S(wt(i, /living/i, -.4))}">→</span> <span style="color:#ffd166;display:inline-block;transform:scale(${S(wt(i, /millionaire/i, -.2))})">MILLIONAIRE</span></div>`; break;
+    case 'ch5': h += newspaperCard(t, wt(i, /july/i, -.3), 'QUESTIONS ABOUT PONZI', 'Front page · Boston Post', 'JULY 24, 1920'); break;
+    case 'barron': h += pill(1380, 230, 'CLARENCE BARRON', S(wt(i, /clarence/i, -.2)), { bg: '#2f4372', size: 54 }) + pill(1380, 330, 'FINANCIAL JOURNALIST', S(wt(i, /journalist/i, -.2)), { bg: '#ffffff', col: OL, size: 36 }) + (t > wt(i, /math/i, -.2) ? stampTx(1380, 500, 'SIMPLE MATH', t, wt(i, /math/i, -.2), { col: '#2a6fd6', size: 76 }) : ''); break;
+    case 'c160m': { const t0 = wt(i, /hundred/i, -.3), v = ez(cl(t, t0, t0 + 1.8)); h += `<div class="lbl" style="left:1300px;top:170px;transform:translateX(-50%) scale(${S(t0 - .2)})"><div class="pill" style="position:relative;display:inline-block;font-size:42px;color:${OL};background:#ffd166">COUPONS NEEDED</div><div style="font-size:140px;line-height:1.1;color:#ffd166;text-shadow:${shadowTxt(OL, 9)}">${fmt(160e6 * v)}</div></div>`; break }
+    case 'c27k': h += `<div class="lbl" style="left:960px;top:150px;transform:translateX(-50%) scale(${S(a)})"><div class="pill" style="position:relative;display:inline-block;font-size:42px;color:#fff;background:#2a6fd6;text-shadow:${shadowTxt(OL, 3)}">IN CIRCULATION</div><div style="font-size:170px;line-height:1.1;color:#9fdcff;text-shadow:${shadowTxt(OL, 9)}">${fmt(27000 * ez(cl(t, wt(i, /twenty/i, -.2), wt(i, /thousand/i, .4))))}</div></div>` + (t > wt(i, /circulation/i, 0) ? stampTx(960, 620, 'IMPOSSIBLE', t, wt(i, /circulation/i, 0), { size: 110 }) : ''); break;
+    case 'run2m': { const t0 = wt(i, /two/i, -.2), v = ez(cl(t, t0, t0 + 1.4)); h += `<div class="lbl" style="left:960px;top:150px;transform:translateX(-50%) scale(${S(t0 - .2)})"><div style="font-size:170px;line-height:1.05;color:#35e08a;text-shadow:${shadowTxt(OL, 10)}">$${fmt(2e6 * v)}</div><div class="pill" style="position:relative;display:inline-block;font-size:56px;color:#fff;background:#e8483c;text-shadow:${shadowTxt(OL, 4)}">IN 3 DAYS</div></div>`; break }
+    case 'mcmasters': h += newspaperCard(t, a + .1, '"DEEP IN DEBT"', 'Former publicist William McMasters goes public', 'AUGUST 2, 1920', { y: 430 }) + (t > wt(i, /robbing/i, -.2) ? card(960, 760, `<div style="font-size:56px">“ROBBING PETER TO PAY PAUL”</div>`, S(wt(i, /robbing/i, -.2)), { rot: -2, bg: '#ffd166', pad: '10px 36px' }) : ''); break;
+    case 'forgery': h += newspaperCard(t, a + .1, 'PONZI\'S PAST: FORGERY', 'Old conviction from Montreal revealed', 'AUGUST 11, 1920'); break;
+    case 'aug12': h += pill(60, 900, 'AUGUST 12, 1920', S(a + .2), { left: true, bg: '#ffffff', col: OL, size: 40 }) + stampTx(1450, 300, 'SURRENDERS', t, wt(i, /turned/i, -.1), { col: '#2f4372', size: 90 }); break;
+    case 'audit': h += stampTx(960, 260, 'MILLIONS IN DEBT', t, wt(i, /millions/i, -.1), { size: 100 }); break;
+    case 'ch6': if (t > a + 2.6) { const t0 = wt(i, /twenty/i, -.2); h += bigNum(560, 330, '-$' + Math.round(20 * ez(cl(t, t0, t0 + 1.2))) + ' MILLION', S(t0), '#ff6b5b', 110) } if (t > wt(i, /thirty/i, -.3)) h += card(1440, 520, `<div style="font-size:42px;color:#6b7280">GOT BACK PER $1</div><div style="font-size:120px;line-height:1;color:#e8483c">&lt;30¢</div>`, S(wt(i, /thirty/i, -.3)), { rot: 3 }); break;
+    case 'seized': h += stampTx(1300, 260, 'SEIZED', t, wt(i, /seized/i, -.1), { size: 130 }); break;
+    case 'counts': h += bigNum(1400, 260, '86', S(wt(i, /eighty/i, -.2), .4), '#ffd166', 200) + pill(1400, 400, 'COUNTS OF MAIL FRAUD', S(wt(i, /mail/i, -.2)), { bg: '#e8483c' }) + (t > wt(i, /guilty/i, -.2) ? pill(1400, 500, 'PLEADED GUILTY TO ONE', S(wt(i, /guilty/i, -.2)), { bg: '#2f4372', size: 38 }) : ''); break;
+    case 'state': h += pill(1400, 230, '~3.5 YEARS', S(wt(i, /three/i, -.2)), { bg: '#2f4372', size: 56 }) + (t > wt(i, /massachusetts/i, -.2) ? stampTx(1400, 420, 'TRIAL #2', t, wt(i, /massachusetts/i, -.2), { col: '#2a6fd6', size: 90 }) : ''); break;
+    case 'florida': h += pill(60, 900, 'FLORIDA · OUT ON BAIL', S(a + .2), { left: true, bg: '#ffffff', col: OL, size: 40 }) + (t > wt(i, /two/i, -.2) ? bigNum(1450, 300, '200%', S(wt(i, /two/i, -.2), .4), '#ffd166', 160) + pill(1450, 430, 'IN 60 DAYS', S(wt(i, /sixty/i, -.2)), { bg: '#e8483c' }) : ''); break;
+    case 'again': h += stampTx(1350, 300, 'CAUGHT AGAIN', t, wt(i, /caught/i, -.1), { size: 100 }); break;
+    case 'deport': h += mapCard(t, a + .1, 'atl', [-100, 45, -38, 60], { ITA: '#ffd166', BRA: '#7ee08a', USA: '#f7c6a3' }, [[[-71.06, 42.36], 'BOSTON', a + .2], [[12.5, 41.9], 'ITALY 1934', wt(i, /italy/i, 0)], [[-43.2, -22.9], 'BRAZIL', wt(i, /brazil/i, 0)]], [[[-71.06, 42.36], [12.5, 41.9], wt(i, /deported/i, -.1), '#e8483c'], [[12.5, 41.9], [-43.2, -22.9], wt(i, /moved/i, -.2), '#2fa36b']], { y: 70, h: 760 }); break;
+    case 'dollars75': h += pill(60, 900, 'RIO DE JANEIRO · 1949', S(a + .2), { left: true, bg: '#ffffff', col: OL, size: 40 }) + bigNum(1450, 330, '$75', S(wt(i, /seventy/i, -.2), .5), '#35e08a', 230) + (t > wt(i, /seventy/i, .3) ? pill(1450, 500, 'LEFT BEHIND', S(wt(i, /seventy/i, .3)), { bg: '#3a3f5c' }) : ''); break;
+    case 'pulitzer': h += newspaperCard(t, a, 'PULITZER PRIZE', 'For exposing the Ponzi scheme', '1921', { y: 470, hs: 96 }) + (t > wt(i, /pulitzer/i, -.1) ? `<div style="position:absolute;left:1560px;top:360px;transform:translate(-50%,-50%) rotate(12deg) scale(${pop(t, wt(i, /pulitzer/i, -.1), .4)})"><svg width="260" height="300" viewBox="0 0 260 300"><path d="M90 150 L60 290 L110 260 L130 300 L150 150 Z" fill="#e8483c" stroke="${OL}" stroke-width="8"/><path d="M170 150 L200 290 L150 260 L130 300 L110 150 Z" fill="#2a6fd6" stroke="${OL}" stroke-width="8"/><circle cx="130" cy="110" r="96" fill="#ffd166" stroke="${OL}" stroke-width="10"/><circle cx="130" cy="110" r="66" fill="none" stroke="#c99a2e" stroke-width="8"/><text x="130" y="132" text-anchor="middle" font-family="IB,Arial" font-weight="900" font-size="64" fill="${OL}">1st</text></svg></div>` : ''); break;
+    case 'madoff': h += card(1380, 160, `<div style="font-size:44px;color:#6b7280">2009 · BERNIE MADOFF</div><div style="font-size:140px;line-height:1.05;color:#e8483c">~$65 BILLION</div><div style="font-size:40px">PONZI SCHEME</div>`, S(wt(i, /madoff/i, -.2)), { rot: 2 }) + pill(560, 230, '100 YEARS LATER', S(a + .2), { bg: '#2a6fd6' }); break;
+    case 'spot': case 'spot1': case 'spot2': case 'spot3': {
+      const n = { spot: 0, spot1: 1, spot2: 2, spot3: 3 }[k], items = ['HIGH, "GUARANTEED" RETURNS', 'A SECRET STRATEGY', 'PAID WITH NEWER INVESTORS\' MONEY'];
+      let rows = items.map((it, j) => { const on = j < n || (j == n - 1); if (j >= n) return ''; const s2 = j == n - 1 ? pop(t, a + .05, .4) : 1;
+        return `<div style="display:flex;align-items:center;gap:22px;margin:18px 0;transform:scale(${s2});transform-origin:0 50%"><span>${flagIcon}</span><span style="font-size:52px;text-align:left">${j + 1}. ${it}</span></div>` }).join('');
+      h += card(1250, 170, `<div style="font-size:62px;color:#e8483c">🚩 3 RED FLAGS</div>${rows}`, k == 'spot' ? pop(t, a + .2, .45) : 1, { w: 1080, rot: 1, pad: '24px 44px' });
+      break }
+    case 'end': h += `<div style="position:absolute;left:1350px;top:420px;transform:translate(-50%,-50%) rotate(-4deg) scale(${pop(t, wt(i, /subscribe/i, -.2), .4) * (1 + .04 * Math.sin(t * 8))});background:#e8283c;color:#fff;font:900 90px/1 IB,Arial;padding:28px 60px;border-radius:30px;border:8px solid ${OL};box-shadow:0 12px 0 #2328384d">SUBSCRIBE 🔔</div>` + pill(1350, 620, 'ROUNDHEAD STORIES', S(wt(i, /roundhead/i, -.2)), { bg: '#ffffff', col: OL, size: 52 }); break;
+  }
+  if (sh == 'word_mouth') { const Bs = ['50%!!', 'IT WORKS!', 'MY NEIGHBOR GOT PAID!', '45 DAYS!']; [2, 7, 12, 17].forEach((q, j) => { const p = ST.queue[q]; if (!p) return; h += labelAt([p.m.pos[0], 2.35, p.m.pos[2]], `<div class="card" style="position:relative;padding:8px 24px;font-size:38px;border-radius:24px">${Bs[j]}</div>`, pop(t, a + .3 + j * .45, .35) * out) }) }
+  // Karten-Einstellungen
+  if (sh == 'map_italy') h += pill(960, 700, '🇮🇹 BORN IN ITALY · 1882'.replace('🇮🇹 ', ''), pop(t, a + 1.0, .4) * out, { bg: '#2fa36b', size: 52 });
+  // Sam im Studio
+  if (sh == 'sam_studio' || sh == 'sam_end') { const n = MG.cur(t), up = SPEC(n).ui; h += samSVG(t, 470, 1000, 470, { armR: up == 'end' ? [2.5 + .3 * Math.sin(t * 9), .3] : up == 'spot' ? [1.4, -.2] : [1.1, -.1], mouth: up == 'end' ? 'grin' : 'smile', look: [4, -2] }) }
+  return h;
+}
+// ===================== Draw =====================
+window.ready = false;
+Promise.all(['900 40px IB', '700 40px P', '900 40px "Cinzel Decorative"'].map(f => document.fonts.load(f))).then(() => { TEXQ.forEach(f => f()); window.ready = true }).catch(() => { TEXQ.forEach(f => f()); window.ready = true });
+window.setTimeline = tl => { MG.TL = tl; CHAP = []; tl.lines.forEach((l, i) => { const k = (l.spec || {}).ui; if (CH[k]) CHAP.push({ t: l.start, k: CH[k] }) }) };
+let lastSet = null;
+window.draw = function (t) {
+  const c = camAt(t), sh = SPEC(c.i).shot;
+  // Sets ein-/ausblenden
+  for (const s in SETM) { const on = s == c.set; for (const m of SETM[s]) m.vis = on ? m._v : false }
+  w.cam.pos = c.pos; w.cam.at = c.at; w.cam.fov = c.fov;
+  w.shadowCenter = [c.at[0], 0, c.at[2]]; w.shadowSize = Math.min(48, 12 + Math.hypot(...G.v.sub(c.pos, c.at)) * .9);
+  const L = LIGHTS[SHOT_LIGHT[sh]] || DAY; for (const k of ['sunCol', 'sky', 'gnd', 'fog']) w[k] = L[k];
+  $('stage').style.background = L.bg;
+  if (ANIM[c.set]) ANIM[c.set](t, sh, c.i, c.rt);
+  w.render(t);
+  // Hintergrund-Unschaerfe, wenn eine grosse Karte/Zeitung im Bild ist
+  const blurOn = /^map_|^newspaper/.test(sh) || ['compare', 'mexico', 'deport', 'inflation', 'shout', 'title', 'example'].includes(SPEC(c.i).ui);
+  $('cv').style.filter = blurOn ? 'blur(5px) saturate(.85) brightness(1.05)' : 'none';
+  let fx = '';
+  if (sh == 'sam_shout') fx += `<div style="position:absolute;inset:0;background:#ffd166;opacity:.35"></div>`;
+  // kurzer Weissblitz bei Kapitelwechsel
+  for (const ch of CHAP) { const f = cl(t, ch.t - .45, ch.t - .1); if (f > 0 && f < 1) fx += `<div style="position:absolute;inset:0;background:#fff;opacity:${Math.sin(f * Math.PI) * .9}"></div>` }
+  fx += `<div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,transparent 62%,#0b163344 100%)"></div>`;
+  $('fx').innerHTML = fx;
+  $('ui').innerHTML = ui(t) + MG.captions(t, { y: 975, size: 52, maxWords: 4, stageW: 1920, w: 1500, upper: true, hl: '#ffd166' }).replace(/'Arial Black',Arial/, 'IB,Arial');
+};
+window.sfxEvents = function () {
+  const E = [], n = NL();
+  let prevSet = null;
+  for (let i = 0; i < n; i++) {
+    const l = Lt(i), sp = SPEC(i), set = (SH[sp.shot] || SH.title)[0], k = sp.ui;
+    if (set != prevSet) E.push({ k: 'whoosh', t: l.start - .35, d: .6, g: .7 }); prevSet = set;
+    if (CH[k]) E.push({ k: 'impact', t: l.start - .05 }, { k: 'swish', t: l.start + .1, d: .5 });
+    const W = (re, d = 0) => wt(i, re, d);
+    switch (k) {
+      case 'promise': E.push({ k: 'chime', t: W(/fifty/i) }, { k: 'ding', t: W(/days/i) }); break;
+      case 'compare': E.push({ k: 'swish', t: l.start + .3, d: .8 }, { k: 'impact', t: W(/year/i, -.05) }); break;
+      case 'perday': case 'perday2': for (let j = 0; j < 10; j++) E.push({ k: 'cash', t: W(/two/i) + j * .15 }); break;
+      case 'title': E.push({ k: 'impact', t: W(/ponzi/i, -.15) }, { k: 'shimmer', t: W(/famous/i) }); break;
+      case 'cash250': E.push({ k: 'coin', t: W(/two/i) }, { k: 'coin', t: W(/two/i) + .15 }); break;
+      case 'fired': E.push({ k: 'pop', t: W(/washed/i) }, { k: 'pop', t: W(/waited/i) }, { k: 'thud', t: W(/fired/i, -.4) }, { k: 'impact', t: W(/fired/i) }); break;
+      case 'sixpct': E.push({ k: 'chime', t: l.start + .3 }, { k: 'ding', t: W(/double/i) }); break;
+      case 'flow1': case 'flow2': case 'trick': E.push({ k: 'swish', t: W(/new|next/i, -.3), d: .6 }); break;
+      case 'mexico': E.push({ k: 'impact', t: l.start + .3 }, { k: 'whoosh', t: W(/mexico/i, -.3), d: 1 }); break;
+      case 'check': E.push({ k: 'paper', t: W(/check/i, -.3) }, { k: 'impact', t: W(/fifty/i, .2) }, { k: 'thud', t: W(/prison/i) }); break;
+      case 'atlanta': E.push({ k: 'thud', t: l.start + .3 }); break;
+      case 'letter': E.push({ k: 'paper', t: l.start + .1 }, { k: 'pop', t: W(/international/i, -.2) }); break;
+      case 'irc_how': E.push({ k: 'pop', t: W(/buy/i, -.1) }, { k: 'pop', t: W(/mail/i, -.1) }, { k: 'pop', t: W(/trades/i, -.1) }); break;
+      case 'inflation': E.push({ k: 'impact', t: W(/exploded/i, -.1) }, { k: 'ding', t: W(/cheap/i, -.1) }); break;
+      case 'arb': E.push({ k: 'pop', t: W(/buy/i) }, { k: 'pop', t: W(/trade/i) }, { k: 'cash', t: W(/pocket/i) }); break;
+      case 'pct400': E.push({ k: 'chime', t: W(/legal/i) }, { k: 'impact', t: W(/four/i) }); break;
+      case 'catch': E.push({ k: 'error', t: W(/catch/i) }, { k: 'impact', t: W(/mountains/i, -.1) }); break;
+      case 'paid': for (let j = 0; j < 4; j++) E.push({ k: 'coin', t: W(/paid/i) + j * .12 }); break;
+      case 'example': [W(/hundred/i, -.2), W(/fifty/i, -.2), wtN(i, /fifteen/i, 1, -.2), wtN(i, /fifteen/i, 2, -.2)].forEach(x => E.push({ k: 'pop', t: x })); break;
+      case 'grow': E.push({ k: 'pop', t: l.start + .7 }, { k: 'pop', t: W(/round/i) }, { k: 'impact', t: W(/grow/i, -.1) }); break;
+      case 'shout': E.push({ k: 'impact', t: l.start - .1 }, { k: 'bell', t: W(/subscribe/i) }, { k: 'pop', t: W(/free/i) }); break;
+      case 'hanover': E.push({ k: 'impact', t: W(/controlling/i) }, { k: 'error', t: W(/refused/i) }); break;
+      case 'rich': E.push({ k: 'shimmer', t: W(/millionaire/i, -.2) }); break;
+      case 'ch5': case 'mcmasters': case 'forgery': case 'pulitzer': E.push({ k: 'paper', t: (k == 'ch5' ? W(/july/i, -.3) : l.start + .1) }, { k: 'swish', t: (k == 'ch5' ? W(/july/i, -.3) : l.start + .1), d: .7 }, { k: 'impact', t: (k == 'ch5' ? W(/july/i, .4) : l.start + .8) }); break;
+      case 'barron': E.push({ k: 'pop', t: W(/clarence/i) }, { k: 'tick', t: W(/math/i) }); break;
+      case 'c160m': for (let j = 0; j < 12; j++) E.push({ k: 'tick', t: W(/hundred/i, -.3) + j * .15 }); break;
+      case 'c27k': E.push({ k: 'error', t: W(/circulation/i) }, { k: 'impact', t: W(/circulation/i, .05) }); break;
+      case 'run2m': for (let j = 0; j < 8; j++) E.push({ k: 'cash', t: W(/two/i) + j * .17 }); break;
+      case 'aug12': E.push({ k: 'impact', t: W(/turned/i) }); break;
+      case 'audit': E.push({ k: 'impact', t: W(/millions/i) }); break;
+      case 'seized': E.push({ k: 'impact', t: W(/seized/i) }, { k: 'thud', t: W(/seized/i, .1) }); break;
+      case 'counts': E.push({ k: 'impact', t: W(/eighty/i) }, { k: 'thud', t: W(/guilty/i) }); break;
+      case 'state': E.push({ k: 'thud', t: W(/massachusetts/i) }); break;
+      case 'florida': E.push({ k: 'chime', t: W(/two/i) }); break;
+      case 'again': E.push({ k: 'impact', t: W(/caught/i) }, { k: 'thud', t: W(/caught/i, .15) }); break;
+      case 'deport': E.push({ k: 'whoosh', t: W(/deported/i), d: 1 }, { k: 'whoosh', t: W(/moved/i), d: 1 }); break;
+      case 'dollars75': E.push({ k: 'coin', t: W(/seventy/i) }); break;
+      case 'madoff': E.push({ k: 'impact', t: W(/madoff/i) }); break;
+      case 'spot1': case 'spot2': case 'spot3': E.push({ k: 'pop', t: l.start + .05 }, { k: 'ding', t: l.start + .2 }); break;
+      case 'end': E.push({ k: 'bell', t: W(/subscribe/i) }); break;
+    }
+    if (sp.shot == 'ship') { E.push({ k: 'wave', t: l.start, d: 4, g: .5 }, { k: 'gull', t: l.start + 1 }) }
+    if (sp.shot == 'pyr_crash' || sp.shot == 'crash_teaser') { E.push({ k: 'impact', t: l.start + .3 }); for (let j = 0; j < 8; j++) E.push({ k: 'thud', t: l.start + .5 + j * .18, g: .6 }) }
+    if (sp.shot == 'arrest') E.push({ k: 'tap', t: l.start + .4 }, { k: 'tap', t: l.start + .9 }, { k: 'tap', t: l.start + 1.4 });
+    if (sp.shot == 'court') E.push({ k: 'tap', t: l.start + .3 }, { k: 'tap', t: l.start + .5 });
+  }
+  return E.filter(e => e.t >= 0);
+};
+</script></body></html>

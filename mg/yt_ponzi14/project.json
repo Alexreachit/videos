@@ -1,0 +1,472 @@
+{
+ "title": "YouTube 14: The Man Who Invented the Ponzi Scheme",
+ "_sources": "Sources (checked 2026-11-07):\n- Wikipedia \"Charles Ponzi\": born 3 Mar 1882 Lugo, Italy; 15 Nov 1903 Boston with $2.50 after gambling on the voyage; dishwasher/waiter, fired for\n  theft + short-changing; 1907 Montreal, Banco Zarossi paid 6% (double), funded by new deposits, failed, Zarossi fled to Mexico; forged check $423.58,\n  prison in Canada; Atlanta prison for smuggling immigrants; 1919 School Street office; IRCs cheap in Italy after WWI inflation, exchanged for US stamps,\n  legal in principle, claimed >400% net; Hanover Trust manager refused loan, later Ponzi bought controlling interest; 50% in 45 days or 100% in 90 days,\n  banks ~5%/yr; up to $250,000/day; Lexington mansion; mother brought first class; Barron: 160 million IRCs needed, ~27,000 in circulation; paid out\n  $2M in three days; McMasters 2 Aug 1920; bank seized 11 Aug; 86 mail-fraud counts; pleaded guilty, 5 yrs federal, released after ~3.5 yrs; state\n  trials; Florida swampland 200% in 60 days; deported 7 Oct 1934; died Rio 1949 charity ward, estate $75; losses ~$20M, <30 cents per dollar.\n- Mental Floss \"Charles Ponzi scheme facts\": $2.50 arrival; letter from Spain with reply coupon; 160 million needed vs 27,000; $20M.\n- New England Historical Society: 50%/45 days or 100%/90 days; up to $250,000 a day; $2M in three days; McMasters \"robbing Peter to pay Paul\";\n  arrested Aug 12, 1920 on 86 counts; Florida 200% in 60 days; died in charity hospital Rio.\n- WGBH (2014) \"This week in history: the Boston Post takes down Charles Ponzi\": first Post story 24 Jul 1920; Barron consultant; 11 Aug forgery story;\n  surrendered 12 Aug; losses $20M, <30 cents on the dollar; Lexington mansion.\n- Mass Moments \"Ponzi Scheme Begins to Unravel\": Post series won the paper its first Pulitzer Prize.\n- IBTimes UK: buried with the $75 he had saved for his funeral; up to $250,000 a day.\n- History.com \"How did the Ponzi scheme get its name?\": Madoff pleaded guilty 2009, $65 billion swindle; Ponzi deported 1934, died in poverty in Brazil 1949.\n- Boston Globe 2014/2023: Ponzi's former Lexington house for sale.\nExample with 10 investors x $100 is an illustration (labeled as example).",
+ "size": [
+  1920,
+  1080
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+4%",
+ "lead": 0.5,
+ "gap": 0.42,
+ "tail": 3.0,
+ "crf": 21,
+ "music": {
+  "style": "suspense",
+  "bpm": 96,
+  "gain": 0.13,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.42,
+ "lines": [
+  {
+   "text": "In the summer of 1920, thousands of people in Boston lined up in the street to hand their savings to one man.",
+   "spec": {
+    "shot": "street_wide",
+    "ui": "date1920"
+   }
+  },
+  {
+   "text": "He promised them fifty percent profit in just forty-five days.",
+   "spec": {
+    "shot": "office_door",
+    "ui": "promise"
+   }
+  },
+  {
+   "text": "Banks were paying about five percent. Per year.",
+   "spec": {
+    "shot": "bank_compare",
+    "ui": "compare"
+   }
+  },
+  {
+   "text": "At his peak, he was taking in up to two hundred and fifty thousand dollars a day.",
+   "spec": {
+    "shot": "money_rain",
+    "ui": "perday"
+   }
+  },
+  {
+   "text": "And a few weeks later, it all came crashing down.",
+   "spec": {
+    "shot": "crash_teaser",
+    "mood": "dark"
+   }
+  },
+  {
+   "text": "His name was Charles Ponzi. And this is how one man turned postage stamps into the most famous scam in history.",
+   "spec": {
+    "shot": "title",
+    "ui": "title"
+   }
+  },
+  {
+   "text": "Ponzi was born in Italy in 1882.",
+   "spec": {
+    "shot": "map_italy",
+    "cut": true,
+    "ui": "ch1"
+   }
+  },
+  {
+   "text": "In November 1903, he stepped off a ship in Boston with just two dollars and fifty cents in his pocket. He had gambled away the rest on the way over.",
+   "spec": {
+    "shot": "ship",
+    "ui": "cash250"
+   }
+  },
+  {
+   "text": "He washed dishes. He waited tables. And he got fired for short-changing customers and for stealing.",
+   "spec": {
+    "shot": "diner",
+    "ui": "fired"
+   }
+  },
+  {
+   "text": "In 1907, he moved to Montreal and got a job at a small bank run by a man named Luigi Zarossi.",
+   "spec": {
+    "shot": "bank_ext",
+    "ui": "montreal"
+   }
+  },
+  {
+   "text": "The bank paid six percent interest on deposits, double the normal rate. Customers loved it.",
+   "spec": {
+    "shot": "bank_queue",
+    "ui": "sixpct"
+   }
+  },
+  {
+   "text": "But the interest wasn't coming from profits. It was paid with money from new deposits.",
+   "spec": {
+    "shot": "bank_flow",
+    "ui": "flow1"
+   }
+  },
+  {
+   "text": "The bank collapsed, and Zarossi fled to Mexico with a large part of the customers' money.",
+   "spec": {
+    "shot": "bank_crash",
+    "mood": "dark",
+    "ui": "mexico"
+   }
+  },
+  {
+   "text": "Ponzi was watching. And he took notes.",
+   "spec": {
+    "shot": "silhouette_close"
+   }
+  },
+  {
+   "text": "Soon after, he forged a check for four hundred and twenty-three dollars and fifty-eight cents, and went to prison in Canada.",
+   "spec": {
+    "shot": "prison",
+    "ui": "check"
+   }
+  },
+  {
+   "text": "After that came a second prison term in Atlanta, for helping to smuggle immigrants into the United States.",
+   "spec": {
+    "shot": "prison2",
+    "ui": "atlanta"
+   }
+  },
+  {
+   "text": "By 1919, Ponzi was back in Boston, with a small office on School Street.",
+   "spec": {
+    "shot": "office_ext",
+    "cut": true,
+    "mood": "calm",
+    "ui": "ch2"
+   }
+  },
+  {
+   "text": "One day, a letter arrived from Spain. Inside was something called an international reply coupon.",
+   "spec": {
+    "shot": "desk_letter",
+    "ui": "letter"
+   }
+  },
+  {
+   "text": "The idea was simple. You buy a coupon in one country and mail it abroad, and the receiver trades it for a local stamp to send a reply.",
+   "spec": {
+    "shot": "desk_coupon",
+    "ui": "irc_how"
+   }
+  },
+  {
+   "text": "But after the First World War, prices in Europe had exploded. In Italy, the coupons had become cheap.",
+   "spec": {
+    "shot": "map_europe",
+    "ui": "inflation"
+   }
+  },
+  {
+   "text": "Buy coupons cheap in Italy, trade them for more valuable stamps in America, and pocket the difference.",
+   "spec": {
+    "shot": "desk_arb",
+    "ui": "arb"
+   }
+  },
+  {
+   "text": "On paper, this was legal. Ponzi claimed it could make a profit of over four hundred percent.",
+   "spec": {
+    "shot": "desk_arb2",
+    "ui": "pct400"
+   }
+  },
+  {
+   "text": "But there was a catch. Each coupon traded for a stamp worth just a few cents. To make real money, you would need mountains of them.",
+   "spec": {
+    "shot": "coupon_mountain",
+    "ui": "catch"
+   }
+  },
+  {
+   "text": "Ponzi didn't care. He didn't need the stamps to work. He just needed people to believe they did.",
+   "spec": {
+    "shot": "silhouette_close2"
+   }
+  },
+  {
+   "text": "He founded the Securities Exchange Company, and made a simple promise: fifty percent profit in forty-five days, or double your money in ninety.",
+   "spec": {
+    "shot": "office_sign",
+    "cut": true,
+    "ui": "ch3"
+   }
+  },
+  {
+   "text": "His first investors were friends and neighbors. And to their surprise, they actually got paid.",
+   "spec": {
+    "shot": "first_inv",
+    "ui": "paid"
+   }
+  },
+  {
+   "text": "But that money wasn't coming from stamps. It came from the next investors.",
+   "spec": {
+    "shot": "flow2",
+    "ui": "flow2"
+   }
+  },
+  {
+   "text": "That's the whole trick. Old investors get paid with new investors' money. As long as more comes in than goes out, everything looks perfect.",
+   "spec": {
+    "shot": "pyr_1",
+    "ui": "trick"
+   }
+  },
+  {
+   "text": "Imagine ten people put in a hundred dollars each. Forty-five days later, they want one hundred and fifty back. That's fifteen hundred dollars. So you need fifteen new people just to pay the first ten.",
+   "spec": {
+    "shot": "pyr_2",
+    "ui": "example"
+   }
+  },
+  {
+   "text": "And those fifteen will soon want their money too. Every round, the pyramid has to grow.",
+   "spec": {
+    "shot": "pyr_3",
+    "ui": "grow"
+   }
+  },
+  {
+   "text": "And the happy investors did his marketing for him. They told everyone they knew.",
+   "spec": {
+    "shot": "word_mouth"
+   }
+  },
+  {
+   "text": "Wait! If you're enjoying this, hit subscribe. It's free. Unlike Ponzi's company.",
+   "spec": {
+    "shot": "sam_shout",
+    "ui": "shout"
+   },
+   "rate": "+22%",
+   "volume": "+25%",
+   "afx": "volume=4dB"
+  },
+  {
+   "text": "By the summer of 1920, Boston had Ponzi fever. Crowds lined up outside his office on School Street.",
+   "spec": {
+    "shot": "street_crowd",
+    "cut": true,
+    "mood": "bright",
+    "ui": "ch4"
+   }
+  },
+  {
+   "text": "At his peak, he was taking in up to two hundred and fifty thousand dollars a day.",
+   "spec": {
+    "shot": "money_room",
+    "ui": "perday2"
+   }
+  },
+  {
+   "text": "He bought a mansion in Lexington, and brought his mother over from Italy, first class.",
+   "spec": {
+    "shot": "mansion",
+    "ui": "mansion"
+   }
+  },
+  {
+   "text": "He even bought a controlling stake in the Hanover Trust bank. The same bank whose manager had refused to lend him money.",
+   "spec": {
+    "shot": "hanover",
+    "ui": "hanover"
+   }
+  },
+  {
+   "text": "The man who arrived with two dollars and fifty cents was now living like a millionaire.",
+   "spec": {
+    "shot": "mansion_night",
+    "ui": "rich"
+   }
+  },
+  {
+   "text": "But one newspaper started asking questions. On July 24th, 1920, the Boston Post put Ponzi on its front page.",
+   "spec": {
+    "shot": "newspaper",
+    "cut": true,
+    "mood": "dark",
+    "ui": "ch5"
+   }
+  },
+  {
+   "text": "The Post brought in Clarence Barron, a famous financial journalist. And he did some simple math.",
+   "spec": {
+    "shot": "math_desk",
+    "ui": "barron"
+   }
+  },
+  {
+   "text": "To cover all the money people had invested, Ponzi would need around one hundred and sixty million reply coupons.",
+   "spec": {
+    "shot": "coupon_math",
+    "ui": "c160m"
+   }
+  },
+  {
+   "text": "But only about twenty-seven thousand were actually in circulation.",
+   "spec": {
+    "shot": "coupon_math2",
+    "ui": "c27k"
+   }
+  },
+  {
+   "text": "Investors panicked and rushed to get their money back. Ponzi paid out two million dollars in just three days.",
+   "spec": {
+    "shot": "bank_run",
+    "ui": "run2m"
+   }
+  },
+  {
+   "text": "On August 2nd, his own former publicist, William McMasters, went public. Ponzi was deep in debt, robbing Peter to pay Paul.",
+   "spec": {
+    "shot": "newspaper2",
+    "ui": "mcmasters"
+   }
+  },
+  {
+   "text": "On August 11th, the Post revealed his old forgery conviction from Montreal.",
+   "spec": {
+    "shot": "newspaper3",
+    "ui": "forgery"
+   }
+  },
+  {
+   "text": "The next day, Charles Ponzi turned himself in to federal authorities.",
+   "spec": {
+    "shot": "arrest",
+    "ui": "aug12"
+   }
+  },
+  {
+   "text": "Auditors found that his company owed millions of dollars more than it had.",
+   "spec": {
+    "shot": "audit",
+    "ui": "audit"
+   }
+  },
+  {
+   "text": "Investors lost about twenty million dollars. Many got back less than thirty cents for every dollar.",
+   "spec": {
+    "shot": "pyr_crash",
+    "cut": true,
+    "ui": "ch6"
+   }
+  },
+  {
+   "text": "The state seized his bank, Hanover Trust.",
+   "spec": {
+    "shot": "hanover_closed",
+    "ui": "seized"
+   }
+  },
+  {
+   "text": "Ponzi faced eighty-six counts of mail fraud. He pleaded guilty to one, and went to federal prison.",
+   "spec": {
+    "shot": "prison",
+    "ui": "counts"
+   }
+  },
+  {
+   "text": "After about three and a half years, he was out. But Massachusetts put him on trial again.",
+   "spec": {
+    "shot": "court",
+    "ui": "state"
+   }
+  },
+  {
+   "text": "Out on bail, he went to Florida and started selling swampland, promising two hundred percent in sixty days.",
+   "spec": {
+    "shot": "swamp",
+    "ui": "florida"
+   }
+  },
+  {
+   "text": "He was caught again, and spent years more behind bars.",
+   "spec": {
+    "shot": "prison2",
+    "ui": "again"
+   }
+  },
+  {
+   "text": "In 1934, he was deported to Italy. Later, he moved to Brazil.",
+   "spec": {
+    "shot": "map_brazil",
+    "ui": "deport"
+   }
+  },
+  {
+   "text": "In 1949, Charles Ponzi died in a charity hospital in Rio de Janeiro. He left behind about seventy-five dollars.",
+   "spec": {
+    "shot": "rio",
+    "mood": "calm",
+    "ui": "dollars75"
+   }
+  },
+  {
+   "text": "And the Boston Post? It won the Pulitzer Prize for exposing him.",
+   "spec": {
+    "shot": "newspaper_prize",
+    "ui": "pulitzer"
+   }
+  },
+  {
+   "text": "A hundred years later, the trick still works. In 2009, Bernie Madoff pleaded guilty to a Ponzi scheme worth about sixty-five billion dollars.",
+   "spec": {
+    "shot": "pyr_big",
+    "cut": true,
+    "ui": "madoff"
+   }
+  },
+  {
+   "text": "So here is how to spot one.",
+   "spec": {
+    "shot": "sam_studio",
+    "ui": "spot"
+   }
+  },
+  {
+   "text": "One: high returns that are almost guaranteed.",
+   "spec": {
+    "shot": "sam_studio",
+    "ui": "spot1"
+   }
+  },
+  {
+   "text": "Two: a secret strategy that nobody can really explain.",
+   "spec": {
+    "shot": "sam_studio",
+    "ui": "spot2"
+   }
+  },
+  {
+   "text": "Three: you get paid with money from people who join after you.",
+   "spec": {
+    "shot": "sam_studio",
+    "ui": "spot3"
+   }
+  },
+  {
+   "text": "Because in a Ponzi scheme, the last people in always pay for the first.",
+   "spec": {
+    "shot": "pyr_end"
+   }
+  },
+  {
+   "text": "Subscribe to Roundhead Stories for more money stories like this one.",
+   "spec": {
+    "shot": "sam_end",
+    "mood": "bright",
+    "ui": "end"
+   }
+  }
+ ]
+}
