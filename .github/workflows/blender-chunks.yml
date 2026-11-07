@@ -1,0 +1,79 @@
+name: Blender-Animation in Teilen (20 Runner)
+
+# mg/blender_chunks_queue.txt: "<ordner>/<skript.py> <name> <anzahl_frames> [extra args]"
+# Jeder Runner rendert 1/20 der Frames (Cycles CPU), kodiert sie zu einem Teil-MP4; der letzte Job fuegt alles zusammen
+# und legt renders/<name>/<name>_silent.mp4 im Branch "renders" ab.
+on:
+  push:
+    branches: [main]
+    paths: ["mg/blender_chunks_queue.txt"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  N: "20"
+
+jobs:
+  render:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 300
+    strategy:
+      fail-fast: false
+      matrix:
+        k: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        with:
+          path: bl
+          key: blender-4.2.3-linux-x64
+      - name: Blender holen
+        run: |
+          if [ ! -x bl/blender ]; then
+            for i in 1 2 3; do curl -fsSL -o b.tar.xz https://download.blender.org/release/Blender4.2/blender-4.2.3-linux-x64.tar.xz && break; sleep 10; done
+            tar -xf b.tar.xz && rm -rf bl && mv blender-4.2.3-linux-x64 bl
+          fi
+          sudo apt-get -o Acquire::Retries=3 install -y --no-install-recommends libxi6 libxxf86vm1 libxfixes3 libxrender1 libgl1 libegl1 libxkbcommon0 libsm6 ffmpeg >/dev/null || true
+      - name: Frames rendern
+        run: |
+          L=$(grep -v '^#' mg/blender_chunks_queue.txt | awk 'NF{print; exit}')
+          S=$(echo $L | awk '{print $1}'); NAME=$(echo $L | awk '{print $2}'); TOT=$(echo $L | awk '{print $3}'); EX=$(echo $L | cut -d' ' -f4-)
+          [ "$EX" = "$L" ] && EX=""
+          K=${{ matrix.k }}; A=$(( K * TOT / N )); B=$(( (K + 1) * TOT / N - 1 ))
+          echo "NAME=$NAME" >> $GITHUB_ENV
+          mkdir -p fr
+          ./bl/blender -b --factory-startup -P "mg/$S" -- "$PWD/fr" frames=$A-$B $EX 2>&1 | grep -E "STILL|FRAMES|CUTS|Error|Traceback|Saved" | tail -40
+          ls fr | head -3; ls fr | wc -l
+          ffmpeg -v error -y -framerate 30 -start_number $A -i fr/f_%04d.png -c:v libx264 -crf 12 -preset medium -pix_fmt yuv420p part_$(printf %02d $K).mp4
+      - uses: actions/upload-artifact@v4
+        with:
+          name: part-${{ matrix.k }}
+          path: part_*.mp4
+          retention-days: 2
+  join:
+    needs: render
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: parts
+          merge-multiple: true
+      - name: Zusammenfuegen + ablegen
+        run: |
+          sudo apt-get -o Acquire::Retries=3 install -y --no-install-recommends ffmpeg >/dev/null || true
+          NAME=$(grep -v '^#' mg/blender_chunks_queue.txt | awk 'NF{print $2; exit}')
+          ls parts | sort > /dev/null; for f in $(ls parts | sort); do echo "file 'parts/$f'" >> list.txt; done; cat list.txt
+          ffmpeg -v error -y -f concat -safe 0 -i list.txt -c copy ${NAME}_silent.mp4
+          ffprobe -v error -show_entries format=duration -of csv=p=0 ${NAME}_silent.mp4
+          git config --global user.name "mg-bot"; git config --global user.email "mg-bot@users.noreply.github.com"
+          for k in 1 2 3 4 5 6 7 8; do
+            rm -rf rb
+            git clone --depth 1 --branch renders "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" rb
+            mkdir -p rb/renders/$NAME && cp ${NAME}_silent.mp4 rb/renders/$NAME/
+            cd rb && git add -A && git commit -qm "blender-chunks $NAME (${{ github.sha }})" && git push -q origin renders && cd .. && exit 0
+            cd ..; sleep $((k*7))
+          done
+          exit 1

@@ -1,0 +1,24 @@
+name: Assets holen (freie Schriften etc.)
+
+# mg/assets_queue.txt: Zeilen "<ziel-pfad-im-repo> <url>" -> wird heruntergeladen und in main committet.
+on:
+  push:
+    branches: [main]
+    paths: ["mg/assets_queue.txt"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          grep -v '^#' mg/assets_queue.txt | while read -r DST URL; do
+            [ -z "$DST" ] && continue; mkdir -p "$(dirname "$DST")"
+            curl -fsSL -o "$DST" "$URL" && echo "ok $DST $(stat -c%s "$DST")" || echo "FEHLER $URL"
+          done
+          git config --global user.name "mg-bot"; git config --global user.email "mg-bot@users.noreply.github.com"
+          git add -A mg && git commit -qm "Assets geholt" && for k in 1 2 3 4 5; do git pull -q --rebase && git push -q && break; sleep 5; done || true

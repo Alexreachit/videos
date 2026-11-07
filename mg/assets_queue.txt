@@ -1,0 +1,6 @@
+# Schriften (SIL Open Font License) fuer Nebelstein
+mg/krimi/fonts/CinzelDecorative-Black.ttf https://raw.githubusercontent.com/google/fonts/main/ofl/cinzeldecorative/CinzelDecorative-Black.ttf
+mg/krimi/fonts/CinzelDecorative-Bold.ttf https://raw.githubusercontent.com/google/fonts/main/ofl/cinzeldecorative/CinzelDecorative-Bold.ttf
+mg/krimi/fonts/LilitaOne-Regular.ttf https://raw.githubusercontent.com/google/fonts/main/ofl/lilitaone/LilitaOne-Regular.ttf
+mg/krimi/fonts/OFL-Cinzel.txt https://raw.githubusercontent.com/google/fonts/main/ofl/cinzeldecorative/OFL.txt
+mg/krimi/fonts/OFL-Lilita.txt https://raw.githubusercontent.com/google/fonts/main/ofl/lilitaone/OFL.txt
