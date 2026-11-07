@@ -185,8 +185,8 @@ def build_resident(loc, coat="#7a5cc4", hat="#2f3a4f", skin="#f0c19a", hatkind=0
         sphere((0, .03, 1.3), .26, (1.03, 1, .75), mat("rhair", "#5a3a22", .5)); sphere((0, .1, 1.5), .1, (1, 1, 1), mat("rhair", "#5a3a22", .5))
     if sign:
         P[0] = root
-        rbox((0, -.28, .62), (.5, .04, .3), mat("sign", "#f4ead2", .7), bev=.3)
-        text(sign, (0, -.305, .62), .085 if len(sign) > 9 else .1, mat("signink", "#2a2230", .6), extrude=.004)
+        rbox((0, -.28, .62), (.58, .04, .3), mat("sign", "#f4ead2", .7), bev=.3)
+        text(sign, (0, -.305, .62), min(.1, .5 / (.66 * len(sign))), mat("signink", "#2a2230", .6), extrude=.004)
     P[0] = None
     root.location = loc; root.rotation_euler = (0, 0, rotz)
     return dict(root=root, head=hp, eyes=eyes)
