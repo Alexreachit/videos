@@ -213,3 +213,11 @@
 - 2026-11-06 ~16:30: ri02 v3 final (Alex: 'fast perfekt', Musik minimal leiser): music gain 0.13 -> 0.11 (~2 dB leiser in Sprechpausen), 44,8 s, Run 42250660397. An Alex geschickt. Für weitere Folgen: gain 0.11 als Standard.
 - 2026-11-06 ~17:05: ri02 v4 (Alex: Startkapital aus dem Rückblick raus, sonst zu lang): Rückblick = Land gegründet -> Ziel reichstes Land -> 'Und jeder Follower wird ein Einwohner der Insel' -> Paul/Hafen. 41,9 s, Run 42256318846. An Alex geschickt.
 - 2026-11-07 ~01:40: Alex wollte "Grafik um ein Vielfaches besser, moderner Cartoon, weniger Pixel, smoother" -> gl3d Toon-Modus (Cel-Shading, Tusche-Umrisse, farbige Schatten, runde Formen, 2x Supersampling), 60 fps, crf 18; mg-chunks auf 20 Runner. ri02 im neuen Look neu gerendert (41,9 s, 60 fps, Ø -20,4 dB / max -2,6 dB, Run 42317774531, ~15 Min). An Alex geschickt.
+
+## Lauf 2026-11-07 ~Mittag (Routine)
+- 10 Abos (unverändert). 48-h-Echtzeit: 221 Aufrufe (vorher 316) – Milch-Short 184, Bank-Langvideo 16, Pilot 7. Analytics-Tageswerte weiter nur bis 05.11. (28 T: 7.232 Aufrufe, 24,7 h, +8 Abos; Länder/Engaged unverändert ggü. 06.11.).
+- Shorts: Milch iBQu_8S41dI 291 (+38 seit 06.11., Ø 84,7 % angesehen) wächst langsam weiter | Felicity 1.316 | Eiffel 1.258 | Ever Given 1.225 | SVB 1.124 | $100: 286 | New vs Used 210 | Knight 57 | Binance 55.
+- Langform: "Every Trick Your Supermarket Uses on You" pOQrpecPeRU ist seit 07.11. ÖFFENTLICH (von Alex/anderer Session) – nach ~7,5 h 1 Aufruf, CTR 0 % (zu früh). "Most Expensive Mistakes" 6GQUuQxR_Bs: 18 Aufrufe, 14 einzelne Zuschauer, 554 Impressionen, CTR 2,0 %, 77,8 % Videovorschläge. Bank-Video KDOq1pF040k 1.160. Andere Langvideos 5–97.
+- Erkenntnis: Seit 6 Tagen nur ein neuer Short (Milch) -> Kanal bei ~100 Aufrufen/Tag. Fertige Shorts (ys_escobar, ys_hush, ys_blockbuster) liegen weiter ungenutzt.
+- Korrektur-Vorschlag (nicht geändert): Beschreibung "Why is everything so expensive?" hat Tippfehler ("In this viedeos we explain you why everything is so expensiv") -> "In this video we explain why everything is so expensive – and why it most likely will never get cheaper." Wartet auf Alex' OK.
+- Nichts im Studio geändert. Offene Ideen: Ponzi | Fyre Festival | neu: PayPal schrieb einem Mann versehentlich $92 Billiarden gut (2013).
