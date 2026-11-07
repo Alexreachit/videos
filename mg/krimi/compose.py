@@ -49,6 +49,7 @@ for i, ws in enumerate(WORDS):
     if i == 0: continue  # Titelkarte statt Untertitel
     groups = []; g = []
     for w in ws:
+        if g and sum(len(x[0]) + 1 for x in g) + len(w[0]) > 17: groups.append(g); g = []
         g.append(w)
         if len(g) == 3 or w[0][-1] in ".?!…": groups.append(g); g = []
     if g: groups.append(g)
@@ -77,11 +78,11 @@ for k, (lab, frac) in enumerate((("THEOS ASSISTENT?", .40), ("DIE WITWE DES UHRM
     ev(segt(5, frac), SEG[5]["end"] + .4, "Sub", r"{\an5\pos(540," + str(420 + k * 90) + r")\fad(150,200)\t(0,120,\fscx112\fscy112)\t(120,240,\fscx100\fscy100)}" + lab, 3)
 # Abstimmung in den Kommentaren
 v0 = SEG[6]["start"]
-ev(v0 + .1, DUR, "Big", r"{\fad(200,0)\an8\pos(540,190)}WAS PASSIERT ALS NÄCHSTES?", 3)
+ev(v0 + .1, DUR, "Big", r"{\fad(200,0)\an8\pos(540,150)}WAS PASSIERT\NALS NÄCHSTES?", 3)
 VOTE = ((("A  ·  DIE UHR", .50), ("B  ·  DER RABE", .58), ("C  ·  DER SCHLÜSSEL", .69)))
 for k, (lab, frac) in enumerate(VOTE):
-    ev(segt(6, frac), DUR, "Box", r"{\an5\pos(540," + str(380 + k * 120) + r")\fad(150,0)\t(0,120,\fscx112\fscy112)\t(120,240,\fscx100\fscy100)}  " + lab + "  ", 3)
-ev(segt(6, .78), DUR, "Sub", r"{\an5\pos(540,780)\fad(200,0)}KOMMENTIERE A, B ODER C!", 3)
+    ev(segt(6, frac), DUR, "Box", r"{\an5\pos(540," + str(400 + k * 120) + r")\fad(150,0)\t(0,120,\fscx112\fscy112)\t(120,240,\fscx100\fscy100)}  " + lab + "  ", 3)
+ev(segt(6, .78), DUR, "Sub", r"{\an5\pos(540,800)\fad(200,0)}KOMMENTIERE A, B ODER C!", 3)
 open(os.path.join(HERE, "ep01.ass"), "w", encoding="utf-8").write("\n".join(ass) + "\n")
 
 # ---------------------------------------------------------------- Musik (eigene Komposition, d-Moll, mysterioes)
