@@ -1,2 +1,2 @@
-krimi/ep01.py stills=880,1049,1106,1176,1420 pct=50 samples=12
-# 1794057589
+krimi/profile_pic.py
+# 1794070643
