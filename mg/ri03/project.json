@@ -1,0 +1,124 @@
+{
+ "title": "TikTok-Serie Roundhead Island – Tag 3 (Deutsch)",
+ "_sources": "Fiktive Community-Serie (keine Faktenbehauptungen). Zahlen von Alex: 128 Follower, 76 % Ausrauben, 50 Likes auf Tag 2.",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 60,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+16%",
+ "lead": 0.05,
+ "gap": 0.12,
+ "tail": 1.4,
+ "crf": 18,
+ "music": {
+  "style": "playful",
+  "bpm": 150,
+  "gain": 0.11,
+  "ambience": 0.02,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.55,
+ "lines": [
+  {
+   "text": "Tag drei auf Roundhead Island!",
+   "spec": {
+    "type": "day",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Gestern habt ihr entschieden: fischen oder die Nachbarinsel ausrauben?",
+   "spec": {
+    "type": "recap",
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "76 Prozent sagen: Ausrauben!",
+   "spec": {
+    "type": "vote",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Und wir sind jetzt 128 Einwohner!",
+   "spec": {
+    "type": "crowd"
+   }
+  },
+  {
+   "text": "Eure 50 Likes bringen 500 Euro!",
+   "spec": {
+    "type": "money"
+   }
+  },
+  {
+   "text": "Also schleichen wir heute Nacht mit dem Boot rüber.",
+   "spec": {
+    "type": "night",
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "Benluca, die Krabbe, spioniert vorne am Strand.",
+   "spec": {
+    "type": "spy"
+   }
+  },
+  {
+   "text": "Und da: eine riesige Schatzkiste!",
+   "spec": {
+    "type": "chest",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Wir schnappen sie und rudern so schnell wir können zurück!",
+   "spec": {
+    "type": "escape"
+   }
+  },
+  {
+   "text": "Darin: 1000 Euro in Gold!",
+   "spec": {
+    "type": "gold"
+   }
+  },
+  {
+   "text": "Doch dann geht auf der Nachbarinsel das Licht an...",
+   "spec": {
+    "type": "lights",
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "Die Nachbarn haben uns gesehen. Und sie wollen Rache!",
+   "spec": {
+    "type": "revenge"
+   }
+  },
+  {
+   "text": "Also: Bauen wir eine riesige Mauer?",
+   "spec": {
+    "type": "wall",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Oder schließen wir Frieden und geben das Gold zurück?",
+   "spec": {
+    "type": "peace"
+   }
+  },
+  {
+   "text": "Der Top-Kommentar entscheidet.",
+   "spec": {
+    "type": "comment"
+   }
+  }
+ ]
+}
