@@ -121,9 +121,9 @@ pts = [(0, .95), (.18, .9), (.22, .72), (.15, .62), (.45, .55), (.62, .28), (.55
        (.12, -.45), (0, -.15), (-.12, -.45), (-.3, -.9), (-.44, -.86), (-.35, -.4), (-.22, .12), (-.32, .45), (-.6, .34), (-.65, .4), (-.45, .6), (-.15, .62), (-.22, .72), (-.18, .9), (0, .95)]
 tube([C0 + Vector((x * 1.2, y * 1.2, 0)) for x, y in pts], .018, chalk)
 # Licht im Laden
-moon = bpy.data.lights.new("moon", "AREA"); moon.energy = 120; moon.size = 1.2; moon.color = (.55, .7, 1)
+moon = bpy.data.lights.new("moon", "AREA"); moon.energy = 300; moon.size = 1.2; moon.color = (.55, .7, 1)
 mo = bpy.data.objects.new("moon", moon); L.link(mo); mo.location = WN + Vector((.4, 0, .2)); mo.rotation_euler = (0, -math.pi / 2, 0)
-amb = bpy.data.lights.new("shopamb", "AREA"); amb.energy = 160; amb.size = 5; amb.color = (.75, .85, 1)
+amb = bpy.data.lights.new("shopamb", "AREA"); amb.energy = 420; amb.size = 5; amb.color = (.75, .85, 1)
 ao = bpy.data.objects.new("shopamb", amb); L.link(ao); ao.location = R0 + Vector((0, -1, 3.6))
 
 # ===================================================== FIGUREN
@@ -135,10 +135,18 @@ SIGN = []
 for i, (x, y, c, hk, rz) in enumerate([(-1.7, 31, "#7a5cc4", 0, .35), (-.6, 30.2, "#3f8f6a", 1, .15), (.6, 30.4, "#c25a4a", 2, -.1), (1.7, 31.2, "#3e6aa8", 3, -.35)]):
     SIGN.append(L.build_resident((x, y, 0), coat=c, hatkind=hk, rotz=rz, sign="DEIN NAME?"))
 
+def arealight(name, pos, tgt, energy, size, col):
+    l = bpy.data.lights.new(name, "AREA"); l.energy = energy; l.size = size; l.color = col
+    o = bpy.data.objects.new(name, l); L.link(o); o.location = Vector(pos); d = Vector(tgt) - Vector(pos); o.rotation_euler = d.to_track_quat('-Z', 'Y').to_euler(); return o
+arealight("towerkey", (2, 36, 6), CF, 900, 4, (.75, .85, 1))
+arealight("theokey", (-1.2, 10.6, 2.6), (.6, 13.8, 1.1), 260, 2.5, (1, .9, .78))
+arealight("theorim", (2.2, 17.5, 2.6), (.6, 14, 1.2), 380, 2, (.6, .8, 1))
+arealight("squarekey", (0, 26.5, 3.2), (0, 31, 1), 650, 4, (1, .85, .65))
+arealight("resrim", (0, 28, 4), (0, 25, 1), 120, 3, (.6, .75, 1))
 # ===================================================== WELT, NEBEL, LICHT
 W = bpy.data.worlds.new("w"); S.world = W; W.use_nodes = True
-bg = W.node_tree.nodes["Background"]; bg.inputs[0].default_value = hexc("#22365c"); bg.inputs[1].default_value = .55
-moonS = bpy.data.lights.new("moonsun", "SUN"); moonS.energy = .6; moonS.color = (.6, .72, 1); moonS.angle = .2
+bg = W.node_tree.nodes["Background"]; bg.inputs[0].default_value = hexc("#2f5288"); bg.inputs[1].default_value = 1.0
+moonS = bpy.data.lights.new("moonsun", "SUN"); moonS.energy = 1.4; moonS.color = (.6, .72, 1); moonS.angle = .2
 ms = bpy.data.objects.new("moonsun", moonS); L.link(ms); ms.rotation_euler = (math.radians(55), 0, math.radians(200))
 S.view_layers[0].use_pass_mist = True
 W.mist_settings.falloff = 'QUADRATIC'
@@ -149,7 +157,7 @@ def mist(frame, start, depth):
 S.use_nodes = True; nt = S.node_tree
 for n in list(nt.nodes): nt.nodes.remove(n)
 rl = nt.nodes.new("CompositorNodeRLayers"); comp = nt.nodes.new("CompositorNodeComposite")
-mix = nt.nodes.new("CompositorNodeMixRGB"); mix.blend_type = 'MIX'; mix.inputs[2].default_value = hexc("#7d93b8")
+mix = nt.nodes.new("CompositorNodeMixRGB"); mix.blend_type = 'MIX'; mix.inputs[2].default_value = hexc("#9fb4d8")
 mv = nt.nodes.new("CompositorNodeMath"); mv.operation = 'MULTIPLY'; mv.inputs[1].default_value = .85
 nt.links.new(rl.outputs["Mist"], mv.inputs[0]); nt.links.new(mv.outputs[0], mix.inputs[0]); nt.links.new(rl.outputs["Image"], mix.inputs[1])
 gl = nt.nodes.new("CompositorNodeGlare"); gl.glare_type = 'FOG_GLOW'; gl.threshold = .9; gl.size = 7; gl.mix = -.55
@@ -176,7 +184,7 @@ a0, a1 = CUT[0], CUT[1]
 # 1 Strasse: Fahrt in den Nebel Richtung Uhrturm
 c1 = camera("c1", 22); look(c1, 0, (0, -3, 1.7), (0, 40, 6), a0); look(c1, 0, (0, 3.5, 2.0), (0, 40, 7.5), a1); shot(0, c1); mist(a0, 4, 38)
 # 2 Uhrturm: Zeiger laufen bis 0:13 und bleiben stehen
-c2 = camera("c2", 35); b0, b1 = CUT[1], CUT[2]
+c2 = camera("c2", 26); b0, b1 = CUT[1], CUT[2]
 look(c2, 0, (1.5, 33, 7.0), CF, b0); look(c2, 0, (.4, 37.5, 9.8), CF, b1); shot(1, c2); mist(b0, 3, 60)
 stop = segf(1, .72)
 for nm, a_from, a_to in (("min", 60, 78), ("hour", 5, 6.5)):
@@ -200,13 +208,9 @@ for fc in R.animation_data.action.fcurves:
     for kp in fc.keyframe_points: kp.interpolation = 'LINEAR'
 for fr in range(d0, d1 + 1, 2):
     ph = (fr - d0) / FPS * 2 * math.pi * 1.6
-    kf(R, "rotation_euler", fr, math.sin(ph) * .05, 1); kf(R, "rotation_euler", fr, math.pi + math.sin(ph * .5) * .04, 2)
+    kf(R, "rotation_euler", fr, math.sin(ph) * .05, 1); kf(R, "rotation_euler", fr, math.sin(ph * .5) * .04, 2)
     TH["lantern"].rotation_euler = (math.sin(ph) * .25, math.sin(ph + 1) * .1, 0); TH["lantern"].keyframe_insert("rotation_euler", frame=fr)
     TH["head"].rotation_euler = (0, 0, math.sin(ph * .25) * .12); TH["head"].keyframe_insert("rotation_euler", frame=fr)
-# Rotation pi: Theo schaut Richtung -y? Modell blickt nach -y, Kamera steht bei kleinerem y -> Theo kommt auf die Kamera zu
-for fc in R.animation_data.action.fcurves:
-    if fc.data_path == "rotation_euler" and fc.array_index == 2:
-        for kp in fc.keyframe_points: kp.co[1] -= math.pi
 look(c4, 0, (1.0, 12.4, 1.25), (.6, 15.5, 1.15), d0); look(c4, 0, (1.0, 9.8, 1.25), (.6, 12.6, 1.2), d1); shot(3, c4); mist(d0, 2.5, 22)
 flick0 = segf(3, .36); G = L.emis_input(TH["glow"])
 G.default_value = 20; G.keyframe_insert("default_value", frame=d0); TH["lamp"].energy = 18; TH["lamp"].keyframe_insert("energy", frame=d0)
@@ -261,7 +265,7 @@ except Exception: pass
 S.cycles.max_bounces = 4; S.cycles.diffuse_bounces = 2; S.cycles.glossy_bounces = 2; S.cycles.transmission_bounces = 2; S.cycles.caustics_reflective = False; S.cycles.caustics_refractive = False
 S.render.use_persistent_data = True
 S.render.use_motion_blur = True; S.render.motion_blur_shutter = .45
-S.view_settings.view_transform = 'AgX'
+S.view_settings.view_transform = 'AgX'; S.view_settings.exposure = 1.0
 try: S.view_settings.look = 'AgX - Punchy'
 except Exception: pass
 S.render.resolution_x = 1080; S.render.resolution_y = 1920; S.render.resolution_percentage = int(OPT.get("pct", 100))
