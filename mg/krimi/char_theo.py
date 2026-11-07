@@ -149,7 +149,7 @@ for a in range(4):
     ang = a * math.pi / 2 + .4
     cylr(L0 + Vector((math.cos(ang) * .05, math.sin(ang) * .05, .09)), .007, .13, LAMPM, verts=12)
 cylr(L0 + Vector((0, 0, .015)), .06, .03, LAMPM)
-lamp = bpy.data.lights.new("lantern", "POINT"); lamp.energy = 30; lamp.color = (.45, .9, 1); lamp.shadow_soft_size = .04
+lamp = bpy.data.lights.new("lantern", "POINT"); lamp.energy = 18; lamp.color = (.45, .9, 1); lamp.shadow_soft_size = .04
 lo = bpy.data.objects.new("lantern", lamp); lo.location = L0 + Vector((0, 0, .09)); lo.parent = ROOT; sc.collection.objects.link(lo)
 # ---------- Kopf
 sphere((0, 0, HZ - .27), .07, (1, 1, 1.2), SKIN)                              # Hals
@@ -161,10 +161,10 @@ def onhead(x, z, off=0.0):
 for sx in (-1, 1):
     sphere((sx * .292, .01, HZ - .02), .06, (.42, .75, 1), SKIN, seg=32)       # Ohren
     e = onhead(sx * .105, HZ + .0, -.035)
-    sphere(e, .07, (1, .55, 1.2), WHITE, seg=40)
-    sphere(e + Vector((-sx * .004, -.034, -.008)), .045, (1, .42, 1.1), IRIS, seg=32)
-    sphere(e + Vector((-sx * .004, -.052, -.008)), .025, (1, .38, 1.1), PUPIL, seg=24)
-    sphere(e + Vector((sx * .014, -.06, .026)), .012, (1, .5, 1), SHINE, seg=16)
+    sphere(e, .078, (1, .55, 1.2), WHITE, seg=40)
+    sphere(e + Vector((-sx * .004, -.037, -.008)), .05, (1, .42, 1.1), IRIS, seg=32)
+    sphere(e + Vector((-sx * .004, -.057, -.008)), .028, (1, .38, 1.1), PUPIL, seg=24)
+    sphere(e + Vector((sx * .016, -.066, .028)), .013, (1, .5, 1), SHINE, seg=16)
     b = onhead(sx * .112, HZ + .12, -.008)
     tube([b + Vector((-sx * .048, 0, -.004 + (.014 if sx > 0 else 0))), b, b + Vector((sx * .048, .008, (.014 if sx < 0 else -.004)))], .015, BROW)
     sphere(onhead(sx * .175, HZ - .075, -.004), .036, (1, .28, .68), BLUSH, seg=24)
@@ -187,21 +187,23 @@ sphere((0, -.035, HT + .185), .12, (1.3, .55, .18), mat("hatdent", "#2a2e3d", .6
 # ---------- Schattenfaenger-Boden, Licht, Kamera
 bpy.ops.mesh.primitive_plane_add(size=30, location=(0, 0, 0)); fl = bpy.context.active_object; fl.is_shadow_catcher = True
 w = bpy.data.worlds.new("w"); sc.world = w; w.use_nodes = True
-w.node_tree.nodes["Background"].inputs[0].default_value = hexc("#e3ecf7"); w.node_tree.nodes["Background"].inputs[1].default_value = .6
+w.node_tree.nodes["Background"].inputs[0].default_value = hexc("#e3ecf7"); w.node_tree.nodes["Background"].inputs[1].default_value = .35
 def area(name, loc, size, energy, col, target=Vector((0, 0, .95))):
     l = bpy.data.lights.new(name, "AREA"); l.size = size; l.energy = energy; l.color = col
     o = bpy.data.objects.new(name, l); o.location = loc; sc.collection.objects.link(o)
     d = target - o.location; o.rotation_euler = d.to_track_quat('-Z', 'Y').to_euler(); return o
-area("key", Vector((-2.4, -3.0, 3.3)), 3, 700, (1, .94, .86))
-area("fill", Vector((3.0, -2.6, 1.6)), 3.5, 260, (.85, .92, 1))
-area("rim", Vector((1.8, 2.6, 2.8)), 2, 900, (.75, .9, 1), Vector((0, 0, 1.2)))
-area("rim2", Vector((-2.2, 2.2, 2.0)), 2, 450, (1, .9, .8), Vector((0, 0, 1.0)))
+area("key", Vector((-2.4, -3.0, 3.3)), 3, 380, (1, .94, .86))
+area("fill", Vector((3.0, -2.6, 1.6)), 3.5, 120, (.85, .92, 1))
+area("rim", Vector((1.8, 2.6, 2.8)), 2, 500, (.75, .9, 1), Vector((0, 0, 1.2)))
+area("rim2", Vector((-2.2, 2.2, 2.0)), 2, 220, (1, .9, .8), Vector((0, 0, 1.0)))
 cam = bpy.data.cameras.new("cam"); co = bpy.data.objects.new("cam", cam); sc.collection.objects.link(co); sc.camera = co
 sc.render.engine = 'CYCLES'; sc.cycles.device = 'CPU'; sc.cycles.samples = 48 if PREVIEW else 160; sc.cycles.use_denoising = True
 try: sc.cycles.denoiser = 'OPENIMAGEDENOISE'
 except Exception: pass
 sc.render.film_transparent = True
-sc.view_settings.view_transform = 'Standard'
+sc.view_settings.view_transform = 'AgX'
+try: sc.view_settings.look = 'AgX - Punchy'
+except Exception: pass
 sc.render.image_settings.file_format = 'PNG'; sc.render.image_settings.color_mode = 'RGBA'
 
 def shot(name, ang, dist=5.4, h=1.0, target=Vector((0, 0, .93)), lens=70, res=(1080, 1350)):
