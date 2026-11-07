@@ -221,3 +221,12 @@
 - Erkenntnis: Seit 6 Tagen nur ein neuer Short (Milch) -> Kanal bei ~100 Aufrufen/Tag. Fertige Shorts (ys_escobar, ys_hush, ys_blockbuster) liegen weiter ungenutzt.
 - Korrektur-Vorschlag (nicht geändert): Beschreibung "Why is everything so expensive?" hat Tippfehler ("In this viedeos we explain you why everything is so expensiv") -> "In this video we explain why everything is so expensive – and why it most likely will never get cheaper." Wartet auf Alex' OK.
 - Nichts im Studio geändert. Offene Ideen: Ponzi | Fyre Festival | neu: PayPal schrieb einem Mann versehentlich $92 Billiarden gut (2013).
+
+## Lauf 2026-11-07 ~Abend (Routine)
+- 10 Abos (unverändert). 48-h-Echtzeit: 166 Aufrufe (vorher 221) – Milch-Short 130, Bank-Langvideo 15, Pilot 6. 28 T (10.10.–06.11.): 7.308 Aufrufe (+76), 25,2 h, +8 Abos.
+- Shorts: Milch iBQu_8S41dI 292 (+1 seit Mittag) -> flacht jetzt ab | Felicity 1.316 | Eiffel 1.258 | Ever Given 1.225 | SVB 1.124 | $100: 286 | New vs Used 210 | Knight 57 | Binance 55.
+- Langform: Supermarkt pOQrpecPeRU nach ~15,5 h: 1 Aufruf, 8 Impressionen, CTR 0 %, Ø 0:12 -> YouTube spielt es (noch) kaum aus. "Most Expensive Mistakes" 6GQUuQxR_Bs 18 | Bank-Video KDOq1pF040k 1.161 | andere 5–36.
+- Länder 28 T: ID 14,0 % (Ø 0:20), DE 13,9 % (0:19), US 11,4 % (0:24), IN 4,5 %, PH 4,2 %, UK 2,6 %, CA 1,6 %, PL 1,2 %.
+- Erkenntnis: Ohne neuen Short sinkt der Kanal weiter (~80 Aufrufe/Tag). Langvideos bekommen kaum Impressionen -> Reichweite kommt nur über Shorts-Wellen.
+- Keine Korrekturen geändert (Tippfehler-Vorschlag "Why is everything so expensive?" wartet weiter auf OK). Nichts im Studio geändert.
+- Offen bei Alex: Upload-OK für fertige Shorts ys_escobar / ys_hush / ys_blockbuster; Idee wählen (Ponzi | Fyre Festival | PayPal $92 Billiarden); Entwurfs-Leiche "846c1dee…" löschen?
