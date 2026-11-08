@@ -252,3 +252,4 @@
 - Erkenntnis: Seit 4.11. kein neuer Short -> fast null Reichweite. Ponzi bekommt viele Impressionen, aber niemand klickt -> Thumbnail-Test hat Priorität.
 - Keine Korrekturen, nichts im Studio geändert. Nebelstein-Serie (andere Session) nicht angefasst.
 - Offen bei Alex: Upload-OK ys_escobar / ys_hush / ys_blockbuster; Ponzi-Thumbnail-Test OK; Idee wählen (Fyre Festival | PayPal $92 Billiarden | Bitcoin-Pizza); Tippfehler "Why is everything so expensive?"; ri03 Feedback; Entwurf "846c1dee…" löschen?
+- 2026-11-09: Nebelstein Folge 2 "Der Schlüssel" fertig (65 s, blender-chunks Run 42521512372 -> renders/ep02, compose02.py). Neue Bürger: Luca_2006, Lian Mx #7, "Bürger Nr. 4" (statt fcking), MTB+GAMING = Theos Assistent. Laterne flackert nur bei Lian. Abstimmung: A Luca / B Lian / C Bürger Nr. 4. ElevenLabs: 980 Zeichen (Rest 8.579). Wartet auf Alex' Upload.
