@@ -222,7 +222,7 @@ RESN = [L.build_resident((x, SQ, 0), coat=c, hatkind=hk, rotz=0, sign=nm) for nm
 AS1 = assistant((1.8, SQ, 0), sign="MTB+GAMING")
 TH1 = L.build_theo(loc=(3.45, 29.35, 0), rotz=-1.2)
 TH2 = L.build_theo(loc=R0 + Vector((.15, -.55, 0)), rotz=0)
-AS2 = assistant(R0 + Vector((.72, -.5, 0)), rotz=.55)
+AS2 = assistant(R0 + Vector((.95, -.5, 0)), rotz=-.55)
 arealight("shopkey2", R0 + Vector((-.6, -2.4, 2.2)), R0 + Vector((.4, -.5, 1.2)), 140, 2, (1, .88, .72))
 
 
@@ -289,8 +289,8 @@ BL.energy = 0; BL.keyframe_insert("energy", frame=e1 + 2)
 # 5 Fluestern: Assistent beugt sich zu Theo
 c5 = camera("c5", 24); g0, g1 = CUT[5], CUT[6]
 look(c5, R0 + Vector((.5, -2.9, 1.4)), R0 + Vector((.5, -.5, 1.15)), g0); look(c5, R0 + Vector((.5, -2.45, 1.35)), R0 + Vector((.5, -.5, 1.15)), g1); shot(5, c5); mist(g0, 30, 200)
-H2 = AS2["head"]; kf(H2, "rotation_euler", g0, Vector((0, 0, 0))); kf(H2, "rotation_euler", segf(5, .15), Vector((0, .35, .6)))
-place(AS2["root"], g0, R0 + Vector((.95, -.5, 0)), .55); place(AS2["root"], segf(5, .15), R0 + Vector((.78, -.45, 0)), .9)
+H2 = AS2["head"]; kf(H2, "rotation_euler", g0, Vector((0, 0, 0))); kf(H2, "rotation_euler", segf(5, .15), Vector((0, -.3, -.3)))
+place(AS2["root"], g0, R0 + Vector((.95, -.5, 0)), -.55); place(AS2["root"], segf(5, .15), R0 + Vector((.78, -.45, 0)), -.9)
 kf(TH2["head"], "rotation_euler", segf(5, .3), Vector((0, 0, 0))); kf(TH2["head"], "rotation_euler", segf(5, .5), Vector((0, 0, -.45)))
 for lid in TH2["lids"]:
     kf(lid, "scale", segf(5, .55), .02, 2); kf(lid, "scale", segf(5, .55) + 2, 1.25, 2); kf(lid, "scale", segf(5, .55) + 5, .02, 2)
@@ -330,7 +330,7 @@ mj = segf(7, .85); mh = GH["min"]; kf(mh, "rotation_euler", mj - 1, math.radians
 lantern(i1 - 12, 20); lantern(i1 - 9, 3); lantern(i1 - 7, 14); lantern(i1 - 4, 0)
 # 8 Abstimmung: die drei Neuen auf dem Platz, Theo + Assistent davor
 c8 = camera("c8", 18); k0, k1 = CUT[8], CUT[9]
-look(c8, (-.3, 25.0, 2.0), (-.3, SQ, 1.0), k0); look(c8, (-.3, 25.8, 1.75), (-.3, SQ, 1.0), k1); shot(8, c8); mist(k0, 6, 26)
+look(c8, (.1, 24.5, 2.0), (.1, SQ - .5, 1.0), k0); look(c8, (.1, 25.3, 1.75), (.1, SQ - .5, 1.0), k1); shot(8, c8); mist(k0, 6, 26)
 lantern(k0, 20)
 jump(TH1["root"], k0, (X1, 29.45, 0), (1.25, 28.4, 0), math.pi / 2, math.pi * .85)
 jump(AS1["root"], k0, (2.9, 28.6, 0), (2.0, 28.2, 0), 1.4, math.pi * .9)
