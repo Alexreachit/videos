@@ -21,7 +21,7 @@ def segf(i, frac): return F(SEG[i]["start"] + frac * (SEG[i]["end"] - SEG[i]["st
 
 # ===================================================== STADT (Strasse, Turm, Platz)
 street = mat("street", "#3a4256"); cob = L.cobble_mat()
-bpy.ops.mesh.primitive_plane_add(size=1, location=(0, 22, 0)); o = bpy.context.active_object; o.scale = (6.4, 70, 1); o.data.materials.append(cob)
+bpy.ops.mesh.primitive_plane_add(size=1, location=(0, 22, 0)); o = bpy.context.active_object; o.scale = (6.4, 70, 1); bpy.ops.object.transform_apply(location=False, rotation=False, scale=True); o.data.materials.append(cob)
 for sx in (-1, 1):
     rbox((sx * 3.6, 22, .08), (1.2, 70, .16), mat("curb", "#7d8496", .7), bev=.3)
 rnd = random.Random(7)
@@ -190,7 +190,7 @@ for nm, ln, wd, ang in (("min", .21, .014, 78), ("hour", .14, .02, 6.5), ("sec",
     rbox(pv.location + Vector((0, 0, ln / 2 - .02)), (wd, .004, ln), mat("hand" + nm, "#c23a2e" if nm == "sec" else "#232030", .4), bev=0)
     L.P[0] = None; pv.rotation_euler = (0, math.radians(ang), 0); GH[nm] = pv
 # Fingerabdruecke auf dem Glas der Standuhr (konzentrische Ringe, leuchten im blauen Licht)
-FP = mat("fingerprint", "#9ff6ff", .2, emis="#5ee7ff", es=0)
+FP = mat("fingerprint", "#f6efdc", .5, emis="#5ee7ff", es=0)
 for (cx, cz, rt) in ((-.085, .07, .3), (.075, -.06, -.4)):
     for j in range(7):
         torus(GCF + Vector((cx, -.03, cz)), .008 + j * .0085, .0016, FP, rot=(math.pi / 2, rt, 0), scl=(1, 1.35, 1))
@@ -220,7 +220,7 @@ SQ = 30.5
 NEW = [("LUCA_2006", -1.8, "#a8743e", 0), ("LIAN MX #7", -.6, "#3e6aa8", 2), ("BÜRGER NR. 4", .6, "#c25a4a", 3)]
 RESN = [L.build_resident((x, SQ, 0), coat=c, hatkind=hk, rotz=0, sign=nm) for nm, x, c, hk in NEW]
 AS1 = assistant((1.8, SQ, 0), sign="MTB+GAMING")
-TH1 = L.build_theo(loc=(3.4, 29.2, 0), rotz=-math.pi / 2)
+TH1 = L.build_theo(loc=(3.45, 29.35, 0), rotz=-1.2)
 TH2 = L.build_theo(loc=R0 + Vector((.15, -.55, 0)), rotz=0)
 AS2 = assistant(R0 + Vector((.72, -.5, 0)), rotz=.55)
 arealight("shopkey2", R0 + Vector((-.6, -2.4, 2.2)), R0 + Vector((.4, -.5, 1.2)), 140, 2, (1, .88, .72))
@@ -264,16 +264,16 @@ look(c1, R0 + Vector((-.3, -2.6, 2.6)), R0 + Vector((0, 3, 2.1)), a0)
 look(c1, R0 + Vector((-.2, -2.4, 2.9)), C0, segf(1, .45))
 look(c1, R0 + Vector((.6, -2.0, 2.2)), KEY, a1); shot(1, c1); mist(a0, 30, 200)
 # 2 Platz: vier neue Bewohner tauchen auf, MTB+GAMING geht zu Theo
-c2 = camera("c2", 30); b0, b1 = CUT[2], CUT[3]
-look(c2, (0, 24.8, 2.0), (0, SQ, 1.0), b0); look(c2, (0, 25.8, 1.8), (0, SQ, 1.0), segf(2, .5))
-look(c2, (1.6, 26.2, 1.6), (2.4, 29.8, 1.05), segf(2, .7)); look(c2, (2.1, 26.6, 1.5), (2.7, 29.6, 1.05), b1); shot(2, c2); mist(b0, 4, 22)
+c2 = camera("c2", 18); b0, b1 = CUT[2], CUT[3]
+look(c2, (0, 24.6, 1.9), (0, SQ, 1.0), b0); look(c2, (0, 25.3, 1.8), (0, SQ, 1.0), segf(2, .5))
+look(c2, (2.2, 26.0, 1.6), (2.9, 29.6, 1.05), segf(2, .7)); look(c2, (3.0, 26.5, 1.5), (3.0, 29.5, 1.0), b1); shot(2, c2); mist(b0, 4, 22)
 for k, r in enumerate(RESN + [AS1]): popin(r["root"], segf(2, .12 + k * .08))
 aw0, aw1 = segf(2, .66), segf(2, .9)
-place(AS1["root"], aw0, (1.8, SQ, 0), 0); place(AS1["root"], aw0 + 6, (1.9, SQ - .3, .08), 1.0); place(AS1["root"], aw1, (2.75, 29.5, 0), 1.4)
+place(AS1["root"], aw0, (1.8, SQ, 0), 0); place(AS1["root"], aw0 + 6, (1.9, SQ - .3, .08), 1.0); place(AS1["root"], aw1, (2.6, 29.6, 0), 1.0)
 # 3 Schluessel (Makro), dann Schluesselbrett mit leerem Haken
 c3 = camera("c3", 60); d0, d1 = CUT[3], CUT[4]; dm = segf(3, .58)
 look(c3, KEY + Vector((-.5, -.42, .08)), KEY, d0); look(c3, KEY + Vector((-.3, -.24, .04)), KEY + Vector((.02, 0, 0)), dm - 1)
-look(c3, KB + Vector((-1.25, -.35, .05)), KB + Vector((0, .0, -.03)), dm); look(c3, KB + Vector((-.95, -.2, .02)), KB + Vector((0, .0, -.03)), d1)
+look(c3, KB + Vector((-2.4, -.7, .15)), KB + Vector((0, .0, -.03)), dm); look(c3, KB + Vector((-1.9, -.5, .1)), KB + Vector((0, .0, -.03)), d1)
 shot(3, c3); mist(d0, 30, 200)
 SE = L.emis_input(SCR); SE.default_value = 0; SE.keyframe_insert("default_value", frame=segf(3, .28)); SE.default_value = 9; SE.keyframe_insert("default_value", frame=segf(3, .34))
 # 4 Standuhr: Staub, blaues Licht, Fingerabdruecke leuchten auf
@@ -287,29 +287,29 @@ BL.energy = 0; BL.keyframe_insert("energy", frame=segf(4, .25)); BL.energy = 30;
 FE = L.emis_input(FP); FE.default_value = 0; FE.keyframe_insert("default_value", frame=segf(4, .34)); FE.default_value = 8; FE.keyframe_insert("default_value", frame=segf(4, .46))
 BL.energy = 0; BL.keyframe_insert("energy", frame=e1 + 2)
 # 5 Fluestern: Assistent beugt sich zu Theo
-c5 = camera("c5", 40); g0, g1 = CUT[5], CUT[6]
-look(c5, R0 + Vector((.42, -2.3, 1.35)), R0 + Vector((.42, -.5, 1.18)), g0); look(c5, R0 + Vector((.42, -1.8, 1.3)), R0 + Vector((.42, -.5, 1.2)), g1); shot(5, c5); mist(g0, 30, 200)
+c5 = camera("c5", 24); g0, g1 = CUT[5], CUT[6]
+look(c5, R0 + Vector((.5, -2.9, 1.4)), R0 + Vector((.5, -.5, 1.15)), g0); look(c5, R0 + Vector((.5, -2.45, 1.35)), R0 + Vector((.5, -.5, 1.15)), g1); shot(5, c5); mist(g0, 30, 200)
 H2 = AS2["head"]; kf(H2, "rotation_euler", g0, Vector((0, 0, 0))); kf(H2, "rotation_euler", segf(5, .15), Vector((0, .35, .6)))
-place(AS2["root"], g0, R0 + Vector((.72, -.5, 0)), .55); place(AS2["root"], segf(5, .15), R0 + Vector((.55, -.45, 0)), .9)
+place(AS2["root"], g0, R0 + Vector((.95, -.5, 0)), .55); place(AS2["root"], segf(5, .15), R0 + Vector((.78, -.45, 0)), .9)
 kf(TH2["head"], "rotation_euler", segf(5, .3), Vector((0, 0, 0))); kf(TH2["head"], "rotation_euler", segf(5, .5), Vector((0, 0, -.45)))
 for lid in TH2["lids"]:
     kf(lid, "scale", segf(5, .55), .02, 2); kf(lid, "scale", segf(5, .55) + 2, 1.25, 2); kf(lid, "scale", segf(5, .55) + 5, .02, 2)
 # 6 Theo geht an den Neuen vorbei – nur bei Lian flackert die Laterne kurz
-c6 = camera("c6", 32); h0, h1 = CUT[6], CUT[7]
+c6 = camera("c6", 20); h0, h1 = CUT[6], CUT[7]
 LIAN_X = -.6; tpass = segf(6, .55)
 X0, X1 = -3.2, 1.4
-jump(TH1["root"], h0, (3.4, 29.2, 0), (X0, 29.45, 0), -math.pi / 2, math.pi / 2)
+jump(TH1["root"], h0, (3.45, 29.35, 0), (X0, 29.45, 0), -1.2, math.pi / 2)
 place(TH1["root"], tpass, (LIAN_X, 29.45, 0)); place(TH1["root"], h1, (X1, 29.45, 0))
 walk_wobble(TH1, h0, h1)
 def theo_x(fr):
     if fr <= tpass: return X0 + (LIAN_X - X0) * (fr - h0) / max(1, tpass - h0)
     return LIAN_X + (X1 - LIAN_X) * (fr - tpass) / max(1, h1 - tpass)
 for fr in range(h0, h1 + 1, 6):
-    tx = theo_x(fr); look(c6, (tx - .2, 26.9, 1.45), (tx + .35, 30.2, 1.0), fr)
+    tx = theo_x(fr); look(c6, (tx - .3, 25.7, 1.55), (tx + .3, 30.0, 1.0), fr)
     for k, (nm, x, c, hk) in enumerate(NEW):
         kf(RESN[k]["head"], "rotation_euler", fr, Vector((0, 0, max(-.8, min(.8, math.atan2(tx - x, 1.2))))))
 shot(6, c6); mist(h0, 5, 22)
-jump(AS1["root"], h0, (2.75, 29.5, 0), (2.9, 28.6, 0), 1.4, 1.4)
+jump(AS1["root"], h0, (2.6, 29.6, 0), (2.9, 28.6, 0), 1.0, 1.4)
 lantern(tpass - 4, 20); r2 = random.Random(5); fr = tpass - 2
 while fr < tpass + 14:
     lantern(fr, r2.choice([2, 35, 6, 30, 1])); fr += r2.choice([2, 3])
@@ -329,14 +329,19 @@ for fc in sec.animation_data.action.fcurves:
 mj = segf(7, .85); mh = GH["min"]; kf(mh, "rotation_euler", mj - 1, math.radians(78), 1); kf(mh, "rotation_euler", mj + 2, math.radians(84), 1)
 lantern(i1 - 12, 20); lantern(i1 - 9, 3); lantern(i1 - 7, 14); lantern(i1 - 4, 0)
 # 8 Abstimmung: die drei Neuen auf dem Platz, Theo + Assistent davor
-c8 = camera("c8", 28); k0, k1 = CUT[8], CUT[9]
-look(c8, (-.6, 25.6, 1.9), (-.6, SQ, 1.0), k0); look(c8, (-.6, 26.6, 1.65), (-.6, SQ, 1.0), k1); shot(8, c8); mist(k0, 6, 26)
+c8 = camera("c8", 18); k0, k1 = CUT[8], CUT[9]
+look(c8, (-.3, 25.0, 2.0), (-.3, SQ, 1.0), k0); look(c8, (-.3, 25.8, 1.75), (-.3, SQ, 1.0), k1); shot(8, c8); mist(k0, 6, 26)
 lantern(k0, 20)
 jump(TH1["root"], k0, (X1, 29.45, 0), (1.25, 28.4, 0), math.pi / 2, math.pi * .85)
 jump(AS1["root"], k0, (2.9, 28.6, 0), (2.0, 28.2, 0), 1.4, math.pi * .9)
 for k, r in enumerate(RESN):
     for fr in range(k0, k1 + 1, 5): kf(r["root"], "location", fr, Vector((r["root"].location.x, SQ, abs(math.sin((fr - k0) / FPS * 4 + k * 1.3)) * .05)))
     kf(r["head"], "rotation_euler", k0, Vector((0, 0, 0)))
+def hide(root, frame, hidden):
+    for o in [root] + list(root.children_recursive):
+        o.hide_render = hidden; o.keyframe_insert("hide_render", frame=frame)
+for r in (TH2["root"], AS2["root"]):
+    hide(r, 0, True); hide(r, CUT[5], False); hide(r, CUT[6], True); hide(r, CUT[7], False); hide(r, CUT[8], True)
 # Interpolation
 for c in cams:
     for fc in c.animation_data.action.fcurves:
