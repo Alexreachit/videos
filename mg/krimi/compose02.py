@@ -46,7 +46,24 @@ def ev(a, b, style, txt, layer=0): ass.append(f"Dialogue: {layer},{ts(a)},{ts(b)
 GOLD = r"{\c&H6BD8FF&}"; WH = r"{\c&HFFFFFF&}"
 for i, ws in enumerate(WORDS):
     # Gruppen a 3 Woertern; aktuelles Wort gold + leicht groesser
-    if i == 0: continue  # Titelkarte
+    if i == 0: continue  # Titelkarte statt Untertitel
+    groups = []; g = []
+    for w in ws:
+        if g and sum(len(x[0]) + 1 for x in g) + len(w[0]) > 17: groups.append(g); g = []
+        g.append(w)
+        if len(g) == 3 or w[0][-1] in ".?!…": groups.append(g); g = []
+    if g: groups.append(g)
+    for gi, g in enumerate(groups):
+        g_end = groups[gi + 1][0][1] if gi + 1 < len(groups) else g[-1][2] + .25
+        for wi, (w, a, b) in enumerate(g):
+            nb = g[wi + 1][1] if wi + 1 < len(g) else g_end
+            parts = []
+            for wj, (w2, _, _) in enumerate(g):
+                w2u = w2.upper()
+                parts.append((GOLD + r"{\fscx108\fscy108}" + w2u + r"{\fscx100\fscy100}" + WH) if wj == wi else w2u)
+            pop = r"{\t(0,90,\fscx106\fscy106)\t(90,180,\fscx100\fscy100)}" if wi == 0 else ""
+            ev(a, nb, "Cap", pop + " ".join(parts))
+# Titelkarte
 ev(.25, SEG[0]["end"] + .5, "Title", r"{\fad(500,400)\blur1.2}NEBELSTEIN", 2)
 ev(.9, SEG[0]["end"] + .5, "Sub", r"{\fad(400,400)}FALL 1  ·  TEIL 2: DER SCHLÜSSEL", 2)
 def boxat(t0, t1, y, txt, style="Box", pop=True):
