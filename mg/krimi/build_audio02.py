@@ -19,7 +19,10 @@ def split(x, minp=.85):
         if start is not None and (j - i) / SR >= minp: segs.append((start, last_voice + 1)); start = None
         i = j
     if start is not None: segs.append((start, last_voice + 1))
-    return [x[max(0, a - int(.03 * SR)):min(n, b + int(.08 * SR))] for a, b in segs if (b - a) / SR > .25]
+    segs = [(a, b) for a, b in segs if (b - a) / SR > .25]
+    while len(segs) > NSEG:   # zu viele Teile -> die beiden mit der kuerzesten Pause dazwischen zusammenlegen
+        k = min(range(len(segs) - 1), key=lambda j: segs[j + 1][0] - segs[j][1]); segs[k:k + 2] = [(segs[k][0], segs[k + 1][1])]
+    return [x[max(0, a - int(.03 * SR)):min(n, b + int(.08 * SR))] for a, b in segs]
 def cap_pauses(x, maxp=.36, keep=.30):
     env = np.convolve(np.abs(x), np.ones(240) / 240, mode="same"); quiet = env < .006
     out = []; i = 0; n = len(x)
@@ -40,7 +43,7 @@ print("Saetze gefunden:", len(clips), "erwartet:", NSEG)
 assert len(clips) == NSEG, [round(len(c) / SR, 2) for c in clips]
 segs = []; t = .6; parts = []
 for k, c in enumerate(clips):
-    c = cap_pauses(c); segs.append(dict(i=k, start=round(t, 3), end=round(t + len(c) / SR, 3))); parts.append((t, c)); t += len(c) / SR + .55
+    c = cap_pauses(c); segs.append(dict(i=k, start=round(t, 3), end=round(t + len(c) / SR, 3))); parts.append((t, c)); t += len(c) / SR + .55 + {5: .4, 7: 1.1}.get(k, 0)   # Extra-Pausen: nach dem Fluestern und fuers Ticken
 DUR = round(t + 1.2, 3); out = np.zeros(int(DUR * SR) + SR)
 for s, c in parts: n0 = int(s * SR); out[n0:n0 + len(c)] += c
 out = out[:int(DUR * SR)]
