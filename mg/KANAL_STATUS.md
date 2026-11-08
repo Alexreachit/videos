@@ -234,3 +234,12 @@
   Story: Nachts mit dem Boot rüber, Benluca spioniert, Schatzkiste mit 1000 € Gold (Kasse 1580 €), Nachbarn (Eckköpfe) machen Licht an und wollen Rache -> Abstimmung: Riesen-Mauer oder Frieden (Gold zurück). Gleiche Anzeigen wie Tag 2, neu: Nachtlicht, Nachbarinsel. Nicht hochgeladen, wartet auf Alex.
 - 2026-11-08 ~01:45: yt_ponzi14 "The Man Who Invented the Ponzi Scheme" (6:16, 3D-Toon gl3d, 6 Kapitel, Ponzi nur als Silhouette) mit Alex' OK ("Sobald alles fertig ist lad es gleich automatisch hoch") ÖFFENTLICH veröffentlicht: ID pHR5fqQ5hC8. Thumbnail "50% PROFIT IN 45 DAYS? / THE FIRST PONZI SCHEME", Beschreibung mit Kapiteln + 8 Quellen, nicht für Kinder.
   Render: mg-chunks Run 42418452556 (Ablegen scheiterte an 137 MB > 100 MB) -> neuer Workflow mg-assemble + Split in 90-MB-Teile; Abschnitt "mansion_night" (Kamera im Baum) lokal neu gerendert und eingesetzt. Upload über 15 Teile à 9,5 MB + DataTransfer.
+
+## Lauf 2026-11-08 ~Mittag (Routine)
+- 10 Abos (unverändert). 48-h-Echtzeit: 99 Aufrufe (vorher 166) – Milch-Short 60, Ponzi-Langvideo 11, Bank-Langvideo 9. Analytics-Tageswerte weiter nur bis 06.11. (28 T: 7.307 Aufrufe, 25,2 h, +8 Abos; Länder/Engaged unverändert ggü. 07.11. abends).
+- Shorts: Milch iBQu_8S41dI 293 (+1, steht) | Felicity 1.317 | Eiffel 1.258 | Ever Given 1.225 | SVB 1.124 | $100: 286 | New vs Used 210 | Knight 57 | Binance 56.
+- Langform NEU: "The Man Who Invented the Ponzi Scheme" pHR5fqQ5hC8 nach ~10 h: 11 Aufrufe, 833 Impressionen (so viele wie kein anderes Langvideo am 1. Tag), CTR nur 0,5 %, Ø Wiedergabe 3:48–4:57 von 6:16 (~60–79 % = beste Langform-Bindung des Kanals), 100 % Videovorschläge (neben "How Just One Man Triggered the Great Depression", "16 Middle Class Purchases…").
+  Supermarkt pOQrpecPeRU 1 Aufruf | Mistakes 6GQUuQxR_Bs 18 | Bank KDOq1pF040k 1.165 | andere 5–99.
+- Erkenntnis: Ponzi-Story hält Zuschauer sehr gut (Inhalt/3D-Toon funktioniert), aber das Thumbnail wird kaum geklickt -> YouTube testet breit, Engpass ist Thumbnail/Titel. Vorschlag an Alex: Thumbnail-Test (z. B. Menschenschlange vor Ponzis Büro + Silhouette + ein großes "50%", wenig Text) – nur mit OK.
+- Keine Korrekturen geändert (Tippfehler-Vorschlag "Why is everything so expensive?" wartet weiter auf OK). Nichts im Studio geändert.
+- Neue Ideen an Alex (warten auf OK): Fyre Festival (2017) | PayPal schrieb einem Mann versehentlich $92 Billiarden gut (2013) | neu: Bitcoin-Pizza (2010: 10.000 BTC für 2 Pizzen). Weiter offen: Upload-OK ys_escobar / ys_hush / ys_blockbuster, ri03 Feedback, Entwurfs-Leiche "846c1dee…".
