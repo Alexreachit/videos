@@ -243,3 +243,12 @@
 - Erkenntnis: Ponzi-Story hält Zuschauer sehr gut (Inhalt/3D-Toon funktioniert), aber das Thumbnail wird kaum geklickt -> YouTube testet breit, Engpass ist Thumbnail/Titel. Vorschlag an Alex: Thumbnail-Test (z. B. Menschenschlange vor Ponzis Büro + Silhouette + ein großes "50%", wenig Text) – nur mit OK.
 - Keine Korrekturen geändert (Tippfehler-Vorschlag "Why is everything so expensive?" wartet weiter auf OK). Nichts im Studio geändert.
 - Neue Ideen an Alex (warten auf OK): Fyre Festival (2017) | PayPal schrieb einem Mann versehentlich $92 Billiarden gut (2013) | neu: Bitcoin-Pizza (2010: 10.000 BTC für 2 Pizzen). Weiter offen: Upload-OK ys_escobar / ys_hush / ys_blockbuster, ri03 Feedback, Entwurfs-Leiche "846c1dee…".
+
+## Lauf 2026-11-08 ~22:00 (Routine, geplant 15:47 UTC)
+- 10 Abos (unverändert). 48-h-Echtzeit: Milch-Short 17, Ponzi-Langvideo 17, Bank-Langvideo 10 -> Kanal bei ~20–25 Aufrufen/Tag. 28 T (11.10.–07.11.): 7.331 Aufrufe, 25,8 h, +8 Abos.
+- Shorts: Milch iBQu_8S41dI 293 (steht) | Eiffel 1.258 | Felicity 1.317 | Binance 57 | Rest unverändert.
+- Langform: Ponzi pHR5fqQ5hC8 nach ~1 Tag: 17 Aufrufe, 5 einzelne Zuschauer, 1.174 Impressionen, CTR 0,6 % -> Thumbnail bleibt der Engpass. Supermarkt pOQrpecPeRU: 1 Aufruf, 12 Impressionen. Mistakes 18 | Bank 1.169.
+- Länder 28 T: ID 14,0 %, DE 13,8 %, US 11,3 %, IN 4,4 %, PH 4,2 %.
+- Erkenntnis: Seit 4.11. kein neuer Short -> fast null Reichweite. Ponzi bekommt viele Impressionen, aber niemand klickt -> Thumbnail-Test hat Priorität.
+- Keine Korrekturen, nichts im Studio geändert. Nebelstein-Serie (andere Session) nicht angefasst.
+- Offen bei Alex: Upload-OK ys_escobar / ys_hush / ys_blockbuster; Ponzi-Thumbnail-Test OK; Idee wählen (Fyre Festival | PayPal $92 Billiarden | Bitcoin-Pizza); Tippfehler "Why is everything so expensive?"; ri03 Feedback; Entwurf "846c1dee…" löschen?
