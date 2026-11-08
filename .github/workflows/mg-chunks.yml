@@ -95,6 +95,7 @@ jobs:
             git clone --depth 1 --branch renders "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" rb
             mkdir -p rb/renders/$P
             cp output/${P}_final.mp4* rb/renders/$P/
+            for f in rb/renders/$P/*.mp4; do [ -f "$f" ] && [ $(stat -c%s "$f") -gt 95000000 ] && split -b 90m -d "$f" "$f.part" && rm "$f"; done
             cp output/mg_${P}/timeline.json rb/renders/$P/ || true
             cp build.log rb/renders/$P/ || true
             cd rb && git add -A && git commit -qm "render $P chunks (${{ github.sha }})" && git push -q origin renders && cd .. && exit 0

@@ -1,0 +1,53 @@
+name: mg-assemble
+# Nur Zusammenbau (Ton + Schnitt) aus den Artefakten eines frueheren mg-chunks-Laufs. mg/assemble_queue.txt = "<projekt> <run_id>"
+on:
+  push:
+    paths: ["mg/assemble_queue.txt"]
+permissions:
+  contents: write
+  actions: read
+jobs:
+  assemble:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - id: q
+        run: |
+          echo "p=$(awk 'NF{print $1; exit}' mg/assemble_queue.txt)" >> "$GITHUB_OUTPUT"
+          echo "r=$(awk 'NF{print $2; exit}' mg/assemble_queue.txt)" >> "$GITHUB_OUTPUT"
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - uses: actions/download-artifact@v4
+        with: { name: voice, path: voice, run-id: "${{ steps.q.outputs.r }}", github-token: "${{ github.token }}" }
+      - uses: actions/download-artifact@v4
+        with: { pattern: "fr-*", path: frames, run-id: "${{ steps.q.outputs.r }}", github-token: "${{ github.token }}" }
+      - name: Programme
+        timeout-minutes: 15
+        run: |
+          for i in 1 2 3; do pip install numpy playwright && break; sleep 5; done
+          for i in 1 2 3; do timeout 300 python -m playwright install chromium && break; sleep 5; done
+          python -c "from playwright.sync_api import sync_playwright as s;p=s().start();p.chromium.launch().close();print('chromium ok')" || timeout 400 sudo python -m playwright install-deps chromium
+          if ! command -v ffmpeg; then
+            timeout 200 sudo apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=20 install -y --no-install-recommends ffmpeg || true
+          fi
+          if ! command -v ffmpeg; then
+            pip install static-ffmpeg && static_ffmpeg_paths && F=$(python -c "import static_ffmpeg.run as r;print(r.get_or_fetch_platform_executables_else_raise()[0])") && sudo ln -sf "$F" /usr/local/bin/ffmpeg && sudo ln -sf "$(dirname "$F")/ffprobe" /usr/local/bin/ffprobe
+          fi
+          ffmpeg -version | head -1
+      - run: python mg/produce.py "${{ steps.q.outputs.p }}" --voice-from voice --frames-from frames 2>&1 | tee build.log
+      - name: In Branch renders ablegen
+        run: |
+          P=${{ steps.q.outputs.p }}
+          git config --global user.name "mg-bot"; git config --global user.email "mg-bot@users.noreply.github.com"
+          for k in 1 2 3 4 5 6 7 8; do
+            rm -rf rb
+            git clone --depth 1 --branch renders "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" rb
+            mkdir -p rb/renders/$P
+            cp output/${P}_final.mp4* rb/renders/$P/
+            for f in rb/renders/$P/*.mp4; do [ -f "$f" ] && [ $(stat -c%s "$f") -gt 95000000 ] && split -b 90m -d "$f" "$f.part" && rm "$f"; done
+            cp output/mg_${P}/timeline.json rb/renders/$P/ || true
+            cp build.log rb/renders/$P/ || true
+            cd rb && git add -A && git commit -qm "render $P chunks (${{ github.sha }})" && git push -q origin renders && cd .. && exit 0
+            cd ..; sleep $((k*7))
+          done
+          exit 1
