@@ -1,0 +1,233 @@
+# Episode 1 der POV-Zombie-Serie.
+# Prompts bewusst auf Englisch (Videomodelle folgen englischen Anweisungen am zuverlässigsten).
+# Felder pro Szene sind Pflicht – fehlt eins, bricht `plan` mit einer klaren Meldung ab.
+
+id: zombie_ep01
+title: "Ebene -2"
+logline: >
+  Du wachst in einer Tiefgarage auf, Taschenlampe in der Hand. Etwas schlägt gegen die Scheibe neben dir.
+  Du rennst nach oben in die Freiheit – und merkst zu spät, dass die Straße voller wartender Toter ist.
+  Und dass du schon gebissen wurdest.
+
+settings:
+  render: {aspect: "9:16", resolution: "720p"}
+  ending: cut_to_black
+
+style:
+  look: >
+    Photorealistic, shot on a modern full-frame cinema camera with a wide 16mm-equivalent lens at eye height,
+    natural handheld body-cam feel but cinematic, high dynamic range, realistic skin, wet reflective surfaces,
+    believable physics
+  grade: "cold desaturated night grade, crushed blacks, teal shadows, sodium-orange practical lights, fine film grain"
+  lens: "Slight barrel distortion, realistic motion blur on fast head turns, flashlight beam with visible dust."
+  audio_rules: "Diegetic sound only, no music, no voice-over, no dialogue."
+  negative_extra: "bright daylight, clean shiny cars, crowds of running zombies, gore close-ups"
+
+protagonist:
+  hands: >
+    adult hands in worn black fingerless tactical gloves, dark olive rain jacket sleeves with one thin
+    reflective silver strip near the cuff, cheap steel wristwatch on the left wrist, small fresh scratch
+    on the right knuckle
+  carry: "a small black LED flashlight in the right hand, beam cold white"
+
+zombie_design:
+  look: >
+    recently turned humans, grey-blue mottled skin, milky clouded eyes, dark dried blood around mouths,
+    torn everyday clothes, realistic prosthetic-makeup quality, not skeletal, not cartoonish
+  motion: >
+    heavy, uncoordinated, jerky head tilts, dragging one foot, sudden lunges after slow approaches,
+    each zombie moves differently
+
+references:
+  - id: hands_ref
+    use_in: all
+    prompt: >
+      Photorealistic first-person view looking down at my own hands: adult hands in worn black fingerless
+      tactical gloves, dark olive rain jacket sleeves with one thin reflective silver strip near the cuff,
+      cheap steel wristwatch on the left wrist, small scratch on the right knuckle, right hand holding a small
+      black LED flashlight that is switched on. Dim underground parking garage behind, cold night grade, 9:16.
+  - id: zombie_guard
+    use_in: [s01, s03, s04]
+    prompt: >
+      Photorealistic film still, full body: a recently turned zombie wearing a dark navy security guard uniform
+      with a torn sleeve and an empty radio holster, grey-blue mottled skin, milky eyes, dried blood on the chin,
+      standing between concrete pillars in a dim underground parking garage lit by red emergency lights. 9:16.
+  - id: garage_env
+    use_in: [s01, s02]
+    prompt: >
+      Photorealistic wide plate of an abandoned underground parking garage, level minus two, low concrete
+      ceiling, flickering fluorescent tubes mostly dead, red emergency lights, puddles reflecting light,
+      abandoned cars with open doors, an overturned shopping trolley, a green running-man exit pictogram glowing
+      at the far end, no people. 9:16.
+
+scenes:
+  - id: s01
+    beat: hook
+    duration: 3
+    chain_from_previous: false
+    environment: "inside an abandoned car parked in an underground garage, driver seat, side window right next to the camera"
+    time_of_day: "night"
+    lighting: "total darkness, then the flashlight clicks on and lights the driver-side window from inside"
+    weather: "dry, humid air, condensation on the glass"
+    camera: "first-person, seated in the driver seat, head turned left toward the side window"
+    movement: "the flashlight beam swings to the window, the head jerks back in shock"
+    objects: ["steering wheel edge", "fogged side window", "the protagonist's gloved right hand with the flashlight"]
+    zombies: "a zombie security guard's face slams against the side window 30 cm from the lens, palms smearing the glass, the window cracks"
+    action: "Flashlight clicks on. Instantly a zombie face hits the window, glass cracks in a spiderweb, the protagonist recoils."
+    mood: "pure shock in the first second"
+    sound: "flashlight click, heavy thud on glass, glass cracking, wet growl, sharp breath in"
+    continuity: "Opening shot of the episode. Establishes hands, flashlight, and the zombie guard."
+    transition_in: cut
+    cues:
+      - {t: 0.05, kind: click}
+      - {t: 0.30, kind: stinger, gain_db: -4}
+      - {t: 0.35, kind: impact, gain_db: -2}
+      - {t: 0.45, kind: glass, gain_db: -3}
+      - {t: 0.60, kind: growl}
+      - {t: 1.0, kind: breath, dur: 2.0, gain_db: -4}
+
+  - id: s02
+    beat: orientation
+    duration: 6
+    environment: "the protagonist has scrambled out of the passenger door and stands in the garage lane of level minus two"
+    time_of_day: "night"
+    lighting: "flashlight beam is the main light, red emergency lights on the pillars, one fluorescent tube flickering far away"
+    weather: "dry, puddles on the concrete floor reflect the red lights"
+    camera: "first-person standing, eye height, backing away from the car"
+    movement: "stumbling backwards, the flashlight sweeps left to right across the garage, then back to the car"
+    objects: ["abandoned cars with open doors", "an overturned shopping trolley", "dried blood smears on a pillar",
+              "a green running-man exit pictogram glowing at the far end", "the car with the cracked side window"]
+    zombies: "the zombie guard is still trapped inside the car, pounding against the cracked window"
+    action: "The protagonist backs away, breathing hard, and sweeps the beam to understand where they are."
+    mood: "disoriented dread"
+    sound: "stumbling footsteps on concrete, fast breathing, muffled pounding from the car, distant scream echoing"
+    continuity: "Directly continues from the car window shot; same hands, same flashlight, same garage."
+    transition_in: whip
+    cues:
+      - {t: 0.0, kind: footsteps, dur: 2.2, gain_db: -6, note: "stumbling backwards"}
+      - {t: 0.2, kind: heartbeat, dur: 5.8, gain_db: -8}
+      - {t: 0.4, kind: breath, dur: 5.0, gain_db: -5}
+      - {t: 1.8, kind: impact, dur: 0.8, gain_db: -12, note: "muffled pounding from the car"}
+      - {t: 3.4, kind: metal, gain_db: -8, note: "foot bumps the trolley"}
+      - {t: 4.6, kind: scream, gain_db: -14}
+
+  - id: s03
+    beat: threat
+    duration: 8
+    environment: "the garage lane between rows of concrete pillars, level minus two"
+    time_of_day: "night"
+    lighting: "flashlight beam, red emergency light behind the figure, deep shadows"
+    weather: "dry"
+    camera: "first-person, standing still, holding breath"
+    movement: "the beam slowly drifts forward and lands on a figure about 15 meters away, the camera stays frozen"
+    objects: ["concrete pillars", "parked cars", "a puddle in front of the figure"]
+    zombies: "a second zombie in a stained grey hoodie stands with its back turned between two pillars, swaying, then tilts its head and slowly turns toward the light and starts limping closer, dragging one foot"
+    action: "The protagonist freezes as the figure notices the light."
+    mood: "slow-burn suspense"
+    sound: "heartbeat, held breath, dripping water, a low growl as it turns, dragging footsteps"
+    continuity: "Same garage, the car from the previous shot is now behind the protagonist."
+    transition_in: cut
+    cues:
+      - {t: 0.0, kind: heartbeat, dur: 8.0, gain_db: -6}
+      - {t: 1.0, kind: breath, dur: 1.5, gain_db: -10, note: "held breath"}
+      - {t: 4.8, kind: growl, dur: 2.6, gain_db: -4}
+      - {t: 6.2, kind: footsteps, dur: 1.8, gain_db: -12, note: "slow dragging steps"}
+
+  - id: s04
+    beat: escalation
+    duration: 10
+    environment: "the same garage lane, more of the darkness visible"
+    time_of_day: "night"
+    lighting: "flashlight beam; at 3 seconds the flashlight flickers and dies for one second, total darkness lit only by red emergency light, then it comes back"
+    weather: "dry"
+    camera: "first-person, stepping backwards slowly"
+    movement: "small steps back, the beam reveals three more shapes rising from between cars; the hand slaps the flashlight against the left palm; when the light returns the zombie in the hoodie is only 3 meters away"
+    objects: ["the protagonist's left gloved palm and the flashlight in the right hand", "car roofs", "pillars"]
+    zombies: "the hoodie zombie closes in, arms reaching; three more zombies behind it get up and stagger forward at different speeds"
+    action: "The light fails at the worst moment. When it returns, the threat is right there."
+    mood: "escalating panic"
+    sound: "flashlight flicker clicks, slap of the flashlight on the palm, several growls overlapping, breathing gets faster"
+    continuity: "Same position as the previous shot, the hoodie zombie is the same character."
+    transition_in: cut
+    cues:
+      - {t: 0.0, kind: heartbeat, dur: 10.0, gain_db: -5}
+      - {t: 0.0, kind: breath, dur: 10.0, gain_db: -8}
+      - {t: 1.2, kind: growl, dur: 2.0, gain_db: -9}
+      - {t: 3.0, kind: click, gain_db: -6}
+      - {t: 3.4, kind: click, gain_db: -6}
+      - {t: 4.3, kind: impact, dur: 0.6, gain_db: -10, note: "flashlight slapped on palm"}
+      - {t: 4.5, kind: click, gain_db: -4}
+      - {t: 4.6, kind: stinger, gain_db: -3}
+      - {t: 5.0, kind: growl, dur: 2.5, gain_db: -2}
+      - {t: 7.5, kind: growl, dur: 2.0, gain_db: -7}
+
+  - id: s05
+    beat: flight
+    duration: 13
+    environment: "sprint through the garage toward the glowing exit pictogram, then through a steel stairwell door and up concrete stairs"
+    time_of_day: "night"
+    lighting: "bouncing flashlight beam, red emergency lights, the stairwell lit by a dim green emergency lamp"
+    weather: "dry"
+    camera: "first-person running, strong but natural running shake, quick glances back over the shoulder"
+    movement: "turns away and sprints, weaves between two cars, the left hand pushes off a car hood, shoulder bursts through the stairwell door, then runs up the stairs gripping a yellow metal railing"
+    objects: ["car hood", "steel stairwell door with push bar", "concrete stairs", "yellow metal railing", "the protagonist's gloved left hand on the railing"]
+    zombies: "growling zombies chase behind; during one glance back a zombie lunges through the stairwell door"
+    action: "A desperate escape upward."
+    mood: "adrenaline"
+    sound: "fast running footsteps, heavy breathing, car hood thump, stairwell door slam, footsteps on stairs echoing, growls echoing below"
+    continuity: "Starts where the previous shot ended, turning away from the approaching zombie."
+    transition_in: whip
+    cues:
+      - {t: 0.0, kind: footsteps, dur: 6.0, gain_db: -3}
+      - {t: 0.0, kind: breath, dur: 13.0, gain_db: -5}
+      - {t: 3.2, kind: impact, dur: 0.9, gain_db: -6, note: "hand on car hood"}
+      - {t: 6.3, kind: door, dur: 1.6, gain_db: -3}
+      - {t: 7.4, kind: footsteps, dur: 5.6, gain_db: -4, note: "running up concrete stairs"}
+      - {t: 9.2, kind: growl, dur: 2.0, gain_db: -5, note: "echo from below"}
+      - {t: 10.6, kind: impact, dur: 1.2, gain_db: -6, note: "zombie hits the stairwell door"}
+
+  - id: s06
+    beat: twist
+    duration: 10
+    environment: "ground level: the protagonist pushes open a heavy door onto a wide empty city street at night"
+    time_of_day: "night"
+    lighting: "orange sodium streetlights, rain glittering in the light, a burning car far away"
+    weather: "light rain, wet asphalt reflections"
+    camera: "first-person, stepping outside, then standing still"
+    movement: "steps out, exhales in relief, the beam and the streetlights slowly reveal the street ahead"
+    objects: ["wet asphalt", "streetlights", "abandoned cars", "a distant burning car", "rain"]
+    zombies: "hundreds of zombies stand completely still in the street with their backs turned, silent; at the end the nearest ones slowly turn their heads toward the sound of the door"
+    action: "The supposed safety turns out to be a far bigger danger."
+    mood: "relief collapsing into silent horror"
+    sound: "door clunk, rain, a relieved exhale, then silence, one single growl, then many"
+    continuity: "Continues from the top of the stairwell; same hands and flashlight, now wet from rain."
+    transition_in: flash
+    ambience: eerie
+    cues:
+      - {t: 0.1, kind: door, dur: 1.5, gain_db: -4}
+      - {t: 1.3, kind: breath, dur: 1.8, gain_db: -6, note: "relieved exhale"}
+      - {t: 6.8, kind: growl, dur: 1.6, gain_db: -6}
+      - {t: 8.0, kind: stinger, gain_db: -4}
+      - {t: 8.2, kind: growl, dur: 1.8, gain_db: -2}
+
+  - id: s07
+    beat: cliffhanger
+    duration: 10
+    environment: "the doorway between the street and the stairwell"
+    time_of_day: "night"
+    lighting: "streetlight from behind, flashlight pointing down"
+    weather: "light rain"
+    camera: "first-person, backing slowly into the doorway, then looking down at the left forearm"
+    movement: "slow retreat, the head lowers, the flashlight beam drops to the left forearm, the hand trembles"
+    objects: ["the left forearm with the torn olive sleeve", "a fresh bite wound under the torn sleeve, bleeding", "the steel wristwatch", "the right hand with the flashlight"]
+    zombies: "the street crowd turns toward the door in the background; at the very end a grey hand reaches into frame from behind and grabs the shoulder"
+    action: "The protagonist realizes they were bitten in the car. A hand grabs them from behind. Cut to black."
+    mood: "dread and shock, unresolved"
+    sound: "rain, a very loud slow heartbeat, shaky breathing, then a sudden growl right behind the ear"
+    continuity: "Same doorway, same rain; the bite wound matches the torn left sleeve from the car scene."
+    transition_in: cut
+    cues:
+      - {t: 0.0, kind: heartbeat, dur: 10.0, gain_db: 0}
+      - {t: 0.5, kind: breath, dur: 7.5, gain_db: -7, note: "shaky breathing"}
+      - {t: 8.9, kind: stinger, gain_db: -2}
+      - {t: 9.0, kind: growl, dur: 1.0, gain_db: 0, note: "right behind the ear"}

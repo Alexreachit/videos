@@ -1,0 +1,64 @@
+# Standard-Konfiguration der Kino-Pipeline (cine).
+# Eine Episode-Datei (episodes/*.yaml) kann jeden Wert unter "settings:" überschreiben.
+
+render:
+  aspect: "9:16"          # 9:16 (TikTok/Shorts) oder 16:9 (YouTube)
+  resolution: "720p"      # 360p | 720p | 1080p
+  fps: 24
+  crf: 18
+  preset: veryfast
+  loudness_lufs: -14      # Zielpegel für Social Media
+
+providers:
+  # Welcher Anbieter für welchen Schritt. Austauschbar ohne Codeänderung.
+  # mock      = kostenlos, lokal, Platzhalter zum Testen der Pipeline
+  # manual    = kostenlos: Prompt-Karten raus, du legst die Clips/Bilder selbst ab
+  # replicate = kostenpflichtig, über Replicate-API (Freigabe nötig)
+  # gemini    = kostenpflichtig, nur für KI-Bildprüfung (vision_qc)
+  # elevenlabs= kostenpflichtig (Freigabe nötig)
+  # procedural= kostenlos, lokal synthetisierte Geräusche
+  image: mock
+  video: mock
+  sfx: procedural
+  vision_qc: none          # none | gemini (kostenpflichtig)
+
+models:
+  replicate:
+    video: google/gemini-omni-1.2-flash
+    video_alt: kwaivgi/kling-v4.0      # Fallback, falls Omni ausfällt (Modellname vor Nutzung prüfen)
+    image: google/nano-banana-pro         # Modellname vor Nutzung prüfen
+  gemini:
+    vision: gemini-3-flash               # Modellname vor Nutzung prüfen
+
+# Listenpreise in USD (Recherche Nov. 2026, vor Freigabe immer gegenprüfen).
+prices:
+  replicate:google/gemini-omni-1.2-flash:
+    per_second: {720p: 0.07, 1080p: 0.104}
+  replicate:kwaivgi/kling-v4.0:
+    per_second: {720p: 0.157, 1080p: 0.235}
+  replicate:google/nano-banana-pro:
+    per_image: 0.04
+  elevenlabs:sfx:
+    per_second: 0.002
+  gemini:gemini-3-flash:
+    per_call: 0.01
+
+costs:
+  retry_reserve: 0.5        # +50 % Puffer für Neugenerierungen in der Schätzung
+  max_attempts_per_scene: 3
+
+qc:
+  min_scene_score: 70       # darunter wird neu generiert (wenn Versuche/Budget übrig)
+  max_black_ratio: 0.25
+  max_freeze_ratio: 0.35
+  min_sharpness: 12.0       # Laplace-Varianz (bei dunklen Szenen bewusst niedrig)
+  max_internal_cuts: 0      # harte Schnitte innerhalb eines POV-Clips = Perspektivbruch
+  cut_threshold: 0.55
+
+edit:
+  grade: horror_night       # Farbkorrektur-Preset
+  grain: 8
+  vignette: true
+  native_audio_gain_db: -3  # Originalton der Videomodelle
+  sfx_gain_db: -2
+  ambience_gain_db: -14

@@ -1,3 +1,8 @@
 work/
 output/
 __pycache__/
+
+# Kino-Pipeline: Produktionen (große Mediendateien) und lokale Schlüssel
+productions/
+.env
+.pytest_cache/

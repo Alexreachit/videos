@@ -33,3 +33,8 @@ Auf GitHub unter **Actions**, links **Video bauen**, rechts **Run workflow**. Op
 ## Neues Video
 
 Neues `script.txt` (und `script_en.txt`), `prompts.txt` und bei Bedarf `stil.txt` schreiben, `bilder/` leeren, Bilder erzeugen, bauen.
+
+## Kino-Pipeline (POV-Zombie-Serie)
+
+Fotorealistische First-Person-Videos aus KI-Clips mit Sounddesign, Schnitt, Qualitätsprüfung und Kostenfreigabe:
+siehe [cine/README.md](cine/README.md). Erste Episode: `episodes/zombie_ep01.yaml` („Ebene -2“, 60 s, 9:16).
