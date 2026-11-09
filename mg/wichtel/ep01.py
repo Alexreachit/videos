@@ -128,7 +128,6 @@ def flocke(loc):
     hat = C(cone, hc + Vector((0, 0, .59)), .25, .02, .8, RED, verts=32)
     bd = hat.modifiers.new("bend", "SIMPLE_DEFORM"); bd.deform_method = 'BEND'; bd.angle = -1.0; bd.deform_axis = 'X'
     C(torus, hc + Vector((0, 0, .19)), .24, .06, FUR)
-    C(sphere, hc + Vector((0, .36, .84)), .08, (1, 1, 1), FUR)
     L.P[0] = d["inner"]; C(rbox, (.13, -.17, .5), (.1, .03, .28), clay("scarf", "#1f8a48", .65), bev=.5)
     C(rbox, (0, -.163, .25), (.47, .02, .06), FUR, bev=.5, l=.006)
     toon_end(d, loc); return dict(root=d["root"], head=d["head"], arms=d["arms"])
@@ -148,7 +147,7 @@ def villager(loc, k):
     elif v == 2:  # Ohrenschuetzer + Dutt
         C(sphere, hc + Vector((0, .05, r * .55)), r * .88, (1, 1, .55), H); C(sphere, hc + Vector((0, .12, r * 1.0)), .1, (1, 1, 1), H)
         mc = clay("muff%d" % k, COLS[(k + 2) % len(COLS)], .9)
-        C(torus, hc, r * 1.02, .018, mc, rot=(0, math.pi / 2, 0))
+        C(torus, hc, r * 1.02, .018, mc, rot=(math.pi / 2, 0, 0))
         for sx in (-1, 1): C(sphere, hc + Vector((sx * r * 1.0, 0, 0)), .085, (.7, 1, 1), mc)
     else:        # Locken
         for j in range(9):

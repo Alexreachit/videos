@@ -1,1 +1,1 @@
-krimi/ep02.py ep02 1958 0
+wichtel/ep01.py wichtel01 630 0
