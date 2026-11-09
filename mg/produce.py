@@ -34,7 +34,7 @@ def dur_of(path):
     return float(out)
 
 
-def tts_andrew(text, mp3, voice, rate, tries=40, pitch="+0Hz", volume="+0%"):
+def tts_andrew(text, mp3, voice, rate, tries=40, pitch="+0Hz", volume="+0%", lang=None):
     """Nur Andrew (kein Ersatz). Wiederholt, bis der Dienst erreichbar ist; wechselt den Endpunkt.
     Liefert die Wortzeiten [(Wort, Start, Ende)] relativ zum Zeilenanfang (fuer Untertitel mit Wort-Hervorhebung)."""
     import edge_tts
@@ -50,7 +50,14 @@ def tts_andrew(text, mp3, voice, rate, tries=40, pitch="+0Hz", volume="+0%"):
         except Exception:
             pass
         bounds = []
-
+        # Sprache fest vorgeben (Multilingual-Stimmen raten sonst je Satz und kippen bei Zahlen/Namen ins Englische)
+        if lang and not getattr(ec, "_lang_patch", None) and hasattr(ec, "mkssml"):
+            _orig = ec.mkssml
+            def _mk(tc, et, _o=_orig):
+                s0 = _o(tc, et); t0 = et.decode() if isinstance(et, bytes) else et
+                return s0.replace(t0, "<lang xml:lang='" + ec._lang_patch + "'>" + t0 + "</lang>", 1) if ec._lang_patch else s0
+            ec.mkssml = _mk; ec._lang_patch = lang
+        if hasattr(ec, "_lang_patch"): ec._lang_patch = lang if k < 8 else None   # nach 8 Fehlversuchen ohne Sprach-Tag
         async def go():
             try:
                 comm = edge_tts.Communicate(text, voice, rate=rate, pitch=pitch, volume=volume, boundary="WordBoundary")
@@ -745,7 +752,7 @@ def main():
             vd = Path(sys.argv[sys.argv.index("--voice-from") + 1]); shutil.copy(vd / f"{i:02d}.mp3", mp3)
             words = [tuple(x) for x in json.load(open(vd / "words.json"))[i]]
         elif fake: words = fake_tts(ln["text"], mp3)
-        else: words = tts_andrew(ln["text"], mp3, cfg["voice"], ln.get("rate", cfg["rate"]), pitch=ln.get("pitch", "+0Hz"), volume=ln.get("volume", "+0%"))  # Emotion je Zeile: rate/pitch/volume
+        else: words = tts_andrew(ln["text"], mp3, cfg["voice"], ln.get("rate", cfg["rate"]), pitch=ln.get("pitch", "+0Hz"), volume=ln.get("volume", "+0%"), lang=cfg.get("lang"))  # Emotion je Zeile: rate/pitch/volume
         if ln.get("stretch") and words:   # Vokal eines Wortes dehnen ("Waaaaait!"), Tonhoehe bleibt (atempo)
             st = ln["stretch"]; w, wa, wb = words[st.get("word", 0)]; L = wb - wa
             s0, s1 = wa + st.get("a", .3) * L, wa + st.get("b", .7) * L; f = float(st.get("factor", 4)); chain = []
