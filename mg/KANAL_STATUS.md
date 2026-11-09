@@ -254,3 +254,7 @@
 - Offen bei Alex: Upload-OK ys_escobar / ys_hush / ys_blockbuster; Ponzi-Thumbnail-Test OK; Idee wählen (Fyre Festival | PayPal $92 Billiarden | Bitcoin-Pizza); Tippfehler "Why is everything so expensive?"; ri03 Feedback; Entwurf "846c1dee…" löschen?
 - 2026-11-09: Nebelstein Folge 2 "Der Schlüssel" fertig (65 s, blender-chunks Run 42521512372 -> renders/ep02, compose02.py). Neue Bürger: Luca_2006, Lian Mx #7, "Bürger Nr. 4" (statt fcking), MTB+GAMING = Theos Assistent. Laterne flackert nur bei Lian. Abstimmung: A Luca / B Lian / C Bürger Nr. 4. ElevenLabs: 980 Zeichen (Rest 8.579). Wartet auf Alex' Upload.
 - 2026-11-09: ri04 "Tag 4" fertig (49,9 s, Run 42622584224). Zahlen von Alex: 128 Einwohner (unverändert), Abstimmung Mauer, 35 Likes = 350 € (Kasse 1580 -> 1930), Mauer -1500 € -> 430 €. Story: Mauerbau, Nachtangriff der Eckköpfe prallt ab ("BONK!"), Katapult per Fernglas -> Abstimmung: Kanone vs. Benluca als Friedensbote. Wartet auf Alex' Upload.
+
+## Lauf 2026-11-09 ~16:50 (Routine)
+- Abgebrochen: Chrome-Erweiterung nicht erreichbar (kein Browser verbunden – PC aus/Chrome zu). Keine Analyse, nichts im Studio geändert, nichts hochgeladen.
+- Offen bei Alex: Upload-OK ys_escobar / ys_hush / ys_blockbuster; Ponzi-Thumbnail-Test OK; Idee wählen (Fyre Festival | PayPal $92 Billiarden | Bitcoin-Pizza); Tippfehler "Why is everything so expensive?"; ri03/ri04/Nebelstein ep02 Upload; Entwurf "846c1dee…" löschen?
