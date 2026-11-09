@@ -197,7 +197,7 @@ def night(fr0, fr1):
         BG.inputs[0].default_value = [a + (b - a) * v for a, b in zip(hexc("#8fbfea"), hexc("#1d2a52"))]; BG.inputs[0].keyframe_insert("default_value", frame=fr)
         BG.inputs[1].default_value = .75 - .45 * v; BG.inputs[1].keyframe_insert("default_value", frame=fr)
         sun.energy = 4.2 - 4.0 * v; sun.keyframe_insert("energy", frame=fr); sun.color = (1 - .45 * v, .95 - .3 * v, .88 + .1 * v); sun.keyframe_insert("color", frame=fr)
-        fill.energy = 350 - 230 * v; fill.keyframe_insert("energy", frame=fr)
+        fill.energy = 350 - 180 * v; fill.keyframe_insert("energy", frame=fr)
 
 # ===================================================== KAMERAS (Schnitte per Marker)
 FOC = {}
