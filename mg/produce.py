@@ -752,7 +752,11 @@ def main():
             vd = Path(sys.argv[sys.argv.index("--voice-from") + 1]); shutil.copy(vd / f"{i:02d}.mp3", mp3)
             words = [tuple(x) for x in json.load(open(vd / "words.json"))[i]]
         elif fake: words = fake_tts(ln["text"], mp3)
-        else: words = tts_andrew(ln["text"], mp3, cfg["voice"], ln.get("rate", cfg["rate"]), pitch=ln.get("pitch", "+0Hz"), volume=ln.get("volume", "+0%"), lang=cfg.get("lang"))  # Emotion je Zeile: rate/pitch/volume
+        else: words = tts_andrew(ln.get("say", ln["text"]), mp3, cfg["voice"], ln.get("rate", cfg["rate"]), pitch=ln.get("pitch", "+0Hz"), volume=ln.get("volume", "+0%"), lang=cfg.get("lang"))  # Emotion je Zeile: rate/pitch/volume
+        if ln.get("say_map") and words:   # gesprochene Zahlwoerter in den Untertiteln wieder als Ziffern zeigen
+            def _mw(wd, m=ln["say_map"]):
+                core = wd.rstrip(".,!?:;"); r = m.get(core.lower()); return (r + wd[len(core):]) if r else wd
+            words = [(_mw(x[0]),) + tuple(x[1:]) for x in words]
         if ln.get("stretch") and words:   # Vokal eines Wortes dehnen ("Waaaaait!"), Tonhoehe bleibt (atempo)
             st = ln["stretch"]; w, wa, wb = words[st.get("word", 0)]; L = wb - wa
             s0, s1 = wa + st.get("a", .3) * L, wa + st.get("b", .7) * L; f = float(st.get("factor", 4)); chain = []

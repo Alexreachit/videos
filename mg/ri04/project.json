@@ -49,18 +49,32 @@
    "text": "Wir sind 128 Einwohner. Holt eure Freunde, jeder Follower ist ein neuer Bürger!",
    "spec": {
     "type": "crowd"
+   },
+   "say": "Wir sind hundertachtundzwanzig Einwohner. Holt eure Freunde, jeder Follower ist ein neuer Bürger!",
+   "say_map": {
+    "hundertachtundzwanzig": "128"
    }
   },
   {
    "text": "Eure 35 Likes bringen 350 Euro!",
    "spec": {
     "type": "money"
+   },
+   "say": "Eure fünfunddreißig Likes bringen dreihundertfünfzig Euro!",
+   "say_map": {
+    "fünfunddreißig": "35",
+    "dreihundertfünfzig": "350"
    }
   },
   {
    "text": "Die Mauer kostet 1500 Euro. Bleiben 430 Euro.",
    "spec": {
     "type": "money2"
+   },
+   "say": "Die Mauer kostet fünfzehnhundert Euro. Bleiben vierhundertdreißig Euro.",
+   "say_map": {
+    "fünfzehnhundert": "1500",
+    "vierhundertdreißig": "430"
    }
   },
   {
