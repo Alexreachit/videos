@@ -1,1 +1,1 @@
-krimi/ep02.py stills=269,420,491,658,938,1182,1332,1483,1645,1913 pct=50 samples=10
+wichtel/ep01.py stills=37,97,145,196,259,335,427,517,575,636 pct=50 samples=12
