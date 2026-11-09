@@ -57,7 +57,7 @@ qc:
 
 edit:
   grade: horror_night       # Farbkorrektur-Preset
-  grain: 8
+  grain: 5
   vignette: true
   native_audio_gain_db: -3  # Originalton der Videomodelle
   sfx_gain_db: -2

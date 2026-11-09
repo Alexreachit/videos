@@ -23,6 +23,10 @@ GRADES = {
 }
 
 
+# Filmkorn ist für den Encoder Rauschen – ohne Deckel explodiert die Dateigröße.
+MAXRATE = {"360p": "2M", "480p": "3M", "720p": "8M", "1080p": "14M"}
+
+
 def _transition(kind: str) -> str:
     if kind == "whip":   # Reißschwenk-Gefühl: kurze horizontale Bewegungsunschärfe am Szenenanfang
         return ",boxblur=luma_radius=18:luma_power=2:chroma_radius=8:enable='lt(t,0.12)'"
@@ -91,7 +95,8 @@ def run_edit(ep: Episode, prod, ctx, native_audio: dict[str, bool]) -> Path:
     run(["ffmpeg", "-y", "-loglevel", "error", "-i", joined, "-i", prod.dir / "audio" / "sfx.wav",
          "-i", prod.dir / "audio" / "ambience.wav", "-filter_complex", fc, "-map", "[v]", "-map", "[a]",
          "-c:v", "libx264", "-preset", cfg["render"]["preset"], "-crf", str(cfg["render"]["crf"]),
-         "-profile:v", "high", "-c:a", "aac", "-b:a", "192k", "-ar", "48000", "-movflags", "+faststart",
+         "-profile:v", "high", "-maxrate", MAXRATE.get(cfg["render"]["resolution"], "8M"),
+         "-bufsize", "16M", "-c:a", "aac", "-b:a", "192k", "-ar", "48000", "-movflags", "+faststart",
          "-t", f"{total:.3f}", final])
     run(["ffmpeg", "-y", "-loglevel", "error", "-ss", f"{min(1.0, total / 2):.2f}", "-i", final,
          "-frames:v", "1", "-q:v", "3", "-update", "1", prod.dir / "output" / f"{ep.id}_thumb.jpg"])
