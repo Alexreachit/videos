@@ -56,11 +56,11 @@
    }
   },
   {
-   "text": "Eure Likes bringen 350 Euro!",
+   "text": "Eure Herzen bringen uns 350 Euro!",
    "spec": {
     "type": "money"
    },
-   "say": "Eure Likes bringen dreihundertfünfzig Euro!",
+   "say": "Eure Herzen bringen uns dreihundertfünfzig Euro!",
    "say_map": {
     "dreihundertfünfzig": "350"
    }
