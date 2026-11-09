@@ -1,0 +1,138 @@
+{
+ "title": "TikTok-Serie Roundhead Island – Tag 4 (Deutsch)",
+ "_sources": "Fiktive Community-Serie (keine Faktenbehauptungen). Zahlen von Alex: 128 Follower, Abstimmung Mauer, 35 Likes auf Tag 3.",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 60,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+16%",
+ "lead": 0.05,
+ "gap": 0.12,
+ "tail": 1.4,
+ "crf": 18,
+ "music": {
+  "style": "playful",
+  "bpm": 150,
+  "gain": 0.11,
+  "ambience": 0.02,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.55,
+ "lines": [
+  {
+   "text": "Tag vier auf Roundhead Island!",
+   "spec": {
+    "type": "day",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Gestern hieß es: Mauer oder Frieden?",
+   "spec": {
+    "type": "recap",
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "Und die Mauer hat gewonnen!",
+   "spec": {
+    "type": "vote",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Wir sind 128 Einwohner. Holt eure Freunde, jeder Follower ist ein neuer Bürger!",
+   "spec": {
+    "type": "crowd"
+   }
+  },
+  {
+   "text": "Eure 35 Likes bringen 350 Euro!",
+   "spec": {
+    "type": "money"
+   }
+  },
+  {
+   "text": "Die Mauer kostet 1500 Euro. Bleiben 430 Euro.",
+   "spec": {
+    "type": "money2"
+   }
+  },
+  {
+   "text": "Also: Alle Mann an die Steine!",
+   "spec": {
+    "type": "build",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Benluca passt auf, dass alles schön gerade wird.",
+   "spec": {
+    "type": "build2"
+   }
+  },
+  {
+   "text": "Und fertig ist die große Mauer!",
+   "spec": {
+    "type": "done",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "In der Nacht kommen die Eckköpfe mit Fackeln.",
+   "spec": {
+    "type": "night",
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "Und krachen direkt gegen die Mauer!",
+   "spec": {
+    "type": "crash"
+   }
+  },
+  {
+   "text": "Wütend rudern sie zurück. Unsere Mauer hält!",
+   "spec": {
+    "type": "hold",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Doch am Morgen schaut Sam durchs Fernglas.",
+   "spec": {
+    "type": "morning",
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "Die Nachbarn bauen ein riesiges Katapult!",
+   "spec": {
+    "type": "catapult"
+   }
+  },
+  {
+   "text": "Bauen wir eine eigene Kanone?",
+   "spec": {
+    "type": "cannon",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Oder schicken wir Benluca als Friedensboten mit einem Geschenk?",
+   "spec": {
+    "type": "peace"
+   }
+  },
+  {
+   "text": "Der Top-Kommentar entscheidet.",
+   "spec": {
+    "type": "comment"
+   }
+  }
+ ]
+}
