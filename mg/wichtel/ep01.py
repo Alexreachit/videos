@@ -73,45 +73,88 @@ C(cylr, (-3.2, 3.2, .7), .07, 1.4, WOOD, verts=10, bev=0)
 C(rbox, (-3.2, 3.15, 1.35), (1.5, .1, .45), WOOD, bev=.4)
 text("WICHTELHEIM", (-3.2, 3.09, 1.35), .17, INK, extrude=.02)
 
-# ===================================================== FIGUREN
-SKIN = clay("skin", "#f0b890", .55, .25); NOSE = clay("nose", "#e8907a", .55, .2); EYE = clay("eye", "#1d1a22", .3, 0)
-def eyes_mouth(head_c, r, m_par):
-    for sx in (-1, 1): sphere(head_c + Vector((sx * r * .34, -r * .9, r * .12)), r * .1, (1, .6, 1.25), EYE, seg=16)
-    torus(head_c + Vector((0, -r * .88, -r * .3)), r * .22, r * .045, EYE, rot=(math.pi / 2 + .25, 0, 0), scl=(1, 1, .6))
-def flocke(loc):
-    root = empty("flocke", (0, 0, 0)); L.P[0] = root
-    RED = clay("red", "#d22a26", .6); GRN = clay("scarf", "#1f8a48", .65); BOOT = clay("boot", "#3a2a22", .6)
-    for sx in (-1, 1): C(sphere, (sx * .12, 0, .07), .11, (1, 1.35, .7), BOOT)
-    C(cone, (0, 0, .42), .3, .2, .6, RED, verts=32)
-    C(torus, (0, 0, .7), .19, .06, GRN); C(rbox, (.12, -.16, .52), (.1, .03, .28), GRN, bev=.5)
-    head = empty("f_head", (0, 0, .78), root); L.P[0] = head
-    C(sphere, (0, 0, .93), .22, (1, .95, 1), SKIN)
-    C(sphere, (0, -.21, .9), .075, (1, 1, 1), NOSE)
-    eyes_mouth(Vector((0, 0, .93)), .22, head)
-    C(sphere, (0, -.07, .78), .17, (1.1, .7, .7), clay("beard", "#f6f2ea", .8, .1))
-    hat = C(cone, (0, 0, 1.28), .23, .02, .65, RED, verts=32)
-    bd = hat.modifiers.new("bend", "SIMPLE_DEFORM"); bd.deform_method = 'BEND'; bd.angle = -.9; bd.deform_axis = 'X'
-    C(torus, (0, 0, 1.0), .21, .05, clay("fur", "#fbfbf6", .85, .1))
-    C(sphere, (.0, .3, 1.5), .07, (1, 1, 1), clay("fur", "#fbfbf6"))
-    L.P[0] = root
+# ===================================================== FIGUREN (Cartoon-Stil: grosser runder Kopf, Kulleraugen, Jacke mit Streifen, duenne Arme)
+import bmesh
+SKIN = clay("skin", "#f3c39c", .55, .25); EYEW = clay("eyew", "#fbfbf8", .35, .05); EYE = clay("eye", "#16141a", .3, 0)
+CHEEK = clay("cheek", "#f08a8a", .6, .2); MOUTH = clay("mouth", "#6e1f28", .5, 0); TONG = clay("tongue", "#ea6f78", .5, .1)
+PANT = clay("pant", "#26232c", .6); SHOE = clay("shoe", "#18171c", .5); FUR = clay("fur", "#fbfbf6", .85, .1)
+HAIRC = ["#6b3b1e", "#e2b65a", "#2a1d17", "#a8441f"]
+def half_sphere(loc, r, scl, m):
+    o = sphere(loc, r, scl, m, seg=32); bm = bmesh.new(); bm.from_mesh(o.data)
+    res = bmesh.ops.bisect_plane(bm, geom=bm.verts[:] + bm.edges[:] + bm.faces[:], plane_co=(0, 0, 0), plane_no=(0, 0, 1), clear_outer=True)
+    edges = [e for e in res["geom_cut"] if isinstance(e, bmesh.types.BMEdge)]
+    if edges: bmesh.ops.holes_fill(bm, edges=edges)
+    bm.to_mesh(o.data); bm.free(); L.smooth(o); return o
+def face(hc, r, brow="#4a2a18", ears="round", stache=None):
+    for sx in (-1, 1):
+        C(sphere, hc + Vector((sx * r * .37, -r * .9, r * .12)), r * .2, (1, .55, 1.25), EYEW, l=.006)
+        sphere(hc + Vector((sx * r * .33, -r * 1.0, r * .07)), r * .09, (1, .5, 1.05), EYE, seg=20)
+        sphere(hc + Vector((sx * r * .3, -r * 1.045, r * .13)), r * .028, (1, .5, 1), EYEW, seg=12)
+        C(rbox, hc + Vector((sx * r * .38, -r * .88, r * .46)), (r * .26, r * .07, r * .075), clay("brow" + brow, brow, .7), rot=(0, sx * .22, 0), bev=.8, l=.006)
+        C(sphere, hc + Vector((sx * r * .62, -r * .74, -r * .16)), r * .14, (1, .4, .8), CHEEK, l=.005)
+        if ears == "elf": C(cone, hc + Vector((sx * r * 1.08, .0, r * .1)), r * .16, r * .02, r * .5, SKIN, rot=(0, sx * 1.2, 0), verts=16)
+        else: C(sphere, hc + Vector((sx * r * .98, 0, -r * .02)), r * .17, (.5, 1, 1.2), SKIN)
+    C(sphere, hc + Vector((0, -r * .99, -r * .1)), r * .1, (1.1, .9, .9), SKIN, l=.005)
+    half_sphere(hc + Vector((0, -r * .86, -r * .3)), r * .28, (1, .4, .75), MOUTH)
+    sphere(hc + Vector((0, -r * .88, -r * .44)), r * .11, (1.3, .45, .55), TONG, seg=20)
+    if stache:
+        for sx in (-1, 1): C(sphere, hc + Vector((sx * r * .15, -r * 1.0, -r * .2)), r * .14, (1.4, .55, .6), clay("st" + stache, stache, .8), rot=(0, -sx * .25, 0), l=.006)
+def toon(name, jc, trim, s=1.0, collar=None):
+    root = empty(name, (0, 0, 0)); inner = empty(name + "_in", (0, 0, 0), root); L.P[0] = inner
+    JC = clay("jc" + jc, jc, .62); TR = clay("tr" + trim, trim, .6)
+    for sx in (-1, 1):
+        C(cylr, (sx * .09, 0, .15), .045, .28, PANT, verts=12, bev=0, l=.008)
+        C(sphere, (sx * .1, -.04, .045), .08, (1, 1.5, .6), SHOE, l=.01)
+    C(rbox, (0, 0, .44), (.46, .32, .42), JC, bev=.25, l=.015)
+    for z in (.33, .42): C(rbox, (0, -.163, z), (.47, .014, .035), TR, bev=.4, l=.004)
+    C(rbox, (0, -.166, .44), (.022, .01, .4), clay("zip", "#3a3540", .4), bev=.3, l=.003)
+    C(torus, (0, .02, .65), .15, .055, clay("co" + (collar or trim), collar or trim, .7), scl=(1.15, 1, 1))
     arms = []
     for sx in (-1, 1):
-        sh = empty("f_arm%d" % sx, (sx * .2, 0, .62), root); L.P[0] = sh
-        C(cylr, (sx * .2, 0, .47), .05, .3, RED, verts=16, bev=0); C(sphere, (sx * .2, 0, .3), .07, (1, 1, 1), GRN)
-        arms.append(sh); L.P[0] = root
-    L.P[0] = None
-    root.location = loc
-    return dict(root=root, head=head, arms=arms)
-COLS = ["#2f6fd0", "#f0a020", "#7f3fd0", "#16a58a", "#ea3f6a", "#4fa83a", "#d84a2a", "#3a4fd0"]
+        sh = empty(name + "_arm%d" % sx, (sx * .25, 0, .6), inner); L.P[0] = sh
+        C(cylr, (sx * .26, 0, .45), .042, .3, JC, verts=14, bev=0, l=.008)
+        C(sphere, (sx * .26, 0, .27), .062, (1, 1, 1), SKIN, l=.008)
+        arms.append(sh); L.P[0] = inner
+    head = empty(name + "_head", (0, 0, .66), inner); L.P[0] = head
+    hc = Vector((0, 0, .96)); r = .3
+    C(sphere, hc, r, (1, .96, .95), SKIN, l=.012)
+    return dict(root=root, inner=inner, head=head, arms=arms, hc=hc, r=r, s=s)
+def toon_end(d, loc):
+    L.P[0] = None; d["inner"].scale = (d["s"],) * 3; d["root"].location = loc; bpy.context.view_layer.update()
+def flocke(loc):
+    d = toon("flocke", "#d22a26", "#fbfbf6", 1.0, collar="#1f8a48"); hc, r = d["hc"], d["r"]
+    face(hc, r, brow="#e9e4da", ears="elf", stache="#f6f2ea")
+    RED = clay("red", "#d22a26", .6)
+    hat = C(cone, hc + Vector((0, 0, .59)), .25, .02, .8, RED, verts=32)
+    bd = hat.modifiers.new("bend", "SIMPLE_DEFORM"); bd.deform_method = 'BEND'; bd.angle = -1.0; bd.deform_axis = 'X'
+    C(torus, hc + Vector((0, 0, .19)), .24, .06, FUR)
+    C(sphere, hc + Vector((0, .36, .84)), .08, (1, 1, 1), FUR)
+    L.P[0] = d["inner"]; C(rbox, (.13, -.17, .5), (.1, .03, .28), clay("scarf", "#1f8a48", .65), bev=.5)
+    C(rbox, (0, -.163, .25), (.47, .02, .06), FUR, bev=.5, l=.006)
+    toon_end(d, loc); return dict(root=d["root"], head=d["head"], arms=d["arms"])
+COLS = ["#2f6fd0", "#f08a20", "#7f3fd0", "#16a58a", "#ea3f6a", "#4fa83a", "#d84a2a", "#3a4fd0"]
 def villager(loc, k):
-    root = empty("v%d" % k, (0, 0, 0)); L.P[0] = root
-    cm = clay("vc%d" % k, COLS[k % len(COLS)])
-    C(sphere, (0, 0, .32), .25, (1, .9, 1.3), cm)
-    C(sphere, (0, 0, .72), .2, (1, 1, 1), SKIN)
-    eyes_mouth(Vector((0, 0, .72)), .2, root)
-    hc = clay("vh%d" % k, COLS[(k + 3) % len(COLS)])
-    C(sphere, (0, 0, .82), .19, (1.05, 1.05, .75), hc); C(sphere, (0, 0, 1.02), .06, (1, 1, 1), clay("fur", "#fbfbf6"))
-    L.P[0] = None; root.location = loc; return root
+    d = toon("v%d" % k, COLS[k % len(COLS)], "#fbfbf6" if k % 2 else "#f2c23a", .82); hc, r = d["hc"], d["r"]
+    hcol = HAIRC[k % len(HAIRC)]; H = clay("hair" + hcol, hcol, .75)
+    face(hc, r, brow=hcol if k % 4 != 1 else "#4a2a18", stache=(hcol if k % 3 == 0 else None))
+    v = k % 4
+    if v == 0:   # Haarbueschel wie Referenz
+        for a, b, c, rr in ((0, -.12, .96, .1), (-.1, -.04, .98, .09), (.1, -.06, .97, .09), (0, .08, 1.0, .1)):
+            C(sphere, hc + Vector((a * r * 2.5, b * r * 2.5, (c - .66) * r * 2.7)), rr * 1.0, (1, 1, .7), H)
+    elif v == 1:  # Muetze mit Bommel
+        bc = clay("vh%d" % k, COLS[(k + 3) % len(COLS)])
+        C(sphere, hc + Vector((0, .01, .165)), r * 1.0, (1.0, 1.0, .72), bc); C(torus, hc + Vector((0, 0, .16)), .26, .05, FUR)
+        C(sphere, hc + Vector((0, 0, .4)), .07, (1, 1, 1), FUR)
+    elif v == 2:  # Ohrenschuetzer + Dutt
+        C(sphere, hc + Vector((0, .05, r * .55)), r * .88, (1, 1, .55), H); C(sphere, hc + Vector((0, .12, r * 1.0)), .1, (1, 1, 1), H)
+        mc = clay("muff%d" % k, COLS[(k + 2) % len(COLS)], .9)
+        C(torus, hc, r * 1.02, .018, mc, rot=(0, math.pi / 2, 0))
+        for sx in (-1, 1): C(sphere, hc + Vector((sx * r * 1.0, 0, 0)), .085, (.7, 1, 1), mc)
+    else:        # Locken
+        for j in range(9):
+            a = j / 9 * 2 * math.pi; C(sphere, hc + Vector((math.cos(a) * r * .62, math.sin(a) * r * .62 + .04, r * .62)), .1, (1, 1, .85), H)
+        C(sphere, hc + Vector((0, .04, r * .8)), .14, (1, 1, .7), H)
+    toon_end(d, loc); return d["root"]
 def popin(o, fr, s=1.0):
     kf(o, "scale", 0, Vector((.001,) * 3)); kf(o, "scale", fr, Vector((.001,) * 3)); kf(o, "scale", fr + 2, Vector((s * 1.18,) * 3)); kf(o, "scale", fr + 4, Vector((s,) * 3))
 def popout(o, fr, s=1.0):
@@ -218,7 +261,7 @@ def wobble(obj, idx, f0, f1, amp, spd, base=0.0, step=1):
 HV = villager((0, -1.2, 0), 9)
 c0 = camera("c0", 40, (0, -1.2, .6)); look(c0, (.35, -3.6, .75), (0, -1.2, .6), CUT[0]); look(c0, (.25, -3.2, .72), (0, -1.2, .62), CUT[1]); shot(0, c0)
 popin(HV, segf(0, .05)); wobble(HV, 2, segf(0, .1), CUT[1], .25, 7)
-L.P[0] = HV; text("DU?", (0, -1.48, .33), .11, clay("du", "#d22a26", .5), extrude=.015); L.P[0] = None
+L.P[0] = HV; text("DU?", (0, -1.2 - .16, .45), .09, clay("du", "#d22a26", .5), extrude=.015); L.P[0] = None
 popout(HV, CUT[1] - 1)
 # 1 Leeres Tal, Flocke kommt mit dem Schlitten
 c1 = camera("c1", 26, (0, 1.3, .5)); a0, a1 = CUT[1], CUT[2]
