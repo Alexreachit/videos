@@ -23,7 +23,7 @@ A("Oder schicken wir Benluca als Friedensboten mit einem Geschenk?", dict(type="
 A("Der Top-Kommentar entscheidet.", dict(type="comment"))
 P = dict(title="TikTok-Serie Roundhead Island – Tag 4 (Deutsch)",
          _sources="Fiktive Community-Serie (keine Faktenbehauptungen). Zahlen von Alex: 128 Follower, Abstimmung Mauer, 35 Likes auf Tag 3.",
-         size=[1080, 1920], fps=60, scene="scene.html", voice="en-US-AndrewMultilingualNeural", rate="+16%",
+         size=[1080, 1920], fps=60, scene="scene.html", voice="de-DE-ConradNeural", rate="+12%",
          lead=0.05, gap=0.12, tail=1.4, crf=18, music=dict(style="playful", bpm=150, gain=0.11, ambience=0.02, duck_ratio=2),
          sfx_vary=True, sfx_gain=0.55, lines=L)
 json.dump(P, open("project.json", "w"), indent=1, ensure_ascii=False)
