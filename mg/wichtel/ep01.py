@@ -29,10 +29,10 @@ def clay(name, col, rough=.62, sss=.08, emis=None, es=0):
     if sss: b.inputs["Subsurface Weight"].default_value = sss; b.inputs["Subsurface Radius"].default_value = (1.0, .5, .3); b.inputs["Subsurface Scale"].default_value = .03
     if emis: b.inputs["Emission Color"].default_value = hexc(emis); b.inputs["Emission Strength"].default_value = es
     tc = nt.nodes.new("ShaderNodeTexCoord")
-    nz = nt.nodes.new("ShaderNodeTexNoise"); nz.inputs["Scale"].default_value = 38; nz.inputs["Detail"].default_value = 6
+    nz = nt.nodes.new("ShaderNodeTexNoise"); nz.inputs["Scale"].default_value = 22; nz.inputs["Detail"].default_value = 6
     vo = nt.nodes.new("ShaderNodeTexVoronoi"); vo.inputs["Scale"].default_value = 7; vo.feature = 'DISTANCE_TO_EDGE'
-    b1 = nt.nodes.new("ShaderNodeBump"); b1.inputs["Strength"].default_value = .14; b1.inputs["Distance"].default_value = .02
-    b2 = nt.nodes.new("ShaderNodeBump"); b2.inputs["Strength"].default_value = .08; b2.inputs["Distance"].default_value = .02
+    b1 = nt.nodes.new("ShaderNodeBump"); b1.inputs["Strength"].default_value = .32; b1.inputs["Distance"].default_value = .02
+    b2 = nt.nodes.new("ShaderNodeBump"); b2.inputs["Strength"].default_value = .18; b2.inputs["Distance"].default_value = .02
     nt.links.new(tc.outputs["Object"], nz.inputs["Vector"]); nt.links.new(tc.outputs["Object"], vo.inputs["Vector"])
     nt.links.new(nz.outputs["Fac"], b1.inputs["Height"]); nt.links.new(vo.outputs["Distance"], b2.inputs["Height"])
     nt.links.new(b1.outputs["Normal"], b2.inputs["Normal"]); nt.links.new(b2.outputs["Normal"], b.inputs["Normal"])
@@ -41,7 +41,7 @@ TEXCL = bpy.data.textures.new("lumps", "CLOUDS"); TEXCL.noise_scale = .35
 def lumpy(o, amt=.015):
     d = o.modifiers.new("lump", "DISPLACE"); d.texture = TEXCL; d.strength = amt; d.mid_level = .5; d.texture_coords = 'OBJECT'
     return o
-def C(fn, *a, l=.012, **k):
+def C(fn, *a, l=.022, **k):
     o = fn(*a, **k); return lumpy(o, l) if o is not None and o.type == 'MESH' else o
 
 # ===================================================== TAL
@@ -74,13 +74,13 @@ C(rbox, (-3.2, 3.15, 1.35), (1.5, .1, .45), WOOD, bev=.4)
 text("WICHTELHEIM", (-3.2, 3.09, 1.35), .17, INK, extrude=.02)
 
 # ===================================================== FIGUREN
-SKIN = clay("skin", "#f2c4a0", .55, .25); NOSE = clay("nose", "#e8907a", .55, .2); EYE = clay("eye", "#1d1a22", .3, 0)
+SKIN = clay("skin", "#f0b890", .55, .25); NOSE = clay("nose", "#e8907a", .55, .2); EYE = clay("eye", "#1d1a22", .3, 0)
 def eyes_mouth(head_c, r, m_par):
     for sx in (-1, 1): sphere(head_c + Vector((sx * r * .34, -r * .9, r * .12)), r * .1, (1, .6, 1.25), EYE, seg=16)
     torus(head_c + Vector((0, -r * .88, -r * .3)), r * .22, r * .045, EYE, rot=(math.pi / 2 + .25, 0, 0), scl=(1, 1, .6))
 def flocke(loc):
     root = empty("flocke", (0, 0, 0)); L.P[0] = root
-    RED = clay("red", "#d63a35", .6); GRN = clay("scarf", "#2f8a52", .65); BOOT = clay("boot", "#3a2a22", .6)
+    RED = clay("red", "#d22a26", .6); GRN = clay("scarf", "#1f8a48", .65); BOOT = clay("boot", "#3a2a22", .6)
     for sx in (-1, 1): C(sphere, (sx * .12, 0, .07), .11, (1, 1.35, .7), BOOT)
     C(cone, (0, 0, .42), .3, .2, .6, RED, verts=32)
     C(torus, (0, 0, .7), .19, .06, GRN); C(rbox, (.12, -.16, .52), (.1, .03, .28), GRN, bev=.5)
@@ -102,7 +102,7 @@ def flocke(loc):
     L.P[0] = None
     root.location = loc
     return dict(root=root, head=head, arms=arms)
-COLS = ["#3e7cc9", "#e0a12f", "#8a55c7", "#2f9e8a", "#e05d7a", "#6aa84f", "#c9583e", "#4a5fc1"]
+COLS = ["#2f6fd0", "#f0a020", "#7f3fd0", "#16a58a", "#ea3f6a", "#4fa83a", "#d84a2a", "#3a4fd0"]
 def villager(loc, k):
     root = empty("v%d" % k, (0, 0, 0)); L.P[0] = root
     cm = clay("vc%d" % k, COLS[k % len(COLS)])
@@ -156,7 +156,7 @@ PED = clay("ped", "#e9e2d6", .6)
 def pedestal(x, lab):
     r = empty("ped" + lab, (0, 0, 0)); L.P[0] = r
     C(cylr, (0, 0, .25), .55, .5, PED, verts=32, bev=.2)
-    text(lab, (0, -.56, .26), .26, clay("lab" + lab, "#d63a35", .5), extrude=.03)
+    text(lab, (0, -.56, .26), .26, clay("lab" + lab, "#d22a26", .5), extrude=.03)
     L.P[0] = None; r.location = (x, 3.4, 0); return r
 PEDS = [pedestal(-1.1, "A"), pedestal(1.1, "B")]
 GB = empty("gb", (0, 0, 0)); L.P[0] = GB
@@ -183,21 +183,21 @@ em.show_instancer_for_render = False
 
 # ===================================================== LICHT + WELT
 W = bpy.data.worlds.new("w"); S.world = W; W.use_nodes = True; BG = W.node_tree.nodes["Background"]
-BG.inputs[0].default_value = hexc("#bcd8f2"); BG.inputs[1].default_value = .9
-sun = bpy.data.lights.new("sun", "SUN"); sun.energy = 3.2; sun.angle = math.radians(14); sun.color = (1, .95, .88)
+BG.inputs[0].default_value = hexc("#8fbfea"); BG.inputs[1].default_value = .75
+sun = bpy.data.lights.new("sun", "SUN"); sun.energy = 4.2; sun.angle = math.radians(14); sun.color = (1, .95, .88)
 so = bpy.data.objects.new("sun", sun); L.link(so); so.rotation_euler = (math.radians(52), 0, math.radians(-35))
 def area(name, loc, tgt, e, size, col):
     l = bpy.data.lights.new(name, "AREA"); l.energy = e; l.size = size; l.color = col
     o = bpy.data.objects.new(name, l); L.link(o); o.location = Vector(loc); d = Vector(tgt) - o.location; o.rotation_euler = d.to_track_quat('-Z', 'Y').to_euler(); return l
-fill = area("fill", (-4, -6, 5), (0, 3, .5), 600, 8, (.85, .92, 1))
+fill = area("fill", (-4, -6, 5), (0, 3, .5), 350, 8, (.85, .92, 1))
 lamp = bpy.data.lights.new("lantern", "POINT"); lamp.energy = 0; lamp.color = (1, .7, .4); lamp.shadow_soft_size = .3
 lo = bpy.data.objects.new("lantern", lamp); L.link(lo); lo.location = (.6, 1.4, 1.2)
 def night(fr0, fr1):
     for fr, v in ((fr0 - 1, 0), (fr0 + 6, 1), (fr1, 1)):
-        BG.inputs[0].default_value = [a + (b - a) * v for a, b in zip(hexc("#bcd8f2"), hexc("#1d2a52"))]; BG.inputs[0].keyframe_insert("default_value", frame=fr)
-        BG.inputs[1].default_value = .9 - .55 * v; BG.inputs[1].keyframe_insert("default_value", frame=fr)
-        sun.energy = 3.2 - 3.0 * v; sun.keyframe_insert("energy", frame=fr); sun.color = (1 - .45 * v, .95 - .3 * v, .88 + .1 * v); sun.keyframe_insert("color", frame=fr)
-        fill.energy = 600 - 420 * v; fill.keyframe_insert("energy", frame=fr)
+        BG.inputs[0].default_value = [a + (b - a) * v for a, b in zip(hexc("#8fbfea"), hexc("#1d2a52"))]; BG.inputs[0].keyframe_insert("default_value", frame=fr)
+        BG.inputs[1].default_value = .75 - .45 * v; BG.inputs[1].keyframe_insert("default_value", frame=fr)
+        sun.energy = 4.2 - 4.0 * v; sun.keyframe_insert("energy", frame=fr); sun.color = (1 - .45 * v, .95 - .3 * v, .88 + .1 * v); sun.keyframe_insert("color", frame=fr)
+        fill.energy = 350 - 230 * v; fill.keyframe_insert("energy", frame=fr)
 
 # ===================================================== KAMERAS (Schnitte per Marker)
 FOC = {}
@@ -218,7 +218,7 @@ def wobble(obj, idx, f0, f1, amp, spd, base=0.0, step=1):
 HV = villager((0, -1.2, 0), 9)
 c0 = camera("c0", 40, (0, -1.2, .6)); look(c0, (.35, -3.6, .75), (0, -1.2, .6), CUT[0]); look(c0, (.25, -3.2, .72), (0, -1.2, .62), CUT[1]); shot(0, c0)
 popin(HV, segf(0, .05)); wobble(HV, 2, segf(0, .1), CUT[1], .25, 7)
-L.P[0] = HV; text("DU?", (0, -1.48, .33), .11, clay("du", "#d63a35", .5), extrude=.015); L.P[0] = None
+L.P[0] = HV; text("DU?", (0, -1.48, .33), .11, clay("du", "#d22a26", .5), extrude=.015); L.P[0] = None
 popout(HV, CUT[1] - 1)
 # 1 Leeres Tal, Flocke kommt mit dem Schlitten
 c1 = camera("c1", 26, (0, 1.3, .5)); a0, a1 = CUT[1], CUT[2]
@@ -229,9 +229,10 @@ for o, dx in ((FL["root"], 0), (SLED, 0)):
 kf(FL["root"], "location", arr + 4, Vector((0, .9, 0)))
 wobble(FL["root"], 1, a0, arr, .08, 14)
 # 2 Regeln: Bewohner ploppen auf, Taler fallen in die Kasse
-c2 = camera("c2", 28, (.9, 2.1, .5)); b0, b1 = CUT[2], CUT[3]
-look(c2, (.9, -3.4, 1.6), (.9, 2.1, .55), b0); look(c2, (.9, -2.9, 1.5), (.9, 2.1, .55), b1); shot(2, c2)
+c2 = camera("c2", 20, (1.6, 2.1, .5)); b0, b1 = CUT[2], CUT[3]
+look(c2, (1.6, -3.0, 1.6), (1.6, 2.1, .55), b0); look(c2, (1.6, -2.6, 1.5), (1.6, 2.1, .55), b1); shot(2, c2)
 for k, v in enumerate(VIL): popin(v, segf(2, .12 + k * .05)); wobble(v, 2, segf(2, .15 + k * .05), b1, .18, 5 + k)
+popin(CHEST, segf(2, .38))
 for k, cn in enumerate(COINS):
     t0 = segf(2, .45 + k * .04); kf(cn, "location", 0, Vector((cn.location.x, 2.0, 2.4))); kf(cn, "location", t0, Vector((cn.location.x, 2.0, 2.4)))
     kf(cn, "location", t0 + 4, Vector((cn.location.x, 2.0, .3))); kf(cn, "rotation_euler", t0, 0.0, 2); kf(cn, "rotation_euler", t0 + 4, 6.0, 2)
@@ -254,6 +255,7 @@ kf(CHEST, "location", e0, Vector((-.3, 2.0, 0))); kf(CHEST, "location", e0 + 1, 
 c5 = camera("c5", 26, (0, 3.2, .7)); g0, g1 = CUT[5], CUT[6]
 look(c5, (0, -1.6, 1.7), (0, 3.2, .75), g0); look(c5, (0, -1.1, 1.6), (0, 3.2, .78), g1); shot(5, c5)
 kf(FL["root"], "location", g0, Vector((0, 2.6, 0)))
+kf(SLED, "location", g0 - 1, Vector((-.6, 1.6, 0))); kf(SLED, "location", g0, Vector((-4.5, 3.5, 0))); kf(CHEST, "location", g0 - 1, Vector((.9, 1.9, 0))); kf(CHEST, "location", g0, Vector((3.5, 3.6, 0)))
 popin(GB, segf(5, .12)); popin(MT, segf(5, .55)); popin(PEDS[0], segf(5, .08)); popin(PEDS[1], segf(5, .5))
 wobble(FL["head"], 2, segf(5, .1), segf(5, .5), .0, 1, .45); wobble(FL["head"], 2, segf(5, .55), g1, .0, 1, -.45)
 kf(GB, "rotation_euler", 0, 0.0, 2); kf(GB, "rotation_euler", g1, .8, 2); kf(MT, "rotation_euler", 0, 0.0, 2); kf(MT, "rotation_euler", g1, -.8, 2)
@@ -272,8 +274,8 @@ try: S.cycles.denoiser = 'OPENIMAGEDENOISE'
 except Exception: pass
 S.cycles.max_bounces = 4; S.cycles.diffuse_bounces = 2; S.cycles.glossy_bounces = 1; S.cycles.transmission_bounces = 1
 S.render.use_persistent_data = True
-S.view_settings.view_transform = 'AgX'; S.view_settings.exposure = .75
-try: S.view_settings.look = 'AgX - Medium High Contrast'
+S.view_settings.view_transform = 'AgX'; S.view_settings.exposure = .4
+try: S.view_settings.look = 'AgX - Punchy'
 except Exception: pass
 S.render.resolution_x = 1080; S.render.resolution_y = 1920; S.render.resolution_percentage = int(OPT.get("pct", 100))
 S.render.image_settings.file_format = 'PNG'; S.render.image_settings.color_mode = 'RGB'

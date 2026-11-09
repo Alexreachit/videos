@@ -1,1 +1,1 @@
-wichtel/ep01.py stills=37,97,145,196,259,335,427,517,575,636 pct=50 samples=12
+wichtel/ep01.py stills=37,145,196,335,427,575 pct=50 samples=12
