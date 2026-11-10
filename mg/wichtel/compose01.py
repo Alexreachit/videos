@@ -64,7 +64,7 @@ ev(segt(4, .82), SEG[4]["end"] + .3, "Big", r"{\an8\pos(540,340)\fad(100,200)\t(
 ev(SEG[5]["start"], DUR, "Big", r"{\an8\pos(540,170)\fad(200,0)}WAS BAUEN WIR ZUERST?", 3)
 boxat(segt(5, .2), DUR, 330, "  A  ·  LEBKUCHEN-BÄCKEREI  ")
 boxat(segt(5, .6), DUR, 450, "  B  ·  RIESIGER WEIHNACHTSBAUM  ")
-ev(segt(6, .2), DUR, "Sub", r"{\an5\pos(540,580)\fad(200,0)}SCHREIB A ODER B IN DIE KOMMENTARE!", 3)
+ev(segt(6, .2), DUR, "Sub", r"{\an5\pos(540,580)\fad(200,0)}SCHREIB A ODER B\NIN DIE KOMMENTARE!", 3)
 boxat(segt(6, .65), DUR, 700, "  FOLGEN = EINZIEHEN  ")
 open(os.path.join(HERE, "ep01.ass"), "w", encoding="utf-8").write("\n".join(ass) + "\n")
 
