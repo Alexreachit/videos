@@ -1,0 +1,96 @@
+{
+ "title": "TikTok-Serie Squarehead Island – Tag 1 (Deutsch)",
+ "_sources": "Fiktive Community-Serie (keine Faktenbehauptungen).",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+16%",
+ "lead": 0.05,
+ "gap": 0.12,
+ "tail": 1.4,
+ "crf": 20,
+ "music": {
+  "style": "playful",
+  "bpm": 150,
+  "gain": 0.13,
+  "ambience": 0.02,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.55,
+ "lines": [
+  {
+   "text": "Tag eins: Ich habe gerade mein eigenes Land gegründet.",
+   "spec": {
+    "type": "fly",
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "Willkommen auf Squarehead Island!",
+   "spec": {
+    "type": "sign"
+   }
+  },
+  {
+   "text": "Einwohner: genau einer. Ich.",
+   "spec": {
+    "type": "pop"
+   }
+  },
+  {
+   "text": "Aber jeder neue Follower wird ein Bürger.",
+   "spec": {
+    "type": "follow"
+   }
+  },
+  {
+   "text": "Unser Ziel: das reichste Land der Welt.",
+   "spec": {
+    "type": "goal",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Aber schau dich um. Keine Häuser, keine Bank, nicht mal eine Straße.",
+   "spec": {
+    "type": "empty",
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "Folg jetzt, und du bekommst Reisepass Nummer eins.",
+   "spec": {
+    "type": "passport"
+   }
+  },
+  {
+   "text": "Unsere Staatskasse: zwanzig Euro... und eine Kokosnuss.",
+   "spec": {
+    "type": "treasury"
+   }
+  },
+  {
+   "text": "Und für jeden Like kommen zehn Euro in die Kasse!",
+   "spec": {
+    "type": "likes"
+   }
+  },
+  {
+   "text": "Also, was bauen wir zuerst? Einen Hafen oder eine Bank?",
+   "spec": {
+    "type": "choice"
+   }
+  },
+  {
+   "text": "Der Top-Kommentar entscheidet.",
+   "spec": {
+    "type": "comment"
+   }
+  }
+ ]
+}

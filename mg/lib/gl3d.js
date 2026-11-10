@@ -129,7 +129,7 @@ void main(){ vec4 w=uM*vec4(aP,1.); vN=normalize(mat3(uM)*aN);
   const FS = `#version 300 es
 precision highp float; precision highp sampler2DShadow;
 in vec3 vW; in vec3 vC; in vec4 vL; in vec2 vU; in vec3 vN;
-uniform vec3 uSun,uSunCol,uSky,uGnd,uFog,uCam,uTint,uShCol; uniform float uFogN,uFogF,uAlpha,uEmis,uTintA,uFoamR,uT,uUseTex,uShade,uRecv,uSmooth,uTerrain,uWater,uSpec,uToon,uRim;
+uniform vec3 uSun,uSunCol,uSky,uGnd,uFog,uCam,uTint,uShCol; uniform float uFogN,uFogF,uAlpha,uEmis,uTintA,uFoamR,uFoamP,uT,uUseTex,uShade,uRecv,uSmooth,uTerrain,uWater,uSpec,uToon,uRim;
 uniform sampler2DShadow uSh; uniform sampler2D uTex;
 out vec4 o;
 float shadow(){ vec3 p=vL.xyz/vL.w*.5+.5; if(p.x<0.||p.x>1.||p.y<0.||p.y>1.||p.z>1.) return 1.; float s=0.; vec2 tx=vec2(1./2048.);
@@ -172,7 +172,7 @@ void main(){
      float st=sin(vW.x*.9+vW.z*.35+uT*1.2+2.*vn(vW.xz*.2))*sin(vW.z*.7-uT*.9); c+=vec3(.08,.1,.1)*smoothstep(.85,.97,st); }
    else { c=mix(c,uSky*1.05,fr*.55); c+=uSunCol*pow(max(dot(n,Hh),0.),180.)*1.4*sh; } }
  c=mix(col,c,uShade)+col*uEmis;
- if(uFoamR>0.){ float r=length(vW.xz);
+ if(uFoamR>0.){ float r=uFoamP>2.?pow(pow(abs(vW.x),uFoamP)+pow(abs(vW.z),uFoamP),1./uFoamP):length(vW.xz);
    float shallow=smoothstep(uFoamR+9.,uFoamR+.5,r); c=mix(c,c*vec3(.75,1.25,1.12)+vec3(.05,.12,.1),shallow*.85);
    float ring=uFoamR+.35+.25*sin(uT*1.4+atan(vW.z,vW.x)*5.);
    float f=smoothstep(.55,0.,abs(r-ring))+smoothstep(uFoamR+.2,uFoamR-.3,r); c=mix(c,vec3(.97,.99,1.),clamp(f,0.,1.)*.85); }
@@ -276,7 +276,7 @@ precision mediump float; out vec4 o; void main(){ o=vec4(1.); }`;
       gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, stex); gl.uniform1i(U.uSh, 0);
       gl.uniform1i(U.uTex, 1);
       const draw = o => {
-        gl.uniformMatrix4fv(U.uM, false, w.matrix(o)); gl.uniform1f(U.uWave, o.wave); gl.uniform1f(U.uFoamR, o.foam);
+        gl.uniformMatrix4fv(U.uM, false, w.matrix(o)); gl.uniform1f(U.uWave, o.wave); gl.uniform1f(U.uFoamR, o.foam); if (U.uFoamP) gl.uniform1f(U.uFoamP, o.foamP || 0);
         gl.uniform1f(U.uAlpha, o.alpha); gl.uniform1f(U.uEmis, o.emis); gl.uniform3fv(U.uTint, o.tint); gl.uniform1f(U.uTintA, o.tintA);
         gl.uniform1f(U.uShade, o.shade); gl.uniform1f(U.uRecv, o.recv ? 1 : 0);
         gl.uniform1f(U.uSmooth, (o.smooth || o.wave > 0) ? 1 : 0); gl.uniform1f(U.uTerrain, o.terrain); gl.uniform1f(U.uWater, o.water || (o.wave > 0 ? 1 : 0)); gl.uniform1f(U.uSpec, o.spec);

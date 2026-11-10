@@ -51,8 +51,13 @@
     const lx = (o.look || [0, 0])[0], ly = (o.look || [0, 0])[1];
     g += `<g transform="rotate(${tilt.toFixed(2)},100,140)">`;
     if (o.hood) g += o.hood;
+    if (o.square) {   // Squarehead: eckiger Kopf mit runden Kanten
+      g += `<rect x="38" y="24" width="124" height="124" rx="24" fill="${SK}" stroke="${OL}" stroke-width="6"/>`;
+      g += `<path d="M41,120 Q100,134 159,120 L159,124 Q159,145 138,145 L62,145 Q41,145 41,124 Z" fill="${SKD}" opacity=".85"/>`;
+    } else {
     g += `<circle cx="100" cy="86" r="64" fill="${SK}" stroke="${OL}" stroke-width="6"/>`;
     g += `<path d="M48,108 A64,64 0 0,0 150,122 A70,70 0 0,1 48,108 Z" fill="${SKD}" opacity=".85"/>`;
+    }
     g += `<ellipse cx="78" cy="56" rx="16" ry="10" fill="#fff" opacity=".45" transform="rotate(-30,78,56)"/>`;
     const bl = 1 - Math.max(0, Math.min(1, o.blink || 0)) * .9;
     if (o.ghost) g += `<text x="100" y="112" text-anchor="middle" font-family="Inter,Arial" font-weight="900" font-size="78" fill="${OL}" opacity=".55">?</text>`;
