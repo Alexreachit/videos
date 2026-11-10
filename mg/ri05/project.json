@@ -1,0 +1,158 @@
+{
+ "title": "TikTok-Serie Roundhead Island – Tag 5 (Deutsch)",
+ "_sources": "Fiktive Community-Serie (keine Faktenbehauptungen). Zahlen von Alex: 141 Einwohner, Abstimmung Kanone 61 %, 34 Likes auf Tag 4.",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 60,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+16%",
+ "lang": "de-DE",
+ "lead": 0.05,
+ "gap": 0.12,
+ "tail": 1.4,
+ "crf": 18,
+ "music": {
+  "style": "playful",
+  "bpm": 150,
+  "gain": 0.11,
+  "ambience": 0.02,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.55,
+ "lines": [
+  {
+   "text": "Tag fünf auf Roundhead Island! Und gleich da drüben wohnen die Eckköpfe.",
+   "spec": {
+    "type": "map",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Gestern bauten die Nachbarn ein Katapult.",
+   "spec": {
+    "type": "recap",
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "Ihr habt abgestimmt: 61 Prozent für die Kanone!",
+   "spec": {
+    "type": "vote",
+    "mood": "bright"
+   },
+   "say": "Ihr habt abgestimmt: einundsechzig Prozent für die Kanone!",
+   "say_map": {
+    "einundsechzig": "61"
+   }
+  },
+  {
+   "text": "13 neue Bürger! Wir sind jetzt 141 Einwohner.",
+   "spec": {
+    "type": "crowd"
+   },
+   "say": "Dreizehn neue Bürger! Wir sind jetzt hunderteinundvierzig Einwohner.",
+   "say_map": {
+    "dreizehn": "13",
+    "hunderteinundvierzig": "141"
+   }
+  },
+  {
+   "text": "Eure 34 Herzen bringen 340 Euro!",
+   "spec": {
+    "type": "money"
+   },
+   "say": "Eure vierunddreißig Herzen bringen dreihundertvierzig Euro!",
+   "say_map": {
+    "vierunddreißig": "34",
+    "dreihundertvierzig": "340"
+   }
+  },
+  {
+   "text": "Ein neuer Bürger wollte eine Gurke sein. Wunsch erfüllt!",
+   "spec": {
+    "type": "gurke"
+   }
+  },
+  {
+   "text": "Und wer sich einen Hund gewünscht hat: Hier ist er!",
+   "spec": {
+    "type": "hund",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Die Kanone kostet 500 Euro. Bleiben 270 Euro.",
+   "spec": {
+    "type": "money2"
+   },
+   "say": "Die Kanone kostet fünfhundert Euro. Bleiben zweihundertsiebzig Euro.",
+   "say_map": {
+    "fünfhundert": "500",
+    "zweihundertsiebzig": "270"
+   }
+  },
+  {
+   "text": "Also: Alle Mann an die Mauer, wir bauen!",
+   "spec": {
+    "type": "build",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Probeschuss! Drei, zwei, eins…",
+   "spec": {
+    "type": "countdown",
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "Feuer!",
+   "spec": {
+    "type": "fire"
+   }
+  },
+  {
+   "text": "Platsch! Knapp vor Squarehead Island.",
+   "spec": {
+    "type": "splash",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Doch dann treibt eine Flaschenpost an unseren Strand.",
+   "spec": {
+    "type": "bottle",
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "Die Eckköpfe schreiben: Lasst uns handeln statt schießen!",
+   "spec": {
+    "type": "letter"
+   }
+  },
+  {
+   "text": "Also: Handeln wir mit den Eckköpfen?",
+   "spec": {
+    "type": "trade",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Oder rüsten wir weiter auf, mit einer zweiten Kanone?",
+   "spec": {
+    "type": "arms"
+   }
+  },
+  {
+   "text": "Der Top-Kommentar entscheidet.",
+   "spec": {
+    "type": "comment"
+   }
+  }
+ ]
+}
