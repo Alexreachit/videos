@@ -287,3 +287,4 @@
 - Erkenntnis: ab heute läuft endlich wieder ein Short-Takt (PayPal heute, dann 11./12./13.11.) -> in den nächsten Läufen vergleichen, welche Story zündet.
 - Keine Korrekturen, nichts im Studio geändert, nichts hochgeladen. Keine neue Idee vorgeschlagen (4 Shorts in der Pipeline bis 13.11.).
 - Offen bei Alex: Ponzi-Thumbnail v2 OK?; Entwurf "846c1dee…" löschen?; nächste Short-Idee ab 14.11. (Fyre Festival | Bitcoin-Pizza | neu?).
+- 2026-11-10 22:50: Squarehead Island Tag 1 auf @onspotlkaai auf Wunsch von Alex gelöscht (0 Aufrufe nach ~6 h). 30 Tage wiederherstellbar über Aktivitätszentrum > Kürzlich gelöscht.
