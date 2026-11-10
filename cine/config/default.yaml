@@ -50,6 +50,7 @@ costs:
 qc:
   min_scene_score: 70       # darunter wird neu generiert (wenn Versuche/Budget übrig)
   max_black_ratio: 0.25
+  min_mean_luma: 22         # darunter erkennt man auf dem Handy nichts mehr
   max_freeze_ratio: 0.35
   min_sharpness: 12.0       # Laplace-Varianz (bei dunklen Szenen bewusst niedrig)
   max_internal_cuts: 0      # harte Schnitte innerhalb eines POV-Clips = Perspektivbruch

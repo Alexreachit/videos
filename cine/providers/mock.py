@@ -38,6 +38,52 @@ def _label(img: Image.Image, lines: list[str]) -> Image.Image:
     return img
 
 
+def _wrap(text: str, font, max_w: int, draw) -> list[str]:
+    out, line = [], ""
+    for word in text.split():
+        cand = (line + " " + word).strip()
+        if draw.textlength(cand, font=font) <= max_w:
+            line = cand
+        else:
+            out.append(line)
+            line = word
+    return out + ([line] if line else [])
+
+
+def _field(prompt: str, key: str) -> str:
+    for ln in prompt.splitlines():
+        if ln.startswith(key):
+            return ln[len(key):].strip().split(". Zombie look")[0]
+    return ""
+
+
+def _storyboard(w: int, h: int, req) -> Image.Image:
+    """Transparente Ebene mit Szenen-Beschreibung, damit der Testlauf zeigt, was passieren soll."""
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    big, small = _font(max(18, w // 14)), _font(max(12, w // 26))
+    pad = w // 16
+    d.rectangle([0, 0, w, int(h * 0.11)], fill=(0, 0, 0, 170))
+    d.text((pad, int(h * 0.025)), f"PLATZHALTER · Szene {req.scene_id} · {req.duration:.0f}s", font=small,
+           fill=(255, 200, 80, 255))
+    blocks = [("", _field(req.prompt, "Action:"), big, (255, 255, 255, 255)),
+              ("Kamera: ", _field(req.prompt, "Movement:"), small, (200, 215, 230, 255)),
+              ("Zombies: ", _field(req.prompt, "Zombies:"), small, (230, 170, 160, 255))]
+    y = int(h * 0.55)
+    lines = []
+    for label, text, f, col in blocks:
+        if text:
+            for i, ln in enumerate(_wrap(label + text, f, w - 2 * pad, d)[:5]):
+                lines.append((ln, f, col))
+            lines.append(("", small, col))
+    box_h = sum(int(getattr(f, "size", 14) * 1.3) for _, f, _ in lines) + pad
+    d.rectangle([0, y - pad // 2, w, min(h, y + box_h)], fill=(0, 0, 0, 160))
+    for ln, f, col in lines:
+        d.text((pad, y), ln, font=f, fill=col)
+        y += int(getattr(f, "size", 14) * 1.3)
+    return img
+
+
 class MockImage(ImageProvider):
     name = "mock"
 
@@ -68,8 +114,7 @@ class MockVideo(VideoProvider):
             start = np.asarray(Image.open(req.first_frame).convert("RGB").resize((w, h)), dtype=np.float32)
         yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
         tint = np.array([0.75, 0.9, 1.0], np.float32) * (0.8 + 0.4 * rng.random())
-        text = _label(Image.new("RGB", (w, h)), ["MOCK POV-CLIP", f"Szene {req.scene_id}", f"Versuch {req.attempt}"])
-        text = np.asarray(text, dtype=np.float32)
+        text = np.asarray(_storyboard(w, h, req), dtype=np.float32)
         out.parent.mkdir(parents=True, exist_ok=True)
         cmd = ["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{w}x{h}",
                "-r", str(fps), "-i", "-", "-f", "lavfi", "-t", str(req.duration), "-i",
@@ -87,12 +132,12 @@ class MockVideo(VideoProvider):
             d2 = ((xx - cx) ** 2 + (yy - cy) ** 2) / (r * r)
             cone = np.exp(-d2 * 1.6)[..., None]
             grain = rng.normal(0, 6, (h, w, 1)).astype(np.float32)
-            floor = 18 + 30 * (yy / h)[..., None] + 10 * np.sin((xx + t * 80) / 37)[..., None]
-            frame = floor * tint * (0.35 + 1.6 * cone) + grain
+            floor = 55 + 45 * (yy / h)[..., None] + 14 * np.sin((xx + t * 80) / 37)[..., None]
+            frame = floor * tint * (0.6 + 1.3 * cone) + grain
             if start is not None and t < 0.6:  # Anschluss an die Vorszene
                 a = 1 - t / 0.6
                 frame = frame * (1 - a) + start * a
-            frame = np.maximum(frame, text)
+            frame = np.where(text[..., 3:4] > 0, text[..., :3], frame)
             p.stdin.write(frame.clip(0, 255).astype(np.uint8).tobytes())
         p.stdin.close()
         err = p.stderr.read().decode(errors="ignore")

@@ -121,6 +121,8 @@ def check_clip(path: Path, duration: float, width: int, height: int, qcfg: dict)
          f"{m.get('black_ratio', 1):.0%} fast schwarze Bilder")
     flag("eingefroren", m.get("freeze_ratio", 1) <= qcfg["max_freeze_ratio"], 25,
          f"{m.get('freeze_ratio', 1):.0%} der Zeit kaum Bewegung (Standbild-Effekt)")
+    flag("helligkeit", m.get("mean_luma", 0) >= qcfg.get("min_mean_luma", 22), 35,
+         f"Bild fast schwarz (mittlere Helligkeit {m.get('mean_luma', 0):.0f}/255) – man erkennt nichts")
     flag("schaerfe", m.get("sharpness", 0) >= qcfg["min_sharpness"], 10,
          f"Bild sehr unscharf (Schärfe {m.get('sharpness', 0):.1f})")
     flag("pov_ohne_schnitt", len(m.get("internal_cuts", [])) <= qcfg["max_internal_cuts"], 30,

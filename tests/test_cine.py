@@ -224,3 +224,13 @@ def test_manual_free_path_handoff_then_ingest(short_ep, tmp_path):
     assert mock["status"] == "fertig"
     # Startbild der Folgeszene stammt aus dem Ende der Vorszene
     assert (prod.dir / "handoff" / "s02_startbild.jpg").exists()
+
+
+def test_qc_flags_nearly_black_clip(tmp_path):
+    """Fast schwarzes Bild mit kleinem hellem Fleck (früherer Platzhalter) darf nicht durchkommen."""
+    clip = tmp_path / "dark.mp4"
+    _ff("-f", "lavfi", "-i", "color=c=0x0c0e12:s=360x640:d=4:r=24", "-vf", "noise=alls=20:allf=t",
+        "-pix_fmt", "yuv420p", clip)
+    r = qc.check_clip(clip, 4, 360, 640, QCFG)
+    assert not r["checks"]["helligkeit"]
+    assert r["score"] < QCFG["min_scene_score"]
