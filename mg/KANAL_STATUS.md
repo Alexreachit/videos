@@ -258,3 +258,12 @@
 ## Lauf 2026-11-09 ~16:50 (Routine)
 - Abgebrochen: Chrome-Erweiterung nicht erreichbar (kein Browser verbunden – PC aus/Chrome zu). Keine Analyse, nichts im Studio geändert, nichts hochgeladen.
 - Offen bei Alex: Upload-OK ys_escobar / ys_hush / ys_blockbuster; Ponzi-Thumbnail-Test OK; Idee wählen (Fyre Festival | PayPal $92 Billiarden | Bitcoin-Pizza); Tippfehler "Why is everything so expensive?"; ri03/ri04/Nebelstein ep02 Upload; Entwurf "846c1dee…" löschen?
+
+## Lauf 2026-11-10 (Routine)
+- 10 Abos (unverändert). 48-h-Echtzeit: nur 34 Aufrufe (Ponzi 9, Bank-Langvideo 8, Pilot 6) -> Kanal bei ~15–20 Aufrufen/Tag. 28 T (12.10.–08.11.): 7.354 Aufrufe, 26,1 h, +7 Abos.
+- Shorts: Felicity 1.318 | Eiffel 1.259 | Ever Given 1.225 | SVB 1.124 | Milch iBQu_8S41dI 294 (steht) | $100: 286 | New vs Used 210 | Knight 57 | Binance 57 -> alle stehen, seit 04.11. kein neuer Short.
+- Langform: Ponzi pHR5fqQ5hC8 nach ~2 T 7 h: 20 Aufrufe, 9 einzelne Zuschauer, 1.359 Impressionen, CTR 0,6 %, Ø 3:42 von 6:16 (gute Bindung). Supermarkt pOQrpecPeRU: 1 Aufruf, 12 Impressionen. Mistakes 6GQUuQxR_Bs 18 | Bank KDOq1pF040k 1.173 | andere 5–10.
+- Länder 28 T: ID 13,9 % (Ø 0:20), DE 13,8 % (0:19), US 11,3 % (0:24), IN 4,4 %, PH 4,2 %, UK 2,6 %, CA 1,6 %, PL 1,2 %, AU 1,2 %.
+- Erkenntnis: Ponzi-Impressionen wachsen (1.174 -> 1.359), CTR bleibt 0,6 % -> Thumbnail ist der Engpass; ohne neuen Short praktisch keine Reichweite.
+- Keine Korrekturen, nichts im Studio geändert, nichts hochgeladen (keine freigegebene Idee, keine Upload-OKs).
+- Offen bei Alex: Upload-OK ys_escobar / ys_hush / ys_blockbuster; Ponzi-Thumbnail-Test OK; Idee wählen (Fyre Festival | PayPal $92 Billiarden | Bitcoin-Pizza); Tippfehler "Why is everything so expensive?"; ri03/ri04/Nebelstein ep02 Upload; Entwurf "846c1dee…" löschen?
