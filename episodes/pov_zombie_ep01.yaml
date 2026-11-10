@@ -1,5 +1,7 @@
 # POV-360-Episode im Stil der Referenz: ein Schauplatz = ein 360°-Panorama (gratis via Gemini).
 # Kamera: [t, yaw, pitch, fov, ease]  yaw 0 = Bildmitte des Panoramas, + = rechts; pitch + = hoch
+# Panorama garage_b2: Mitte (yaw 0) = Ausgang mit 2 Zombies, yaw ~-40/-30 = Einkaufswagen + Pfütze,
+# yaw ~-75 = Autos links, yaw ~+80 = Auto mit offener Tür rechts.
 id: pov_zombie_ep01
 title: "Ebene -2 · Teil 1"
 badge: "TEIL 1"
@@ -8,66 +10,67 @@ width: 720
 height: 1280
 fps: 30
 grade: night
+hands: panos/hands_phone.jpg   # Arme/Handy vor Grün (Gemini), wird freigestellt
 
 shots:
   - pano: panos/garage_b2.jpg
     duration: 7
     transition: blink
+    hands: [[0, 1.0], [7, 1.0]]
     camera:
-      - [0.0, -15, -35, 120]          # Blick nach unten, langsam aufwachen
-      - [1.6, -15, -5, 118]
-      - [3.4, 55, 0, 118]             # nach rechts umsehen
-      - [5.2, -60, 5, 118]            # nach links
-      - [7.0, 0, 0, 115]
+      - [0.0, -38, -42, 118]          # aufwachen, Blick auf Pfütze und Einkaufswagen
+      - [1.8, -38, -18, 118]
+      - [3.6, -80, 0, 116]            # links: Autos
+      - [5.6, 78, 0, 116]             # rechts: Auto mit offener Tür
+      - [7.0, 60, 0, 114]
     notify:
-      - {t: 2.2, until: 6.6, from: "UNBEKANNT", text: "Bleib ruhig. Mach kein Licht an."}
+      - {t: 2.4, until: 6.8, from: "UNBEKANNT", text: "Bleib ruhig. Mach kein Licht an."}
     subs:
-      - [0.3, 2.0, "Wo … bin ich?"]
-      - [4.0, 6.8, "Wer schreibt mir um diese Uhrzeit?"]
+      - [0.3, 2.2, "Wo … bin ich?"]
+      - [4.2, 6.9, "Wer schreibt mir um diese Uhrzeit?"]
     sfx:
       - [breath, 0.0, -10, 3.0]
-      - [heartbeat, 2.0, -12, 5.0]
-      - [click, 2.2, -8]
+      - [click, 2.4, -8]
+      - [heartbeat, 2.4, -14, 4.6]
 
   - pano: panos/garage_b2.jpg
     duration: 8
-    walk: 0.6
     camera:
-      - [0.0, 0, 0, 115]
-      - [4.0, 8, -2, 108, linear]    # langsam auf den Ausgang zu
-      - [5.2, 150, 3, 118, snap]     # Geräusch hinten -> Kopfruck
-      - [8.0, 165, 0, 104]
-    flicker: 0.6
-    flicker_at: [[5.4, 7.2]]
+      - [0.0, 60, 0, 114]
+      - [2.5, 2, 0, 108]              # langsam zur Mitte: Ausgang
+      - [5.0, 0, 2, 62]               # Blick fokussiert sich auf die zwei Gestalten
+      - [8.0, 0, 2, 52, linear]
+    hands: [[0, 1.0], [3.5, 1.0], [5.0, 0.35], [8.0, 0.35]]   # Handy sinkt, Blick klebt an den Zombies
+    flicker: 0.55
+    flicker_at: [[3.0, 4.6]]
     notify:
-      - {t: 0.6, until: 3.6, from: "UNBEKANNT", text: "Nicht umdrehen."}
+      - {t: 5.6, until: 8.0, from: "UNBEKANNT", text: "Die hören dich. Nicht bewegen."}
     subs:
-      - [3.8, 5.2, "Was war das?"]
-      - [6.0, 8.0, "Oh nein.", [255, 90, 90]]
+      - [0.4, 2.6, "Da ist der Ausgang …"]
+      - [5.0, 8.0, "Wer steht da?", [255, 90, 90], 0.66]   # unter die Zombies
     sfx:
-      - [footsteps, 0.2, -12, 4.5]
-      - [metal, 5.0, -4]
-      - [growl, 6.0, -2, 2.0]
-      - [heartbeat, 5.0, -4, 3.0]
+      - [heartbeat, 0.0, -8, 8.0]
+      - [growl, 5.2, -4, 2.2]
+      - [stinger, 4.9, -6]
 
   - pano: panos/garage_b2.jpg
     duration: 6
-    walk: 1.0
     camera:
-      - [0.0, 165, 0, 104]
-      - [0.5, 10, -3, 122, snap]      # weg und rennen
-      - [4.5, 0, -2, 112, linear]
-      - [6.0, 0, 2, 100]
+      - [0.0, 0, 2, 52]
+      - [0.5, 0, 0, 100, snap]        # Schreck: Blick weitet sich
+      - [2.4, 80, -4, 112, snap]      # Kopfruck nach rechts zum offenen Auto
+      - [6.0, 82, -6, 96]
+    hands: [[0, 0.35], [1.2, 1.0], [6.0, 1.0]]
     notify:
-      - {t: 3.2, until: 6.0, from: "UNBEKANNT", text: "Treppenhaus links. JETZT."}
+      - {t: 1.2, until: 6.0, from: "UNBEKANNT", text: "Das Auto rechts. Die Tür ist offen."}
     subs:
-      - [0.6, 2.4, "Lauf!"]
+      - [3.0, 6.0, "Ich muss mich entscheiden."]
     sfx:
-      - [footsteps, 0.4, -4, 5.4]
-      - [breath, 0.4, -8, 5.4]
-      - [growl, 2.5, -6, 1.6]
+      - [growl, 0.0, -6, 1.8]
+      - [click, 1.2, -8]
+      - [breath, 2.0, -8, 4.0]
 
 end_card:
   duration: 4
   question: "WAS WÜRDEST\nDU TUN?"
-  options: ["TREPPENHAUS LINKS", "ZURÜCK INS AUTO"]
+  options: ["AN DEN ZOMBIES VORBEI", "INS AUTO VERSTECKEN"]

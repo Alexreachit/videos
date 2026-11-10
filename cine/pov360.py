@@ -38,7 +38,7 @@ def font(size, bold=True):
 
 
 # ---------------------------------------------------------------- Overlays
-def draw_subtitle(d: ImageDraw.ImageDraw, w: int, h: int, text: str, color=(255, 255, 255)):
+def draw_subtitle(d: ImageDraw.ImageDraw, w: int, h: int, text: str, color=(255, 255, 255), y_rel: float = 0.44):
     f = font(int(w * 0.052))
     words, lines, line = text.split(), [], ""
     for wd in words:
@@ -49,7 +49,7 @@ def draw_subtitle(d: ImageDraw.ImageDraw, w: int, h: int, text: str, color=(255,
         else:
             line = c
     lines.append(line)
-    y = int(h * 0.60)
+    y = int(h * y_rel)   # pro Einstellung wählbar (sub_y), damit nichts Wichtiges verdeckt wird
     for ln in lines:
         tw = d.textlength(ln, font=f)
         d.text(((w - tw) / 2, y), ln, font=f, fill=color, stroke_width=max(3, w // 160), stroke_fill=(0, 0, 0))
@@ -59,15 +59,46 @@ def draw_subtitle(d: ImageDraw.ImageDraw, w: int, h: int, text: str, color=(255,
 def draw_notification(d: ImageDraw.ImageDraw, w: int, h: int, sender: str, text: str, app="NACHRICHTEN",
                       clock="23:47", slide: float = 1.0):
     m = int(w * 0.03)
-    bh = int(h * 0.085)
+    bh = int(h * 0.105)
     y0 = int(h * 0.065 - (1 - slide) * (bh + h * 0.08))
     d.rounded_rectangle([m, y0, w - m, y0 + bh], radius=int(w * 0.03), fill=(246, 246, 248), outline=(210, 210, 215))
-    fs, fb = font(int(w * 0.022)), font(int(w * 0.03))
+    fs, fb = font(int(w * 0.027)), font(int(w * 0.036))
     d.rounded_rectangle([m * 2, y0 + m * 0.7, m * 2 + w * 0.03, y0 + m * 0.7 + w * 0.03], radius=4, fill=(52, 199, 89))
     d.text((m * 2 + w * 0.045, y0 + m * 0.65), app, font=fs, fill=(110, 110, 115))
     d.text((w - m * 2 - d.textlength(clock, font=fs), y0 + m * 0.65), clock, font=fs, fill=(200, 60, 60))
     d.text((m * 2, y0 + bh * 0.38), sender, font=fb, fill=(20, 20, 20))
-    d.text((m * 2, y0 + bh * 0.66), text[:58], font=font(int(w * 0.026), False), fill=(30, 30, 30))
+    d.text((m * 2, y0 + bh * 0.64), text[:46], font=font(int(w * 0.033), False), fill=(30, 30, 30))
+
+
+def load_hands(path: Path, W: int, H: int) -> Image.Image:
+    """Hände/Ärmel/Handy vor Grün (Gemini) freistellen -> RGBA in Videogröße."""
+    img = cv2.imread(str(path))
+    if img is None:
+        raise FileNotFoundError(f"Hände-Bild fehlt: {path}")
+    hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    green = cv2.inRange(hsv, (40, 90, 70), (85, 255, 255))
+    green = cv2.morphologyEx(green, cv2.MORPH_OPEN, np.ones((3, 3), np.uint8))
+    alpha = 255 - green
+    alpha = cv2.GaussianBlur(cv2.erode(alpha, np.ones((3, 3), np.uint8)), (3, 3), 0)
+    # grünen Farbsaum an den Kanten entfernen
+    b, g, r = cv2.split(img)
+    g = np.minimum(g, np.maximum(b, r).astype(np.int16) + 20).clip(0, 255).astype(np.uint8)
+    rgba = cv2.merge([r, g, b, alpha])
+    pil = Image.fromarray(rgba, "RGBA")
+    scale = W / pil.width
+    pil = pil.resize((W, int(pil.height * scale)), Image.LANCZOS)
+    canvas = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    canvas.alpha_composite(pil, (0, H - pil.height))
+    return canvas
+
+
+def place_hands(img: Image.Image, hands: Image.Image, t: float, lt: float, walk: float, raise_: float):
+    """Hände mit Atem-/Lauf-Bewegung; raise_ 0..1 hebt das Handy ins Bild."""
+    import math
+    dy = 6 * math.sin(t * 1.3) + walk * 14 * abs(math.sin(t * 2 * math.pi * 0.95))
+    dx = 4 * math.sin(t * 0.8) + walk * 6 * math.sin(t * 2 * math.pi * 0.95)
+    off = int((1 - raise_) * img.height * 0.32)
+    img.alpha_composite(hands, (int(dx), int(dy) + off))
 
 
 def draw_badge(d: ImageDraw.ImageDraw, w: int, h: int, label: str):
@@ -118,7 +149,10 @@ def draw_choice(img: Image.Image, question: str, options: list[str], u: float):
 def grade(frame: np.ndarray, kind: str, t: float, flicker: float = 0.0) -> np.ndarray:
     f = frame.astype(np.float32)
     if kind == "night":
-        f = f * 1.04 + 4
+        # Schatten anheben, Mitten aufhellen – Cartoon-Linien bleiben, Bild wird nicht matschig
+        f = 255 * (f / 255) ** 0.78
+        mean = f.mean()
+        f = (f - mean) * 1.12 + mean + 6
     if flicker:
         f *= 1 - flicker * (0.5 + 0.5 * np.sign(np.sin(t * 37) * np.sin(t * 11.3)))
     h, w = f.shape[:2]
@@ -154,14 +188,18 @@ def render(ep_path: Path, out_dir: Path, preview: bool = False) -> Path:
             img = cv2.imread(str(path))
             if img is None:
                 raise FileNotFoundError(f"Panorama fehlt: {path}")
-            cams[p] = PanoCamera(fix_seam(img), W, H)
+            if img.shape[1] < 4096:   # weichere, sauberere Linien beim Heranzoomen
+                img = cv2.resize(img, (4096, 2048), interpolation=cv2.INTER_LANCZOS4)
+            cams[p] = PanoCamera(fix_seam(img, 32), W, H)
         return cams[p]
 
+    hands = load_hands(base / ep["hands"], W, H) if ep.get("hands") else None
     proc = subprocess.Popen(["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24",
                              "-s", f"{W}x{H}", "-r", str(fps), "-i", "-", "-c:v", "libx264", "-preset", "veryfast",
                              "-crf", "20", "-pix_fmt", "yuv420p", str(out_dir / "_video.mp4")], stdin=subprocess.PIPE)
     n = int(round(ep["total"] * fps))
     last = None
+    last_with_hands = None
     for i in range(n):
         t = i / fps
         shot = next((s for s in ep["shots"] if s["start"] <= t < s["start"] + s["duration"]), None)
@@ -181,6 +219,16 @@ def render(ep_path: Path, out_dir: Path, preview: bool = False) -> Path:
         else:
             frame = last
         img = Image.fromarray(frame).convert("RGBA")
+        if hands is not None and shot is not None:
+            lt = t - shot["start"]
+            r = shot.get("hands", 1.0)
+            if isinstance(r, list):   # [[t, wert], …] linear interpoliert
+                r = float(np.interp(lt, [a for a, _ in r], [b for _, b in r]))
+            if r > 0.01:
+                place_hands(img, hands, t, lt, float(shot.get("walk", 0)), float(r))
+            last_with_hands = img.copy()
+        elif shot is None and hands is not None and last_with_hands is not None:
+            img = last_with_hands.copy()
         layer = Image.new("RGBA", img.size, (0, 0, 0, 0))
         d = ImageDraw.Draw(layer)
         if shot is not None:
@@ -191,7 +239,7 @@ def render(ep_path: Path, out_dir: Path, preview: bool = False) -> Path:
                                       slide=min(1, (lt - nt["t"]) / 0.25))
             for st in shot.get("subs", []):
                 if st[0] <= lt < st[1]:
-                    draw_subtitle(d, W, H, st[2], tuple(st[3]) if len(st) > 3 else (255, 255, 255))
+                    draw_subtitle(d, W, H, st[2], tuple(st[3]) if len(st) > 3 else (255, 255, 255), float(st[4]) if len(st) > 4 else float(shot.get('sub_y', 0.44)))
         if ep.get("badge"):
             draw_badge(d, W, H, ep["badge"])
         img.alpha_composite(layer)
@@ -249,7 +297,7 @@ def review_sheets(video: Path, out_dir: Path, every: float = 1.0, cols: int = 6)
         p = out_dir / f"review_{k + 1:02d}.jpg"
         subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-ss", str(k * per * every), "-t", str(per * every),
                         "-i", video, "-vf", f"fps=1/{every},scale=200:-1,drawtext=fontfile={FONT_B}:"
-                        f"text='%{{pts\\:hms}}':x=4:y=4:fontsize=14:fontcolor=yellow:box=1:boxcolor=black@0.7,"
+                        f"text='%{{pts\\:hms}}':x=4:y=h-th-4:fontsize=14:fontcolor=yellow:box=1:boxcolor=black@0.7,"
                         f"setpts=PTS+{k * per * every}/TB,tile={cols}x3", "-frames:v", "1", p], check=True)
         sheets.append(p)
     return sheets
