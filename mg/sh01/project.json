@@ -7,7 +7,7 @@
  ],
  "fps": 30,
  "scene": "scene.html",
- "voice": "en-US-AndrewMultilingualNeural",
+ "voice": "elevenlabs:DiMario - Energetic and Fun (sh01/voice, build_voice.py)",
  "rate": "+16%",
  "lead": 0.05,
  "gap": 0.12,

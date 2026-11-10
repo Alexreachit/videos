@@ -18,7 +18,7 @@ A("Also, was bauen wir zuerst? Ein Feld oder ein Haus?", dict(type="choice"))
 A("Der Top-Kommentar entscheidet.", dict(type="comment"))
 P = dict(title="TikTok-Serie Squarehead Island – Tag 1 (Deutsch)",
          _sources="Fiktive Community-Serie (keine Faktenbehauptungen).",
-         size=[1080, 1920], fps=30, scene="scene.html", voice="en-US-AndrewMultilingualNeural", rate="+16%",
+         size=[1080, 1920], fps=30, scene="scene.html", voice="elevenlabs:DiMario - Energetic and Fun (sh01/voice, build_voice.py)", rate="+16%",
          lead=0.05, gap=0.12, tail=1.4, crf=20, music=dict(style="playful", bpm=150, gain=0.13, ambience=0.02, duck_ratio=2),
          sfx_vary=True, sfx_gain=0.55, lines=L)
 json.dump(P, open("project.json", "w"), indent=1, ensure_ascii=False)
