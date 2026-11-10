@@ -267,3 +267,8 @@
 - Erkenntnis: Ponzi-Impressionen wachsen (1.174 -> 1.359), CTR bleibt 0,6 % -> Thumbnail ist der Engpass; ohne neuen Short praktisch keine Reichweite.
 - Keine Korrekturen, nichts im Studio geändert, nichts hochgeladen (keine freigegebene Idee, keine Upload-OKs).
 - Offen bei Alex: Upload-OK ys_escobar / ys_hush / ys_blockbuster; Ponzi-Thumbnail-Test OK; Idee wählen (Fyre Festival | PayPal $92 Billiarden | Bitcoin-Pizza); Tippfehler "Why is everything so expensive?"; ri03/ri04/Nebelstein ep02 Upload; Entwurf "846c1dee…" löschen?
+- 2026-11-10 FREIGEGEBEN (Alex per Auswahl): ys_escobar, ys_hush, ys_blockbuster hochladen + planen (11./12./13.11. je 19:00); Ponzi-Thumbnail-Test (erst zeigen, dann tauschen); Tippfehler "Why is everything so expensive?" korrigieren; nächster Short = PayPal $92 Billiarden (2013).
+- 2026-11-10 ~14:00 erledigt (mit Alex' OK):
+  - Tippfehler-Beschreibung "Why is everything so expensive?" (FpWSJgRxXVg) korrigiert und gespeichert (nach Reload geprüft).
+  - Hochgeladen + geplant (GMT+1, "nicht für Kinder", Beschreibung mit Quellen): Escobar "Pablo Escobar Lost $2.1 Billion a Year to Rats and Rot 🐀" aLSXDVN9gvI -> 11.11. 19:00 | Hushpuppi "He Flexed on Instagram – the FBI Used It to Catch Him 📸" RuVMBqYTsv8 -> 12.11. 19:00 | Blockbuster "Blockbuster Could Have Bought Netflix for $50 Million 📼" 59iD318vA8A -> 13.11. 19:00.
+  - Technik: Studio-Buttons reagieren nicht auf JS-.click() (Speichern/Fertig) -> echte Klicks (computer) nutzen; Texte per execCommand('insertText') setzen funktioniert. Uploads auf <10 MB 2-Pass neu kodiert (Ziel 9,2 MB).
