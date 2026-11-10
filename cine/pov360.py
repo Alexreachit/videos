@@ -12,6 +12,7 @@ Aufruf:  python -m cine.pov360 episodes/pov_zombie_ep01.yaml [--preview]
 from __future__ import annotations
 
 import argparse
+import math
 import subprocess
 import sys
 from pathlib import Path
@@ -193,7 +194,28 @@ def render(ep_path: Path, out_dir: Path, preview: bool = False) -> Path:
             cams[p] = PanoCamera(fix_seam(img, 32), W, H)
         return cams[p]
 
-    hands = load_hands(base / ep["hands"], W, H) if ep.get("hands") else None
+    hands = None
+    rig = None
+    if ep.get("arms"):
+        from .arms import ArmRig, lock_screen, pose_at
+        rig = ArmRig(base / ep["arms"]["image"], W, H)
+        tracks = {"left": [], "right": []}
+        notes = []          # (start, end, sender, text) global
+        for sh in ep["shots"]:
+            for side in ("left", "right"):
+                for k in sh.get("arms", {}).get(side, []):
+                    tracks[side].append([sh["start"] + k[0]] + list(k[1:]))
+            for nt in sh.get("notify", []):
+                notes.append((sh["start"] + nt["t"], sh["start"] + nt.get("until", nt["t"] + 3), nt["from"], nt["text"]))
+        if ep.get("end_card"):
+            t_end = ep["total"] - ep["end_card"]["duration"]
+            tracks["right"].append([t_end, "unten", 0.6])
+            tracks["left"].append([t_end, "unten", 0.6])
+        screens = {}
+        sw, sh_ = 240, 480
+        date = ep.get("date", "Dienstag, 10. November")
+    elif ep.get("hands"):
+        hands = load_hands(base / ep["hands"], W, H)
     proc = subprocess.Popen(["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24",
                              "-s", f"{W}x{H}", "-r", str(fps), "-i", "-", "-c:v", "libx264", "-preset", "veryfast",
                              "-crf", "20", "-pix_fmt", "yuv420p", str(out_dir / "_video.mp4")], stdin=subprocess.PIPE)
@@ -219,7 +241,33 @@ def render(ep_path: Path, out_dir: Path, preview: bool = False) -> Path:
         else:
             frame = last
         img = Image.fromarray(frame).convert("RGBA")
-        if hands is not None and shot is not None:
+        if rig is not None:
+            tt = t
+            active = [nt for nt in notes if nt[0] <= tt < nt[1] + 0.6]
+            bright, content = 0.0, None
+            if active:
+                st0, en, snd, txt = active[-1]
+                bright = min(1.0, (tt - st0) / 0.15) * (1 - max(0.0, (tt - en) / 0.6))
+                key = (snd, txt)
+                if key not in screens:
+                    screens[key] = lock_screen(sw, sh_, ep.get("clock", "23:47"), date, key)
+                content = screens[key]
+            buzz = any(0 <= tt - nt[0] < 0.45 for nt in notes)
+            pr = pose_at(tracks["right"], "right", tt)
+            pl = pose_at(tracks["left"], "left", tt)
+            if pr is not None and buzz:      # Vibration beim Eingang der Nachricht
+                pr["dx"] += 3.5 * math.sin(tt * 160)
+                pr["wrist"] += 1.2 * math.sin(tt * 190)
+            walk = float(shot.get("walk", 0)) if shot is not None else 0.0
+            for pp in (pr, pl):
+                if pp is not None and walk:
+                    pp["dy"] += walk * 16 * abs(math.sin(tt * 2 * math.pi * 0.95))
+                    pp["rot"] += walk * 2.5 * math.sin(tt * 2 * math.pi * 0.95)
+            layer_arms = rig.render({"right": pr, "left": pl}, rig.hand_with_screen(content, bright))
+            a = layer_arms[..., 3:4]
+            comp = np.asarray(img.convert("RGB"), np.float32) * (1 - a) + layer_arms[..., :3] * a
+            img = Image.fromarray(comp.clip(0, 255).astype(np.uint8)).convert("RGBA")
+        elif hands is not None and shot is not None:
             lt = t - shot["start"]
             r = shot.get("hands", 1.0)
             if isinstance(r, list):   # [[t, wert], …] linear interpoliert
