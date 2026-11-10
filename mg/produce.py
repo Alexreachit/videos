@@ -537,6 +537,118 @@ def music_playful(dur, cfg):
     fade = np.minimum(tt / .3, 1) * np.clip((dur - tt) / 1.2, 0, 1)
     return y * fade
 
+def music_eras(dur, cfg):
+    """Musik wechselt mit der Epoche (spec.era): wonder=Spieluhr, rag=Ragtime-Klavier, sad=langsames Moll, jazz=Swing, lounge=Bossa,
+    space=Weltraum-Ambient, synth=80er-Synthwave, modern=Lo-Fi-Pop, cosmic=tiefe Drones. Alles selbst synthetisiert (rechtefrei)."""
+    n = int(SR * dur); out = np.zeros(n); rng = np.random.default_rng(11)
+    mid = lambda m: 440 * 2 ** ((m - 69) / 12)
+    def lp(x, k):
+        c = np.cumsum(np.insert(x, 0, 0)); z = (c[k:] - c[:-k]) / k; return np.concatenate([np.zeros(k - 1), z])
+    def note(f, l, kind="sine", a=.005, dec=3.0, g=1.0):
+        t = np.arange(int(l * SR)) / SR; e = np.minimum(t / a, 1) * np.exp(-t * dec)
+        if kind == "sine": w = np.sin(2 * np.pi * f * t)
+        elif kind == "bell": w = np.sin(2 * np.pi * f * t) + .4 * np.sin(2 * np.pi * f * 2.76 * t) * np.exp(-t * 4) + .2 * np.sin(2 * np.pi * f * 5.4 * t) * np.exp(-t * 8)
+        elif kind == "piano": w = sum(np.sin(2 * np.pi * f * h * t) * np.exp(-t * h * .8) / h ** 1.3 for h in range(1, 6))
+        elif kind == "saw": w = lp(sum(np.sin(2 * np.pi * f * h * t) / h for h in range(1, 9)), 6)
+        elif kind == "tri": w = sum(np.sin(2 * np.pi * f * h * t) * (-1) ** ((h - 1) // 2) / h ** 2 for h in (1, 3, 5, 7))
+        else: w = np.sin(2 * np.pi * f * t)
+        return w * e * g
+    def pad(fs, l, g=.1, kind="saw", att=.8):
+        t = np.arange(int(l * SR)) / SR; e = np.minimum(t / att, 1) * np.minimum((l - t) / .6, 1).clip(0, 1)
+        w = sum(lp(sum(np.sin(2 * np.pi * f * dt * h * t) / h for h in range(1, 6)), 25) for f in fs for dt in (1, 1.004)) if kind == "saw" else sum(np.sin(2 * np.pi * f * t) for f in fs)
+        return w * e * g / max(1, len(fs))
+    def kick(g=.6):
+        t = np.arange(int(.3 * SR)) / SR; f = 45 + 100 * np.exp(-t * 30); return np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-t * 9) * g
+    def noise(l, hp=6, dec=30, g=.1):
+        x = rng.normal(0, 1, int(l * SR)); x = x - lp(x, hp); return x * np.exp(-np.arange(len(x)) / SR * dec) * g
+    PROG = {"wonder": ([60, 64, 67], [57, 60, 64], [53, 57, 60], [55, 59, 62]), "rag": ([60, 64, 67], [57, 61, 64], [62, 65, 69], [55, 59, 65]),
+            "sad": ([57, 60, 64], [53, 57, 60], [55, 59, 62], [52, 55, 59]), "jazz": ([62, 65, 69, 72], [55, 59, 62, 65], [60, 64, 67, 71], [57, 60, 64, 67]),
+            "lounge": ([60, 64, 67, 71], [62, 65, 69, 72], [64, 67, 71, 74], [62, 65, 69, 72]), "space": ([57, 64, 69], [53, 60, 65], [55, 62, 67], [52, 59, 64]),
+            "synth": ([57, 60, 64], [53, 57, 60], [48, 52, 55], [55, 59, 62]), "modern": ([60, 64, 67], [55, 59, 62], [57, 60, 64], [53, 57, 60]),
+            "cosmic": ([45, 52, 57], [41, 48, 53], [43, 50, 55], [40, 47, 52])}
+    BPM = {"wonder": 84, "title": 84, "rag": 104, "sad": 64, "jazz": 124, "lounge": 96, "space": 70, "synth": 108, "modern": 98, "cosmic": 56}
+    def gen(era, a, b):
+        e2 = "wonder" if era == "title" else era; bpm = BPM.get(era, 90); beat = 60 / bpm; bar = beat * 4; pr = PROG[e2]
+        y = np.zeros(n)
+        def put(sig, t0, g=1.0):
+            i = int(t0 * SR); m = min(len(sig), n - i)
+            if m > 0 and i >= 0: y[i:i + m] += sig[:m] * g
+        b0 = int(a / bar); b1 = int(b / bar) + 2
+        for bi in range(b0, b1):
+            t0 = bi * bar; ch = pr[bi % 4]
+            if t0 > b + bar or t0 + bar < a - bar: continue
+            if e2 == "wonder":
+                put(pad([mid(m) for m in ch], bar + .4, .05, "sine", 1.2), t0)
+                for k in range(8): put(note(mid(ch[k % 3] + 12 + (12 if k in (3, 6) else 0)), 1.2, "bell", dec=2.5, g=.09), t0 + k * beat / 2)
+                put(note(mid(ch[0] - 24), bar, "sine", .02, 1.2, .18), t0)
+            elif e2 == "rag":
+                for k in range(4):
+                    if k % 2 == 0: put(note(mid(ch[0] - 24 + (7 if k == 2 else 0)), .5, "piano", dec=5, g=.22), t0 + k * beat)
+                    else:
+                        for m in ch: put(note(mid(m), .35, "piano", dec=7, g=.07), t0 + k * beat)
+                mel = [ch[2] + 12, ch[1] + 12, ch[2] + 12, ch[0] + 24, ch[2] + 12, ch[1] + 12, ch[0] + 12, ch[1] + 12]
+                for k, m in enumerate(mel):
+                    if rng.random() < .2: continue
+                    put(note(mid(m), .4, "piano", dec=6, g=.08), t0 + k * beat / 2 + (beat * .12 if k % 2 else 0))
+            elif e2 == "sad":
+                put(pad([mid(m) for m in ch], bar + .6, .07, "saw", 1.5), t0)
+                for k in (0, 1.5, 2.5): put(note(mid(ch[int(k) % 3] + 12), 2.0, "piano", dec=1.5, g=.07), t0 + k * beat)
+                put(note(mid(ch[0] - 24), bar, "sine", .05, .8, .16), t0)
+            elif e2 == "jazz":
+                walk = [ch[0] - 24, ch[1] - 24, ch[2] - 24, ch[1] - 23]
+                for k in range(4):
+                    put(note(mid(walk[k]), beat * .9, "sine", .01, 4, .3), t0 + k * beat)
+                    sw = beat * 2 / 3
+                    put(noise(.25, 3, 14, .05), t0 + k * beat); put(noise(.12, 3, 25, .035), t0 + k * beat + sw)
+                    if k % 2 == 1:
+                        put(noise(.2, 10, 18, .07), t0 + k * beat)
+                        for m in ch: put(note(mid(m), .3, "piano", dec=8, g=.05), t0 + k * beat)
+                for k in range(3):
+                    if rng.random() < .5: put(note(mid(ch[(k + bi) % 4] + 12), .5, "tri", dec=4, g=.08), t0 + (k * 1.33 + .66) * beat)
+            elif e2 == "lounge":
+                put(pad([mid(m) for m in ch], bar + .3, .045, "sine", .4), t0)
+                for k, off in enumerate((0, 1.5, 3, 4.5, 6)): put(noise(.04, 2, 60, .12), t0 + off * beat / 2 * 1.0)
+                for k in (0, 1.5, 2, 3.5): put(note(mid(ch[0] - 24 + (7 if k in (1.5, 3.5) else 0)), beat * .8, "sine", .01, 3, .25), t0 + k * beat)
+                for k in range(4): put(kick(.25), t0 + k * beat) if k % 2 == 0 else None
+                for k in (.5, 1.5, 2.5, 3.5): put(note(mid(ch[k.__int__() % len(ch)] + 12), .4, "tri", dec=5, g=.06), t0 + k * beat)
+            elif e2 == "space":
+                put(pad([mid(m) for m in ch], bar + 1.0, .06, "saw", 2.0), t0)
+                for k in range(6): put(note(mid(ch[k % 3] + 24), 1.5, "bell", dec=1.8, g=.05), t0 + k * beat * .66 + .1)
+            elif e2 == "synth":
+                put(pad([mid(m) for m in ch], bar + .2, .06, "saw", .3), t0)
+                for k in range(8): put(note(mid(ch[0] - 12), beat / 2 * .9, "saw", .005, 6, .16), t0 + k * beat / 2)
+                for k in range(4):
+                    put(kick(.5), t0 + k * beat)
+                    if k % 2: put(noise(.25, 6, 12, .16), t0 + k * beat)
+                    put(noise(.05, 2, 70, .05), t0 + k * beat + beat / 2)
+                for k in range(16):
+                    if (k + bi) % 3 == 0: put(note(mid(ch[k % 3] + 24), .2, "saw", .003, 12, .04), t0 + k * beat / 4)
+            elif e2 == "modern":
+                for k in range(4):
+                    if k in (0, 2): put(kick(.45), t0 + k * beat)
+                    else: put(noise(.2, 8, 16, .11), t0 + k * beat)
+                    put(noise(.04, 2, 80, .05), t0 + k * beat + beat / 2)
+                for k in range(8): put(note(mid(ch[k % 3] + 12), .5, "tri", dec=4, g=.07), t0 + k * beat / 2)
+                put(note(mid(ch[0] - 24), bar * .9, "sine", .02, 1.5, .22), t0)
+                put(pad([mid(m) for m in ch], bar + .2, .03, "saw", .6), t0)
+            elif e2 == "cosmic":
+                put(pad([mid(m) for m in ch], bar + 2.0, .08, "saw", 3.0), t0)
+                put(note(mid(ch[0] - 12), bar + 1, "sine", 1.5, .3, .18), t0)
+                if bi % 2 == 0: put(note(mid(ch[2] + 24), 3.0, "bell", dec=.9, g=.04), t0 + beat)
+        ia, ib = max(0, int((a - 1.2) * SR)), min(n, int((b + 1.2) * SR)); w = np.zeros(n)
+        tt = np.arange(ia, ib) / SR; w[ia:ib] = np.clip((tt - (a - 1.2)) / 1.2, 0, 1) * np.clip(((b + 1.2) - tt) / 1.2, 0, 1)
+        return y * w
+    spans = cfg.get("_eras") or [(0, dur, "wonder")]
+    merged = []
+    for a, b, e in spans:
+        if merged and merged[-1][2] == e: merged[-1] = (merged[-1][0], b, e)
+        else: merged.append((a, b, e))
+    LV = {"sad": .8, "cosmic": .9, "space": 1.0, "jazz": .85, "rag": 1.0, "synth": .7, "modern": .9, "lounge": .85, "wonder": 1.0, "title": 1.0}
+    for a, b, e in merged: out += gen(e, max(0, a), min(dur, b)) * LV.get(e, 1)
+    tt = np.arange(n) / SR; out *= np.minimum(tt / 1.5, 1) * np.clip((dur - tt) / 2.5, 0, 1)
+    pk = np.max(np.abs(out)) or 1; return out / pk * .9
+
+
 def music_bed(dur, cfg):
     """Selbst synthetisiertes Musikbett: Pad-Akkorde, Bass, Kick/Hi-Hat, Pluck-Arpeggio. Frei von Rechten."""
     if cfg.get("style") == "playful": return music_playful(dur, cfg)
@@ -546,6 +658,7 @@ def music_bed(dur, cfg):
     if cfg.get("style") == "tt": return music_tt(dur, cfg)
     if cfg.get("style") == "adaptive": return music_adaptive(dur, cfg)
     if cfg.get("style") == "soft": return music_soft(dur, cfg)
+    if cfg.get("style") == "eras": return music_eras(dur, cfg)
     bpm = cfg.get("bpm", 100); mood = cfg.get("mood", "minor"); energy = cfg.get("energy", .7)
     n = int(SR * dur); y = np.zeros(n); tt = np.arange(n) / SR; beat = 60 / bpm; bar = beat * 4
     rng = np.random.default_rng(7)
@@ -781,6 +894,9 @@ def main():
         mood = (l.get("spec") or {}).get("mood", mood)
         MUSIC["_moods"].append((l["start"], lines[j+1]["start"] if j + 1 < len(lines) else total, mood))
     MUSIC["_cuts"] = [l["start"] for l in lines if (l.get("spec") or {}).get("cut")]
+    MUSIC["_eras"] = []   # spec.era -> Musikstil je Abschnitt (style "eras")
+    for j, l in enumerate(lines):
+        MUSIC["_eras"].append((l["start"] - (.3 if j else 0), lines[j+1]["start"] - .3 if j + 1 < len(lines) else total, (l.get("spec") or {}).get("era", "wonder")))
     tl = {"lines": [{k: v for k, v in l.items() if k != "file"} for l in lines], "dur": total}
     if "--limit" in sys.argv:  # nur die ersten N Sekunden rendern (Test)
         lim = float(sys.argv[sys.argv.index("--limit") + 1]); total = min(total, lim); tl["dur"] = total
