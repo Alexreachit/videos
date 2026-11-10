@@ -288,3 +288,4 @@
 - Keine Korrekturen, nichts im Studio geändert, nichts hochgeladen. Keine neue Idee vorgeschlagen (4 Shorts in der Pipeline bis 13.11.).
 - Offen bei Alex: Ponzi-Thumbnail v2 OK?; Entwurf "846c1dee…" löschen?; nächste Short-Idee ab 14.11. (Fyre Festival | Bitcoin-Pizza | neu?).
 - 2026-11-10 22:50: Squarehead Island Tag 1 auf @onspotlkaai auf Wunsch von Alex gelöscht (0 Aufrufe nach ~6 h). 30 Tage wiederherstellbar über Aktivitätszentrum > Kürzlich gelöscht.
+- 2026-11-11 00:30: YouTube-Langvideo 'Your Life If You Never Aged' (mg/yt_neverage15, 6:30, flaches 2D, Musik je Epoche) fertig, wartet auf Alex' OK zum Upload.
