@@ -277,3 +277,13 @@
 - 2026-11-10 ~15:30: ys_paypal fertig gerendert (mg-batch Run 42830808398, 23,4 s, Ø -19,9 dB / max -3,7 dB, Loop erster = letzter Frame geprüft). Hochgeladen als PRIVAT: "PayPal Accidentally Gave a Man $92 Quadrillion 💸" (ID cQmlXub5TcM), Beschreibung mit CNN/CSM/Guinness, nicht für Kinder. Wartet auf Alex' OK für Termin (Vorschlag 14.11. 19:00, nach Blockbuster).
 - Ponzi-Thumbnail-Vorschlag v2 (Szene "street_crowd" aus dem Video, Menschenschlange vor Securities Exchange Co., Text nur "50% IN 45 DAYS?") an Alex geschickt – Tausch erst nach seinem OK.
 - 2026-11-10 16:39: Squarehead Island Tag 1 (mg/sh01, ElevenLabs DiMario, Melone, Feld/Haus) auf TikTok-Account @onspotlkaai ("Viereckkopf", PC) veröffentlicht, öffentlich. Profilbild mg/sh01/pb.
+
+## Lauf 2026-11-10 ~Abend (Routine)
+- 10 Abos (unverändert). 48-h-Echtzeit: 25 Aufrufe (Pilot 6, Bank 5, Ponzi 4). 28 T (13.10.–09.11.): 7.352 Aufrufe, 26,1 h, +7 Abos (Tageswerte noch bis 09.11.; Länder/Engaged unverändert ggü. Mittag).
+- PayPal-Short cQmlXub5TcM ist inzwischen ÖFFENTLICH (von Alex/anderer Session, nicht von dieser Routine) – 3 Aufrufe nach ~38 Min, Bindungsdaten noch nicht da.
+- Geplant: Escobar aLSXDVN9gvI 11.11. 19:00 | Hushpuppi RuVMBqYTsv8 12.11. 19:00 | Blockbuster 59iD318vA8A 13.11. 19:00 (Status in Studio geprüft: "Geplant").
+- Shorts sonst unverändert: Felicity 1.318 | Eiffel 1.259 | Ever Given 1.225 | SVB 1.124 | Milch 294 | Knight 57 | Binance 57.
+- Langform: Ponzi pHR5fqQ5hC8 20 Aufrufe, 9 Zuschauer, 1.367 Impressionen, CTR 0,6 % (Thumbnail-Tausch wartet auf Alex' OK) | Supermarkt 1 | Mistakes 18 | Bank 1.173.
+- Erkenntnis: ab heute läuft endlich wieder ein Short-Takt (PayPal heute, dann 11./12./13.11.) -> in den nächsten Läufen vergleichen, welche Story zündet.
+- Keine Korrekturen, nichts im Studio geändert, nichts hochgeladen. Keine neue Idee vorgeschlagen (4 Shorts in der Pipeline bis 13.11.).
+- Offen bei Alex: Ponzi-Thumbnail v2 OK?; Entwurf "846c1dee…" löschen?; nächste Short-Idee ab 14.11. (Fyre Festival | Bitcoin-Pizza | neu?).
