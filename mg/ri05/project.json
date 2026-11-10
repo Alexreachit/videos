@@ -107,6 +107,10 @@
    "spec": {
     "type": "countdown",
     "mood": "calm"
+   },
+   "say": "Probe-Schuss! Drei, zwei, eins…",
+   "say_map": {
+    "probe-schuss": "Probeschuss"
    }
   },
   {
@@ -116,7 +120,7 @@
    }
   },
   {
-   "text": "Platsch! Knapp vor Squarehead Island.",
+   "text": "Platsch! Der Schuss ging daneben.",
    "spec": {
     "type": "splash",
     "mood": "bright"
@@ -140,6 +144,10 @@
    "spec": {
     "type": "trade",
     "mood": "bright"
+   },
+   "say": "Also: Handeln wir mit den Eck-Köpfen?",
+   "say_map": {
+    "eck-köpfen": "Eckköpfen"
    }
   },
   {

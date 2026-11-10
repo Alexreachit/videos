@@ -375,7 +375,7 @@ const Lt = i => MG.L(i);
 function wt(i, re) { const l = Lt(i); if (!l.words) return l.start; for (const x of l.words) if (re.test(x[0])) return l.start + x[1]; return l.start }
 const BL = [-1.25, 0, 3.5]; BL[1] = iH(BL[0], BL[2]);
 const tFire = () => wt(10, /feuer/i);
-const tSplash = () => Math.max(tFire() + 1.0, wt(11, /platsch/i));
+const tSplash = () => Math.max(tFire() + 1.0, wt(11, /platsch|daneben/i));
 const tBuild0 = () => Lt(8).start + .2, tBuild1 = () => Lt(8).end + .1;
 const buildU = t => cl((t - tBuild0()) / (tBuild1() - tBuild0()), 0, 1);
 function camKeys() {

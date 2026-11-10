@@ -11,7 +11,7 @@ if os.path.exists(os.path.join(pre, "words.json")):
     for f in os.listdir(pre): shutil.copy(os.path.join(pre, f), out)
     print("Stimme aus", pre, "uebernommen"); sys.exit(0)
 for i, ln in enumerate(cfg["lines"]):
-    words = produce.tts_andrew(ln["text"], f"{out}/{i:02d}.mp3", cfg["voice"], ln.get("rate", cfg["rate"]),
-                               pitch=ln.get("pitch", "+0Hz"), volume=ln.get("volume", "+0%"))
+    words = produce.tts_andrew(ln.get("say", ln["text"]), f"{out}/{i:02d}.mp3", cfg["voice"], ln.get("rate", cfg["rate"]),   # "say" = Aussprache (Zahlen als Woerter)
+                               pitch=ln.get("pitch", "+0Hz"), volume=ln.get("volume", "+0%"), lang=cfg.get("lang"))
     W.append([[w, a, b] for w, a, b in words]); print(i, ln["text"], flush=True)
 json.dump(W, open(f"{out}/words.json", "w"), ensure_ascii=False)
