@@ -1,0 +1,18 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:P;src:url(../fonts/Poppins-Bold.ttf)}
+html,body{margin:0;width:1080px;height:1080px;overflow:hidden}
+#c{position:absolute;inset:0;background:radial-gradient(circle at 50% 30%,#ffe6a8 0,#ffc35c 28%,#ff8a4c 62%,#e8573a 100%)}
+</style></head><body><div id="c"></div>
+<svg width="1080" height="1080" viewBox="0 0 1080 1080" style="position:absolute;inset:0">
+ <rect x="0" y="690" width="1080" height="390" fill="#2fa8e0"/>
+ <path d="M0,700 Q135,680 270,700 T540,700 T810,700 T1080,700 V730 H0Z" fill="#7fd3f5"/>
+ <rect x="150" y="640" width="780" height="300" rx="90" fill="#f4dca0" stroke="#fff" stroke-width="14"/>
+ <rect x="200" y="660" width="680" height="230" rx="70" fill="#6cbf55"/>
+ <g transform="translate(760,250)"><rect x="0" y="0" width="14" height="440" rx="7" fill="#e9e2d4" stroke="#232838" stroke-width="6"/><circle cx="7" cy="-6" r="18" fill="#ffd166" stroke="#232838" stroke-width="6"/>
+  <path d="M14,20 C90,0 140,50 230,22 L230,170 C140,198 90,148 14,168 Z" fill="#d4553a" stroke="#232838" stroke-width="7" stroke-linejoin="round"/>
+  <rect x="78" y="48" width="96" height="96" rx="20" fill="#f7e4b5" stroke="#232838" stroke-width="7"/><circle cx="108" cy="88" r="7" fill="#232838"/><circle cx="144" cy="88" r="7" fill="#232838"/><path d="M106,112 Q126,128 146,112" stroke="#232838" stroke-width="6" fill="none" stroke-linecap="round"/></g>
+</svg>
+<div id="sam" style="position:absolute;left:250px;top:150px"></div>
+<script src="../../lib/samrig.js"></script>
+<script>document.getElementById('sam').innerHTML = MG_SAM.svg({square:1, sw:'#d4553a', swd:'#a83f29', pa:'#3c4a5c', w:480, mouth:'grin', talk:.9, armR:[2.6,.3], armL:[.3,.2]});</script>
+</body></html>
