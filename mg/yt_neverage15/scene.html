@@ -387,7 +387,7 @@ SH.power=(t,i)=>{const u=U(t,i),d=D(i);let h='';const ta=WT(i,/three/i,.4),tb=WT
  return {h,cam:{z:1}}};
 SH.lesson=(t,i)=>{const u=U(t,i);let h='';const items=[['💡 GENIUS IDEA',/genius/i],['🏢 BIG COMPANY',/company/i]];
  items.forEach(([s,re],k)=>{const a=WT(i,re,.2+k*.3);h+=tag(560,360+k*170,s+` <span style="color:${C.red}">✕</span>`,{bg:'#fff',col:C.ink,size:48,s:pop(t,a),r:k?3:-3})});
- const tt=WT(i,/thing/i,.95);h+=icon(1360,480,200,`<div style="width:220px">${IC.clock(t*2)}</div>`,{s:pop(t,tt,.45),bg:C.green});h+=big(1360,770,'TIME',{size:110,col:C.ink,s:pop(t,tt+.15)});
+ const tt=WT(i,/thing/i,.95);h+=icon(1360,440,170,`<div style="width:220px">${IC.clock(t*2)}</div>`,{s:pop(t,tt,.45),bg:C.green});h+=big(1360,800,'TIME',{size:110,col:C.ink,s:pop(t,tt+.15)});
  return {h,cam:{z:1.02}}};
 SH.compound=(t,i)=>{const u=U(t,i),d=D(i);let h='';const tl=WT(i,/longest/i,.4),ts=WT(i,/starting/i,.8);
  const p=cl(u,.2,d-.2),r=40+p*p*260,x=lerp(260,1500,p),y=880-r;
@@ -429,7 +429,7 @@ SH.hotearth=(t,i)=>{const u=U(t,i),d=D(i);let h='';const p=ez(cl(u,.4,d-.2));
  return {h,cam:{z:1+u*.01}}};
 SH.redgiant=(t,i)=>{const u=U(t,i),d=D(i);let h='';const p=ez(cl(u,.3,d-.1));
  h+=sunEarth(t,lerp(320,1100,p),'#e8483c','#b8642e');h+=big(960,140,'~5 BILLION YEARS',{size:80,col:'#fff',s:pop(t,S(i)+.2)});
- h+=tag(960,960,'RED GIANT',{bg:C.ink,size:50,s:pop(t,WT(i,/swells/i,.9))});
+ h+=tag(960,840,'RED GIANT',{bg:C.ink,size:50,s:pop(t,WT(i,/swells/i,.9))});
  return {h,cam:{z:1+u*.01,x:Math.sin(t*30)*3*p}}};
 SH.alone=(t,i)=>{const u=U(t,i);let h='';h+=samAt(960,700+Math.sin(t*1.2)*20,320,{mouth:'hmm',talk:talkS(t,i),armL:[1.2,.4],armR:[1.0,.5],tilt:Math.sin(t*.8)*.15,legL:.3,legR:-.2},t);
  h+=tag(960,880,'AGE: 25',{bg:'#fff',col:C.ink,size:50,s:pop(t,WT(i,/twenty/i,.7))});
@@ -442,7 +442,7 @@ SH.deal=(t,i)=>{const u=U(t,i);let h='';const tm=WT(i,/millions/i,.25),to=WT(i,/
 SH.outro=(t,i)=>{const u=U(t,i);let h='';const tc=WT(i,/comments/i,.3),ts=WT(i,/stories/i,.9);
  h+=samAt(620,1000,380,{mouth:'grin',talk:talkS(t,i),armR:[2.3+Math.sin(t*6)*.2,.3]},t);
  h+=at(1300,380,`<div style="width:720px;padding:30px 36px;border-radius:26px;background:#fff;border:7px solid ${C.ink};font:700 46px P;color:${C.ink}">💬 Would you take the deal?<div style="font:500 32px P;color:#6b7280;margin-top:8px">Tell me in the comments 👇</div></div>`,{s:pop(t,tc)});
- const pr=t>ts+.5;h+=at(1300,700,`<div style="padding:26px 70px;border-radius:20px;background:${pr?'#9aa3b5':C.red};font:700 64px P;color:#fff;letter-spacing:2px">${pr?'SUBSCRIBED ✓':'SUBSCRIBE'}</div>`,{s:pop(t,ts)*(pr?1:1+.05*Math.sin(t*8))});
+ const pr=t>ts+.5;h+=at(1300,700,`<div style="padding:26px 70px;border-radius:20px;background:${pr?'#9aa3b5':C.red};font:700 64px P;color:#fff;letter-spacing:2px;white-space:nowrap">${pr?'SUBSCRIBED ✓':'SUBSCRIBE'}</div>`,{s:pop(t,ts)*(pr?1:1+.05*Math.sin(t*8))});
  return {h,cam:{z:1}}};
 // ---------- Engine ----------
 function lineAt(t){let k=0;for(let j=0;j<TL.lines.length;j++)if(t>=S(j)-.08)k=j;return k}
