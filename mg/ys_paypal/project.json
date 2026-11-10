@@ -1,0 +1,76 @@
+{
+ "title": "Short: Why you should never panic over your bank statement (PayPal $92 quadrillion)",
+ "_sources": "Short \"Why you should never panic over your bank statement\" (PayPal $92 quadrillion error, 2013) -> project.json\nSources (checked 2026-11-10):\nCNN 17 Jul 2013 \"PayPal accidentally credits man $92 quadrillion\": Pennsylvania PR executive Chris Reynolds opened his June PayPal\n  e-mail statement, balance $92,233,720,368,547,800; logged in online -> balance $0; would have been \"more than a million times richer\"\n  than Carlos Slim ($67 billion); PayPal: \"This is obviously an error\", offered to donate to a cause of his choice; Reynolds: would have\n  \"paid down the national debt\".\nChristian Science Monitor 17 Jul 2013: Chris Reynolds (56) from Media, Pa.; first thought he OWED $92 quadrillion (\"5,411 times the\n  national debt\") until friends pointed out it said credit; PayPal apologized and offered a donation to a nonprofit of his choice;\n  maybe buy the Philadelphia Phillies.\nGuinness World Records \"Largest accidental banking credit\": June 2013, $92,233,720,368,547,800, ~1.2 million times richer than\n  Carlos Slim (world's richest man per Forbes); error rectified moments later.",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+16%",
+ "lead": 0.05,
+ "gap": 0.08,
+ "tail": 0.1,
+ "crf": 20,
+ "music": {
+  "style": "suspense",
+  "bpm": 140,
+  "gain": 0.24,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.45,
+ "lines": [
+  {
+   "text": "Why you should never panic over your bank statement.",
+   "spec": {
+    "type": "hero"
+   }
+  },
+  {
+   "text": "In twenty thirteen, Chris Reynolds opened his PayPal statement.",
+   "spec": {
+    "type": "mail"
+   }
+  },
+  {
+   "text": "His balance said ninety-two quadrillion dollars.",
+   "spec": {
+    "type": "count",
+    "cut": true
+   }
+  },
+  {
+   "text": "That's over a million times richer than the richest man alive.",
+   "spec": {
+    "type": "compare"
+   }
+  },
+  {
+   "text": "At first, he thought he owed it.",
+   "spec": {
+    "type": "panic"
+   }
+  },
+  {
+   "text": "Then he logged in, and the balance was zero.",
+   "spec": {
+    "type": "zero"
+   }
+  },
+  {
+   "text": "PayPal apologized, and offered to donate to a charity of his choice.",
+   "spec": {
+    "type": "sorry"
+   }
+  },
+  {
+   "text": "What would you have bought first?",
+   "spec": {
+    "type": "hero",
+    "choice": true
+   }
+  }
+ ]
+}
