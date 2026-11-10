@@ -69,7 +69,7 @@
    }
   },
   {
-   "text": "Unsere Staatskasse: zwanzig Euro... und eine Kokosnuss.",
+   "text": "Unsere Staatskasse: zwanzig Euro... und eine Melone.",
    "spec": {
     "type": "treasury"
    }
@@ -81,7 +81,7 @@
    }
   },
   {
-   "text": "Also, was bauen wir zuerst? Einen Hafen oder eine Bank?",
+   "text": "Also, was bauen wir zuerst? Ein Feld oder ein Haus?",
    "spec": {
     "type": "choice"
    }
