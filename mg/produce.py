@@ -769,6 +769,7 @@ def main():
             add = (s1 - s0) * (f - 1)
             words = [(ww, a2 + (add if a2 >= s1 else 0), b2 + (add if b2 > s0 else 0)) for ww, a2, b2 in words]
         d = dur_of(mp3)
+        if "--voice-from" in sys.argv and (vd / "durs.json").exists(): d = json.load(open(vd / "durs.json"))[i]   # feste Laengen (ffprobe-Versionen messen MP3s unterschiedlich -> Teil-Jobs waeren uneins)
         start = max(t + ln.get("pause", 0), ln.get("min_start", 0))  # pause = dramatische Pause vor der Zeile
         lines.append({"text": ln["text"], "start": round(start, 3), "end": round(start + d, 3), "file": str(mp3),
                       "spec": ln.get("spec"), "afx": ln.get("afx"), "words": [[w, round(a, 3), round(b, 3)] for w, a, b in words]})

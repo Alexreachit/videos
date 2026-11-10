@@ -11,7 +11,7 @@ sil = [(a, b) for a, b in runs(q) if (b - a) / SR > .6 and a > 0 and b < len(x)]
 sil = sorted(sorted(sil, key=lambda r: r[1] - r[0], reverse=True)[:N - 1])
 assert len(sil) == N - 1, len(sil)
 bounds = [0] + [(a + b) // 2 for a, b in sil] + [len(x)]
-os.makedirs("voice", exist_ok=True); W = []
+os.makedirs("voice", exist_ok=True); W = []; DUR = []
 for i in range(N):
     c = x[bounds[i]:bounds[i + 1]]; v = np.where(env[bounds[i]:bounds[i + 1]] >= .006)[0]
     a, b = max(0, v[0] - int(.03 * SR)), min(len(c), v[-1] + int(.08 * SR)); c = c[a:b]
@@ -24,5 +24,5 @@ for i in range(N):
     cum = np.cumsum(e2) / SR; V = cum[-1]; tot = sum(wts); acc = 0; out = []
     tm = lambda vt: float(np.searchsorted(cum, min(vt, V - 1e-4))) / SR
     for w, k in zip(words, wts): t0 = tm(V * acc / tot); acc += k; t1 = tm(V * acc / tot); out.append([w, round(t0, 3), round(t0 + (t1 - t0) * .92, 3)])
-    W.append(out); print(i, round(len(c) / SR, 2), lines[i])
-json.dump(W, open("voice/words.json", "w"), ensure_ascii=False)
+    W.append(out); DUR.append(round(len(c) / SR, 4)); print(i, round(len(c) / SR, 2), lines[i])
+json.dump(W, open("voice/words.json", "w"), ensure_ascii=False); json.dump(DUR, open("voice/durs.json", "w"))
