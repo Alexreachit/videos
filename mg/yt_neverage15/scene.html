@@ -101,7 +101,7 @@ SH.wake=(t,i)=>{const u=U(t,i),d=D(i),blur=Math.max(0,22-u*9);
  h+=`<div class=ab style="left:0;top:0;width:${W}px;height:${H}px;background:radial-gradient(ellipse at 50% 40%,#fff ${(1-ez(cl(u,0,1.5)))*60}%,transparent 70%)"></div>`;
  h+=hand(780,980-ez(cl(u,.8,1.6))*260+Math.sin(t*3)*8,1,-8)+hand(1140,1000-ez(cl(u,1.1,1.9))*260+Math.cos(t*3)*8,1,8)+`</div>`;
  const tz=WT(i,/stop/i,.8);
- h+=big(960,330,'1900',{size:150,col:C.ink,op:ez(cl(u,1.6,2.1))*fo(t,tz-.3,tz),s:.9+.1*ez(cl(u,1.6,2.1))});
+ h+=big(960,330,'DAY 1',{size:150,col:C.ink,op:ez(cl(u,1.6,2.1))*fo(t,tz-.3,tz),s:.9+.1*ez(cl(u,1.6,2.1))});
  if(t>tz-.1){const k=pop(t,tz-.1,.5);h+=at(960,420,svg(520,120,`<rect x=6 y=6 width=508 height=108 rx=54 fill="${C.ink}"/><circle cx=70 cy=60 r=30 fill="none" stroke="#fff" stroke-width="6"/><path d="M70,60 L70,40" stroke="#fff" stroke-width=6 stroke-linecap="round"/><rect x=56 y=26 width=28 height=8 rx=3 fill="#fff"/><text x=290 y=78 text-anchor=middle font-family=P font-weight=700 font-size=46 fill="#fff">AGING: OFF</text><path d="M440,40 L480,80 M480,40 L440,80" stroke="${C.red}" stroke-width=10 stroke-linecap="round"/>`),{s:k})}
  return {h,cam:{z:1+u*.012}}};
 SH.mirror=(t,i)=>{const u=U(t,i);let h='';
@@ -231,14 +231,14 @@ SH.wait=(t,i)=>{const u=U(t,i),d=D(i);let h='';const tw=WT(i,/wait/i,.9),ts=WT(i
  h+=jar(1500,700,1,.03);h+=icon(400,380,110,`<div style="width:130px">${IC.clock(t>tw?t*4:t,'#fff')}</div>`,{s:pop(t,ts),bg:C.ink});
  h+=tag(400,560,'SUPERPOWER: TIME',{bg:C.gold,col:C.ink,size:36,s:pop(t,ts+.2)});
  return {h,cam:{z:1+u*.01}}};
-SH.learn=(t,i)=>{const u=U(t,i);let h='';const ws=[['Bonjour !',/french/i,C.blue],['¡Hola!',/spanish/i,C.red],['Konnichiwa!',/japanese/i,C.pink]];
+SH.learn=(t,i)=>{const u=U(t,i);let h='';const ws=[['Bonjour !',/french/i,C.blue],['¡Hola!',/spanish/i,C.red],['Konnichiwa!',/spanish/i,C.pink]];
  h+=samAt(960,980,360,{mouth:'smile',talk:talkS(t,i),armR:[1.4,.8],look:[2,-2]},t);
- ws.forEach(([s,re,c],k)=>{const a=WT(i,re,.4+k*.2);h+=at(480+k*480,330+(k%2)*60,`<div style="padding:22px 40px;border-radius:40px;background:#fff;border:6px solid ${C.ink};font:700 60px P;color:${c};position:relative">${s}<div class=ab style="left:60px;bottom:-30px;width:0;height:0;border:16px solid transparent;border-top:22px solid ${C.ink}"></div></div>`,{s:pop(t,a),r:(k-1)*4})});
+ ws.forEach(([s,re,c],k)=>{const a=WT(i,re,.4+k*.2)+(k==2?.9:0);h+=at(480+k*480,330+(k%2)*60,`<div style="padding:22px 40px;border-radius:40px;background:#fff;border:6px solid ${C.ink};font:700 60px P;color:${c};position:relative">${s}<div class=ab style="left:60px;bottom:-30px;width:0;height:0;border:16px solid transparent;border-top:22px solid ${C.ink}"></div></div>`,{s:pop(t,a),r:(k-1)*4})});
  return {h,cam:{z:1.02+u*.01}}};
 SH.skills=(t,i)=>{const u=U(t,i);let h='';
  const items=[[/piano/i,'🎹'],[/guitar/i,'🎸'],[/cook/i,'🍳'],[/book/i,'📚']];
  items.forEach(([re,e],k)=>{const a=WT(i,re,.15+k*.2);h+=icon(330+k*420,360,120,`<div style="font-size:120px;line-height:1">${e}</div>`,{s:pop(t,a),bg:'#fff',bc:C.ink})});
- const tb=WT(i,/twice/i,.95);h+=tag(1590,560,'×2',{size:80,bg:C.gold,col:C.ink,s:pop(t,tb),r:8});
+ 
  const n=Math.floor(ez(cl(t,WT(i,/book/i,.7),E(i)))*12);for(let k=0;k<n;k++)h+=at(1590+(k%2?10:-10),900-k*30,`<div style="width:200px;height:28px;background:${[C.red,C.blue,C.green,C.gold][k%4]};border:4px solid ${C.ink};border-radius:4px"></div>`);
  h+=samAt(760,980,300,{mouth:'grin',talk:talkS(t,i),armL:[1.2+Math.sin(t*12)*.2,.9],armR:[1.2-Math.sin(t*12)*.2,.9]},t);
  return {h,cam:{z:1.02}}};
@@ -263,7 +263,7 @@ SH.whisper=(t,i)=>{const u=U(t,i);let h='';const tw=WT(i,/people/i,.7);
  [[360,'#c6c9d3',-1],[600,'#a7adb9',-1],[1320,'#b9bfca',1],[1560,'#8e97a8',1]].forEach(([x,c,s],k)=>{h+=pal(x,960,300,c,.8,{});
   h+=at(x+s*40,520,`<div style="padding:14px 26px;border-radius:30px;background:#fff;border:5px solid ${C.ink};font:700 34px P;color:${C.ink}">${['psst…','he looks…','the same?!','how??'][k]}</div>`,{s:pop(t,tw+k*.15),r:s*4})});
  return {h,cam:{z:1.03-u*.005}}};
-SH.dating=(t,i)=>{const u=U(t,i);let h='';const te=WT(i,/expiration/i,.6);
+SH.dating=(t,i)=>{const u=U(t,i);let h='';const te=WT(i,/older/i,.6);
  h+=samAt(760,960,320,{mouth:'smile',talk:talkS(t,i),look:[4,0]},t)+pal(1160,960,320,C.pink,ez(cl(t,te,te+2))*.9,{hair:'#a8441f'});
  h+=at(960,440,`<div style="width:160px">${IC.heart()}</div>`,{s:pop(t,S(i)+.3)*(1+.06*Math.sin(t*6))});
  h+=at(1150,330,svg(80,120,`<path d="M10,10 L70,10 L40,60 L70,110 L10,110 L40,60Z" fill="#f6d98a" stroke="${C.ink}" stroke-width="6"/><rect x=30 y=${70+30*ez(cl(t,te,E(i)))} width=20 height=${30-30*ez(cl(t,te,E(i)))} fill="#c49a5a"/>`),{s:pop(t,te),r:Math.sin(t*3)*8});
@@ -277,16 +277,16 @@ const NAMES=['SAM','JOHN','FRANK','LEO','MAX','OSCAR','HENRY','JACK','THEO','ALE
 SH.move=(t,i)=>{const u=U(t,i);let h='';const ts=WT(i,/suitcase/i,.35),tc=WT(i,/city/i,.55),tn=WT(i,/start/i,.85);
  const p=ez(cl(t,tc,tc+1.4));h+=samAt(lerp(800,1300,p),960,300,{mouth:'smile',talk:talkS(t,i),legL:Math.sin(t*9)*.4*(p>0&&p<1),legR:-Math.sin(t*9)*.4*(p>0&&p<1),prop:`<g transform="translate(-30,0)">${IC.suitcase(C.gold)}</g>`},t);
  h+=icon(420,330,100,`<div style="width:110px">${IC.suitcase()}</div>`,{s:pop(t,ts),bg:C.navy});
- const nm=t<tn?'SAM':NAMES[Math.min(NAMES.length-1,1+Math.floor((t-tn)*14))%NAMES.length];h+=idCard(1460,380,.8*pop(t,tn-.2),t>tn+.9?'FRANK':nm,'1925',{r:4});
+ const nm=t<tn?'SAM':NAMES[Math.min(NAMES.length-1,1+Math.floor((t-tn)*14))%NAMES.length];h+=idCard(1460,380,.8*pop(t,tn-.2),t>tn+.9?'FRANK':nm,'???',{r:4});
  return {h,cam:{z:1.02,x:-p*40}}};
 function usmap(){return `<svg class=ab style="left:260px;top:180px" width="1400" height="760" viewBox="0 0 1400 760"><path d="M80,160 L420,90 L760,110 L1060,80 L1240,150 L1300,300 L1250,420 L1150,520 L1100,640 L960,600 L820,640 L700,700 L560,640 L380,600 L220,520 L110,420 L60,300Z" fill="#fff" stroke="${C.ink}" stroke-width=8 stroke-linejoin="round"/></svg>`}
 SH.moves=(t,i)=>{const u=U(t,i),d=D(i);let h=usmap();const pts=[[420,520],[800,360],[1180,560],[1520,420],[1300,780]];const k=Math.min(pts.length-1,Math.floor(cl(u,.2,d-.3)*pts.length));
- pts.forEach(([x,y],j)=>{if(j<=k)h+=at(x,y-20,svg(60,80,`<path d="M30,78 C30,78 4,46 4,28 A26,26 0 1,1 56,28 C56,46 30,78 30,78Z" fill="${C.red}" stroke="${C.ink}" stroke-width="5"/><circle cx=30 cy=28 r=9 fill="#fff"/>`),{s:pop(t,S(i)+.2+j*(d-.5)/pts.length)})+big(x,y+40,1955+j*20,{size:30,col:C.ink,op:.8})});
+ pts.forEach(([x,y],j)=>{if(j<=k)h+=at(x,y-20,svg(60,80,`<path d="M30,78 C30,78 4,46 4,28 A26,26 0 1,1 56,28 C56,46 30,78 30,78Z" fill="${C.red}" stroke="${C.ink}" stroke-width="5"/><circle cx=30 cy=28 r=9 fill="#fff"/>`),{s:pop(t,S(i)+.2+j*(d-.5)/pts.length)})+big(x,y+40,'YEAR '+(52+j*14),{size:30,col:C.ink,op:.8})});
  for(let j=0;j<k;j++){const [a,b]=[pts[j],pts[j+1]];h+=`<svg class=ab style="left:0;top:0" width="${W}" height="${H}"><path d="M${a[0]},${a[1]} Q${(a[0]+b[0])/2},${Math.min(a[1],b[1])-160} ${b[0]},${b[1]}" fill=none stroke="${C.ink}" stroke-width=6 stroke-dasharray="16 14"/></svg>`}
  const [sx,sy]=pts[k];h+=samAt(sx,sy-30,120,{mouth:'smile'},t);
- h+=tag(960,120,'EVERY ~20 YEARS: NEW LIFE',{bg:C.ink,size:40,s:pop(t,S(i)+.3)});
+ h+=tag(960,120,'EVERY 10–15 YEARS: NEW LIFE',{bg:C.ink,size:40,s:pop(t,S(i)+.3)});
  return {h,cam:{z:1}}};
-SH.story=(t,i)=>{const u=U(t,i);let h='';const qs=[[/born/i,'Where were you born?'],[/parents/i,'Who are your parents?'],[/know/i,'Why do you know so much about the 1920s?']];
+SH.story=(t,i)=>{const u=U(t,i);let h='';const qs=[[/born/i,'Where were you born?'],[/parents/i,'Who are your parents?'],[/remember/i,'Why do you remember that?!']];
  h+=samAt(960,980,340,{mouth:'hmm',talk:talkS(t,i),look:[0,2],armL:[2.7,1.4],armR:[.3,.2]},t);
  qs.forEach(([re,q],k)=>{const a=WT(i,re,.3+k*.3);h+=at([500,1420,960][k],[330,330,170][k],`<div style="padding:18px 32px;border-radius:30px;background:#fff;border:5px solid ${C.ink};font:700 38px P;color:${C.ink};max-width:620px">${q}</div>`,{s:pop(t,a),r:[-3,3,0][k]})});
  for(let k=0;k<3;k++)h+=at(1080+k*24,600-((t*90+k*40)%120),`<div style="width:16px;height:24px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;background:#7cc7f0"></div>`,{op:ez(cl(u,1,1.5))});
@@ -335,11 +335,11 @@ SH.nightmare=(t,i)=>{const u=U(t,i);let h='';const tn=WT(i,/nightmare/i,.8);
  if(t>tn)h+=`<div class=ab style="inset:0;width:${W}px;height:${H}px;background:${C.red};opacity:${.25*Math.abs(Math.sin((t-tn)*6))}"></div>`;
  h+=tag(1400,450,'⚠ NIGHTMARE',{bg:C.red,size:52,s:pop(t,tn)});
  return {h,cam:{z:1.02,x:t>tn?Math.sin(t*50)*4:0}}};
-SH.scan=(t,i)=>{const u=U(t,i),d=D(i);let h='';const tf=WT(i,/face/i,.6),ti=WT(i,/invent/i,.85);
+SH.scan=(t,i)=>{const u=U(t,i),d=D(i);let h='';const tf=WT(i,/face/i,.6),ti=WT(i,/records/i,.85);
  h+=samAt(960,1000,420,{mouth:'hmm',talk:talkS(t,i)},t);
  if(t>tf-.2){const y=420+((t-tf)*500)%360;h+=at(960,560,`<div style="width:420px;height:420px;border:8px solid ${C.green};border-radius:30px;position:relative"><div class=ab style="left:0;top:${y-420}px;width:404px;height:8px;background:${C.green};box-shadow:0 0 30px ${C.green}"></div></div>`,{s:pop(t,tf-.2)});
-  h+=tag(960,250,'MATCH FOUND: BORN 1875?!',{bg:C.red,size:44,s:pop(t,tf+.8)})}
- const ic=[['💾',/computers/i],['🗄️',/databases/i]];ic.forEach(([e,re],k)=>{h+=icon(330+k*1260,420,100,`<div style="font-size:100px">${e}</div>`,{s:pop(t,WT(i,re,.2+k*.2)),bg:'#fff',bc:C.ink})});
+  h+=tag(960,250,'MATCH: SAME FACE IN 1950s PHOTO?!',{bg:C.red,size:44,s:pop(t,tf+.8)})}
+ const ic=[['📷',/cameras/i],['🗄️',/records/i]];ic.forEach(([e,re],k)=>{h+=icon(330+k*1260,420,100,`<div style="font-size:100px">${e}</div>`,{s:pop(t,WT(i,re,.2+k*.2)),bg:'#fff',bc:C.ink})});
  h+=at(1590,760,`<div style="font:700 140px P;color:${C.red}">✕</div>`,{s:pop(t,ti)})+tag(1590,900,'NEW IDENTITY',{bg:C.ink,size:32,s:pop(t,ti)});
  return {h,cam:{z:1.02}}};
 function cctv(x,y,s,ang){return at(x,y,svg(200,120,`<rect x=10 y=20 width=150 height=70 rx=14 fill="#e8e8ee" stroke="${C.ink}" stroke-width="6"/><circle cx=150 cy=55 r=22 fill="${C.ink}"/><circle cx=150 cy=55 r=8 fill="${C.red}"/><path d="M40,90 L40,120" stroke="${C.ink}" stroke-width="10"/>`),{s,r:ang})}
@@ -425,7 +425,7 @@ function sunEarth(t,sr,sunCol,ocean){return at(960,540,svg(1920,1080,`<defs><rad
 SH.hotearth=(t,i)=>{const u=U(t,i),d=D(i);let h='';const p=ez(cl(u,.4,d-.2));
  h+=sunEarth(t,lerp(180,320,p),'#ffd166',`rgb(${lerp(90,190,p)},${lerp(169,120,p)},${lerp(230,70,p)})`);
  for(let k=0;k<6;k++)h+=at(1400+Math.cos(k)*170,540+Math.sin(k)*170-((t*60+k*30)%80),`<div style="width:30px;height:46px;border-radius:50%;background:#fff;opacity:${.6*p}"></div>`);
- h+=big(960,140,'~1 BILLION YEARS',{size:80,col:'#fff',s:pop(t,S(i)+.2)});h+=tag(1400,800,'🌡️ TOO HOT FOR LIFE',{bg:C.red,size:40,s:pop(t,WT(i,/hot/i,.8))});
+ h+=big(960,140,'~1 BILLION YEARS',{size:80,col:'#fff',s:pop(t,S(i)+.2)});h+=tag(1400,800,'🌡️ TOO HOT FOR LIFE',{bg:C.red,size:40,s:pop(t,WT(i,/earth/i,.8))});
  return {h,cam:{z:1+u*.01}}};
 SH.redgiant=(t,i)=>{const u=U(t,i),d=D(i);let h='';const p=ez(cl(u,.3,d-.1));
  h+=sunEarth(t,lerp(320,1100,p),'#e8483c','#b8642e');h+=big(960,140,'~5 BILLION YEARS',{size:80,col:'#fff',s:pop(t,S(i)+.2)});
@@ -435,7 +435,7 @@ SH.alone=(t,i)=>{const u=U(t,i);let h='';h+=samAt(960,700+Math.sin(t*1.2)*20,320
  h+=tag(960,880,'AGE: 25',{bg:'#fff',col:C.ink,size:50,s:pop(t,WT(i,/twenty/i,.7))});
  return {h,cam:{z:1.06-u*.015}}};
 SH.deal=(t,i)=>{const u=U(t,i);let h='';const tm=WT(i,/millions/i,.25),to=WT(i,/outlive/i,.8);
- h+=at(540,480,`<div style="width:560px;padding:40px;border-radius:30px;background:#fff;border:8px solid ${C.green};text-align:center;font:700 54px/1.3 P;color:${C.ink}">💰 $10.7M<br>⏳ FOREVER 25</div>`,{s:pop(t,tm),r:-3});
+ h+=at(540,480,`<div style="width:560px;padding:40px;border-radius:30px;background:#fff;border:8px solid ${C.green};text-align:center;font:700 54px/1.3 P;color:${C.ink}">💰 A FORTUNE<br>⏳ FOREVER 25</div>`,{s:pop(t,tm),r:-3});
  h+=at(1380,480,`<div style="width:560px;padding:40px;border-radius:30px;background:#fff;border:8px solid ${C.red};text-align:center;font:700 54px/1.3 P;color:${C.ink}">💔 OUTLIVE<br>EVERYONE</div>`,{s:pop(t,to),r:3});
  h+=samAt(960,1040,280,{mouth:'hmm',talk:talkS(t,i),armR:[.45,-2.75],look:[0,-3]},t);
  return {h,cam:{z:1.02}}};
@@ -444,6 +444,196 @@ SH.outro=(t,i)=>{const u=U(t,i);let h='';const tc=WT(i,/comments/i,.3),ts=WT(i,/
  h+=at(1300,380,`<div style="width:720px;padding:30px 36px;border-radius:26px;background:#fff;border:7px solid ${C.ink};font:700 46px P;color:${C.ink}">💬 Would you take the deal?<div style="font:500 32px P;color:#6b7280;margin-top:8px">Tell me in the comments 👇</div></div>`,{s:pop(t,tc)});
  const pr=t>ts+.5;h+=at(1300,700,`<div style="padding:26px 70px;border-radius:20px;background:${pr?'#9aa3b5':C.red};font:700 64px P;color:#fff;letter-spacing:2px;white-space:nowrap">${pr?'SUBSCRIBED ✓':'SUBSCRIBE'}</div>`,{s:pop(t,ts)*(pr?1:1+.05*Math.sin(t*8))});
  return {h,cam:{z:1}}};
+// ======== Version 2: neue Shots ("erst cool, dann Probleme") ========
+function bed(x,y,s,o={}){return at(x,y,svg(520,300,`<rect x=10 y=120 width=500 height=120 rx=20 fill="${o.col||'#a9cbe6'}" stroke="${C.ink}" stroke-width="7"/><rect x=10 y=40 width=40 height=240 rx=12 fill="#7a4b2a" stroke="${C.ink}" stroke-width="7"/><rect x=60 y=90 width=140 height=60 rx=26 fill="#fff" stroke="${C.ink}" stroke-width="6"/>${o.bars?`<rect x=470 y=60 width=30 height=220 rx=8 fill="#cfd4dc" stroke="${C.ink}" stroke-width="6"/>`:''}`),{s})}
+function cape(t){return `<path d="M-40,0 Q-90,${120+Math.sin(t*6)*20} -60,230 L60,230 Q90,${120+Math.cos(t*6)*20} 40,0Z" fill="${C.red}" stroke="${C.ink}" stroke-width="6"/>`}
+SH.hype=(t,i)=>{const u=U(t,i);let h='';const ts=WT(i,/superhero/i,.85);
+ if(t>ts-.2)h+=at(960,700,svg(240,260,`<g transform="translate(120,10)">${cape(t)}</g>`),{s:pop(t,ts-.2)});
+ h+=samAt(960,960-Math.max(0,Math.sin(t*5))*20*(t>ts),400,{mouth:'grin',talk:talkS(t,i),armL:t>ts?[2.9,1.3]:[2.5,.3],armR:t>ts?[2.9,1.3]:[2.5,.3]},t);
+ for(let k=0;k<10;k++){const a=S(i)+.2+k*.12,x=300+R(k*4)*1320,y=200+R(k*4+1)*300;h+=at(x,y,svg(60,60,`<path d="M30,0 L37,22 L60,24 L42,38 L48,60 L30,47 L12,60 L18,38 L0,24 L23,22Z" fill="${[C.gold,C.pink,C.blue][k%3]}"/>`),{s:pop(t,a)*(1+.1*Math.sin(t*5+k)),r:t*40+k*30})}
+ h+=tag(1450,330,'BEST. DAY. EVER.',{bg:C.gold,col:C.ink,size:54,s:pop(t,S(i)+.5),r:-4});
+ return {h,cam:{z:1.03+u*.01}}};
+SH.nopressure=(t,i)=>{const u=U(t,i);let h='';const tp=WT(i,/pressure/i,.3),tc=WT(i,/ticking/i,.85);
+ h+=samAt(760,980,380,{mouth:'grin',talk:talkS(t,i),armL:[2.6,1.5],armR:[2.6,1.5]},t);
+ const p=ez(cl(t,tp,tp+1.2));h+=at(1400,lerp(460,1300,p),`<div style="width:300px;height:300px;border-radius:50%;background:#fff;border:12px solid ${C.ink};display:flex;align-items:center;justify-content:center"><div style="width:220px">${IC.clock(t*3,C.ink)}</div></div>`,{r:p*120});
+ h+=tag(1400,240,'NO TICKING CLOCK',{bg:C.green,size:50,s:pop(t,tc)});
+ h+=tag(1400,380,'"too old for this"',{bg:'#fff',col:C.ink,size:40,s:pop(t,WT(i,/old/i,.55))*fo(t,WT(i,/old/i,.55)+1.3,WT(i,/old/i,.55)+1.6),r:3,css:'text-decoration:line-through'});
+ return {h,cam:{z:1.02}}};
+SH.sleepin=(t,i)=>{const u=U(t,i);let h='';const ty=WT(i,/year/i,.3),tw=WT(i,/wasting/i,.7);
+ h+=bed(960,760,1.6);h+=at(780,640,`<div style="width:140px;height:140px;border-radius:50%;background:#f2d3ad;border:6px solid ${C.ink};position:relative"><div class=ab style="left:30px;top:60px;width:26px;height:6px;background:${C.ink};border-radius:3px"></div><div class=ab style="left:84px;top:60px;width:26px;height:6px;background:${C.ink};border-radius:3px"></div></div>`);
+ for(let k=0;k<3;k++){const ph=(t*.8+k/3)%1;h+=big(900+ph*160+k*20,560-ph*220,'z',{size:60+k*16,col:C.ink,op:1-ph})}
+ h+=tag(1400,330,'📅 YEAR OFF',{bg:C.blue,size:48,s:pop(t,ty)});h+=tag(1400,470,'"wasting your life?" ✕',{bg:'#fff',col:C.ink,size:40,s:pop(t,tw),r:-3});
+ return {h,cam:{z:1.02+u*.008}}};
+function landmark(k){return [`<path d="M50,8 L58,60 L54,60 L60,92 L40,92 L46,60 L42,60Z" fill="${C.ink}"/>`,`<rect x=20 y=50 width=60 height=42 fill="#f3e3c3" stroke="${C.ink}" stroke-width="5"/><path d="M14,52 L50,20 L86,52Z" fill="${C.red}" stroke="${C.ink}" stroke-width="5"/>`,`<path d="M10,92 L50,14 L90,92Z" fill="#e9c47a" stroke="${C.ink}" stroke-width="5"/>`,`<rect x=40 y=10 width=20 height=82 fill="#cfd6e2" stroke="${C.ink}" stroke-width="5"/><circle cx=50 cy=20 r=14 fill="#cfd6e2" stroke="${C.ink}" stroke-width="5"/>`,`<path d="M20,92 L20,46 Q50,6 80,46 L80,92Z" fill="#9fd3c1" stroke="${C.ink}" stroke-width="5"/>`][k%5]}
+SH.travel=(t,i)=>{const u=U(t,i),d=D(i);let h='';
+ h+=globe(960,560,300,t*2,0);
+ for(let k=0;k<10;k++){const a=S(i)+.3+k*(d-.6)/10,ang=k*.63+1;h+=at(960+Math.cos(ang)*420,560+Math.sin(ang)*330,svg(100,100,landmark(k)),{s:pop(t,a)*1.1})}
+ const pa=S(i)+.2+(u%3)/3;h+=at(960+Math.cos(t*.8)*360,560+Math.sin(t*.8)*360,`<div style="width:90px;transform:rotate(${t*.8*57+90}deg)">${IC.plane(C.ink)}</div>`);
+ h+=tag(960,1000-80,`🌍 COUNTRIES VISITED: ${Math.min(195,Math.floor(ez(cl(u,.3,d-.3))*195))}`,{bg:C.ink,size:40,s:pop(t,S(i)+.4)});
+ return {h,cam:{z:1.01,r:Math.sin(t*.5)*.6}}};
+SH.risks=(t,i)=>{const u=U(t,i),d=D(i);let h='';const tf=WT(i,/fail/i,.3),ta=WT(i,/another/i,.45),tw=WT(i,/hundred/i,.85);
+ h+=at(560,520,`<div style="width:420px;height:300px;background:#fff;border:8px solid ${C.ink};border-radius:20px;text-align:center;padding-top:40px;box-sizing:border-box;font:700 54px P;color:${C.ink}">🏪 SAM'S<br>STARTUP</div>`,{s:pop(t,S(i)+.2),r:t>tf?lerp(0,-14,ez(cl(t,tf,tf+.4))):0});
+ h+=at(560,520,`<div style="font:700 110px P;color:${C.red};border:12px solid ${C.red};padding:0 30px;border-radius:20px;background:#ffffffcc">FAIL</div>`,{s:pop(t,tf),r:-12});
+ h+=tag(1350,330,'TRY #'+Math.max(1,Math.min(100,Math.floor(2+ez(cl(t,ta,tw+.5))*98))),{bg:C.green,size:66,s:pop(t,ta)});
+ h+=samAt(1350,980,320,{mouth:'grin',talk:talkS(t,i),armR:[2.3,.3]},t);
+ return {h,cam:{z:1.02}}};
+SH.careers=(t,i)=>{const u=U(t,i);let h='';const js=[['🩺 DOCTOR',/doctor/i,C.blue],['✈️ PILOT',/pilot/i,C.navy],['👨‍🍳 CHEF',/chef/i,C.red]];
+ js.forEach(([s,re,c],k)=>{const a=WT(i,re,.2+k*.15);h+=tag(420+k*540,300,s,{bg:c,size:56,s:pop(t,a),r:(k-1)*4})});
+ const k=t>WT(i,/chef/i,.5)?2:t>WT(i,/pilot/i,.35)?1:0,hats=[`<rect x=-60 y=-20 width=120 height=36 rx=8 fill="#fff" stroke="${C.ink}" stroke-width="5"/><path d="M-10,-2 L10,-2 M0,-12 L0,8" stroke="${C.red}" stroke-width="6"/>`,`<path d="M-80,10 L80,10 L60,-30 L-60,-30Z" fill="${C.navy}" stroke="${C.ink}" stroke-width="5"/><rect x=-80 y=4 width=160 height=14 rx=6 fill="${C.ink}"/><circle cx=0 cy=-12 r=10 fill="${C.gold}"/>`,`<rect x=-50 y=-30 width=100 height=50 fill="#fff" stroke="${C.ink}" stroke-width="5"/><circle cx=-30 cy=-40 r=30 fill="#fff" stroke="${C.ink}" stroke-width="5"/><circle cx=0 cy=-55 r=34 fill="#fff" stroke="${C.ink}" stroke-width="5"/><circle cx=30 cy=-40 r=30 fill="#fff" stroke="${C.ink}" stroke-width="5"/>`];
+ h+=samAt(960,1000,400,{mouth:'grin',talk:talkS(t,i),hat:`<g transform="translate(100,30)">${hats[k]}</g>`},t);
+ return {h,cam:{z:1.02}}};
+SH.envy=(t,i)=>{const u=U(t,i);let h='';const ts=WT(i,/secret/i,.45),tm=WT(i,/ask/i,.9);
+ [[420,C.red,-1],[700,C.blue,-1],[1260,C.gold,1],[1540,C.pink,1]].forEach(([x,c,s],k)=>{h+=pal(x,980,300,c,0,{mouth:'o'})});
+ h+=at(560,420,`<div style="padding:20px 34px;border-radius:30px;background:#fff;border:6px solid ${C.ink};font:700 46px P;color:${C.ink}">What's your secret?! 😮</div>`,{s:pop(t,ts),r:-3});
+ h+=samAt(980,980,340,{mouth:t>tm-.3?'grin':'smile',talk:talkS(t,i)},t);
+ h+=at(980,470,`<div style="font-size:90px">😏</div>`,{s:pop(t,tm-.2)});
+ return {h,cam:{z:1.02}}};
+SH.king=(t,i)=>{const u=U(t,i);let h='';const tb=WT(i,/beaten/i,.6);
+ for(let k=0;k<30;k++){const a=S(i)+.1,y=((t-a)*300*(1+R(k))+R(k*2)*H)%1200-60;h+=at(R(k*3)*W,y,`<div style="width:16px;height:26px;background:${[C.gold,C.pink,C.blue,C.green][k%4]};border-radius:3px"></div>`,{r:t*200+k*40})}
+ h+=samAt(960,980,400,{mouth:'grin',talk:talkS(t,i),armL:[2.7,.3],armR:[2.7,.3],bob:Math.max(0,Math.sin(t*7))*18,hat:`<g transform="translate(100,22)"><path d="M-60,20 L-60,-30 L-30,0 L0,-40 L30,0 L60,-30 L60,20Z" fill="${C.gold}" stroke="${C.ink}" stroke-width="6" stroke-linejoin="round"/></g>`},t);
+ h+=tag(960,190,'🏆 YOU WIN!',{bg:C.gold,col:C.ink,size:70,s:pop(t,tb),r:-3});
+ return {h,cam:{z:1.03+u*.01}}};
+// ---- Akt 2 ----
+SH.tenyears=(t,i)=>{const u=U(t,i),d=D(i);let h='';const tw=WT(i,/wrinkles/i,.5),ts=WT(i,/same/i,.95);const age=ez(cl(t,tw-.5,tw+1.2))*.45;
+ [C.red,C.blue,C.gold].forEach((c,k)=>{h+=pal(380+k*300,980,330,c,age,{hair:['#5a3a22','#2a1d17','#a8441f'][k]})});
+ h+=samAt(1480,980,330,{mouth:'smile',talk:talkS(t,i)},t);h+=tag(1480,520,'SAME FACE',{bg:C.ink,size:40,s:pop(t,ts-.4)});
+ h+=tag(700,300,'+10 YEARS',{bg:'#fff',col:C.ink,size:50,s:pop(t,S(i)+.3),r:-3});
+ return {h,cam:{z:1.02}}};
+SH.party40=(t,i)=>{const u=U(t,i);let h='';const tf=WT(i,/forty/i,.3),ti=WT(i,/ID/,.85);
+ h+=at(560,420,svg(420,300,`<rect x=40 y=140 width=340 height=140 rx=20 fill="${C.pink}" stroke="${C.ink}" stroke-width="7"/><rect x=40 y=140 width=340 height=40 rx=14 fill="#fff" stroke="${C.ink}" stroke-width="7"/><text x=210 y=250 text-anchor=middle font-family=P font-weight=700 font-size=80 fill="#fff">40</text>${[110,170,250,310].map(x=>`<rect x=${x} y=70 width=14 height=70 fill="${C.yel}" stroke="${C.ink}" stroke-width="4"/><ellipse cx=${x+7} cy=60 rx=10 ry=${16+Math.sin(t*12+x)*3} fill="${C.gold}"/>`).join('')}`),{s:pop(t,tf)});
+ h+=pal(820,980,320,C.blue,.45,{hair:'#2a1d17',mouth:'o'});
+ h+=at(1500,660,`<div style="width:30px;height:420px;background:${C.ink}"></div>`)+pal(1600,980,360,'#1b2238',0,{bald:1});
+ h+=samAt(1300,980,320,{mouth:'hmm',talk:talkS(t,i),look:[4,0]},t);
+ h+=at(1520,380,`<div style="padding:16px 30px;border-radius:26px;background:#fff;border:6px solid ${C.ink};font:700 44px P;color:${C.ink}">ID, please. 🪪</div>`,{s:pop(t,ti-.3),r:3});
+ return {h,cam:{z:1.02}}};
+SH.lies=(t,i)=>{const u=U(t,i),d=D(i);let h='';const ls=[['💉 BOTOX',/botox/i],['🧬 GREAT GENES',/genes/i],['🧴 SKINCARE',/skincare/i]];
+ ls.forEach(([s,re],k)=>{h+=tag(480,300+k*150,s,{bg:'#fff',col:C.ink,size:48,s:pop(t,WT(i,re,.2+k*.2)),r:(k-1)*3})});
+ h+=samAt(1000,1000,380,{mouth:'smile',talk:talkS(t,i),look:[-3,0]},t);
+ const tl=WT(i,/another/i,.85);const n=Math.max(0,Math.floor((t-tl+.5)*6));for(let k=0;k<Math.min(n,8);k++)h+=at(1400+(k%3)*150,820-Math.floor(k/3)*130,`<div style="width:130px;height:110px;border-radius:14px;background:${C.red};border:5px solid ${C.ink};color:#fff;font:700 40px/110px P;text-align:center">LIE</div>`,{s:pop(t,tl-.5+k/6,.25),r:R(k)*16-8});
+ return {h,cam:{z:1.02}}};
+SH.parents=(t,i)=>{const u=U(t,i);let h='';const tn=WT(i,/nurse/i,.6),tg=WT(i,/nurse/i,.95);
+ h+=bed(760,800,1.4,{bars:1,col:'#dfe7f1'});h+=at(560,660,`<div style="width:120px;height:120px;border-radius:50%;background:#f2d3ad;border:6px solid ${C.ink}"><div style="width:120px;height:40px;border-radius:60px 60px 0 0;background:#e8e8ee"></div></div>`);
+ h+=pal(1000,960,300,'#8e97a8',.95,{});h+=samAt(1280,980,320,{mouth:'sad',talk:talkS(t,i),look:[-4,0]},t);
+ h+=pal(1650,980,330,'#9fd3c1',0,{hair:'#2a1d17'});h+=at(1640,470,`<div style="padding:16px 30px;border-radius:26px;background:#fff;border:6px solid ${C.ink};font:700 40px P;color:${C.ink};white-space:nowrap">Visiting grandma? 🙂</div>`,{s:pop(t,tg-.4),r:-3});
+ for(let k=0;k<1;k++)h+=at(400,320,svg(260,120,`<path d="M0,60 L60,60 L80,20 L110,100 L130,60 L260,60" fill=none stroke="${C.green}" stroke-width="7"/>`),{op:.8});
+ return {h,cam:{z:1.02+u*.006}}};
+SH.funeral=(t,i)=>{const u=U(t,i);let h='';const tr=WT(i,/recognize/i,.55),td=WT(i,/distant/i,.9);
+ h+=`<div class=ab style="left:0;top:0;width:${W}px;height:${H}px;background:#00000018"></div>`;
+ for(let k=0;k<5;k++)h+=pal(300+k*190,990,300,'#3c4250',.7*(k%2),{});h+=samAt(1450,990,320,{mouth:'sad',talk:talkS(t,i)},t);
+ h+=at(1450,400,`<div style="padding:16px 30px;border-radius:26px;background:#fff;border:6px solid ${C.ink};font:700 38px P;color:${C.ink};white-space:nowrap">Who's that? A cousin?</div>`,{s:pop(t,tr),r:3});
+ h+=at(700,330,svg(160,160,`<path d="M80,150 L80,40 M40,70 L120,70" stroke="#5a6170" stroke-width="14" stroke-linecap="round"/>`),{op:.5});
+ for(let k=0;k<12;k++){const y=((t*80+k*90)%1100)-20;h+=at(R(k)*W,y,`<div style="width:4px;height:30px;background:#8ea6c8;opacity:.5"></div>`)}
+ return {h,cam:{z:1.03-u*.005}}};
+SH.motherson=(t,i)=>{const u=U(t,i);let h='';const tw=WT(i,/waiter/i,.3),tm=WT(i,/mom/i,.5),th=WT(i,/hurts/i,.85);
+ h+=at(960,820,`<div style="width:700px;height:40px;background:#7a4b2a;border:6px solid ${C.ink};border-radius:10px"></div>`);
+ h+=samAt(760,1000,300,{mouth:t>tm?'sad':'smile',talk:talkS(t,i),look:[4,0]},t)+pal(1160,1000,300,C.pink,.75,{hair:'#a8441f'});
+ h+=pal(1600,1000,340,'#fff',0,{hair:'#2a1d17'});h+=at(1560,420,`<div style="padding:16px 30px;border-radius:26px;background:#fff;border:6px solid ${C.ink};font:700 40px P;color:${C.ink};white-space:nowrap">And for your mom? 🍷</div>`,{s:pop(t,tm-.3),r:3});
+ h+=at(960,560,`<div style="width:140px;opacity:${ez(cl(t,th,th+.5))}">${IC.heart('#e8483c')}</div>`,{css:'filter:grayscale(.4)'});
+ if(t>th)h+=at(960,560,svg(140,140,`<path d="M70,30 L60,60 L80,80 L66,120" fill=none stroke="#fff" stroke-width="10" stroke-linejoin="round"/>`),{op:ez(cl(t,th+.3,th+.6))});
+ return {h,cam:{z:1.02}}};
+SH.paperwork=(t,i)=>{const u=U(t,i);let h='';const ti=WT(i,/fifty/i,.3),tf=WT(i,/twenty-five/i,.45),tb=WT(i,/banks/i,.65);
+ h+=idCard(560,420,.95*pop(t,S(i)+.2),'SAM','AGE 50',{r:-3});h+=samAt(1240,980,340,{mouth:'hmm',talk:talkS(t,i)},t);
+ h+=tag(560,660,'ID: 50',{bg:C.ink,size:44,s:pop(t,ti)})+tag(1240,480,'FACE: 25',{bg:C.green,size:44,s:pop(t,tf)});
+ [['🏦',/banks/i],['🩺',/doctors/i],['💼',/employers/i]].forEach(([e,re],k)=>{h+=icon(1560+(k%2)*130,320+k*170,80,`<div style="font-size:80px">${e}</div>`,{s:pop(t,WT(i,re,.65+k*.1)),bg:'#fff',bc:C.ink})});
+ h+=big(960,250,'🤨',{size:120,s:pop(t,WT(i,/everyone/i,.95))});
+ return {h,cam:{z:1.02}}};
+SH.doctor=(t,i)=>{const u=U(t,i);let h='';
+ h+=at(620,480,`<div style="width:560px;height:420px;border-radius:24px;background:#10162a;border:8px solid ${C.ink};position:relative;overflow:hidden">${svg(560,420,`<g stroke="#bfe3f7" stroke-width="8" fill=none opacity=".9"><circle cx=280 cy=110 r="60"/><path d="M280,170 L280,330 M200,210 L360,210 M220,250 L340,250 M230,290 L330,290 M280,330 L230,410 M280,330 L330,410"/></g>`)}</div>`,{s:pop(t,S(i)+.2)});
+ h+=tag(620,760,'SCAN: AGE 25',{bg:C.green,size:44,s:pop(t,WT(i,/twenty-five/i,.5))})+tag(1320,320,'FILE: AGE 60',{bg:C.red,size:44,s:pop(t,WT(i,/file/i,.9))});
+ h+=pal(1320,990,340,'#fff',.4,{hair:'#9aa3b5',mouth:'o'});
+ h+=at(1320,520,`<div style="font:700 120px P;color:${C.ink}">?!</div>`,{s:pop(t,WT(i,/file/i,.9)+.2)});
+ return {h,cam:{z:1.02}}};
+function photo(x,y,s,r,k,t,o={}){return at(x,y,`<div style="width:300px;height:340px;background:#fff;padding:18px 18px 60px;box-sizing:border-box;box-shadow:0 10px 24px #0003;border:4px solid ${C.ink};filter:sepia(${o.sep??.6})"><div style="width:100%;height:100%;background:#d8c3a0;display:flex;align-items:flex-end;justify-content:center;overflow:hidden">${MG_SAM.svg({w:150,mouth:'smile'})}</div><div style="font:700 26px P;color:${C.ink};text-align:center;margin-top:8px">${o.lab||''}</div></div>`,{s,r})}
+SH.photos=(t,i)=>{const u=U(t,i);let h='';const te=WT(i,/evidence/i,.4),tx=WT(i,/expose/i,.85);
+ [[520,'YEAR 1'],[860,'YEAR 20'],[1200,'YEAR 40']].forEach(([x,l],k)=>{h+=photo(x,450,pop(t,S(i)+.3+k*.25),(k-1)*6,k,t,{lab:l})});
+ h+=tag(860,780,'EVIDENCE 🔍',{bg:C.red,size:56,s:pop(t,te),r:-3});
+ h+=samAt(1600,1000,300,{mouth:'o',talk:talkS(t,i),armL:[1.1,-1.3],armR:[1.1,-1.3]},t);
+ if(t>tx)h+=`<div class=ab style="inset:0;width:${W}px;height:${H}px;background:#fff;opacity:${.7*fo(t,tx,tx+.3)}"></div>`;
+ return {h,cam:{z:1.02}}};
+// ---- Akt 3 ----
+SH.burn=(t,i)=>{const u=U(t,i),d=D(i);let h='';
+ h+=at(960,560,`<div style="width:900px;height:560px;border-radius:24px;background:#2a3358;border:8px solid ${C.ink};overflow:hidden;position:relative"><div class=ab style="left:200px;top:120px;width:500px;height:320px;background:#f6d98a;border:8px solid ${C.ink}"></div></div>`);
+ h+=at(960,560,`<div style="font:700 60px P;color:${C.ink}">EMPTY ROOM</div>`,{op:ez(cl(u,1.6,2.2))});
+ const tg=WT(i,/gone/i,.9);for(let k=0;k<3;k++)h+=pal(420+k*540,1000,280,[C.red,C.blue,C.gold][k],.2,{mouth:'o',s:pop(t,tg-.6+k*.12)});
+ h+=tag(960,190,'NO GOODBYES',{bg:C.ink,size:52,s:pop(t,S(i)+.2)});
+ return {h,cam:{z:1.03-u*.006}}};
+SH.faraway=(t,i)=>{const u=U(t,i),d=D(i);let h='';const age=ez(cl(u,.4,d-.6));
+ h+=at(1320,520,`<div style="width:760px;height:520px;border-radius:30px;background:#e6efe9;border:8px solid ${C.ink};overflow:hidden;position:relative"></div>`);
+ [C.red,C.blue,C.gold].forEach((c,k)=>{h+=pal(1100+k*220,700,260,c,age,{op:fo(t,S(i)+d*(.65+k*.1),S(i)+d*(.75+k*.1))})});
+ h+=samAt(420,1000,320,{mouth:'sad',talk:talkS(t,i),look:[6,0]},t);
+ h+=at(700,560,svg(240,120,`<path d="M10,60 Q120,10 230,60" fill=none stroke="${C.ink}" stroke-width="6" stroke-dasharray="14 12"/>`),{op:.6});
+ h+=tag(1320,880,'NOT ALLOWED TO BE THERE',{bg:C.ink,size:40,s:pop(t,WT(i,/allowed/i,.9))});
+ return {h,cam:{z:1.02}}};
+SH.walls=(t,i)=>{const u=U(t,i),d=D(i);let h='';const tw=WT(i,/stop/i,.2);
+ h+=samAt(960,980,340,{mouth:'sad',talk:talkS(t,i)},t);
+ const n=Math.floor(ez(cl(t,tw,tw+2.4))*14);for(let k=0;k<n;k++){const side=k%2,row=Math.floor(k/2);h+=at(side?1240:680,960-row*90,`<div style="width:180px;height:80px;background:#c96a4a;border:6px solid ${C.ink};border-radius:6px"></div>`,{s:pop(t,tw+k*.17,.25)})}
+ for(let k=0;k<2;k++)h+=pal(k?1660:260,990,300,[C.pink,C.green][k],0,{op:.8});
+ h+=tag(960,170,'🧱 NOBODY GETS IN',{bg:C.ink,size:50,s:pop(t,tw+1.2)});
+ return {h,cam:{z:1.02}}};
+SH.fake=(t,i)=>{const u=U(t,i);let h='';const ty=WT(i,/tired/i,.3),tb=WT(i,/back/i,.55),tw=WT(i,/wrinkles/i,.85);
+ const bend=t>tb?.5:0;h+=samAt(960,1000,400,{mouth:t>ty?'o':'hmm',talk:talkS(t,i),armL:t>tb?[.6,1.6]:[.2,.1],armR:t>ty&&t<tb?[1.5,-1.4]:[.3,.1],tilt:bend*.2},t);
+ if(t>ty&&t<tb)h+=at(1140,430,`<div style="font:700 70px P;color:${C.ink}">*yawn*</div>`,{s:pop(t,ty)});
+ if(t>tb&&t<tw)h+=at(1400,420,`<div style="font:700 60px P;color:${C.red}">"ouch, my back"</div>`,{s:pop(t,tb)});
+ if(t>tw)h+=at(960,505,svg(160,60,`<path d="M10,20 q30,-14 60,0 M90,20 q30,-14 60,0 M40,50 q40,-10 80,0" stroke="#7a4b2a" stroke-width="5" fill=none stroke-linecap="round"/>`),{op:ez(cl(t,tw,tw+.4))})+at(1300,560,`<div style="font-size:110px">🖌️</div>`,{s:pop(t,tw),r:-20});
+ h+=tag(480,240,'🎭 FAKE IT',{bg:C.gold,col:C.ink,size:54,s:pop(t,S(i)+.3),r:-4});
+ return {h,cam:{z:1.02+u*.006}}};
+SH.bored=(t,i)=>{const u=U(t,i),d=D(i);let h='';const tb=WT(i,/boredom/i,.3);
+ h+=at(960,640,`<div style="width:700px;height:60px;background:#5a6170;border:6px solid ${C.ink};border-radius:20px"></div>`);
+ h+=samAt(960,900,340,{mouth:'hmm',talk:talkS(t,i),armL:[.6,1.4],armR:[.6,1.4],look:[0,4],legL:1.3,legR:1.2},t);
+ [['🎬',/movie/i],['🎵',/song/i],['💬',/song/i]].forEach(([e,re],k)=>{const a=WT(i,re,.5+k*.15)+(k==2?.9:0);h+=icon(460+k*500,300,90,`<div style="font-size:90px">${e}</div><div class=ab style="right:-10px;bottom:-10px;font:700 40px P;color:#fff;background:${C.green};border-radius:50%;width:56px;height:56px;line-height:56px;text-align:center">✓</div>`,{s:pop(t,a),bg:'#fff',bc:C.ink})});
+ h+=big(960,120,'B O R E D',{size:90,col:'#fff',s:pop(t,tb),op:.9});
+ return {h,cam:{z:1.02}}};
+SH.flat=(t,i)=>{const u=U(t,i),d=D(i);let h='';const tf=WT(i,/flat/i,.85);
+ const amp=lerp(120,0,ez(cl(u,.3,d-.3)));let pts='';for(let k=0;k<=120;k++){const x=k/120*1400;pts+=`${k?'L':'M'}${x},${200+Math.sin(k*.35+t*4)*amp*Math.exp(-(((k-60)/40)**2))}`}
+ h+=at(960,440,svg(1400,400,`<path d="${pts}" fill=none stroke="${C.green}" stroke-width="10" stroke-linecap="round"/>`));
+ h+=tag(960,170,'HAPPINESS-O-METER',{bg:'#fff',col:C.ink,size:42});h+=samAt(960,1000,280,{mouth:'hmm',talk:talkS(t,i)},t);
+ h+=tag(1500,640,'FLAT 😐',{bg:C.ink,size:50,s:pop(t,tf)});
+ return {h,cam:{z:1.02}}};
+SH.forget=(t,i)=>{const u=U(t,i),d=D(i);let h='';const tl=WT(i,/love/i,.6),tv=WT(i,/voice/i,.95);
+ const bl=ez(cl(t,tl-.8,tl+1.2))*14;h+=at(620,460,`<div style="filter:blur(${bl}px)">`+`<div style="width:340px;height:400px;background:#fff;padding:20px;box-sizing:border-box;border:5px solid ${C.ink};box-shadow:0 10px 24px #0004"><div style="width:100%;height:100%;background:#f2b6c6;display:flex;align-items:flex-end;justify-content:center;overflow:hidden">${svg(200,300,`<circle cx=100 cy=110 r=64 fill="#f2d3ad" stroke="${C.ink}" stroke-width="6"/><path d="M36,100 Q100,10 164,100 Q150,60 100,56 Q50,60 36,100Z" fill="#a8441f"/><rect x=50 y=180 width=100 height=120 rx=30 fill="${C.pink}" stroke="${C.ink}" stroke-width="6"/>`)}</div></div></div>`,{s:pop(t,S(i)+.2),r:-4});
+ h+=at(1280,460,svg(300,200,`<path d="M20,100 ${[...Array(20)].map((_,k)=>`L${30+k*13},${100+Math.sin(k*1.3+t*8)*60*fo(t,tv-1,tv+.6)}`).join(' ')}" fill=none stroke="#fff" stroke-width="8" stroke-linecap="round"/>`),{s:pop(t,tv-1.2)});
+ h+=tag(1280,660,'MOM 🔊 …?',{bg:'#fff',col:C.ink,size:40,s:pop(t,tv-1.0)});
+ h+=samAt(960,1010,280,{mouth:'sad',talk:talkS(t,i),look:[0,-2]},t);
+ return {h,cam:{z:1.03-u*.006}}};
+SH.lab=(t,i)=>{const u=U(t,i),d=D(i);let h='';const tc=WT(i,/celebrity/i,.55),te=WT(i,/you'd/i,.95)+.3;
+ h+=at(560,420,`<div style="padding:24px 40px;border-radius:24px;background:${C.gold};border:7px solid ${C.ink};font:700 56px P;color:${C.ink}">⭐ CELEBRITY</div>`,{s:pop(t,tc-.3),r:-4});
+ if(t>tc)h+=at(560,420,`<div style="font:700 160px P;color:${C.red}">✕</div>`,{s:pop(t,tc)});
+ h+=at(1320,560,`<div style="width:500px;height:600px;border-radius:250px 250px 30px 30px;background:#9fd3ff55;border:10px solid #dfe7f1;position:relative"></div>`,{s:pop(t,te-.6)});
+ h+=samAt(1320,830,300,{mouth:'o',talk:talkS(t,i),armL:[1.1,-1.3],armR:[1.1,-1.3]},t);
+ for(let k=0;k<2;k++)h+=pal(k?1700:940,1000,320,'#fff',.3,{bald:1,mouth:'o',op:ez(cl(t,te-.4,te))});
+ h+=tag(1320,200,'🧪 SUBJECT #1',{bg:C.red,size:48,s:pop(t,te)});
+ return {h,cam:{z:1.02}}};
+SH.secret=(t,i)=>{const u=U(t,i),d=D(i);let h='';const tn=WT(i,/nobody/i,.8);
+ const r=lerp(900,360,ez(cl(u,.2,d-.4)));h+=`<div class=ab style="left:0;top:0;width:${W}px;height:${H}px;background:radial-gradient(circle at 960px 640px,transparent ${r*.6}px,#05060fee ${r}px)"></div>`;
+ h+=samAt(960,1000,340,{mouth:'sad',talk:talkS(t,i),armL:[.4,.3],armR:[.4,.3]},t);
+ h+=at(960,420,`<div style="width:120px">${IC.book(C.gold)}</div>`,{op:.9,s:pop(t,S(i)+.4)});
+ h+=tag(960,170,'NOBODY TO TELL',{bg:'#fff',col:C.ink,size:50,s:pop(t,tn)});
+ return {h,cam:{z:1.03}}};
+// ---- Akt 4 ----
+SH.gone=(t,i)=>{const r=SH.y2100(t,i);r.h=r.h.replace('>2100<','>YEAR 500<');return r};
+SH.fortune=(t,i)=>{const u=U(t,i),d=D(i);let h='';const tn=WT(i,/nobody/i,.7);
+ h+=at(960,640,svg(700,420,`${[...Array(9)].map((_,k)=>`<rect x=${80+(k%3)*190} y=${300-Math.floor(k/3)*90} width=170 height=80 rx=10 fill="${C.green}" stroke="${C.ink}" stroke-width="6"/>`).join('')}`),{s:pop(t,S(i)+.2)});
+ h+=big(960,250,'$$$ FORTUNE',{size:100,col:C.green,s:pop(t,S(i)+.4),sh:C.ink});
+ h+=samAt(1500,1000,280,{mouth:'sad',talk:talkS(t,i)},t);
+ h+=tag(960,900,'…but nobody to share it with',{bg:'#fff',col:C.ink,size:44,s:pop(t,tn)});
+ return {h,cam:{z:1.02}}};
+SH.envyold=(t,i)=>{const u=U(t,i),d=D(i);let h='';const tb=WT(i,/beginning/i,.6),tm=WT(i,/middle/i,.75),te=WT(i,/middle/i,.75)+.8;
+ const st=[['BEGINNING',tb,0],['MIDDLE',tm,.5],['END',te,.95]];st.forEach(([s,a,age],k)=>{h+=pal(500+k*460,800,300,C.blue,age,{s:pop(t,a)})+tag(500+k*460,880,s,{bg:'#fff',col:C.ink,size:36,s:pop(t,a+.1)})});
+ h+=at(960,700,svg(1200,40,`<path d="M20,20 L1180,20" stroke="#fff" stroke-width="6" stroke-dasharray="14 14"/>`),{op:.6});
+ h+=samAt(960,380,180,{mouth:'sad',talk:talkS(t,i),look:[0,4]},t);
+ return {h,cam:{z:1.02}}};
+SH.meaning=(t,i)=>{const u=U(t,i),d=D(i);let h='';const tb=WT(i,/birthday/i,.55),tg=WT(i,/goodbye/i,.65),tm=WT(i,/moment/i,.75);
+ h+=big(960,260,`Maybe aging is <span style="color:${C.gold}">a feature</span>`,{size:84,col:C.ink,s:pop(t,S(i)+.3)});
+ [['🎂',tb],['👋',tg],['⏳',tm]].forEach(([e,a],k)=>{h+=icon(560+k*400,500,100,`<div style="font-size:110px">${e}</div>`,{s:pop(t,a),bg:'#fff',bc:C.ink})});
+ h+=samAt(960,1010,240,{mouth:'smile',talk:talkS(t,i)},t);
+ return {h,cam:{z:1.01+u*.01}}};
+// ---- angepasste alte Shots ----
+SH.invest=(t,i)=>{const u=U(t,i),d=D(i);let h='';const tm=WT(i,/market/i,.4),tc=WT(i,/compound/i,.8);
+ h+=samAt(640,980,380,{mouth:'smile',talk:talkS(t,i),armR:[t<tm?2.0:1.2,.5],armL:[.3,.2]},t);
+ const fly=ez(cl(t,tm,tm+.7));h+=bill(lerp(830,1300,fly),lerp(540,560,fly)-Math.sin(fly*3.14)*180,lerp(.9,.45,fly)*pop(t,S(i)+.3),fly*20,'$$');
+ const g=ez(cl(t,tc-.3,E(i)));h+=jar(1330,640,1.25,.12+g*.75);
+ h+=tag(1330,280,'📈 COMPOUND INTEREST',{bg:C.green,size:44,s:pop(t,tc),r:-3});
+ return {h,cam:{z:1.02+u*.01}}};
 // ---------- Engine ----------
 function lineAt(t){let k=0;for(let j=0;j<TL.lines.length;j++)if(t>=S(j)-.08)k=j;return k}
 function shotOf(i,t){const f=SH[SP(i).shot];if(!f)return {h:big(960,540,'missing: '+SP(i).shot,{size:50,col:C.red}),cam:{z:1}};return f(t,i)}
@@ -464,7 +654,7 @@ function draw(t){if(!TL)return;const i=lineAt(t),sp=SP(i),era=sp.era;
  // HUD: Jahr-Chip + Geldglas
  let hud='';const chip=sp.chip;if(chip&&sp.shot!=='title'){const k=pop(t,S(i)-.05,.35),same=i>0&&SP(i-1).chip===chip;
   hud+=`<div class=chip style="transform:scale(${same?1:k});transform-origin:0 50%;${['space','synth','cosmic','jazz','title'].includes(era)?'background:#ffffffe0;color:#1b2238':''}"><span style="width:14px;height:14px;border-radius:50%;background:${C.red};display:inline-block;opacity:${.4+.6*Math.abs(Math.sin(t*2))}"></span>${chip}</div>`}
- const iv=IDX.invest,im=IDX.million;if(iv!=null&&i>iv&&!['counter','title','remember','yearbook','million','power','worth1900'].includes(sp.shot)&&!(sp.era==='cosmic')&&i<IDX.deal){
+ const iv=null,im=IDX.million;if(iv!=null&&i>iv&&!['counter','title','remember','yearbook','million','power','worth1900'].includes(sp.shot)&&!(sp.era==='cosmic')&&i<IDX.deal){
   const val=i>im?'$10,740,900':'$100';hud+=`<div class=chip style="left:auto;right:46px;${['space','synth','jazz'].includes(era)?'background:#ffffffe0;color:#1b2238':''}"><span style="color:${C.green}">●</span> INVESTED: ${val}</div>`}
  if(hud!==$('hud')._h){$('hud').innerHTML=hud;$('hud')._h=hud}
  // Effekte: Sepia/Grain fuer alte Epochen
@@ -535,6 +725,36 @@ window.sfxEvents=()=>{const ev=[],N=TL.lines.length,add=(k,t,o={})=>ev.push(Obje
  at_('alone',i=>{P(i,/twenty/i,.7,'ding')});
  at_('deal',i=>{P(i,/millions/i,.25,'cash');P(i,/outlive/i,.8,'thud')});
  at_('outro',i=>{P(i,/comments/i,.3);P(i,/stories/i,.9,'click');add('ding',WT(i,/stories/i,.9)+.5)});
+ at_('hype',i=>{for(let k=0;k<10;k++)add('pop',S(i)+.2+k*.12,{g:.35});add('bright',S(i)+.5);P(i,/superhero/i,.85,'shimmer')});
+ at_('nopressure',i=>{P(i,/pressure/i,.3,'whoosh',{d:1});P(i,/old/i,.55,'error');P(i,/ticking/i,.85,'ding')});
+ at_('sleepin',i=>{add('air',S(i)+.2,{d:2});P(i,/year/i,.3);P(i,/wasting/i,.7,'click')});
+ at_('travel',i=>{const d=E(i)-S(i);for(let k=0;k<10;k++)add('pop',S(i)+.3+k*(d-.6)/10,{g:.5});add('air',S(i)+.2,{d:d-.4,g:.5})});
+ at_('risks',i=>{add('pop',S(i)+.2);P(i,/fail/i,.3,'error');for(let k=0;k<8;k++)add('tick',WT(i,/another/i,.45)+k*.25,{f:900+k*60});P(i,/hundred/i,.85,'ding')});
+ at_('careers',i=>{P(i,/doctor/i,.2);P(i,/pilot/i,.35,'swish',{d:.4});P(i,/chef/i,.5,'pop')});
+ at_('envy',i=>{P(i,/secret/i,.45,'pop');P(i,/ask/i,.9,'shimmer')});
+ at_('king',i=>{add('bright',S(i)+.1);add('shimmer',S(i)+.3);P(i,/beaten/i,.6,'impact')});
+ at_('tenyears',i=>{add('pop',S(i)+.3);P(i,/wrinkles/i,.5,'swish',{d:1});P(i,/same/i,.95,'thud')});
+ at_('party40',i=>{P(i,/forty/i,.3,'bright');P(i,/ID/,.85,'error')});
+ at_('lies',i=>{P(i,/botox/i,.2);P(i,/genes/i,.4);P(i,/skincare/i,.6);for(let k=0;k<8;k++)add('pop',WT(i,/another/i,.85)-.5+k/6,{g:.4})});
+ at_('parents',i=>{for(let k=0;k<6;k++)add('beep',S(i)+.4+k*.9,{g:.3});P(i,/nurse/i,.95,'thud')});
+ at_('funeral',i=>{add('air',S(i)+.2,{d:E(i)-S(i)-.3,g:.6});P(i,/recognize/i,.55,'pop',{g:.5})});
+ at_('motherson',i=>{P(i,/mom/i,.5,'pop');P(i,/hurts/i,.85,'thud')});
+ at_('paperwork',i=>{P(i,/fifty/i,.3,'click');P(i,/twenty-five/i,.45,'click');P(i,/banks/i,.65);P(i,/doctors/i,.75);P(i,/employers/i,.85);P(i,/everyone/i,.95,'error')});
+ at_('doctor',i=>{add('beep',S(i)+.3);P(i,/file/i,.9,'error')});
+ at_('photos',i=>{for(let k=0;k<3;k++)add('paper',S(i)+.3+k*.25);P(i,/evidence/i,.4,'impact');P(i,/expose/i,.85,'click')});
+ at_('burn',i=>{add('air',S(i)+.2,{d:2});P(i,/gone/i,.9,'thud')});
+ at_('faraway',i=>{add('air',S(i)+.2,{d:E(i)-S(i)-.3,g:.5});P(i,/allowed/i,.9,'thud')});
+ at_('walls',i=>{for(let k=0;k<14;k++)add('hammer',WT(i,/stop/i,.2)+k*.17,{g:.5})});
+ at_('fake',i=>{P(i,/tired/i,.3,'blip');P(i,/back/i,.55,'thud');P(i,/wrinkles/i,.85,'swish',{d:.4})});
+ at_('bored',i=>{P(i,/boredom/i,.3,'thud');P(i,/movie/i,.5,'ding');P(i,/song/i,.65,'ding');add('ding',WT(i,/song/i,.65)+.9)});
+ at_('flat',i=>{add('beep',S(i)+.3);P(i,/flat/i,.85,'beep')});
+ at_('forget',i=>{P(i,/love/i,.6,'shimmer');P(i,/voice/i,.95,'air',{d:1})});
+ at_('lab',i=>{P(i,/celebrity/i,.55,'error');add('impact',WT(i,/you'd/i,.95)+.3)});
+ at_('secret',i=>{add('air',S(i)+.2,{d:E(i)-S(i)-.3,g:.6});P(i,/nobody/i,.8,'thud')});
+ at_('gone',i=>add('shimmer',S(i)+.2));
+ at_('fortune',i=>{add('cash',S(i)+.3);add('cash',S(i)+.45);P(i,/nobody/i,.7,'thud')});
+ at_('envyold',i=>{P(i,/beginning/i,.6);P(i,/middle/i,.75);add('ding',WT(i,/middle/i,.75)+.8)});
+ at_('meaning',i=>{add('shimmer',S(i)+.3);P(i,/birthday/i,.55);P(i,/goodbye/i,.65);P(i,/moment/i,.75)});
  ev.sort((a,b)=>a.t-b.t);const out=[];for(const e of ev){if(!out.find(o=>o.k==e.k&&Math.abs(o.t-e.t)<.1))out.push(e)}return out};
 window.draw=draw;
 </script>

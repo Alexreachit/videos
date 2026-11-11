@@ -17,77 +17,68 @@ SOURCES = """Sources (checked 2026-11-10):
   USD 1 of 1900 = USD 37 today.
 - Phys.org (2014) "Bright aging sun": rising solar output could end Earth's habitability in ~650 million years (older models); newer 3-D models
   at least 1.5 billion years -> "roughly a billion years" as a round middle; the Sun becomes a red giant in about 5 billion years.
+Version 2 (Alex, 11.11.): Fokus auf Gefuehl "erst cool, dann Probleme" statt Geschichte. Fakten nur noch: Sonne (Phys.org).
 Fiction: the character does not age (hypothetical). Identity changes, Mars in the year 3000 etc. are clearly framed as imagination ("maybe")."""
 import json, os
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 L = []
 def A(t, shot, era, chip=None, **k): L.append(dict(text=t, spec=dict(shot=shot, era=era, chip=chip, **k)))
-# ---------- HOOK ----------
-A("Imagine you're twenty-five years old. It's the year 1900. And one morning... you simply stop aging.", "wake", "wonder", "1900 · AGE 25")
-A("No wrinkles. No gray hair. No back pain. Ever.", "mirror", "wonder", "1900 · AGE 25")
-A("Sounds like a dream, right? But over the next hundred and twenty-five years, you're going to find out it comes with some very weird problems.", "timeline", "wonder", "1900 · AGE 25")
-A("And one tiny decision you make on day one will turn you into a multi-millionaire.", "teaser", "wonder", "1900 · AGE 25")
+# ---------- AKT 1: "Ich lebe fuer immer!" ----------
+A("Imagine you wake up one morning, and your body has simply... stopped aging.", "wake", "wonder", "DAY 1 · AGE 25")
+A("No wrinkles. No gray hair. No back pain. Ever.", "mirror", "wonder", "DAY 1 · AGE 25")
+A("At first, this is the best thing that has ever happened to you. You're basically a superhero.", "hype", "wonder", "DAY 1 · AGE 25")
 A("This is your life if you never aged.", "title", "title")
-# ---------- 1900 ----------
-A("Let's start. The year is 1900. There are no airplanes, almost no cars, and the average American only lives to about forty-seven.", "street1900", "rag", "1900 · AGE 25", cut=True)
-A("You, on the other hand, have all the time in the world.", "smug", "rag", "1900 · AGE 25")
-A("So you do something that sounds really boring. You take one hundred dollars, put it into the American stock market, and promise yourself you'll never touch it.", "invest", "rag", "1900 · AGE 25")
-A("And a hundred dollars in 1900 is real money. In today's dollars, that's roughly three thousand seven hundred.", "worth1900", "rag", "1900 · AGE 25")
-A("Keep an eye on that number. We'll come back to it.", "counter", "rag", "1900 · AGE 25")
-# ---------- 1903 - 1929 ----------
-A("In 1903, two brothers named Wright fly an airplane for twelve seconds. You're standing right there, thinking it's a cute toy.", "wright", "rag", "1903 · REALLY 28")
-A("In 1908, Ford releases the Model T for eight hundred and fifty dollars. Suddenly, everybody wants a car.", "modelt", "rag", "1908 · REALLY 33")
-A("And by 1922, a brand new Model T costs less than three hundred. You buy one. Then another. You have time to collect them all.", "modelt2", "rag", "1922 · REALLY 47")
-A("Then things get dark. A world war breaks out. And in 1918, a flu pandemic infects about a third of the entire planet. At least fifty million people die.", "flu", "sad", "1918 · REALLY 43", mood="dark")
-A("You survive. But it teaches you something important: you don't age, but you're not invincible.", "survive", "sad", "1918 · REALLY 43")
-A("Then come the Twenties. Jazz, parties, and a stock market that only seems to go up.", "twenties", "jazz", "1925 · REALLY 50")
-A("Until October 1929.", "crash1", "sad", "1929 · REALLY 54", mood="dark")
-A("The market crashes. From its peak, the Dow Jones loses eighty-nine percent. People who borrowed money to buy stocks lose everything.", "crash2", "sad", "1929 · REALLY 54")
-A("Your little investment gets crushed too. But you have a superpower nobody else has. Time. So you just... wait.", "wait", "sad", "1932 · REALLY 57")
-A("And honestly, waiting isn't so bad when you have forever. You learn French. Then Spanish. Then Japanese.", "learn", "lounge", "1935 · REALLY 60")
-A("You learn the piano, the guitar, and how to cook pretty much anything. You read every book in the library. Twice.", "skills", "lounge", "1940 · REALLY 65")
-A("It takes until 1954 for the Dow to get back to its old high. Twenty-five years. For everyone else, that's a huge part of their life. For you, it's a coffee break.", "recover", "lounge", "1954 · REALLY 79")
-# ---------- 1940s - 1960s ----------
-A("But by now, the real problems have started.", "problems", "lounge", "1954 · REALLY 79")
-A("Your friends got married, had kids, and found their first gray hairs. Some of them are grandparents now.", "friends", "lounge", "1954 · REALLY 79")
-A("And you? You still look twenty-five. People start whispering.", "whisper", "lounge", "1954 · REALLY 79")
-A("Dating gets complicated too. Every relationship comes with an expiration date, and only you know it.", "dating", "lounge", "1954 · REALLY 79")
-A("So you do what every immortal has to do. You pack one suitcase, move to a new city, and start over with a new name.", "move", "lounge", "1955 · REALLY 80")
-A("You'll have to do this every twenty years or so. New city. New friends. New life. Again and again.", "moves", "lounge", "1955 · REALLY 80")
-A("Every time, you need a new story. Where were you born? Who are your parents? Why do you know so much about the 1920s?", "story", "lounge", "1960 · REALLY 85")
-A("In 1969, you sit in front of a TV with hundreds of millions of other people and watch a man step onto the Moon.", "moon", "space", "1969 · REALLY 94")
-A("And it hits you. You're going to see things nobody alive today will ever see.", "stars", "space", "1969 · REALLY 94")
-A("Think about it. The first airplane you watched flew for twelve seconds. Sixty-six years later, humans are walking on the Moon.", "plane2moon", "space", "1969 · REALLY 94")
-# ---------- 1970s - 2000s ----------
-A("In 1973, an engineer at Motorola makes the first call from a handheld cell phone. It weighs about two and a half pounds.", "phone", "synth", "1973 · REALLY 98")
-A("And who does he call first? His rival at Bell Labs. Just to tell him that Motorola got there first.", "rival", "synth", "1973 · REALLY 98")
-A("In 1991, the World Wide Web goes public. And in 2007, the iPhone shows up.", "web", "synth", "2007 · REALLY 132")
-A("For most people, that's exciting. For you, it's a nightmare.", "nightmare", "synth", "2007 · REALLY 132", mood="dark")
-A("Computers, databases, and later face scans make it harder and harder to just invent a new person.", "scan", "synth", "2015 · REALLY 140")
-A("You can't get old. But you also can't hide anymore.", "cameras", "synth", "2015 · REALLY 140")
-A("And the stock market keeps doing its thing. Crashes, panics, headlines saying it's the end of the world. You've seen this movie before. You don't sell.", "panics", "synth", "2020 · REALLY 145")
-# ---------- TODAY: THE MONEY ----------
-A("So here we are. It's 2025. On paper, you're a hundred and fifty years old. And you still look twenty-five.", "today", "modern", "2025 · REALLY 150", cut=True)
-A("Now, remember those hundred dollars?", "remember", "modern", "2025 · REALLY 150")
-A("According to the UBS Global Investment Returns Yearbook, one dollar put into American stocks in 1900 grew to about one hundred and seven thousand dollars by the end of 2024.", "yearbook", "modern", "2025 · REALLY 150")
-A("Which means your hundred dollars is now worth about ten point seven million dollars.", "million", "modern", "2025 · REALLY 150")
-A("Your hundred dollars from 1900 had the buying power of about three thousand seven hundred dollars today. Now it buys almost three thousand times more.", "power", "modern", "2025 · REALLY 150")
-A("You never had a genius idea. You never ran a big company. You just had one thing. Time.", "lesson", "modern", "2025 · REALLY 150")
-A("And that's the real secret of compound interest. The longest player wins. You're not immortal, but starting early is the closest thing to it.", "compound", "modern", "2025 · REALLY 150")
-# ---------- THE FUTURE ----------
-A("But let's keep going. The year 2100. Everyone you ever met is gone.", "y2100", "cosmic", "2100 · REALLY 225", cut=True)
-A("You've watched every invention of the last two centuries happen live. You're basically a walking history book that nobody is allowed to read.", "historybook", "cosmic", "2100 · REALLY 225")
-A("The year 3000. Maybe people live on Mars by now. You've changed your name about fifty times.", "y3000", "cosmic", "3000 · REALLY 1,125")
-A("One million years from now, cities, languages, maybe even humans themselves have turned into something completely new.", "y1m", "cosmic", "1,000,000 · ???")
+A("The first thing you notice is that the pressure is gone. No more, I'm getting too old for this. No ticking clock. Ever.", "nopressure", "modern", "YEAR 1 · AGE 25", cut=True)
+A("You sleep in. You take a year off. Nobody can tell you that you're wasting your life, because you literally can't.", "sleepin", "modern", "YEAR 1 · AGE 25")
+A("So you learn everything. French. Then Spanish. Then Japanese.", "learn", "modern", "YEAR 2 · AGE 25")
+A("You learn the piano, the guitar, and how to cook pretty much anything. You read every book you ever wanted to read.", "skills", "modern", "YEAR 4 · AGE 25")
+A("You travel to every single country on Earth. Not on some rushed two-week vacation. You live in each one for a while.", "travel", "modern", "YEAR 6 · AGE 25")
+A("You take every risk. Start a business, fail, start another one. Who cares? You can try again a hundred times.", "risks", "modern", "YEAR 7 · AGE 25")
+A("Want to be a doctor, a pilot and a chef? Easy. Just become all of them, one after another.", "careers", "modern", "YEAR 8 · AGE 25")
+A("You even put a little money into the stock market and just leave it there. When you have decades to wait, compound interest becomes your best friend.", "invest", "modern", "YEAR 8 · AGE 25")
+A("Your friends are jealous. What's your secret, they ask. And you just smile.", "envy", "modern", "YEAR 9 · AGE 25")
+A("Life is perfect. You feel like you've beaten the game.", "king", "modern", "YEAR 9 · AGE 25")
+# ---------- AKT 2: Die ersten Risse ----------
+A("But then, slowly, the problems start.", "problems", "lounge", "YEAR 10 · LOOKS 25", cut=True)
+A("Ten years later, your friends start to notice. They have their first wrinkles and their first gray hairs. You look exactly the same.", "tenyears", "lounge", "YEAR 10 · LOOKS 25")
+A("At first they joke about it. Then they stop joking. People start whispering behind your back.", "whisper", "lounge", "YEAR 12 · LOOKS 25")
+A("Your best friend turns forty and throws a huge party. And you still get asked for your ID at the door.", "party40", "lounge", "YEAR 15 · LOOKS 25")
+A("So you start lying. Botox. Great genes. A really strict skincare routine. And every lie needs another lie.", "lies", "lounge", "YEAR 14 · LOOKS 25")
+A("Then your parents get old. You sit next to them in the hospital, and the nurse thinks you're their grandson.", "parents", "sad", "YEAR 25 · LOOKS 25", mood="dark")
+A("At the funeral, people who have known you your whole life don't recognize you. They think you're some distant relative.", "funeral", "sad", "YEAR 27 · LOOKS 25")
+A("Love gets complicated too. You fall in love, but every year, your partner gets a little older, and you don't.", "dating", "sad", "YEAR 30 · LOOKS 25")
+A("After twenty years, a waiter asks if she's your mom. Every time it happens, it hurts a little more.", "motherson", "sad", "YEAR 45 · LOOKS 25")
+A("Even normal life stops working. Your ID says you're fifty, but your face says twenty-five. Banks, doctors, employers. Everyone gets suspicious.", "paperwork", "lounge", "YEAR 50 · LOOKS 25")
+A("Try explaining to a doctor why your scans look twenty-five, when your file says you should be sixty.", "doctor", "lounge", "YEAR 60 · LOOKS 25")
+A("You start avoiding cameras. Every old photo of you is evidence. One picture from the past could expose everything.", "photos", "lounge", "YEAR 50 · LOOKS 25")
+# ---------- AKT 3: Einsamkeit ----------
+A("So you do the only thing you can. You pack one suitcase, leave in the middle of the night, and start over in a new city with a new name.", "move", "sad", "YEAR 52 · LOOKS 25", cut=True)
+A("No goodbyes. No explanations. Your friends just wake up one day, and you're gone.", "burn", "sad", "YEAR 52 · LOOKS 25")
+A("And from far away, you watch the people you left behind get old, get sick, and die. And you're not allowed to be there.", "faraway", "sad", "YEAR 70 · LOOKS 25")
+A("And you have to do it again every ten or fifteen years. New city. New friends. New life. Again and again.", "moves", "sad", "YEAR 100 · LOOKS 25")
+A("After a while, you stop letting people in. What's the point of making friends if you'll have to leave them anyway?", "walls", "sad", "YEAR 110 · LOOKS 25")
+A("You learn to fake it. You pretend to be tired. You pretend your back hurts. You even paint on a few wrinkles.", "fake", "sad", "YEAR 115 · LOOKS 25")
+A("Every conversation is a test. Where did you grow up? Who are your parents? Why do you remember things nobody your age should know?", "story", "sad", "YEAR 120 · LOOKS 25")
+A("And then something even worse shows up. Boredom. You've seen every kind of movie, heard every kind of song, had every kind of argument.", "bored", "space", "YEAR 150 · LOOKS 25")
+A("Nothing surprises you anymore. And without surprises, even happiness starts to feel flat.", "flat", "space", "YEAR 160 · LOOKS 25")
+A("Your memories start to blur. One day you realize you can't remember the face of your first love anymore. Or your mother's voice.", "forget", "space", "YEAR 180 · LOOKS 25", mood="dark")
+A("And hiding gets harder and harder. Cameras everywhere. Face recognition. Digital records of everything.", "scan", "synth", "YEAR 200 · LOOKS 25")
+A("You know exactly what would happen if anyone found out. You wouldn't be a celebrity. You'd be a science experiment.", "lab", "synth", "YEAR 200 · LOOKS 25")
+A("So you carry the biggest secret in the world, completely alone. There's literally nobody you can tell.", "secret", "synth", "YEAR 220 · LOOKS 25")
+# ---------- AKT 4: Ende ----------
+A("Decades turn into centuries. Everyone you ever loved is gone. Only you remain.", "gone", "cosmic", "YEAR 500 · LOOKS 25", cut=True)
+A("Sure, that little investment has turned into a fortune by now. But there's nobody left to spend it with.", "fortune", "cosmic", "YEAR 500 · LOOKS 25")
+A("And you start to envy them. The people who got old. They got a whole story, with a beginning, a middle, and an end.", "envyold", "cosmic", "YEAR 500 · LOOKS 25")
 A("In roughly a billion years, scientists expect the Sun to be so bright that Earth becomes too hot for life.", "hotearth", "cosmic", "~1 BILLION YEARS")
 A("And in about five billion years, the Sun swells into a red giant.", "redgiant", "cosmic", "~5 BILLION YEARS")
 A("And you? You're still twenty-five.", "alone", "cosmic", "AGE 25")
 # ---------- OUTRO ----------
-A("So, would you take the deal? Millions in the bank and all the time in the world, but you outlive everyone you love?", "deal", "wonder", None, cut=True)
+A("Maybe getting older isn't a bug. Maybe it's exactly what makes our time so valuable. Every birthday, every goodbye, every moment matters, because it doesn't last forever.", "meaning", "wonder", None, cut=True)
+A("So, would you still take the deal? Living forever, but watching everyone you love leave?", "deal", "wonder", None)
 A("Tell me in the comments. And if you want more what-if stories like this, subscribe.", "outro", "wonder", None)
-P_ = dict(title="YouTube 15: Your Life If You Never Aged", _sources=SOURCES,
-          size=[1920, 1080], fps=30, scene="scene.html", voice="en-US-AndrewMultilingualNeural", rate="+0%",
-          lead=0.8, gap=0.45, tail=3.0, crf=20, music=dict(style="eras", gain=0.16, duck_ratio=2),
+P_ = dict(title="YouTube 15: Your Life If You Never Aged (v2)", _sources=SOURCES,
+          size=[1920, 1080], fps=30, scene="scene.html", voice="en-US-AndrewMultilingualNeural", rate="-4%",
+          lead=0.8, gap=0.55, tail=3.0, crf=20, music=dict(style="eras", gain=0.16, duck_ratio=2),
           sfx_vary=True, sfx_gain=0.45, lines=L)
 json.dump(P_, open("project.json", "w"), indent=1, ensure_ascii=False)
 print(len(L), "lines", sum(len(l["text"].split()) for l in L), "words")
