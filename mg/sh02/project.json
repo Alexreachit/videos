@@ -1,0 +1,143 @@
+{
+ "title": "TikTok-Serie Squarehead Island – Tag 2 (Deutsch)",
+ "_sources": "Fiktive Community-Serie (keine Faktenbehauptungen). Zahlen von Alex: 15 Einwohner, 15 Likes, Abstimmung Haus.",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "elevenlabs:DiMario - Energetic and Fun (sh02/voice, build_voice.py)",
+ "rate": "+16%",
+ "lead": 0.05,
+ "gap": 0.12,
+ "tail": 1.4,
+ "crf": 20,
+ "music": {
+  "style": "playful",
+  "bpm": 150,
+  "gain": 0.13,
+  "ambience": 0.02,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.55,
+ "lines": [
+  {
+   "text": "Tag 2 auf Squarehead Island!",
+   "spec": {
+    "type": "map",
+    "mood": "bright"
+   },
+   "say": "Tag zwei auf Squarehead Island!"
+  },
+  {
+   "text": "Gestern habe ich mein eigenes Land gegründet.",
+   "spec": {
+    "type": "recap",
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "Unser Ziel: das reichste Land der Welt.",
+   "spec": {
+    "type": "goal"
+   }
+  },
+  {
+   "text": "Und ihr habt entschieden: Wir bauen ein Haus!",
+   "spec": {
+    "type": "vote",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Wir sind jetzt schon 15 Einwohner!",
+   "spec": {
+    "type": "crowd",
+    "mood": "bright"
+   },
+   "say": "Wir sind jetzt schon fünfzehn Einwohner!"
+  },
+  {
+   "text": "Eure Likes bringen 150 Euro. Macht 170 Euro in der Kasse!",
+   "spec": {
+    "type": "money"
+   },
+   "say": "Eure Likes bringen hundertfünfzig Euro. Macht hundertsiebzig Euro in der Kasse!"
+  },
+  {
+   "text": "Für eine Villa reicht das nicht…",
+   "spec": {
+    "type": "villa",
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "Aber für eine kleine Hütte! Alle Mann, wir bauen!",
+   "spec": {
+    "type": "build",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Einer will Bürgermeister werden. Du wirst mein Vize-Bürgermeister!",
+   "spec": {
+    "type": "vize"
+   }
+  },
+  {
+   "text": "Hier ist deine Sonnenbrille!",
+   "spec": {
+    "type": "brille",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Und ja: Du wohnst schon hier!",
+   "spec": {
+    "type": "wohnt"
+   }
+  },
+  {
+   "text": "Wer in die Armee will: Du bist der Erste in der Wache!",
+   "spec": {
+    "type": "armee"
+   }
+  },
+  {
+   "text": "Und wer sich sucht: Hier bist du!",
+   "spec": {
+    "type": "elias",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Nur ein Problem: 15 Leute, eine Hütte und nur eine Melone.",
+   "spec": {
+    "type": "problem",
+    "mood": "calm"
+   },
+   "say": "Nur ein Problem: fünfzehn Leute, eine Hütte und nur eine Melone."
+  },
+  {
+   "text": "Also: Pflanzen wir ein Melonenfeld?",
+   "spec": {
+    "type": "feld",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Oder bauen wir ein Boot zur Nachbarinsel?",
+   "spec": {
+    "type": "boot"
+   }
+  },
+  {
+   "text": "Der Top-Kommentar entscheidet.",
+   "spec": {
+    "type": "comment"
+   }
+  }
+ ]
+}
