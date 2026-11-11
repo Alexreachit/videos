@@ -634,6 +634,19 @@ SH.invest=(t,i)=>{const u=U(t,i),d=D(i);let h='';const tm=WT(i,/market/i,.4),tc=
  const g=ez(cl(t,tc-.3,E(i)));h+=jar(1330,640,1.25,.12+g*.75);
  h+=tag(1330,280,'📈 COMPOUND INTEREST',{bg:C.green,size:44,s:pop(t,tc),r:-3});
  return {h,cam:{z:1.02+u*.01}}};
+SH.mirror2=(t,i)=>{const u=U(t,i);let h='';const tw=WT(i,/wrinkles/i,.45),tb=WT(i,/something/i,.9)+.6;
+ h+=at(760,500,`<div style="width:420px;height:600px;border-radius:200px 200px 30px 30px;background:linear-gradient(160deg,#e8f2f8,#c9dbe6);border:14px solid #c49a5a"></div>`);
+ h+=pal(760,880,360,C.pink,.8,{hair:'#a8441f'});h+=samAt(1300,990,330,{mouth:'sad',talk:talkS(t,i),look:[-5,0]},t);
+ h+=tag(760,200,'👵 WRINKLES',{bg:'#fff',col:C.ink,size:40,s:pop(t,tw)});
+ h+=at(1040,560,svg(120,120,`<path d="M60,10 L50,50 L70,70 L56,110" fill=none stroke="${C.red}" stroke-width="10" stroke-linejoin="round"/>`),{s:pop(t,tb-.4)});
+ return {h,cam:{z:1.02+u*.006}}};
+SH.grayhair=(t,i)=>{const u=U(t,i);let h='';const tg=WT(i,/single/i,.9);
+ h+=bed(960,820,1.7,{col:'#3a4570'});h+=at(760,690,`<div style="width:150px;height:150px;border-radius:50%;background:#f2d3ad;border:6px solid ${C.ink};position:relative"><div class=ab style="left:36px;top:58px;width:14px;height:14px;border-radius:50%;background:${C.ink}"></div><div class=ab style="left:96px;top:58px;width:14px;height:14px;border-radius:50%;background:${C.ink}"></div></div>`);
+ h+=at(1250,360,`<div style="width:420px;height:260px;border-radius:50%;background:#fff;border:7px solid ${C.ink};display:flex;align-items:center;justify-content:center">${svg(160,160,`<path d="M30,140 Q60,60 130,20" stroke="#c9ccd3" stroke-width="10" fill=none stroke-linecap="round"/>`)}</div>`,{s:pop(t,tg-.6)});
+ for(let k=0;k<3;k++)h+=at(960+k*70,560-k*60,`<div style="width:${20+k*12}px;height:${20+k*12}px;border-radius:50%;background:#fff;border:5px solid ${C.ink}"></div>`,{s:pop(t,tg-.9+k*.1)});
+ h+=tag(1250,560,'ONE GRAY HAIR. PLEASE.',{bg:C.ink,size:40,s:pop(t,tg)});
+ for(let k=0;k<40;k++)h+=at(R(k)*W,R(k+9)*400,`<div style="width:4px;height:4px;border-radius:50%;background:#fff;opacity:${.4+.6*Math.abs(Math.sin(t+k))}"></div>`);
+ return {h,cam:{z:1.03-u*.006}}};
 // ---------- Engine ----------
 function lineAt(t){let k=0;for(let j=0;j<TL.lines.length;j++)if(t>=S(j)-.08)k=j;return k}
 function shotOf(i,t){const f=SH[SP(i).shot];if(!f)return {h:big(960,540,'missing: '+SP(i).shot,{size:50,col:C.red}),cam:{z:1}};return f(t,i)}
@@ -755,6 +768,8 @@ window.sfxEvents=()=>{const ev=[],N=TL.lines.length,add=(k,t,o={})=>ev.push(Obje
  at_('fortune',i=>{add('cash',S(i)+.3);add('cash',S(i)+.45);P(i,/nobody/i,.7,'thud')});
  at_('envyold',i=>{P(i,/beginning/i,.6);P(i,/middle/i,.75);add('ding',WT(i,/middle/i,.75)+.8)});
  at_('meaning',i=>{add('shimmer',S(i)+.3);P(i,/birthday/i,.55);P(i,/goodbye/i,.65);P(i,/moment/i,.75)});
+ at_('mirror2',i=>{P(i,/wrinkles/i,.45,'pop');add('thud',WT(i,/something/i,.9)+.6)});
+ at_('grayhair',i=>{add('air',S(i)+.2,{d:E(i)-S(i)-.3,g:.5});P(i,/single/i,.9,'chime')});
  ev.sort((a,b)=>a.t-b.t);const out=[];for(const e of ev){if(!out.find(o=>o.k==e.k&&Math.abs(o.t-e.t)<.1))out.push(e)}return out};
 window.draw=draw;
 </script>

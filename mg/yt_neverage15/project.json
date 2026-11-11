@@ -8,9 +8,9 @@
  "fps": 30,
  "scene": "scene.html",
  "voice": "en-US-AndrewMultilingualNeural",
- "rate": "-4%",
+ "rate": "-7%",
  "lead": 0.8,
- "gap": 0.55,
+ "gap": 0.7,
  "tail": 3.0,
  "crf": 20,
  "music": {
@@ -209,6 +209,14 @@
    }
   },
   {
+   "text": "She starts to feel it too. She looks at her wrinkles in the mirror, then she looks at you. And something between you quietly breaks.",
+   "spec": {
+    "shot": "mirror2",
+    "era": "sad",
+    "chip": "YEAR 46 · LOOKS 25"
+   }
+  },
+  {
    "text": "Even normal life stops working. Your ID says you're fifty, but your face says twenty-five. Banks, doctors, employers. Everyone gets suspicious.",
    "spec": {
     "shot": "paperwork",
@@ -336,6 +344,14 @@
     "shot": "secret",
     "era": "synth",
     "chip": "YEAR 220 · LOOKS 25"
+   }
+  },
+  {
+   "text": "Some nights you lie awake, wishing for one tiny thing. A single gray hair.",
+   "spec": {
+    "shot": "grayhair",
+    "era": "space",
+    "chip": "YEAR 250 · LOOKS 25"
    }
   },
   {

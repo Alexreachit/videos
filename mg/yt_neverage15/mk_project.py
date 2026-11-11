@@ -48,6 +48,7 @@ A("Then your parents get old. You sit next to them in the hospital, and the nurs
 A("At the funeral, people who have known you your whole life don't recognize you. They think you're some distant relative.", "funeral", "sad", "YEAR 27 · LOOKS 25")
 A("Love gets complicated too. You fall in love, but every year, your partner gets a little older, and you don't.", "dating", "sad", "YEAR 30 · LOOKS 25")
 A("After twenty years, a waiter asks if she's your mom. Every time it happens, it hurts a little more.", "motherson", "sad", "YEAR 45 · LOOKS 25")
+A("She starts to feel it too. She looks at her wrinkles in the mirror, then she looks at you. And something between you quietly breaks.", "mirror2", "sad", "YEAR 46 · LOOKS 25")
 A("Even normal life stops working. Your ID says you're fifty, but your face says twenty-five. Banks, doctors, employers. Everyone gets suspicious.", "paperwork", "lounge", "YEAR 50 · LOOKS 25")
 A("Try explaining to a doctor why your scans look twenty-five, when your file says you should be sixty.", "doctor", "lounge", "YEAR 60 · LOOKS 25")
 A("You start avoiding cameras. Every old photo of you is evidence. One picture from the past could expose everything.", "photos", "lounge", "YEAR 50 · LOOKS 25")
@@ -65,6 +66,7 @@ A("Your memories start to blur. One day you realize you can't remember the face 
 A("And hiding gets harder and harder. Cameras everywhere. Face recognition. Digital records of everything.", "scan", "synth", "YEAR 200 · LOOKS 25")
 A("You know exactly what would happen if anyone found out. You wouldn't be a celebrity. You'd be a science experiment.", "lab", "synth", "YEAR 200 · LOOKS 25")
 A("So you carry the biggest secret in the world, completely alone. There's literally nobody you can tell.", "secret", "synth", "YEAR 220 · LOOKS 25")
+A("Some nights you lie awake, wishing for one tiny thing. A single gray hair.", "grayhair", "space", "YEAR 250 · LOOKS 25")
 # ---------- AKT 4: Ende ----------
 A("Decades turn into centuries. Everyone you ever loved is gone. Only you remain.", "gone", "cosmic", "YEAR 500 · LOOKS 25", cut=True)
 A("Sure, that little investment has turned into a fortune by now. But there's nobody left to spend it with.", "fortune", "cosmic", "YEAR 500 · LOOKS 25")
@@ -77,8 +79,8 @@ A("Maybe getting older isn't a bug. Maybe it's exactly what makes our time so va
 A("So, would you still take the deal? Living forever, but watching everyone you love leave?", "deal", "wonder", None)
 A("Tell me in the comments. And if you want more what-if stories like this, subscribe.", "outro", "wonder", None)
 P_ = dict(title="YouTube 15: Your Life If You Never Aged (v2)", _sources=SOURCES,
-          size=[1920, 1080], fps=30, scene="scene.html", voice="en-US-AndrewMultilingualNeural", rate="-4%",
-          lead=0.8, gap=0.55, tail=3.0, crf=20, music=dict(style="eras", gain=0.16, duck_ratio=2),
+          size=[1920, 1080], fps=30, scene="scene.html", voice="en-US-AndrewMultilingualNeural", rate="-7%",
+          lead=0.8, gap=0.7, tail=3.0, crf=20, music=dict(style="eras", gain=0.16, duck_ratio=2),
           sfx_vary=True, sfx_gain=0.45, lines=L)
 json.dump(P_, open("project.json", "w"), indent=1, ensure_ascii=False)
 print(len(L), "lines", sum(len(l["text"].split()) for l in L), "words")
