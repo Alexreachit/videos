@@ -79,7 +79,7 @@ A("Maybe getting older isn't a bug. Maybe it's exactly what makes our time so va
 A("So, would you still take the deal? Living forever, but watching everyone you love leave?", "deal", "wonder", None)
 A("Tell me in the comments. And if you want more what-if stories like this, subscribe.", "outro", "wonder", None)
 P_ = dict(title="YouTube 15: Your Life If You Never Aged (v2)", _sources=SOURCES,
-          size=[1920, 1080], fps=30, scene="scene.html", voice="en-US-AndrewMultilingualNeural", rate="-7%",
+          size=[1920, 1080], fps=30, scene="scene.html", voice="en-US-AndrewMultilingualNeural", rate="-7%", lang="en-US",
           lead=0.8, gap=0.7, tail=3.0, crf=20, music=dict(style="eras", gain=0.16, duck_ratio=2),
           sfx_vary=True, sfx_gain=0.45, lines=L)
 json.dump(P_, open("project.json", "w"), indent=1, ensure_ascii=False)

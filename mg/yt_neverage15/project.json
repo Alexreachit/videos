@@ -9,6 +9,7 @@
  "scene": "scene.html",
  "voice": "en-US-AndrewMultilingualNeural",
  "rate": "-7%",
+ "lang": "en-US",
  "lead": 0.8,
  "gap": 0.7,
  "tail": 3.0,
