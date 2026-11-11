@@ -674,20 +674,56 @@ SH.bored=(t,i)=>{const u=U(t,i),d=D(i);let h='';const tb=WT(i,/boredom/i,.3);
 // ---------- Engine ----------
 function lineAt(t){let k=0;for(let j=0;j<TL.lines.length;j++)if(t>=S(j)-.08)k=j;return k}
 function shotOf(i,t){const f=SH[SP(i).shot];if(!f)return {h:big(960,540,'missing: '+SP(i).shot,{size:50,col:C.red}),cam:{z:1}};return f(t,i)}
-function layer(i,t,op,ext=''){const r=shotOf(i,t),c=r.cam||{};const z=c.z||1,x=c.x||0,y=c.y||0,rot=c.r||0;
- return `<div class=ab style="inset:0;width:${W}px;height:${H}px;opacity:${op.toFixed(3)};transform:translate(${x.toFixed(1)}px,${y.toFixed(1)}px) scale(${z.toFixed(4)}) rotate(${rot.toFixed(2)}deg);transform-origin:960px 540px;${ext}">${r.h}</div>`}
+// Kamera: jede Szene hat eine eigene langsame Fahrt (Dolly/Schwenk, abwechselnd), Uebergaenge sind echte Kamerafahrten
+function drift(i,t){const u=cl((t-S(i)+.6)/(E(i)-S(i)+1.4),0,1),k=i%4,e=ei(u);
+ return [{x:lerp(-40,40,e),y:0,z:1.0+.05*e},{x:lerp(40,-40,e),y:0,z:1.06-.05*e},{x:0,y:lerp(25,-15,e),z:1.02+.07*e},{x:lerp(-25,25,e),y:lerp(-10,10,e),z:1.08-.06*e}][k]}
+function layer(i,t,op,ext='',tr=null){const r=shotOf(i,t),c=r.cam||{},dr=drift(i,t);let z=(c.z||1)*dr.z,x=(c.x||0)+dr.x,y=(c.y||0)+dr.y,rot=c.r||0;
+ let card='';if(tr){z*=tr.s;x+=tr.x;y+=tr.y;rot+=tr.r||0;if(tr.s<.98)card=`border-radius:${(36/Math.max(tr.s,.2)).toFixed(0)}px;overflow:hidden;box-shadow:0 ${(30/tr.s).toFixed(0)}px ${(80/tr.s).toFixed(0)}px #0006;`}
+ const bgEra=SP(i).era;const bgh=tr&&tr.bg?`<div class=ab style="inset:0;width:${W}px;height:${H}px">${ERA[bgEra](t)}</div>`:'';
+ return `<div class=ab style="inset:0;width:${W}px;height:${H}px;opacity:${op.toFixed(3)};transform:translate(${x.toFixed(1)}px,${y.toFixed(1)}px) scale(${z.toFixed(4)}) rotate(${rot.toFixed(2)}deg);transform-origin:960px 540px;${card}${ext}">${bgh}${r.h}</div>`}
+function trType(i){const sp=SP(i),pv=SP(i-1);if(sp.cut)return 'fly';if(['space','cosmic'].includes(sp.era)&&!['space','cosmic'].includes(pv.era))return 'tilt';
+ if(['space','cosmic'].includes(pv.era)&&!['space','cosmic'].includes(sp.era))return 'tiltdown';return ['pan','push','panR','orbit'][i%4]}
+function transition(i,t){const ty=trType(i);
+ if(ty==='fly'){ // wie Karten-Zoom bei Roundhead Island: rauszoomen, rueberfliegen, reinzoomen
+  const a=S(i)-.75,b=S(i)+.65;if(t>=b)return null;const u=cl((t-a)/(b-a),0,1);
+  const sh=ei(cl(u,0,.38)),pn=ei(cl(u,.28,.72)),gr=ei(cl(u,.62,1)),sc=.36,dx=1500;
+  const sP=lerp(1,sc,sh),sN=lerp(sc,1,gr),px=-dx*pn,nx=dx*(1-pn);
+  return layer(i-1,t,1,'',{s:sP,x:px,y:Math.sin(pn*Math.PI)*-40,r:-2*pn,bg:1})+layer(i,t,1,'',{s:Math.min(sN,u<.62?sc:sN),x:nx,y:Math.sin(pn*Math.PI)*-40,r:2*(1-pn),bg:1})}
+ const a=S(i)-.35,b=S(i)+.45;if(t>=b)return null;const u=ei(cl((t-a)/(b-a),0,1)),bl=Math.sin(u*Math.PI)*10;
+ if(ty==='pan'||ty==='panR'){const d=ty==='pan'?1:-1;return layer(i-1,t,1,`filter:blur(${bl.toFixed(1)}px)`,{s:1-.06*Math.sin(u*Math.PI),x:-d*W*u,y:0})+layer(i,t,1,`filter:blur(${bl.toFixed(1)}px)`,{s:1-.06*Math.sin(u*Math.PI),x:d*W*(1-u),y:0,bg:1})}
+ if(ty==='push')return layer(i-1,t,1-ez(cl(u,.35,.8)),`filter:blur(${(u*12).toFixed(1)}px)`,{s:1+u*1.6,x:0,y:0})+layer(i,t,ez(cl(u,.3,.75)),'',{s:lerp(.7,1,u),x:0,y:0});
+ if(ty==='orbit')return layer(i-1,t,1-ez(cl(u,.4,.8)),`filter:blur(${bl.toFixed(1)}px)`,{s:1+.25*u,x:-500*u,y:0,r:-6*u})+layer(i,t,ez(cl(u,.25,.7)),'',{s:1.25-.25*u,x:500*(1-u),y:0,r:6*(1-u)});
+ if(ty==='tilt'||ty==='tiltdown'){const d=ty==='tilt'?1:-1;return layer(i-1,t,1,`filter:blur(${bl.toFixed(1)}px)`,{s:1,x:0,y:d*H*u})+layer(i,t,1,`filter:blur(${bl.toFixed(1)}px)`,{s:1,x:0,y:-d*H*(1-u),bg:1})}
+ return null}
 const TR=.4;
+
+// ======== 3D-Kamerafahrten: jede Szene ist eine Tafel im 3D-Raum, die Kamera fliegt von Tafel zu Tafel ========
+const PERS=1400,DEG=Math.PI/180;
+function panelPose(i){const x=2500*i,z=-650*Math.sin(i*1.1)-(i%2)*250,y=280*Math.sin(i*.7),ry=24*Math.sin(i*1.7+.5);return {x,y,z,ry}}
+function camOn(i){const p=panelPose(i),a=p.ry*DEG;return {x:p.x+PERS*Math.sin(a),y:p.y,z:p.z+PERS*Math.cos(a),ry:p.ry,rx:0,rz:0}}
+function flightWin(i){const c=SP(i).cut;return c?[S(i)-1.15,S(i)+.75]:[S(i)-.8,S(i)+.45]}
+function camAt3(t,i){let c=camOn(i);const [a,b]=flightWin(i);
+ if(i>0&&t<b){const u=cl((t-a)/(b-a),0,1),e=ei(u),c0=camOn(i-1),cut=SP(i).cut,k=Math.sin(Math.PI*e);
+  const ry=lerp(c0.ry,c.ry,e),back=(cut?2.6:1.1)*PERS*k,ar=ry*DEG;
+  c={x:lerp(c0.x,c.x,e)+Math.sin(ar)*back,y:lerp(c0.y,c.y,e)-(cut?520:180)*k,z:lerp(c0.z,c.z,e)+Math.cos(ar)*back,ry,rx:(cut?-9:-4)*k,rz:(i%2?3:-3)*k}}
+ else{const d=drift(i,t);c.x+=d.x*1.2;c.y+=d.y*1.2;c.z-=PERS*(d.z-1)*.9;c.rz=0}
+ return c}
+function panelHTML(j,t,cur){const p=panelPose(j),r=shotOf(j,t),cc=r.cam||{};
+ return `<div class=ab style="left:0;top:0;width:${W}px;height:${H}px;transform:translate3d(${p.x}px,${p.y}px,${p.z}px) rotateY(${p.ry}deg);transform-origin:960px 540px;border-radius:34px;overflow:hidden;box-shadow:0 40px 120px #0007;backface-visibility:hidden">
+  <div class=ab style="inset:0;width:${W}px;height:${H}px">${ERA[SP(j).era](t)}</div>
+  <div class=ab style="inset:0;width:${W}px;height:${H}px;transform:translate(${(cc.x||0).toFixed(1)}px,${(cc.y||0).toFixed(1)}px) scale(${(cc.z||1).toFixed(4)}) rotate(${(cc.r||0).toFixed(2)}deg);transform-origin:960px 540px">${r.h}</div></div>`}
+function world3d(t,i){const c=camAt3(t,i),[a,b]=flightWin(i),N=TL.lines.length;let js=[i];
+ if(i>0&&t<b)js=[i-2,i-1,i,i+1];else if(i+1<N&&t>flightWin(i+1)[0])js=[i-1,i,i+1,i+2];
+ js=js.filter(j=>j>=0&&j<N);
+ const tf=`translateZ(${PERS}px) rotateZ(${c.rz.toFixed(2)}deg) rotateX(${c.rx.toFixed(2)}deg) rotateY(${(-c.ry).toFixed(3)}deg) translate3d(${(-c.x).toFixed(1)}px,${(-c.y).toFixed(1)}px,${(-c.z).toFixed(1)}px)`;
+ return `<div class=ab style="inset:0;width:${W}px;height:${H}px;perspective:${PERS}px;perspective-origin:960px 540px"><div class=ab style="left:0;top:0;width:${W}px;height:${H}px;transform-style:preserve-3d;transform-origin:960px 540px;transform:${tf}">${js.map(j=>panelHTML(j,t,j===i)).join('')}</div></div>`}
 function draw(t){if(!TL)return;const i=lineAt(t),sp=SP(i),era=sp.era;
  // Hintergrund (Era) mit Ueberblendung
  const prev=i>0?SP(i-1).era:era,ub=cl(t,S(i)-.1,S(i)+.5);
  let bg=prev!==era&&ub<1?`<div class=ab style="inset:0;opacity:1">${ERA[prev](t)}</div><div class=ab style="inset:0;opacity:${ez(ub).toFixed(3)}">${ERA[era](t)}</div>`:ERA[era](t);
  if(bg!==$('bg')._h){$('bg').innerHTML=bg;$('bg')._h=bg}
  // Shots: Uebergang (Wisch bei Kapitel, sonst Blende+Zoom)
- let h='';const tin=cl(t,S(i)-.08,S(i)-.08+TR);
- if(i>0&&tin<1){const cut=sp.cut;if(cut){const r=ei(tin)*1300;h=layer(i-1,t,1)+layer(i,t,1,`clip-path:circle(${r.toFixed(0)}px at 960px 540px)`)}
-  else{h=layer(i-1,t,1-ez(tin),`filter:blur(${(ez(tin)*8).toFixed(1)}px)`)+layer(i,t,ez(tin))}}
- else h=layer(i,t,1);
- $('cam').innerHTML=h;
+ $('cam').innerHTML=world3d(t,i);
  // HUD: Jahr-Chip + Geldglas
  let hud='';const chip=sp.chip;if(chip&&sp.shot!=='title'){const k=pop(t,S(i)-.05,.35),same=i>0&&SP(i-1).chip===chip;
   hud+=`<div class=chip style="transform:scale(${same?1:k});transform-origin:0 50%;${['space','synth','cosmic','jazz','title'].includes(era)?'background:#ffffffe0;color:#1b2238':''}"><span style="width:14px;height:14px;border-radius:50%;background:${C.red};display:inline-block;opacity:${.4+.6*Math.abs(Math.sin(t*2))}"></span>${chip}</div>`}
@@ -705,7 +741,7 @@ MG.finish($('stage'),W,H,.05,'#0005',62);
 // ---------- Soundeffekte ----------
 window.sfxEvents=()=>{const ev=[],N=TL.lines.length,add=(k,t,o={})=>ev.push(Object.assign({k,t:+Math.max(0,t).toFixed(3)},o));
  const P=(i,re,f,k='pop',o={})=>add(k,WT(i,re,f),o);
- for(let i=1;i<N;i++){const sp=SP(i);if(sp.cut)add('whoosh',S(i)-.15,{d:.7});else if(SP(i-1).shot!==sp.shot)add(i%2?'swish':'whoosh',S(i)-.12,{d:.45,g:.6})}
+ for(let i=1;i<N;i++){const sp=SP(i);if(sp.cut)add('whoosh',S(i)-1.05,{d:1.7});else add(i%2?'swish':'whoosh',S(i)-.75,{d:1.1,g:.6})}
  const I=IDX;const at_=(name,fn)=>{if(I[name]!=null)fn(I[name])};
  at_('wake',i=>{add('air',S(i)+.1,{d:1.6});add('heartbeat',S(i)+.4);P(i,/stop/i,.8,'impact');P(i,/stop/i,.8,'click')});
  at_('mirror',i=>{P(i,/wrinkles/i,.2,'ding');P(i,/gray/i,.45,'ding');P(i,/back/i,.7,'ding');P(i,/ever/i,.9,'impact')});
