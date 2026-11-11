@@ -700,13 +700,13 @@ const TR=.4;
 // ======== 3D-Kamerafahrten: jede Szene ist eine Tafel im 3D-Raum, die Kamera fliegt von Tafel zu Tafel ========
 const PERS=1400,DEG=Math.PI/180;
 function panelPose(i){const x=2500*i,z=-650*Math.sin(i*1.1)-(i%2)*250,y=280*Math.sin(i*.7),ry=24*Math.sin(i*1.7+.5);return {x,y,z,ry}}
-function camOn(i){const p=panelPose(i),a=p.ry*DEG;return {x:p.x+PERS*Math.sin(a),y:p.y,z:p.z+PERS*Math.cos(a),ry:p.ry,rx:0,rz:0}}
+function camOn(i){const p=panelPose(i),a=p.ry*DEG,D=PERS*.93;return {x:p.x+D*Math.sin(a),y:p.y,z:p.z+D*Math.cos(a),ry:p.ry,rx:0,rz:0}}
 function flightWin(i){const c=SP(i).cut;return c?[S(i)-1.15,S(i)+.75]:[S(i)-.8,S(i)+.45]}
 function camAt3(t,i){let c=camOn(i);const [a,b]=flightWin(i);
  if(i>0&&t<b){const u=cl((t-a)/(b-a),0,1),e=ei(u),c0=camOn(i-1),cut=SP(i).cut,k=Math.sin(Math.PI*e);
   const ry=lerp(c0.ry,c.ry,e),back=(cut?2.6:1.1)*PERS*k,ar=ry*DEG;
   c={x:lerp(c0.x,c.x,e)+Math.sin(ar)*back,y:lerp(c0.y,c.y,e)-(cut?520:180)*k,z:lerp(c0.z,c.z,e)+Math.cos(ar)*back,ry,rx:(cut?-9:-4)*k,rz:(i%2?3:-3)*k}}
- else{const d=drift(i,t);c.x+=d.x*1.2;c.y+=d.y*1.2;c.z-=PERS*(d.z-1)*.9;c.rz=0}
+ else{const d=drift(i,t),ar=c.ry*DEG,dz=PERS*((d.z-1)*.8);c.x+=d.x*Math.cos(ar)-Math.sin(ar)*dz;c.y+=d.y;c.z-=Math.cos(ar)*dz+d.x*Math.sin(ar);c.rz=0}
  return c}
 function panelHTML(j,t,cur){const p=panelPose(j),r=shotOf(j,t),cc=r.cam||{};
  return `<div class=ab style="left:0;top:0;width:${W}px;height:${H}px;transform:translate3d(${p.x}px,${p.y}px,${p.z}px) rotateY(${p.ry}deg);transform-origin:960px 540px;border-radius:34px;overflow:hidden;box-shadow:0 40px 120px #0007;backface-visibility:hidden">
