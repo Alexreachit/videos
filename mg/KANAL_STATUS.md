@@ -289,3 +289,12 @@
 - Offen bei Alex: Ponzi-Thumbnail v2 OK?; Entwurf "846c1dee…" löschen?; nächste Short-Idee ab 14.11. (Fyre Festival | Bitcoin-Pizza | neu?).
 - 2026-11-10 22:50: Squarehead Island Tag 1 auf @onspotlkaai auf Wunsch von Alex gelöscht (0 Aufrufe nach ~6 h). 30 Tage wiederherstellbar über Aktivitätszentrum > Kürzlich gelöscht.
 - 2026-11-11 00:30: YouTube-Langvideo 'Your Life If You Never Aged' (mg/yt_neverage15, 6:30, flaches 2D, Musik je Epoche) fertig, wartet auf Alex' OK zum Upload.
+
+## Lauf 2026-11-11 ~11:30 (Routine, geplant 07:47 UTC)
+- 10 Abos (unverändert). 48-h-Echtzeit: 38 Aufrufe (PayPal 15, Pilot-Langvideo 9). 28 T (14.10.–10.11.): 7.365 Aufrufe, 26,0 h, +7 Abos. Länder/Engaged nicht neu ausgelesen (Tageswerte kaum verändert).
+- Shorts: PayPal cQmlXub5TcM nach ~19 h nur 15 Aufrufe, 81,2 % weggewischt / 18,8 % angesehen, 0 Likes -> Flop (wie Knight/Binance: abstrakte Zahl auf Kontoauszug, kein greifbares Objekt). Rest steht: Felicity 1.318 | Eiffel 1.259 | Ever Given 1.225 | SVB 1.124 | Milch 294 | $100: 286 | New vs Used 210 | Knight 57 | Binance 57.
+- Geplant (geprüft): Escobar aLSXDVN9gvI heute 11.11. 19:00 | Hushpuppi RuVMBqYTsv8 12.11. 19:00 | Blockbuster 59iD318vA8A 13.11. 19:00.
+- Langform: Ponzi pHR5fqQ5hC8 20 Aufrufe, 11 Zuschauer, 1.385 Impressionen (stagniert, +18), CTR 0,6 %, Ø 3:18, 95 % Videovorschläge | Supermarkt pOQrpecPeRU 1 | Mistakes 18 | Bank 1.174 | andere 5–10.
+- Erkenntnis: Bildschirm-/Zahlen-Storys (Knight, Binance, PayPal) werden sofort weggewischt; nur bekannte Objekte/Orte mit Drama (Eiffel, Felicity, Ever Given, SVB) zünden. Escobar (Ratten/Geldbündel) heute ist der nächste Test dafür.
+- Keine Korrekturen, nichts im Studio geändert, nichts hochgeladen. Keine neue Idee vorgeschlagen (3 Shorts geplant bis 13.11.).
+- Offen bei Alex: Ponzi-Thumbnail v2 OK?; Entwurf "846c1dee…" löschen?; yt_neverage15 Upload-OK?; nächste Short-Idee ab 14.11.
