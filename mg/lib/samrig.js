@@ -11,6 +11,18 @@
       `<path d="M${(ex + side * 3).toFixed(1)},${(ey).toFixed(1)} L${(hx).toFixed(1)},${(hy).toFixed(1)}" stroke="${SWD}" stroke-width="5" stroke-linecap="round" opacity=".35"/>` +
       `<circle cx="${hx.toFixed(1)}" cy="${hy.toFixed(1)}" r="13" fill="${SK}" stroke="${OL}" stroke-width="5"/>`, hx, hy };
   }
+  // IK: Hand-Ziel (hx,hy) im Rig-Raster -> [a,b]; el=+1 Ellbogen nach aussen/unten, -1 andersrum
+  function ik(sx, sy, side, hx, hy, el = 1, L1 = 50, L2 = 46) {
+    const x = side * (hx - sx), y = hy - sy; let d = Math.hypot(x, y); d = Math.max(8, Math.min(L1 + L2 - .5, d));
+    const ad = Math.atan2(x, y), al = Math.acos((L1 * L1 + d * d - L2 * L2) / (2 * L1 * d)), ga = Math.acos((L1 * L1 + L2 * L2 - d * d) / (2 * L1 * L2));
+    const sol = e => [ad + e * al, -e * (Math.PI - ga)];
+    if (el === 'in' || el === 'out' || el == null) {   // automatisch: Ellbogen nach aussen (weg von der Koerpermitte)
+      const A = sol(1), B = sol(-1), ex = a => sx + side * Math.sin(a[0]) * L1;
+      const pa = Math.abs(ex(A) - 100), pb = Math.abs(ex(B) - 100);
+      return (el === 'in') === (pa > pb) ? B : A;
+    }
+    return sol(el);
+  }
   function leg(x, y, a, L = 92) {
     const fx = x + Math.sin(a) * L, fy = y + Math.cos(a) * L;
     return `<path d="M${x},${y} L${fx.toFixed(1)},${fy.toFixed(1)}" stroke="${OL}" stroke-width="34" stroke-linecap="round"/><path d="M${x},${y} L${fx.toFixed(1)},${fy.toFixed(1)}" stroke="${PA}" stroke-width="25" stroke-linecap="round"/>` +
@@ -37,16 +49,22 @@
   // o: {armL:[a,b], armR:[a,b], legL, legR, mouth, talk(0..1), blink(0..1), look:[dx,dy], tilt(rad), bob(px), ghost, prop:{svg} in rechter Hand}
   function svg(o = {}) {
     const bob = o.bob || 0, tilt = (o.tilt || 0) * 57.3;
-    const aL = o.armL || [.15, .15], aR = o.armR || [.15, .15];
+    const aL = o.hL ? ik(64, 160, -1, o.hL[0], o.hL[1], o.elL2 == null ? 'out' : o.elL2) : (o.armL || [.15, .15]);
+    const aR = o.hR ? ik(136, 160, 1, o.hR[0], o.hR[1], o.elR2 == null ? 'out' : o.elR2) : (o.armR || [.15, .15]);
     let g = '';
     g += `<ellipse cx="100" cy="342" rx="${62 - Math.min(20, Math.abs(bob) * .4)}" ry="11" fill="#000" opacity="${o.ghost ? .08 : .22}"/>`;
-    g += `<g transform="translate(0,${-bob})">`;
+    g += `<g transform="translate(0,${-bob}) rotate(${((o.lean || 0) * 57.3).toFixed(2)},100,340)">`;
+    if (o.back) g += o.back;
     g += leg(84, 228, o.legL || 0) + leg(116, 228, o.legR || 0);
     // Pullover
     g += `<path d="M58,152 Q100,132 142,152 L150,236 Q100,250 50,236 Z" fill="${SW}" stroke="${OL}" stroke-width="6" stroke-linejoin="round"/>`;
     g += `<path d="M54,224 Q100,238 146,224" stroke="${SWD}" stroke-width="7" fill="none" opacity=".7"/><path d="M80,152 Q100,166 120,152" stroke="${SWD}" stroke-width="6" fill="none"/>`;
     const L = arm(64, 160, -1, aL[0], aL[1]), R = arm(136, 160, 1, aR[0], aR[1]);
-    g += L.svg;
+    if (o.legsOff) {}
+    if (o.mid) g += o.mid;
+    if (o.propL) g += `<g transform="translate(${L.hx.toFixed(1)},${L.hy.toFixed(1)})">${o.propL}</g>`;
+    if (!o.lFront) g += L.svg;
+    if (o.armsBack) g += R.svg;
     // Kopf
     const lx = (o.look || [0, 0])[0], ly = (o.look || [0, 0])[1];
     g += `<g transform="rotate(${tilt.toFixed(2)},100,140)">`;
@@ -68,7 +86,9 @@
     if (o.hat) g += o.hat;
     g += `</g>`;
     if (o.prop) g += `<g transform="translate(${R.hx.toFixed(1)},${R.hy.toFixed(1)})">${o.prop}</g>`;
-    g += R.svg;
+    if (!o.armsBack) g += R.svg;
+    if (o.lFront) g += L.svg;
+    if (o.front) g += o.front;
     if (o.claw) { const cl = (x, y, sd, op) => `<g transform="translate(${x.toFixed(1)},${y.toFixed(1)}) scale(${sd},1) rotate(${-20 - 25 * op})"><path d="M-4,6 C-30,8 -34,-30 -10,-40 C-4,-30 -8,-18 2,-12 Z" fill="${o.claw}" stroke="${OL}" stroke-width="5" stroke-linejoin="round"/></g>` +
       `<g transform="translate(${x.toFixed(1)},${y.toFixed(1)}) scale(${sd},1) rotate(${10 + 20 * op})"><path d="M-4,4 C-26,14 -40,-10 -24,-26 C-18,-14 -10,-6 2,-4 Z" fill="${o.claw}" stroke="${OL}" stroke-width="5" stroke-linejoin="round"/></g>` +
       `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="14" fill="${o.claw}" stroke="${OL}" stroke-width="5"/>`;
@@ -87,5 +107,5 @@
     return 0;
   }
   const blink = t => { const p = (t + .7) % 3.3; return p < .14 ? Math.sin(p / .14 * Math.PI) : 0 };
-  window.MG_SAM = { svg, talk, blink };
+  window.MG_SAM = { svg, talk, blink, ik };
 })();
