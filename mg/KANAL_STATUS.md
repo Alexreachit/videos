@@ -298,3 +298,13 @@
 - Erkenntnis: Bildschirm-/Zahlen-Storys (Knight, Binance, PayPal) werden sofort weggewischt; nur bekannte Objekte/Orte mit Drama (Eiffel, Felicity, Ever Given, SVB) zünden. Escobar (Ratten/Geldbündel) heute ist der nächste Test dafür.
 - Keine Korrekturen, nichts im Studio geändert, nichts hochgeladen. Keine neue Idee vorgeschlagen (3 Shorts geplant bis 13.11.).
 - Offen bei Alex: Ponzi-Thumbnail v2 OK?; Entwurf "846c1dee…" löschen?; yt_neverage15 Upload-OK?; nächste Short-Idee ab 14.11.
+
+## Lauf 2026-11-11 ~16:55 (Routine)
+- 10 Abos (unverändert). 48-h-Echtzeit: 42 Aufrufe (PayPal 19 meistgesehen). 28 T (14.10.–10.11.): 7.365 Aufrufe, 26,0 h, +7 Abos – Tageswerte seit Mittag nicht aktualisiert (Länder/Engaged/Traffic unverändert).
+- Shorts: PayPal cQmlXub5TcM 18 (+3 seit Mittag, Flop bestätigt) | Felicity 1.319 | Eiffel 1.259 | Ever Given 1.225 | SVB 1.124 | Milch 294 | $100: 286 | New vs Used 210 | Knight 57 | Binance 57.
+- Geplant (geprüft): Escobar aLSXDVN9gvI heute 11.11. 19:00 | Hushpuppi RuVMBqYTsv8 12.11. 19:00 | Blockbuster 59iD318vA8A 13.11. 19:00.
+- Langform: Ponzi pHR5fqQ5hC8 19 (YouTube filtert nach) | Supermarkt 1 | Mistakes 18 | Bank 1.174 | andere 5–10.
+- Erkenntnis: nichts Neues seit Mittag; Escobar heute Abend ist der Test "greifbares Objekt + Drama". Nächster Lauf: Escobar-Werte (Aufrufe, Weitergeschaut-Anteil) auswerten.
+- Keine Korrekturen, nichts im Studio geändert, nichts hochgeladen.
+- Neue Short-Ideen ab 14.11. an Alex (warten auf OK): Louvre-Juwelenraub (19.10.2025, ~7 Min, Schmuck ~€88 Mio.) | Bitcoin-Pizza (2010, 10.000 BTC für 2 Pizzen) | Fyre Festival (2017, Käsesandwich-Foto).
+- Offen bei Alex: Idee wählen; Ponzi-Thumbnail v2 OK?; yt_neverage15 Upload-OK?; Entwurf "846c1dee…" löschen?
