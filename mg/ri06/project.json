@@ -1,0 +1,154 @@
+{
+ "title": "TikTok-Serie Roundhead Island – Tag 6 (Deutsch)",
+ "_sources": "Fiktive Community-Serie (keine Faktenbehauptungen). Zahlen von Alex: Abstimmung Handeln 72 %, 28 Likes, 151 Einwohner.",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 60,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+16%",
+ "lang": "de-DE",
+ "lead": 0.05,
+ "gap": 0.12,
+ "tail": 1.4,
+ "crf": 18,
+ "music": {
+  "style": "playful",
+  "bpm": 150,
+  "gain": 0.11,
+  "ambience": 0.02,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.55,
+ "lines": [
+  {
+   "text": "Ein Bürger wollte Munition sein. Wunsch erfüllt!",
+   "spec": {
+    "type": "hook",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Tag 6 auf Roundhead Island!",
+   "spec": {
+    "type": "map",
+    "mood": "bright"
+   },
+   "say": "Tag sechs auf Roundhead Island!",
+   "say_map": {
+    "sechs": "6"
+   }
+  },
+  {
+   "text": "Ihr habt entschieden: 72 Prozent für Handeln!",
+   "spec": {
+    "type": "vote",
+    "mood": "bright"
+   },
+   "say": "Ihr habt entschieden: zweiundsiebzig Prozent für Handeln!",
+   "say_map": {
+    "zweiundsiebzig": "72"
+   }
+  },
+  {
+   "text": "10 neue Bürger! Wir sind jetzt 151 Einwohner.",
+   "spec": {
+    "type": "crowd"
+   },
+   "say": "Zehn neue Bürger! Wir sind jetzt hunderteinundfünfzig Einwohner.",
+   "say_map": {
+    "zehn": "10",
+    "hunderteinundfünfzig": "151"
+   }
+  },
+  {
+   "text": "Eure 28 Herzen bringen 280 Euro.",
+   "spec": {
+    "type": "money"
+   },
+   "say": "Eure achtundzwanzig Herzen bringen zweihundertachtzig Euro.",
+   "say_map": {
+    "achtundzwanzig": "28",
+    "zweihundertachtzig": "280"
+   }
+  },
+  {
+   "text": "Jetzt sind 550 Euro in der Kasse!",
+   "spec": {
+    "type": "money2"
+   },
+   "say": "Jetzt sind fünfhundertfünfzig Euro in der Kasse!",
+   "say_map": {
+    "fünfhundertfünfzig": "550"
+   }
+  },
+  {
+   "text": "Und der fliegende Bürger hatte Kokosnüsse dabei.",
+   "spec": {
+    "type": "coco",
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "Zurück kommt ein Boot voller Melonen!",
+   "spec": {
+    "type": "boat",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Ein anderer wollte ein Eckkopf sein. Jetzt ist er unser Botschafter drüben!",
+   "spec": {
+    "type": "eckkopf"
+   },
+   "say": "Ein anderer wollte ein Eck-Kopf sein. Jetzt ist er unser Botschafter drüben!",
+   "say_map": {
+    "eck-kopf": "Eckkopf"
+   }
+  },
+  {
+   "text": "Und wer ein Panzer sein wollte: Hier ist unser Schildkröten-Panzer!",
+   "spec": {
+    "type": "panzer",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Mit 550 Euro bauen wir jetzt etwas Großes.",
+   "spec": {
+    "type": "plan",
+    "mood": "calm"
+   },
+   "say": "Mit fünfhundertfünfzig Euro bauen wir jetzt etwas Großes.",
+   "say_map": {
+    "fünfhundertfünfzig": "550"
+   }
+  },
+  {
+   "text": "Ein Rathaus für den Bürgermeister?",
+   "spec": {
+    "type": "rathaus"
+   }
+  },
+  {
+   "text": "Oder 10 Häuser für die Bürger?",
+   "spec": {
+    "type": "haeuser"
+   },
+   "say": "Oder zehn Häuser für die Bürger?",
+   "say_map": {
+    "zehn": "10"
+   }
+  },
+  {
+   "text": "Stimmt in der Umfrage ab!",
+   "spec": {
+    "type": "poll",
+    "mood": "bright"
+   }
+  }
+ ]
+}
