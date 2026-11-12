@@ -1,0 +1,116 @@
+{
+ "title": "TikTok-Serie Squarehead Island – Tag 3 (Deutsch)",
+ "_sources": "Fiktive Community-Serie (keine Faktenbehauptungen). Zahlen von Alex: 22 Einwohner, 14 Likes, Abstimmung Melonenfeld.",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "de-DE-FlorianMultilingualNeural",
+ "rate": "+12%",
+ "lead": 0.05,
+ "gap": 0.12,
+ "tail": 1.4,
+ "crf": 20,
+ "music": {
+  "style": "playful",
+  "bpm": 150,
+  "gain": 0.13,
+  "ambience": 0.02,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.55,
+ "lines": [
+  {
+   "text": "Tag 3 auf Squarehead Island!",
+   "spec": {
+    "type": "map",
+    "mood": "bright"
+   },
+   "say": "Tag drei auf Squarehead Island!"
+  },
+  {
+   "text": "Ihr habt entschieden: Wir pflanzen ein Melonenfeld!",
+   "spec": {
+    "type": "feld",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Wir sind jetzt 22 Einwohner!",
+   "spec": {
+    "type": "crowd",
+    "mood": "bright"
+   },
+   "say": "Wir sind jetzt zweiundzwanzig Einwohner!"
+  },
+  {
+   "text": "Eure Likes bringen 140 Euro. Macht 310 Euro in der Kasse!",
+   "spec": {
+    "type": "money"
+   },
+   "say": "Eure Likes bringen hundertvierzig Euro. Macht dreihundertzehn Euro in der Kasse!"
+  },
+  {
+   "text": "Tamino will Dönermann werden: Hier ist deine Dönerbude!",
+   "spec": {
+    "type": "doener"
+   }
+  },
+  {
+   "text": "Henry bekommt seinen Gurkenladen, direkt daneben!",
+   "spec": {
+    "type": "gurken"
+   }
+  },
+  {
+   "text": "Elias kriegt Goldkette, Cappy und einen blauen Pulli!",
+   "spec": {
+    "type": "elias",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Kristian bekommt seine Uschanka. Auf der Insel ist es zwar warm, aber egal!",
+   "spec": {
+    "type": "uschanka"
+   }
+  },
+  {
+   "text": "Und Jk777 ist ab heute Bodyguard vom Vize-Bürgermeister!",
+   "spec": {
+    "type": "bodyguard"
+   },
+   "say": "Und Jott Ka sieben sieben sieben ist ab heute Bodyguard vom Vize-Bürgermeister!"
+  },
+  {
+   "text": "Die erste Melone ist reif. Aber wohin mit der ganzen Ernte?",
+   "spec": {
+    "type": "reif",
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "Bauen wir einen Markt für Melonen, Döner und Gurken?",
+   "spec": {
+    "type": "markt",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Oder einen Brunnen, damit das Feld nie austrocknet?",
+   "spec": {
+    "type": "brunnen"
+   }
+  },
+  {
+   "text": "Der Top-Kommentar entscheidet.",
+   "spec": {
+    "type": "comment"
+   }
+  }
+ ],
+ "_note": "VORSCHAU-Stimme (edge-tts) – final wird ElevenLabs DiMario"
+}
