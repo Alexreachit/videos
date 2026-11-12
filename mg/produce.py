@@ -930,6 +930,7 @@ def main():
         fa, fb = 0, nfr
         if "--chunk" in sys.argv:     # nur Teilstueck k/N rendern (fuer parallele GitHub-Jobs), dann Ende
             k, N = map(int, sys.argv[sys.argv.index("--chunk") + 1].split("/")); per = math.ceil(nfr / N); fa, fb = k * per, min(nfr, (k + 1) * per)
+        if fb <= fa: print("CHUNK", fa, fa, "(leer)"); return
         step = math.ceil((fb - fa) / workers)
         jobs = [(proj, a, min(fb, a + step), size, fps, out) for a in range(fa, fb, step)]
         t0 = time.time()
