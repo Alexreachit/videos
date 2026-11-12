@@ -1,0 +1,165 @@
+{
+ "title": "TikTok-Serie Roundhead Island – Tag 7 (Deutsch)",
+ "_sources": "Fiktive Community-Serie (keine Faktenbehauptungen). Zahlen von Alex: Umfrage 10 Haeuser, 31 Likes, 160 Einwohner.",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 60,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+16%",
+ "lang": "de-DE",
+ "lead": 0.05,
+ "gap": 0.12,
+ "tail": 1.4,
+ "crf": 18,
+ "music": {
+  "style": "playful",
+  "bpm": 150,
+  "gain": 0.11,
+  "ambience": 0.02,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.55,
+ "lines": [
+  {
+   "text": "Einer wollte ein Stein sein. Wunsch erfüllt!",
+   "spec": {
+    "type": "hook",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Tag 7 auf Roundhead Island!",
+   "spec": {
+    "type": "map",
+    "mood": "bright"
+   },
+   "say": "Tag sieben auf Roundhead Island!",
+   "say_map": {
+    "sieben": "7"
+   }
+  },
+  {
+   "text": "Ihr habt entschieden: 10 Häuser für die Bürger!",
+   "spec": {
+    "type": "vote",
+    "mood": "bright"
+   },
+   "say": "Ihr habt entschieden: zehn Häuser für die Bürger!",
+   "say_map": {
+    "zehn": "10"
+   }
+  },
+  {
+   "text": "9 neue Bürger! Wir sind jetzt 160 Einwohner.",
+   "spec": {
+    "type": "crowd"
+   },
+   "say": "Neun neue Bürger! Wir sind jetzt hundertsechzig Einwohner.",
+   "say_map": {
+    "neun": "9",
+    "hundertsechzig": "160"
+   }
+  },
+  {
+   "text": "Eure 31 Herzen bringen 310 Euro.",
+   "spec": {
+    "type": "money"
+   },
+   "say": "Eure einunddreißig Herzen bringen dreihundertzehn Euro.",
+   "say_map": {
+    "einunddreißig": "31",
+    "dreihundertzehn": "310"
+   }
+  },
+  {
+   "text": "Jetzt sind 860 Euro in der Kasse!",
+   "spec": {
+    "type": "money2"
+   },
+   "say": "Jetzt sind achthundertsechzig Euro in der Kasse!",
+   "say_map": {
+    "achthundertsechzig": "860"
+   }
+  },
+  {
+   "text": "Also bauen wir: 10 Häuser!",
+   "spec": {
+    "type": "build",
+    "mood": "bright"
+   },
+   "say": "Also bauen wir: zehn Häuser!",
+   "say_map": {
+    "zehn": "10"
+   }
+  },
+  {
+   "text": "Und die Bürger ziehen sofort ein.",
+   "spec": {
+    "type": "movein"
+   }
+  },
+  {
+   "text": "Ein Bürger macht drüben eine Poststation auf.",
+   "spec": {
+    "type": "post",
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "Und schon fliegt der erste Brief zu uns!",
+   "spec": {
+    "type": "letter",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Ein anderer wollte Lehrer sein: Hier ist unsere Schule!",
+   "spec": {
+    "type": "school"
+   }
+  },
+  {
+   "text": "Und wer sich sucht: Hier bist du!",
+   "spec": {
+    "type": "find",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Wir haben jetzt Häuser, eine Schule und eine Post.",
+   "spec": {
+    "type": "overview",
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "Aber keine Polizei und keinen Hafen.",
+   "spec": {
+    "type": "missing"
+   }
+  },
+  {
+   "text": "Bauen wir eine Polizeistation?",
+   "spec": {
+    "type": "polizei"
+   }
+  },
+  {
+   "text": "Oder einen Hafen für Handelsschiffe?",
+   "spec": {
+    "type": "hafen"
+   }
+  },
+  {
+   "text": "Stimmt in der Umfrage ab!",
+   "spec": {
+    "type": "poll",
+    "mood": "bright"
+   }
+  }
+ ]
+}
