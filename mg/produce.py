@@ -57,7 +57,7 @@ def tts_andrew(text, mp3, voice, rate, tries=40, pitch="+0Hz", volume="+0%", lan
                 s0 = _o(tc, et); t0 = et.decode() if isinstance(et, bytes) else et
                 return s0.replace(t0, "<lang xml:lang='" + ec._lang_patch + "'>" + t0 + "</lang>", 1) if ec._lang_patch else s0
             ec.mkssml = _mk; ec._lang_patch = lang
-        if hasattr(ec, "_lang_patch"): ec._lang_patch = lang if k < 8 else None   # nach 8 Fehlversuchen ohne Sprach-Tag
+        if hasattr(ec, "_lang_patch"): ec._lang_patch = lang if k < 1 else None   # Dienst lehnt <lang> ab (seit Tag 5 immer) -> nach 1 Fehlversuch ohne Sprach-Tag
         async def go():
             try:
                 comm = edge_tts.Communicate(text, voice, rate=rate, pitch=pitch, volume=volume, boundary="WordBoundary")
