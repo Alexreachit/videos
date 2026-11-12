@@ -1,0 +1,110 @@
+{
+ "title": "Demo-Stimme LIVE (Sam)",
+ "_sources": "nur Sprachausgabe fuer das Live-Demo-Video",
+ "size": [
+  360,
+  640
+ ],
+ "fps": 5,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+8%",
+ "lang": "de-DE",
+ "lead": 0.05,
+ "gap": 0.12,
+ "tail": 0.5,
+ "crf": 30,
+ "lines": [
+  {
+   "text": "Doppelt tippen für Likes, dann bauen wir den nächsten Teil der Insel!",
+   "say": "Doppelt tippen für Likes, dann bauen wir den nächsten Teil der Insel!",
+   "spec": {
+    "type": "say"
+   }
+  },
+  {
+   "text": "Bürgermeister bin ich, sophie_xo! Aber das größte Haus bekommt den Ehrenplatz neben mir.",
+   "say": "Bürgermeister bin ich, sophie xo! Aber das größte Haus bekommt den Ehrenplatz neben mir.",
+   "spec": {
+    "type": "say"
+   }
+  },
+  {
+   "text": "Als Nächstes kommt der Brunnen bei 500 Likes. Also fleißig tippen!",
+   "say": "Als Nächstes kommt der Brunnen bei 500 Likes. Also fleißig tippen!",
+   "spec": {
+    "type": "say"
+   }
+  },
+  {
+   "text": "Wow, danke paulinchen für Rose! Dein Haus wächst!",
+   "say": "Wow, danke paulinchen für Rose! Dein Haus wächst!",
+   "spec": {
+    "type": "say"
+   }
+  },
+  {
+   "text": "Neuer Einwohner: sophie_xo! Dein Haus steht schon.",
+   "say": "Neuer Einwohner: sophie xo! Dein Haus steht schon.",
+   "spec": {
+    "type": "say"
+   }
+  },
+  {
+   "text": "Hey Finn_der_Erste, schön dass du da bist!",
+   "say": "Hey Finn der Erste, schön dass du da bist!",
+   "spec": {
+    "type": "say"
+   }
+  },
+  {
+   "text": "Noah.gg ist gelandet! Willkommen!",
+   "say": "Noah gg ist gelandet! Willkommen!",
+   "spec": {
+    "type": "say"
+   }
+  },
+  {
+   "text": "ella.mp4, du Legende! Danke für TikTok!",
+   "say": "ella mp 4 , du Legende! Danke für TikTok!",
+   "spec": {
+    "type": "say"
+   }
+  },
+  {
+   "text": "Neuer Einwohner: Ben10x! Dein Haus steht schon.",
+   "say": "Neuer Einwohner: Ben 10 x! Dein Haus steht schon.",
+   "spec": {
+    "type": "say"
+   }
+  },
+  {
+   "text": "Bürgermeister bin ich, Ben10x! Aber das größte Haus bekommt den Ehrenplatz neben mir.",
+   "say": "Bürgermeister bin ich, Ben 10 x! Aber das größte Haus bekommt den Ehrenplatz neben mir.",
+   "spec": {
+    "type": "say"
+   }
+  },
+  {
+   "text": "sophie_xo, schau, der Pfeil zeigt auf dein Haus!",
+   "say": "sophie xo, schau, der Pfeil zeigt auf dein Haus!",
+   "spec": {
+    "type": "say"
+   }
+  },
+  {
+   "text": "Niklas.TTV, du Legende! Danke für Rose!",
+   "say": "Niklas TTV, du Legende! Danke für Rose!",
+   "spec": {
+    "type": "say"
+   }
+  },
+  {
+   "text": "Hallo lara.sun! Willkommen auf der Insel!",
+   "say": "Hallo lara sun! Willkommen auf der Insel!",
+   "spec": {
+    "type": "say"
+   }
+  }
+ ]
+}

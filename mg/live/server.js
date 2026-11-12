@@ -41,7 +41,8 @@ let ttsN = 0;
 function tts(text) {
   return new Promise(res => {
     const f = `say_${Date.now()}_${ttsN++ % 50}.mp3`, out = path.join(TTS_DIR, f);
-    const p = spawn(CFG.python, ['-m', 'edge_tts', '--voice', CFG.voice, '--rate', CFG.rate, '--text', text, '--write-media', out]);
+    const spoken = text.replace(/[_.]+(?=\w)/g, ' ').replace(/(\d+)/g, ' $1 ');   // Nutzernamen sprechbar machen
+    const p = spawn(CFG.python, ['-m', 'edge_tts', '--voice', CFG.voice, '--rate', CFG.rate, '--text', spoken, '--write-media', out]);
     let done = false; const fin = ok => { if (!done) { done = true; res(ok && fs.existsSync(out) ? '/tts/' + f : null) } };
     p.on('close', c => fin(c === 0)); p.on('error', () => fin(false)); setTimeout(() => { p.kill(); fin(false) }, 15000);
   });

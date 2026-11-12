@@ -197,20 +197,31 @@ const SAMC = '#f7e4b5';
 // Buerger-Pool (Zuschauer, die beitreten, laufen als Rundkoepfe herum)
 const POOL = Array.from({ length: 48 }, (_, k) => Object.assign(mkGuy(SWCOL[k % SWCOL.length]), { k, user: null }));
 // ---------------- Bauplaetze fuer Haeuser ----------------
-const PLOTS = [];
+// Bloecke zu je 4 Haeusern (2x2), dazwischen Strassen. Bloecke fuellen sich von innen nach aussen.
+const PITCH = 7.4, OFF = 1.45, OZ = -3.0, BLOCKS = [], PLOTS = [], ROADPTS = [];
 (function () {
-  let tries = 0;
-  while (PLOTS.length < 150 && tries < 20000) {
-    tries++;
-    const a = rnd() * 6.2832, r = 3.6 + 15 * Math.sqrt(rnd()), x = Math.cos(a) * r, z = Math.sin(a) * r * .85;
-    if (Math.hypot(x - SP[0], z - SP[2]) < 4.2) continue;
-    if (z > 1.5 && Math.abs(x) < 4.5) continue;                       // Platz vor Sam bleibt frei
-    if (Math.hypot(x - SG[0], z - SG[2]) < 2.2 || Math.hypot(x - FX[0], z - FX[2]) < 1.6 || Math.hypot(x - CH[0], z - CH[2]) < 1.8) continue;
-    if (PLOTS.some(p => Math.hypot(p.x - x, p.z - z) < 2.05)) continue;
-    const y = iH(x, z); if (y < .75) continue;
-    PLOTS.push({ x, y, z, yaw: Math.atan2(SP[0] - x, SP[2] - z), used: false, d: Math.hypot(x, z) });
+  const near = (x, z, px, pz, r) => Math.hypot(x - px, z - pz) < r;
+  for (let i = -4; i <= 4; i++) for (let j = -4; j <= 3; j++) {
+    const cx = i * PITCH, cz = j * PITCH + OZ;
+    if (near(cx, cz, SP[0], SP[2], 6.5)) continue;                                   // Platz um Sam bleibt frei
+    const spots = [[-OFF, -OFF], [OFF, -OFF], [-OFF, OFF], [OFF, OFF]].map(([dx, dz]) => ({ x: cx + dx, z: cz + dz, dz }));
+    if (spots.some(q => iH(q.x, q.z) < .8 || near(q.x, q.z, SG[0], SG[2], 2.4) || near(q.x, q.z, FX[0], FX[2], 1.8) || near(q.x, q.z, CH[0], CH[2], 2.2))) continue;
+    const corners = [[-1, -1], [1, -1], [1, 1], [-1, 1]].map(([a, b2]) => [cx + a * PITCH / 2, cz + b2 * PITCH / 2]);
+    if (corners.some(([x, z]) => iH(x, z) < .5)) continue;
+    const B = { cx, cz, d: Math.hypot(cx, cz + 6), plots: [], roads: [], open: false };
+    spots.forEach(q => { const pl = { x: q.x, y: iH(q.x, q.z), z: q.z, yaw: q.dz > 0 ? 0 : Math.PI, used: false, B }; B.plots.push(pl) });
+    BLOCKS.push(B);
   }
-  PLOTS.sort((a, b) => a.d - b.d);                                     // innen zuerst
+  BLOCKS.sort((a, b) => a.d - b.d);
+  BLOCKS.forEach(B => PLOTS.push(...B.plots));
+  // Strassenstuecke rund um jeden Block (in kurzen Stuecken, damit sie dem Gelaende folgen)
+  const seg = (x0, z0, x1, z1, B) => { const n = 4; for (let k = 0; k < n; k++) { const x = lerp(x0, x1, (k + .5) / n), z = lerp(z0, z1, (k + .5) / n), L = Math.hypot(x1 - x0, z1 - z0) / n + .02, horiz = Math.abs(z1 - z0) < .01;
+      const g = new G.Geo().add(G.box(horiz ? L : 1.7, .08, horiz ? 1.7 : L, '#5d6473', { base: true }));
+      if (k % 2 == 0) g.add(G.box(horiz ? L * .45 : .1, .09, horiz ? .1 : L * .45, '#f4f1e6', { base: true }));
+      B.roads.push(w.mesh(g, { pos: [x, iH(x, z) - .02, z], vis: false, cast: false, outline: false })) }
+    ROADPTS.push([x0, z0], [x1, z1]) };
+  BLOCKS.forEach(B => { const h = PITCH / 2, { cx, cz } = B;
+    seg(cx - h, cz - h, cx + h, cz - h, B); seg(cx - h, cz + h, cx + h, cz + h, B); seg(cx - h, cz - h, cx - h, cz + h, B); seg(cx + h, cz - h, cx + h, cz + h, B) });
 })();
 const LEVELS = [
   { wp: 0, name: 'Kleines Starterhaus' }, { wp: 30, name: 'Holzhaus' }, { wp: 150, name: 'Modernes Einfamilienhaus' },
@@ -224,15 +235,14 @@ function houseGeo(lv, col, roof) {
      .add(G.cyl(.95, .02, .6, 4, '#a8743f'), G.m4.compose([0, .8, 0], [0, .785, 0]));
     return g;
   }
-  const wd = [0, 1.3, 1.5, 1.6, 2.0, 2.3][lv], fl = [0, 1, 1, 2, 2, 3][lv], hh = .95;
+  const wd = [0, 1.3, 1.5, 1.6, 1.85, 2.0][lv], fl = [0, 1, 1, 2, 2, 3][lv], hh = .95;
   for (let f = 0; f < fl; f++) {
     g.add(G.box(wd - f * .12, hh, 1.3 - f * .08, col, { base: true }), G.m4.compose([0, f * hh, 0]));
     for (const sx of [-1, 1]) g.add(G.box(.3, .3, .04, '#9ad0ff', { base: true }), G.m4.compose([sx * wd * .28, f * hh + .45, .66 - f * .04]));
   }
   g.add(G.box(.3, .6, .04, '#7a4a24', { base: true }), G.m4.compose([0, 0, .66]));
   g.add(G.cyl(wd * .82, .02, .75, 4, roof), G.m4.compose([0, fl * hh, 0], [0, .785, 0], [1, 1, .85]));
-  if (lv >= 4) g.add(G.box(1.0, .06, .7, '#4aa3ff', { base: true }), G.m4.compose([wd * .75 + .3, 0, .2]))     // Pool
-                .add(G.box(.14, 1.4, .14, '#e9e2d4', { base: true }), G.m4.compose([-wd * .5 - .2, 0, .65])).add(G.box(.14, 1.4, .14, '#e9e2d4', { base: true }), G.m4.compose([wd * .5 + .2, 0, .65]));
+  if (lv >= 4) g.add(G.box(.14, 1.4, .14, '#e9e2d4', { base: true }), G.m4.compose([-wd * .5 - .2, 0, .65])).add(G.box(.14, 1.4, .14, '#e9e2d4', { base: true }), G.m4.compose([wd * .5 + .2, 0, .65]));
   if (lv >= 5) g.add(G.ico(.18, 1, '#ffd166'), G.m4.compose([0, fl * hh + .8, 0]));
   return g;
 }
@@ -259,13 +269,14 @@ function giveGuy(u) {
   if (u.guy) return;
   let g = POOL.find(p => !p.user) || POOL.slice().sort((a, b) => a.user.seen - b.user.seen)[0];
   if (g.user) g.user.guy = null;
-  g.user = u; u.guy = g; const a = rnd() * 6.28, r = 2.5 + rnd() * 6;
-  g.x = Math.cos(a) * r; g.z = Math.sin(a) * r * .8 - 1; g.tx = g.x; g.tz = g.z; g.born = ST.t; g.yaw = 0;
+  g.user = u; u.guy = g; const a = rnd() * 6.28, r = 1 + rnd() * 3;
+  g.x = SP[0] + Math.cos(a) * r; g.z = SP[2] - 2 + Math.sin(a) * r * .6; g.tx = g.x; g.tz = g.z; g.born = ST.t; g.yaw = 0;
 }
 function giveHouse(u) {
   if (u.house) return;
   const p = PLOTS.find(p => !p.used); if (!p) return;
-  p.used = true; u.house = { p, lv: -1, m: null, born: ST.t, roof: ROOFS[ST.houses % ROOFS.length] }; ST.houses++;
+  p.used = true; if (!p.B.open) { p.B.open = true; p.B.openT = ST.t; p.B.roads.forEach(r => r.vis = true) }
+  u.house = { p, lv: -1, m: null, born: ST.t, roof: ROOFS[ST.houses % ROOFS.length] }; ST.houses++;
   setLevel(u, levelOf(u.wp), true);
 }
 function setLevel(u, lv, isNew) {
@@ -321,19 +332,23 @@ const TPL = {
   goal: ['Wir haben es geschafft: {g}! Danke an alle!'],
   idle: ['Doppelt tippen für Likes, dann bauen wir den nächsten Teil der Insel!', 'Folgen bringt dir ein eigenes Haus auf der Insel!', 'Schreib „wo bin ich“, dann zeige ich dir dein Haus!', 'Geschenke lassen dein Haus wachsen, bis zur Luxus-Villa!']
 };
+const nice = s => s.replace(/[A-ZÄÖÜ]{2,}( [A-ZÄÖÜ]{2,})*/g, m => m.split(' ').map(x => x[0] + x.slice(1).toLowerCase()).join(' '));
 function fill(s, o) { return s.replace(/\{(\w)\}/g, (_, k) => o[k] ?? '') }
 function answer(u, text) {
   const s = liveState();
   if (/wo bin ich|mein haus/i.test(text)) return u.house ? `${u.name}, schau, der Pfeil zeigt auf dein Haus!` : `${u.name}, folge der Insel, dann bekommst du sofort ein Haus!`;
-  if (/kasse|geld|likes/i.test(text)) return `Wir haben schon ${s.likes.toLocaleString('de-DE')} Likes! Nächstes Ziel: ${s.naechstesZiel}.`;
+  if (/kasse|geld|likes/i.test(text)) return `Wir haben schon ${s.likes.toLocaleString('de-DE')} Likes! Nächstes Ziel: ${nice(s.naechstesZiel)}.`;
   if (/bürgermeister|burgermeister/i.test(text)) return `Bürgermeister bin ich, ${u.name}! Aber das größte Haus bekommt den Ehrenplatz neben mir.`;
-  if (/was bauen|nächste|naechste/i.test(text)) return `Als Nächstes kommt: ${s.naechstesZiel}. Also fleißig tippen!`;
+  if (/was bauen|nächste|naechste/i.test(text)) return `Als Nächstes kommt der ${nice(s.naechstesZiel)}. Also fleißig tippen!`;
   if (/wie viele|einwohner/i.test(text)) return `Wir sind gerade ${s.einwohner} Einwohner und ${s.haeuser} Häuser!`;
   if (/hallo|hi\b|hey/i.test(text)) return `Hallo ${u.name}! Willkommen auf der Insel!`;
   return null;
 }
+const SAID = new Map();
 function say(text, prio = 1) {
   if (ST.sayQ.length > 3 && prio < 2) return;
+  if (SAID.has(text) && ST.t - SAID.get(text) < 90) return; SAID.set(text, ST.t);
+  if (ST.sayQ.some(q => q.text === text)) return;
   ST.sayQ.push({ type: 'say', text, prio });
 }
 // Simulation braucht keinen Server: Vorlagen als Kommentator
@@ -380,8 +395,12 @@ if (!SIM) { connect(); setInterval(() => { if (WS && WS.readyState === 1) WS.sen
 let curAudio = null;
 function playSay(e) { if (e.url && !MANUAL) { try { curAudio = new Audio(e.url); curAudio.play().catch(() => { }) } catch (x) { } } }
 // ---------------- Kamera ----------------
+const CC = { x: 0, z: -4, r: 16 };
 function camAt(t) {
-  const a = t * .04, R = 30, base = { pos: [Math.sin(a) * R, 21, Math.cos(a) * R + 3], at: [0, 0, -1.5], fov: 46 };
+  const open = BLOCKS.filter(B => B.open), n = open.length;
+  const cx = n ? open.reduce((s, B) => s + B.cx, 0) / n : 0, cz = n ? open.reduce((s, B) => s + B.cz, 0) / n : -4;
+  CC.x += (cx - CC.x) * .02; CC.z += (cz - CC.z) * .02; CC.r += (14 + 5.5 * Math.sqrt(n) - CC.r) * .02;
+  const a = Math.sin(t * .035) * .8, R = CC.r, base = { pos: [CC.x + Math.sin(a) * R, R * 1.05, CC.z + Math.cos(a) * R], at: [CC.x - Math.sin(a) * R * .3, 0, CC.z - 1 - Math.cos(a) * R * .3], fov: 50 };
   const f = ST.camFocus;
   if (f && t - f.t < f.dur + 1.2) {
     const u = ez(cl(t, f.t, f.t + 1.2)) * (1 - ez(cl(t, f.t + f.dur, f.t + f.dur + 1.2)));
@@ -460,7 +479,7 @@ function tick(t) {
   POOL.forEach(g => {
     if (!g.user) { g.m.vis = false; return }
     g.m.vis = Math.hypot(g.x - w.cam.pos[0], g.z - w.cam.pos[2]) > 5;
-    if (Math.hypot(g.tx - g.x, g.tz - g.z) < .2) { const a = rnd() * 6.28, r = 2 + rnd() * 9; g.tx = Math.cos(a) * r; g.tz = Math.sin(a) * r * .8 - 1 }
+    if (Math.hypot(g.tx - g.x, g.tz - g.z) < .2) { const open = BLOCKS.filter(B => B.open); if (open.length && rnd() < .7) { const B = pick(open), c = pick([[-1, -1], [1, -1], [1, 1], [-1, 1], [0, -1], [0, 1]]); g.tx = B.cx + c[0] * PITCH / 2; g.tz = B.cz + c[1] * PITCH / 2 } else { const a = rnd() * 6.28, r = 1.5 + rnd() * 3; g.tx = SP[0] + Math.cos(a) * r; g.tz = SP[2] - 2 + Math.sin(a) * r * .6 } }
     const dx = g.tx - g.x, dz = g.tz - g.z, L = Math.hypot(dx, dz) || 1, sp2 = .9 * dt;
     g.x += dx / L * Math.min(L, sp2); g.z += dz / L * Math.min(L, sp2); g.yaw = Math.atan2(dx, dz);
     const s = bo(cl(t, g.born, g.born + .4)), hop = Math.abs(Math.sin(t * 9 + g.k)) * .08;
