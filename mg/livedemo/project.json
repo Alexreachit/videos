@@ -66,21 +66,21 @@
   },
   {
    "text": "ella.mp4, du Legende! Danke für TikTok!",
-   "say": "ella mp 4 , du Legende! Danke für TikTok!",
+   "say": "ella mp4, du Legende! Danke für TikTok!",
    "spec": {
     "type": "say"
    }
   },
   {
    "text": "Neuer Einwohner: Ben10x! Dein Haus steht schon.",
-   "say": "Neuer Einwohner: Ben 10 x! Dein Haus steht schon.",
+   "say": "Neuer Einwohner: Ben10x! Dein Haus steht schon.",
    "spec": {
     "type": "say"
    }
   },
   {
    "text": "Bürgermeister bin ich, Ben10x! Aber das größte Haus bekommt den Ehrenplatz neben mir.",
-   "say": "Bürgermeister bin ich, Ben 10 x! Aber das größte Haus bekommt den Ehrenplatz neben mir.",
+   "say": "Bürgermeister bin ich, Ben10x! Aber das größte Haus bekommt den Ehrenplatz neben mir.",
    "spec": {
     "type": "say"
    }

@@ -58,7 +58,9 @@ function iH(x, z) {
   w.mesh(g, { wave: .22, foam: 10.6 * S, cast: false, recv: true });
 })();
 // Palmen
-function palm(x, z, hgt, lean, yaw, seed, y0) {
+const PALMS = [];
+function palm(...A) { const n0 = w.objs.length; palm0(...A); for (let i = n0; i < w.objs.length; i++) if (!w.objs[i].parent) { w.objs[i].px = A[0]; w.objs[i].pz = A[1]; PALMS.push(w.objs[i]) } }
+function palm0(x, z, hgt, lean, yaw, seed, y0) {
   const y = y0 ?? iH(x, z), g = new G.Geo(), seg = 8;
   let px = 0, py = 0;
   for (let i = 0; i < seg; i++) {
@@ -257,7 +259,7 @@ LM.forEach(l => { l.pos[1] = iH(l.pos[0], l.pos[2]); l.m = w.mesh(l.geo(), { pos
 // ---------------- Zustand ----------------
 const ST = {
   users: new Map(), likes: 0, follows: 0, gifts: [], feed: [], banners: [], houses: 0,
-  hh: { next: 120, until: 0 }, camFocus: null, find: null, say: null, sayQ: [], lastSay: -99, t: 0, coins: 0
+  hh: { next: 120, until: 0 }, camFocus: null, focusQ: [], puffT: -9, puffP: null, find: null, say: null, sayQ: [], lastSay: -99, t: 0, coins: 0
 };
 const FOLLOW_GOAL = 10;
 function user(name) {
@@ -278,19 +280,25 @@ function giveHouse(u) {
   p.used = true; if (!p.B.open) { p.B.open = true; p.B.openT = ST.t; p.B.roads.forEach(r => r.vis = true) }
   u.house = { p, lv: -1, m: null, born: ST.t, roof: ROOFS[ST.houses % ROOFS.length] }; ST.houses++;
   setLevel(u, levelOf(u.wp), true);
+  focus(p, 3.6, { u, kind: 'new' });
 }
 function setLevel(u, lv, isNew) {
   const h = u.house; if (!h || lv == h.lv) return;
   if (h.m) h.m.vis = false;
   h.m = w.mesh(houseGeo(lv, u.col === '#3c4a63' ? '#f4ead2' : ['#f4ead2', '#ffd166', '#9ad0ff', '#c8e6a0', '#f2b6c6', '#ffb37a'][ST.houses % 6], h.roof), { pos: [h.p.x, h.p.y, h.p.z], rot: [0, h.p.yaw, 0] });
   h.lv = lv; h.up = ST.t;
-  if (!isNew) { banner('LEVEL ' + (lv + 1) + '!', '#ffd166', `@${u.name}: ${LEVELS[lv].name}`); if (lv >= 3 && (!ST.camFocus || ST.t - ST.camFocus.t > 12)) focus(h.p, 4.5); sfx('levelup') }
+  if (!isNew) { focus(h.p, lv >= 3 ? 4 : 3, { u, kind: 'level' }); sfx('levelup') }
 }
 function addWP(u, n) { u.wp += n * (ST.t < ST.hh.until ? 3 : 1); if (u.house) setLevel(u, levelOf(u.wp)) }
 // ---------------- Ereignisse ----------------
 function banner(txt, col, sub) { ST.banners.push({ txt, col, sub, t: ST.t }); if (ST.banners.length > 3) ST.banners.shift() }
 function feed(html) { ST.feed.push({ html, t: ST.t }); if (ST.feed.length > 6) ST.feed.shift() }
-function focus(p, dur) { ST.camFocus = { p: [p.x ?? p[0], p.y ?? p[1], p.z ?? p[2]], t: ST.t, dur } }
+// Kamera-Fokus als Warteschlange: jedes neue Haus / Level bekommt seinen Moment
+function focus(p, dur, info = null) {
+  const f = { p: [p.x ?? p[0], p.y ?? p[1], p.z ?? p[2]], dur, info };
+  ST.focusQ.push(f); if (ST.focusQ.length > 4) ST.focusQ.splice(0, ST.focusQ.length - 4);
+}
+const PUFF = Array.from({ length: 8 }, (_, k) => w.mesh(G.ico(.35, 2, '#ffffff', .2, k).smooth(), { vis: false, cast: false, emis: .5 }));
 function sfx(k) { if (window.liveSfx) window.liveSfx(k) }
 const GIFTS = { 'Rose': 1, 'TikTok': 1, 'Finger Heart': 5, 'Herz': 5, 'Donut': 30, 'Perfume': 20, 'Confetti': 100, 'Galaxy': 1000, 'Löwe': 29999 };
 window.liveEvent = function (e) {
@@ -298,7 +306,7 @@ window.liveEvent = function (e) {
   if (e.type === 'join') { giveGuy(u); feed(`👋 <b>${esc(u.name)}</b> ist beigetreten`) }
   else if (e.type === 'like') { const n = e.count || 1; ST.likes += n; giveGuy(u); addWP(u, n); checkGoals() }
   else if (e.type === 'follow') {
-    ST.follows++; giveGuy(u); addWP(u, 10); giveHouse(u); banner('NEUER EINWOHNER!', '#2fa36b', `@${u.name} wohnt jetzt hier`); sfx('follow');
+    ST.follows++; giveGuy(u); addWP(u, 10); giveHouse(u); sfx('follow');
     if (ST.follows % FOLLOW_GOAL == 0) { banner('FEUERWERK!', '#ff5d5d', `${ST.follows} neue Follower heute`); ST.fireworks = ST.t }
   }
   else if (e.type === 'gift') {
@@ -312,7 +320,7 @@ window.liveEvent = function (e) {
   else if (e.type === 'say') { ST.sayQ.push(e) }                                  // Kommentator-Zeile vom Server (Text + Audio)
 };
 function esc(s) { return String(s).replace(/[<>&"]/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' })[c]).slice(0, 80) }
-function checkGoals() { LM.forEach(l => { if (!l.done && ST.likes >= l.likes) { l.done = true; l.t = ST.t; banner(l.name + '!', '#4aa3ff', `${l.likes.toLocaleString('de-DE')} Likes geschafft – danke!`); focus(l.pos, 5); sfx('goal') } }) }
+function checkGoals() { LM.forEach(l => { if (!l.done && ST.likes >= l.likes) { l.done = true; l.t = ST.t; banner(l.name + '!', '#4aa3ff', `${l.likes.toLocaleString('de-DE')} Likes geschafft – danke!`); focus(l.pos, 4.5, { kind: 'goal', name: l.name }); sfx('goal') } }) }
 // Spielstand fuer den Kommentator (Server fragt danach)
 window.liveState = () => {
   const top = topHouses(5).map(u => `${u.name} (${LEVELS[u.house.lv].name}, ${Math.round(u.wp)} WP)`);
@@ -322,6 +330,7 @@ window.liveState = () => {
 };
 const topHouses = n => [...ST.users.values()].filter(u => u.house).sort((a, b) => b.wp - a.wp).slice(0, n);
 
+function losBlock(x, z, r) { const f = ST.camFocus; if (!f || ST.t > f.t + f.dur + 1.4) return false; const ax = w.cam.pos[0], az = w.cam.pos[2], bx = f.p[0], bz = f.p[2], dx = bx - ax, dz = bz - az, L2 = dx * dx + dz * dz || 1, u = Math.max(0, Math.min(1, ((x - ax) * dx + (z - az) * dz) / L2)); return u < .9 && Math.hypot(ax + dx * u - x, az + dz * u - z) < r }
 // ---------------- Kommentator (Fallback/Simulation: Vorlagen) ----------------
 // Im echten Live kommen die Saetze vom Server (Ollama + Stimme). Ohne Server/KI nutzt das Spiel diese Vorlagen.
 const TPL = {
@@ -395,20 +404,26 @@ if (!SIM) { connect(); setInterval(() => { if (WS && WS.readyState === 1) WS.sen
 let curAudio = null;
 function playSay(e) { if (e.url && !MANUAL) { try { curAudio = new Audio(e.url); curAudio.play().catch(() => { }) } catch (x) { } } }
 // ---------------- Kamera ----------------
-const CC = { x: 0, z: -4, r: 16 };
+const CC = { x: 0, z: -4, r: 16 }; let LASTCAM = null;
 function camAt(t) {
   const open = BLOCKS.filter(B => B.open), n = open.length;
   const cx = n ? open.reduce((s, B) => s + B.cx, 0) / n : 0, cz = n ? open.reduce((s, B) => s + B.cz, 0) / n : -4;
   CC.x += (cx - CC.x) * .02; CC.z += (cz - CC.z) * .02; CC.r += (14 + 5.5 * Math.sqrt(n) - CC.r) * .02;
   const a = Math.sin(t * .035) * .8, R = CC.r, base = { pos: [CC.x + Math.sin(a) * R, R * 1.05, CC.z + Math.cos(a) * R], at: [CC.x - Math.sin(a) * R * .3, 0, CC.z - 1 - Math.cos(a) * R * .3], fov: 50 };
-  const f = ST.camFocus;
-  if (f && t - f.t < f.dur + 1.2) {
-    const u = ez(cl(t, f.t, f.t + 1.2)) * (1 - ez(cl(t, f.t + f.dur, f.t + f.dur + 1.2)));
-    const d = G.v.norm([base.pos[0] - f.p[0], 0, base.pos[2] - f.p[2]]);
-    const near = { pos: [f.p[0] + d[0] * 8.5, f.p[1] + 5.5, f.p[2] + d[2] * 8.5], at: [f.p[0], f.p[1] + 1, f.p[2]] };
-    return { pos: G.v.lerp(base.pos, near.pos, u), at: G.v.lerp(base.at, near.at, u), fov: 44 };
+  // aktueller Fokus beendet? -> naechster aus der Warteschlange
+  let f = ST.camFocus;
+  if ((!f || t > f.t + f.dur) && ST.focusQ.length) { f = ST.camFocus = Object.assign(ST.focusQ.shift(), { t, from: LASTCAM ? Object.assign({}, LASTCAM) : base, ang: 0 });
+    { const pl = PLOTS.find(q => Math.hypot(q.x - f.p[0], q.z - f.p[2]) < .1); f.ang = pl ? pl.yaw + .35 : Math.atan2(base.pos[0] - f.p[0], base.pos[2] - f.p[2]) }
+    if (f.info && f.info.kind == 'new') { ST.puffT = t; ST.puffP = f.p } }
+  let out = base;
+  if (f && t < f.t + f.dur + 1.4) {
+    const k = t - f.t, a2 = f.ang + Math.sin(k * .5) * .35, hl = f.info && f.info.u && f.info.u.house ? f.info.u.house.lv : 0, D = f.info && f.info.kind == 'goal' ? 11 : 8.5 + hl * .9, Hh = f.info && f.info.kind == 'goal' ? 7 : 5.2 + hl * .5;
+    const near = { pos: [f.p[0] + Math.sin(a2) * D, f.p[1] + Hh, f.p[2] + Math.cos(a2) * D], at: [f.p[0] - Math.sin(a2) * .8, f.p[1] + 1.9 + hl * .45, f.p[2] - Math.cos(a2) * .8], fov: 46 };
+    const uin = ez(cl(t, f.t, f.t + 1.0)), uout = ST.focusQ.length ? 0 : ez(cl(t, f.t + f.dur, f.t + f.dur + 1.4));
+    const A = { pos: G.v.lerp(f.from.pos, near.pos, uin), at: G.v.lerp(f.from.at, near.at, uin), fov: lerp(f.from.fov, near.fov, uin) };
+    out = { pos: G.v.lerp(A.pos, base.pos, uout), at: G.v.lerp(A.at, base.at, uout), fov: lerp(A.fov, base.fov, uout) };
   }
-  return base;
+  LASTCAM = out; return out;
 }
 // ---------------- UI ----------------
 const shadowTxt = (c = OL, r = 5) => MG.outline(r).replace(/#000/g, c);
@@ -478,7 +493,7 @@ function tick(t) {
   // Buerger laufen herum
   POOL.forEach(g => {
     if (!g.user) { g.m.vis = false; return }
-    g.m.vis = Math.hypot(g.x - w.cam.pos[0], g.z - w.cam.pos[2]) > 5;
+    g.m.vis = Math.hypot(g.x - w.cam.pos[0], g.z - w.cam.pos[2]) > 7 && !losBlock(g.x, g.z, 1.1);
     if (Math.hypot(g.tx - g.x, g.tz - g.z) < .2) { const open = BLOCKS.filter(B => B.open); if (open.length && rnd() < .7) { const B = pick(open), c = pick([[-1, -1], [1, -1], [1, 1], [-1, 1], [0, -1], [0, 1]]); g.tx = B.cx + c[0] * PITCH / 2; g.tz = B.cz + c[1] * PITCH / 2 } else { const a = rnd() * 6.28, r = 1.5 + rnd() * 3; g.tx = SP[0] + Math.cos(a) * r; g.tz = SP[2] - 2 + Math.sin(a) * r * .6 } }
     const dx = g.tx - g.x, dz = g.tz - g.z, L = Math.hypot(dx, dz) || 1, sp2 = .9 * dt;
     g.x += dx / L * Math.min(L, sp2); g.z += dz / L * Math.min(L, sp2); g.yaw = Math.atan2(dx, dz);
@@ -490,12 +505,18 @@ function tick(t) {
   // Haeuser poppen / wachsen
   ST.users.forEach(u => { const h = u.house; if (!h || !h.m) return; const k = bo(cl(t, h.up, h.up + .5)); h.m.scl = [1, Math.max(.02, k), 1] });
   LM.forEach(l => { l.m.vis = l.done; if (l.done) { const k = bo(cl(t, l.t, l.t + .7)); l.m.scl = [k, k, k] } });
+  { const sv = !losBlock(SG[0] + .9, SG[2] + .9, 2.2); sign.vis = board.vis = boardFace.vis = sv }
+  PALMS.forEach(pm => { pm.vis = !BLOCKS.some(B => B.open && Math.abs(pm.px - B.cx) < PITCH / 2 + .9 && Math.abs(pm.pz - B.cz) < PITCH / 2 + .9) && !(ST.camFocus && t < ST.camFocus.t + ST.camFocus.dur + 1 && Math.hypot(pm.px - ST.camFocus.p[0], pm.pz - ST.camFocus.p[2]) < 6) });
+  PUFF.forEach((m, k) => { const u = (t - ST.puffT) / .9; m.vis = !!ST.puffP && u > 0 && u < 1; if (!m.vis) return; const an = k / 8 * 6.28, r = .5 + u * 1.6, sc = .5 + u * .9;
+    m.pos = [ST.puffP[0] + Math.cos(an) * r, ST.puffP[1] + .3 + u * .5, ST.puffP[2] + Math.sin(an) * r]; m.scl = [sc * (1 - u * .6), sc * (1 - u * .6), sc * (1 - u * .6)] });
   w.render(t);
   // Overlay: Namen ueber neuen/grossen Haeusern + "wo bin ich"-Pfeil
   let ov = '';
   topHouses(3).forEach((u, k) => { ov += labelAt([u.house.p.x, u.house.p.y + 2.6 + u.house.lv * .5, u.house.p.z], `<div class="pill" style="position:relative;font-size:26px;padding:4px 14px;border-width:4px;background:${['#ffd166', '#e9eef5', '#f0b27a'][k]};color:${OL}">${['🥇', '🥈', '🥉'][k]} ${esc(u.name)}</div>`) });
   if (ST.camFocus && t - ST.camFocus.t < ST.camFocus.dur) { const f = ST.camFocus.p; }
   POOL.forEach(g => { if (g.user && t - g.born < 4) ov += labelAt([g.x, iH(g.x, g.z) + 1.7, g.z], `<div class="pill" style="position:relative;font-size:22px;padding:2px 12px;border-width:3px;background:#fff;color:${OL}">${esc(g.user.name)}</div>`) });
+  { const f = ST.camFocus; if (f && f.info && f.info.u && t - f.t > .5 && t < f.t + f.dur) { const u = f.info.u, lv = u.house ? u.house.lv : 0;
+    ov += `<div style="position:absolute;left:430px;top:1430px;transform:translateX(-50%)"><div style="text-align:center;white-space:nowrap;transform:scale(${bo(cl(t, f.t + .5, f.t + .85))})"><div class="pill" style="position:relative;font-size:46px;background:${f.info.kind == 'new' ? '#2fa36b' : '#ffd166'};color:${f.info.kind == 'new' ? '#fff' : OL};text-shadow:${f.info.kind == 'new' ? shadowTxt(OL, 3) : 'none'}">${f.info.kind == 'new' ? '🏠 NEUER EINWOHNER!' : '⬆️ LEVEL ' + (lv + 1) + '!'}</div><div class="pill" style="position:relative;display:inline-block;margin-top:10px;font-size:34px;background:#fff;color:${OL}">@${esc(u.name)} · ${LEVELS[lv].name}</div></div></div>` } }
   if (ST.find && t - ST.find.t < 5) { const u = ST.find.u, p = u.house ? [u.house.p.x, u.house.p.y + 2.8, u.house.p.z] : u.guy ? [u.guy.x, iH(u.guy.x, u.guy.z) + 1.9, u.guy.z] : null;
     if (p) ov += labelAt(p, `<div style="text-align:center;transform:translateY(${-Math.abs(Math.sin(t * 6)) * 20}px)"><div class="pill" style="position:relative;font-size:34px;background:#ff5d5d;color:#fff">@${esc(u.name)} – HIER!</div><div style="font-size:90px;line-height:1">👇</div></div>`) }
   $('ov').innerHTML = ov;
