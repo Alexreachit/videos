@@ -1,6 +1,6 @@
 # TikTok-Serie "Roundhead Island" – Folge 7 (Tag 7). Zahlen von Alex (2026-11-12, Screenshots Tag 6): 31 Likes = 310 € (Kasse 550 -> 860),
 # 9 neue Follower -> 160 Einwohner, Umfrage: 10 Haeuser (von Alex bestaetigt). Kommentare: furz "wo bin ich", In_Verse Poststation auf der Eckkopf-Insel,
-# River_the_person will Lehrer sein, R will ein Stein sein. Story von Alex freigegeben, neue Frage: Polizeistation oder Hafen.
+# River_the_person will Lehrer sein, R will ein Stein sein. Story von Alex freigegeben, neue Frage: Polizeistation oder Krankenhaus (Hafen gibt es schon, Alex 12.11.).
 import json, os
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 L = []
@@ -18,9 +18,9 @@ A("Und schon fliegt der erste Brief zu uns!", dict(type="letter", mood="bright")
 A("Ein anderer wollte Lehrer sein: Hier ist unsere Schule!", dict(type="school"))
 A("Und wer sich sucht: Hier bist du!", dict(type="find", mood="bright"))
 A("Wir haben jetzt Häuser, eine Schule und eine Post.", dict(type="overview", mood="calm"))
-A("Aber keine Polizei und keinen Hafen.", dict(type="missing"))
+A("Aber keine Polizei und kein Krankenhaus.", dict(type="missing"))
 A("Bauen wir eine Polizeistation?", dict(type="polizei"))
-A("Oder einen Hafen für Handelsschiffe?", dict(type="hafen"))
+A("Oder ein Krankenhaus für alle?", dict(type="krankenhaus"))
 A("Stimmt in der Umfrage ab!", dict(type="poll", mood="bright"))
 P = dict(title="TikTok-Serie Roundhead Island – Tag 7 (Deutsch)",
          _sources="Fiktive Community-Serie (keine Faktenbehauptungen). Zahlen von Alex: Umfrage 10 Haeuser, 31 Likes, 160 Einwohner.",

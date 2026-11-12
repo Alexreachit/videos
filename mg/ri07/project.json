@@ -137,7 +137,7 @@
    }
   },
   {
-   "text": "Aber keine Polizei und keinen Hafen.",
+   "text": "Aber keine Polizei und kein Krankenhaus.",
    "spec": {
     "type": "missing"
    }
@@ -149,9 +149,9 @@
    }
   },
   {
-   "text": "Oder einen Hafen für Handelsschiffe?",
+   "text": "Oder ein Krankenhaus für alle?",
    "spec": {
-    "type": "hafen"
+    "type": "krankenhaus"
    }
   },
   {

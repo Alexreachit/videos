@@ -583,12 +583,13 @@ function overviewUI(t) {
   if (t > Lt(12).start && t < Lt(14).start) {
     const it = [['🏠 10 HÄUSER', /häuser|hauser/i, '#2fa36b'], ['🏫 SCHULE', /schule/i, '#2a8fd6'], ['✉️ POST', /post/i, '#d64545']];
     it.forEach(([s, re, c], k) => { h += `<div class="pill" style="left:${[230, 540, 850][k]}px;top:${250 + (k % 2) * 40}px;transform:translateX(-50%) rotate(${(k - 1) * 4}deg) scale(${pop(t, wt(12, re) - .1) * fade(t, Lt(14).start - .2, Lt(14).start)});font-size:52px;color:#fff;background:${c};text-shadow:${shadowTxt(OL, 3)}">✓ ${s}</div>` });
-    if (t > Lt(13).start) [['🚓 POLIZEI', /polizei/i], ['⚓ HAFEN', /hafen/i]].forEach(([s, re], k) => { h += `<div class="pill" style="left:${[330, 750][k]}px;top:500px;transform:translateX(-50%) rotate(${k ? 4 : -4}deg) scale(${pop(t, wt(13, re) - .1) * fade(t, Lt(14).start - .2, Lt(14).start)});font-size:60px;color:#fff;background:#3c4a63;text-shadow:${shadowTxt(OL, 3)}">✗ ${s}</div>` });
+    if (t > Lt(13).start) [['🚓 POLIZEI', /polizei/i], ['🏥 KRANKENHAUS', /krankenhaus/i]].forEach(([s, re], k) => { h += `<div class="pill" style="left:${[330, 750][k]}px;top:500px;transform:translateX(-50%) rotate(${k ? 4 : -4}deg) scale(${pop(t, wt(13, re) - .1) * fade(t, Lt(14).start - .2, Lt(14).start)});font-size:60px;color:#fff;background:#3c4a63;text-shadow:${shadowTxt(OL, 3)}">✗ ${s}</div>` });
   }
   return h;
 }
 const iconPolice = `<svg viewBox="0 0 100 100" width="170" height="170"><rect x="14" y="38" width="72" height="48" fill="#dfe7f1" stroke="${OL}" stroke-width="5"/><path d="M8,40 L50,14 L92,40Z" fill="#2a4f9a" stroke="${OL}" stroke-width="5" stroke-linejoin="round"/><rect x="30" y="44" width="40" height="12" rx="3" fill="#2a4f9a"/><text x="50" y="54" text-anchor="middle" font-family="IB,Arial" font-weight="900" font-size="10" fill="#fff">POLIZEI</text><rect x="43" y="62" width="14" height="24" fill="#3c4a63"/><circle cx="50" cy="8" r="6" fill="#4aa3ff" stroke="${OL}" stroke-width="3"/><rect x="8" y="86" width="84" height="6" fill="${OL}"/></svg>`;
 const iconHarbor = `<svg viewBox="0 0 100 100" width="170" height="170"><path d="M0,70 Q12,64 25,70 Q38,76 50,70 Q62,64 75,70 Q88,76 100,70 L100,100 L0,100Z" fill="#4aa3ff"/><rect x="4" y="52" width="46" height="10" fill="#a8743f" stroke="${OL}" stroke-width="4"/><rect x="10" y="62" width="6" height="18" fill="#7a4a24"/><rect x="38" y="62" width="6" height="18" fill="#7a4a24"/><path d="M56,58 L96,58 L88,72 L62,72Z" fill="#fff" stroke="${OL}" stroke-width="4" stroke-linejoin="round"/><path d="M74,58 L74,22" stroke="${OL}" stroke-width="4"/><path d="M76,24 L92,52 L76,52Z" fill="#ffd166" stroke="${OL}" stroke-width="4" stroke-linejoin="round"/><path d="M26,20 L26,44 M18,40 Q26,50 34,40 M20,26 L32,26" stroke="${OL}" stroke-width="5" fill="none" stroke-linecap="round"/></svg>`;
+const iconHospital = `<svg viewBox="0 0 100 100" width="170" height="170"><rect x="10" y="30" width="80" height="58" fill="#fff" stroke="${OL}" stroke-width="5"/><rect x="34" y="14" width="32" height="20" fill="#fff" stroke="${OL}" stroke-width="5"/><path d="M50,40 L50,64 M38,52 L62,52" stroke="#e8483c" stroke-width="10" stroke-linecap="round"/>${[18, 70].map(x => `<rect x="${x}" y="44" width="12" height="12" fill="#9ad0ff" stroke="${OL}" stroke-width="3"/>`).join('')}<rect x="42" y="70" width="16" height="18" fill="#9ad0ff" stroke="${OL}" stroke-width="3"/><rect x="4" y="86" width="92" height="6" fill="${OL}"/></svg>`;
 function choiceCards(t) {
   const tf = Lt(14).start + .05, tr = Lt(15).start + .05, tc = Lt(16).start;
   let h = '';
@@ -598,7 +599,7 @@ function choiceCards(t) {
   }
   const sr = pop(t, tr + .05, .45); if (sr > .01) {
     const m = ei(cl(t, tc - .1, tc + .35)), x = lerp(540, 810, m), y = lerp(560, 230, m), k = lerp(1.15, .78, m);
-    h += `<div class="card" style="left:${x}px;top:${y}px;width:460px;height:440px;transform:translateX(-50%) rotate(${lerp(3, 7, m) + Math.sin(t * 3 + 1) * 1.5}deg) scale(${sr * k});transform-origin:50% 0;text-align:center">${iconHarbor}<div style="font-size:60px;margin-top:2px">HAFEN?</div><div style="font:700 36px P,Arial;color:#6b7280">für Handelsschiffe</div></div>`;
+    h += `<div class="card" style="left:${x}px;top:${y}px;width:460px;height:440px;transform:translateX(-50%) rotate(${lerp(3, 7, m) + Math.sin(t * 3 + 1) * 1.5}deg) scale(${sr * k});transform-origin:50% 0;text-align:center">${iconHospital}<div style="font-size:42px;margin-top:6px">KRANKENHAUS?</div><div style="font:700 36px P,Arial;color:#6b7280">für alle Bürger</div></div>`;
   }
   if (t > tc + .3) h += `<div class="lbl" style="left:540px;top:400px;transform:translate(-50%,-50%) rotate(-4deg) scale(${pop(t, tc + .3)});font-size:78px;color:#ff5d5d;text-shadow:${shadowTxt(OL, 6)}">ODER</div>`;
   return h;
@@ -609,7 +610,7 @@ function pollCard(t) {
   const tap = (t - t0) % 1.4, fy = tap < .25 ? 10 * Math.sin(tap / .25 * Math.PI) : 0;
   return `<div class="card" style="left:50%;top:830px;width:860px;transform:translateX(-50%) rotate(-2deg) scale(${s});padding:26px 34px 30px">
    <div style="font:700 38px P,Arial;color:#6b7280">📊 Umfrage in den Kommentaren</div><div style="font-size:52px;margin-top:6px">Was bauen wir?</div>
-   ${row('🚓 Polizeistation')}${row('⚓ Hafen')}
+   ${row('🚓 Polizeistation')}${row('🏥 Krankenhaus')}
    <div style="position:absolute;right:60px;top:${200 + fy}px;font-size:110px;transform:rotate(-20deg)">👆</div></div>`;
 }
 function labelAt(p, html, t, t0, t1, opt = {}) {
@@ -770,7 +771,7 @@ window.sfxEvents = function () {
   E.push({ k: 'whoosh', t: L(10).start - .1, d: .7 }, { k: 'bell', t: wt(10, /hier/i) }, { k: 'chime', t: wt(10, /hier/i) + .1 });
   E.push({ k: 'swish', t: L(11).start, d: .4 }, { k: 'chime', t: wt(11, /hier/i) });
   E.push({ k: 'whoosh', t: L(12).start - .1, d: .8 }, { k: 'pop', t: wt(12, /häuser|hauser/i) }, { k: 'pop', t: wt(12, /schule/i) }, { k: 'pop', t: wt(12, /post/i) });
-  E.push({ k: 'error', t: wt(13, /polizei/i) - .1 }, { k: 'error', t: wt(13, /hafen/i) - .1 });
+  E.push({ k: 'error', t: wt(13, /polizei/i) - .1 }, { k: 'error', t: wt(13, /krankenhaus/i) - .1 });
   E.push({ k: 'whoosh', t: L(14).start - .1, d: .6 }, { k: 'pop', t: L(14).start + .05 }, { k: 'whoosh', t: L(15).start, d: .6 }, { k: 'pop', t: L(15).start + .1 });
   E.push({ k: 'swish', t: L(16).start, d: .4 }, { k: 'pop', t: L(16).start + .3 }, { k: 'tick', t: L(16).start + .9 }, { k: 'tick', t: L(16).start + 2.3 });
   return E;
