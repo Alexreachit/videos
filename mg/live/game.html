@@ -273,7 +273,7 @@ function setLevel(u, lv, isNew) {
   if (h.m) h.m.vis = false;
   h.m = w.mesh(houseGeo(lv, u.col === '#3c4a63' ? '#f4ead2' : ['#f4ead2', '#ffd166', '#9ad0ff', '#c8e6a0', '#f2b6c6', '#ffb37a'][ST.houses % 6], h.roof), { pos: [h.p.x, h.p.y, h.p.z], rot: [0, h.p.yaw, 0] });
   h.lv = lv; h.up = ST.t;
-  if (!isNew) { banner('LEVEL ' + (lv + 1) + '!', '#ffd166', `@${u.name}: ${LEVELS[lv].name}`); focus(h.p, 4.5); sfx('levelup') }
+  if (!isNew) { banner('LEVEL ' + (lv + 1) + '!', '#ffd166', `@${u.name}: ${LEVELS[lv].name}`); if (lv >= 3 && (!ST.camFocus || ST.t - ST.camFocus.t > 12)) focus(h.p, 4.5); sfx('levelup') }
 }
 function addWP(u, n) { u.wp += n * (ST.t < ST.hh.until ? 3 : 1); if (u.house) setLevel(u, levelOf(u.wp)) }
 // ---------------- Ereignisse ----------------
@@ -287,7 +287,7 @@ window.liveEvent = function (e) {
   if (e.type === 'join') { giveGuy(u); feed(`👋 <b>${esc(u.name)}</b> ist beigetreten`) }
   else if (e.type === 'like') { const n = e.count || 1; ST.likes += n; giveGuy(u); addWP(u, n); checkGoals() }
   else if (e.type === 'follow') {
-    ST.follows++; giveGuy(u); addWP(u, 10); giveHouse(u); banner('NEUER EINWOHNER!', '#2fa36b', `@${u.name} wohnt jetzt hier`); focus(u.house ? u.house.p : SP, 4); sfx('follow');
+    ST.follows++; giveGuy(u); addWP(u, 10); giveHouse(u); banner('NEUER EINWOHNER!', '#2fa36b', `@${u.name} wohnt jetzt hier`); sfx('follow');
     if (ST.follows % FOLLOW_GOAL == 0) { banner('FEUERWERK!', '#ff5d5d', `${ST.follows} neue Follower heute`); ST.fireworks = ST.t }
   }
   else if (e.type === 'gift') {
@@ -296,7 +296,7 @@ window.liveEvent = function (e) {
   }
   else if (e.type === 'chat') {
     giveGuy(u); feed(`<b>${esc(u.name)}</b>: ${esc(e.text)}`);
-    if (/wo bin ich|wo is mein|mein haus/i.test(e.text)) { ST.find = { u, t: ST.t }; if (u.house) focus(u.house.p, 4) }
+    if (/wo bin ich|wo is mein|mein haus/i.test(e.text)) { ST.find = { u, t: ST.t } }
   }
   else if (e.type === 'say') { ST.sayQ.push(e) }                                  // Kommentator-Zeile vom Server (Text + Audio)
 };
@@ -420,7 +420,7 @@ function hud(t) {
   // Banner
   ST.banners = ST.banners.filter(b => t - b.t < 3.2);
   ST.banners.slice(-1).forEach(b => { const s = bo(cl(t, b.t, b.t + .3)) * (1 - ez(cl(t, b.t + 2.8, b.t + 3.2)));
-    h += `<div class="lbl" style="left:0;width:1080px;top:880px;transform:scale(${s}) rotate(-3deg)"><div style="font-size:108px;color:${b.col};text-shadow:${shadowTxt(OL, 8)}">${b.txt}</div><div class="pill" style="position:relative;display:inline-block;font-size:40px;background:#fff;color:${OL}">${esc(b.sub)}</div></div>` });
+    h += `<div class="lbl" style="left:0;width:1080px;top:770px;transform:scale(${s}) rotate(-3deg)"><div style="font-size:108px;color:${b.col};text-shadow:${shadowTxt(OL, 8)}">${b.txt}</div><div class="pill" style="position:relative;display:inline-block;font-size:40px;background:#fff;color:${OL}">${esc(b.sub)}</div></div>` });
   // Feed (Beitritte/Chat) – unten links ueber TikToks eigenem Chat
   h += `<div style="position:absolute;left:30px;top:1180px;width:640px">${ST.feed.slice(-4).map(f => `<div style="font:700 26px P,Arial;color:#fff;text-shadow:${shadowTxt(OL, 3)};margin-top:6px;opacity:${1 - ez(cl(t, f.t + 8, f.t + 10))}">${f.html}</div>`).join('')}</div>`;
   h += `<div class="pill" style="left:50%;top:1100px;transform:translateX(-50%);font-size:30px;background:#fff;color:${OL};padding:6px 20px">❤️ Tippen = Likes · ➕ Folgen = eigenes Haus · 🎁 = Haus wächst</div>`;
@@ -459,7 +459,7 @@ function tick(t) {
   // Buerger laufen herum
   POOL.forEach(g => {
     if (!g.user) { g.m.vis = false; return }
-    g.m.vis = true;
+    g.m.vis = Math.hypot(g.x - w.cam.pos[0], g.z - w.cam.pos[2]) > 5;
     if (Math.hypot(g.tx - g.x, g.tz - g.z) < .2) { const a = rnd() * 6.28, r = 2 + rnd() * 9; g.tx = Math.cos(a) * r; g.tz = Math.sin(a) * r * .8 - 1 }
     const dx = g.tx - g.x, dz = g.tz - g.z, L = Math.hypot(dx, dz) || 1, sp2 = .9 * dt;
     g.x += dx / L * Math.min(L, sp2); g.z += dz / L * Math.min(L, sp2); g.yaw = Math.atan2(dx, dz);
@@ -492,5 +492,5 @@ $('map').style.display = 'none';
 // Fenster-Anpassung (LIVE Studio nimmt das Fenster auf)
 function fit() { const k = Math.min(innerWidth / 1080, innerHeight / 1920); document.body.style.transform = `scale(${k})`; document.body.style.transformOrigin = '0 0' }
 if (!MANUAL) { addEventListener('resize', fit); fit(); const t0 = performance.now(); (function loop() { tick((performance.now() - t0) / 1000); requestAnimationFrame(loop) })() }
-if (SIM) { ST.hh.next = 50 }
+if (SIM) { ST.hh.next = 28 }
 </script></body></html>
