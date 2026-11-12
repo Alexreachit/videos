@@ -1,0 +1,9 @@
+{
+  "name": "roundhead-island-live",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Interaktives TikTok-LIVE-Spiel Roundhead Island mit KI-Kommentator (lokal, kostenlos)",
+  "main": "server.js",
+  "scripts": { "start": "node server.js", "sim": "node server.js --sim" },
+  "dependencies": { "tiktok-live-connector": "^2.0.0", "ws": "^8.18.0" }
+}

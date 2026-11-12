@@ -1,0 +1,7 @@
+{
+  "tiktokUser": "dein_tiktok_name_ohne_at",
+  "port": 8787,
+  "ollamaModel": "qwen2.5:7b",
+  "voice": "en-US-AndrewMultilingualNeural",
+  "rate": "+8%"
+}
