@@ -88,6 +88,18 @@
    }
   },
   {
+   "text": "Das Krankenhaus hat 1000 Euro gekostet. Bleiben 220 Euro in der Kasse.",
+   "spec": {
+    "type": "kosten",
+    "mood": "calm"
+   },
+   "say": "Das Krankenhaus hat tausend Euro gekostet. Bleiben zweihundertzwanzig Euro in der Kasse.",
+   "say_map": {
+    "tausend": "1000",
+    "zweihundertzwanzig": "220"
+   }
+  },
+  {
    "text": "Christos bekommt seinen Schuhladen!",
    "spec": {
     "type": "shoe"
@@ -116,6 +128,28 @@
    "text": "Oder einen Flugplatz für unseren Piloten?",
    "spec": {
     "type": "flug"
+   }
+  },
+  {
+   "text": "Beide kosten 720 Euro. Dafür brauchen wir 50 Herzen!",
+   "spec": {
+    "type": "ziel"
+   },
+   "say": "Beide kosten siebenhundertzwanzig Euro. Dafür brauchen wir fünfzig Herzen!",
+   "say_map": {
+    "siebenhundertzwanzig": "720",
+    "fünfzig": "50"
+   }
+  },
+  {
+   "text": "Und bei 200 Einwohnern wartet eine riesige Überraschung!",
+   "spec": {
+    "type": "surprise",
+    "mood": "bright"
+   },
+   "say": "Und bei zweihundert Einwohnern wartet eine riesige Überraschung!",
+   "say_map": {
+    "zweihundert": "200"
    }
   },
   {

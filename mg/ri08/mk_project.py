@@ -1,6 +1,7 @@
 # TikTok-Serie "Roundhead Island" – Folge 8 (Tag 8). Zahlen von Alex (2026-11-13, Screenshots Tag 7): 36 Likes = 360 € (Kasse 860 -> 1220),
 # 7 neue Follower -> 167 Einwohner, Umfrage: Krankenhaus 78 % / Polizeistation 22 % (18 Stimmen). Kommentare: Hoppy Pilot (Eurofighter -> erfundener Kampfjet,
 # kein Markenname), Christos Schuhladen, Damian_MTB Zirkus, Mex Polizist. Story von Alex freigegeben, neue Frage: Polizeistation oder Flugplatz.
+# Nachtrag Alex 13.11.: Krankenhaus kostet 1000 € (Kasse 1220 -> 220), Polizei/Flugplatz je 720 € = 50 Likes noetig, Ueberraschung bei 200 Einwohnern.
 import json, os
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 L = []
@@ -12,11 +13,14 @@ A("7 neue Bürger! Wir sind jetzt 167 Einwohner.", dict(type="crowd"), say="Sieb
 A("Eure 36 Herzen bringen 360 Euro.", dict(type="money"), say="Eure sechsunddreißig Herzen bringen dreihundertsechzig Euro.", say_map={"sechsunddreißig": "36", "dreihundertsechzig": "360"})
 A("Jetzt sind 1220 Euro in der Kasse!", dict(type="money2"), say="Jetzt sind tausendzweihundertzwanzig Euro in der Kasse!", say_map={"tausendzweihundertzwanzig": "1220"})
 A("Und da steht es: unser Krankenhaus!", dict(type="build", mood="bright"))
+A("Das Krankenhaus hat 1000 Euro gekostet. Bleiben 220 Euro in der Kasse.", dict(type="kosten", mood="calm"), say="Das Krankenhaus hat tausend Euro gekostet. Bleiben zweihundertzwanzig Euro in der Kasse.", say_map={"tausend": "1000", "zweihundertzwanzig": "220"})
 A("Christos bekommt seinen Schuhladen!", dict(type="shoe"))
 A("Damian holt einen Zirkus auf die Insel!", dict(type="circus", mood="bright"))
 A("Und Mex wird unser erster Polizist. Nur eine Wache hat er noch nicht.", dict(type="mex"))
 A("Bauen wir jetzt eine Polizeistation für Mex?", dict(type="polizei"))
 A("Oder einen Flugplatz für unseren Piloten?", dict(type="flug"))
+A("Beide kosten 720 Euro. Dafür brauchen wir 50 Herzen!", dict(type="ziel"), say="Beide kosten siebenhundertzwanzig Euro. Dafür brauchen wir fünfzig Herzen!", say_map={"siebenhundertzwanzig": "720", "fünfzig": "50"})
+A("Und bei 200 Einwohnern wartet eine riesige Überraschung!", dict(type="surprise", mood="bright"), say="Und bei zweihundert Einwohnern wartet eine riesige Überraschung!", say_map={"zweihundert": "200"})
 A("Stimmt in der Umfrage ab!", dict(type="poll", mood="bright"))
 P = dict(title="TikTok-Serie Roundhead Island – Tag 8 (Deutsch)",
          _sources="Fiktive Community-Serie (keine Faktenbehauptungen). Zahlen von Alex: Umfrage Krankenhaus 78 %, 36 Likes, 167 Einwohner.",
