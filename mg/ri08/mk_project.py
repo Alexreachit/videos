@@ -8,6 +8,7 @@ L = []
 def A(t, s, **k): L.append(dict(text=t, spec=s, **k))
 A("Einer will Kampfjet-Pilot werden. Abheben!", dict(type="hook", mood="bright"))
 A("Tag 8 auf Roundhead Island!", dict(type="map", mood="bright"), say="Tag acht auf Roundhead Island!", say_map={"acht": "8"})
+A("Die Regeln: Folgen macht dich zum Einwohner, jedes Herz bringt 10 Euro, und im Kommentar darfst du dir was wünschen!", dict(type="regeln"), say="Die Regeln: Folgen macht dich zum Einwohner, jedes Herz bringt zehn Euro, und im Kommentar darfst du dir was wünschen!", say_map={"zehn": "10"})
 A("Ihr habt entschieden: Wir bauen ein Krankenhaus!", dict(type="vote", mood="bright"))
 A("7 neue Bürger! Wir sind jetzt 167 Einwohner.", dict(type="crowd"), say="Sieben neue Bürger! Wir sind jetzt hundertsiebenundsechzig Einwohner.", say_map={"sieben": "7", "hundertsiebenundsechzig": "167"})
 A("Eure 36 Herzen bringen 360 Euro.", dict(type="money"), say="Eure sechsunddreißig Herzen bringen dreihundertsechzig Euro.", say_map={"sechsunddreißig": "36", "dreihundertsechzig": "360"})

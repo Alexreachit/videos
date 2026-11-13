@@ -557,9 +557,9 @@ const Lt = i => MG.L(i);
 function wt(i, re) { const l = Lt(i); if (!l.words) return l.start; for (const x of l.words) if (re.test(x[0])) return l.start + x[1]; return l.start }
 const BL = [-1.25, 0, 3.5]; BL[1] = iH(BL[0], BL[2]);
 const MAP0 = () => Lt(1).start - .05;
-function coinT(k) { const a = wt(4, /bringen/i), b = Lt(4).end; return [a + (b - a - .4) * k / (NCOIN - 1), a + (b - a - .4) * k / (NCOIN - 1) + .45] }
-const tHo = () => wt(6, /krankenhaus/i) - .3, tAmb = () => tHo() + .6;
-const tSh = () => wt(8, /schuhladen/i) - .25, tZi = () => wt(9, /zirkus/i) - .25;
+function coinT(k) { const a = wt(5, /bringen/i), b = Lt(5).end; return [a + (b - a - .4) * k / (NCOIN - 1), a + (b - a - .4) * k / (NCOIN - 1) + .45] }
+const tHo = () => wt(7, /krankenhaus/i) - .3, tAmb = () => tHo() + .6;
+const tSh = () => wt(9, /schuhladen/i) - .25, tZi = () => wt(10, /zirkus/i) - .25;
 const tJ1 = () => MAP0() + .1;
 function jetP(t) { const u = cl(t / tJ1(), 0, 1); return [lerp(26, -22, u), 6.2 + Math.sin(u * Math.PI) * 1.2, lerp(9, 3, u)] }
 function ambP(t) { const u = ez(cl((t - tAmb()) / 2.2, 0, 1)), dir = [Math.sin(HOY), Math.cos(HOY)]; const d = lerp(9, 2.6, u), side = 1.6; return [HO[0] + dir[0] * d + dir[1] * side, 0, HO[2] + dir[1] * d - dir[0] * side] }
@@ -572,28 +572,30 @@ function camKeys() {
   K.push({ t: MAP0(), pos: [-16, 30, 48], at: [4, 0, 9], fov: 42 });
   K.push({ t: MAP0() + TM + .1, pos: [-8, 16, 30], at: [6, 0, 18], fov: 46 });
   K.push({ t: Lt(1).end + .05, pos: [-4, 12, 20], at: [2, 0, 6], fov: 46 });
-  K.push({ t: Lt(2).start + .1, pos: P(1.2, 2.5, 9.2), at: P(.5, 1.15, 0), fov: 44 });
-  K.push({ t: Lt(2).end, pos: P(.6, 2.4, 8.0), at: P(.3, 1.2, 0), fov: 44 });
-  K.push({ t: Lt(3).start + .3, pos: P(0, 9, 17), at: P(0, .6, -1.5), fov: 50 });
-  K.push({ t: Lt(3).end, pos: P(-1, 8, 15.5), at: P(0, .6, -1.5), fov: 50 });
-  K.push({ t: Lt(4).start + .3, pos: P(2.1, 2.4, 7.2), at: P(.9, 1.0, 0), fov: 42 });
-  K.push({ t: Lt(5).end, pos: P(1.6, 2.1, 6.2), at: P(.9, 1.0, 0), fov: 42 });
+  K.push({ t: Lt(2).start + .2, pos: P(0, 6.5, 15), at: P(0, .6, -2.5), fov: 50 });
+  K.push({ t: Lt(2).end, pos: P(-1.2, 5.8, 13.5), at: P(0, .6, -2.5), fov: 50 });
+  K.push({ t: Lt(3).start + .1, pos: P(1.2, 2.5, 9.2), at: P(.5, 1.15, 0), fov: 44 });
+  K.push({ t: Lt(3).end, pos: P(.6, 2.4, 8.0), at: P(.3, 1.2, 0), fov: 44 });
+  K.push({ t: Lt(4).start + .3, pos: P(0, 9, 17), at: P(0, .6, -1.5), fov: 50 });
+  K.push({ t: Lt(4).end, pos: P(-1, 8, 15.5), at: P(0, .6, -1.5), fov: 50 });
+  K.push({ t: Lt(5).start + .3, pos: P(2.1, 2.4, 7.2), at: P(.9, 1.0, 0), fov: 42 });
+  K.push({ t: Lt(6).end, pos: P(1.6, 2.1, 6.2), at: P(.9, 1.0, 0), fov: 42 });
   // Krankenhaus von vorne
   const front = (C, yaw, d, h, ah, dx = 0) => ({ pos: [C[0] + Math.sin(yaw) * d + Math.cos(yaw) * dx, C[1] + h, C[2] + Math.cos(yaw) * d - Math.sin(yaw) * dx], at: [C[0], C[1] + ah, C[2]] });
-  K.push(Object.assign({ t: Lt(6).start + .1, fov: 48 }, front(HO, HOY, 12.5, 7.0, 1.8, 2)));
-  K.push(Object.assign({ t: Lt(6).end, fov: 48 }, front(HO, HOY, 10.8, 6.0, 1.8, 1.2)));
-  K.push({ t: Lt(7).start + .1, pos: P(2.1, 2.4, 7.2), at: P(.9, 1.0, 0), fov: 42 });
-  K.push({ t: Lt(7).end, pos: P(1.6, 2.1, 6.2), at: P(.9, 1.0, 0), fov: 42 });
-  K.push(Object.assign({ t: Lt(8).start + .1, fov: 46 }, front(SH8, SHY, 7.4, 4.0, 1.2, -.8)));
-  K.push(Object.assign({ t: Lt(8).end, fov: 46 }, front(SH8, SHY, 6.6, 3.6, 1.2, -.5)));
+  K.push(Object.assign({ t: Lt(7).start + .1, fov: 48 }, front(HO, HOY, 12.5, 7.0, 1.8, 2)));
+  K.push(Object.assign({ t: Lt(7).end, fov: 48 }, front(HO, HOY, 10.8, 6.0, 1.8, 1.2)));
+  K.push({ t: Lt(8).start + .1, pos: P(2.1, 2.4, 7.2), at: P(.9, 1.0, 0), fov: 42 });
+  K.push({ t: Lt(8).end, pos: P(1.6, 2.1, 6.2), at: P(.9, 1.0, 0), fov: 42 });
+  K.push(Object.assign({ t: Lt(9).start + .1, fov: 46 }, front(SH8, SHY, 7.4, 4.0, 1.2, -.8)));
+  K.push(Object.assign({ t: Lt(9).end, fov: 46 }, front(SH8, SHY, 6.6, 3.6, 1.2, -.5)));
   const ZY = yawTo(ZI[0], ZI[2]);
-  K.push(Object.assign({ t: Lt(9).start + .1, fov: 48 }, front(ZI, ZY, 10, 5.2, 1.8, 1.5)));
-  K.push(Object.assign({ t: Lt(9).end, fov: 48 }, front(ZI, ZY, 8.8, 4.6, 1.8, 1)));
+  K.push(Object.assign({ t: Lt(10).start + .1, fov: 48 }, front(ZI, ZY, 10, 5.2, 1.8, 1.5)));
+  K.push(Object.assign({ t: Lt(10).end, fov: 48 }, front(ZI, ZY, 8.8, 4.6, 1.8, 1)));
   const MY = yawTo(MX[0], MX[2]);
-  K.push(Object.assign({ t: Lt(10).start + .1, fov: 44 }, front(MX, MY, 6.4, 2.8, 1.0, 1.2)));
-  K.push(Object.assign({ t: Lt(10).end, fov: 44 }, front(MX, MY, 5.6, 2.5, 1.0, .8)));
-  K.push({ t: Lt(11).start + .1, pos: P(.2, 2.6, 9.0), at: P(0, 1.45, 0), fov: 46 });
-  K.push({ t: Lt(15).start, pos: P(.2, 2.5, 8.4), at: P(0, 1.45, 0), fov: 46 });
+  K.push(Object.assign({ t: Lt(11).start + .1, fov: 44 }, front(MX, MY, 6.4, 2.8, 1.0, 1.2)));
+  K.push(Object.assign({ t: Lt(11).end, fov: 44 }, front(MX, MY, 5.6, 2.5, 1.0, .8)));
+  K.push({ t: Lt(12).start + .1, pos: P(.2, 2.6, 9.0), at: P(0, 1.45, 0), fov: 46 });
+  K.push({ t: Lt(16).start, pos: P(.2, 2.5, 8.4), at: P(0, 1.45, 0), fov: 46 });
   K.push({ t: 999, pos: P(.2, 2.3, 7.6), at: P(0, 1.4, 0), fov: 46 });
   return K;
 }
@@ -629,32 +631,32 @@ function wishCard(t, i, user, emo, txt, col, reDone, t1o, doneTxt = 'WUNSCH ERF�
     stamp(t, wt(i, reDone) - .05, doneTxt, '#2fa36b', 84, 600, -5, t1 + .2);
 }
 function voteResult(t) {
-  const t0 = Lt(2).start - .05, t1 = Lt(3).start - .15, s = pop(t, t0, .4) * fade(t, t1, t1 + .25); if (s <= .01) return '';
+  const t0 = Lt(3).start - .05, t1 = Lt(4).start - .15, s = pop(t, t0, .4) * fade(t, t1, t1 + .25); if (s <= .01) return '';
   const bar = (lab, p, on) => `<div style="position:relative;height:96px;border:5px solid ${OL};border-radius:48px;background:#f2f4f8;margin-top:16px;overflow:hidden"><div style="position:absolute;left:0;top:0;bottom:0;width:${p * ez(cl((t - t0 - .3) / .8, 0, 1))}%;background:${on ? '#2fa36b' : '#c9ccd3'}"></div><div style="position:relative;font-size:52px;line-height:86px;padding:0 34px;display:flex;justify-content:space-between;color:${on ? '#fff' : OL};${on ? 'text-shadow:' + shadowTxt(OL, 3) : ''}"><span>${lab}</span><span>${p} %</span></div></div>`;
   return `<div class="card" style="left:50%;top:230px;width:820px;transform:translateX(-50%) rotate(-2deg) scale(${s});padding:24px 34px 30px">
-    <div style="font-size:50px;text-align:center">UMFRAGE TAG 7</div>${bar('🏥 Krankenhaus', 78, 1)}${bar('🚓 Polizeistation', 22, 0)}</div>` + stamp(t, wt(2, /krankenhaus/i) - .05, 'KRANKENHAUS!', '#2fa36b', 104, 860, -6, t1 + .2);
+    <div style="font-size:50px;text-align:center">UMFRAGE TAG 7</div>${bar('🏥 Krankenhaus', 78, 1)}${bar('🚓 Polizeistation', 22, 0)}</div>` + stamp(t, wt(3, /krankenhaus/i) - .05, 'KRANKENHAUS!', '#2fa36b', 104, 860, -6, t1 + .2);
 }
 function counterCard(t) {
-  const t0 = Lt(3).start + .05, t1 = Lt(4).start - .1, s = pop(t, t0) * fade(t, t1, t1 + .25); if (s <= .01) return '';
-  const tc = wt(3, /einwohner|167/i) - .4, n = Math.round(lerp(NEINW0, NEINW, ez(cl(t, Lt(3).start + .3, tc + .3))));
+  const t0 = Lt(4).start + .05, t1 = Lt(5).start - .1, s = pop(t, t0) * fade(t, t1, t1 + .25); if (s <= .01) return '';
+  const tc = wt(4, /einwohner|167/i) - .4, n = Math.round(lerp(NEINW0, NEINW, ez(cl(t, Lt(4).start + .3, tc + .3))));
   return `<div class="card" style="left:50%;top:280px;transform:translateX(-50%) rotate(2deg) scale(${s});padding:18px 56px 6px;text-align:center">
    <div style="font-size:50px;letter-spacing:2px">EINWOHNER</div><div style="font-size:210px;line-height:1;color:#ff5d5d;text-shadow:0 8px 0 #2328382a">${n}</div></div>
-   <div class="pill" style="left:50%;top:640px;transform:translateX(-50%) rotate(-3deg) scale(${pop(t, Lt(3).start + .2)});font-size:76px;color:#fff;background:#2fa36b;text-shadow:${shadowTxt(OL, 4)}">+7 NEUE BÜRGER</div>`;
+   <div class="pill" style="left:50%;top:640px;transform:translateX(-50%) rotate(-3deg) scale(${pop(t, Lt(4).start + .2)});font-size:76px;color:#fff;background:#2fa36b;text-shadow:${shadowTxt(OL, 4)}">+7 NEUE BÜRGER</div>`;
 }
 const heart = `<svg width="64" height="56" viewBox="0 0 24 22" style="vertical-align:-6px"><path d="M12 21 C-6 9 4-3 12 4 C20-3 30 9 12 21Z" fill="#fff" stroke="${OL}" stroke-width="1.6"/></svg>`;
 function treasury(t) {
-  if (!(t > Lt(4).start - .05 && t < Lt(6).start)) return '';
-  const t0 = Lt(4).start, t1 = Lt(6).start - .2, s = pop(t, t0) * fade(t, t1, t1 + .25); if (s <= .01) return '';
-  let v = KASSE0; COINS2.forEach(c => { const [a, b] = coinT(c.k); v += (KASSE1 - KASSE0) / NCOIN * cl(t, b - .05, b + .05) }); v = Math.round(v / 10) * 10; if (t > Lt(5).start) v = KASSE1;
+  if (!(t > Lt(5).start - .05 && t < Lt(7).start)) return '';
+  const t0 = Lt(5).start, t1 = Lt(7).start - .2, s = pop(t, t0) * fade(t, t1, t1 + .25); if (s <= .01) return '';
+  let v = KASSE0; COINS2.forEach(c => { const [a, b] = coinT(c.k); v += (KASSE1 - KASSE0) / NCOIN * cl(t, b - .05, b + .05) }); v = Math.round(v / 10) * 10; if (t > Lt(6).start) v = KASSE1;
   return `<div class="lbl" style="left:0;width:1080px;top:240px;transform:scale(${s});transform-origin:50% 0"><div class="pill" style="position:relative;display:inline-block;font-size:56px;color:${OL};background:#fff">STAATSKASSE</div>
-    <div style="font-size:230px;line-height:1;margin-top:10px;color:${t > Lt(5).start ? '#ffd166' : '#35e08a'};text-shadow:${shadowTxt(OL, 8)}">${v} €</div>
-    ${t < Lt(5).start ? `<div class="pill" style="position:relative;display:inline-block;margin-top:14px;font-size:70px;color:#fff;background:#fe2c55;transform:rotate(-2deg) scale(${pop(t, Lt(4).start + .2, .4)});text-shadow:${shadowTxt(OL, 4)}">${heart} ${LIKES} LIKES × 10 €</div>` :
-      `<div class="pill" style="position:relative;display:inline-block;margin-top:14px;font-size:70px;color:#fff;background:#2fa36b;transform:rotate(-2deg) scale(${pop(t, Lt(5).start + .1, .4)});text-shadow:${shadowTxt(OL, 4)}">💰 NEUER REKORD</div>`}</div>`;
+    <div style="font-size:230px;line-height:1;margin-top:10px;color:${t > Lt(6).start ? '#ffd166' : '#35e08a'};text-shadow:${shadowTxt(OL, 8)}">${v} €</div>
+    ${t < Lt(6).start ? `<div class="pill" style="position:relative;display:inline-block;margin-top:14px;font-size:70px;color:#fff;background:#fe2c55;transform:rotate(-2deg) scale(${pop(t, Lt(5).start + .2, .4)});text-shadow:${shadowTxt(OL, 4)}">${heart} ${LIKES} LIKES × 10 €</div>` :
+      `<div class="pill" style="position:relative;display:inline-block;margin-top:14px;font-size:70px;color:#fff;background:#2fa36b;transform:rotate(-2deg) scale(${pop(t, Lt(6).start + .1, .4)});text-shadow:${shadowTxt(OL, 4)}">💰 NEUER REKORD</div>`}</div>`;
 }
 function buildUI(t) {
   let h = '';
-  if (t > tHo() && t < Lt(7).start) h += stamp(t, tHo() + .1, '🏥 ERÖFFNET!', '#e8483c', 96, 330, -5, Lt(7).start - .1);
-  if (t > Lt(10).start && t < Lt(11).start) { const tw = wt(10, /wache/i); if (t > tw - .1) h += `<div class="pill" style="left:50%;top:560px;transform:translateX(-50%) rotate(-4deg) scale(${pop(t, tw - .1)});font-size:64px;color:#fff;background:#3c4a63;text-shadow:${shadowTxt(OL, 3)}">✗ KEINE WACHE</div>` }
+  if (t > tHo() && t < Lt(8).start) h += stamp(t, tHo() + .1, '🏥 ERÖFFNET!', '#e8483c', 96, 330, -5, Lt(8).start - .1);
+  if (t > Lt(11).start && t < Lt(12).start) { const tw = wt(11, /wache/i); if (t > tw - .1) h += `<div class="pill" style="left:50%;top:560px;transform:translateX(-50%) rotate(-4deg) scale(${pop(t, tw - .1)});font-size:64px;color:#fff;background:#3c4a63;text-shadow:${shadowTxt(OL, 3)}">✗ KEINE WACHE</div>` }
   return h;
 }
 const iconPolice = `<svg viewBox="0 0 100 100" width="170" height="170"><rect x="14" y="38" width="72" height="48" fill="#dfe7f1" stroke="${OL}" stroke-width="5"/><path d="M8,40 L50,14 L92,40Z" fill="#2a4f9a" stroke="${OL}" stroke-width="5" stroke-linejoin="round"/><rect x="30" y="44" width="40" height="12" rx="3" fill="#2a4f9a"/><text x="50" y="54" text-anchor="middle" font-family="IB,Arial" font-weight="900" font-size="10" fill="#fff">POLIZEI</text><rect x="43" y="62" width="14" height="24" fill="#3c4a63"/><circle cx="50" cy="8" r="6" fill="#4aa3ff" stroke="${OL}" stroke-width="3"/><rect x="8" y="86" width="84" height="6" fill="${OL}"/></svg>`;
@@ -662,7 +664,7 @@ const iconAir = `<svg viewBox="0 0 100 100" width="170" height="170"><path d="M3
 const iconHarbor = `<svg viewBox="0 0 100 100" width="170" height="170"><path d="M0,70 Q12,64 25,70 Q38,76 50,70 Q62,64 75,70 Q88,76 100,70 L100,100 L0,100Z" fill="#4aa3ff"/><rect x="4" y="52" width="46" height="10" fill="#a8743f" stroke="${OL}" stroke-width="4"/><rect x="10" y="62" width="6" height="18" fill="#7a4a24"/><rect x="38" y="62" width="6" height="18" fill="#7a4a24"/><path d="M56,58 L96,58 L88,72 L62,72Z" fill="#fff" stroke="${OL}" stroke-width="4" stroke-linejoin="round"/><path d="M74,58 L74,22" stroke="${OL}" stroke-width="4"/><path d="M76,24 L92,52 L76,52Z" fill="#ffd166" stroke="${OL}" stroke-width="4" stroke-linejoin="round"/><path d="M26,20 L26,44 M18,40 Q26,50 34,40 M20,26 L32,26" stroke="${OL}" stroke-width="5" fill="none" stroke-linecap="round"/></svg>`;
 const iconHospital = `<svg viewBox="0 0 100 100" width="170" height="170"><rect x="10" y="30" width="80" height="58" fill="#fff" stroke="${OL}" stroke-width="5"/><rect x="34" y="14" width="32" height="20" fill="#fff" stroke="${OL}" stroke-width="5"/><path d="M50,40 L50,64 M38,52 L62,52" stroke="#e8483c" stroke-width="10" stroke-linecap="round"/>${[18, 70].map(x => `<rect x="${x}" y="44" width="12" height="12" fill="#9ad0ff" stroke="${OL}" stroke-width="3"/>`).join('')}<rect x="42" y="70" width="16" height="18" fill="#9ad0ff" stroke="${OL}" stroke-width="3"/><rect x="4" y="86" width="92" height="6" fill="${OL}"/></svg>`;
 function choiceCards(t) {
-  const tf = Lt(11).start + .05, tr = Lt(12).start + .05, tc = Lt(13).start;
+  const tf = Lt(12).start + .05, tr = Lt(13).start + .05, tc = Lt(14).start;
   let h = '';
   const sf = pop(t, tf, .4); if (sf > .01) {
     const m = ei(cl(t, tr - .1, tr + .35)), x = lerp(540, 270, m), y = lerp(260, 230, m), k = lerp(1.15, .78, m);
@@ -676,7 +678,7 @@ function choiceCards(t) {
   return h;
 }
 function pollCard(t) {
-  const t0 = Lt(15).start + .3, s = pop(t, t0, .45); if (s <= .01) return '';
+  const t0 = Lt(16).start + .3, s = pop(t, t0, .45); if (s <= .01) return '';
   const row = lab => `<div style="position:relative;height:92px;border:5px solid ${OL};border-radius:46px;background:#f2f4f8;margin-top:16px;font-size:50px;line-height:82px;padding-left:34px">${lab}</div>`;
   const tap = (t - t0) % 1.4, fy = tap < .25 ? 10 * Math.sin(tap / .25 * Math.PI) : 0;
   return `<div class="card" style="left:50%;top:830px;width:860px;transform:translateX(-50%) rotate(-2deg) scale(${s});padding:26px 34px 30px">
@@ -686,16 +688,16 @@ function pollCard(t) {
 }
 const HOKOST = 1000, KASSE2 = KASSE1 - HOKOST, ZIELK = 720, NEED = 50, ZIEL_EW = 200;
 function treasury2(t) {
-  if (!(t > Lt(7).start - .05 && t < Lt(8).start)) return '';
-  const t0 = Lt(7).start, t1 = Lt(8).start - .2, s = pop(t, t0) * fade(t, t1, t1 + .25); if (s <= .01) return '';
-  const tk = wt(7, /gekostet/i), v = Math.round(lerp(KASSE1, KASSE2, ez(cl((t - tk + .2) / 1.0, 0, 1))) / 10) * 10;
+  if (!(t > Lt(8).start - .05 && t < Lt(9).start)) return '';
+  const t0 = Lt(8).start, t1 = Lt(9).start - .2, s = pop(t, t0) * fade(t, t1, t1 + .25); if (s <= .01) return '';
+  const tk = wt(8, /gekostet/i), v = Math.round(lerp(KASSE1, KASSE2, ez(cl((t - tk + .2) / 1.0, 0, 1))) / 10) * 10;
   return `<div class="lbl" style="left:0;width:1080px;top:240px;transform:scale(${s});transform-origin:50% 0"><div class="pill" style="position:relative;display:inline-block;font-size:56px;color:${OL};background:#fff">STAATSKASSE</div>
     <div style="font-size:230px;line-height:1;margin-top:10px;color:${t > tk ? '#ff5d5d' : '#ffd166'};text-shadow:${shadowTxt(OL, 8)}">${v} €</div>
     ${t > tk - .2 ? `<div class="pill" style="position:relative;display:inline-block;margin-top:14px;font-size:68px;color:#fff;background:#e8483c;transform:rotate(-2deg) scale(${pop(t, tk - .2, .4)});text-shadow:${shadowTxt(OL, 4)}">🏥 −${HOKOST} € KRANKENHAUS</div>` : ''}</div>`;
 }
 function costCard(t) {
-  const t0 = Lt(13).start + .05, t1 = Lt(14).start - .1, s = pop(t, t0, .4) * fade(t, t1, t1 + .2); if (s <= .01) return '';
-  const tn = wt(13, /herzen|50/i) - .2, u = ez(cl((t - tn) / .8, 0, 1));
+  const t0 = Lt(14).start + .05, t1 = Lt(15).start - .1, s = pop(t, t0, .4) * fade(t, t1, t1 + .2); if (s <= .01) return '';
+  const tn = wt(14, /herzen|50/i) - .2, u = ez(cl((t - tn) / .8, 0, 1));
   return `<div class="card" style="left:50%;top:640px;width:880px;transform:translateX(-50%) rotate(-2deg) scale(${s});padding:24px 34px 28px;text-align:center">
     <div style="font-size:54px">🚓 / ✈️ KOSTEN JE <span style="color:#e8483c">${ZIELK} €</span></div>
     <div style="height:84px;border:6px solid ${OL};border-radius:20px;background:#eef1f6;overflow:hidden;position:relative;margin-top:14px">
@@ -705,7 +707,7 @@ function costCard(t) {
     <div class="pill" style="position:relative;display:inline-block;margin-top:16px;font-size:72px;color:#fff;background:#fe2c55;transform:rotate(-2deg) scale(${pop(t, tn, .4)});text-shadow:${shadowTxt(OL, 4)}">${heart} ${NEED} LIKES NÖTIG!</div></div>`;
 }
 function surpriseCard(t) {
-  const t0 = Lt(14).start + .05, t1 = Lt(15).start - .1, s = pop(t, t0, .4) * fade(t, t1, t1 + .2); if (s <= .01) return '';
+  const t0 = Lt(15).start + .05, t1 = Lt(16).start - .1, s = pop(t, t0, .4) * fade(t, t1, t1 + .2); if (s <= .01) return '';
   const sh = Math.sin(t * 22) * 6 * (Math.sin(t * 3) > .3 ? 1 : 0), fill = NEINW / ZIEL_EW * 100 * ez(cl((t - t0 - .3) / .9, 0, 1));
   return `<div class="card" style="left:50%;top:600px;width:880px;transform:translateX(-50%) rotate(2deg) scale(${s});padding:22px 34px 28px;text-align:center;background:#fff7e0">
     <div style="font-size:150px;line-height:1.05;transform:rotate(${sh}deg)">🎁</div>
@@ -714,6 +716,15 @@ function surpriseCard(t) {
       <div style="position:absolute;left:0;top:0;bottom:0;width:${fill}%;background:repeating-linear-gradient(45deg,#2fa36b 0 26px,#45c47f 26px 52px)"></div>
       <div style="position:relative;font-size:48px;line-height:72px">${NEINW} / ${ZIEL_EW}</div></div>
     <div class="pill" style="position:relative;display:inline-block;margin-top:16px;font-size:60px;color:#fff;background:#2fa36b;transform:rotate(-2deg) scale(${pop(t, t0 + .6, .4)});text-shadow:${shadowTxt(OL, 4)}">➕ FOLGEN = EINWOHNER</div></div>`;
+}
+function rulesCard(t) {
+  const t0 = Lt(2).start, t1 = Lt(3).start - .15, s = pop(t, t0, .35) * fade(t, t1, t1 + .2); if (s <= .01) return '';
+  const R = [['➕', 'FOLGEN', 'du wirst Einwohner', '#2fa36b', /folgen/i], ['❤️', 'HERZ', '= 10 € für die Insel', '#fe2c55', /herz/i], ['💬', 'KOMMENTAR', 'dein Wunsch wird wahr', '#2a8fd6', /kommentar/i]];
+  return `<div class="card" style="left:50%;top:210px;width:900px;transform:translateX(-50%) rotate(-1.5deg) scale(${s});padding:22px 30px 26px">
+    <div style="font-size:56px;text-align:center;margin-bottom:8px">SO FUNKTIONIERT'S</div>` +
+    R.map(([e, a, b, c, re], k) => { const p = pop(t, wt(2, re) - .15, .35); return `<div style="display:flex;align-items:center;gap:22px;margin-top:14px;transform:scale(${.6 + .4 * p});opacity:${.25 + .75 * Math.min(1, p)}">
+      <div style="width:110px;height:110px;flex:none;border-radius:26px;background:${c};border:5px solid ${OL};font:900 62px/100px IB,Arial;text-align:center">${e}</div>
+      <div><div style="font-size:58px;color:${c};text-shadow:${shadowTxt(OL, 2)}">${a}</div><div style="font:700 40px P,Arial;color:#4b5563">${b}</div></div></div>` }).join('') + `</div>`;
 }
 function labelAt(p, html, t, t0, t1, opt = {}) {
   const q = w.project(p); if (!q.vis) return '';
@@ -724,16 +735,16 @@ function labelAt(p, html, t, t0, t1, opt = {}) {
 function samPose(t) {
   const i = MG.cur(t), l = Lt(i), rt = t - l.start;
   let o = { mouth: 'smile', talk: MG_SAM.talk(t, l) * .9, blink: MG_SAM.blink(t), armL: [.12, .1], armR: [.12, .1], bob: 0 };
-  if (i == 2) { const u = ez(cl(rt, .2, .5)); o.armL = [lerp(.12, 2.6, u), .2]; o.armR = [lerp(.12, 2.6, u), .2]; o.mouth = 'grin'; o.bob = Math.max(0, Math.sin(cl(rt, .4, 1.1) * Math.PI)) * 34 }
-  else if (i == 3) { o.armR = [1.4, -.2]; o.mouth = 'grin' }
-  else if (i == 4) { const u = ez(cl(rt, .1, .4)); o.armL = [lerp(.12, 2.6, u), .2]; o.armR = [lerp(.12, 2.6, u), .2]; o.mouth = 'grin'; o.look = [5, -2] }
-  else if (i == 5) { const wv = Math.sin(t * 9) * .3; o.armL = [2.6 + wv, .2]; o.armR = [2.6 - wv, .2]; o.mouth = 'grin'; o.bob = Math.max(0, Math.sin(t * 9)) * 22; o.look = [5, -2] }
-  else if (i == 7) { o.armL = [.6, -1.5]; o.armR = [.6, -1.5]; o.mouth = 'o'; o.look = [4, -2] }
-  else if (i == 13) { o.armR = [2.7, .1]; o.mouth = 'grin'; o.look = [0, -4] }
-  else if (i == 14) { const wv = Math.sin(t * 9) * .3; o.armL = [2.6 + wv, .2]; o.armR = [2.6 - wv, .2]; o.mouth = 'grin'; o.bob = Math.max(0, Math.sin(t * 9)) * 22 }
-  else if (i == 11) { o.armL = [2.5, .3]; o.mouth = 'grin'; o.look = [-5, -3] }
-  else if (i == 12) { o.armR = [2.5, .3]; o.mouth = 'grin'; o.look = [5, -3] }
-  else if (i == 15) { const wv = Math.sin(t * 8) * .25; o.armR = [.9 + wv, -.3]; o.armL = [.9 - wv, -.3]; o.mouth = 'grin'; o.look = [0, 4] }
+  if (i == 3) { const u = ez(cl(rt, .2, .5)); o.armL = [lerp(.12, 2.6, u), .2]; o.armR = [lerp(.12, 2.6, u), .2]; o.mouth = 'grin'; o.bob = Math.max(0, Math.sin(cl(rt, .4, 1.1) * Math.PI)) * 34 }
+  else if (i == 4) { o.armR = [1.4, -.2]; o.mouth = 'grin' }
+  else if (i == 5) { const u = ez(cl(rt, .1, .4)); o.armL = [lerp(.12, 2.6, u), .2]; o.armR = [lerp(.12, 2.6, u), .2]; o.mouth = 'grin'; o.look = [5, -2] }
+  else if (i == 6) { const wv = Math.sin(t * 9) * .3; o.armL = [2.6 + wv, .2]; o.armR = [2.6 - wv, .2]; o.mouth = 'grin'; o.bob = Math.max(0, Math.sin(t * 9)) * 22; o.look = [5, -2] }
+  else if (i == 8) { o.armL = [.6, -1.5]; o.armR = [.6, -1.5]; o.mouth = 'o'; o.look = [4, -2] }
+  else if (i == 14) { o.armR = [2.7, .1]; o.mouth = 'grin'; o.look = [0, -4] }
+  else if (i == 15) { const wv = Math.sin(t * 9) * .3; o.armL = [2.6 + wv, .2]; o.armR = [2.6 - wv, .2]; o.mouth = 'grin'; o.bob = Math.max(0, Math.sin(t * 9)) * 22 }
+  else if (i == 12) { o.armL = [2.5, .3]; o.mouth = 'grin'; o.look = [-5, -3] }
+  else if (i == 13) { o.armR = [2.5, .3]; o.mouth = 'grin'; o.look = [5, -3] }
+  else if (i == 16) { const wv = Math.sin(t * 8) * .25; o.armR = [.9 + wv, -.3]; o.armL = [.9 - wv, -.3]; o.mouth = 'grin'; o.look = [0, 4] }
   else { o.armR = [1.5, -.15]; o.mouth = 'grin' }
   if (t > l.end + .05) o.talk = 0;
   return o;
@@ -753,23 +764,23 @@ function crabEyes(t, blink) {
 function benPose(t) {
   const i = MG.cur(t), bl = MG_SAM.blink(t + 1.3);
   let o = { mouth: 'grin', blink: bl, armL: [.3, .1], armR: [.3, .1], bob: 0, sw: CR, swd: CRD, pa: CR, hood: crabHood(t), hat: crabEyes(t, bl), claw: CR, clawOpen: .5 + .5 * Math.sin(t * 6), talk: 0 };
-  if (i == 2 || i == 5) { o.armR = [2.4, .4]; o.bob = Math.max(0, Math.sin(t * 8)) * 18 }
-  if (i == 15) { o.armR = [2.4, .4]; o.bob = Math.max(0, Math.sin(t * 7)) * 22 }
+  if (i == 3 || i == 6) { o.armR = [2.4, .4]; o.bob = Math.max(0, Math.sin(t * 8)) * 18 }
+  if (i == 16) { o.armR = [2.4, .4]; o.bob = Math.max(0, Math.sin(t * 7)) * 22 }
   return o;
 }
 function figure(p, o, H3 = 1.75) {
   const q = w.project(p), s = q.s * H3 / 350 * 240; if (!q.vis) return '';
   return `<div style="position:absolute;left:${q.x - s / 240 * 120}px;top:${q.y - s / 240 * 342}px;width:${s}px">${MG_SAM.svg(Object.assign(o, { w: s }))}</div>`;
 }
-const samShown = i => [2, 3, 4, 5, 7, 11, 12, 13, 14, 15].includes(i);
+const samShown = i => [3, 4, 5, 6, 8, 12, 13, 14, 15, 16].includes(i);
 function charLayer(t) {
   const i = MG.cur(t); let h = '';
   if (samShown(i)) h += figure(BL, benPose(t), 1.5) + figure(SP, samPose(t));
   if (i == 0) { const p = jetP(t); h += labelAt([p[0], p[1] + 1.4, p[2]], PILL('✈️ @Hoppy · PILOT', '#3c4a63'), t, .3, MAP0() - .1) }
-  h += labelAt([HO[0], HO[1] + 4.6, HO[2]], PILL('🏥 KRANKENHAUS', '#e8483c'), t, tHo() + .4, Lt(7).start - .1);
-  h += labelAt([SH8[0], SH8[1] + 2.9, SH8[2]], PILL('👟 @Christos', '#c94f82'), t, tSh() + .4, Lt(9).start - .1);
-  h += labelAt([ZI[0], ZI[1] + 4.3, ZI[2]], PILL('🎪 @Damian_MTB', '#7a2a6a'), t, tZi() + .4, Lt(10).start - .1);
-  h += labelAt([MX[0], MX[1] + 2.3, MX[2]], PILL('👮 @Mex · POLIZIST', '#2a4f9a'), t, wt(10, /polizist/i) - .1, Lt(11).start - .1);
+  h += labelAt([HO[0], HO[1] + 4.6, HO[2]], PILL('🏥 KRANKENHAUS', '#e8483c'), t, tHo() + .4, Lt(8).start - .1);
+  h += labelAt([SH8[0], SH8[1] + 2.9, SH8[2]], PILL('👟 @Christos', '#c94f82'), t, tSh() + .4, Lt(10).start - .1);
+  h += labelAt([ZI[0], ZI[1] + 4.3, ZI[2]], PILL('🎪 @Damian_MTB', '#7a2a6a'), t, tZi() + .4, Lt(11).start - .1);
+  h += labelAt([MX[0], MX[1] + 2.3, MX[2]], PILL('👮 @Mex · POLIZIST', '#2a4f9a'), t, wt(11, /polizist/i) - .1, Lt(12).start - .1);
   return h;
 }
 // ---------------- Draw ----------------
@@ -788,16 +799,16 @@ window.draw = function (t) {
   PL.forEach(p => p.m.vis = false);
   lid.rot = [-1.75, 0, 0]; coco.pos = [.24, .68, .05]; coco.rot = [0, 0, 0];
   // Bevoelkerung (+9 ab Zeile 3)
-  const t3 = Lt(3).start + .25;
-  const cheering = [[Lt(2).start + .3, Lt(2).end + .2], [Lt(3).start + .2, Lt(3).end], [wt(4, /bringen/i), Lt(5).end], [tHo() + .2, Lt(6).end + .2], [Lt(15).start + .2, 99]].some(([a, b]) => t > a && t < b);
+  const t3 = Lt(4).start + .25;
+  const cheering = [[Lt(3).start + .3, Lt(3).end + .2], [Lt(4).start + .2, Lt(4).end], [wt(5, /bringen/i), Lt(6).end], [tHo() + .2, Lt(7).end + .2], [Lt(16).start + .2, 99]].some(([a, b]) => t > a && t < b);
   crowd.forEach(p => {
     const ph = p.ph; let s = p.s;
-    if (i >= 6 && i <= 10 && i != 7) { const dx = c.at[0] - c.pos[0], dz = c.at[2] - c.pos[2], L2 = dx * dx + dz * dz, u = ((p.x - c.pos[0]) * dx + (p.z - c.pos[2]) * dz) / L2; if (u > 0 && u < .92 && Math.hypot(p.x - c.pos[0] - dx * u, p.z - c.pos[2] - dz * u) < 1.6) { p.m.vis = false; return } }
+    if (i >= 7 && i <= 11 && i != 8) { const dx = c.at[0] - c.pos[0], dz = c.at[2] - c.pos[2], L2 = dx * dx + dz * dz, u = ((p.x - c.pos[0]) * dx + (p.z - c.pos[2]) * dz) / L2; if (u > 0 && u < .92 && Math.hypot(p.x - c.pos[0] - dx * u, p.z - c.pos[2] - dz * u) < 1.6) { p.m.vis = false; return } }
     if (Math.hypot(p.x - c.pos[0], p.z - c.pos[2]) < 3.2 || BLOCK8.some(([q, r]) => Math.hypot(p.x - q[0], p.z - q[2]) < r)) { p.m.vis = false; return }
     if (p.nu) { const a = t3 + p.nj * .12; if (t < a) { p.m.vis = false; return } p.m.vis = true; s *= Math.max(.01, bo(cl(t, a, a + .35))) } else p.m.vis = true;
     let hop = 0, sway = .05 * Math.sin(t * 1.4 + ph), hy = .35 * Math.sin(t * .6 + ph * 2) * Math.max(0, Math.sin(t * .35 + ph)), aL = -.12 - .04 * Math.sin(t * 2 + ph), aR = .12 + .04 * Math.sin(t * 2 + ph);
-    if (cheering || (p.nu && t > t3 && t < Lt(4).start)) { const f = t * (6 + 2 * p.d) + ph; hop = Math.max(0, Math.sin(f)) * .32 * (p.k % 3 != 2 ? 1 : .4); const wv = Math.sin(t * 10 + ph) * .35; aL = -2.5 - wv; aR = (p.k % 2 ? 2.5 + wv : .2); hy *= .3 }
-    if (t > Lt(11).start && t < Lt(15).start) { if (p.k % 2 == 0 && t < Lt(12).start) aR = 2.8 + .15 * Math.sin(t * 8 + ph); if (p.k % 2 == 1 && t > Lt(12).start + .2) aL = -2.8 - .15 * Math.sin(t * 8 + ph) }
+    if (cheering || (p.nu && t > t3 && t < Lt(5).start)) { const f = t * (6 + 2 * p.d) + ph; hop = Math.max(0, Math.sin(f)) * .32 * (p.k % 3 != 2 ? 1 : .4); const wv = Math.sin(t * 10 + ph) * .35; aL = -2.5 - wv; aR = (p.k % 2 ? 2.5 + wv : .2); hy *= .3 }
+    if (t > Lt(12).start && t < Lt(16).start) { if (p.k % 2 == 0 && t < Lt(13).start) aR = 2.8 + .15 * Math.sin(t * 8 + ph); if (p.k % 2 == 1 && t > Lt(13).start + .2) aL = -2.8 - .15 * Math.sin(t * 8 + ph) }
     p.m.scl = [s, s * (1 + .025 * Math.sin(t * 2.1 + ph)), s]; p.m.pos = [p.x, iH(p.x, p.z) + hop, p.z]; p.m.rot = [0, p.yaw, sway];
     p.head.rot = [0, hy, 0]; p.aL.rot = [0, 0, aL]; p.aR.rot = [0, 0, aR] });
   gurke.m.vis = true; gurke.m.scl = [1, 1, 1]; gurke.m.pos = [GU[0], GU[1], GU[2]]; gurke.aL.rot = [0, 0, -.15]; gurke.aR.rot = [0, 0, .15 + (cheering ? 2.3 : 0)]; gurke.head.rot = [0, Math.sin(t * 2) * .2, 0];
@@ -839,7 +850,7 @@ window.draw = function (t) {
   ambulance.m.vis = t > tAmb(); if (ambulance.m.vis) { const p = ambP(t); ambulance.m.pos = [p[0], iH(p[0], p[2]) + .02, p[2]]; ambulance.m.rot = [0, HOY + Math.PI, 0]; ambulance.light.emis = Math.sin(t * 14) > 0 ? 1 : .1; ambulance.light.vis = true }
   // Schuhladen + Christos
   shoeShop.vis = t > tSh(); if (shoeShop.vis) shoeShop.scl = [1, Math.max(.01, bo(cl(t, tSh(), tSh() + .45))), 1];
-  CHR.m.vis = t > tSh() + .3; if (CHR.m.vis) { const d = 1.3, x = SH8[0] + Math.sin(SHY) * d + Math.cos(SHY) * .6, z = SH8[2] + Math.cos(SHY) * d - Math.sin(SHY) * .6; CHR.m.pos = [x, iH(x, z) + (i == 8 ? Math.max(0, Math.sin(t * 8)) * .2 : 0), z]; CHR.m.rot = [0, SHY, 0]; CHR.aR.rot = [0, 0, i == 8 ? 2.5 + Math.sin(t * 9) * .3 : .2]; CHR.aL.rot = [0, 0, -.15] }
+  CHR.m.vis = t > tSh() + .3; if (CHR.m.vis) { const d = 1.3, x = SH8[0] + Math.sin(SHY) * d + Math.cos(SHY) * .6, z = SH8[2] + Math.cos(SHY) * d - Math.sin(SHY) * .6; CHR.m.pos = [x, iH(x, z) + (i == 9 ? Math.max(0, Math.sin(t * 8)) * .2 : 0), z]; CHR.m.rot = [0, SHY, 0]; CHR.aR.rot = [0, 0, i == 9 ? 2.5 + Math.sin(t * 9) * .3 : .2]; CHR.aL.rot = [0, 0, -.15] }
   // Zirkus + Clown jongliert
   circus.vis = t > tZi(); if (circus.vis) { const k = bo(cl(t, tZi(), tZi() + .5)); circus.scl = [k, k, k]; zFlag.rot = [0, t * 1.5, 0] }
   const ZY = yawTo(ZI[0], ZI[2]), cx = ZI[0] + Math.sin(ZY) * 3.0 + Math.cos(ZY) * 1.7, cz = ZI[2] + Math.cos(ZY) * 3.0 - Math.sin(ZY) * 1.7;
@@ -847,44 +858,45 @@ window.draw = function (t) {
   if (CLOWN.m.vis) { CLOWN.m.pos = [cx, iH(cx, cz), cz]; CLOWN.m.rot = [0, ZY, 0]; CLOWN.aL.rot = [-.9, 0, -.5 - Math.sin(t * 8) * .3]; CLOWN.aR.rot = [-.9, 0, .5 + Math.sin(t * 8 + 1.5) * .3];
     BALLS8.forEach((b, k) => { const ph = t * 4 + k * 2.09, x = Math.cos(ph) * .45, y = 1.6 + Math.abs(Math.sin(ph)) * .9; b.pos = [cx + Math.cos(ZY) * x + Math.sin(ZY) * .35, iH(cx, cz) + y, cz - Math.sin(ZY) * x + Math.cos(ZY) * .35] }) }
   // Mex: Polizist auf dem Fahrrad (Runde, dann Stopp)
-  { const tm = Lt(10).start - .3; MEX.m.vis = bike.vis = t > tm;
+  { const tm = Lt(11).start - .3; MEX.m.vis = bike.vis = t > tm;
     if (MEX.m.vis) { const u = cl((t - tm) / 1.6, 0, 1), a = (1 - ez(u)) * 3.2, r = 1.4, x = MX[0] + Math.sin(a) * r, z = MX[2] + (1 - Math.cos(a)) * r * .4, yaw = u < 1 ? yawTo(MX[0], MX[2]) + Math.PI / 2 * (1 - ez(u)) : yawTo(MX[0], MX[2]);
       bike.pos = [x + Math.sin(yaw + Math.PI / 2) * .45, iH(x, z), z + Math.cos(yaw + Math.PI / 2) * .45]; bike.rot = [0, yaw + Math.PI / 2, 0];
       MEX.m.pos = [x, iH(x, z), z]; MEX.m.rot = [0, yaw, 0];
-      const sal = t > wt(10, /polizist/i); MEX.aR.rot = [sal ? -.4 : 0, 0, sal ? 2.3 : .2]; MEX.aL.rot = [0, 0, -.15]; MEX.head.rot = [0, i == 10 && t > wt(10, /wache/i) ? Math.sin(t * 5) * .4 : 0, 0] } }
+      const sal = t > wt(11, /polizist/i); MEX.aR.rot = [sal ? -.4 : 0, 0, sal ? 2.3 : .2]; MEX.aL.rot = [0, 0, -.15]; MEX.head.rot = [0, i == 11 && t > wt(11, /wache/i) ? Math.sin(t * 5) * .4 : 0, 0] } }
   w.render(t);
   $('cv').style.filter = 'none';
   $('ov').innerHTML = charLayer(t);
   drawMap(t - MAP0());
-  const fl = (() => { const f = cl(t, Lt(2).start - .15, Lt(2).start + .2); return f > 0 && f < 1 ? Math.sin(f * Math.PI) : 0 })();
+  const fl = (() => { const f = cl(t, Lt(3).start - .15, Lt(3).start + .2); return f > 0 && f < 1 ? Math.sin(f * Math.PI) : 0 })();
   $('stage').style.transform = 'none';
   $('fx').innerHTML = (fl > 0 ? `<div style="position:absolute;inset:0;background:#fff;opacity:${fl * .85}"></div>` : '');
-  let ui = wishCard(t, 0, 'Hoppy', '✈️', 'KAMPFJET-PILOT WERDEN', '#9ad0ff', /abheben/i, MAP0() - .05, 'ABHEBEN!') + dayPill(t) + voteResult(t) + counterCard(t) + treasury(t) + treasury2(t) + buildUI(t) +
-    wishCard(t, 8, 'Christos', '👟', 'EIN SCHUHLADEN', '#f2b6c6', /schuhladen/i) + wishCard(t, 9, 'Damian_MTB', '🎪', 'EIN ZIRKUS', '#ffd166', /zirkus/i) +
-    wishCard(t, 10, 'Mex', '👮', 'POLIZIST SEIN', '#9ad0ff', /polizist/i) + choiceCards(t) + costCard(t) + surpriseCard(t) + pollCard(t);
+  let ui = wishCard(t, 0, 'Hoppy', '✈️', 'KAMPFJET-PILOT WERDEN', '#9ad0ff', /abheben/i, MAP0() - .05, 'ABHEBEN!') + dayPill(t) + rulesCard(t) + voteResult(t) + counterCard(t) + treasury(t) + treasury2(t) + buildUI(t) +
+    wishCard(t, 9, 'Christos', '👟', 'EIN SCHUHLADEN', '#f2b6c6', /schuhladen/i) + wishCard(t, 10, 'Damian_MTB', '🎪', 'EIN ZIRKUS', '#ffd166', /zirkus/i) +
+    wishCard(t, 11, 'Mex', '👮', 'POLIZIST SEIN', '#9ad0ff', /polizist/i) + choiceCards(t) + costCard(t) + surpriseCard(t) + pollCard(t);
   ui += MG.captions(t, { y: 1470, size: 84, maxWords: 3, hl: '#ffd166', upper: true, stageW: 1080 }).replace(/'Arial Black',Arial/, 'IB,Arial');
   $('ui').innerHTML = ui;
 };
 window.sfxEvents = function () {
   const E = [], L = Lt, D = MG.TL.dur;
   for (let x = 0; x < D - 1; x += 3.1) E.push({ k: 'wave', t: x, d: 3.4, g: .3 });
-  [L(3).start + .6, L(9).start + .4, L(11).start + .3].forEach((x, k) => E.push({ k: 'gull', t: x, pan: k % 2 ? .5 : -.4 }));
+  [L(4).start + .6, L(10).start + .4, L(12).start + .3].forEach((x, k) => E.push({ k: 'gull', t: x, pan: k % 2 ? .5 : -.4 }));
   E.push({ k: 'pop', t: .1 }, { k: 'whoosh', t: .05, d: 2.4 }, { k: 'whoosh', t: MAP0() - 1.0, d: 1.0 }, { k: 'chime', t: wt(0, /abheben/i) });
   E.push({ k: 'whoosh', t: MAP0(), d: 1.2 }, { k: 'chime', t: MAP0() + .1 }, { k: 'whoosh', t: MAP0() + TM - .1, d: .8 });
-  E.push({ k: 'whoosh', t: L(2).start - .1, d: .6 }, { k: 'impact', t: wt(2, /krankenhaus/i) - .05 }, { k: 'bell', t: wt(2, /krankenhaus/i) + .1 });
-  E.push({ k: 'whoosh', t: L(3).start - .1, d: .8 }); for (let j = 0; j < 7; j++) E.push({ k: 'pop', t: L(3).start + .25 + j * .12, g: .5 });
-  E.push({ k: 'chime', t: wt(3, /einwohner|167/i) });
-  E.push({ k: 'whoosh', t: L(4).start, d: .6 }); COINS2.forEach(c => E.push({ k: 'cash', t: coinT(c.k)[1] }));
-  E.push({ k: 'bell', t: L(5).start + .1 }, { k: 'chime', t: L(5).start + .3 });
-  E.push({ k: 'whoosh', t: L(6).start - .1, d: .8 }, { k: 'hammer', t: tHo() - .1 }, { k: 'thud', t: tHo() + .1 }, { k: 'chime', t: tHo() + .3 }, { k: 'whoosh', t: tAmb() + .2, d: 1.6 });
-  E.push({ k: 'whoosh', t: L(7).start - .1, d: .6 }, { k: 'error', t: wt(7, /gekostet/i) - .1 }, { k: 'cash', t: wt(7, /gekostet/i) + .2 });
-  E.push({ k: 'whoosh', t: L(13).start - .1, d: .5 }, { k: 'pop', t: L(13).start + .1 }, { k: 'bell', t: wt(13, /herzen|50/i) - .2 });
-  E.push({ k: 'whoosh', t: L(14).start - .1, d: .6 }, { k: 'impact', t: L(14).start + .1 }, { k: 'chime', t: wt(14, /überraschung|uberraschung/i) });
-  E.push({ k: 'whoosh', t: L(8).start - .1, d: .6 }, { k: 'thud', t: tSh() }, { k: 'chime', t: tSh() + .3 });
-  E.push({ k: 'whoosh', t: L(9).start - .1, d: .6 }, { k: 'thud', t: tZi() }, { k: 'bell', t: tZi() + .3 });
-  E.push({ k: 'swish', t: L(10).start - .2, d: .6 }, { k: 'pop', t: wt(10, /polizist/i) }, { k: 'error', t: wt(10, /wache/i) - .05 });
-  E.push({ k: 'whoosh', t: L(11).start - .1, d: .6 }, { k: 'pop', t: L(11).start + .05 }, { k: 'whoosh', t: L(12).start, d: .6 }, { k: 'pop', t: L(12).start + .1 });
-  E.push({ k: 'swish', t: L(15).start, d: .4 }, { k: 'pop', t: L(15).start + .3 }, { k: 'tick', t: L(15).start + .9 }, { k: 'tick', t: L(15).start + 2.3 });
+  E.push({ k: 'swish', t: L(2).start, d: .4 }, { k: 'pop', t: wt(2, /folgen/i) - .1 }, { k: 'pop', t: wt(2, /herz/i) - .1 }, { k: 'pop', t: wt(2, /kommentar/i) - .1 });
+  E.push({ k: 'whoosh', t: L(3).start - .1, d: .6 }, { k: 'impact', t: wt(3, /krankenhaus/i) - .05 }, { k: 'bell', t: wt(3, /krankenhaus/i) + .1 });
+  E.push({ k: 'whoosh', t: L(4).start - .1, d: .8 }); for (let j = 0; j < 7; j++) E.push({ k: 'pop', t: L(4).start + .25 + j * .12, g: .5 });
+  E.push({ k: 'chime', t: wt(4, /einwohner|167/i) });
+  E.push({ k: 'whoosh', t: L(5).start, d: .6 }); COINS2.forEach(c => E.push({ k: 'cash', t: coinT(c.k)[1] }));
+  E.push({ k: 'bell', t: L(6).start + .1 }, { k: 'chime', t: L(6).start + .3 });
+  E.push({ k: 'whoosh', t: L(7).start - .1, d: .8 }, { k: 'hammer', t: tHo() - .1 }, { k: 'thud', t: tHo() + .1 }, { k: 'chime', t: tHo() + .3 }, { k: 'whoosh', t: tAmb() + .2, d: 1.6 });
+  E.push({ k: 'whoosh', t: L(8).start - .1, d: .6 }, { k: 'error', t: wt(8, /gekostet/i) - .1 }, { k: 'cash', t: wt(8, /gekostet/i) + .2 });
+  E.push({ k: 'whoosh', t: L(14).start - .1, d: .5 }, { k: 'pop', t: L(14).start + .1 }, { k: 'bell', t: wt(14, /herzen|50/i) - .2 });
+  E.push({ k: 'whoosh', t: L(15).start - .1, d: .6 }, { k: 'impact', t: L(15).start + .1 }, { k: 'chime', t: wt(15, /überraschung|uberraschung/i) });
+  E.push({ k: 'whoosh', t: L(9).start - .1, d: .6 }, { k: 'thud', t: tSh() }, { k: 'chime', t: tSh() + .3 });
+  E.push({ k: 'whoosh', t: L(10).start - .1, d: .6 }, { k: 'thud', t: tZi() }, { k: 'bell', t: tZi() + .3 });
+  E.push({ k: 'swish', t: L(11).start - .2, d: .6 }, { k: 'pop', t: wt(11, /polizist/i) }, { k: 'error', t: wt(11, /wache/i) - .05 });
+  E.push({ k: 'whoosh', t: L(12).start - .1, d: .6 }, { k: 'pop', t: L(12).start + .05 }, { k: 'whoosh', t: L(13).start, d: .6 }, { k: 'pop', t: L(13).start + .1 });
+  E.push({ k: 'swish', t: L(16).start, d: .4 }, { k: 'pop', t: L(16).start + .3 }, { k: 'tick', t: L(16).start + .9 }, { k: 'tick', t: L(16).start + 2.3 });
   return E;
 };
 </script></body></html>
