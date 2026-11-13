@@ -42,16 +42,6 @@
    }
   },
   {
-   "text": "Die Regeln: Folgen macht dich zum Einwohner, jedes Herz bringt 10 Euro, und im Kommentar darfst du dir was wünschen!",
-   "spec": {
-    "type": "regeln"
-   },
-   "say": "Die Regeln: Folgen macht dich zum Einwohner, jedes Herz bringt zehn Euro, und im Kommentar darfst du dir was wünschen!",
-   "say_map": {
-    "zehn": "10"
-   }
-  },
-  {
    "text": "Ihr habt entschieden: Wir bauen ein Krankenhaus!",
    "spec": {
     "type": "vote",
