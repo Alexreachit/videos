@@ -312,3 +312,13 @@
 ## Lauf 2026-11-13 ~13:50 UTC (Routine, geplant 07:47 UTC)
 - Abgebrochen: Chrome-Erweiterung auf Alex' PC nicht erreichbar (PC aus/Schlaf oder Chrome zu). Keine Analyse, nichts geändert, nichts hochgeladen.
 - Weiter offen bei Alex: Idee wählen (Louvre-Juwelenraub | Bitcoin-Pizza | Fyre Festival); Ponzi-Thumbnail v2 OK?; yt_neverage15 Upload-OK?; Entwurf "846c1dee…" löschen?
+
+## Lauf 2026-11-13 ~17:30 MEZ (Routine, geplant 15:47 UTC)
+- 11 Abos (+1). 48-h-Echtzeit: 59 Aufrufe (Escobar 24, Bank-Langvideo 8, IB-Ranks 7). 28 T (16.10.–12.11.): 7.334 Aufrufe, 25,7 h, +7 Abos. Länder/Engaged-Kanal nicht neu ausgelesen.
+- Shorts: Escobar aLSXDVN9gvI nach ~46 h: 24 Aufrufe, 38,1 % angesehen / 61,9 % weggewischt, 0 Likes, Quellen: Shorts-Feed 18, Suche 6 -> besser als PayPal (18,8 %), aber kein Durchbruch.
+  Hushpuppi RuVMBqYTsv8 nach ~22 h: 2 Aufrufe -> YouTube spielt ihn praktisch nicht aus. PayPal cQmlXub5TcM 26 | Milch 294 | Eiffel 1.262 | Binance 57 | Knight 57 | Rest unverändert.
+  Blockbuster 59iD318vA8A geplant heute 13.11. 19:00 (geprüft).
+- Langform: "What will happen if you would never age" wQT4ECkMbKw seit 11.11. öffentlich (nicht von dieser Routine): 1 Aufruf | Ponzi pHR5fqQ5hC8 19 | Supermarkt 1 | Mistakes 18 | Bank KDOq1pF040k 1.183.
+- Erkenntnis: Auch mit täglichem Short-Takt bleibt die Reichweite bei 2–25 Aufrufen pro Short; seit Eiffel (31.10.) hat kein Short mehr gezündet. Escobar hielt besser (38 %) als Bildschirm-/Zahlen-Storys, Hushpuppi wurde kaum getestet.
+- Keine Korrekturen, nichts im Studio geändert, nichts hochgeladen (keine freigegebene Idee offen).
+- Offen bei Alex: Idee wählen (Louvre-Juwelenraub | Bitcoin-Pizza | Fyre Festival); Ponzi-Thumbnail v2 OK?; Entwurf "846c1dee…" löschen?
