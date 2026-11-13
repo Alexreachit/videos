@@ -308,3 +308,7 @@
 - Keine Korrekturen, nichts im Studio geändert, nichts hochgeladen.
 - Neue Short-Ideen ab 14.11. an Alex (warten auf OK): Louvre-Juwelenraub (19.10.2025, ~7 Min, Schmuck ~€88 Mio.) | Bitcoin-Pizza (2010, 10.000 BTC für 2 Pizzen) | Fyre Festival (2017, Käsesandwich-Foto).
 - Offen bei Alex: Idee wählen; Ponzi-Thumbnail v2 OK?; yt_neverage15 Upload-OK?; Entwurf "846c1dee…" löschen?
+
+## Lauf 2026-11-13 ~13:50 UTC (Routine, geplant 07:47 UTC)
+- Abgebrochen: Chrome-Erweiterung auf Alex' PC nicht erreichbar (PC aus/Schlaf oder Chrome zu). Keine Analyse, nichts geändert, nichts hochgeladen.
+- Weiter offen bei Alex: Idee wählen (Louvre-Juwelenraub | Bitcoin-Pizza | Fyre Festival); Ponzi-Thumbnail v2 OK?; yt_neverage15 Upload-OK?; Entwurf "846c1dee…" löschen?
