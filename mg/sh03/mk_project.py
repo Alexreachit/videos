@@ -1,5 +1,5 @@
 # TikTok-Serie "Squarehead Island" – Folge 3 (Tag 3). Zahlen von Alex (2026-11-12, Screenshots Tag 2):
-# 7 neue Follower -> 22 Einwohner, 14 Likes = 140 € (+170 € = 310 €), Abstimmung: Melonenfeld (einziger Abstimmungskommentar).
+# 7 neue Follower -> 22 Einwohner, 15 Likes = 150 € (+170 € = 320 €), Abstimmung: Melonenfeld (einziger Abstimmungskommentar).
 # Kommentare: TAMINO Doenermann, Henry Gurkenladen, Elias Goldkette/Cappy/blauer Pulli, Кристиан Uschanka, Jk777 Bodyguard.
 # Story von Alex freigegeben. Stimme: ElevenLabs "DiMario - Energetic and Fun", voice/ via build_voice.py.
 import json, os
@@ -7,9 +7,10 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 L = []
 def A(t, s, say=None): L.append(dict(text=t, spec=s, **({"say": say} if say else {})))
 A("Tag 3 auf Squarehead Island!", dict(type="map", mood="bright"), "Tag drei auf Squarehead Island!")
+A("Die Regeln: Folgen macht dich zum Bürger, jedes Like bringt 10 Euro, und im Kommentar darfst du dir was wünschen!", dict(type="regeln"), "Die Regeln: Folgen macht dich zum Bürger, jedes Like bringt zehn Euro, und im Kommentar darfst du dir was wünschen!")
 A("Ihr habt entschieden: Wir pflanzen ein Melonenfeld!", dict(type="feld", mood="bright"))
 A("Wir sind jetzt 22 Einwohner!", dict(type="crowd", mood="bright"), "Wir sind jetzt zweiundzwanzig Einwohner!")
-A("Eure Likes bringen 140 Euro. Macht 310 Euro in der Kasse!", dict(type="money"), "Eure Likes bringen hundertvierzig Euro. Macht dreihundertzehn Euro in der Kasse!")
+A("Eure Likes bringen 150 Euro. Macht 320 Euro in der Kasse!", dict(type="money"), "Eure Likes bringen hundertfünfzig Euro. Macht dreihundertzwanzig Euro in der Kasse!")
 A("Tamino will Dönermann werden: Hier ist deine Dönerbude!", dict(type="doener"))
 A("Henry bekommt seinen Gurkenladen, direkt daneben!", dict(type="gurken"))
 A("Elias kriegt Goldkette, Cappy und einen blauen Pulli!", dict(type="elias", mood="bright"))

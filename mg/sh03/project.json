@@ -32,6 +32,13 @@
    "say": "Tag drei auf Squarehead Island!"
   },
   {
+   "text": "Die Regeln: Folgen macht dich zum Bürger, jedes Like bringt 10 Euro, und im Kommentar darfst du dir was wünschen!",
+   "spec": {
+    "type": "regeln"
+   },
+   "say": "Die Regeln: Folgen macht dich zum Bürger, jedes Like bringt zehn Euro, und im Kommentar darfst du dir was wünschen!"
+  },
+  {
    "text": "Ihr habt entschieden: Wir pflanzen ein Melonenfeld!",
    "spec": {
     "type": "feld",
@@ -47,11 +54,11 @@
    "say": "Wir sind jetzt zweiundzwanzig Einwohner!"
   },
   {
-   "text": "Eure Likes bringen 140 Euro. Macht 310 Euro in der Kasse!",
+   "text": "Eure Likes bringen 150 Euro. Macht 320 Euro in der Kasse!",
    "spec": {
     "type": "money"
    },
-   "say": "Eure Likes bringen hundertvierzig Euro. Macht dreihundertzehn Euro in der Kasse!"
+   "say": "Eure Likes bringen hundertfünfzig Euro. Macht dreihundertzwanzig Euro in der Kasse!"
   },
   {
    "text": "Tamino will Dönermann werden: Hier ist deine Dönerbude!",
