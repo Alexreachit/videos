@@ -336,7 +336,7 @@ function losBlock(x, z, r) { const f = ST.camFocus; if (!f || ST.t > f.t + f.dur
 const TPL = {
   join: ['Willkommen auf Roundhead Island, {u}!', 'Hey {u}, schön dass du da bist!', '{u} ist gelandet! Willkommen!'],
   follow: ['{u}, danke fürs Folgen! Du bekommst ein eigenes Haus!', 'Neuer Einwohner: {u}! Dein Haus steht schon.'],
-  gift: ['Wow, danke {u} für {g}! Dein Haus wächst!', '{u}, du Legende! Danke für {g}!'],
+  gift: ['Wow, {u} schickt {g}! Dein Haus wächst!', '{u}, du Legende! Danke für dein Geschenk!'],
   level: ['{u}, dein Haus ist jetzt ein {h}!'],
   goal: ['Wir haben es geschafft: {g}! Danke an alle!'],
   idle: ['Doppelt tippen für Likes, dann bauen wir den nächsten Teil der Insel!', 'Folgen bringt dir ein eigenes Haus auf der Insel!', 'Schreib „wo bin ich“, dann zeige ich dir dein Haus!', 'Geschenke lassen dein Haus wachsen, bis zur Luxus-Villa!']
@@ -344,13 +344,30 @@ const TPL = {
 const nice = s => s.replace(/[A-ZÄÖÜ]{2,}( [A-ZÄÖÜ]{2,})*/g, m => m.split(' ').map(x => x[0] + x.slice(1).toLowerCase()).join(' '));
 function fill(s, o) { return s.replace(/\{(\w)\}/g, (_, k) => o[k] ?? '') }
 function answer(u, text) {
-  const s = liveState();
-  if (/wo bin ich|mein haus/i.test(text)) return u.house ? `${u.name}, schau, der Pfeil zeigt auf dein Haus!` : `${u.name}, folge der Insel, dann bekommst du sofort ein Haus!`;
-  if (/kasse|geld|likes/i.test(text)) return `Wir haben schon ${s.likes.toLocaleString('de-DE')} Likes! Nächstes Ziel: ${nice(s.naechstesZiel)}.`;
-  if (/bürgermeister|burgermeister/i.test(text)) return `Bürgermeister bin ich, ${u.name}! Aber das größte Haus bekommt den Ehrenplatz neben mir.`;
-  if (/was bauen|nächste|naechste/i.test(text)) return `Als Nächstes kommt der ${nice(s.naechstesZiel)}. Also fleißig tippen!`;
-  if (/wie viele|einwohner/i.test(text)) return `Wir sind gerade ${s.einwohner} Einwohner und ${s.haeuser} Häuser!`;
-  if (/hallo|hi\b|hey/i.test(text)) return `Hallo ${u.name}! Willkommen auf der Insel!`;
+  const s = liveState(), n = u.name, tx = text.toLowerCase();
+  const nextLv = u.house && u.house.lv < LEVELS.length - 1 ? LEVELS[u.house.lv + 1] : null;
+  const R = [
+    [/wo bin ich|wo ist mein|wo steht mein|wo wohn|finde mein haus|zeig mir mein/, () => u.house ? `${n}, schau, der Pfeil zeigt auf dein Haus!` : `${n}, folge der Insel, dann bekommst du sofort ein eigenes Haus!`],
+    [/haus bekommen|haus kriegen|wie bekomm|wie krieg|eigenes haus|auch ein haus|will ein haus/, () => u.house ? `${n}, du hast schon ein Haus! Mit Geschenken wird es größer.` : `Ganz einfach, ${n}: Folge der Insel, dann baue ich dir sofort ein Haus!`],
+    [/größer|groesser|wachs|level|upgrade|villa|klein/, () => u.house ? (nextLv ? `${n}, mit Geschenken wächst dein Haus. Als Nächstes wird es ein ${nextLv.name}!` : `${n}, du hast schon die Luxus-Villa! Mehr geht nicht!`) : `${n}, erst folgen für ein Haus, dann lassen Geschenke es wachsen!`],
+    [/wie funktioniert|was ist das|was macht ihr|regeln|wie geht das|worum geht/, () => `Wir bauen zusammen eine Insel! Tippen gibt Likes für neue Gebäude, Folgen gibt ein Haus, Geschenke lassen es wachsen.`],
+    [/happy ?hour/, () => `In der Happy Hour zählt alles dreifach, ${n}! Sie kommt alle paar Minuten.`],
+    [/wer ist (der )?(erste|beste|reichste|top|größte)|größtes haus|groesstes haus|rangliste|platz 1/, () => s.top.length ? `Das größte Haus hat gerade ${s.top[0].split(' (')[0]}! Wer holt sich Platz eins?` : `Noch hat niemand ein großes Haus, ${n}. Das kannst du ändern!`],
+    [/kasse|geld|likes|wie viele like/, () => `Wir haben schon ${s.likes.toLocaleString('de-DE')} Likes! Nächstes Ziel: ${nice(s.naechstesZiel)}.`],
+    [/bürgermeister|burgermeister|buergermeister/, () => `Bürgermeister bin ich, ${n}! Aber das größte Haus bekommt den Ehrenplatz neben mir.`],
+    [/was bauen|nächste|naechste|ziel/, () => `Als Nächstes kommt der ${nice(s.naechstesZiel)}. Also fleißig tippen!`],
+    [/wie viele|einwohner|wie viel leute/, () => `Wir sind gerade ${s.einwohner} Einwohner und ${s.haeuser} Häuser!`],
+    [/wer bist du|bist du (ein )?(bot|ki|echt|mensch)|wie heißt du|wie heisst du/, () => `Ich bin Bürgermeister Sam, der Moderator dieser Insel, ${n}!`],
+    [/wie alt/, () => `Ich bin so alt wie die Insel, ${n}! Und die wächst jeden Tag.`],
+    [/danke/, () => `Gerne, ${n}! Schön, dass du dabei bist!`],
+    [/gute nacht|tschüss|tschuess|bye|ciao|ich geh/, () => `Tschüss ${n}! Dein Haus bleibt stehen, bis du wiederkommst!`],
+    [/cool|geil|nice|krass|stark|beste live|lol|haha|xd/, () => `Freut mich, dass es dir gefällt, ${n}! Tipp doppelt, dann bauen wir weiter!`],
+    [/langweilig|boring/, () => `Dann bring Schwung rein, ${n}! Ein paar Likes und wir bauen das nächste Gebäude!`],
+    [/roundhead|insel|wie heißt|name der/, () => `Das hier ist Roundhead Island, ${n}! Unsere Insel, die ihr selbst baut.`],
+    [/hallo|^hi\b|hey|servus|moin|guten (tag|abend|morgen)/, () => `Hallo ${n}! Willkommen auf der Insel!`],
+  ];
+  for (const [re, f] of R) if (re.test(tx)) return f();
+  if (/\?/.test(tx)) return `Gute Frage, ${n}! Ich weiß vor allem alles über die Insel. Frag mich, wie du ein Haus bekommst!`;
   return null;
 }
 const SAID = new Map();
@@ -395,7 +412,7 @@ let WS = null;
 function connect() {
   try {
     WS = new WebSocket((location.protocol === 'https:' ? 'wss://' : 'ws://') + location.host + '/ws');
-    WS.onmessage = m => { try { const e = JSON.parse(m.data); liveEvent(e) } catch (x) { } };
+    WS.onmessage = m => { try { const e = JSON.parse(m.data); if (e.type === 'ask') { const u = ST.users.get(e.user) || { name: e.user, house: null }; WS.send(JSON.stringify({ type: 'answer', id: e.id, text: answer(u, e.text) })); return } liveEvent(e) } catch (x) { } };
     WS.onclose = () => setTimeout(connect, 2000);
   } catch (x) { setTimeout(connect, 2000) }
 }
@@ -531,6 +548,6 @@ window.tick = tick;
 $('map').style.display = 'none';
 // Fenster-Anpassung (LIVE Studio nimmt das Fenster auf)
 function fit() { const k = Math.min(innerWidth / 1080, innerHeight / 1920); document.body.style.transform = `scale(${k})`; document.body.style.transformOrigin = '0 0' }
-if (!MANUAL) { addEventListener('resize', fit); fit(); const t0 = performance.now(); (function loop() { tick((performance.now() - t0) / 1000); requestAnimationFrame(loop) })() }
+if (!MANUAL) { addEventListener('resize', fit); fit(); const t0 = performance.now(); const FPS = +(QS.get('fps') || 0); let lastF = 0; (function loop(now) { requestAnimationFrame(loop); if (FPS && now - lastF < 1000 / FPS - 2) return; lastF = now || 0; tick((performance.now() - t0) / 1000) })(0) }
 if (SIM) { ST.hh.next = 28 }
 </script></body></html>

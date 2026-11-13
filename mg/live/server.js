@@ -2,7 +2,7 @@
 // Roundhead Island LIVE – Server
 //  * liest Likes / Geschenke / Follows / Chat aus dem TikTok-LIVE (tiktok-live-connector, inoffiziell)
 //  * schickt sie per WebSocket an das Spiel (game.html)
-//  * Kommentator "Buergermeister Sam": Antworten per lokaler KI (Ollama), Stimme per edge-tts (Andrew)
+//  * Kommentator "Buergermeister Sam": feste Antworten (Laptop-Modus) oder lokale KI (Ollama, "ki": true), Stimme per edge-tts (Andrew)
 // Start:  node server.js            -> echtes Live (TikTok-Name aus config.json)
 //         node server.js --sim      -> Test mit Fake-Zuschauern (ohne TikTok), KI + Stimme laufen echt
 // Dann im Browser / in TikTok LIVE Studio:  http://localhost:8787/live/game.html
@@ -10,7 +10,7 @@
 // =====================================================================
 const http = require('http'), fs = require('fs'), path = require('path'), { spawn } = require('child_process');
 const { WebSocketServer } = require('ws');
-const CFG = Object.assign({ tiktokUser: '', port: 8787, ollamaUrl: 'http://127.0.0.1:11434', ollamaModel: 'qwen2.5:7b', voice: 'en-US-AndrewMultilingualNeural', rate: '+8%', python: process.platform === 'win32' ? 'python' : 'python3' },
+const CFG = Object.assign({ tiktokUser: '', port: 8787, ki: false, ollamaUrl: 'http://127.0.0.1:11434', ollamaModel: 'qwen2.5:7b', voice: 'en-US-AndrewMultilingualNeural', rate: '+8%', python: process.platform === 'win32' ? 'python' : 'python3' },
   fs.existsSync(path.join(__dirname, 'config.json')) ? JSON.parse(fs.readFileSync(path.join(__dirname, 'config.json'), 'utf8')) : {});
 const SIM = process.argv.includes('--sim');
 const ROOT = path.join(__dirname, '..');                   // mg/  (damit ../lib und fonts gefunden werden)
@@ -27,9 +27,12 @@ const server = http.createServer((req, res) => {
 });
 const wss = new WebSocketServer({ server, path: '/ws' });
 let GAME = {};                                               // letzter Spielstand vom Spiel
-wss.on('connection', s => { log('Spiel verbunden'); s.on('message', m => { try { const e = JSON.parse(m); if (e.type === 'state') GAME = e.state } catch (x) { } }) });
+const ASK = new Map(); let askN = 0;
+wss.on('connection', s => { log('Spiel verbunden'); s.on('message', m => { try { const e = JSON.parse(m); if (e.type === 'state') GAME = e.state; else if (e.type === 'answer' && ASK.has(e.id)) { ASK.get(e.id)(e.text || null); ASK.delete(e.id) } } catch (x) { } }) });
+// Frage an das Spiel weitergeben (feste Antworten mit echtem Spielstand)
+function askGame(user, text) { return new Promise(res => { const id = ++askN; ASK.set(id, res); send({ type: 'ask', id, user, text }); setTimeout(() => { if (ASK.has(id)) { ASK.delete(id); res(null) } }, 1500) }) }
 const send = e => { const s = JSON.stringify(e); wss.clients.forEach(c => c.readyState === 1 && c.send(s)) };
-server.listen(CFG.port, () => log(`Spiel: http://localhost:${CFG.port}/live/game.html`));
+server.listen(CFG.port, () => { log(`Spiel: http://localhost:${CFG.port}/live/game.html?q=0.5&fps=30`); log(CFG.ki ? 'KI an (Ollama: ' + CFG.ollamaModel + ')' : 'Laptop-Modus: Sam antwortet mit festen Antworten (keine KI).') });
 
 // ---------------- Filter ----------------
 const BAD = /(hurensohn|fick|nazi|hitler|nutte|schlampe|wichser|spast|behindert|kys|kill yourself|suizid|selbstmord|nigg|porn|sex)/i;
@@ -59,6 +62,7 @@ Sprich die Person mit ihrem Namen an. Keine Emojis, keine Hashtags, keine Links.
 Rede nicht über Politik, Religion, echte Personen, Gewalt, Sex oder Drogen; bei so etwas lenkst du freundlich zurück zur Insel.
 Gib keine persönlichen Daten preis und frag nicht danach. Wenn jemand fies ist, ignorierst du es und bleibst nett.`;
 async function llm(user, extra = '') {
+  if (!CFG.ki) return null;              // Laptop-Modus: keine KI, feste Antworten
   try {
     const r = await fetch(CFG.ollamaUrl + '/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ model: CFG.ollamaModel, stream: false, options: { temperature: .8, num_predict: 70 },
@@ -73,9 +77,10 @@ const pickT = a => a[Math.floor(Math.random() * a.length)];
 const TPL = {
   join: n => pickT([`Willkommen auf Roundhead Island, ${n}!`, `Hey ${n}, schön dass ihr da seid!`, `${n} – willkommen auf der Insel!`]),
   follow: n => pickT([`${n}, danke fürs Folgen! Dein eigenes Haus steht schon!`, `Neuer Einwohner: ${n}! Willkommen in deinem neuen Haus!`]),
-  gift: (n, g) => pickT([`Wow, danke ${n} für ${g}! Dein Haus wächst!`, `${n}, du Legende! Danke für ${g}!`]),
+  gift: (n, g) => pickT([`Wow, ${n} schickt ${g}! Dein Haus wächst!`, `${n}, du Legende! Danke für dein Geschenk!`, `Danke ${n}! Dein Haus wird größer!`]),
   idle: () => pickT(['Doppelt tippen für Likes, dann bauen wir das nächste Wahrzeichen!', 'Folgen bringt dir ein eigenes Haus auf der Insel!', 'Schreibt „wo bin ich“, dann zeige ich euch euer Haus!', 'Geschenke lassen euer Haus wachsen, bis zur Luxus-Villa!'])
 };
+const SAIDT = new Map(), LASTQ = new Map();
 const Q = [];                  // Warteschlange {prio, make: async () => text}
 let busyUntil = 0, lastSpoke = Date.now(), joinBuf = [], giftBuf = new Map();
 function queue(prio, make) { if (Q.length > 6) Q.sort((a, b) => b.prio - a.prio).splice(5); Q.push({ prio, make, t: Date.now() }) }
@@ -85,7 +90,8 @@ async function loop() {
     Q.sort((a, b) => b.prio - a.prio || a.t - b.t); const job = Q.shift();
     if (now - job.t < 25000) {
       const text = await job.make();
-      if (text) { const url = await tts(text); const dur = Math.max(2, text.length * .068); send({ type: 'say', text, url, dur }); busyUntil = Date.now() + dur * 1000 + 600; lastSpoke = Date.now(); log('SAM:', text) }
+      if (text && Date.now() - (SAIDT.get(text) || 0) < 60000) { /* gleicher Satz gerade erst gesagt */ }
+      else if (text) { SAIDT.set(text, Date.now()); const url = await tts(text); const dur = Math.max(2, text.length * .068); send({ type: 'say', text, url, dur }); busyUntil = Date.now() + dur * 1000 + 600; lastSpoke = Date.now(); log('SAM:', text) }
     }
   }
   // Beitritte sammeln (max. alle 20 s eine Begruessung fuer mehrere Namen)
@@ -105,8 +111,10 @@ function onEvent(e) {
   else if (e.type === 'gift') { const g = giftBuf.get(n) || { gift: clean(e.gift) || 'das Geschenk', count: 0 }; g.count += e.repeat || 1; g.t = Date.now(); giftBuf.set(n, g) }
   else if (e.type === 'chat') {
     const txt = clean(e.text); if (!txt || BAD.test(txt) || BAD.test(n)) return;
-    const isQ = /\?|wo bin ich|sam\b|bürgermeister|wie |was |wann |warum |kann ich|darf ich/i.test(txt);
-    if (isQ) queue(2, async () => (await llm(`${n} schreibt im Chat: "${txt}". Antworte direkt.`)) || null);
+    const isQ = /\?|wo bin ich|wo ist mein|sam\b|bürgermeister|wie |was |wann |warum |wer |kann ich|darf ich|danke|hallo|hey|tschüss|gute nacht|cool|geil|langweilig|happy hour/i.test(txt);
+    if (isQ && Date.now() - (LASTQ.get(n) || 0) < 30000) return;   // pro Person hoechstens alle 30 s eine Antwort
+    if (isQ) LASTQ.set(n, Date.now());
+    if (isQ) queue(2, async () => (await llm(`${n} schreibt im Chat: "${txt}". Antworte direkt.`)) || await askGame(n, txt));
   }
 }
 // ---------------- TikTok LIVE ----------------

@@ -15,20 +15,28 @@ Alles läuft lokal und kostenlos. Du brauchst keine Passwörter und keine API-Sc
 | Frage im Chat | Sam antwortet mit Stimme (lokale KI) |
 | alle 4 Minuten | Happy Hour: alles zählt ×3 |
 
-## Einmalig einrichten
-1. **Node.js** (LTS) installieren: https://nodejs.org
-2. **Python** installieren und danach `pip install edge-tts` ausführen (das ist die Stimme).
-3. **Ollama** installieren (https://ollama.com) und danach `ollama pull qwen2.5:7b` ausführen (das ist die KI für Sam). Bei schwacher Grafikkarte nimmst du `qwen2.5:3b` und trägst das in `config.json` ein.
-4. In `config.json` deinen TikTok-Namen bei `tiktokUser` eintragen. Die Datei wird beim ersten Start aus `config.example.json` erstellt.
+## Einmalig einrichten (Laptop)
+1. Den Ordner `RoundheadLive` irgendwohin entpacken, z. B. auf den Desktop.
+2. In `RoundheadLive\live` **SETUP.bat** doppelklicken. Es installiert Node.js und Python (falls sie fehlen) sowie die Stimme und die Live-Verbindung.
+   Wenn es etwas installiert hat, SETUP.bat danach **noch einmal** starten.
+3. Am Ende öffnet sich `config.json`. Dort bei `tiktokUser` deinen TikTok-Namen ohne @ eintragen und speichern.
 
 ## Starten
-- **Test ohne TikTok:** `START.bat --sim`. Fake-Zuschauer, die KI und die Stimme laufen dabei echt.
-- **Nur das Spiel ansehen:** `game.html?sim=1` im Browser öffnen. Das läuft ohne Server, Sam spricht dann mit Vorlagen.
+- **Test ohne TikTok:** `TEST.bat`. Es kommen Fake-Zuschauer, Sam spricht echt.
 - **Echtes Live:**
   1. In TikTok LIVE Studio live gehen.
-  2. Doppelklick auf `START.bat`.
-  3. In LIVE Studio das Browserfenster `http://localhost:8787/live/game.html` als Quelle (Fenster- oder Browser-Quelle, Hochformat) hinzufügen.
-  4. Damit Sams Stimme im Stream zu hören ist, den Ton des Browsers in LIVE Studio mit aufnehmen.
+  2. `START.bat` doppelklicken. Der Browser öffnet das Spiel.
+  3. In LIVE Studio das Browserfenster als Quelle (Fensteraufnahme, Hochformat) hinzufügen und den Ton des Browsers mit aufnehmen.
+
+## Laptop-Modus (Standard)
+- Das Spiel läuft mit halber Auflösung und 30 Bildern pro Sekunde (`?q=0.5&fps=30`). Das lief im Test auf dem HP 255 G7 flüssig.
+- Sam antwortet mit festen Antworten und echtem Spielstand (Haus, Likes, Ziele, Rangliste, Begrüßungen …). Es läuft keine KI auf dem Laptop.
+- Pro Person antwortet Sam höchstens alle 30 Sekunden, gleiche Sätze wiederholt er nicht direkt.
+- Später mit KI: Ollama installieren, ein Modell laden und in `config.json` `"ki": true` setzen. Auf dem Laptop nicht empfohlen.
+
+## Streaming-Einstellungen für den Laptop
+- Ausgabe 720×1280, 30 FPS, Hardware-Encoder (AMD/AMF), nur das Spielfenster aufnehmen.
+- Ladekabel dran, Energiemodus „Beste Leistung“, Discord/Spotify/Steam schließen.
 
 ## Hinweise
 - `tiktok-live-connector` ist inoffiziell. Wenn TikTok etwas ändert, hilft meistens `npm update`.
