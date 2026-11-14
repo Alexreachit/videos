@@ -13,7 +13,7 @@ A("Eure 24 Herzen bringen 240 Euro. Macht 460 Euro.", dict(type="money"), say="E
 A("Aber die Polizeistation kostet 720 Euro. Es fehlen noch 260!", dict(type="gap", mood="calm"), say="Aber die Polizeistation kostet siebenhundertzwanzig Euro. Es fehlen noch zweihundertsechzig!", say_map={"siebenhundertzwanzig": "720", "zweihundertsechzig": "260"})
 A("Die Baustelle steht schon!", dict(type="site", mood="bright"))
 A("Unser neuer Architekt plant alles!", dict(type="arch"))
-A("Simon wird Security-Chef und bewacht die Baustelle.", dict(type="security"), say="Simon wird Sicherheits-Chef und bewacht die Baustelle.", say_map={"Sicherheits-Chef": "Security-Chef"})
+A("Simon wird Sicherheitschef und bewacht die Baustelle.", dict(type="security"))
 A("Mit 26 Herzen ist die Wache fertig!", dict(type="ziel"), say="Mit sechsundzwanzig Herzen ist die Wache fertig!", say_map={"sechsundzwanzig": "26"})
 A("Und bei 200 Einwohnern wartet die Überraschung. Nur noch 29!", dict(type="surprise", mood="bright"), say="Und bei zweihundert Einwohnern wartet die Überraschung. Nur noch neunundzwanzig!", say_map={"zweihundert": "200", "neunundzwanzig": "29"})
 A("Wer wird Polizeichef: Mex oder Simon?", dict(type="chef"))

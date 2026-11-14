@@ -100,13 +100,9 @@
    }
   },
   {
-   "text": "Simon wird Security-Chef und bewacht die Baustelle.",
+   "text": "Simon wird Sicherheitschef und bewacht die Baustelle.",
    "spec": {
     "type": "security"
-   },
-   "say": "Simon wird Sicherheits-Chef und bewacht die Baustelle.",
-   "say_map": {
-    "Sicherheits-Chef": "Security-Chef"
    }
   },
   {
