@@ -1,0 +1,122 @@
+{
+ "title": "TikTok-Serie Squarehead Island – Tag 4 (Deutsch)",
+ "_sources": "Fiktive Community-Serie (keine Faktenbehauptungen). Zahlen von Alex: 33 Bürger, 26 Likes, Abstimmung Brunnen.",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "elevenlabs:DiMario - Energetic and Fun (sh04/voice, build_voice.py)",
+ "rate": "+16%",
+ "lead": 0.05,
+ "gap": 0.12,
+ "tail": 1.4,
+ "crf": 20,
+ "music": {
+  "style": "playful",
+  "bpm": 150,
+  "gain": 0.13,
+  "ambience": 0.02,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.55,
+ "lines": [
+  {
+   "text": "Tag 4 auf Squarehead Island!",
+   "spec": {
+    "type": "map",
+    "mood": "bright"
+   },
+   "say": "Tag vier auf Squarehead Island!"
+  },
+  {
+   "text": "Die Regeln: Folgen macht dich zum Bürger, jedes Like bringt 10 Euro, und im Kommentar darfst du dir was wünschen!",
+   "spec": {
+    "type": "regeln"
+   },
+   "say": "Die Regeln: Folgen macht dich zum Bürger, jedes Like bringt zehn Euro, und im Kommentar darfst du dir was wünschen!"
+  },
+  {
+   "text": "Ihr habt entschieden: Wir bauen einen Brunnen!",
+   "spec": {
+    "type": "vote",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "11 neue Bürger! Wir sind jetzt 33.",
+   "spec": {
+    "type": "crowd",
+    "mood": "bright"
+   },
+   "say": "Elf neue Bürger! Wir sind jetzt dreiunddreißig."
+  },
+  {
+   "text": "Eure 26 Likes bringen 260 Euro. Macht 580 Euro in der Kasse!",
+   "spec": {
+    "type": "money"
+   },
+   "say": "Eure sechsundzwanzig Likes bringen zweihundertsechzig Euro. Macht fünfhundertachtzig Euro in der Kasse!"
+  },
+  {
+   "text": "Hier ist unser Brunnen! Er kostet 300 Euro, bleiben 280 in der Kasse.",
+   "spec": {
+    "type": "build"
+   },
+   "say": "Hier ist unser Brunnen! Er kostet dreihundert Euro, bleiben zweihundertachtzig in der Kasse."
+  },
+  {
+   "text": "Redbl0ssom wird unsere Ärztin!",
+   "spec": {
+    "type": "arzt"
+   },
+   "say": "Red Blossom wird unsere Ärztin!"
+  },
+  {
+   "text": "Die Kleeblatt-Bürgerin kriegt ihren grünen Jogginganzug und wird Friseurin!",
+   "spec": {
+    "type": "friseur"
+   }
+  },
+  {
+   "text": "Kuno eröffnet seine Surfschule am Strand!",
+   "spec": {
+    "type": "surf",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Lucas bekommt eine eigene Burgerbude!",
+   "spec": {
+    "type": "burger"
+   }
+  },
+  {
+   "text": "Und Germany Trophy Hunters wird Pilot. Nur ein Flugzeug fehlt noch.",
+   "spec": {
+    "type": "pilot"
+   },
+   "say": "Und Germany Trophy Hunters wird Pilot. Nur ein Flugzeug fehlt noch."
+  },
+  {
+   "text": "Bauen wir einen Flugplatz für unseren Piloten?",
+   "spec": {
+    "type": "flug"
+   }
+  },
+  {
+   "text": "Oder eine Praxis für unsere Ärztin?",
+   "spec": {
+    "type": "praxis"
+   }
+  },
+  {
+   "text": "Der Top-Kommentar entscheidet.",
+   "spec": {
+    "type": "comment"
+   }
+  }
+ ]
+}
