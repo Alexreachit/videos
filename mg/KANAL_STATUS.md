@@ -322,3 +322,12 @@
 - Erkenntnis: Auch mit täglichem Short-Takt bleibt die Reichweite bei 2–25 Aufrufen pro Short; seit Eiffel (31.10.) hat kein Short mehr gezündet. Escobar hielt besser (38 %) als Bildschirm-/Zahlen-Storys, Hushpuppi wurde kaum getestet.
 - Keine Korrekturen, nichts im Studio geändert, nichts hochgeladen (keine freigegebene Idee offen).
 - Offen bei Alex: Idee wählen (Louvre-Juwelenraub | Bitcoin-Pizza | Fyre Festival); Ponzi-Thumbnail v2 OK?; Entwurf "846c1dee…" löschen?
+
+## Lauf 2026-11-14 ~17:50 MEZ (Routine, geplant 15:47 UTC)
+- 11 Abos (unverändert). 48-h-Echtzeit: 140 Aufrufe (vorher 59) – Blockbuster 94, Bank-Langvideo 10, IB-Ranks 10. 28 T (17.10.–13.11.): 7.438 Aufrufe, 25,8 h, +7 Abos. Traffic 28 T laut Übersicht: Suche 86 %, Videovorschläge 8 %. Länder nicht neu ausgelesen.
+- Shorts: Blockbuster 59iD318vA8A nach ~22 h: 94 Aufrufe (bester Short seit Milch 04.11.), Ø 45 % Wiedergabe, aber nur 15,4 % angesehen / 84,6 % weggewischt, 0 Likes, 0 Abos.
+  Escobar aLSXDVN9gvI 27 (+3) | PayPal cQmlXub5TcM 30 (+4) | Hushpuppi RuVMBqYTsv8 3 (+1, wird nicht ausgespielt) | Milch 294 | Felicity 1.323 | Eiffel 1.262 | Ever Given 1.225 | SVB 1.125 | $100: 286 | New vs Used 210 | Knight 57 | Binance 57.
+- Langform: Bank KDOq1pF040k 1.189 | Ponzi pHR5fqQ5hC8 19 | Never-age wQT4ECkMbKw 1 | Supermarkt 1 | Mistakes 18 | IB-Ranks PN-JnnDd8hk 73 | Captain SDbgnRsX19A 113.
+- Erkenntnis: Bekannte Marken (Blockbuster/Netflix) bekommen mehr Test-Impressionen, aber die ersten Sekunden halten nicht (85 % wischen weg) -> Hook-Bild muss sofort das Drama zeigen (z. B. leerer Blockbuster-Laden + Netflix-Logo wächst), nicht erst Text.
+- Keine Korrekturen, nichts im Studio geändert, nichts hochgeladen (keine freigegebene Idee offen).
+- Offen bei Alex: Idee wählen (Louvre-Juwelenraub | Bitcoin-Pizza | Fyre Festival); Ponzi-Thumbnail v2 OK?; Entwurf "846c1dee…" löschen?
