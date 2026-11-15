@@ -1,0 +1,83 @@
+{
+ "title": "TikTok-Format Bis zum Erdkern – Beispiel (Deutsch)",
+ "_sources": "Britannica Earth's layers; Wikipedia Kola Superdeep Borehole.",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+16%",
+ "lead": 0.05,
+ "gap": 0.12,
+ "tail": 1.2,
+ "crf": 20,
+ "music": {
+  "style": "playful",
+  "bpm": 140,
+  "gain": 0.11,
+  "ambience": 0.0,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.55,
+ "lines": [
+  {
+   "text": "Tag 1: Wir graben bis zum Erdkern!",
+   "spec": {
+    "type": "intro",
+    "mood": "bright"
+   },
+   "say": "Tag eins: Wir graben bis zum Erdkern!",
+   "say_map": {
+    "eins:": "1:"
+   }
+  },
+  {
+   "text": "Die Regeln: Folgen macht dich zum Arbeiter, jedes Herz gräbt einen Meter, und in der Umfrage entscheidest du mit!",
+   "spec": {
+    "type": "regeln"
+   }
+  },
+  {
+   "text": "Unsere ersten 5 Arbeiter legen los!",
+   "spec": {
+    "type": "dig",
+    "mood": "bright"
+   },
+   "say": "Unsere ersten fünf Arbeiter legen los!",
+   "say_map": {
+    "fünf": "5"
+   }
+  },
+  {
+   "text": "Bis zur Erdmitte sind es rund 6370 Kilometer.",
+   "spec": {
+    "type": "earth"
+   },
+   "say": "Bis zur Erdmitte sind es rund sechstausenddreihundertsiebzig Kilometer.",
+   "say_map": {
+    "sechstausenddreihundertsiebzig": "6370"
+   }
+  },
+  {
+   "text": "Der Weltrekord liegt bei 12262 Metern. Den wollen wir knacken!",
+   "spec": {
+    "type": "record",
+    "mood": "bright"
+   },
+   "say": "Der Weltrekord liegt bei zwölftausendzweihundertzweiundsechzig Metern. Den wollen wir knacken!",
+   "say_map": {
+    "zwölftausendzweihundertzweiundsechzig": "12262"
+   }
+  },
+  {
+   "text": "Was kaufen wir zuerst: einen Presslufthammer oder einen Bagger? Stimmt ab!",
+   "spec": {
+    "type": "vote",
+    "mood": "bright"
+   }
+  }
+ ]
+}
