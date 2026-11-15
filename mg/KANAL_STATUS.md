@@ -331,3 +331,12 @@
 - Erkenntnis: Bekannte Marken (Blockbuster/Netflix) bekommen mehr Test-Impressionen, aber die ersten Sekunden halten nicht (85 % wischen weg) -> Hook-Bild muss sofort das Drama zeigen (z. B. leerer Blockbuster-Laden + Netflix-Logo wächst), nicht erst Text.
 - Keine Korrekturen, nichts im Studio geändert, nichts hochgeladen (keine freigegebene Idee offen).
 - Offen bei Alex: Idee wählen (Louvre-Juwelenraub | Bitcoin-Pizza | Fyre Festival); Ponzi-Thumbnail v2 OK?; Entwurf "846c1dee…" löschen?
+
+## Lauf 2026-11-15 ~17:15 MEZ (Routine, geplant 15:47 UTC)
+- 11 Abos (unverändert). 48-h-Echtzeit: 496 Aufrufe (vorher 140) – fast alles Blockbuster. 28 T (18.10.–14.11.): 7.469 Aufrufe, 25,4 h, +7 Abos. Länder nicht neu ausgelesen (Short-Daten noch "nicht genügend").
+- Shorts: Blockbuster 59iD318vA8A nach ~2 T: 462 Aufrufe (Analytics; Liste 355), +368 seit gestern, 99 % Shorts-Feed, 25,1 % angesehen / 74,9 % weggewischt (gestern 15,4 %), 4 Likes, 0 Abos, Ø ~6 s -> bester Short seit Eiffel, Welle läuft verzögert an.
+  Escobar 29 | PayPal 33 | Hushpuppi 3 | Milch 294 | Felicity 1.323 | Eiffel 1.262 | Ever Given 1.225 | SVB 1.125 | Binance 57 | Knight 57 -> stehen.
+- Langform: Ponzi pHR5fqQ5hC8 20 Aufrufe, 11 Zuschauer, 1.390 Impressionen (stagniert), CTR 0,6 %, Ø 3:18 | Bank KDOq1pF040k 1.197 | Mistakes 18 | Supermarkt 1 | Never-age 1.
+- Erkenntnis: Bekannte Marke + "hätte kaufen können"-Drama (Blockbuster/Netflix) bekommt zeitverzögert Reichweite (Tag 2 > Tag 1). Bindung bleibt Schwachpunkt -> nächste Shorts: Drama im ersten Bild.
+- Keine Korrekturen, nichts im Studio geändert, nichts hochgeladen (keine freigegebene Idee offen, Pipeline seit 13.11. leer).
+- Offen bei Alex: Idee wählen (Louvre-Juwelenraub | Bitcoin-Pizza | Fyre Festival); Ponzi-Thumbnail v2 OK?; Entwurf "846c1dee…" löschen?
