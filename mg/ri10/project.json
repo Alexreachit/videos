@@ -1,0 +1,152 @@
+{
+ "title": "TikTok-Serie Roundhead Island – Tag 10 (Deutsch)",
+ "_sources": "Fiktive Community-Serie (keine Faktenbehauptungen). Zahlen von Alex: 22 Likes, 5 neue Follower, Kommentare Tag 9.",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 60,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+16%",
+ "lead": 0.05,
+ "gap": 0.12,
+ "tail": 1.4,
+ "crf": 18,
+ "music": {
+  "style": "playful",
+  "bpm": 150,
+  "gain": 0.11,
+  "ambience": 0.02,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.55,
+ "lines": [
+  {
+   "text": "Tag 10 auf Roundhead Island!",
+   "spec": {
+    "type": "map",
+    "mood": "bright"
+   },
+   "say": "Tag zehn auf Roundhead Island!",
+   "say_map": {
+    "zehn": "10"
+   }
+  },
+  {
+   "text": "Die Regeln: Folgen macht dich zum Einwohner, jedes Herz bringt 10 Euro, und im Kommentar darfst du dir was wünschen!",
+   "spec": {
+    "type": "regeln"
+   },
+   "say": "Die Regeln: Folgen macht dich zum Einwohner, jedes Herz bringt zehn Euro, und im Kommentar darfst du dir was wünschen!",
+   "say_map": {
+    "zehn": "10"
+   }
+  },
+  {
+   "text": "5 neue Bürger! Wir sind jetzt 176 Einwohner.",
+   "spec": {
+    "type": "crowd",
+    "mood": "bright"
+   },
+   "say": "Fünf neue Bürger! Wir sind jetzt hundertsechsundsiebzig Einwohner.",
+   "say_map": {
+    "fünf": "5",
+    "hundertsechsundsiebzig": "176"
+   }
+  },
+  {
+   "text": "Eure 22 Herzen bringen 220 Euro. Macht 680 Euro.",
+   "spec": {
+    "type": "money"
+   },
+   "say": "Eure zweiundzwanzig Herzen bringen zweihundertzwanzig Euro. Macht sechshundertachtzig Euro.",
+   "say_map": {
+    "zweiundzwanzig": "22",
+    "zweihundertzwanzig": "220",
+    "sechshundertachtzig": "680"
+   }
+  },
+  {
+   "text": "Für die Polizeistation fehlen nur noch 40 Euro!",
+   "spec": {
+    "type": "gap",
+    "mood": "calm"
+   },
+   "say": "Für die Polizeistation fehlen nur noch vierzig Euro!",
+   "say_map": {
+    "vierzig": "40"
+   }
+  },
+  {
+   "text": "Da hilft Always Team Dog: Sein Kinderpunsch-Stand verdient die 40 Euro!",
+   "spec": {
+    "type": "punch",
+    "mood": "bright"
+   },
+   "say": "Da hilft Always Team Dog: Sein Kinderpunschstand verdient die vierzig Euro!",
+   "say_map": {
+    "vierzig": "40",
+    "kinderpunschstand": "Kinderpunsch-Stand"
+   }
+  },
+  {
+   "text": "Die Polizeistation ist fertig!",
+   "spec": {
+    "type": "station",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Und unser neuer Polizeichef ist Mex!",
+   "spec": {
+    "type": "chief"
+   }
+  },
+  {
+   "text": "Alina wird unsere Inselärztin im Krankenhaus.",
+   "spec": {
+    "type": "wish"
+   }
+  },
+  {
+   "text": "Kai wird Soldat und bewacht den Strand.",
+   "spec": {
+    "type": "wish"
+   }
+  },
+  {
+   "text": "Und Edition bekommt einen Dönerladen!",
+   "spec": {
+    "type": "wish",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Bei 200 Einwohnern wartet die Überraschung. Nur noch 24!",
+   "spec": {
+    "type": "surprise",
+    "mood": "bright"
+   },
+   "say": "Bei zweihundert Einwohnern wartet die Überraschung. Nur noch vierundzwanzig!",
+   "say_map": {
+    "zweihundert": "200",
+    "vierundzwanzig": "24"
+   }
+  },
+  {
+   "text": "Was bauen wir als Nächstes: Flugplatz oder Freibad?",
+   "spec": {
+    "type": "chef"
+   }
+  },
+  {
+   "text": "Stimmt in der Umfrage ab!",
+   "spec": {
+    "type": "poll",
+    "mood": "bright"
+   }
+  }
+ ]
+}
