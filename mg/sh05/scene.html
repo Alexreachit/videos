@@ -586,7 +586,6 @@ function charLayer(t) {
   h += labelAt([PZ[0], PZ[1] + 3.5, PZ[2]], PILL('🍕 @Gaming+Motor · PIZZERIA', '#2fa36b'), t, wt(6, /pizzeria/i), Lt(7).start - .1);
   h += labelAt([ELP[0], ELP[1] + 2.3, ELP[2]], PILL('🍔 @Elias · PARTNER', '#d64545'), t, wt(7, /partner/i), Lt(8).start - .1);
   h += labelAt([LOU.x, LOU.y + 2.6, LOU.z], PILL('👑 @Louie · KÖNIG', '#7a55c7'), t, wt(8, /könig|konig/i), Lt(9).start - .1);
-  h += labelAt([PIL.x, PIL.y + 2.3, PIL.z], PILL('✈️ PILOT · wartet noch', '#3c5a9a'), t, Lt(9).start + .2, Lt(10).start - .1);
   return h;
 }
 function commentCard(t) {
@@ -669,7 +668,7 @@ window.draw = function (t) {
   if (t > tp + .3) { DOC.x = DOCP[0]; DOC.z = DOCP[2]; DOC.yaw = PXY } else { DOC.x = DOC0[0]; DOC.z = DOC0[1]; DOC.yaw = Math.atan2(-DOC.x * .3, 6) } DOC.y = iH(DOC.x, DOC.z);
   const tx = wt(7, /größer|groesser|grosser/i) - .3;
   if (t > wt(7, /partner/i) - .3) { ELIAS2.x = ELP[0]; ELIAS2.z = ELP[2]; ELIAS2.yaw = BUY } else { ELIAS2.x = EL0[0]; ELIAS2.z = EL0[1]; ELIAS2.yaw = Math.atan2(-EL0[0] * .3, 6) } ELIAS2.y = iH(ELIAS2.x, ELIAS2.z);
-  const th0 = wt(8, /könig|konig/i) - .35;
+  const th0 = Lt(8).start + .25;
   LOU.y = iH(LOU.x, LOU.z) + (t > th0 ? .62 * bo(cl(t, th0, th0 + .45)) : 0);
   // Buerger
   const cheering = [[wt(2, /praxis/i), Lt(3).start], [wt(4, /bringen/i), Lt(4).end], [tp + .2, wt(5, /kostet/i)], [wt(8, /könig|konig/i), Lt(8).end], [Lt(12).start + .2, 99]].some(([a, b]) => t > a && t < b);
@@ -685,7 +684,7 @@ window.draw = function (t) {
   // neue Gebaeude
   praxis.vis = t > tp; if (praxis.vis) praxis.scl = [1, Math.max(.01, bo(cl(t, tp, tp + .5))), 1]; crossM.emis = .4 + .4 * Math.max(0, Math.sin(t * 4));
   const tz = wt(6, /pizzeria/i) - .25; pizza.vis = t > tz; if (pizza.vis) pizza.scl = [1, Math.max(.01, bo(cl(t, tz, tz + .45))), 1]; bigPizza.rot = [1.25, 0, Math.sin(t * 2) * .15]; FIRE.scl = [1, 1 + .4 * Math.sin(t * 17), 1];
-  burger2.vis = tables.vis = t > tx; if (burger2.vis) { const k = Math.max(.01, bo(cl(t, tx, tx + .45))); burger2.scl = [1, k, 1]; tables.scl = [k, k, k] }
+  burger2.vis = tables.vis = t > tx; tables.vis = tables.vis && i != 8; if (burger2.vis) { const k = Math.max(.01, bo(cl(t, tx, tx + .45))); burger2.scl = [1, k, 1]; tables.scl = [k, k, k] }
   throne.vis = t > th0; if (throne.vis) { const k = Math.max(.01, bo(cl(t, th0, th0 + .45))); throne.scl = [k, k, k] } banners.forEach((b, k) => b.rot = [Math.sin(t * 2 + k) * .08, 0, 0]);
   // Muenzen (260 €)
   let landed = 0;
@@ -719,7 +718,7 @@ window.sfxEvents = function () {
   E.push({ k: 'whoosh', t: L(4).start, d: .6 }); COINS2.forEach(c => E.push({ k: 'cash', t: coinT(c.k)[1] })); E.push({ k: 'pop', t: wt(4, /macht/i) });
   E.push({ k: 'whoosh', t: L(5).start - .1, d: .6 }, { k: 'thud', t: tPX() }, { k: 'chime', t: tPX() + .3 }, { k: 'error', t: wt(5, /kostet/i) - .1 }, { k: 'cash', t: wt(5, /kostet/i) + .2 });
   [[6, /pizzeria/i], [7, /partner/i], [8, /könig|konig/i]].forEach(([i, re]) => E.push({ k: 'swish', t: L(i).start, d: .4 }, { k: 'pop', t: L(i).start + .1 }, { k: 'chime', t: wt(i, re) }));
-  E.push({ k: 'thud', t: wt(6, /pizzeria/i) - .25 }, { k: 'thud', t: wt(7, /größer|groesser|grosser/i) - .3 }, { k: 'thud', t: wt(8, /könig|konig/i) - .35 }, { k: 'bell', t: wt(8, /könig|konig/i) + .2 });
+  E.push({ k: 'thud', t: wt(6, /pizzeria/i) - .25 }, { k: 'thud', t: wt(7, /größer|groesser|grosser/i) - .3 }, { k: 'thud', t: L(8).start + .25 }, { k: 'bell', t: wt(8, /könig|konig/i) + .2 });
   E.push({ k: 'whoosh', t: L(9).start - .1, d: .5 }, { k: 'tick', t: L(9).start + .4 }, { k: 'error', t: wt(9, /prozent|45/i) - .1 });
   E.push({ k: 'whoosh', t: L(10).start - .1, d: .6 }, { k: 'pop', t: L(10).start + .05 }, { k: 'whoosh', t: L(11).start, d: .6 }, { k: 'pop', t: L(11).start + .1 });
   E.push({ k: 'swish', t: L(12).start, d: .4 }, { k: 'pop', t: L(12).start + .3 }, { k: 'type', t: L(12).start + .6, n: 14 });
