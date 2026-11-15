@@ -1,0 +1,118 @@
+{
+ "title": "TikTok-Serie Squarehead Island – Tag 5 (Deutsch)",
+ "_sources": "Fiktive Community-Serie (keine Faktenbehauptungen). Zahlen von Alex: 41 Bürger, 20 Likes, Umfrage Praxis 55 %.",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "elevenlabs:DiMario - Energetic and Fun (sh05/voice, build_voice.py)",
+ "rate": "+16%",
+ "lead": 0.05,
+ "gap": 0.12,
+ "tail": 1.4,
+ "crf": 20,
+ "music": {
+  "style": "playful",
+  "bpm": 150,
+  "gain": 0.13,
+  "ambience": 0.02,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.55,
+ "lines": [
+  {
+   "text": "Tag 5 auf Squarehead Island!",
+   "spec": {
+    "type": "map",
+    "mood": "bright"
+   },
+   "say": "Tag fünf auf Squarehead Island!"
+  },
+  {
+   "text": "Die Regeln: Folgen macht dich zum Bürger, jedes Like bringt 10 Euro, und im Kommentar darfst du dir was wünschen!",
+   "spec": {
+    "type": "regeln"
+   },
+   "say": "Die Regeln: Folgen macht dich zum Bürger, jedes Like bringt zehn Euro, und im Kommentar darfst du dir was wünschen!"
+  },
+  {
+   "text": "Ihr habt entschieden: Wir bauen die Praxis!",
+   "spec": {
+    "type": "vote",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "8 neue Bürger! Wir sind jetzt 41.",
+   "spec": {
+    "type": "crowd",
+    "mood": "bright"
+   },
+   "say": "Acht neue Bürger! Wir sind jetzt einundvierzig."
+  },
+  {
+   "text": "Eure 20 Likes bringen 200 Euro. Macht 480 Euro in der Kasse!",
+   "spec": {
+    "type": "money"
+   },
+   "say": "Eure zwanzig Likes bringen zweihundert Euro. Macht vierhundertachtzig Euro in der Kasse!"
+  },
+  {
+   "text": "Hier ist die Praxis! Sie kostet 400 Euro, bleiben 80 in der Kasse.",
+   "spec": {
+    "type": "build"
+   },
+   "say": "Hier ist die Praxis! Sie kostet vierhundert Euro, bleiben achtzig in der Kasse."
+  },
+  {
+   "text": "Gaming+Motor eröffnet seine Pizzeria: Pizza Riha!",
+   "spec": {
+    "type": "pizza",
+    "mood": "bright"
+   },
+   "say": "Gaming plus Motor eröffnet seine Pizzeria: Pizza Riha!"
+  },
+  {
+   "text": "Elias wird Partner in Lucas' Burgerbude, und die Bude wird größer!",
+   "spec": {
+    "type": "burger"
+   }
+  },
+  {
+   "text": "Und Louie wird unser König!",
+   "spec": {
+    "type": "king",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Der Flugplatz war knapp dran: nur 45 Prozent!",
+   "spec": {
+    "type": "knapp",
+    "mood": "calm"
+   },
+   "say": "Der Flugplatz war knapp dran: nur fünfundvierzig Prozent!"
+  },
+  {
+   "text": "Bauen wir jetzt den Flugplatz für unseren Piloten?",
+   "spec": {
+    "type": "flug"
+   }
+  },
+  {
+   "text": "Oder ein Schloss für unseren König?",
+   "spec": {
+    "type": "schloss"
+   }
+  },
+  {
+   "text": "Der Top-Kommentar entscheidet.",
+   "spec": {
+    "type": "comment"
+   }
+  }
+ ]
+}
