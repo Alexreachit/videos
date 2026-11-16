@@ -89,7 +89,7 @@ GRASS, gnt, gb, gmp, gD = texmat("grass", "aerial_grass_rock", scale=.45, bump=1
 DIRT, *_ = texmat("dirt", "brown_mud_02", scale=.8, bump=1.4)
 # Gras/Erde-Mischung im selben Material (Maske: Abstand zum Loch + Rauschen)
 def ground_mat():
-    m, nt, b, mp, D = texmat("ground", "aerial_grass_rock", scale=.45, bump=1.1, tint="#e6ffd8")
+    m, nt, b, mp, D = texmat("ground", "aerial_grass_rock", scale=.3, bump=1.1, tint="#e6ffd8")
     geo = nt.nodes.new("ShaderNodeNewGeometry")
     D2 = img(nt, "brown_mud_02_diff.jpg"); mp2 = nt.nodes.new("ShaderNodeMapping"); mp2.inputs["Scale"].default_value = (.9, .9, .9); nt.links.new(geo.outputs["Position"], mp2.inputs["Vector"]); nt.links.new(mp2.outputs["Vector"], D2.inputs["Vector"])
     sep = nt.nodes.new("ShaderNodeSeparateXYZ"); nt.links.new(geo.outputs["Position"], sep.inputs[0])
@@ -100,7 +100,12 @@ def ground_mat():
     ad = nt.nodes.new("ShaderNodeMath"); ad.operation = 'MULTIPLY_ADD'; ad.inputs[1].default_value = .45; nt.links.new(nz.outputs["Fac"], ad.inputs[0]); nt.links.new(vl.outputs["Value"], ad.inputs[2])
     rr = nt.nodes.new("ShaderNodeMapRange"); rr.inputs["From Min"].default_value = .95; rr.inputs["From Max"].default_value = .78; nt.links.new(ad.outputs[0], rr.inputs["Value"])
     mx = nt.nodes.new("ShaderNodeMix"); mx.data_type = 'RGBA'; nt.links.new(rr.outputs["Result"], mx.inputs["Factor"])
-    link_from = b.inputs["Base Color"].links[0].from_socket; nt.links.new(link_from, mx.inputs[6]); nt.links.new(D2.outputs["Color"], mx.inputs[7]); nt.links.new(mx.outputs[2], b.inputs["Base Color"])
+    link_from = b.inputs["Base Color"].links[0].from_socket
+    mz = nt.nodes.new("ShaderNodeTexNoise"); mz.inputs["Scale"].default_value = .18; mz.inputs["Detail"].default_value = 4; nt.links.new(geo.outputs["Position"], mz.inputs["Vector"])
+    mzr = nt.nodes.new("ShaderNodeMapRange"); mzr.inputs["From Min"].default_value = .3; mzr.inputs["From Max"].default_value = .7; mzr.inputs["To Min"].default_value = .62; mzr.inputs["To Max"].default_value = 1.15; nt.links.new(mz.outputs["Fac"], mzr.inputs["Value"])
+    mv = nt.nodes.new("ShaderNodeMix"); mv.data_type = 'RGBA'; mv.blend_type = 'MULTIPLY'; mv.inputs["Factor"].default_value = 1.
+    nt.links.new(link_from, mv.inputs[6]); cmb = nt.nodes.new("ShaderNodeCombineXYZ"); [nt.links.new(mzr.outputs["Result"], cmb.inputs[i]) for i in range(3)]; nt.links.new(cmb.outputs[0], mv.inputs[7])
+    link_from = mv.outputs[2]; nt.links.new(link_from, mx.inputs[6]); nt.links.new(D2.outputs["Color"], mx.inputs[7]); nt.links.new(mx.outputs[2], b.inputs["Base Color"])
     return m, rr
 GROUND, GMASK = ground_mat()
 # feines Gitter um das Loch (mit Mulde), dazu grosse Flaeche bis zum Horizont
@@ -110,13 +115,12 @@ for v in gr.data.vertices:
     z = .025 * math.sin(x * 1.7 + 1) * math.cos(y * 1.3) + .012 * math.sin(x * 7.1) * math.sin(y * 6.3)
     if d < .62: z -= .2 * (math.cos(d / .62 * math.pi) * .5 + .5) ** 1.2         # Loch
     hd = math.hypot(x - .12, y - 1.18)
-    if hd < .75: z += .3 * (math.cos(hd / .75 * math.pi) * .5 + .5) ** 1.4        # Erdhaufen
     edge = max(0., (max(abs(x), abs(y)) - 5.5) / 1.5); z -= edge * .02
     v.co.z = z
 smooth(gr); gr.data.materials.append(GROUND)
-far = prim("plane", (0, 0, -.03), (1, 1, 1), m=GROUND, size=130)
+far = prim("plane", (0, 0, -.03), (1, 1, 1), m=GROUND, size=36)
 # Haufen bekommt Erd-Material (eigene Kappe)
-heap = prim("uv_sphere", (.12, 1.18, -.12), (.62, .55, .34), m=DIRT, segments=40, ring_count=20); smooth(heap)
+heap = prim("uv_sphere", (.12, 1.18, -.06), (.62, .55, .34), m=DIRT, segments=40, ring_count=20); smooth(heap)
 hd_ = heap.modifiers.new("d", "DISPLACE"); tx = bpy.data.textures.new("clods", "CLOUDS"); tx.noise_scale = .12; hd_.texture = tx; hd_.strength = .08
 # Steine verstreut
 ROCK, *_ = texmat("rock", "gray_rocks", scale=1.6, worldcoords=False, bump=1.5)
@@ -167,9 +171,9 @@ GLAS = pbr("glas", "#101418", .08, metal=.4); HANDLE_M = pbr("handle", "#9b6b3c"
 def ghost_mat():
     m, nt, b = newmat("ghost"); nodes = nt.nodes; nodes.remove(b)
     lw = nodes.new("ShaderNodeLayerWeight"); lw.inputs["Blend"].default_value = .35
-    em = nodes.new("ShaderNodeEmission"); em.inputs["Color"].default_value = hexc("#d8e6ff"); em.inputs["Strength"].default_value = 1.6
+    em = nodes.new("ShaderNodeEmission"); em.inputs["Color"].default_value = hexc("#bcd4ff"); em.inputs["Strength"].default_value = .9
     tr = nodes.new("ShaderNodeBsdfTransparent"); mx = nodes.new("ShaderNodeMixShader")
-    mp = nodes.new("ShaderNodeMapRange"); mp.inputs["To Min"].default_value = .18; mp.inputs["To Max"].default_value = .7; nt.links.new(lw.outputs["Facing"], mp.inputs["Value"])
+    mp = nodes.new("ShaderNodeMapRange"); mp.inputs["To Min"].default_value = .06; mp.inputs["To Max"].default_value = .75; nt.links.new(lw.outputs["Facing"], mp.inputs["Value"])
     nt.links.new(mp.outputs["Result"], mx.inputs[0]); nt.links.new(tr.outputs[0], mx.inputs[1]); nt.links.new(em.outputs[0], mx.inputs[2])
     nt.links.new(mx.outputs[0], nt.nodes["Material Output"].inputs["Surface"]); return m
 GHOSTM = ghost_mat()
@@ -320,7 +324,7 @@ for o in (earth, atmo): o.visible_shadow = False
 # ======================================================= KAMERA (ein Objekt, Bild fuer Bild)
 cd = bpy.data.cameras.new("cam"); cd.lens = SH.LENS; cd.sensor_fit = 'VERTICAL'; cd.sensor_height = SH.SENSOR; cd.clip_start = .03; cd.clip_end = 5000
 cam = bpy.data.objects.new("cam", cd); link(cam); S.camera = cam; cam.rotation_mode = 'QUATERNION'
-cd.dof.use_dof = True; cd.dof.aperture_fstop = float(OPT.get("fstop", 5.6))
+cd.dof.use_dof = True; cd.dof.aperture_fstop = float(OPT.get("fstop", 2.8))
 for f in range(SH.NF):
     t = f / FPS; p, tg = SH.cam_at(t)
     cam.location = p; cam.rotation_quaternion = (Vector(tg) - Vector(p)).to_track_quat('-Z', 'Y'); cam.keyframe_insert("location", frame=f); cam.keyframe_insert("rotation_quaternion", frame=f)
