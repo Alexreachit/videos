@@ -31,6 +31,7 @@
    },
    "say": "Tag eins: Wir graben ein Loch bis zum Erdkern!",
    "say_map": {
+    "eins": "1",
     "eins:": "1:"
    }
   },
@@ -60,27 +61,25 @@
    }
   },
   {
-   "text": "6370 Kilometer!",
+   "text": "6.370 Kilometer!",
    "spec": {
     "type": "earth",
     "mood": "bright"
    },
    "say": "Sechstausenddreihundertsiebzig Kilometer!",
    "say_map": {
-    "sechstausenddreihundertsiebzig": "6370"
+    "sechstausenddreihundertsiebzig": "6.370"
    }
   },
   {
-   "text": "Mit 10 Zentimetern pro Schaufel sind das 63,7 Millionen Mal schaufeln.",
+   "text": "Mit 10 Zentimetern pro Schaufel sind das fast 64 Millionen Mal schaufeln.",
    "spec": {
     "type": "number"
    },
-   "say": "Mit zehn Zentimetern pro Schaufel sind das dreiundsechzig Komma sieben Millionen Mal schaufeln.",
+   "say": "Mit zehn Zentimetern pro Schaufel sind das fast vierundsechzig Millionen Mal schaufeln.",
    "say_map": {
     "zehn": "10",
-    "dreiundsechzig": "63,7",
-    "komma": "",
-    "sieben": ""
+    "vierundsechzig": "64"
    }
   },
   {

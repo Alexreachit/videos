@@ -150,7 +150,7 @@ function earthView(t) {
     <div style="position:absolute;left:0;width:1080px;top:1430px;text-align:center;font:700 28px P,Arial;color:#c9d6f0;opacity:${u}">Kruste zur Sichtbarkeit dicker gezeichnet</div></div>`;
 }
 function bigNumber(t) {
-  const t0 = Lt(6).start, t1 = tBack() - .05, s = pop(t, wt(6, /millionen|dreiundsechzig|63/i) - .2, .4) * fade(t, t1, t1 + .2); if (t < t0 || s <= .01) return '';
+  const t0 = Lt(6).start, t1 = tBack() - .05, s = pop(t, wt(6, /millionen|vierundsechzig|64/i) - .2, .4) * fade(t, t1, t1 + .2); if (t < t0 || s <= .01) return '';
   return `<div class="card" style="left:50%;top:170px;width:900px;transform:translateX(-50%) rotate(-2deg) scale(${s});padding:20px 30px;text-align:center">
     <div style="font:800 40px P,Arial;color:#6b7280">6.370 km ÷ 10 cm =</div><div style="font-size:104px;line-height:1.05;color:#e8483c">63.700.000×</div><div style="font-size:52px">SCHAUFELN 😵</div></div>`;
 }
@@ -206,7 +206,7 @@ window.sfxEvents = function () {
   E.push({ k: 'pop', t: wt(2, /follower/i) - .15 }, { k: 'chime', t: wt(2, /follower/i) + .1 });
   E.push({ k: 'swish', t: L(3).start, d: .4 }, { k: 'pop', t: wt(3, /like/i) - .3 }, { k: 'pop', t: wt(3, /share/i) - .3 });
   E.push({ k: 'whoosh', t: tOut(), d: 2.2 }, { k: 'impact', t: L(5).start }, { k: 'tick', t: L(5).start + .45 }, { k: 'tick', t: L(5).start + .8 }, { k: 'tick', t: L(5).start + 1.15 });
-  E.push({ k: 'error', t: wt(6, /millionen|dreiundsechzig|63/i) - .2 });
+  E.push({ k: 'error', t: wt(6, /millionen|vierundsechzig|64/i) - .2 });
   E.push({ k: 'whoosh', t: tBack() - .2, d: .7 }, { k: 'pop', t: wt(7, /folg/i) }, { k: 'swish', t: L(8).start, d: .4 }, { k: 'type', t: L(8).start + .6, n: 12 });
   return E;
 };

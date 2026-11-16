@@ -6,13 +6,13 @@ import json, os
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 L = []
 def A(t, s, **k): L.append(dict(text=t, spec=s, **k))
-A("Tag 1: Wir graben ein Loch bis zum Erdkern!", dict(type="intro", mood="bright"), say="Tag eins: Wir graben ein Loch bis zum Erdkern!", say_map={"eins:": "1:"})
+A("Tag 1: Wir graben ein Loch bis zum Erdkern!", dict(type="intro", mood="bright"), say="Tag eins: Wir graben ein Loch bis zum Erdkern!", say_map={"eins": "1", "eins:": "1:"})
 A("Noch grabe ich ganz allein.", dict(type="alone", mood="calm"))
 A("Jeder Follower wird ein neuer Arbeiter am Loch.", dict(type="ghost"))
 A("Jedes Like: Jeder Arbeiter schaufelt einmal. Jeder Share: fünfmal!", dict(type="rules"))
 A("Und so weit ist es bis zum Erdkern:", dict(type="zoom"))
-A("6370 Kilometer!", dict(type="earth", mood="bright"), say="Sechstausenddreihundertsiebzig Kilometer!", say_map={"sechstausenddreihundertsiebzig": "6370"})
-A("Mit 10 Zentimetern pro Schaufel sind das 63,7 Millionen Mal schaufeln.", dict(type="number"), say="Mit zehn Zentimetern pro Schaufel sind das dreiundsechzig Komma sieben Millionen Mal schaufeln.", say_map={"zehn": "10", "dreiundsechzig": "63,7", "komma": "", "sieben": ""})
+A("6.370 Kilometer!", dict(type="earth", mood="bright"), say="Sechstausenddreihundertsiebzig Kilometer!", say_map={"sechstausenddreihundertsiebzig": "6.370"})
+A("Mit 10 Zentimetern pro Schaufel sind das fast 64 Millionen Mal schaufeln.", dict(type="number"), say="Mit zehn Zentimetern pro Schaufel sind das fast vierundsechzig Millionen Mal schaufeln.", say_map={"zehn": "10", "vierundsechzig": "64"})
 A("Also folg mir, damit ich nicht allein graben muss!", dict(type="follow", mood="bright"))
 A("Welches Werkzeug brauchen wir?", dict(type="comment"))
 P = dict(title="TikTok-Serie Bis zum Erdkern – Tag 1 (Deutsch)", _sources="Britannica: Earth's layers (crust ~40 km continental, mantle to ~2,900 km, inner core from ~5,100 km, centre ~6,370 km).",
