@@ -1,0 +1,99 @@
+{
+ "title": "TikTok-Serie Bis zum Erdkern – Tag 1 realistisch (Deutsch)",
+ "_sources": "Britannica: Earth's layers (crust ~40 km continental, mantle to ~2,900 km, inner core from ~5,100 km, centre ~6,370 km).",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "elevenlabs:Alexander - Deep TV Narrator (erd03/voice, build_voice.py)",
+ "rate": "+16%",
+ "lead": 0.05,
+ "gap": 0.12,
+ "tail": 1.4,
+ "crf": 20,
+ "music": {
+  "style": "playful",
+  "bpm": 140,
+  "gain": 0.11,
+  "ambience": 0.0,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.55,
+ "lines": [
+  {
+   "text": "Tag 1: Wir graben ein Loch bis zum Erdkern!",
+   "spec": {
+    "type": "intro",
+    "mood": "bright"
+   },
+   "say": "Tag eins: Wir graben ein Loch bis zum Erdkern!",
+   "say_map": {
+    "eins": "1",
+    "eins:": "1:"
+   }
+  },
+  {
+   "text": "Noch grabe ich ganz allein.",
+   "spec": {
+    "type": "alone",
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "Jeder Follower wird ein neuer Arbeiter am Loch.",
+   "spec": {
+    "type": "ghost"
+   }
+  },
+  {
+   "text": "Jedes Like: Jeder Arbeiter schaufelt einmal. Jeder Share: fünfmal!",
+   "spec": {
+    "type": "rules"
+   }
+  },
+  {
+   "text": "Und so weit ist es bis zum Erdkern:",
+   "spec": {
+    "type": "zoom"
+   }
+  },
+  {
+   "text": "6.370 Kilometer!",
+   "spec": {
+    "type": "earth",
+    "mood": "bright"
+   },
+   "say": "Sechstausenddreihundertsiebzig Kilometer!",
+   "say_map": {
+    "sechstausenddreihundertsiebzig": "6.370"
+   }
+  },
+  {
+   "text": "Mit 10 Zentimetern pro Schaufel sind das fast 64 Millionen Mal schaufeln.",
+   "spec": {
+    "type": "number"
+   },
+   "say": "Mit zehn Zentimetern pro Schaufel sind das fast vierundsechzig Millionen Mal schaufeln.",
+   "say_map": {
+    "zehn": "10",
+    "vierundsechzig": "64"
+   }
+  },
+  {
+   "text": "Also folg mir, damit ich nicht allein graben muss!",
+   "spec": {
+    "type": "follow",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Welches Werkzeug brauchen wir?",
+   "spec": {
+    "type": "comment"
+   }
+  }
+ ]
+}

@@ -1,1 +1,1 @@
-wichtel/ep01.py stills=30,110,190,370,470,580 pct=50 samples=16
+erd03/scene.py stills=30,170,280,375,405,440,520,780 samples=24 pct=50
