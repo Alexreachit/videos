@@ -192,3 +192,8 @@ Rendern auf GitHub: Projektname in `mg/render_queue.txt` eintragen und pushen (W
   dunkle Tusche-Umrisse um alle 3D-Objekte (passend zu Sams Umriss; `outline:false` für Gras, Wolken, Möwen, Wege, Wasser/Gelände automatisch aus),
   runde Formen (ico Detail 3, Zylinder 16–18 Segmente, Büsche aus 3 Kugeln), Supersampling 2x (World(..., 2)), 60 fps, crf 18.
   Rendern über mg-chunks jetzt mit 20 Runnern.
+
+## Ablauf ab 2026-11-16: VOLL AUTOMATISCH (Alex, ersetzt "Ablauf ab 2026-10-29")
+- Alle 2 Tage ein Short, alle 3 Tage ein langes Video: selbst Thema wählen, Fakten belegen, bauen, Sichtprüfung, hochladen, ÖFFENTLICH auf 19:00 planen.
+- KEINE Rückfragen mehr ("Idee ok?", "hochladen?"). Voraussetzung: Alex' PC/Chrome ist an; sonst melden und abbrechen.
+- Laufend auswerten, welche Themen UND welche Art von Animation (Szenentypen, Objekte, Hook-Bild, Farben, Sam, Karte, Zähler) gut ankommen, und das in die nächsten Videos einfließen lassen.

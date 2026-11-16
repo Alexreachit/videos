@@ -349,3 +349,10 @@
 - Erkenntnis: Blockbuster-Welle (Marke + "hätte kaufen können") trug ~3 Tage, ohne neuen Short fällt der Kanal wieder auf ~0. Pipeline seit 13.11. leer -> Engpass ist die Ideen-Freigabe.
 - Keine Korrekturen, nichts im Studio geändert, nichts hochgeladen (keine freigegebene Idee offen).
 - Offen bei Alex: Idee wählen (Louvre-Juwelenraub | Bitcoin-Pizza | Fyre Festival); Ponzi-Thumbnail v2 OK?; Entwurf "846c1dee…" löschen?
+
+## AUTOMATIK-PLAN (Alex 2026-11-16 ~12:00: voll automatisch, keine Rückfragen)
+- Short alle 2 Tage, Langvideo alle 3 Tage; selbst auswählen, bauen, hochladen, öffentlich 19:00 planen.
+- Short-Termine: 16.11. ys_pizza (Bitcoin-Pizza) -> nächster fällig 18.11., dann 20.11. …
+- Langvideo-Termine: erstes fällig 19.11. (danach 22.11., 25.11. …). Langvideo in Arbeit: – (noch keins)
+- Ideen-Vorrat Shorts: Louvre-Juwelenraub 2025 | Fyre Festival 2017 | Ronaldo/Coca-Cola-Flaschen 2021 (-$4 Mrd. Börsenwert) | Mt. Gox | Lustig-ähnliche Betrüger.
+- Animations-Test: ys_pizza = komplett Code-gezeichnete Objekte (Pizza, Bitcoin-Münze, Röhrenmonitor, Handy) im Sky-Stil, kein Gemini (PC-Downloads nicht erreichbar). Mit Blockbuster (ebenfalls Code-Objekte) vergleichen.
