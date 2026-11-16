@@ -78,7 +78,7 @@ def elbow(s, h, hint, l1=.31, l2=.31):
     d = sub(h, s); L = math.sqrt(dot(d, d)); L2 = min(L, l1 + l2 - .005); u = norm(d)
     a = (l1 * l1 - l2 * l2 + L2 * L2) / (2 * L2); hh = math.sqrt(max(0., l1 * l1 - a * a))
     n = norm(sub(hint, mul(u, dot(hint, u)))); return add(add(s, mul(u, a)), mul(n, hh))
-def head_world(root, yaw, pose): return spine_to_world(root, yaw, pose, [.04, 0, .78])
+def head_world(root, yaw, pose): return spine_to_world(root, yaw, pose, [.04, 0, .80])
 
 # ---------------------------------------------------------------- Kamera
 def cam_at(t):
@@ -93,7 +93,7 @@ def cam_at(t):
         return [math.sin(a) * 6.2, -math.cos(a) * 6.2, 2.3], [0, .4, .45]
     if t < T_SPACE:
         u = cl((t - T_RISE) / (T_SPACE - T_RISE)); e = u ** 2.2
-        h = lerp(2.3, 160., e); return [lerp(math.sin(.35) * 6.2, 0, e), lerp(-math.cos(.35) * 6.2, -.8, e), h], [0, lerp(.4, 0, e), 0]
+        h = lerp(2.3, 48., e); return [lerp(math.sin(.35) * 6.2, 0, e), lerp(-math.cos(.35) * 6.2, -.8, e), h], [0, lerp(.4, 0, e), 0]
     if t < T_BACK:
         u = ease((t - T_SPACE) / (T_ZOOM_END - T_SPACE)); u = 1 - (1 - u) ** 1.6
         dist = math.exp(lerp(math.log(.9), math.log(35.5), u))

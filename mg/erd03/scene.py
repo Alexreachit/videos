@@ -63,8 +63,8 @@ def empty(name, loc=(0, 0, 0)):
 
 # ======================================================= WELT: HDRI-Himmel <-> Sternenhimmel (All)
 WD = bpy.data.worlds.new("w"); S.world = WD; WD.use_nodes = True; wt = WD.node_tree; wt.nodes.clear()
-env = wt.nodes.new("ShaderNodeTexEnvironment"); env.image = bpy.data.images.load(os.path.join(TEX, "sky.hdr"))
-wmap = wt.nodes.new("ShaderNodeMapping"); wtc = wt.nodes.new("ShaderNodeTexCoord"); wmap.inputs["Rotation"].default_value = (0, 0, math.radians(110))
+env = wt.nodes.new("ShaderNodeTexEnvironment"); env.image = bpy.data.images.load(os.path.join(TEX, OPT.get("hdri", "field.hdr")))
+wmap = wt.nodes.new("ShaderNodeMapping"); wtc = wt.nodes.new("ShaderNodeTexCoord"); wmap.inputs["Rotation"].default_value = (0, 0, math.radians(float(OPT.get("hrot", 0))))
 wt.links.new(wtc.outputs["Generated"], wmap.inputs["Vector"]); wt.links.new(wmap.outputs["Vector"], env.inputs["Vector"])
 bg1 = wt.nodes.new("ShaderNodeBackground"); bg1.inputs["Strength"].default_value = 1.0; wt.links.new(env.outputs["Color"], bg1.inputs["Color"])
 vor = wt.nodes.new("ShaderNodeTexVoronoi"); vor.inputs["Scale"].default_value = 420; vor.feature = 'F1'
@@ -81,7 +81,7 @@ wkey(0, 0.); wkey(F(SH.T_SPACE) - 1, 0.); wkey(F(SH.T_SPACE), 1.); wkey(F(SH.T_B
 for fc in WD.node_tree.animation_data.action.fcurves:
     for k in fc.keyframe_points: k.interpolation = 'CONSTANT'
 
-sun = bpy.data.lights.new("sun", "SUN"); sun.energy = 3.2; sun.angle = math.radians(1.2); sun.color = (1., .96, .9)
+sun = bpy.data.lights.new("sun", "SUN"); sun.energy = float(OPT.get("sun", 1.6)); sun.angle = math.radians(10); sun.color = (1., .96, .9)
 so = bpy.data.objects.new("sun", sun); link(so); so.rotation_mode = 'QUATERNION'; so.rotation_quaternion = Vector((-.45, -.6, .66)).normalized().to_track_quat('Z', 'Y')
 
 # ======================================================= BODEN mit Loch
@@ -104,20 +104,17 @@ def ground_mat():
     return m, rr
 GROUND, GMASK = ground_mat()
 # feines Gitter um das Loch (mit Mulde), dazu grosse Flaeche bis zum Horizont
-bpy.ops.mesh.primitive_grid_add(x_subdivisions=220, y_subdivisions=220, size=22, location=(0, 0, 0)); gr = bpy.context.active_object; gr.name = "near"
+bpy.ops.mesh.primitive_grid_add(x_subdivisions=240, y_subdivisions=240, size=14, location=(0, 0, 0)); gr = bpy.context.active_object; gr.name = "near"
 for v in gr.data.vertices:
     x, y = v.co.x, v.co.y; d = math.hypot(x, y)
     z = .025 * math.sin(x * 1.7 + 1) * math.cos(y * 1.3) + .012 * math.sin(x * 7.1) * math.sin(y * 6.3)
     if d < .62: z -= .2 * (math.cos(d / .62 * math.pi) * .5 + .5) ** 1.2         # Loch
     hd = math.hypot(x - .12, y - 1.18)
     if hd < .75: z += .3 * (math.cos(hd / .75 * math.pi) * .5 + .5) ** 1.4        # Erdhaufen
-    edge = max(0., (max(abs(x), abs(y)) - 9) / 2); z -= edge * .03
+    edge = max(0., (max(abs(x), abs(y)) - 5.5) / 1.5); z -= edge * .02
     v.co.z = z
 smooth(gr); gr.data.materials.append(GROUND)
-far = prim("plane", (0, 0, -.06), (1, 1, 1), m=GROUND, size=900)
-# sanfte Huegel weit hinten
-for x, y, s, h in ((-60, 140, 70, 9), (40, 170, 90, 14), (130, 120, 60, 8), (-150, 110, 80, 11), (0, 230, 120, 18)):
-    hl = prim("uv_sphere", (x, y, -h * .2), (s, s * .7, h), m=GROUND, segments=48, ring_count=24); smooth(hl)
+far = prim("plane", (0, 0, -.03), (1, 1, 1), m=GROUND, size=130)
 # Haufen bekommt Erd-Material (eigene Kappe)
 heap = prim("uv_sphere", (.12, 1.18, -.12), (.62, .55, .34), m=DIRT, segments=40, ring_count=20); smooth(heap)
 hd_ = heap.modifiers.new("d", "DISPLACE"); tx = bpy.data.textures.new("clods", "CLOUDS"); tx.noise_scale = .12; hd_.texture = tx; hd_.strength = .08
@@ -148,7 +145,7 @@ if int(OPT.get("grass", 45000)) > 0:
     gr.data.materials.append(HM); pst.material = 2
 # Baeume in der Ferne (Stamm + Blattwerk-Kugeln)
 BARK = pbr("bark", "#4a3424", .85); LEAF = pbr("leaf", "#3d6b22", .7, sss=.15)
-for k, (x, y) in enumerate(((-14, 22), (-9, 30), (11, 26), (17, 34), (-22, 40), (25, 21), (5, 44), (-30, 28), (30, 46), (-4, 52))):
+for k, (x, y) in enumerate(()):
     s = .9 + rnd.random() * .6; z = 0
     tr = prim("cylinder", (x, y, 2.2 * s), (.22 * s, .22 * s, 2.2 * s), m=BARK, vertices=12)
     for j in range(6):
@@ -168,9 +165,13 @@ SKIN = pbr("skin", "#c99a78", .55, sss=.2); VEST = pbr("vest", "#ff6a14", .6); S
 SHIRT = pbr("shirt", "#2c4f86", .8); PANTS = pbr("pants", "#2f3540", .85); BOOT = pbr("boot", "#3a2a1c", .6); HAT = pbr("hat", "#ffcc1a", .28, coat=.6)
 GLAS = pbr("glas", "#101418", .08, metal=.4); HANDLE_M = pbr("handle", "#9b6b3c", .6)
 def ghost_mat():
-    m, nt, b = newmat("ghost"); b.inputs["Base Color"].default_value = hexc("#dfe8ff"); b.inputs["Alpha"].default_value = .38
-    b.inputs["Emission Color"].default_value = hexc("#cfe0ff"); b.inputs["Emission Strength"].default_value = .25; b.inputs["Roughness"].default_value = .3
-    m.blend_method = 'BLEND' if hasattr(m, "blend_method") else None; return m
+    m, nt, b = newmat("ghost"); nodes = nt.nodes; nodes.remove(b)
+    lw = nodes.new("ShaderNodeLayerWeight"); lw.inputs["Blend"].default_value = .35
+    em = nodes.new("ShaderNodeEmission"); em.inputs["Color"].default_value = hexc("#d8e6ff"); em.inputs["Strength"].default_value = 1.6
+    tr = nodes.new("ShaderNodeBsdfTransparent"); mx = nodes.new("ShaderNodeMixShader")
+    mp = nodes.new("ShaderNodeMapRange"); mp.inputs["To Min"].default_value = .18; mp.inputs["To Max"].default_value = .7; nt.links.new(lw.outputs["Facing"], mp.inputs["Value"])
+    nt.links.new(mp.outputs["Result"], mx.inputs[0]); nt.links.new(tr.outputs[0], mx.inputs[1]); nt.links.new(em.outputs[0], mx.inputs[2])
+    nt.links.new(mx.outputs[0], nt.nodes["Material Output"].inputs["Surface"]); return m
 GHOSTM = ghost_mat()
 def cyl_between(name, m, r=.05):
     o = prim("cylinder", m=m, vertices=16, radius=r, depth=1.0); smooth(o); o.name = name
@@ -183,22 +184,22 @@ def build_worker(name, ghost=False):
     def P(o, par=spine): o.parent = par; parts.append(o); return o
     # Beine (fest)
     for y in (.11, -.11):
-        lg = prim("cylinder", (0, y, .48), (.075, .075, .46), m=M(PANTS), vertices=16); smooth(lg); P(lg, root)
-        bt = prim("cube", (.05, y, .06), (.14, .065, .06), m=M(BOOT)); bevel(bt, .03); P(bt, root)
-    hip = prim("cube", (0, 0, SH.HIP - .02), (.12, .17, .09), m=M(PANTS)); bevel(hip, .05); P(hip, root)
+        lg = prim("cylinder", (0, y * 1.15, .48), (.068, .068, .46), m=M(PANTS), vertices=16); smooth(lg); P(lg, root)
+        bt = prim("cube", (.05, y * 1.15, .06), (.13, .058, .06), m=M(BOOT)); bevel(bt, .03); P(bt, root)
+    hip = prim("cube", (0, 0, SH.HIP - .02), (.12, .2, .1), m=M(PANTS)); bevel(hip, .05); P(hip, root)
     # Oberkoerper (im Spine-Raum, Spine bei Huefthoehe)
-    to = prim("cube", (0, 0, .3), (.13, .2, .3), m=M(SHIRT)); bevel(to, .09, 4); P(to)
-    ve = prim("cube", (.005, 0, .3), (.137, .207, .25), m=M(VEST)); bevel(ve, .08, 4); P(ve)
-    for z in (.2, .34): s_ = prim("cube", (.006, 0, z), (.139, .209, .018), m=M(STRIPE)); bevel(s_, .01); P(s_)
-    nk = prim("cylinder", (.01, 0, .64), (.05, .05, .05), m=M(SKIN)); P(nk)
-    hd = prim("uv_sphere", (.04, 0, .78), (.105, .1, .125), m=M(SKIN), segments=32, ring_count=16); smooth(hd); P(hd)
-    gl = prim("cube", (.13, 0, .8), (.02, .1, .028), m=M(GLAS)); bevel(gl, .012); P(gl)
-    ht = prim("uv_sphere", (.04, 0, .84), (.125, .12, .095), m=M(HAT), segments=32, ring_count=16); smooth(ht); P(ht)
-    br = prim("cylinder", (.06, 0, .845), (.16, .14, .008), m=M(HAT), vertices=32); P(br)
+    to = prim("cube", (0, 0, .31), (.15, .22, .31), m=M(SHIRT)); bevel(to, .09, 4); P(to)
+    ve = prim("cube", (.005, 0, .3), (.158, .228, .26), m=M(VEST)); bevel(ve, .08, 4); P(ve)
+    for z in (.2, .34): s_ = prim("cube", (.006, 0, z), (.16, .23, .018), m=M(STRIPE)); bevel(s_, .01); P(s_)
+    nk = prim("cylinder", (.01, 0, .66), (.055, .055, .05), m=M(SKIN)); P(nk)
+    hd = prim("uv_sphere", (.04, 0, .80), (.118, .112, .138), m=M(SKIN), segments=32, ring_count=16); smooth(hd); P(hd)
+    gl = prim("cube", (.145, 0, .82), (.02, .112, .03), m=M(GLAS)); bevel(gl, .012); P(gl)
+    ht = prim("uv_sphere", (.04, 0, .87), (.138, .132, .1), m=M(HAT), segments=32, ring_count=16); smooth(ht); P(ht)
+    br = prim("cylinder", (.065, 0, .875), (.175, .155, .008), m=M(HAT), vertices=32); P(br)
     # Arme (je Ober-/Unterarm + Hand), Schaufel
     arms = {}
     for side in "LR":
-        ua = cyl_between(name + "ua" + side, M(SHIRT), .048); fa = cyl_between(name + "fa" + side, M(SHIRT), .042)
+        ua = cyl_between(name + "ua" + side, M(SHIRT), .055); fa = cyl_between(name + "fa" + side, M(SHIRT), .047)
         hn = prim("uv_sphere", m=M(SKIN), segments=16, ring_count=8, radius=.045); smooth(hn)
         for o in (ua, fa, hn): P(o)
         arms[side] = (ua, fa, hn)
@@ -340,10 +341,10 @@ except Exception: pass
 vl = S.view_layers[0]; vl.use_pass_mist = True; WD.mist_settings.start = 12; WD.mist_settings.depth = 260; WD.mist_settings.falloff = 'QUADRATIC'
 S.use_nodes = True; ct = S.node_tree; ct.nodes.clear()
 rl = ct.nodes.new("CompositorNodeRLayers"); cm = ct.nodes.new("CompositorNodeMixRGB"); cm.inputs[2].default_value = (.78, .86, .95, 1)
-mm = ct.nodes.new("CompositorNodeMath"); mm.operation = 'MULTIPLY'; mm.inputs[1].default_value = .55
+mm = ct.nodes.new("CompositorNodeMath"); mm.operation = 'MULTIPLY'; mm.inputs[1].default_value = 0.
 ct.links.new(rl.outputs["Mist"], mm.inputs[0]); ct.links.new(mm.outputs[0], cm.inputs[0]); ct.links.new(rl.outputs["Image"], cm.inputs[1])
 co = ct.nodes.new("CompositorNodeComposite"); ct.links.new(cm.outputs[0], co.inputs["Image"])
-for f, v in ((0, .55), (F(SH.T_SPACE) - 1, .55), (F(SH.T_SPACE), 0.), (F(SH.T_BACK) - 1, 0.), (F(SH.T_BACK), .55)):
+for f, v in ((0, 0.), ):
     mm.inputs[1].default_value = v; mm.inputs[1].keyframe_insert("default_value", frame=f)
 S.render.resolution_x = SH.W; S.render.resolution_y = SH.H; S.render.resolution_percentage = int(OPT.get("pct", 100))
 S.render.image_settings.file_format = 'PNG'; S.render.image_settings.color_mode = 'RGB'
