@@ -1,15 +1,15 @@
+Zeile 0: 0.05-2.11  Why you should never pay for pizza with Bitcoin.
 TTS Versuch 1 fehlgeschlagen: No audio was received. Please verify that your parameters are correct.
-Zeile 0: 0.05-2.31  Why you should never pay for pizza with Bitcoin.
-Zeile 1: 2.39-7.69  In twenty ten, a programmer in Florida offered ten thousand Bitcoin for two pizzas.
-Zeile 2: 7.77-10.89  Back then, all of it was worth about forty dollars.
-Zeile 3: 10.97-14.57  A nineteen-year-old took the deal and sent him two large pizzas.
-Zeile 4: 14.65-17.03  The pizzas got eaten. The Bitcoin was gone.
-Zeile 5: 17.11-21.23  Today, those ten thousand Bitcoin are worth over six hundred million dollars.
-Zeile 6: 21.31-23.83  That's over three hundred million dollars per pizza.
+Zeile 1: 2.19-7.50  In twenty ten, a programmer in Florida offered ten thousand Bitcoin for two pizzas.
+Zeile 2: 7.58-10.70  Back then, all of it was worth about forty dollars.
+Zeile 3: 10.78-14.43  A nineteen-year-old took the deal and sent him two large pizzas.
+Zeile 4: 14.51-16.88  The pizzas got eaten. The Bitcoin was gone.
+Zeile 5: 16.96-21.28  Today, those ten thousand Bitcoin are worth over six hundred million dollars.
+Zeile 6: 21.36-23.83  That's over three hundred million dollars per pizza.
 Zeile 7: 23.91-25.79  Would you have taken the pizza?
-  Worker 388: 100/194 Frames, 42s
-  Worker 194: 100/194 Frames, 43s
-  Worker 582: 100/194 Frames, 46s
-  Worker 0: 100/194 Frames, 48s
-776 Frames in 90s
+  Worker 388: 100/194 Frames, 24s
+  Worker 194: 100/194 Frames, 25s
+  Worker 582: 100/194 Frames, 26s
+  Worker 0: 100/194 Frames, 27s
+776 Frames in 52s
 FERTIG output/ys_pizza_final.mp4 25.89s
