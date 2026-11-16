@@ -1,0 +1,213 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:IB;src:url(fonts/Inter-Black.otf);font-weight:900}
+@font-face{font-family:P;src:url(fonts/Poppins-Bold.ttf);font-weight:700}
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#8fd0f5}
+#stage{position:absolute;inset:0;overflow:hidden;background:linear-gradient(#4fa9ec 0%,#8fd0f5 38%,#cdeefc 52%,#e8f8ff 60%)}
+#sun{position:absolute;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,#fffbe8 0%,#fff3b8aa 18%,#ffe9a033 45%,transparent 70%)}
+canvas{position:absolute;left:0;top:0;width:1080px;height:1920px}
+#ov,#ui,#fx,#map{position:absolute;inset:0}
+#map{display:none}
+#night{position:absolute;inset:0;background:linear-gradient(#0b1633 0%,#1c2f63 45%,#33508f 60%);opacity:0}
+
+.card{position:absolute;background:#fff;border:7px solid #232838;border-radius:28px;box-shadow:0 14px 0 #2328384d,0 26px 40px #0003;font-family:IB,P,Arial;font-weight:900;color:#232838}
+.pill{position:absolute;font-family:IB,P,Arial;font-weight:900;border:7px solid #232838;border-radius:22px;padding:8px 30px;box-shadow:0 10px 0 #2328384d;white-space:nowrap}
+.lbl{position:absolute;font-family:IB,P,Arial;font-weight:900;white-space:nowrap;color:#fff;text-align:center}
+</style></head><body><div id="stage"><div id="sun"></div><div id="night"></div><canvas id="cv"></canvas><div id="ov"></div><div id="fx"></div><div id="map"></div><div id="ui"></div></div>
+<script src="../lib/core.js"></script><script src="../lib/gl3d.js"></script><script src="../lib/samrig.js"></script><script src="../lib/mapdata.js"></script>
+<script>
+const W = 1080, H = 1920, G = GL3D, {cl, ez, ei, bo, el, lerp} = MG;
+const $ = id => document.getElementById(id);
+// ======================= BIS ZUM ERDKERN – Tag 1 =======================
+// Regeln (Alex 16.11.): 1 Follower = 1 Arbeiter, 1 Like = jeder Arbeiter schaufelt 1x, 1 Share = jeder 5x, 1 Schaufel = 10 cm. Start: 1 Arbeiter (Chef).
+// Fakten (Britannica): Erdmitte ~6.370 km, Kontinentalkruste ~40 km, Mantel bis ~2.900 km, innerer Kern ab ~5.100 km.
+const OL = '#232838', SKIN = '#f6d7a8';
+const w = G.World($('cv'), W, H, 2);
+w.toon = true; w.rim = .32; w.outline = .0019;
+w.fog = G.hex('#d9f2fd'); w.fogN = 60; w.fogF = 220; w.sky = G.hex('#d6efff'); w.gnd = G.hex('#6b4a2e');
+w.sun = G.v.norm([.45, .8, .5]); w.shadowSize = 22;
+const Lt = i => MG.L(i);
+function wt(i, re) { const l = Lt(i); if (!l.words) return l.start; for (const x of l.words) if (re.test(x[0])) return l.start + x[1]; return l.start }
+// ---- Querschnitt: Wiese oben, Erdschichten darunter (vorne aufgeschnitten) ----
+const SW = 14, SD = 6, DEEP = 30;
+const LAY = [[0, .5, '#5fb246'], [.5, 1.8, '#7a5232'], [1.8, 4, '#9a6a3f'], [4, 7.5, '#b08a5c'], [7.5, 12, '#8b8f99'], [12, 18, '#73777f'], [18, DEEP, '#5f6470']];
+for (const [a, b, c] of LAY) w.mesh(G.box(SW * 2, b - a, SD, c, { base: true }), { pos: [0, -b, -SD / 2 + .9], outline: false });
+for (let k = 0; k < 70; k++) { const y = -1 - (k * 5.3) % (DEEP - 2), x = -SW + 1 + (k * 7.7) % (SW * 2 - 2); w.mesh(G.ico(.16 + (k % 3) * .08, 1, k % 6 == 0 ? '#ffd166' : '#5b5f69'), { pos: [x, y, .92], scl: [1.3, .8, .3] }) }
+w.mesh(G.box(80, .3, 40, '#6fc04f', { base: true }), { pos: [0, -.31, -25.1], outline: false });
+for (const [x, z] of [[-7, -5], [6.5, -6], [-3, -9], [9, -3], [-10, -2]]) w.mesh(new G.Geo().add(G.cyl(.15, .2, 1.2, 8, '#7a4a24')).add(G.ico(.9, 2, '#4f9a3c').smooth(), G.m4.compose([0, 1.6, 0])), { pos: [x, 0, z] });
+const signTex = (() => { const c = document.createElement('canvas'); c.width = 768; c.height = 230; const x = c.getContext('2d'); x.fillStyle = '#ffd166'; x.fillRect(0, 0, 768, 230); x.strokeStyle = OL; x.lineWidth = 18; x.strokeRect(9, 9, 750, 212); x.font = '900 92px IB, Arial'; x.textAlign = 'center'; x.fillStyle = OL; x.fillText('BIS ZUM', 384, 100); x.fillText('ERDKERN ⬇', 384, 196); return w.texture(c) })();
+w.mesh(new G.Geo().add(G.box(.12, 2.2, .12, '#7a4a24', { base: true }), G.m4.compose([-1, 0, 0])).add(G.box(.12, 2.2, .12, '#7a4a24', { base: true }), G.m4.compose([1, 0, 0])), { pos: [3.4, 0, -1.6] });
+w.mesh(G.plane(2.6, .78, 1, 1, '#ffffff'), { pos: [3.4, 1.75, -1.52], tex: signTex, cast: false });
+// das (noch winzige) Loch + Erdhaufen
+const hole = w.mesh(G.cyl(.7, .7, .02, 24, '#4a3220'), { pos: [0, -.012, -.2], outline: false, cast: false });
+const heap = w.mesh(G.ico(.5, 2, '#7a5232').smooth(), { pos: [-1.45, 0, -.5], scl: [1, .1, 1] });
+// ---- Arbeiter ----
+function worker(col, hat = '#ffd166') {
+  const body = w.mesh(new G.Geo().add(G.cyl(.08, .07, .42, 8, '#3c4a63'), G.m4.compose([-.1, 0, 0])).add(G.cyl(.08, .07, .42, 8, '#3c4a63'), G.m4.compose([.1, 0, 0])).add(G.cyl(.25, .22, .5, 16, col).smooth(), G.m4.compose([0, .4, 0])).add(G.box(.52, .08, .46, '#ff8a3d', { base: true }), G.m4.compose([0, .62, 0])), {});
+  const head = w.mesh(new G.Geo().add(G.ico(.3, 3, SKIN).smooth()).add(G.ico(.04, 2, OL), G.m4.compose([-.1, .05, .28])).add(G.ico(.04, 2, OL), G.m4.compose([.1, .05, .28])).add(G.box(.12, .025, .02, OL), G.m4.compose([0, -.08, .29]))
+    .add(G.cyl(.3, .33, .16, 16, hat).smooth(), G.m4.compose([0, .22, 0])).add(G.cyl(.38, .38, .03, 16, hat), G.m4.compose([0, .15, .04])).add(G.box(.08, .06, .03, '#fff7c2', { base: true }), G.m4.compose([0, .22, .31])), { parent: body, pos: [0, 1.02, 0] });
+  const arm = () => new G.Geo().add(G.cyl(.065, .055, .36, 10, col).smooth(), G.m4.compose([0, -.18, 0])).add(G.ico(.075, 2, SKIN).smooth(), G.m4.compose([0, -.4, 0]));
+  const aL = w.mesh(arm(), { parent: body, pos: [-.27, .82, 0] }), aR = w.mesh(arm(), { parent: body, pos: [.27, .82, 0] });
+  const shovel = w.mesh(new G.Geo().add(G.cyl(.025, .025, .9, 6, '#7a4a24'), G.m4.compose([0, -.1, 0])).add(G.box(.22, .28, .03, '#9aa0aa', { base: true }), G.m4.compose([0, -.85, 0])), { parent: aR, pos: [0, -.4, .05], rot: [.4, 0, 0] });
+  return { m: body, head, aL, aR, shovel, all: [body, head, aL, aR, shovel] };
+}
+const CHEF = worker('#2a8fd6', '#ff8a3d');
+const GH = worker('#c9ccd3', '#e3e6eb'); GH.all.forEach(m => { m.alpha = .42; m.cast = false });
+const CP = [-.35, 0, -.2], GP = [.75, 0, -.55];
+const DIRT = Array.from({ length: 10 }, (_, k) => w.mesh(G.ico(.05 + (k % 3) * .02, 1, k % 2 ? '#7a5232' : '#9a6a3f'), { vis: false }));
+// ---- Timeline ----
+const tScoop = () => Lt(1).start + .4;                          // erste Schaufel
+function depthAt(t) { return t > tScoop() + .2 ? .1 : 0 }       // 1 Arbeiter, noch 0 Likes: 1 Schaufel = 10 cm
+const tOut = () => Lt(4).start, tBack = () => Lt(7).start;
+function camKeys() {
+  const K = [];
+  K.push({ t: 0, pos: [2.4, 2.1, 5.6], at: [-.1, .55, -.3], fov: 44 });
+  K.push({ t: Lt(0).end, pos: [1.8, 1.9, 5.0], at: [-.1, .55, -.3], fov: 44 });
+  K.push({ t: Lt(1).end, pos: [1.2, 1.9, 5.6], at: [.15, .6, -.3], fov: 44 });
+  K.push({ t: Lt(2).end, pos: [.8, 1.8, 5.0], at: [.2, .6, -.3], fov: 44 });
+  K.push({ t: Lt(3).end - .05, pos: [0, 1.6, 7.5], at: [0, -1.0, 0], fov: 50 });
+  K.push({ t: tOut() + .7, pos: [0, 30, 40], at: [0, -6, 0], fov: 60 });
+  K.push({ t: tBack() - .01, pos: [0, 30, 40], at: [0, -6, 0], fov: 60 });
+  K.push({ t: tBack(), pos: [0, 1.8, 9], at: [0, -.5, 0], fov: 50 });
+  K.push({ t: Lt(7).end, pos: [.8, 1.8, 5.4], at: [.2, .6, -.3], fov: 44 });
+  K.push({ t: 999, pos: [.6, 1.8, 5.0], at: [.2, .6, -.3], fov: 44 });
+  return K;
+}
+let KEYS = null;
+function camAt(t) {
+  const K = KEYS; let i = 0; while (i < K.length - 2 && t > K[i + 1].t) i++;
+  const a = K[i], b = K[i + 1], end = b.t > 900 ? MG.TL.dur : b.t, u = ei(cl(t, a.t, end));
+  return { pos: G.v.lerp(a.pos, b.pos, u), at: G.v.lerp(a.at, b.at, u), fov: lerp(a.fov, b.fov, u) };
+}
+// ---- UI ----
+const shadowTxt = (c = OL, r = 5) => MG.outline(r).replace(/#000/g, c);
+const pop = (t, t0, d = .35) => bo(cl(t, t0, t0 + d)), fade = (t, t0, t1) => 1 - ez(cl(t, t0, t1));
+function labelAt(p, html, t, t0, t1) { const q = w.project(p); if (!q.vis) return ''; const s = pop(t, t0) * fade(t, t1, t1 + .25); if (s <= .01) return ''; return `<div style="position:absolute;left:${q.x}px;top:${q.y}px;transform:translate(-50%,-100%) scale(${s});transform-origin:50% 100%">${html}</div>` }
+const PILL = (txt, bg, fs = 34) => `<div class="pill" style="position:relative;font-size:${fs}px;color:#fff;background:${bg};text-shadow:${shadowTxt(OL, 3)};padding:4px 18px;border-width:5px">${txt}</div>`;
+function dayPill(t) {
+  const s = pop(t, .05, .4) * fade(t, Lt(1).start + .4, Lt(1).start + .7); if (s <= .01) return '';
+  return `<div class="pill" style="left:50%;top:170px;transform:translateX(-50%) rotate(${-3 + Math.sin(t * 5) * 2}deg) scale(${s});font-size:130px;line-height:1.05;color:#fff;background:linear-gradient(90deg,#9a6a3f 0 25%,#b07a48 25% 50%,#9a6a3f 50% 75%,#b07a48 75%);border-radius:34px;padding:6px 56px;text-shadow:${shadowTxt(OL, 7)}">TAG 1</div>`;
+}
+function depthMeter(t) {
+  if (t > tOut() - .1 && t < tBack()) return '';
+  const d = depthAt(t), s = pop(t, Lt(0).start + .3, .4), bump = t > tScoop() + .2 && t < tScoop() + .6 ? 1 + .25 * Math.sin((t - tScoop() - .2) / .4 * Math.PI) : 1;
+  return `<div class="card" style="right:30px;top:${t < Lt(1).start + .7 ? 420 : 170}px;transform:scale(${s * bump});transform-origin:100% 0;padding:14px 26px;text-align:right">
+    <div style="font:700 30px P,Arial;color:#6b7280">TIEFE</div><div style="font-size:84px;line-height:1;color:#9a6a3f">${d.toFixed(1).replace('.', ',')} m</div>
+    <div style="font:700 28px P,Arial;color:#6b7280;margin-top:4px">Ziel: 6.370 km</div></div>`;
+}
+function crewCard(t) {
+  if (t < Lt(1).start + .7 || (t > tOut() - .1 && t < tBack())) return '';
+  const n = 1, s = pop(t, Lt(1).start + .7, .4);
+  return `<div class="card" style="left:30px;top:170px;transform:scale(${s});transform-origin:0 0;padding:14px 26px">
+    <div style="font:700 30px P,Arial;color:#6b7280">ARBEITER</div><div style="font-size:84px;line-height:1;color:#2a8fd6">👷 ${n}</div></div>`;
+}
+function rulesCard(t) {
+  const t0 = Lt(3).start - .05, t1 = tOut() - .1, s = pop(t, t0, .35) * fade(t, t1, t1 + .2); if (s <= .01) return '';
+  const R = [['❤️', 'LIKE', 'jeder Arbeiter schaufelt 1×', '#fe2c55', /like/i], ['↗️', 'SHARE', 'jeder Arbeiter schaufelt 5×', '#2a8fd6', /share/i]];
+  return `<div class="card" style="left:50%;top:1000px;width:900px;transform:translateX(-50%) rotate(-1.5deg) scale(${s});padding:22px 30px 22px">` +
+    R.map(([e, a, b, c, re]) => { const p = pop(t, wt(3, re) - .3, .35); return `<div style="display:flex;align-items:center;gap:22px;margin-top:10px;transform:scale(${.6 + .4 * p});opacity:${.25 + .75 * Math.min(1, p)}">
+      <div style="width:110px;height:110px;flex:none;border-radius:50%;background:${c};border:5px solid ${OL};font:900 62px/100px IB,Arial;text-align:center">${e}</div>
+      <div><div style="font-size:58px;color:${c};text-shadow:${shadowTxt(OL, 2)}">${a}</div><div style="font:700 40px P,Arial;color:#4b5563">${b}</div></div></div>` }).join('') +
+    `<div style="margin-top:16px;text-align:center;font:800 38px P,Arial;color:#9a6a3f">1 Schaufel = 10 cm</div></div>`;
+}
+// ---- Ganze Erde, aufgeschnitten (Viertel-Ausschnitt), Zoom von der Grabstelle raus ----
+const EX = 540, EY = 960, ER = 440, rk = km => ER * (1 - km / 6370);
+const CONT = [[[-.62, -.55], [-.35, -.78], [-.1, -.7], [-.18, -.42], [-.46, -.3], [-.7, -.36]], [[-.82, .05], [-.55, -.08], [-.42, .2], [-.58, .5], [-.8, .38]], [[-.2, .25], [.12, .18], [.3, .42], [.1, .72], [-.15, .6]], [[.38, .62], [.62, .5], [.74, .7], [.5, .8]], [[-.4, .78], [-.18, .86], [-.3, .95]]];
+const EARTH_SVG = (() => {
+  const P = pts => 'M' + pts.map(([x, y]) => `${EX + x * ER},${EY + y * ER}`).join(' Q') ;
+  const blob = pts => { let d = `M${EX + pts[0][0] * ER},${EY + pts[0][1] * ER}`; for (let k = 0; k < pts.length; k++) { const a = pts[k], b = pts[(k + 1) % pts.length]; d += ` Q${EX + a[0] * ER},${EY + a[1] * ER} ${EX + (a[0] + b[0]) / 2 * ER},${EY + (a[1] + b[1]) / 2 * ER}` } return d + 'Z' };
+  const wedge = r => `M${EX},${EY} L${EX},${EY - r} A${r},${r} 0 0 1 ${EX + r},${EY} Z`;
+  return `<defs><radialGradient id="oc" cx="35%" cy="30%" r="80%"><stop offset="0" stop-color="#5cc3ff"/><stop offset=".7" stop-color="#2a7fd0"/><stop offset="1" stop-color="#174f9a"/></radialGradient>
+    <radialGradient id="ic" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#fff6b0"/><stop offset="1" stop-color="#ffd23f"/></radialGradient>
+    <clipPath id="gl"><circle cx="${EX}" cy="${EY}" r="${ER}"/></clipPath></defs>
+    <circle cx="${EX}" cy="${EY}" r="${ER + 26}" fill="#9fd8ff" opacity=".25"/>
+    <circle cx="${EX}" cy="${EY}" r="${ER}" fill="url(#oc)" stroke="${OL}" stroke-width="7"/>
+    <g clip-path="url(#gl)">${CONT.map(c => `<path d="${blob(c)}" fill="#6fc04f" stroke="${OL}" stroke-width="5"/>`).join('')}
+    <ellipse cx="${EX - 150}" cy="${EY - 300}" rx="190" ry="60" fill="#fff" opacity=".18"/></g>
+    <path d="${wedge(ER)}" fill="#6b4a2e"/><path d="${wedge(ER - 2)}" fill="#a8743f"/><path d="${wedge(rk(40) - 7)}" fill="#e2552f"/>
+    <path d="${wedge(rk(1000))}" fill="#ef7a33"/><path d="${wedge(rk(2900))}" fill="#ffb13d"/><path d="${wedge(rk(5100))}" fill="url(#ic)"/>
+    <path d="${wedge(ER)}" fill="none" stroke="${OL}" stroke-width="7" stroke-linejoin="round"/>
+    ${[rk(40) - 7, rk(2900), rk(5100)].map(r => `<path d="M${EX},${EY - r} A${r},${r} 0 0 1 ${EX + r},${EY}" fill="none" stroke="${OL}" stroke-width="4"/>`).join('')}`;
+})();
+function earthLab(t, t0, x, y, txt, sub, col) {
+  const s = pop(t, t0, .35); if (s <= .01) return '';
+  return `<g transform="translate(${x},${y}) scale(${s})"><text x="0" y="0" font-family="IB,Arial" font-weight="900" font-size="40" fill="${col}" stroke="${OL}" stroke-width="9" paint-order="stroke">${txt}</text>
+    <text x="0" y="40" font-family="IB,Arial" font-weight="900" font-size="30" fill="#fff" stroke="${OL}" stroke-width="7" paint-order="stroke">${sub}</text></g>`;
+}
+function earthView(t) {
+  const a = tOut() + .25, b = tBack(); if (t < a || t > b + .25) return '';
+  const op = cl((t - a) / .3, 0, 1) * (1 - cl((t - b) / .25, 0, 1));
+  const u = ez(cl((t - a) / 1.9, 0, 1)), sc = Math.exp(Math.log(60) * (1 - u));       // 60x -> 1x, Zoom auf die Grabstelle oben
+  const l5 = Lt(5).start;
+  let labs = earthLab(t, l5 + .1, EX + 90, EY - ER + 70, 'KRUSTE', 'bis ~40 km', '#ffd166') + earthLab(t, l5 + .45, EX + 140, EY - 200, 'MANTEL', 'bis ~2.900 km', '#ff9a3d')
+    + earthLab(t, l5 + .8, EX + 100, EY - 100, 'ÄUSSERER KERN', 'bis ~5.100 km', '#ffd166') + earthLab(t, l5 + 1.15, EX + 70, EY + 120, 'INNERER KERN', 'bis zur Mitte: 6.370 km', '#fff6b0');
+  const dl = cl((t - l5 - .05) / .9, 0, 1);
+  const line = `<line x1="${EX}" y1="${EY - ER}" x2="${EX}" y2="${EY - ER + ER * dl}" stroke="#fff" stroke-width="8" stroke-dasharray="18 12"/>`;
+  const pin = `<g transform="translate(${EX},${EY - ER})"><circle r="14" fill="#ff3b3b" stroke="${OL}" stroke-width="6"/><text x="-26" y="-26" text-anchor="end" font-family="IB,Arial" font-weight="900" font-size="46" fill="#ff3b3b" stroke="#fff" stroke-width="10" paint-order="stroke">WIR ⬇</text></g>`;
+  const stars = Array.from({ length: 40 }, (_, k) => `<circle cx="${(k * 263) % 1080}" cy="${(k * 457) % 1920}" r="${1.5 + (k % 3)}" fill="#fff" opacity="${.35 + (k % 4) * .15 + .1 * Math.sin(t * 3 + k)}"/>`).join('');
+  return `<div style="position:absolute;left:0;top:0;width:1080px;height:1920px;opacity:${op};background:radial-gradient(circle at 50% 45%,#1d3a6e,#0b1530 70%)">
+    <svg width="1080" height="1920" viewBox="0 0 1080 1920" style="position:absolute;left:0;top:0">${stars}
+    <g transform="translate(${EX},${EY - ER}) scale(${sc}) rotate(${-8 * (1 - u)}) translate(${-EX},${-(EY - ER)})">${EARTH_SVG}${line}${pin}${labs}</g></svg>
+    <div style="position:absolute;left:0;width:1080px;top:1430px;text-align:center;font:700 28px P,Arial;color:#c9d6f0;opacity:${u}">Kruste zur Sichtbarkeit dicker gezeichnet</div></div>`;
+}
+function bigNumber(t) {
+  const t0 = Lt(6).start, t1 = tBack() - .05, s = pop(t, wt(6, /millionen|dreiundsechzig|63/i) - .2, .4) * fade(t, t1, t1 + .2); if (t < t0 || s <= .01) return '';
+  return `<div class="card" style="left:50%;top:170px;width:900px;transform:translateX(-50%) rotate(-2deg) scale(${s});padding:20px 30px;text-align:center">
+    <div style="font:800 40px P,Arial;color:#6b7280">6.370 km ÷ 10 cm =</div><div style="font-size:104px;line-height:1.05;color:#e8483c">63.700.000×</div><div style="font-size:52px">SCHAUFELN 😵</div></div>`;
+}
+function earthTitle(t) {
+  const a = tOut() + .4, s = pop(t, Lt(5).start - .1, .4) * fade(t, Lt(6).start - .1, Lt(6).start + .1); if (s <= .01 || t < a) return '';
+  return `<div class="pill" style="left:50%;top:180px;transform:translateX(-50%) rotate(-2deg) scale(${s});font-size:96px;color:#fff;background:#e8483c;text-shadow:${shadowTxt(OL, 6)}">6.370 KM</div>`;
+}
+function followCard(t) {
+  const t0 = wt(7, /folg/i) - .1, t1 = Lt(8).start - .1, s = pop(t, t0, .4) * fade(t, t1, t1 + .2); if (s <= .01) return '';
+  return `<div class="pill" style="left:50%;top:1080px;transform:translateX(-50%) rotate(-3deg) scale(${s});font-size:70px;color:#fff;background:#2fa36b;text-shadow:${shadowTxt(OL, 4)}">➕ FOLGEN = ARBEITER</div>`;
+}
+function commentCard(t) {
+  const t0 = Lt(8).start + .25, s = pop(t, t0, .45); if (t < t0) return '';
+  const txt = 'Schreib es in die Kommentare', n = Math.floor(cl((t - t0 - .4) / 1.4, 0, 1) * txt.length);
+  return `<div class="card" style="left:50%;top:420px;width:860px;transform:translateX(-50%) rotate(-1.5deg) scale(${s});padding:20px 26px;display:flex;align-items:center;gap:20px">
+    <div style="width:96px;height:96px;flex:none;border-radius:50%;background:#ffd166;border:5px solid ${OL};font:900 60px/88px IB,Arial;text-align:center">⛏️</div>
+    <div><div style="font:800 34px P,Arial;color:#6b7280">Welches Werkzeug brauchen wir?</div><div style="font:800 46px P,Arial;color:${OL}">${txt.slice(0, n)}<span style="opacity:${Math.sin(t * 10) > 0 ? 1 : 0}">|</span></div></div></div>`;
+}
+// ---------------- Draw ----------------
+window.setTimeline = tl => { MG.TL = tl; KEYS = camKeys() };
+window.draw = function (t) {
+  const c = camAt(t); w.cam.pos = c.pos; w.cam.at = c.at; w.cam.fov = c.fov;
+  const d = depthAt(t), i = MG.cur(t);
+  w.shadowCenter = [c.at[0], Math.max(-2, c.at[1]), c.at[2]];
+  hole.scl = [1 + d * 2, 1, 1 + d * 2]; hole.pos = [0, -.012, -.2]; heap.scl = [1, .1 + d * 2.2, 1];
+  // Chef schaufelt
+  const sw = Math.sin(t * 6), digging = !(i == 2 && t > wt(2, /follower/i) - .2) && i != 8;
+  CHEF.m.pos = [...CP]; CHEF.m.rot = [0, .5, 0];
+  if (digging) { CHEF.aR.rot = [-.6 - sw * .7, 0, .2]; CHEF.aL.rot = [-.4 - sw * .5, 0, -.2]; CHEF.m.scl = [1, 1 + .04 * Math.max(0, sw), 1]; CHEF.head.rot = [.15, 0, 0] }
+  else { CHEF.aR.rot = [0, 0, 2.4 + Math.sin(t * 8) * .3]; CHEF.aL.rot = [0, 0, -.15]; CHEF.m.scl = [1, 1, 1]; CHEF.head.rot = [0, -.4, 0]; CHEF.m.rot = [0, .1, 0] }
+  // Geister-Arbeiter (+1) ab "Follower"
+  const g0 = wt(2, /follower/i) - .15, gk = pop(t, g0, .45);
+  GH.m.vis = t > g0 && i < 4; GH.m.pos = [...GP]; GH.m.rot = [0, -.3, 0]; GH.m.scl = [gk, gk, gk];
+  GH.aR.rot = [-.6 - Math.sin(t * 6 + 1) * .7, 0, .2]; GH.aL.rot = [-.4 - Math.sin(t * 6 + 1) * .5, 0, -.2];
+  if (t > tBack() && i >= 7) { GH.m.vis = true; GH.m.scl = [1, 1, 1]; GH.all.forEach(m => m.alpha = .3 + .15 * Math.sin(t * 4)) } else GH.all.forEach(m => m.alpha = .42);
+  DIRT.forEach((m, k) => { const on = digging && i < 4 || i == 7; m.vis = on; if (!on) return; const ph = ((t * 1.1 + k / DIRT.length) % 1);
+    m.pos = [-.1 - ph * 1.3, .1 + Math.sin(ph * Math.PI) * .9, -.25 + (k % 3) * .1] });
+  w.render(t);
+  let ov = '';
+  ov += labelAt([CP[0], 1.75, CP[2]], PILL('👷 ICH · CHEF', '#2a8fd6', 34), t, Lt(1).start + .1, tOut() - .1);
+  if (t > g0 && i < 4) { const q = w.project([GP[0], 1.55, GP[2]]); if (q.vis) ov += `<div class="lbl" style="left:${q.x}px;top:${q.y}px;transform:translate(-50%,-100%) scale(${gk});font-size:96px;color:#35e08a;text-shadow:${shadowTxt(OL, 6)}">+1</div>` }
+  if (t > tBack() && i >= 7) { const q = w.project([GP[0], 1.55, GP[2]]); if (q.vis) ov += `<div class="lbl" style="left:${q.x}px;top:${q.y}px;transform:translate(-50%,-100%);font-size:80px;color:#35e08a;text-shadow:${shadowTxt(OL, 6)}">DU?</div>` }
+  $('ov').innerHTML = ov;
+  let ui = dayPill(t) + depthMeter(t) + crewCard(t) + rulesCard(t) + earthView(t) + earthTitle(t) + bigNumber(t) + followCard(t) + commentCard(t);
+  ui += MG.captions(t, { y: 1490, size: 84, maxWords: 3, hl: '#ffd166', upper: true, stageW: 1080 }).replace(/'Arial Black',Arial/, 'IB,Arial');
+  $('ui').innerHTML = ui;
+};
+window.sfxEvents = function () {
+  const E = [], L = Lt;
+  E.push({ k: 'pop', t: .05 }, { k: 'chime', t: .3 });
+  for (let x = .3; x < L(4).start; x += 1.05) E.push({ k: 'thud', t: x, g: .3 });
+  E.push({ k: 'bell', t: tScoop() + .2 });
+  E.push({ k: 'pop', t: wt(2, /follower/i) - .15 }, { k: 'chime', t: wt(2, /follower/i) + .1 });
+  E.push({ k: 'swish', t: L(3).start, d: .4 }, { k: 'pop', t: wt(3, /like/i) - .3 }, { k: 'pop', t: wt(3, /share/i) - .3 });
+  E.push({ k: 'whoosh', t: tOut(), d: 2.2 }, { k: 'impact', t: L(5).start }, { k: 'tick', t: L(5).start + .45 }, { k: 'tick', t: L(5).start + .8 }, { k: 'tick', t: L(5).start + 1.15 });
+  E.push({ k: 'error', t: wt(6, /millionen|dreiundsechzig|63/i) - .2 });
+  E.push({ k: 'whoosh', t: tBack() - .2, d: .7 }, { k: 'pop', t: wt(7, /folg/i) }, { k: 'swish', t: L(8).start, d: .4 }, { k: 'type', t: L(8).start + .6, n: 12 });
+  return E;
+};
+</script></body></html>
