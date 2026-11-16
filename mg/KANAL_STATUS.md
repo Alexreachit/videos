@@ -364,3 +364,6 @@
 - Abgebrochen: Chrome-Erweiterung auf Alex' PC weiter nicht erreichbar (PC aus/Schlaf oder Chrome zu). Keine Analyse, nichts im Studio geändert.
 - ys_pizza (fertig, renders/ys_pizza/ys_pizza_final.mp4) weiter NICHT hochgeladen -> Termin 16.11. 19:00 verpasst; beim nächsten Lauf mit Chrome hochladen und auf den nächsten 19:00-Termin planen.
 - Takt danach: nächster Short fällig 18.11., erstes Langvideo fällig 19.11. (noch nicht begonnen).
+- 2026-11-16 18:00: Upload ys_pizza VERSCHOBEN – Chrome-Erweiterung 13:45–18:00 nicht erreichbar (PC zeitweise an, Chrome nicht verbunden; Alex 16:55 per Push informiert).
+  -> NÄCHSTER LAUF: zuerst in Studio prüfen, ob schon da (kein Doppel-Upload), sonst ys_pizza hochladen (renders/ys_pizza/ys_pizza_final.mp4, 2-Pass 2700k) und auf 19:00 des Tages öffentlich planen. Short-Takt verschiebt sich entsprechend (nächster Short 2 Tage danach).
+  Titel: "He Paid 10,000 Bitcoin for Two Pizzas 🍕"; Beschreibung: Why you should never pay for pizza with Bitcoin … Quellen: CoinDesk "What Is Bitcoin Pizza Day?", Fortune/aktualita BTC-Kurs Nov 2026; #bitcoin #money #crypto #shorts; nicht für Kinder.
