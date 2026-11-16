@@ -359,3 +359,8 @@
 - 2026-11-16 13:45: ys_pizza FERTIG (mg-batch Run 43867215996, 25,9 s, Ø -20,6 dB / max -3,5 dB, Loop geprüft, Kontaktblätter angesehen: Endkarte überlappte mit Hook-Titel -> korrigiert, neu gerendert).
   Upload-Datei: renders/ys_pizza/ys_pizza_final.mp4 (2-Pass 2700k -> 9,2 MB). UPLOAD AUSSTEHEND: Chrome-Erweiterung um 13:45 nicht erreichbar.
   Geplant: Titel "He Paid 10,000 Bitcoin for Two Pizzas 🍕", öffentlich 16.11. 19:00 (falls erst später hochgeladen: nächster 19:00-Termin).
+
+## Lauf 2026-11-16 ~17:40 MEZ (Routine, geplant 15:47 UTC)
+- Abgebrochen: Chrome-Erweiterung auf Alex' PC weiter nicht erreichbar (PC aus/Schlaf oder Chrome zu). Keine Analyse, nichts im Studio geändert.
+- ys_pizza (fertig, renders/ys_pizza/ys_pizza_final.mp4) weiter NICHT hochgeladen -> Termin 16.11. 19:00 verpasst; beim nächsten Lauf mit Chrome hochladen und auf den nächsten 19:00-Termin planen.
+- Takt danach: nächster Short fällig 18.11., erstes Langvideo fällig 19.11. (noch nicht begonnen).
