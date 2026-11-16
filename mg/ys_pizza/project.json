@@ -1,0 +1,76 @@
+{
+ "title": "Short: Why you should never pay for pizza with Bitcoin (Bitcoin Pizza Day)",
+ "_sources": "Short \"Why you should never pay for pizza with Bitcoin\" (Bitcoin Pizza Day 2010) -> project.json\nSources (checked 2026-11-16):\nCoinDesk \"What Is Bitcoin Pizza Day?\" (B. George, 2022, upd. 2024): Floridian programmer Laszlo Hanyecz offered 10,000 BTC on\n  Bitcointalk (18 May 2010) for two large pizzas; 22 May 2010 a 19-year-old, Jeremy Sturdivant (\"jercos\"), took the deal;\n  pizzas made by Papa John's; the 10,000 BTC were worth about $41 at the time.\nBTC price: Fortune \"Current price of Bitcoin\" 13 Nov 2026; aktualita.co 15 Nov 2026 (~$62,000-65,000); cryptonomist 16 Nov 2026\n  -> 10,000 BTC = ~$620-650 million -> \"over six hundred million dollars\", \"over three hundred million per pizza\".",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+16%",
+ "lead": 0.05,
+ "gap": 0.08,
+ "tail": 0.1,
+ "crf": 20,
+ "music": {
+  "style": "suspense",
+  "bpm": 140,
+  "gain": 0.24,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.45,
+ "lines": [
+  {
+   "text": "Why you should never pay for pizza with Bitcoin.",
+   "spec": {
+    "type": "hero"
+   }
+  },
+  {
+   "text": "In twenty ten, a programmer in Florida offered ten thousand Bitcoin for two pizzas.",
+   "spec": {
+    "type": "offer"
+   }
+  },
+  {
+   "text": "Back then, all of it was worth about forty dollars.",
+   "spec": {
+    "type": "cheap"
+   }
+  },
+  {
+   "text": "A nineteen-year-old took the deal and sent him two large pizzas.",
+   "spec": {
+    "type": "deal"
+   }
+  },
+  {
+   "text": "The pizzas got eaten. The Bitcoin was gone.",
+   "spec": {
+    "type": "eaten"
+   }
+  },
+  {
+   "text": "Today, those ten thousand Bitcoin are worth over six hundred million dollars.",
+   "spec": {
+    "type": "boom",
+    "cut": true
+   }
+  },
+  {
+   "text": "That's over three hundred million dollars per pizza.",
+   "spec": {
+    "type": "slice"
+   }
+  },
+  {
+   "text": "Would you have taken the pizza?",
+   "spec": {
+    "type": "hero",
+    "choice": true
+   }
+  }
+ ]
+}
