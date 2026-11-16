@@ -121,7 +121,7 @@ smooth(gr); gr.data.materials.append(GROUND)
 far = prim("plane", (0, 0, -.03), (1, 1, 1), m=GROUND, size=36)
 # Haufen bekommt Erd-Material (eigene Kappe)
 heap = prim("uv_sphere", (.12, 1.18, -.06), (.62, .55, .34), m=DIRT, segments=40, ring_count=20); smooth(heap)
-hd_ = heap.modifiers.new("d", "DISPLACE"); tx = bpy.data.textures.new("clods", "CLOUDS"); tx.noise_scale = .12; hd_.texture = tx; hd_.strength = .08
+hd_ = heap.modifiers.new("d", "DISPLACE"); tx = bpy.data.textures.new("clods", "CLOUDS"); tx.noise_scale = .09; tx.noise_depth = 4; hd_.texture = tx; hd_.strength = .16; heap.scale = (.66, .58, .3)
 # Steine verstreut
 ROCK, *_ = texmat("rock", "gray_rocks", scale=1.6, worldcoords=False, bump=1.5)
 for k in range(26):
