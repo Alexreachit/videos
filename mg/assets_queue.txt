@@ -1,18 +1,2 @@
-# Erdkern Tag 1 (realistisch): Poly Haven CC0 + NASA Blue Marble (gemeinfrei)
-mg/erd/tex/aerial_grass_rock_diff.jpg https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/aerial_grass_rock/aerial_grass_rock_diff_2k.jpg
-mg/erd/tex/aerial_grass_rock_nor_gl.jpg https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/aerial_grass_rock/aerial_grass_rock_nor_gl_2k.jpg
-mg/erd/tex/aerial_grass_rock_rough.jpg https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/aerial_grass_rock/aerial_grass_rock_rough_2k.jpg
-mg/erd/tex/brown_mud_02_diff.jpg https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/brown_mud_02/brown_mud_02_diff_2k.jpg
-mg/erd/tex/brown_mud_02_nor_gl.jpg https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/brown_mud_02/brown_mud_02_nor_gl_2k.jpg
-mg/erd/tex/brown_mud_02_rough.jpg https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/brown_mud_02/brown_mud_02_rough_2k.jpg
-mg/erd/tex/forest_ground_04_diff.jpg https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/forest_ground_04/forest_ground_04_diff_2k.jpg
-mg/erd/tex/forest_ground_04_nor_gl.jpg https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/forest_ground_04/forest_ground_04_nor_gl_2k.jpg
-mg/erd/tex/forest_ground_04_rough.jpg https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/forest_ground_04/forest_ground_04_rough_2k.jpg
-mg/erd/tex/gray_rocks_diff.jpg https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/gray_rocks/gray_rocks_diff_2k.jpg
-mg/erd/tex/gray_rocks_nor_gl.jpg https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/gray_rocks/gray_rocks_nor_gl_2k.jpg
-mg/erd/tex/gray_rocks_rough.jpg https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/gray_rocks/gray_rocks_rough_2k.jpg
-mg/erd/tex/dry_riverbed_rock_diff.jpg https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/dry_riverbed_rock/dry_riverbed_rock_diff_2k.jpg
-mg/erd/tex/dry_riverbed_rock_nor_gl.jpg https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/dry_riverbed_rock/dry_riverbed_rock_nor_gl_2k.jpg
-mg/erd/tex/dry_riverbed_rock_rough.jpg https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/dry_riverbed_rock/dry_riverbed_rock_rough_2k.jpg
-mg/erd/tex/sky.hdr https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/2k/kloofendal_48d_partly_cloudy_puresky_2k.hdr
-mg/erd/tex/earth.jpg https://assets.science.nasa.gov/content/dam/science/esd/eo/images/bmng/bmng-topography-bathymetry/july/world.topo.bathy.200407.3x5400x2700.jpg
+mg/erd/tex/field.hdr https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/4k/belfast_open_field_4k.hdr
+mg/erd/tex/field_prev.jpg https://dl.polyhaven.org/file/ph-assets/HDRIs/extra/Tonemapped%20JPG/belfast_open_field.jpg
