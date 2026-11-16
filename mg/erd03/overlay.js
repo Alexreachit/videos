@@ -20,17 +20,18 @@ function dayTag(t) {
 }
 function hud(t) {
   if (!isGround(t)) return '';
-  const s = pop(t, .35, .4); const d = t > TT.scoop ? .1 : 0, bump = t > TT.scoop && t < TT.scoop + .4 ? 1 + .22 * Math.sin((t - TT.scoop) / .4 * Math.PI) : 1;
+  const hideR = 1 - pop(t, Lt(3).start - .2, .25) * fade(t, TT.rise - .3, TT.rise); if (hideR <= .01) return '';
+  const s = pop(t, .35, .4) * hideR; const d = t > TT.scoop ? .1 : 0, bump = t > TT.scoop && t < TT.scoop + .4 ? 1 + .22 * Math.sin((t - TT.scoop) / .4 * Math.PI) : 1;
   return `<div class="glass" style="right:34px;top:${t < Lt(1).start + .6 ? 470 : 190}px;transform:scale(${s * bump});transform-origin:100% 0;padding:14px 28px 16px;text-align:right">
       <div class="sub" style="font-size:28px">TIEFE</div><div style="font-size:84px;line-height:1">${d.toFixed(1).replace('.', ',')} m</div>
       <div class="sub" style="font-size:26px;margin-top:4px">Ziel: 6.370 km</div></div>
-    <div class="glass" style="left:34px;top:${t < Lt(1).start + .6 ? 470 : 190}px;transform:scale(${pop(t, Lt(1).start + .3, .4)});transform-origin:0 0;padding:14px 28px 16px">
+    <div class="glass" style="left:34px;top:${t < Lt(1).start + .6 ? 470 : 190}px;transform:scale(${pop(t, Lt(1).start + .3, .4) * hideR});transform-origin:0 0;padding:14px 28px 16px">
       <div class="sub" style="font-size:28px">ARBEITER</div><div style="font-size:84px;line-height:1">👷 1</div></div>`;
 }
 function rulesCard(t) {
   const t0 = Lt(3).start - .05, t1 = TT.rise - .1, s = pop(t, t0, .35) * fade(t, t1, t1 + .2); if (s <= .01) return '';
   const R = [['❤️', 'LIKE', 'jeder Arbeiter schaufelt 1×', /like/i], ['↗️', 'SHARE', 'jeder Arbeiter schaufelt 5×', /share/i]];
-  return `<div class="glass" style="left:50%;top:1010px;width:880px;transform:translateX(-50%) scale(${s});padding:20px 32px 24px">` +
+  return `<div class="glass" style="left:50%;top:190px;width:880px;transform:translateX(-50%) scale(${s});padding:20px 32px 24px">` +
     R.map(([e, a, b, re]) => { const p = pop(t, wt(3, re) - .3, .35); return `<div style="display:flex;align-items:center;gap:24px;margin-top:10px;transform:scale(${.6 + .4 * p});opacity:${.2 + .8 * Math.min(1, p)}">
       <div style="width:100px;height:100px;flex:none;border-radius:50%;background:rgba(255,255,255,.12);font:900 56px/100px IB,Arial;text-align:center">${e}</div>
       <div><div style="font-size:54px">${a}</div><div class="sub">${b}</div></div></div>` }).join('') +
@@ -40,7 +41,7 @@ function workerTags(t) {
   let h = '';
   if (t > Lt(1).start && t < TT.rise - .1) h += tagAt(anc('chef', t), `<div class="tag" style="font-size:36px;background:${ORANGE}">ICH · CHEF</div>`, pop(t, Lt(1).start) * fade(t, TT.rise - .3, TT.rise - .1));
   if (t > TT.follow && t < TT.rise - .1) h += tagAt(anc('ghost', t), `<div class="lbl" style="position:relative;font-size:104px;color:${GREEN};text-shadow:${SH(8)}">+1</div>`, pop(t, TT.follow, .45) * fade(t, TT.rise - .3, TT.rise - .1));
-  if (t > wt(7, /folg/i) - .2) h += tagAt(anc('ghost', t), `<div class="lbl" style="position:relative;font-size:92px;color:${GREEN};text-shadow:${SH(8)}">DU?</div>`, pop(t, wt(7, /folg/i) - .2, .45));
+  if (t > wt(7, /folg/i) - .2) { const g = anc('ghost', t); if (g) h += tagAt([g[0] - 150, g[1] + 120], `<div class="lbl" style="position:relative;font-size:92px;color:${GREEN};text-shadow:${SH(8)}">DU?</div>`, pop(t, wt(7, /folg/i) - .2, .45)) }
   return h;
 }
 // ---- Erde: Pin, Linie zur Mitte, Schicht-Beschriftungen
@@ -57,7 +58,7 @@ function earthUI(t) {
   const L = [['crust', 'KRUSTE', 'bis ~40 km tief', '#e8d8c8', 0], ['mantle', 'MANTEL', 'bis ~2.900 km', '#ff9a4a', .35], ['outer', 'ÄUSSERER KERN', 'bis ~5.100 km', '#ffc34a', .7], ['inner', 'INNERER KERN', 'bis zur Mitte', '#fff2a8', 1.05]];
   for (const [k, a, b, c, dt] of L) {
     const p = anc(k, t), s = pop(t, TT.zoomEnd + .15 + dt, .35); if (!p || s <= .01) continue;
-    const lx = 760, ly = p[1] + (k === 'crust' ? -150 : k === 'mantle' ? -40 : k === 'outer' ? 40 : 160);
+    const lx = 760, ly = p[1] + (k === 'crust' ? -30 : k === 'mantle' ? 30 : k === 'outer' ? 80 : 170);
     h += `<svg width="1080" height="1920" style="position:absolute;left:0;top:0;opacity:${Math.min(1, s)}"><polyline points="${p[0]},${p[1]} ${lx - 20},${ly} ${lx},${ly}" fill="none" stroke="#fff" stroke-width="4"/><circle cx="${p[0]}" cy="${p[1]}" r="9" fill="#fff"/></svg>`;
     h += `<div class="glass" style="left:${lx}px;top:${ly}px;transform:translateY(-50%) scale(${s});transform-origin:0 50%;padding:8px 20px 10px"><div style="font-size:38px;color:${c}">${a}</div><div class="sub" style="font-size:28px">${b}</div></div>`;
   }
@@ -66,7 +67,7 @@ function earthUI(t) {
 }
 function kmTitle(t) {
   const s = pop(t, Lt(5).start - .05, .4) * fade(t, Lt(6).start - .1, Lt(6).start + .15); if (s <= .01) return '';
-  return `<div class="glass" style="left:50%;top:190px;transform:translateX(-50%) scale(${s});padding:14px 44px 18px;text-align:center"><div class="sub">bis zum Erdmittelpunkt</div><div style="font-size:120px;line-height:1;color:${ORANGE}">6.370 km</div></div>`;
+  return `<div class="glass" style="left:50%;top:190px;transform:translateX(-50%) scale(${s});padding:14px 44px 18px;text-align:center"><div class="sub">bis zum Erdmittelpunkt</div><div style="font-size:120px;line-height:1;color:${ORANGE};white-space:nowrap">6.370 km</div></div>`;
 }
 function bigNumber(t) {
   const t0 = wt(6, /64|millionen/i) - .25, t1 = TT.back - .1, s = pop(t, t0, .4) * fade(t, t1, t1 + .15); if (t < Lt(6).start || s <= .01) return '';
@@ -85,8 +86,9 @@ function commentCard(t) {
     <div><div class="sub">Welches Werkzeug brauchen wir?</div><div style="font:800 44px P,Arial">${txt.slice(0, n)}<span style="opacity:${Math.sin(t * 10) > 0 ? 1 : 0}">|</span></div></div></div>`;
 }
 function flash(t) {
-  let a = 0; for (const c of [TT.space, TT.back]) a = Math.max(a, 1 - Math.abs(t - c) / .18);
-  return a > 0 ? `<div style="position:absolute;inset:0;background:#fff;opacity:${a * .85}"></div>` : '';
+  let a = 1 - Math.abs(t - TT.back) / .18;
+  if (t > TT.space - .45 && t < TT.space) a = Math.max(a, ez((t - TT.space + .45) / .45)); if (t >= TT.space) a = Math.max(a, 1 - (t - TT.space) / .22);
+  return a > 0 ? `<div style="position:absolute;inset:0;background:#fff;opacity:${Math.min(1, Math.max(0, a)) * .92}"></div>` : '';
 }
 window.setTimeline = tl => { MG.TL = tl };
 window.draw = async function (t) {
