@@ -340,3 +340,12 @@
 - Erkenntnis: Bekannte Marke + "hätte kaufen können"-Drama (Blockbuster/Netflix) bekommt zeitverzögert Reichweite (Tag 2 > Tag 1). Bindung bleibt Schwachpunkt -> nächste Shorts: Drama im ersten Bild.
 - Keine Korrekturen, nichts im Studio geändert, nichts hochgeladen (keine freigegebene Idee offen, Pipeline seit 13.11. leer).
 - Offen bei Alex: Idee wählen (Louvre-Juwelenraub | Bitcoin-Pizza | Fyre Festival); Ponzi-Thumbnail v2 OK?; Entwurf "846c1dee…" löschen?
+
+## Lauf 2026-11-16 ~10:25 MEZ (Routine, geplant 07:47 UTC)
+- 11 Abos (unverändert). 48-h-Echtzeit: 522 Aufrufe (vorher 496) – fast alles Blockbuster (497). 28 T weiter nur bis 14.11. (7.469 Aufrufe, 25,4 h, +7 Abos) – Tageswerte nicht aktualisiert, Länder/Traffic Kanal nicht neu.
+- Shorts: Blockbuster 59iD318vA8A nach ~2,6 T: 582 Aufrufe (Analytics; Liste 580), +120 seit gestern (Vortag +368 -> Welle flacht ab), 1,1 h Wiedergabezeit, 48 h: Shorts-Feed 487 / Suche 9, 26,9 % angesehen / 73,1 % weggewischt, 4 Likes, 0 Abos.
+  Escobar 29 | PayPal 34 | Hushpuppi 3 | Milch 294 | Binance 57 | Eiffel 1.262 | Knight 57 | Felicity 1.323 | SVB 1.125 | Ever Given 1.225 | New vs Used 210 | $100: 286 -> stehen.
+- Langform: Bank KDOq1pF040k 1.198 | Ponzi pHR5fqQ5hC8 20 | Mistakes 18 | Supermarkt 1 | Never-age 1 | Captain 115 | IB-Ranks 73 | Wealth 71 -> praktisch unverändert.
+- Erkenntnis: Blockbuster-Welle (Marke + "hätte kaufen können") trug ~3 Tage, ohne neuen Short fällt der Kanal wieder auf ~0. Pipeline seit 13.11. leer -> Engpass ist die Ideen-Freigabe.
+- Keine Korrekturen, nichts im Studio geändert, nichts hochgeladen (keine freigegebene Idee offen).
+- Offen bei Alex: Idee wählen (Louvre-Juwelenraub | Bitcoin-Pizza | Fyre Festival); Ponzi-Thumbnail v2 OK?; Entwurf "846c1dee…" löschen?
