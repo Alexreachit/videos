@@ -89,7 +89,7 @@ const ANIM={
   h+=coinSVG(830,1010+fl(t,2,10),280,{sx:Math.cos(t*LW(2.4)),glow:30});
   h+=shadow(880,1450,200,.9)+obj('samthink',880,1340+fl(t,5,4),230);
   if(k===0){const q=1-cl(t,a+D*.86,a+D*.98);if(q>0)h+=`<div style="opacity:${q.toFixed(3)}">${hookTitle(t)}</div>`}
-  if(sp.choice){const end=TL.dur,out=1-cl(t,end-.6,end-.2);
+  if(sp.choice){const end=TL.dur,out=1-cl(t,end-.95,end-.6);
    h+=`<div style="opacity:${out.toFixed(3)}">`+KT(540,230,'WOULD YOU HAVE TAKEN IT?',t,a+.05,{size:66})+pill(540,400,'🍕 PIZZA',{p:cl(t,a+D*.15,a+D*.3),size:52,bg:'#ff9a1f',fg:'#fff'})+pill(540,540,'₿ KEEP THE BITCOIN',{p:cl(t,a+D*.35,a+D*.5),size:52,bg:'#fff'})+`</div>`;
    const tin=cl(t,end-.5,end-.06);if(tin>0)h+=`<div style="opacity:${tin.toFixed(3)}">${hookTitle(t)}</div>`}
   return h},
