@@ -356,3 +356,6 @@
 - Langvideo-Termine: erstes fällig 19.11. (danach 22.11., 25.11. …). Langvideo in Arbeit: – (noch keins)
 - Ideen-Vorrat Shorts: Louvre-Juwelenraub 2025 | Fyre Festival 2017 | Ronaldo/Coca-Cola-Flaschen 2021 (-$4 Mrd. Börsenwert) | Mt. Gox | Lustig-ähnliche Betrüger.
 - Animations-Test: ys_pizza = komplett Code-gezeichnete Objekte (Pizza, Bitcoin-Münze, Röhrenmonitor, Handy) im Sky-Stil, kein Gemini (PC-Downloads nicht erreichbar). Mit Blockbuster (ebenfalls Code-Objekte) vergleichen.
+- 2026-11-16 13:45: ys_pizza FERTIG (mg-batch Run 43867215996, 25,9 s, Ø -20,6 dB / max -3,5 dB, Loop geprüft, Kontaktblätter angesehen: Endkarte überlappte mit Hook-Titel -> korrigiert, neu gerendert).
+  Upload-Datei: renders/ys_pizza/ys_pizza_final.mp4 (2-Pass 2700k -> 9,2 MB). UPLOAD AUSSTEHEND: Chrome-Erweiterung um 13:45 nicht erreichbar.
+  Geplant: Titel "He Paid 10,000 Bitcoin for Two Pizzas 🍕", öffentlich 16.11. 19:00 (falls erst später hochgeladen: nächster 19:00-Termin).
