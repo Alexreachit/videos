@@ -82,7 +82,7 @@ for fc in WD.node_tree.animation_data.action.fcurves:
     for k in fc.keyframe_points: k.interpolation = 'CONSTANT'
 
 sun = bpy.data.lights.new("sun", "SUN"); sun.energy = 3.2; sun.angle = math.radians(1.2); sun.color = (1., .96, .9)
-so = bpy.data.objects.new("sun", sun); link(so); so.rotation_euler = (math.radians(48), math.radians(-12), math.radians(-35))
+so = bpy.data.objects.new("sun", sun); link(so); so.rotation_mode = 'QUATERNION'; so.rotation_quaternion = Vector((-.45, -.6, .66)).normalized().to_track_quat('Z', 'Y')
 
 # ======================================================= BODEN mit Loch
 GRASS, gnt, gb, gmp, gD = texmat("grass", "aerial_grass_rock", scale=.45, bump=1.2, tint="#d8ffd0")
@@ -137,9 +137,9 @@ if int(OPT.get("grass", 45000)) > 0:
         wv = cl = max(0., min(1., (d - .8) / .5)) * max(0., min(1., (hd - .85) / .4))
         vg.add([v.index], wv, 'REPLACE')
     ps = gr.modifiers.new("gras", "PARTICLE_SYSTEM").particle_system; pst = ps.settings
-    pst.type = 'HAIR'; pst.count = int(OPT.get("grass", 45000)); pst.hair_length = .085; pst.use_advanced_hair = True
+    pst.type = 'HAIR'; pst.count = int(OPT.get("grass", 45000)); pst.use_advanced_hair = False; pst.hair_length = .09
     pst.child_type = 'INTERPOLATED'; pst.rendered_child_count = 6; pst.child_length = 1.0; pst.child_length_threshold = .3
-    pst.roughness_2 = .04; pst.roughness_endpoint = .05; pst.brownian_factor = .01; pst.normal_factor = 1.0; pst.factor_random = .4
+    pst.roughness_2 = .04; pst.roughness_endpoint = .05
     pst.root_radius = .9; pst.tip_radius = .0; pst.radius_scale = .004
     ps.vertex_group_density = "dens"
     HM, hnt, hb = newmat("halm"); hi = hnt.nodes.new("ShaderNodeHairInfo"); hr = hnt.nodes.new("ShaderNodeValToRGB")
@@ -285,7 +285,7 @@ def earth_mat():
     for p_, c in stops[1:-1]: e = cre.elements.new(p_); e.color = hexc(c)
     nt.links.new(rn.outputs[0], cr.inputs["Fac"])
     # Glut-Staerke (Kern hell, Kruste nicht)
-    gr_ = nodes.new("ShaderNodeMapRange"); gr_.inputs["From Min"].default_value = .975; gr_.inputs["From Max"].default_value = .0; gr_.inputs["To Min"].default_value = 0; gr_.inputs["To Max"].default_value = 9.0
+    gr_ = nodes.new("ShaderNodeMapRange"); gr_.inputs["From Min"].default_value = .975; gr_.inputs["From Max"].default_value = .0; gr_.inputs["To Min"].default_value = 0; gr_.inputs["To Max"].default_value = 3.0
     nt.links.new(rr.outputs[0], gr_.inputs["Value"])
     inner = nodes.new("ShaderNodeEmission"); nt.links.new(cr.outputs["Color"], inner.inputs["Color"]); nt.links.new(gr_.outputs["Result"], inner.inputs["Strength"])
     innerd = nodes.new("ShaderNodeBsdfDiffuse"); nt.links.new(cr.outputs["Color"], innerd.inputs["Color"])
@@ -308,14 +308,12 @@ bo = earth.modifiers.new("cut", "BOOLEAN"); bo.object = cut; bo.operation = 'DIF
 # Atmosphaere (Rand-Leuchten)
 def atmo_mat():
     m, nt, b = newmat("atmo"); nodes = nt.nodes; nodes.remove(b)
-    lw = nodes.new("ShaderNodeLayerWeight"); lw.inputs["Blend"].default_value = .25
-    pw = nodes.new("ShaderNodeMath"); pw.operation = 'POWER'; pw.inputs[1].default_value = 2.2; nt.links.new(lw.outputs["Facing"], pw.inputs[0])
+    lw = nodes.new("ShaderNodeLayerWeight"); lw.inputs["Blend"].default_value = .12
+    pw = nodes.new("ShaderNodeMath"); pw.operation = 'POWER'; pw.inputs[1].default_value = 5.0; nt.links.new(lw.outputs["Facing"], pw.inputs[0])
     em = nodes.new("ShaderNodeEmission"); em.inputs["Color"].default_value = hexc("#6fb8ff"); em.inputs["Strength"].default_value = 3.0
     tr = nodes.new("ShaderNodeBsdfTransparent"); mx = nodes.new("ShaderNodeMixShader"); nt.links.new(pw.outputs[0], mx.inputs[0]); nt.links.new(tr.outputs[0], mx.inputs[1]); nt.links.new(em.outputs[0], mx.inputs[2])
     nt.links.new(mx.outputs[0], nt.nodes["Material Output"].inputs["Surface"]); return m
 atmo = prim("uv_sphere", tuple(SH.G), m=atmo_mat(), segments=96, ring_count=48, radius=SH.R * 1.03); smooth(atmo)
-cut2 = prim("cube", (SH.G[0] + SH.R * 1.1, SH.G[1] - SH.R * 1.1, SH.G[2] + SH.R * 1.1), (SH.R * 1.1, SH.R * 1.1, SH.R * 1.1)); cut2.hide_render = True
-b2 = atmo.modifiers.new("cut", "BOOLEAN"); b2.object = cut2; b2.operation = 'DIFFERENCE'; b2.solver = 'EXACT'
 for o in (earth, atmo): o.visible_shadow = False
 
 # ======================================================= KAMERA (ein Objekt, Bild fuer Bild)

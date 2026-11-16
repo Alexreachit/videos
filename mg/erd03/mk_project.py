@@ -17,7 +17,7 @@ A("Also folg mir, damit ich nicht allein graben muss!", dict(type="follow", mood
 A("Welches Werkzeug brauchen wir?", dict(type="comment"))
 P = dict(title="TikTok-Serie Bis zum Erdkern – Tag 1 realistisch (Deutsch)", _sources="Britannica: Earth's layers (crust ~40 km continental, mantle to ~2,900 km, inner core from ~5,100 km, centre ~6,370 km).",
          size=[1080, 1920], fps=30, scene="scene.html", voice="elevenlabs:Alexander - Deep TV Narrator (erd03/voice, build_voice.py)", rate="+16%",
-         lead=0.05, gap=0.12, tail=1.4, crf=20, music=dict(style="playful", bpm=140, gain=0.11, ambience=0.0, duck_ratio=2),
+         lead=0.05, gap=0.12, tail=1.4, crf=20, music=dict(style="cinematic", bpm=96, gain=0.12, ambience=0.0, duck_ratio=2),
          sfx_vary=True, sfx_gain=0.55, lines=L)
 json.dump(P, open("project.json", "w"), indent=1, ensure_ascii=False)
 print(len(L), "lines")

@@ -14,9 +14,9 @@
  "tail": 1.4,
  "crf": 20,
  "music": {
-  "style": "playful",
-  "bpm": 140,
-  "gain": 0.11,
+  "style": "cinematic",
+  "bpm": 96,
+  "gain": 0.12,
   "ambience": 0.0,
   "duck_ratio": 2
  },
