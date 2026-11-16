@@ -15,6 +15,7 @@ A("6.370 Kilometer!", dict(type="earth", mood="bright"), say="Sechstausenddreihu
 A("Mit 10 Zentimetern pro Schaufel sind das fast 64 Millionen Mal schaufeln.", dict(type="number"), say="Mit zehn Zentimetern pro Schaufel sind das fast vierundsechzig Millionen Mal schaufeln.", say_map={"zehn": "10", "vierundsechzig": "64"})
 A("Also folg mir, damit ich nicht allein graben muss!", dict(type="follow", mood="bright"))
 A("Welches Werkzeug brauchen wir?", dict(type="comment"))
+A("Schreib es in die Kommentare!", dict(type="comment2"))
 P = dict(title="TikTok-Serie Bis zum Erdkern – Tag 1 realistisch (Deutsch)", _sources="Britannica: Earth's layers (crust ~40 km continental, mantle to ~2,900 km, inner core from ~5,100 km, centre ~6,370 km).",
          size=[1080, 1920], fps=30, scene="scene.html", voice="elevenlabs:Alexander - Deep TV Narrator (erd03/voice, build_voice.py)", rate="+16%",
          lead=0.05, gap=0.12, tail=1.4, crf=20, music=dict(style="cinematic", bpm=96, gain=0.12, ambience=0.0, duck_ratio=2),

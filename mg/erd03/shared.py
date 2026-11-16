@@ -102,7 +102,7 @@ def cam_at(t):
         dirn = norm(vlerp(d0, d1, ease(u)))
         drift = max(0., t - T_ZOOM_END) * .12          # ganz langsam naeher
         return add(tgt, mul(dirn, dist - drift)), tgt
-    u = sm(T_BACK, DUR)
+    u = sm(T_BACK, 29.3146)          # alte Gesamtdauer: Kamera der ersten 880 Bilder bleibt unveraendert
     return vlerp([.55, -3.9, 1.3], [.35, -3.3, 1.2], u), vlerp([.1, 0, .66], [.1, 0, .66], u)
 
 def project(cam, tgt, X):

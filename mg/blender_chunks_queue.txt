@@ -1,2 +1,2 @@
-erd03/scene.py erd03 880 0 samples=20 hrot=90
-# run 1794863703
+erd03/scene.py erd03b 926 880 samples=20 hrot=90
+# run 1794872510

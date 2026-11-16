@@ -80,7 +80,7 @@ function followTag(t) {
 }
 function commentCard(t) {
   const t0 = Lt(8).start + .2, s = pop(t, t0, .45); if (t < t0) return '';
-  const txt = 'Schreib es in die Kommentare', n = Math.floor(cl((t - t0 - .4) / 1.3, 0, 1) * txt.length);
+  const txt = 'Schreib es in die Kommentare', n = Math.floor(cl((t - Lt(9).start + .1) / 1.2, 0, 1) * txt.length);
   return `<div class="glass" style="left:50%;top:1110px;width:880px;transform:translateX(-50%) scale(${s});padding:20px 26px;display:flex;align-items:center;gap:22px">
     <div style="width:96px;height:96px;flex:none;border-radius:50%;background:rgba(255,255,255,.12);font:900 56px/96px IB,Arial;text-align:center">⛏️</div>
     <div><div class="sub">Welches Werkzeug brauchen wir?</div><div style="font:800 44px P,Arial">${txt.slice(0, n)}<span style="opacity:${Math.sin(t * 10) > 0 ? 1 : 0}">|</span></div></div></div>`;
@@ -108,7 +108,7 @@ window.sfxEvents = function () {
   E.push({ k: 'whoosh', t: TT.rise, d: 1.6 }, { k: 'impact', t: TT.space }, { k: 'whoosh', t: TT.space + .1, d: 1.8 });
   [0, .35, .7, 1.05].forEach(d => E.push({ k: 'tick', t: TT.zoomEnd + .15 + d }));
   E.push({ k: 'error', t: wt(6, /64|millionen/i) - .25 });
-  E.push({ k: 'impact', t: TT.back }, { k: 'pop', t: wt(7, /folg/i) }, { k: 'swish', t: L(8).start, d: .4 }, { k: 'type', t: L(8).start + .6, n: 12 });
+  E.push({ k: 'impact', t: TT.back }, { k: 'pop', t: wt(7, /folg/i) }, { k: 'swish', t: L(8).start, d: .4 }, { k: 'type', t: L(9).start, n: 12 });
   return E;
 };
 </script></body></html>

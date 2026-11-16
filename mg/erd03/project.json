@@ -94,6 +94,12 @@
    "spec": {
     "type": "comment"
    }
+  },
+  {
+   "text": "Schreib es in die Kommentare!",
+   "spec": {
+    "type": "comment2"
+   }
   }
  ]
 }
