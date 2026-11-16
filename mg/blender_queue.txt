@@ -1,1 +1,2 @@
 erd03/scene.py stills=30,170,280,375,405,440,520,780 samples=24 pct=50
+# run 1794861754
