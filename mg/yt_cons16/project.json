@@ -1,0 +1,2992 @@
+{
+ "title": "YouTube 16: History's Boldest Con Artists",
+ "_sources": "YouTube 16 (long form, 16:9): \"History's Boldest Con Artists (One Sold the Eiffel Tower)\" -> project.json\nSources (checked 2026-11-17):\n#7 Anna Sorokin: Wikipedia \"Anna Sorokin\" (NYC mid-2013, posed as German heiress, fake statements EUR 60M in Swiss accounts,\n   $22M loan application City National Nov 2016, $100,000 overdraft Jan 2017, unpaid hotel bills, Marrakesh: Williams paid $62,000,\n   guilty on 8 counts 25 Apr 2019, sentenced 9 May 2019 to 4-12 years; Netflix paid $320,000 for rights, \"Inventing Anna\" 2022);\n   NBC News 9 May 2019 \"fake German heiress ... gets up to 12 years\".\n#6 Fyre Festival: Wikipedia \"Fyre Festival\" (Great Exuma, Bahamas, April 2017; VIP packages up to $12,000 incl. airfare;\n   Dec 2016 influencer promo with models, one celebrity paid $275,000 for one post; disaster relief tents, wet mattresses,\n   cheese sandwiches in foam containers; cancelled first weekend; SEC: raised at least $27.4M from over 100 investors;\n   Oct 2018 McFarland sentenced to 6 years, forfeit $26M); NBC New York / Engadget 11 Oct 2018 (six-year sentence).\n#5 Hitler Diaries: Wikipedia \"Hitler Diaries\" (Konrad Kujau forged 1981-83; Stern via reporter Gerd Heidemann paid 9.3M DM\n   = $3.7M; sixty volumes; historian Trevor-Roper authenticated, changed his mind at the press conference; forensic analysis\n   quickly confirmed fakes; 'FH' instead of 'AH' on a cover; Kujau and Heidemann spent time in prison; several editors lost jobs);\n   Britannica \"Hitler Diaries\"; germanhistorydocs.org \"Stern presents Hitler's diaries (April 22, 1983)\".\n#4 Han van Meegeren: Wikipedia \"Han van Meegeren\" (Supper at Emmaus accepted by Bredius Sept 1937, bought for fl. 520,000\n   (~EUR 4.6M today) by Rembrandt Society, donated to Museum Boijmans Van Beuningen Rotterdam; Christ with the Adulteress:\n   Goering traded 137 looted paintings; arrested 29 May 1945, aiding the enemy, threatened with death penalty; painted\n   \"Jesus among the Doctors\" Jul-Dec 1945 watched by court-appointed witnesses; collaboration charges dropped; 12 Nov 1947\n   guilty of forgery and fraud, 1 year; died 30 Dec 1947; earned 5.5-7.5M guilders ~ US$25-30M today); Britannica.\n#3 Gregor MacGregor / Poyais: Wikipedia \"Gregor MacGregor\" (from 1821 claimed to be Cazique of fictional Poyais on the\n   Mosquito Coast, Honduras; 1822 guidebook; Oct 1822 GBP 200,000 Poyais loan in London; ~250 emigrated 1822-23, more than half\n   died; French trial 1826, acquitted); Smithsonian/CrimeReads excerpt \"Poyais\".\n#2 Bernie Madoff: Wikipedia \"Bernie Madoff\" (former Nasdaq chairman; ~$65B missing incl. fabricated gains; 10 Dec 2008 sons\n   reported him after he called it \"one big lie\"; arrested 11 Dec 2008; 29 Jun 2009 150 years, the maximum; died 14 Apr 2021\n   in prison; trustee recovered ~$14.8B); HISTORY.com \"Madoff arrested\".\n#1 Victor Lustig: Smithsonian Magazine \"The Smoothest Con Man That Ever Lived\" (2012) (by 1925; posed as deputy director of\n   the Ministere de Postes et Telegraphes; letters to largest scrap dealers; Hotel de Crillon; tower to be demolished, 7,000 tons\n   of metal; Andre Poisson paid $20,000 cash + $50,000; never reported; returned for second attempt, fled; May 1935 arrested\n   in New York, $51,000 counterfeit in a Times Square locker; 20 years Alcatraz).",
+ "size": [
+  1920,
+  1080
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+0%",
+ "lead": 0.6,
+ "gap": 0.48,
+ "tail": 3.0,
+ "crf": 21,
+ "music": {
+  "style": "ttdark",
+  "bpm": 140,
+  "gain": 0.15,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.4,
+ "lines": [
+  {
+   "text": "In nineteen twenty-five, a man sold the Eiffel Tower. He didn't own it. And the buyer never even went to the police.",
+   "spec": {
+    "type": "beat",
+    "scene": "intro",
+    "els": [
+     {
+      "e": "title",
+      "a": "HE SOLD THE EIFFEL TOWER",
+      "b": "…and he didn't even own it",
+      "at": -1,
+      "out": [
+       2,
+       0
+      ]
+     },
+     {
+      "e": "obj",
+      "k": "eiffel",
+      "x": 600,
+      "y": 610,
+      "w": 560,
+      "at": -1,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "obj",
+      "k": "conman",
+      "x": 1320,
+      "y": 640,
+      "w": 480,
+      "at": -1,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "stamp",
+      "txt": "SOLD",
+      "x": 600,
+      "y": 640,
+      "at": 0.22,
+      "col": "red",
+      "sz": 110,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "🚫👮 never reported",
+      "x": 1320,
+      "y": 900,
+      "size": 40,
+      "at": 0.8,
+      "bg": "red",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "sky",
+    "mood": "tense"
+   }
+  },
+  {
+   "text": "Other con artists sold a country that didn't exist, fake paintings to the Nazis, and a luxury festival that turned into a disaster camp.",
+   "spec": {
+    "type": "beat",
+    "scene": "intro",
+    "els": [
+     {
+      "e": "pill",
+      "txt": "🏝️ a country that didn't exist",
+      "x": 960,
+      "y": 420,
+      "size": 50,
+      "at": 0.05,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "🖼️ fake paintings",
+      "x": 960,
+      "y": 560,
+      "size": 50,
+      "at": 0.4,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "⛺ a 'luxury' festival",
+      "x": 960,
+      "y": 700,
+      "size": 50,
+      "at": 0.75,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "These are seven of the boldest cons in history, counted down from number seven to number one.",
+   "spec": {
+    "type": "beat",
+    "scene": "intro",
+    "els": [
+     {
+      "e": "tx",
+      "txt": "HISTORY'S BOLDEST CONS",
+      "x": 960,
+      "y": 300,
+      "size": 90,
+      "at": 0,
+      "col": "gold",
+      "out": [
+       2,
+       0.99
+      ]
+     },
+     {
+      "e": "ladder",
+      "at": 0.2,
+      "out": [
+       2,
+       0.99
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "And number one is so bold, it sounds made up. But it really happened.",
+   "spec": {
+    "type": "beat",
+    "scene": "intro",
+    "els": [
+     {
+      "e": "ladderhi",
+      "at": 0.1,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Number seven. New York, twenty thirteen.",
+   "spec": {
+    "type": "map",
+    "cam": [
+     -98,
+     39,
+     1.0
+    ],
+    "cam2": [
+     -74.0,
+     40.72,
+     7
+    ],
+    "chap": 7,
+    "chapsub": "THE FAKE HEIRESS",
+    "pins": [
+     {
+      "at": [
+       -74.0,
+       40.72
+      ],
+      "label": "New York",
+      "col": "red",
+      "delay": 0.5
+     }
+    ]
+   }
+  },
+  {
+   "text": "A young woman calling herself Anna Delvey shows up in the city's art and party scene. She says she's a rich German heiress.",
+   "spec": {
+    "type": "beat",
+    "scene": "delvey",
+    "els": [
+     {
+      "e": "obj",
+      "k": "bag",
+      "x": 560,
+      "y": 600,
+      "w": 440,
+      "at": 0,
+      "out": [
+       2,
+       0
+      ]
+     },
+     {
+      "e": "card",
+      "x": 1320,
+      "y": 360,
+      "w": 620,
+      "big": "Anna Delvey",
+      "small": "“rich German heiress”",
+      "at": 0.35,
+      "col": "ink",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "sky",
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "Her real name was Anna Sorokin. And her fortune only existed on paper.",
+   "spec": {
+    "type": "beat",
+    "scene": "delvey",
+    "els": [
+     {
+      "e": "card",
+      "x": 1320,
+      "y": 360,
+      "w": 620,
+      "big": "Anna Sorokin",
+      "small": "real name",
+      "at": 0.05,
+      "col": "ink",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "stamp",
+      "txt": "NO FORTUNE",
+      "x": 1320,
+      "y": 680,
+      "at": 0.6,
+      "col": "red",
+      "sz": 70,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Her fake bank statements claimed she had sixty million euros sitting in Swiss accounts.",
+   "spec": {
+    "type": "beat",
+    "scene": "delvey",
+    "els": [
+     {
+      "e": "obj",
+      "k": "certs",
+      "x": 560,
+      "y": 600,
+      "w": 460,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "count",
+      "x": 1320,
+      "y": 480,
+      "to": 60,
+      "at": 0.2,
+      "end": 0.7,
+      "pre": "€",
+      "suf": "M",
+      "size": 150,
+      "col": "green",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "“in Swiss accounts”",
+      "x": 1320,
+      "y": 640,
+      "size": 44,
+      "at": 0.55,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "stamp",
+      "txt": "FAKE",
+      "x": 560,
+      "y": 600,
+      "at": 0.85,
+      "col": "red",
+      "sz": 90,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "With that story, she applied for a twenty-two million dollar loan to open a private art club in Manhattan.",
+   "spec": {
+    "type": "beat",
+    "scene": "delvey",
+    "els": [
+     {
+      "e": "obj",
+      "k": "bank",
+      "x": 560,
+      "y": 600,
+      "w": 460,
+      "at": 0,
+      "out": [
+       2,
+       0
+      ]
+     },
+     {
+      "e": "card",
+      "x": 1320,
+      "y": 340,
+      "w": 640,
+      "big": "$22M loan",
+      "small": "for a private members' art club",
+      "at": 0.3,
+      "col": "ink",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "The loan never came through. But one bank did give her a hundred-thousand-dollar overdraft, and she spent it.",
+   "spec": {
+    "type": "beat",
+    "scene": "delvey",
+    "els": [
+     {
+      "e": "stamp",
+      "txt": "DENIED",
+      "x": 1320,
+      "y": 300,
+      "at": 0.05,
+      "col": "red",
+      "sz": 70,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "count",
+      "x": 1320,
+      "y": 520,
+      "to": 100000,
+      "at": 0.4,
+      "end": 0.7,
+      "pre": "$",
+      "size": 120,
+      "col": "gold",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "overdraft",
+      "x": 1320,
+      "y": 660,
+      "size": 44,
+      "at": 0.5,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "fly",
+      "k": "cash",
+      "fx": 560,
+      "fy": 600,
+      "tx": 1500,
+      "ty": 260,
+      "w": 150,
+      "at": 0.75,
+      "end": 0.98,
+      "n": 5,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "She lived in luxury hotels without paying, and a friend ended up covering a sixty-two-thousand-dollar bill from a trip to Marrakesh.",
+   "spec": {
+    "type": "beat",
+    "scene": "delvey",
+    "els": [
+     {
+      "e": "pill",
+      "txt": "🏨 unpaid hotel bills",
+      "x": 560,
+      "y": 360,
+      "size": 46,
+      "at": 0.05,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "count",
+      "x": 1320,
+      "y": 520,
+      "to": 62000,
+      "at": 0.5,
+      "end": 0.85,
+      "pre": "$",
+      "size": 130,
+      "col": "red",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "✈️ Marrakesh trip · paid by a friend",
+      "x": 1320,
+      "y": 680,
+      "size": 40,
+      "at": 0.7,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "obj",
+      "k": "samsad",
+      "x": 560,
+      "y": 660,
+      "w": 380,
+      "at": 0.55,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "In twenty nineteen, a jury in New York found her guilty on eight counts. She got four to twelve years in prison.",
+   "spec": {
+    "type": "beat",
+    "scene": "delvey",
+    "els": [
+     {
+      "e": "obj",
+      "k": "gavel",
+      "x": 560,
+      "y": 600,
+      "w": 440,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "stamp",
+      "txt": "GUILTY",
+      "x": 1320,
+      "y": 380,
+      "at": 0.3,
+      "col": "red",
+      "sz": 100,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "⛓️ 4–12 years",
+      "x": 1320,
+      "y": 600,
+      "size": 56,
+      "at": 0.75,
+      "bg": "red",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "And then Netflix paid her three hundred twenty thousand dollars for the rights to her story.",
+   "spec": {
+    "type": "beat",
+    "scene": "delvey",
+    "els": [
+     {
+      "e": "obj",
+      "k": "phone",
+      "x": 560,
+      "y": 600,
+      "w": 400,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "count",
+      "x": 1320,
+      "y": 480,
+      "to": 320000,
+      "at": 0.4,
+      "end": 0.8,
+      "pre": "$",
+      "size": 130,
+      "col": "green",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "🎬 for her story",
+      "x": 1320,
+      "y": 640,
+      "size": 44,
+      "at": 0.7,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "The lesson: a confident story can open doors long before anyone checks the facts.",
+   "spec": {
+    "type": "beat",
+    "scene": "delvey",
+    "els": [
+     {
+      "e": "obj",
+      "k": "samthink",
+      "x": 520,
+      "y": 620,
+      "w": 480,
+      "at": 0,
+      "out": [
+       99,
+       0
+      ]
+     },
+     {
+      "e": "card",
+      "x": 1260,
+      "y": 380,
+      "w": 760,
+      "big": "Lesson #1",
+      "small": "Confidence opens doors before anyone checks",
+      "at": 0.2,
+      "col": "gold",
+      "out": [
+       99,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Number six. The Bahamas, twenty seventeen.",
+   "spec": {
+    "type": "map",
+    "cam": [
+     -80,
+     28,
+     2.4
+    ],
+    "cam2": [
+     -75.85,
+     23.55,
+     9
+    ],
+    "chap": 6,
+    "chapsub": "THE LUXURY FESTIVAL",
+    "pins": [
+     {
+      "at": [
+       -75.85,
+       23.55
+      ],
+      "label": "Great Exuma, Bahamas",
+      "col": "red",
+      "delay": 0.5
+     }
+    ]
+   }
+  },
+  {
+   "text": "Fyre Festival promised a luxury music weekend on a tropical island, with private jets, villas and celebrities.",
+   "spec": {
+    "type": "beat",
+    "scene": "fyre",
+    "els": [
+     {
+      "e": "fly",
+      "k": "jet",
+      "fx": 200,
+      "fy": 700,
+      "tx": 1700,
+      "ty": 260,
+      "w": 380,
+      "at": 0,
+      "end": 0.4,
+      "n": 1,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "obj",
+      "k": "jet",
+      "x": 560,
+      "y": 600,
+      "w": 460,
+      "at": 0.38,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "✈️ private jets",
+      "x": 1320,
+      "y": 380,
+      "size": 46,
+      "at": 0.3,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "🏡 villas",
+      "x": 1320,
+      "y": 520,
+      "size": 46,
+      "at": 0.5,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "⭐ celebrities",
+      "x": 1320,
+      "y": 660,
+      "size": 46,
+      "at": 0.7,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "sky",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Famous models posted a glossy promo video, and one celebrity was paid two hundred seventy-five thousand dollars for a single post.",
+   "spec": {
+    "type": "beat",
+    "scene": "fyre",
+    "els": [
+     {
+      "e": "obj",
+      "k": "phone",
+      "x": 560,
+      "y": 600,
+      "w": 420,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "count",
+      "x": 1320,
+      "y": 480,
+      "to": 275000,
+      "at": 0.45,
+      "end": 0.85,
+      "pre": "$",
+      "size": 130,
+      "col": "gold",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "for ONE post",
+      "x": 1320,
+      "y": 640,
+      "size": 46,
+      "at": 0.75,
+      "bg": "red",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "VIP packages with flights and luxury tents cost up to twelve thousand dollars.",
+   "spec": {
+    "type": "beat",
+    "scene": "fyre",
+    "els": [
+     {
+      "e": "card",
+      "x": 960,
+      "y": 330,
+      "w": 700,
+      "big": "$12,000",
+      "small": "VIP package · flights + luxury tent",
+      "at": 0.1,
+      "col": "green",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "But when the guests landed in April twenty seventeen, there were no villas.",
+   "spec": {
+    "type": "beat",
+    "scene": "fyre",
+    "els": [
+     {
+      "e": "obj",
+      "k": "jet",
+      "x": 560,
+      "y": 560,
+      "w": 420,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "stamp",
+      "txt": "NO VILLAS",
+      "x": 1320,
+      "y": 520,
+      "at": 0.55,
+      "col": "red",
+      "sz": 100,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "mood": "tense"
+   }
+  },
+  {
+   "text": "Instead, they found disaster relief tents, wet mattresses, and cheese sandwiches in foam boxes.",
+   "spec": {
+    "type": "beat",
+    "scene": "fyre",
+    "els": [
+     {
+      "e": "tents",
+      "x": 700,
+      "y": 560,
+      "at": 0,
+      "out": [
+       2,
+       0
+      ]
+     },
+     {
+      "e": "sandwich",
+      "x": 1500,
+      "y": 560,
+      "w": 400,
+      "at": 0.65,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "🧀 cheese sandwich",
+      "x": 1500,
+      "y": 300,
+      "size": 40,
+      "at": 0.75,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "wet mattresses",
+      "x": 700,
+      "y": 300,
+      "size": 44,
+      "at": 0.4,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "The festival was called off that very first weekend, and guests scrambled to get off the island.",
+   "spec": {
+    "type": "beat",
+    "scene": "fyre",
+    "els": [
+     {
+      "e": "stamp",
+      "txt": "CANCELLED",
+      "x": 1400,
+      "y": 480,
+      "at": 0.1,
+      "col": "red",
+      "sz": 100,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "fly",
+      "k": "jet",
+      "fx": 1200,
+      "fy": 760,
+      "tx": 1800,
+      "ty": 200,
+      "w": 300,
+      "at": 0.6,
+      "end": 0.95,
+      "n": 1,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "The founder, Billy McFarland, had raised more than twenty-seven million dollars from over a hundred investors.",
+   "spec": {
+    "type": "beat",
+    "scene": "fyre",
+    "els": [
+     {
+      "e": "obj",
+      "k": "cash",
+      "x": 560,
+      "y": 600,
+      "w": 440,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "count",
+      "x": 1320,
+      "y": 480,
+      "to": 27.4,
+      "at": 0.35,
+      "end": 0.75,
+      "pre": "$",
+      "suf": "M",
+      "dec": 1,
+      "size": 140,
+      "col": "gold",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "from 100+ investors",
+      "x": 1320,
+      "y": 640,
+      "size": 44,
+      "at": 0.75,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "In twenty eighteen, he was sentenced to six years in prison, and ordered to forfeit twenty-six million dollars.",
+   "spec": {
+    "type": "beat",
+    "scene": "fyre",
+    "els": [
+     {
+      "e": "obj",
+      "k": "cuffs",
+      "x": 560,
+      "y": 600,
+      "w": 420,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "stamp",
+      "txt": "6 YEARS",
+      "x": 1320,
+      "y": 420,
+      "at": 0.3,
+      "col": "red",
+      "sz": 100,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "$26M forfeited",
+      "x": 1320,
+      "y": 640,
+      "size": 50,
+      "at": 0.75,
+      "bg": "red",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "The lesson: when a deal is all hype and no details, slow down.",
+   "spec": {
+    "type": "beat",
+    "scene": "fyre",
+    "els": [
+     {
+      "e": "obj",
+      "k": "samthink",
+      "x": 520,
+      "y": 620,
+      "w": 480,
+      "at": 0,
+      "out": [
+       99,
+       0
+      ]
+     },
+     {
+      "e": "card",
+      "x": 1260,
+      "y": 380,
+      "w": 760,
+      "big": "Lesson #2",
+      "small": "All hype, no details? Slow down.",
+      "at": 0.2,
+      "col": "gold",
+      "out": [
+       99,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Number five. Hamburg, Germany, nineteen eighty-three.",
+   "spec": {
+    "type": "map",
+    "cam": [
+     10,
+     51,
+     2.2
+    ],
+    "cam2": [
+     9.99,
+     53.55,
+     7
+    ],
+    "chap": 5,
+    "chapsub": "THE FAKE DIARIES",
+    "pins": [
+     {
+      "at": [
+       9.99,
+       53.55
+      ],
+      "label": "Stern magazine · Hamburg",
+      "col": "red",
+      "delay": 0.5
+     }
+    ]
+   }
+  },
+  {
+   "text": "Stern, one of Germany's biggest magazines, announced a sensation: sixty volumes of Adolf Hitler's secret diaries.",
+   "spec": {
+    "type": "beat",
+    "scene": "diaries",
+    "els": [
+     {
+      "e": "diaries",
+      "x": 600,
+      "y": 760,
+      "n": 7,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "count",
+      "x": 1320,
+      "y": 460,
+      "to": 60,
+      "at": 0.5,
+      "end": 0.85,
+      "suf": " volumes",
+      "size": 120,
+      "col": "gold",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "“secret diaries”",
+      "x": 1320,
+      "y": 620,
+      "size": 46,
+      "at": 0.7,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "sky",
+    "mood": "tense"
+   }
+  },
+  {
+   "text": "A Stern reporter had bought them in secret, for nine point three million marks. That's about three point seven million dollars.",
+   "spec": {
+    "type": "beat",
+    "scene": "diaries",
+    "els": [
+     {
+      "e": "diaries",
+      "x": 600,
+      "y": 760,
+      "n": 7,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "count",
+      "x": 1320,
+      "y": 460,
+      "to": 9.3,
+      "at": 0.2,
+      "end": 0.55,
+      "suf": "M marks",
+      "dec": 1,
+      "size": 120,
+      "col": "red",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "≈ $3.7 million",
+      "x": 1320,
+      "y": 620,
+      "size": 50,
+      "at": 0.75,
+      "bg": "red",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "A famous British historian vouched for them at first. Then, at the big press conference, he changed his mind.",
+   "spec": {
+    "type": "beat",
+    "scene": "diaries",
+    "els": [
+     {
+      "e": "obj",
+      "k": "magnifier",
+      "x": 560,
+      "y": 600,
+      "w": 420,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "✅ “they're real”",
+      "x": 1320,
+      "y": 420,
+      "size": 50,
+      "at": 0.1,
+      "dot": "green",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "❌ changed his mind",
+      "x": 1320,
+      "y": 600,
+      "size": 50,
+      "at": 0.6,
+      "bg": "red",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Forensic tests quickly showed what they really were: modern fakes.",
+   "spec": {
+    "type": "beat",
+    "scene": "diaries",
+    "els": [
+     {
+      "e": "obj",
+      "k": "magnifier",
+      "x": 560,
+      "y": 600,
+      "w": 420,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "diaries",
+      "x": 1320,
+      "y": 780,
+      "n": 5,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "stamp",
+      "txt": "FAKE",
+      "x": 1320,
+      "y": 520,
+      "at": 0.55,
+      "col": "red",
+      "sz": 110,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "The forger had even messed up the initials on one cover. Instead of A H, it said F H.",
+   "spec": {
+    "type": "beat",
+    "scene": "diaries",
+    "els": [
+     {
+      "e": "diaries",
+      "x": 960,
+      "y": 900,
+      "n": 0,
+      "big": true,
+      "cover": 0.65,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "They were written by a forger named Konrad Kujau. He and the reporter both went to prison, and several editors lost their jobs.",
+   "spec": {
+    "type": "beat",
+    "scene": "diaries",
+    "els": [
+     {
+      "e": "obj",
+      "k": "typewriter",
+      "x": 560,
+      "y": 600,
+      "w": 440,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "obj",
+      "k": "cuffs",
+      "x": 1320,
+      "y": 460,
+      "w": 300,
+      "at": 0.4,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "editors lost their jobs",
+      "x": 1320,
+      "y": 680,
+      "size": 44,
+      "at": 0.75,
+      "bg": "red",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "The lesson: when you badly want something to be true, you stop checking.",
+   "spec": {
+    "type": "beat",
+    "scene": "diaries",
+    "els": [
+     {
+      "e": "obj",
+      "k": "samthink",
+      "x": 520,
+      "y": 620,
+      "w": 480,
+      "at": 0,
+      "out": [
+       99,
+       0
+      ]
+     },
+     {
+      "e": "card",
+      "x": 1260,
+      "y": 380,
+      "w": 760,
+      "big": "Lesson #3",
+      "small": "Wanting it to be true is a trap",
+      "at": 0.2,
+      "col": "gold",
+      "out": [
+       99,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Number four. The Netherlands, nineteen thirty-seven.",
+   "spec": {
+    "type": "map",
+    "cam": [
+     5,
+     50,
+     2.4
+    ],
+    "cam2": [
+     4.48,
+     51.92,
+     8
+    ],
+    "chap": 4,
+    "chapsub": "THE FAKE VERMEERS",
+    "pins": [
+     {
+      "at": [
+       4.48,
+       51.92
+      ],
+      "label": "Rotterdam",
+      "col": "red",
+      "delay": 0.5
+     }
+    ]
+   }
+  },
+  {
+   "text": "A famous art expert announced a sensational find: a lost painting by the Dutch master Vermeer, called The Supper at Emmaus.",
+   "spec": {
+    "type": "beat",
+    "scene": "vermeer",
+    "els": [
+     {
+      "e": "painting",
+      "x": 620,
+      "y": 560,
+      "w": 420,
+      "at": 0,
+      "out": [
+       2,
+       0
+      ]
+     },
+     {
+      "e": "card",
+      "x": 1340,
+      "y": 380,
+      "w": 640,
+      "big": "“a lost Vermeer”",
+      "small": "The Supper at Emmaus",
+      "at": 0.5,
+      "col": "ink",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "sky",
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "It was bought for five hundred twenty thousand guilders, millions in today's money, and given to a museum in Rotterdam.",
+   "spec": {
+    "type": "beat",
+    "scene": "vermeer",
+    "els": [
+     {
+      "e": "count",
+      "x": 1340,
+      "y": 460,
+      "to": 520000,
+      "at": 0.1,
+      "end": 0.5,
+      "pre": "ƒ ",
+      "size": 120,
+      "col": "gold",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "≈ €4.6 million today",
+      "x": 1340,
+      "y": 620,
+      "size": 46,
+      "at": 0.6,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "But it wasn't a Vermeer. It had been painted by a Dutch artist named Han van Meegeren.",
+   "spec": {
+    "type": "beat",
+    "scene": "vermeer",
+    "els": [
+     {
+      "e": "painting",
+      "x": 620,
+      "y": 560,
+      "w": 420,
+      "at": 0,
+      "out": [
+       3,
+       0
+      ]
+     },
+     {
+      "e": "stamp",
+      "txt": "FAKE",
+      "x": 620,
+      "y": 560,
+      "at": 0.2,
+      "col": "red",
+      "sz": 110,
+      "out": [
+       3,
+       0
+      ]
+     },
+     {
+      "e": "card",
+      "x": 1340,
+      "y": 380,
+      "w": 640,
+      "big": "Han van Meegeren",
+      "small": "the painter behind it",
+      "at": 0.55,
+      "col": "ink",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "During the war, another one of his fakes ended up with Hermann Göring, one of the most powerful Nazis, who traded a hundred and thirty-seven looted paintings for it.",
+   "spec": {
+    "type": "beat",
+    "scene": "vermeer",
+    "els": [
+     {
+      "e": "count",
+      "x": 1340,
+      "y": 460,
+      "to": 137,
+      "at": 0.5,
+      "end": 0.85,
+      "suf": " paintings",
+      "size": 110,
+      "col": "red",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "traded for one fake",
+      "x": 1340,
+      "y": 620,
+      "size": 46,
+      "at": 0.85,
+      "bg": "red",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "mood": "tense"
+   }
+  },
+  {
+   "text": "In nineteen forty-five, van Meegeren was arrested for helping the enemy. He was even threatened with the death penalty.",
+   "spec": {
+    "type": "beat",
+    "scene": "vermeer",
+    "els": [
+     {
+      "e": "obj",
+      "k": "cuffs",
+      "x": 1340,
+      "y": 520,
+      "w": 340,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "So he confessed: it's not a Vermeer, it's mine. And to prove it, he painted a brand new Vermeer, while court-appointed witnesses watched.",
+   "spec": {
+    "type": "beat",
+    "scene": "vermeer2",
+    "els": [
+     {
+      "e": "painting",
+      "x": 760,
+      "y": 560,
+      "w": 420,
+      "at": 0.45,
+      "end": 0.95,
+      "paint": 1,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "👀 witnesses watching",
+      "x": 1460,
+      "y": 400,
+      "size": 44,
+      "at": 0.55,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "obj",
+      "k": "samthink",
+      "x": 1460,
+      "y": 680,
+      "w": 340,
+      "at": 0.7,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "The collaboration charges were dropped. In nineteen forty-seven, he was convicted of forgery and fraud, and sentenced to one year.",
+   "spec": {
+    "type": "beat",
+    "scene": "vermeer2",
+    "els": [
+     {
+      "e": "obj",
+      "k": "gavel",
+      "x": 560,
+      "y": 600,
+      "w": 440,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "stamp",
+      "txt": "1 YEAR",
+      "x": 1320,
+      "y": 460,
+      "at": 0.7,
+      "col": "red",
+      "sz": 110,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "He died just weeks later. Experts estimate his fakes had earned him the equivalent of twenty-five to thirty million dollars today.",
+   "spec": {
+    "type": "beat",
+    "scene": "vermeer2",
+    "els": [
+     {
+      "e": "obj",
+      "k": "coins",
+      "x": 560,
+      "y": 600,
+      "w": 440,
+      "at": 0.3,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "tx",
+      "txt": "$25–30M",
+      "x": 1320,
+      "y": 480,
+      "size": 120,
+      "at": 0.5,
+      "col": "gold",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "in today's money",
+      "x": 1320,
+      "y": 620,
+      "size": 44,
+      "at": 0.7,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "The lesson: even experts can be fooled, especially by the thing they've always hoped to find.",
+   "spec": {
+    "type": "beat",
+    "scene": "vermeer2",
+    "els": [
+     {
+      "e": "obj",
+      "k": "samthink",
+      "x": 520,
+      "y": 620,
+      "w": 480,
+      "at": 0,
+      "out": [
+       99,
+       0
+      ]
+     },
+     {
+      "e": "card",
+      "x": 1260,
+      "y": 380,
+      "w": 760,
+      "big": "Lesson #4",
+      "small": "Even experts get fooled",
+      "at": 0.2,
+      "col": "gold",
+      "out": [
+       99,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Number three. London, eighteen twenty-two.",
+   "spec": {
+    "type": "map",
+    "cam": [
+     -2,
+     54,
+     2.4
+    ],
+    "cam2": [
+     -0.12,
+     51.5,
+     8
+    ],
+    "chap": 3,
+    "chapsub": "THE COUNTRY THAT DIDN'T EXIST",
+    "pins": [
+     {
+      "at": [
+       -0.12,
+       51.5
+      ],
+      "label": "London",
+      "col": "red",
+      "delay": 0.5
+     }
+    ]
+   }
+  },
+  {
+   "text": "A Scottish soldier named Gregor MacGregor told high society that he was the ruler of a country called Poyais, in Central America.",
+   "spec": {
+    "type": "beat",
+    "scene": "poyais",
+    "els": [
+     {
+      "e": "obj",
+      "k": "conman",
+      "x": 560,
+      "y": 620,
+      "w": 480,
+      "at": 0,
+      "out": [
+       2,
+       0
+      ]
+     },
+     {
+      "e": "card",
+      "x": 1320,
+      "y": 360,
+      "w": 680,
+      "big": "Cazique of Poyais",
+      "small": "“ruler” of a Central American land",
+      "at": 0.4,
+      "col": "ink",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "sky",
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "He described rich farmland, a growing capital city, and settlers getting wealthy. There was even a guidebook.",
+   "spec": {
+    "type": "beat",
+    "scene": "poyais",
+    "els": [
+     {
+      "e": "pill",
+      "txt": "🌾 rich farmland",
+      "x": 1320,
+      "y": 340,
+      "size": 46,
+      "at": 0.05,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "🏙️ a capital city",
+      "x": 1320,
+      "y": 480,
+      "size": 46,
+      "at": 0.3,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "letter",
+      "x": 1320,
+      "y": 560,
+      "w": 560,
+      "head": "SKETCH OF THE MOSQUITO SHORE",
+      "body": "…including the Territory of Poyais",
+      "at": 0.75,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "In London, investors bought two hundred thousand pounds' worth of Poyais government bonds.",
+   "spec": {
+    "type": "beat",
+    "scene": "poyais",
+    "els": [
+     {
+      "e": "obj",
+      "k": "bond",
+      "x": 560,
+      "y": 600,
+      "w": 460,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "count",
+      "x": 1320,
+      "y": 480,
+      "to": 200000,
+      "at": 0.3,
+      "end": 0.8,
+      "pre": "£",
+      "size": 130,
+      "col": "gold",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "Poyais bonds · 1822",
+      "x": 1320,
+      "y": 640,
+      "size": 44,
+      "at": 0.7,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "And around two hundred and fifty people packed up their lives and sailed across the Atlantic to their new home.",
+   "spec": {
+    "type": "map",
+    "cam": [
+     -45,
+     35,
+     1.3
+    ],
+    "arc": {
+     "a": [
+      -0.12,
+      51.5
+     ],
+     "b": [
+      -84.5,
+      15.8
+     ],
+     "label": "≈ 250 settlers set sail"
+    },
+    "pins": [
+     {
+      "at": [
+       -84.5,
+       15.8
+      ],
+      "label": "“Poyais” · Mosquito Coast",
+      "col": "gold",
+      "delay": 0.75
+     }
+    ]
+   }
+  },
+  {
+   "text": "When they arrived, there was no capital and no farms. Poyais simply didn't exist.",
+   "spec": {
+    "type": "map",
+    "cam": [
+     -85,
+     15.5,
+     7
+    ],
+    "pins": [
+     {
+      "at": [
+       -84.5,
+       15.8
+      ],
+      "label": "“Poyais”",
+      "col": "red",
+      "delay": 0.1,
+      "closed": true
+     }
+    ]
+   }
+  },
+  {
+   "text": "Disease spread through the camps. More than half of the settlers died.",
+   "spec": {
+    "type": "beat",
+    "scene": "poyais2",
+    "els": [
+     {
+      "e": "tx",
+      "txt": "MORE THAN HALF",
+      "x": 960,
+      "y": 440,
+      "size": 120,
+      "at": 0.55,
+      "col": "red",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "of the settlers died",
+      "x": 960,
+      "y": 600,
+      "size": 50,
+      "at": 0.75,
+      "bg": "red",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "people",
+      "x": 960,
+      "y": 910,
+      "n": 10,
+      "at": 0.05,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "mood": "tense"
+   }
+  },
+  {
+   "text": "Later, MacGregor was put on trial for fraud in France. And he was acquitted.",
+   "spec": {
+    "type": "beat",
+    "scene": "poyais2",
+    "els": [
+     {
+      "e": "obj",
+      "k": "scales",
+      "x": 560,
+      "y": 600,
+      "w": 440,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "stamp",
+      "txt": "ACQUITTED",
+      "x": 1320,
+      "y": 480,
+      "at": 0.7,
+      "col": "green",
+      "sz": 90,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "The lesson: if you can't check something with your own eyes, don't bet everything on it.",
+   "spec": {
+    "type": "beat",
+    "scene": "poyais2",
+    "els": [
+     {
+      "e": "obj",
+      "k": "samthink",
+      "x": 520,
+      "y": 620,
+      "w": 480,
+      "at": 0,
+      "out": [
+       99,
+       0
+      ]
+     },
+     {
+      "e": "card",
+      "x": 1260,
+      "y": 380,
+      "w": 760,
+      "big": "Lesson #5",
+      "small": "Can't check it? Don't bet everything.",
+      "at": 0.2,
+      "col": "gold",
+      "out": [
+       99,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Number two. New York, December twenty-oh-eight.",
+   "spec": {
+    "type": "map",
+    "cam": [
+     -90,
+     40,
+     1.4
+    ],
+    "cam2": [
+     -73.98,
+     40.76,
+     8
+    ],
+    "chap": 2,
+    "chapsub": "THE $65 BILLION LIE",
+    "pins": [
+     {
+      "at": [
+       -73.98,
+       40.76
+      ],
+      "label": "Manhattan",
+      "col": "red",
+      "delay": 0.5
+     }
+    ]
+   }
+  },
+  {
+   "text": "Bernie Madoff was a Wall Street legend, and a former chairman of the Nasdaq stock exchange.",
+   "spec": {
+    "type": "beat",
+    "scene": "madoff",
+    "els": [
+     {
+      "e": "obj",
+      "k": "bank",
+      "x": 560,
+      "y": 600,
+      "w": 460,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "card",
+      "x": 1320,
+      "y": 360,
+      "w": 680,
+      "big": "Bernie Madoff",
+      "small": "former Nasdaq chairman",
+      "at": 0.3,
+      "col": "ink",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "sky",
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "For decades, his clients got smooth, steady returns, year after year, no matter what the market did.",
+   "spec": {
+    "type": "beat",
+    "scene": "madoff",
+    "els": [
+     {
+      "e": "chart",
+      "kind": "up",
+      "x": 260,
+      "y": 280,
+      "w": 1400,
+      "h": 520,
+      "at": 0,
+      "end": 0.8,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "📈 steady, every year",
+      "x": 1500,
+      "y": 220,
+      "size": 44,
+      "at": 0.5,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "But there were no real trades. Money from new investors was used to pay the old ones. A Ponzi scheme.",
+   "spec": {
+    "type": "beat",
+    "scene": "madoff",
+    "els": [
+     {
+      "e": "obj",
+      "k": "vault",
+      "x": 560,
+      "y": 600,
+      "w": 440,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "fly",
+      "k": "cash",
+      "fx": 1500,
+      "fy": 300,
+      "tx": 560,
+      "ty": 600,
+      "w": 150,
+      "at": 0.1,
+      "end": 0.6,
+      "n": 5,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "stamp",
+      "txt": "PONZI SCHEME",
+      "x": 1320,
+      "y": 520,
+      "at": 0.75,
+      "col": "red",
+      "sz": 80,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "mood": "tense"
+   }
+  },
+  {
+   "text": "In December twenty-oh-eight, he told his sons the business was one big lie. They reported him to the authorities.",
+   "spec": {
+    "type": "beat",
+    "scene": "madoff",
+    "els": [
+     {
+      "e": "obj",
+      "k": "samyell",
+      "x": 560,
+      "y": 620,
+      "w": 440,
+      "at": 0.1,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "“one big lie”",
+      "x": 1320,
+      "y": 420,
+      "size": 56,
+      "at": 0.35,
+      "bg": "red",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "obj",
+      "k": "cuffs",
+      "x": 1320,
+      "y": 640,
+      "w": 280,
+      "at": 0.8,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "cut": true
+   }
+  },
+  {
+   "text": "Client statements showed almost sixty-five billion dollars, including gains that were completely made up.",
+   "spec": {
+    "type": "beat",
+    "scene": "madoff",
+    "els": [
+     {
+      "e": "obj",
+      "k": "burn",
+      "x": 560,
+      "y": 600,
+      "w": 460,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "count",
+      "x": 1320,
+      "y": 480,
+      "to": 65,
+      "at": 0.2,
+      "end": 0.7,
+      "pre": "$",
+      "suf": "B",
+      "size": 160,
+      "col": "red",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "incl. fake gains",
+      "x": 1320,
+      "y": 650,
+      "size": 44,
+      "at": 0.75,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "He was sentenced to a hundred and fifty years in prison, the maximum, and died there in twenty twenty-one.",
+   "spec": {
+    "type": "beat",
+    "scene": "madoff",
+    "els": [
+     {
+      "e": "obj",
+      "k": "gavel",
+      "x": 560,
+      "y": 600,
+      "w": 440,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "stamp",
+      "txt": "150 YEARS",
+      "x": 1320,
+      "y": 460,
+      "at": 0.3,
+      "col": "red",
+      "sz": 100,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "A court-appointed trustee has since recovered billions of dollars for the victims.",
+   "spec": {
+    "type": "beat",
+    "scene": "madoff",
+    "els": [
+     {
+      "e": "count",
+      "x": 1320,
+      "y": 480,
+      "to": 14.8,
+      "at": 0.2,
+      "end": 0.7,
+      "pre": "$",
+      "suf": "B",
+      "dec": 1,
+      "size": 140,
+      "col": "green",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "recovered for victims",
+      "x": 1320,
+      "y": 640,
+      "size": 44,
+      "at": 0.6,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "obj",
+      "k": "coins",
+      "x": 560,
+      "y": 600,
+      "w": 440,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "The lesson: returns that look too smooth to be true usually are.",
+   "spec": {
+    "type": "beat",
+    "scene": "madoff",
+    "els": [
+     {
+      "e": "obj",
+      "k": "samthink",
+      "x": 520,
+      "y": 620,
+      "w": 480,
+      "at": 0,
+      "out": [
+       99,
+       0
+      ]
+     },
+     {
+      "e": "card",
+      "x": 1260,
+      "y": 380,
+      "w": 760,
+      "big": "Lesson #6",
+      "small": "Too smooth to be true? It usually is.",
+      "at": 0.2,
+      "col": "gold",
+      "out": [
+       99,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Number one. Paris, nineteen twenty-five.",
+   "spec": {
+    "type": "map",
+    "cam": [
+     5,
+     49,
+     2.2
+    ],
+    "cam2": [
+     2.32,
+     48.87,
+     8
+    ],
+    "chap": 1,
+    "chapsub": "THE MAN WHO SOLD THE EIFFEL TOWER",
+    "pins": [
+     {
+      "at": [
+       2.29,
+       48.858
+      ],
+      "label": "Eiffel Tower",
+      "col": "gold",
+      "delay": 0.4
+     },
+     {
+      "at": [
+       2.32,
+       48.867
+      ],
+      "label": "Hôtel de Crillon",
+      "col": "red",
+      "delay": 0.7,
+      "dy": 1
+     }
+    ]
+   }
+  },
+  {
+   "text": "A con man named Victor Lustig read that the Eiffel Tower was expensive to maintain. And he had an idea.",
+   "spec": {
+    "type": "beat",
+    "scene": "lustig",
+    "els": [
+     {
+      "e": "obj",
+      "k": "eiffel",
+      "x": 600,
+      "y": 600,
+      "w": 560,
+      "at": 0,
+      "out": [
+       3,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "💸 costly upkeep",
+      "x": 1320,
+      "y": 380,
+      "size": 46,
+      "at": 0.3,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "obj",
+      "k": "conman",
+      "x": 1320,
+      "y": 660,
+      "w": 360,
+      "at": 0.65,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "sky",
+    "mood": "tense"
+   }
+  },
+  {
+   "text": "Posing as a deputy director of France's postal and telegraph ministry, he invited the biggest scrap metal dealers in Paris to a meeting at a luxury hotel.",
+   "spec": {
+    "type": "beat",
+    "scene": "lustig",
+    "els": [
+     {
+      "e": "letter",
+      "x": 1340,
+      "y": 300,
+      "w": 680,
+      "head": "MINISTÈRE DES POSTES ET TÉLÉGRAPHES",
+      "body": "Confidential: you are invited to a meeting at the Hôtel de Crillon…",
+      "at": 0.1,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "His secret: the tower would be torn down, and one lucky dealer could buy its seven thousand tons of metal.",
+   "spec": {
+    "type": "beat",
+    "scene": "lustig",
+    "els": [
+     {
+      "e": "count",
+      "x": 1340,
+      "y": 440,
+      "to": 7000,
+      "at": 0.45,
+      "end": 0.85,
+      "suf": " tons",
+      "size": 120,
+      "col": "gold",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "🏗️ scrap metal for sale",
+      "x": 1340,
+      "y": 600,
+      "size": 44,
+      "at": 0.65,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "A dealer named André Poisson wanted the deal badly. He paid twenty thousand dollars in cash, plus fifty thousand more to make sure he won.",
+   "spec": {
+    "type": "beat",
+    "scene": "lustig2",
+    "els": [
+     {
+      "e": "obj",
+      "k": "scrap",
+      "x": 560,
+      "y": 640,
+      "w": 520,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "count",
+      "x": 1320,
+      "y": 460,
+      "to": 70000,
+      "at": 0.3,
+      "end": 0.9,
+      "pre": "$",
+      "size": 130,
+      "col": "green",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "$20,000 cash + $50,000",
+      "x": 1320,
+      "y": 620,
+      "size": 44,
+      "at": 0.8,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Then Lustig left Paris with the money. And Poisson was so embarrassed, he never went to the police.",
+   "spec": {
+    "type": "beat",
+    "scene": "lustig2",
+    "els": [
+     {
+      "e": "fly",
+      "k": "cash",
+      "fx": 1320,
+      "fy": 460,
+      "tx": 1850,
+      "ty": 200,
+      "w": 160,
+      "at": 0.05,
+      "end": 0.35,
+      "n": 4,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "obj",
+      "k": "samsad",
+      "x": 560,
+      "y": 640,
+      "w": 420,
+      "at": 0.3,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "stamp",
+      "txt": "NEVER REPORTED",
+      "x": 1320,
+      "y": 520,
+      "at": 0.7,
+      "col": "red",
+      "sz": 76,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "cut": true
+   }
+  },
+  {
+   "text": "Lustig even came back to Paris to try it again, but fled when he suspected the police had been tipped off.",
+   "spec": {
+    "type": "beat",
+    "scene": "lustig2",
+    "els": [
+     {
+      "e": "obj",
+      "k": "eiffel",
+      "x": 560,
+      "y": 600,
+      "w": 480,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "🔁 second attempt",
+      "x": 1320,
+      "y": 400,
+      "size": 50,
+      "at": 0.2,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "🏃 fled",
+      "x": 1320,
+      "y": 560,
+      "size": 50,
+      "at": 0.7,
+      "bg": "red",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Years later, in New York, he was caught with fifty-one thousand dollars in fake bills, and sent to Alcatraz.",
+   "spec": {
+    "type": "beat",
+    "scene": "lustig2",
+    "els": [
+     {
+      "e": "obj",
+      "k": "cuffs",
+      "x": 560,
+      "y": 600,
+      "w": 420,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "count",
+      "x": 1320,
+      "y": 460,
+      "to": 51000,
+      "at": 0.3,
+      "end": 0.7,
+      "pre": "$",
+      "size": 120,
+      "col": "red",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "in counterfeit bills",
+      "x": 1320,
+      "y": 610,
+      "size": 44,
+      "at": 0.5,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "stamp",
+      "txt": "ALCATRAZ",
+      "x": 1320,
+      "y": 780,
+      "at": 0.85,
+      "col": "red",
+      "sz": 70,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Every con on this list worked the same way: a story so good, that people didn't want to check it.",
+   "spec": {
+    "type": "beat",
+    "scene": "outro",
+    "els": [
+     {
+      "e": "obj",
+      "k": "samthink",
+      "x": 480,
+      "y": 620,
+      "w": 480,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "tx",
+      "txt": "a story too good to check",
+      "x": 1260,
+      "y": 420,
+      "size": 70,
+      "at": 0.45,
+      "col": "gold",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "sky",
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "An heiress, a festival, lost diaries, a lost painting, a whole country, perfect returns, and the Eiffel Tower.",
+   "spec": {
+    "type": "beat",
+    "scene": "outro",
+    "els": [
+     {
+      "e": "obj",
+      "k": "bag",
+      "x": 300,
+      "y": 440,
+      "w": 220,
+      "at": 0.02,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "obj",
+      "k": "jet",
+      "x": 620,
+      "y": 440,
+      "w": 240,
+      "at": 0.14,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "diaries",
+      "x": 940,
+      "y": 560,
+      "n": 3,
+      "at": 0.27,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "painting",
+      "x": 1260,
+      "y": 440,
+      "w": 170,
+      "at": 0.42,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "obj",
+      "k": "bond",
+      "x": 1580,
+      "y": 440,
+      "w": 220,
+      "at": 0.55,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "obj",
+      "k": "vault",
+      "x": 700,
+      "y": 760,
+      "w": 200,
+      "at": 0.7,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "obj",
+      "k": "eiffel",
+      "x": 1200,
+      "y": 760,
+      "w": 260,
+      "at": 0.85,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Which one would have fooled you? Tell me in the comments. And if you like true money stories, subscribe.",
+   "spec": {
+    "type": "beat",
+    "scene": "outro",
+    "els": [
+     {
+      "e": "obj",
+      "k": "samhappy",
+      "x": 560,
+      "y": 600,
+      "w": 560,
+      "at": 0,
+      "out": [
+       99,
+       0
+      ]
+     },
+     {
+      "e": "card",
+      "x": 1300,
+      "y": 300,
+      "w": 720,
+      "big": "Which one would fool you?",
+      "small": "tell me in the comments 👇",
+      "at": 0.05,
+      "col": "ink",
+      "out": [
+       99,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "🔔 Subscribe for more true money stories",
+      "x": 1300,
+      "y": 640,
+      "size": 44,
+      "at": 0.55,
+      "bg": "red",
+      "out": [
+       99,
+       0
+      ]
+     }
+    ]
+   }
+  }
+ ]
+}
