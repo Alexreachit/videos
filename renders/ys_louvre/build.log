@@ -1,17 +1,18 @@
 TTS Versuch 1 fehlgeschlagen: No audio was received. Please verify that your parameters are correct.
+TTS Versuch 2 fehlgeschlagen: 429, message='Invalid response status', url='wss://api.msedgeservices.com/tts/cognitiveservices/websocket/v1?Ocp-Apim-Subscription-Key=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=b2a5e12e317048ff8f5a1159017f6cd4&Sec-MS-GEC=1289BF7AE2EEB720-F444E2204C9808E1E7000BE0D96EB6CC15D1AA1A6B38E654A01E9F9A799D8F88&Sec-MS-GEC-Version=2-143.0.3650.75'
+TTS Versuch 3 fehlgeschlagen: No audio was received. Please verify that your parameters are correct.
 Zeile 0: 0.05-2.88  Seven minutes. That's all it took to rob the Louvre.
-TTS Versuch 1 fehlgeschlagen: 429, message='Invalid response status', url='wss://api.msedgeservices.com/tts/cognitiveservices/websocket/v1?Ocp-Apim-Subscription-Key=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=36ece96170ef4392898cbc7af031bbe0&Sec-MS-GEC=46CEE7E5634AB332-630A70DD4B57D51B0F0667A766FF3855AF3F25CBD8FD03BFDE1701E477FEC59C&Sec-MS-GEC-Version=2-143.0.3650.75'
-Zeile 1: 2.96-7.45  In October twenty twenty-five, a truck with a ladder lift parked right below a window.
-Zeile 2: 7.53-10.60  Two men in work vests rode it up and cut through the glass.
-TTS Versuch 1 fehlgeschlagen: 429, message='Invalid response status', url='wss://api.msedgeservices.com/tts/cognitiveservices/websocket/v1?Ocp-Apim-Subscription-Key=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=4d11f65542ce462f9f6d3bbab39bab3f&Sec-MS-GEC=46CEE7E5634AB332-630A70DD4B57D51B0F0667A766FF3855AF3F25CBD8FD03BFDE1701E477FEC59C&Sec-MS-GEC-Version=2-143.0.3650.75'
-Zeile 3: 10.68-14.11  Inside, they grabbed eight pieces of the French crown jewels.
-Zeile 4: 14.19-16.23  Worth about one hundred million dollars.
-Zeile 5: 16.31-19.58  On the way out, they dropped a crown with over a thousand diamonds.
-Zeile 6: 19.66-23.95  Four suspects were arrested. But one year later, the jewels are still missing.
-Zeile 7: 24.03-25.91  Where do you think they are?
-  Worker 585: 100/195 Frames, 40s
-  Worker 390: 100/195 Frames, 45s
-  Worker 195: 100/195 Frames, 45s
-  Worker 0: 100/195 Frames, 56s
-780 Frames in 91s
-FERTIG output/ys_louvre_final.mp4 26.01s
+Zeile 1: 2.96-7.47  In October twenty twenty-five, a truck with a ladder lift parked right below a window.
+Zeile 2: 7.55-10.75  Two men in work vests rode it up and cut through the glass.
+Zeile 3: 10.83-14.26  Inside, they grabbed eight pieces of the French crown jewels.
+Zeile 4: 14.34-16.38  Worth about one hundred million dollars.
+TTS Versuch 1 fehlgeschlagen: 429, message='Invalid response status', url='wss://api.msedgeservices.com/tts/cognitiveservices/websocket/v1?Ocp-Apim-Subscription-Key=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=6188c10d9a8241f08ccca8671f4b51ea&Sec-MS-GEC=1B0D22940E7FF1DE-C4D3926F4DC3DA5C6EE7A37985906BA917E1CE31A5E652B98F1BBF102B3BA237&Sec-MS-GEC-Version=2-143.0.3650.75'
+Zeile 5: 16.46-19.77  On the way out, they dropped a crown with over a thousand diamonds.
+Zeile 6: 19.85-24.15  Four suspects were arrested. But one year later, the jewels are still missing.
+Zeile 7: 24.23-26.10  Where do you think they are?
+  Worker 591: 100/195 Frames, 32s
+  Worker 394: 100/197 Frames, 34s
+  Worker 197: 100/197 Frames, 35s
+  Worker 0: 100/197 Frames, 45s
+786 Frames in 73s
+FERTIG output/ys_louvre_final.mp4 26.2s
