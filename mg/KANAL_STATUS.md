@@ -352,9 +352,9 @@
 
 ## AUTOMATIK-PLAN (Alex 2026-11-16 ~12:00: voll automatisch, keine Rückfragen)
 - Short alle 2 Tage, Langvideo alle 3 Tage; selbst auswählen, bauen, hochladen, öffentlich 19:00 planen.
-- Short-Termine: ys_pizza (Bitcoin-Pizza) tatsächlich 17.11. 19:00 -> nächster fällig 19.11., dann 21.11. …
+- Short-Termine: ys_pizza 17.11. 19:00 | ys_louvre 19.11. 19:00 (geplant) -> nächster fällig 21.11., dann 23.11. …
 - Langvideo-Termine: erstes fällig 19.11. (danach 22.11., 25.11. …). Langvideo in Arbeit: – (yt_cons16 geplant 19.11.; nächstes Langvideo fällig 22.11.)
-- Ideen-Vorrat Shorts: Louvre-Juwelenraub 2025 | Fyre Festival 2017 | Ronaldo/Coca-Cola-Flaschen 2021 (-$4 Mrd. Börsenwert) | Mt. Gox | Lustig-ähnliche Betrüger.
+- Ideen-Vorrat Shorts: Fyre Festival 2017 | Ronaldo/Coca-Cola-Flaschen 2021 (-$4 Mrd. Börsenwert) | Mt. Gox | Lustig-ähnliche Betrüger.
 - Animations-Test: ys_pizza = komplett Code-gezeichnete Objekte (Pizza, Bitcoin-Münze, Röhrenmonitor, Handy) im Sky-Stil, kein Gemini (PC-Downloads nicht erreichbar). Mit Blockbuster (ebenfalls Code-Objekte) vergleichen.
 - 2026-11-16 13:45: ys_pizza FERTIG (mg-batch Run 43867215996, 25,9 s, Ø -20,6 dB / max -3,5 dB, Loop geprüft, Kontaktblätter angesehen: Endkarte überlappte mit Hook-Titel -> korrigiert, neu gerendert).
   Upload-Datei: renders/ys_pizza/ys_pizza_final.mp4 (2-Pass 2700k -> 9,2 MB). UPLOAD AUSSTEHEND: Chrome-Erweiterung um 13:45 nicht erreichbar.
@@ -380,3 +380,13 @@
   HOCHGELADEN + GEPLANT: "History's Boldest Con Artists (One Sold the Eiffel Tower)" ID wWp3nB7dgJE (8:09), öffentlich 19.11.2026 19:00 (GMT+1), eigenes Thumbnail, Beschreibung mit 9 Kapiteln + Quellen + Hashtags, nicht für Kinder. Upload über 14 Teile à 9,5 MB + DataTransfer (volle Qualität).
 - NÄCHSTE TERMINE: Short fällig 19.11. (Ideen: Louvre-Juwelenraub 2025 | Ronaldo/Coca-Cola 2021 | Fyre-Festival-Short aus yt_cons16-Szenen) -> im Lauf am 18./19.11. bauen. Langvideo fällig 22.11. (Ideen: "Biggest Heists in History" | "Companies That Turned Down Fortunes" (Blockbuster-Erfolg)).
 - Auswertung beim nächsten Lauf: Pizza-Short Eslb30E1uUk (Code-Objekte, Bitcoin) vs. Blockbuster; ab 20.11. CTR des neuen Thumbnails (Wahrzeichen + SOLD-Stempel, wenig Text) vs. Ponzi 0,6 %.
+
+## Lauf 2026-11-17 ~17:00 MEZ (Routine, Automatik)
+- Chrome erreichbar. Zahlen seit Morgen praktisch unverändert: Blockbuster 583 | Hushpuppi 3 | Escobar 29 | PayPal 34 | Milch 294 | Eiffel 1.262 | Langform: Bank 1.200, Mistakes 19, Ponzi 20, Never-age 1, Supermarkt 1. Pizza (17.11. 19:00) und yt_cons16 (19.11. 19:00) als geplant bestätigt.
+- Erkenntnis: nichts Neues (Pizza geht erst heute Abend live). Auswertung Pizza vs. Blockbuster beim nächsten Lauf.
+- SHORT GEBAUT + GEPLANT: ys_louvre "They Robbed the Louvre in 7 Minutes 👑" ID ZLKwvpFuD24, öffentlich 19.11.2026 19:00 (GMT+1), nicht für Kinder, Beschreibung mit Quellen + #louvre #heist #truecrime #shorts.
+  Animations-Test: Hook-Bild zeigt Drama sofort (Krone mit STOLEN-Stempel über Louvre-Pyramide + "IN 7 MINUTES"), persistente Heist-Uhr oben (9:30 -> 9:38 AM, ALARM rot) über 5 Szenen, Leiterwagen-Szene über 2 Sätze ohne Schnitt (Wagen fährt ein, Leiter fährt aus, Funken am Fenster), Juwelen fliegen einzeln in die Tasche mit Zähler, Krone fällt + verbiegt, "STILL MISSING"-Stempel; alles Code-gezeichnet (Sky-Stil), Musik suspense, Cut auf "$100 Million".
+  Fakten: ABC News Timeline 21.10.2025 (7 Min, Leiterwagen, Winkelschleifer, 8 Stücke, $102 Mio., Krone Eugénie >1.000 Diamanten fallen gelassen, Motorräder); AFP 20.10.2026 (4 Hauptverdächtige in U-Haft, Juwelen weiter bei Interpol als vermisst, ~$100 Mio./€88 Mio.).
+  Render v1 Run 44120028095 -> Sichtprüfung (Kontaktblätter 1 Bild/s angesehen): Uhr überlappte "THEY'RE IN", Wortabstände in "WHERE ARE THE JEWELS?" fehlten, leere Kopfzeile am Szenenanfang (Escape/Arrested), Kommentar-Pill zu spät -> korrigiert; v2 (26,2 s, Ø -20,5 dB / max -3,0 dB, Loop erster=letzter Frame) nachgeprüft ok. Upload 2-Pass 2700k (9,3 MB).
+- NÄCHSTE TERMINE: Short fällig 21.11. (Ideen: Ronaldo/Coca-Cola 2021 | Fyre Festival | Mt. Gox). Langvideo fällig 22.11. – noch NICHT begonnen (Ideen: "Biggest Heists in History" (Louvre-Szenen wiederverwenden) | "Companies That Turned Down Fortunes" (Blockbuster-Erfolg)) -> im nächsten Lauf starten.
+- Auswertung nächster Lauf: Pizza Eslb30E1uUk (live 17.11.), ab 20.11. CTR yt_cons16 wWp3nB7dgJE und Louvre ZLKwvpFuD24 (Hook-Bild mit Drama).
