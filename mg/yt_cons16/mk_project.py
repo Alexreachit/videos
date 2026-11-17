@@ -73,7 +73,7 @@ A("The loan never came through. But one bank did give her a hundred-thousand-dol
                P("overdraft", 1320, 660, 44, .5, out=N1), dict(e="fly", k="cash", fx=560, fy=600, tx=1500, ty=260, w=150, at=.75, end=.98, n=5, out=N1)]))
 A("She lived in luxury hotels without paying, and a friend ended up covering a sixty-two-thousand-dollar bill from a trip to Marrakesh.",
   B("delvey", [P("🏨 unpaid hotel bills", 560, 360, 46, .05, out=N1), CT(1320, 520, 62000, .5, .85, pre="$", size=130, col="red", out=N1),
-               P("✈️ Marrakesh trip · paid by a friend", 1320, 680, 40, .7, out=N1), O("samsad", 560, 660, 380, .55, out=N1)]))
+               P("✈️ Marrakesh trip · paid by a friend", 1320, 680, 40, .7, out=N1), O("samsad", 560, 660, 380, .1, out=N1)]))
 A("In twenty nineteen, a jury in New York found her guilty on eight counts. She got four to twelve years in prison.",
   B("delvey", [O("gavel", 560, 600, 440, 0, out=N1), ST("GUILTY", 1320, 380, .3, col="red", sz=100, out=N1), P("⛓️ 4–12 years", 1320, 600, 56, .75, bg="red", out=N1)]))
 A("And then Netflix paid her three hundred twenty thousand dollars for the rights to her story.",
@@ -142,7 +142,7 @@ A("During the war, another one of his fakes ended up with Hermann Göring, one o
 A("In nineteen forty-five, van Meegeren was arrested for helping the enemy. He was even threatened with the death penalty.",
   B("vermeer", [O("cuffs", 1340, 520, 340, 0, out=N1)]))
 A("So he confessed: it's not a Vermeer, it's mine. And to prove it, he painted a brand new Vermeer, while court-appointed witnesses watched.",
-  B("vermeer2", [dict(e="painting", x=760, y=560, w=420, at=.45, end=.95, paint=1, out=N1), P("👀 witnesses watching", 1460, 400, 44, .55, out=N1), O("samthink", 1460, 680, 340, .7, out=N1)]))
+  B("vermeer2", [P("“It's not a Vermeer. It's mine!”", 960, 540, 60, .02, bg="red", out=[0, .42]), dict(e="painting", x=760, y=560, w=420, at=.45, end=.95, paint=1, out=N1), P("👀 witnesses watching", 1460, 400, 44, .55, out=N1), O("samthink", 1460, 680, 340, .7, out=N1)]))
 A("The collaboration charges were dropped. In nineteen forty-seven, he was convicted of forgery and fraud, and sentenced to one year.",
   B("vermeer2", [O("gavel", 560, 600, 440, 0, out=N1), ST("1 YEAR", 1320, 460, .7, col="red", sz=110, out=N1)]))
 A("He died just weeks later. Experts estimate his fakes had earned him the equivalent of twenty-five to thirty million dollars today.",
@@ -207,7 +207,7 @@ A("His secret: the tower would be torn down, and one lucky dealer could buy its 
 A("A dealer named André Poisson wanted the deal badly. He paid twenty thousand dollars in cash, plus fifty thousand more to make sure he won.",
   B("lustig2", [O("scrap", 560, 640, 520, 0, out=N1), CT(1320, 460, 70000, .3, .9, pre="$", size=130, col="green", out=N1), P("$20,000 cash + $50,000", 1320, 620, 44, .8, out=N1)]))
 A("Then Lustig left Paris with the money. And Poisson was so embarrassed, he never went to the police.",
-  B("lustig2", [dict(e="fly", k="cash", fx=1320, fy=460, tx=1850, ty=200, w=160, at=.05, end=.35, n=4, out=N1), O("samsad", 560, 640, 420, .3, out=N1),
+  B("lustig2", [P("💼 Lustig leaves Paris", 960, 300, 52, .02, out=[0, .5]), dict(e="fly", k="cash", fx=1320, fy=460, tx=1850, ty=200, w=160, at=.05, end=.35, n=4, out=N1), O("samsad", 560, 640, 420, .3, out=N1),
                 ST("NEVER REPORTED", 1320, 520, .7, col="red", sz=76, out=N1)], cut=True))
 A("Lustig even came back to Paris to try it again, but fled when he suspected the police had been tipped off.",
   B("lustig2", [O("eiffel", 560, 600, 480, 0, out=N1), P("🔁 second attempt", 1320, 400, 50, .2, out=N1), P("🏃 fled", 1320, 560, 50, .7, bg="red", out=N1)]))

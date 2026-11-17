@@ -500,7 +500,7 @@
       "x": 560,
       "y": 660,
       "w": 380,
-      "at": 0.55,
+      "at": 0.1,
       "out": [
        1,
        0
@@ -1610,6 +1610,19 @@
     "scene": "vermeer2",
     "els": [
      {
+      "e": "pill",
+      "txt": "“It's not a Vermeer. It's mine!”",
+      "x": 960,
+      "y": 540,
+      "size": 60,
+      "at": 0.02,
+      "bg": "red",
+      "out": [
+       0,
+       0.42
+      ]
+     },
+     {
       "e": "painting",
       "x": 760,
       "y": 560,
@@ -2661,6 +2674,18 @@
     "type": "beat",
     "scene": "lustig2",
     "els": [
+     {
+      "e": "pill",
+      "txt": "💼 Lustig leaves Paris",
+      "x": 960,
+      "y": 300,
+      "size": 52,
+      "at": 0.02,
+      "out": [
+       0,
+       0.5
+      ]
+     },
      {
       "e": "fly",
       "k": "cash",

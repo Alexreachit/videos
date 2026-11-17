@@ -352,8 +352,8 @@
 
 ## AUTOMATIK-PLAN (Alex 2026-11-16 ~12:00: voll automatisch, keine Rückfragen)
 - Short alle 2 Tage, Langvideo alle 3 Tage; selbst auswählen, bauen, hochladen, öffentlich 19:00 planen.
-- Short-Termine: 16.11. ys_pizza (Bitcoin-Pizza) -> nächster fällig 18.11., dann 20.11. …
-- Langvideo-Termine: erstes fällig 19.11. (danach 22.11., 25.11. …). Langvideo in Arbeit: – (noch keins)
+- Short-Termine: ys_pizza (Bitcoin-Pizza) tatsächlich 17.11. 19:00 -> nächster fällig 19.11., dann 21.11. …
+- Langvideo-Termine: erstes fällig 19.11. (danach 22.11., 25.11. …). Langvideo in Arbeit: yt_cons16 (siehe Lauf 17.11.)
 - Ideen-Vorrat Shorts: Louvre-Juwelenraub 2025 | Fyre Festival 2017 | Ronaldo/Coca-Cola-Flaschen 2021 (-$4 Mrd. Börsenwert) | Mt. Gox | Lustig-ähnliche Betrüger.
 - Animations-Test: ys_pizza = komplett Code-gezeichnete Objekte (Pizza, Bitcoin-Münze, Röhrenmonitor, Handy) im Sky-Stil, kein Gemini (PC-Downloads nicht erreichbar). Mit Blockbuster (ebenfalls Code-Objekte) vergleichen.
 - 2026-11-16 13:45: ys_pizza FERTIG (mg-batch Run 43867215996, 25,9 s, Ø -20,6 dB / max -3,5 dB, Loop geprüft, Kontaktblätter angesehen: Endkarte überlappte mit Hook-Titel -> korrigiert, neu gerendert).
@@ -367,3 +367,14 @@
 - 2026-11-16 18:00: Upload ys_pizza VERSCHOBEN – Chrome-Erweiterung 13:45–18:00 nicht erreichbar (PC zeitweise an, Chrome nicht verbunden; Alex 16:55 per Push informiert).
   -> NÄCHSTER LAUF: zuerst in Studio prüfen, ob schon da (kein Doppel-Upload), sonst ys_pizza hochladen (renders/ys_pizza/ys_pizza_final.mp4, 2-Pass 2700k) und auf 19:00 des Tages öffentlich planen. Short-Takt verschiebt sich entsprechend (nächster Short 2 Tage danach).
   Titel: "He Paid 10,000 Bitcoin for Two Pizzas 🍕"; Beschreibung: Why you should never pay for pizza with Bitcoin … Quellen: CoinDesk "What Is Bitcoin Pizza Day?", Fortune/aktualita BTC-Kurs Nov 2026; #bitcoin #money #crypto #shorts; nicht für Kinder.
+
+## Lauf 2026-11-17 ~09:00 MEZ (Routine, Automatik)
+- Chrome erreichbar. 11 Abos (unverändert). 48-h-Echtzeit: 480 Aufrufe (Blockbuster 468). 28 T (19.10.–15.11.): 7.929 Aufrufe, 25,2 h, +7 Abos; Traffic 28 T: Suche 87 %, Videovorschläge 7 %.
+- Shorts: Blockbuster 59iD318vA8A 584–586 nach 3,5 T (Ø 78 % Wiedergabedauer, 4 Likes) -> Welle vorbei | Hushpuppi 3 | Escobar 29 | PayPal 34 | Milch 294 | Rest unverändert.
+- Langform: Never-age wQT4ECkMbKw 1 | Ponzi pHR5fqQ5hC8 20 | Supermarkt 1 | Mistakes 18 | Bank 1.198.
+- Erkenntnis (Themen/Animation): Bekannte Marke/Wahrzeichen + "hätte"-Drama (Blockbuster, Eiffel) bringen Reichweite; Code-gezeichnete Sky-Objekte (Blockbuster) funktionieren genauso wie Gemini-Objekte. Neue Langvideo-Idee nutzt deshalb den Eiffel-Erfolg als Hook (Eiffelturm + SOLD-Stempel im Thumbnail).
+- HOCHGELADEN + GEPLANT: ys_pizza "He Paid 10,000 Bitcoin for Two Pizzas 🍕" ID Eslb30E1uUk, öffentlich 17.11.2026 19:00 (GMT+1), nicht für Kinder, Vorabprüfung ok. Kontaktblatt vorher angesehen (ok). BTC-Kurs geprüft: CNBC 16.11. ~$62.000 -> "over $600 million" stimmt (knapp; Beschreibung nennt Stand Mitte Nov. 2026).
+- Langvideo IN ARBEIT: mg/yt_cons16 "History's Boldest Con Artists" (Countdown 7->1: Anna Delvey, Fyre Festival, Hitler-Tagebücher, van Meegeren, Poyais/MacGregor, Madoff, #1 Victor Lustig/Eiffelturm). 71 Zeilen, 1.190 Wörter (~7,5 Min), Engine von yt_mistakes12 + neue Code-Elemente (Tagebücher mit FH-Initialen, Gemälde mit Pinsel-Malen, Zelte, Käsesandwich, Brief). Quellen in mk_project.py (Wikipedia-Artikel, Smithsonian, NBC, SEC-Zahl). Fake-TTS-Kontaktblätter (alle 71 Zeilen) angesehen, korrigiert: Jet bleibt im Bild, Sandwich neu gezeichnet, "$25–30M" statisch, "MORE THAN HALF" + Figuren.
+  Thumbnail mg/yt_cons16/thumb.png ("HE SOLD THE EIFFEL TOWER", Turm + SOLD!-Stempel + Betrüger + Geld).
+  Render: mg-chunks Run 44043846060 (gestartet 08:06 UTC).
+  Titel-Plan: "History's Boldest Con Artists (One Sold the Eiffel Tower)"; Termin 19.11. 19:00 öffentlich.
