@@ -73,7 +73,7 @@ function arrivedTag(t) {
 // Vergleich: Schacht 804 m vs. hoechstes Gebaeude 828 m
 function compareCard(t) {
   const t0 = Lt(4).start - .05, t1 = TT.space - .3, s = pop(t, t0, .4) * fade(t, t1, t1 + .2); if (s <= .01) return '';
-  const g = ez(cl((t - t0 - .2) / 1.2, 0, 1)), PX = .62, gy = 820, hB = 828 * PX * g, hS = 804 * PX * g;
+  const g = ez(cl((t - t0 - .2) / 1.2, 0, 1)), PX = .44, gy = 600, hB = 828 * PX * g, hS = 804 * PX * g;
   const tower = `<path d="M${-38},0 L${-38},${-hB * .55} L${-24},${-hB * .55} L${-24},${-hB * .78} L${-12},${-hB * .78} L${-12},${-hB * .92} L${-3},${-hB * .92} L0,${-hB} L3,${-hB * .92} L12,${-hB * .92} L12,${-hB * .78} L24,${-hB * .78} L24,${-hB * .55} L38,${-hB * .55} L38,0 Z" fill="#b9c6d6" stroke="#fff" stroke-width="3"/>`;
   return `<div class="glass" style="left:50%;top:180px;width:920px;height:1180px;transform:translateX(-50%) scale(${s});transform-origin:50% 0;padding:0;overflow:hidden">
     <svg width="920" height="1180" viewBox="0 0 920 1180">
@@ -94,7 +94,7 @@ function earthUI(t) {
   const pin = anc('pin', t), cen = anc('center', t); let h = '';
   const sp = pop(t, TT.space + .25, .4);
   if (pin && sp > .01) h += `<div style="position:absolute;left:${pin[0]}px;top:${pin[1]}px;transform:translate(-50%,-50%) scale(${sp})"><div style="width:30px;height:30px;border-radius:50%;background:${RED};border:5px solid #fff;box-shadow:0 0 24px ${RED}"></div></div>`
-    + `<div class="glass" style="left:${pin[0] - 30}px;top:${pin[1] - 20}px;transform:translate(-100%,-100%) scale(${sp});transform-origin:100% 100%;padding:8px 20px 10px;text-align:right"><div style="font-size:40px">WIR</div><div class="sub" style="font-size:28px">804 m tief</div></div>`;
+    + `<div class="glass" style="left:${pin[0] + 34}px;top:${pin[1] + 10}px;transform:translate(0,-50%) scale(${sp});transform-origin:0 50%;padding:8px 20px 10px;text-align:left"><div style="font-size:40px">WIR</div><div class="sub" style="font-size:28px">804 m tief</div></div>`;
   const dl = cl((t - TT.zoomEnd + .1) / .9, 0, 1);
   if (pin && cen && dl > 0) { const x = lerp(pin[0], cen[0], dl), y = lerp(pin[1], cen[1], dl);
     h += `<svg width="1080" height="1920" style="position:absolute;left:0;top:0"><line x1="${pin[0]}" y1="${pin[1]}" x2="${x}" y2="${y}" stroke="#fff" stroke-width="7" stroke-dasharray="18 12" stroke-linecap="round"/><circle cx="${pin[0]}" cy="${pin[1]}" r="4" fill="${ORANGE}"/></svg>`; }
