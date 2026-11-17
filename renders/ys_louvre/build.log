@@ -1,0 +1,17 @@
+TTS Versuch 1 fehlgeschlagen: No audio was received. Please verify that your parameters are correct.
+Zeile 0: 0.05-2.88  Seven minutes. That's all it took to rob the Louvre.
+TTS Versuch 1 fehlgeschlagen: 429, message='Invalid response status', url='wss://api.msedgeservices.com/tts/cognitiveservices/websocket/v1?Ocp-Apim-Subscription-Key=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=36ece96170ef4392898cbc7af031bbe0&Sec-MS-GEC=46CEE7E5634AB332-630A70DD4B57D51B0F0667A766FF3855AF3F25CBD8FD03BFDE1701E477FEC59C&Sec-MS-GEC-Version=2-143.0.3650.75'
+Zeile 1: 2.96-7.45  In October twenty twenty-five, a truck with a ladder lift parked right below a window.
+Zeile 2: 7.53-10.60  Two men in work vests rode it up and cut through the glass.
+TTS Versuch 1 fehlgeschlagen: 429, message='Invalid response status', url='wss://api.msedgeservices.com/tts/cognitiveservices/websocket/v1?Ocp-Apim-Subscription-Key=6A5AA1D4EAFF4E9FB37E23D68491D6F4&ConnectionId=4d11f65542ce462f9f6d3bbab39bab3f&Sec-MS-GEC=46CEE7E5634AB332-630A70DD4B57D51B0F0667A766FF3855AF3F25CBD8FD03BFDE1701E477FEC59C&Sec-MS-GEC-Version=2-143.0.3650.75'
+Zeile 3: 10.68-14.11  Inside, they grabbed eight pieces of the French crown jewels.
+Zeile 4: 14.19-16.23  Worth about one hundred million dollars.
+Zeile 5: 16.31-19.58  On the way out, they dropped a crown with over a thousand diamonds.
+Zeile 6: 19.66-23.95  Four suspects were arrested. But one year later, the jewels are still missing.
+Zeile 7: 24.03-25.91  Where do you think they are?
+  Worker 585: 100/195 Frames, 40s
+  Worker 390: 100/195 Frames, 45s
+  Worker 195: 100/195 Frames, 45s
+  Worker 0: 100/195 Frames, 56s
+780 Frames in 91s
+FERTIG output/ys_louvre_final.mp4 26.01s
