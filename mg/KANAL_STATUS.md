@@ -353,7 +353,7 @@
 ## AUTOMATIK-PLAN (Alex 2026-11-16 ~12:00: voll automatisch, keine Rückfragen)
 - Short alle 2 Tage, Langvideo alle 3 Tage; selbst auswählen, bauen, hochladen, öffentlich 19:00 planen.
 - Short-Termine: ys_pizza (Bitcoin-Pizza) tatsächlich 17.11. 19:00 -> nächster fällig 19.11., dann 21.11. …
-- Langvideo-Termine: erstes fällig 19.11. (danach 22.11., 25.11. …). Langvideo in Arbeit: yt_cons16 (siehe Lauf 17.11.)
+- Langvideo-Termine: erstes fällig 19.11. (danach 22.11., 25.11. …). Langvideo in Arbeit: – (yt_cons16 geplant 19.11.; nächstes Langvideo fällig 22.11.)
 - Ideen-Vorrat Shorts: Louvre-Juwelenraub 2025 | Fyre Festival 2017 | Ronaldo/Coca-Cola-Flaschen 2021 (-$4 Mrd. Börsenwert) | Mt. Gox | Lustig-ähnliche Betrüger.
 - Animations-Test: ys_pizza = komplett Code-gezeichnete Objekte (Pizza, Bitcoin-Münze, Röhrenmonitor, Handy) im Sky-Stil, kein Gemini (PC-Downloads nicht erreichbar). Mit Blockbuster (ebenfalls Code-Objekte) vergleichen.
 - 2026-11-16 13:45: ys_pizza FERTIG (mg-batch Run 43867215996, 25,9 s, Ø -20,6 dB / max -3,5 dB, Loop geprüft, Kontaktblätter angesehen: Endkarte überlappte mit Hook-Titel -> korrigiert, neu gerendert).
@@ -376,5 +376,7 @@
 - HOCHGELADEN + GEPLANT: ys_pizza "He Paid 10,000 Bitcoin for Two Pizzas 🍕" ID Eslb30E1uUk, öffentlich 17.11.2026 19:00 (GMT+1), nicht für Kinder, Vorabprüfung ok. Kontaktblatt vorher angesehen (ok). BTC-Kurs geprüft: CNBC 16.11. ~$62.000 -> "over $600 million" stimmt (knapp; Beschreibung nennt Stand Mitte Nov. 2026).
 - Langvideo IN ARBEIT: mg/yt_cons16 "History's Boldest Con Artists" (Countdown 7->1: Anna Delvey, Fyre Festival, Hitler-Tagebücher, van Meegeren, Poyais/MacGregor, Madoff, #1 Victor Lustig/Eiffelturm). 71 Zeilen, 1.190 Wörter (~7,5 Min), Engine von yt_mistakes12 + neue Code-Elemente (Tagebücher mit FH-Initialen, Gemälde mit Pinsel-Malen, Zelte, Käsesandwich, Brief). Quellen in mk_project.py (Wikipedia-Artikel, Smithsonian, NBC, SEC-Zahl). Fake-TTS-Kontaktblätter (alle 71 Zeilen) angesehen, korrigiert: Jet bleibt im Bild, Sandwich neu gezeichnet, "$25–30M" statisch, "MORE THAN HALF" + Figuren.
   Thumbnail mg/yt_cons16/thumb.png ("HE SOLD THE EIFFEL TOWER", Turm + SOLD!-Stempel + Betrüger + Geld).
-  Render: mg-chunks Run 44043846060 (gestartet 08:06 UTC).
-  Titel-Plan: "History's Boldest Con Artists (One Sold the Eiffel Tower)"; Termin 19.11. 19:00 öffentlich.
+  Render v1: mg-chunks Run 44043846060 (8:08). Sichtprüfung v1 (Kontaktblätter 1 Bild/s, alle 489 s angesehen): Leerbilder bei Geständnis van Meegeren (~4 s), "Lustig verlässt Paris", Hotel-Szene -> gefüllt (Zitat-Pill, Pill, Sam früher). Render v2: Run 44046993916, nachgeprüft ok, Ø -20,8 dB / max -3,4 dB.
+  HOCHGELADEN + GEPLANT: "History's Boldest Con Artists (One Sold the Eiffel Tower)" ID wWp3nB7dgJE (8:09), öffentlich 19.11.2026 19:00 (GMT+1), eigenes Thumbnail, Beschreibung mit 9 Kapiteln + Quellen + Hashtags, nicht für Kinder. Upload über 14 Teile à 9,5 MB + DataTransfer (volle Qualität).
+- NÄCHSTE TERMINE: Short fällig 19.11. (Ideen: Louvre-Juwelenraub 2025 | Ronaldo/Coca-Cola 2021 | Fyre-Festival-Short aus yt_cons16-Szenen) -> im Lauf am 18./19.11. bauen. Langvideo fällig 22.11. (Ideen: "Biggest Heists in History" | "Companies That Turned Down Fortunes" (Blockbuster-Erfolg)).
+- Auswertung beim nächsten Lauf: Pizza-Short Eslb30E1uUk (Code-Objekte, Bitcoin) vs. Blockbuster; ab 20.11. CTR des neuen Thumbnails (Wahrzeichen + SOLD-Stempel, wenig Text) vs. Ponzi 0,6 %.
