@@ -125,8 +125,9 @@ for v in bm.verts:                                   # gezackten Lochrand auf ex
     if v.is_boundary and d < SH.PIT_R + .3: v.co.x *= SH.PIT_R / d; v.co.y *= SH.PIT_R / d; v.co.z = 0.
 bm.to_mesh(gr.data); bm.free()
 smooth(gr); gr.data.materials.append(GROUND)
-far = prim("plane", (0, 0, -.03), (1, 1, 1), m=GROUND, size=170)
-far.modifiers.new("hole", "BOOLEAN"); hcut = prim("cylinder", (0, 0, 0), (SH.PIT_R + .3, SH.PIT_R + .3, 1)); hcut.hide_render = True; far.modifiers["hole"].object = hcut; far.modifiers["hole"].operation = "DIFFERENCE"
+# Ferne Flaeche als Rahmen um das nahe Gitter (Mitte offen -> das Loch bleibt wirklich offen)
+for cx, cy, sx, sy in ((0, 51.5, 85, 33.5), (0, -51.5, 85, 33.5), (51.5, 0, 33.5, 18), (-51.5, 0, 33.5, 18)):
+    prim("plane", (cx, cy, -.03), (sx, sy, 1), m=GROUND, size=2)
 # Haufen bekommt Erd-Material (eigene Kappe)
 HEAPS = {"chef": (2.0, -3.2, .12), "ghost": (-2.3, -3.3, .12)}
 for k_, (hx, hy, hz) in HEAPS.items():
