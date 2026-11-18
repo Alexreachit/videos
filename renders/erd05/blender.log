@@ -1,0 +1,1445 @@
+Blender 4.2.3 LTS (hash 0e22e4fcea03 built 2024-10-14 23:31:34)
+Fra:0 Mem:996.56M (Peak 998.29M) | Time:00:01.49 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | near
+Fra:0 Mem:1035.39M (Peak 1049.81M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Sphere
+Fra:0 Mem:1035.40M (Peak 1049.81M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Text
+Fra:0 Mem:1040.56M (Peak 1049.81M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Sphere.001
+Fra:0 Mem:1040.63M (Peak 1049.81M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Text.001
+Fra:0 Mem:1113.04M (Peak 1113.04M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Icosphere
+Fra:0 Mem:1113.06M (Peak 1113.06M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.022
+Fra:0 Mem:1113.11M (Peak 1113.11M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.023
+Fra:0 Mem:1113.12M (Peak 1113.12M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.024
+Fra:0 Mem:1113.14M (Peak 1113.14M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.025
+Fra:0 Mem:1113.13M (Peak 1113.14M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.026
+Fra:0 Mem:1113.17M (Peak 1113.17M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.027
+Fra:0 Mem:1113.16M (Peak 1113.17M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Icosphere.001
+Fra:0 Mem:1113.19M (Peak 1113.19M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.028
+Fra:0 Mem:1113.18M (Peak 1113.19M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Icosphere.002
+Fra:0 Mem:1113.24M (Peak 1113.24M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.029
+Fra:0 Mem:1113.28M (Peak 1113.28M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.030
+Fra:0 Mem:1113.29M (Peak 1113.29M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.031
+Fra:0 Mem:1113.30M (Peak 1113.30M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.043
+Fra:0 Mem:1113.31M (Peak 1113.31M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.044
+Fra:0 Mem:1113.31M (Peak 1113.31M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.045
+Fra:0 Mem:1113.32M (Peak 1113.32M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.046
+Fra:0 Mem:1113.33M (Peak 1113.33M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.047
+Fra:0 Mem:1113.32M (Peak 1113.33M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Sphere.014
+Fra:0 Mem:1113.33M (Peak 1113.33M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Icosphere.003
+Fra:0 Mem:1113.41M (Peak 1113.41M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Icosphere.004
+Fra:0 Mem:1113.47M (Peak 1113.47M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Sphere.015
+Fra:0 Mem:1113.56M (Peak 1113.56M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Sphere.016
+Fra:0 Mem:1113.59M (Peak 1113.59M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Sphere.017
+Fra:0 Mem:1113.58M (Peak 1113.59M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Icosphere.005
+Fra:0 Mem:1113.61M (Peak 1113.61M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | v0faL
+Fra:0 Mem:1113.63M (Peak 1113.63M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Icosphere.006
+Fra:0 Mem:1113.64M (Peak 1113.64M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | v0faR
+Fra:0 Mem:1113.66M (Peak 1113.66M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | v0uaL
+Fra:0 Mem:1113.70M (Peak 1113.70M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | v0uaR
+Fra:0 Mem:1113.70M (Peak 1113.70M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.032
+Fra:0 Mem:1113.72M (Peak 1113.72M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.033
+Fra:0 Mem:1113.74M (Peak 1113.74M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.034
+Fra:0 Mem:1113.74M (Peak 1113.74M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Icosphere.007
+Fra:0 Mem:1113.76M (Peak 1113.76M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.035
+Fra:0 Mem:1113.78M (Peak 1113.78M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Icosphere.008
+Fra:0 Mem:1113.81M (Peak 1113.81M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.036
+Fra:0 Mem:1113.87M (Peak 1113.87M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.037
+Fra:0 Mem:1113.89M (Peak 1113.89M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.038
+Fra:0 Mem:1113.90M (Peak 1113.90M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.039
+Fra:0 Mem:1113.92M (Peak 1113.92M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.040
+Fra:0 Mem:1113.92M (Peak 1113.92M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.041
+Fra:0 Mem:1113.94M (Peak 1113.94M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.048
+Fra:0 Mem:1113.93M (Peak 1113.94M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Icosphere.009
+Fra:0 Mem:1113.94M (Peak 1113.94M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.049
+Fra:0 Mem:1113.94M (Peak 1113.94M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Icosphere.010
+Fra:0 Mem:1113.97M (Peak 1113.97M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.050
+Fra:0 Mem:1114.03M (Peak 1114.03M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.051
+Fra:0 Mem:1114.05M (Peak 1114.05M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.052
+Fra:0 Mem:1114.05M (Peak 1114.05M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Sphere.019
+Fra:0 Mem:1114.12M (Peak 1114.12M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Sphere.020
+Fra:0 Mem:1114.17M (Peak 1114.17M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Icosphere.011
+Fra:0 Mem:1114.18M (Peak 1114.18M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Icosphere.012
+Fra:0 Mem:1114.22M (Peak 1114.22M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Sphere.021
+Fra:0 Mem:1114.30M (Peak 1114.30M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Sphere.022
+Fra:0 Mem:1114.31M (Peak 1114.31M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | v1faL
+Fra:0 Mem:1114.32M (Peak 1114.32M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | v1faR
+Fra:0 Mem:1114.32M (Peak 1114.32M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | v1uaL
+Fra:0 Mem:1114.33M (Peak 1114.33M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | v1uaR
+Fra:0 Mem:1114.33M (Peak 1114.33M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Icosphere.013
+Fra:0 Mem:1114.34M (Peak 1114.34M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Icosphere.014
+Fra:0 Mem:1114.41M (Peak 1114.41M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Icosphere.015
+Fra:0 Mem:1114.45M (Peak 1114.45M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Icosphere.016
+Fra:0 Mem:1114.49M (Peak 1114.49M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Icosphere.017
+Fra:0 Mem:1114.53M (Peak 1114.53M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Icosphere.018
+Fra:0 Mem:1114.58M (Peak 1114.58M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Icosphere.019
+Fra:0 Mem:1114.62M (Peak 1114.62M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Icosphere.020
+Fra:0 Mem:1114.66M (Peak 1114.66M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Icosphere.021
+Fra:0 Mem:1114.70M (Peak 1114.70M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Icosphere.022
+Fra:0 Mem:1114.71M (Peak 1114.71M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Icosphere.023
+Fra:0 Mem:1114.78M (Peak 1114.78M) | Time:00:01.60 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Icosphere.024
+Fra:0 Mem:1114.82M (Peak 1114.82M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Icosphere.025
+Fra:0 Mem:1114.87M (Peak 1114.87M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.001
+Fra:0 Mem:1114.87M (Peak 1114.87M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.002
+Fra:0 Mem:1114.87M (Peak 1114.87M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube
+Fra:0 Mem:1114.88M (Peak 1114.88M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.003
+Fra:0 Mem:1114.88M (Peak 1114.88M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.004
+Fra:0 Mem:1114.89M (Peak 1114.89M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.001
+Fra:0 Mem:1114.90M (Peak 1114.90M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.005
+Fra:0 Mem:1114.91M (Peak 1114.91M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.002
+Fra:0 Mem:1114.91M (Peak 1114.91M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.003
+Fra:0 Mem:1114.94M (Peak 1114.94M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.004
+Fra:0 Mem:1114.94M (Peak 1114.94M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.005
+Fra:0 Mem:1114.98M (Peak 1114.98M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.006
+Fra:0 Mem:1114.98M (Peak 1114.98M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.007
+Fra:0 Mem:1115.01M (Peak 1115.01M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.006
+Fra:0 Mem:1115.02M (Peak 1115.02M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Sphere.002
+Fra:0 Mem:1115.03M (Peak 1115.03M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.008
+Fra:0 Mem:1115.10M (Peak 1115.10M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Sphere.003
+Fra:0 Mem:1115.17M (Peak 1115.17M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.007
+Fra:0 Mem:1115.20M (Peak 1115.20M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | chefuaL
+Fra:0 Mem:1115.19M (Peak 1115.20M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | cheffaL
+Fra:0 Mem:1115.19M (Peak 1115.20M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Sphere.004
+Fra:0 Mem:1115.21M (Peak 1115.21M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | chefuaR
+Fra:0 Mem:1115.22M (Peak 1115.22M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | cheffaR
+Fra:0 Mem:1115.22M (Peak 1115.22M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Sphere.005
+Fra:0 Mem:1115.24M (Peak 1115.24M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.008
+Fra:0 Mem:1115.24M (Peak 1115.24M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.009
+Fra:0 Mem:1115.24M (Peak 1115.24M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.010
+Fra:0 Mem:1115.25M (Peak 1115.25M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | soil
+Fra:0 Mem:1115.28M (Peak 1115.28M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | rock
+Fra:0 Mem:1115.30M (Peak 1115.30M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | mantle
+Fra:0 Mem:1115.31M (Peak 1115.31M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.014
+Fra:0 Mem:1115.35M (Peak 1115.35M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Torus
+Fra:0 Mem:1115.35M (Peak 1115.35M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.021
+Fra:0 Mem:1115.37M (Peak 1115.37M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | dia0
+Fra:0 Mem:1115.37M (Peak 1115.37M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | dia1
+Fra:0 Mem:1115.37M (Peak 1115.37M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | dia2
+Fra:0 Mem:1115.37M (Peak 1115.37M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | dia3
+Fra:0 Mem:1115.38M (Peak 1115.38M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | dia4
+Fra:0 Mem:1115.37M (Peak 1115.38M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | dia5
+Fra:0 Mem:1115.37M (Peak 1115.38M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | dia6
+Fra:0 Mem:1115.37M (Peak 1115.38M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | dia7
+Fra:0 Mem:1115.37M (Peak 1115.38M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | dia8
+Fra:0 Mem:1115.38M (Peak 1115.38M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | dia9
+Fra:0 Mem:1115.38M (Peak 1115.38M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | dia10
+Fra:0 Mem:1133.32M (Peak 1133.32M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | dia11
+Fra:0 Mem:1133.32M (Peak 1133.32M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | dia12
+Fra:0 Mem:1133.33M (Peak 1133.33M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.043
+Fra:0 Mem:1133.35M (Peak 1133.35M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.044
+Fra:0 Mem:1133.36M (Peak 1133.36M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.045
+Fra:0 Mem:1133.38M (Peak 1133.38M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.046
+Fra:0 Mem:1133.41M (Peak 1133.41M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.047
+Fra:0 Mem:1133.42M (Peak 1133.42M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.048
+Fra:0 Mem:1133.44M (Peak 1133.44M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.049
+Fra:0 Mem:1133.45M (Peak 1133.45M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.050
+Fra:0 Mem:1133.45M (Peak 1133.45M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.051
+Fra:0 Mem:1133.47M (Peak 1133.47M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.053
+Fra:0 Mem:1133.47M (Peak 1133.47M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.054
+Fra:0 Mem:1133.48M (Peak 1133.48M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.055
+Fra:0 Mem:1133.49M (Peak 1133.49M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.056
+Fra:0 Mem:1133.50M (Peak 1133.50M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.057
+Fra:0 Mem:1133.50M (Peak 1133.50M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Sphere.024
+Fra:0 Mem:1133.57M (Peak 1133.57M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Sphere.025
+Fra:0 Mem:1133.65M (Peak 1133.65M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Sphere.026
+Fra:0 Mem:1133.67M (Peak 1133.67M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Sphere.027
+Fra:0 Mem:1133.68M (Peak 1133.68M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Sphere.028
+Fra:0 Mem:1133.71M (Peak 1133.71M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | v2faL
+Fra:0 Mem:1133.72M (Peak 1133.72M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | v2faR
+Fra:0 Mem:1133.72M (Peak 1133.72M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | v2uaL
+Fra:0 Mem:1133.73M (Peak 1133.73M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | v2uaR
+Fra:0 Mem:1133.73M (Peak 1133.73M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.052
+Fra:0 Mem:1133.75M (Peak 1133.75M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.053
+Fra:0 Mem:1133.76M (Peak 1133.76M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.054
+Fra:0 Mem:1133.78M (Peak 1133.78M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.055
+Fra:0 Mem:1133.80M (Peak 1133.80M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.056
+Fra:0 Mem:1133.82M (Peak 1133.82M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.057
+Fra:0 Mem:1133.84M (Peak 1133.84M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.058
+Fra:0 Mem:1133.85M (Peak 1133.85M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.059
+Fra:0 Mem:1133.87M (Peak 1133.87M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.060
+Fra:0 Mem:1133.87M (Peak 1133.87M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube.061
+Fra:0 Mem:1133.89M (Peak 1133.89M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.058
+Fra:0 Mem:1133.89M (Peak 1133.89M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.059
+Fra:0 Mem:1133.89M (Peak 1133.89M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.060
+Fra:0 Mem:1133.90M (Peak 1133.90M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.061
+Fra:0 Mem:1133.91M (Peak 1133.91M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.062
+Fra:0 Mem:1133.92M (Peak 1133.92M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Sphere.029
+Fra:0 Mem:1133.99M (Peak 1133.99M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Sphere.030
+Fra:0 Mem:1134.06M (Peak 1134.06M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Sphere.031
+Fra:0 Mem:1134.08M (Peak 1134.08M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Sphere.032
+Fra:0 Mem:1134.10M (Peak 1134.10M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | v3faL
+Fra:0 Mem:1134.10M (Peak 1134.10M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | v3faR
+Fra:0 Mem:1134.11M (Peak 1134.11M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | v3uaL
+Fra:0 Mem:1134.11M (Peak 1134.11M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | v3uaR
+Fra:0 Mem:1134.14M (Peak 1134.14M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | dia13
+Fra:0 Mem:1134.14M (Peak 1134.14M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | dia14
+Fra:0 Mem:1134.14M (Peak 1134.14M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | dia15
+Fra:0 Mem:1134.14M (Peak 1134.14M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | dia16
+Fra:0 Mem:1134.14M (Peak 1134.14M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | dia17
+Fra:0 Mem:1134.14M (Peak 1134.14M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | dia18
+Fra:0 Mem:1134.15M (Peak 1134.15M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | dia19
+Fra:0 Mem:1134.15M (Peak 1134.15M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | dia20
+Fra:0 Mem:1134.15M (Peak 1134.15M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | dia21
+Fra:0 Mem:1134.15M (Peak 1134.15M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | dia22
+Fra:0 Mem:1134.15M (Peak 1134.15M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | dia23
+Fra:0 Mem:1134.15M (Peak 1134.15M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | dia24
+Fra:0 Mem:1134.15M (Peak 1134.15M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | dia25
+Fra:0 Mem:1134.15M (Peak 1134.15M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | dia26
+Fra:0 Mem:1134.15M (Peak 1134.15M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | dia27
+Fra:0 Mem:1134.15M (Peak 1134.15M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | dia28
+Fra:0 Mem:1134.15M (Peak 1134.15M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | dia29
+Fra:0 Mem:1134.15M (Peak 1134.15M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | dia30
+Fra:0 Mem:1134.16M (Peak 1134.16M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | dia31
+Fra:0 Mem:1134.16M (Peak 1134.16M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | dia32
+Fra:0 Mem:1134.16M (Peak 1134.16M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | dia33
+Fra:0 Mem:1134.16M (Peak 1134.16M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.015
+Fra:0 Mem:1134.16M (Peak 1134.16M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.016
+Fra:0 Mem:1134.16M (Peak 1134.16M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.017
+Fra:0 Mem:1134.16M (Peak 1134.16M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.018
+Fra:0 Mem:1134.17M (Peak 1134.17M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.019
+Fra:0 Mem:1134.17M (Peak 1134.17M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.020
+Fra:0 Mem:1146.13M (Peak 1146.13M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.021
+Fra:0 Mem:1146.13M (Peak 1146.13M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.022
+Fra:0 Mem:1146.13M (Peak 1146.13M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.023
+Fra:0 Mem:1146.14M (Peak 1146.14M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.024
+Fra:0 Mem:1146.14M (Peak 1146.14M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.025
+Fra:0 Mem:1146.14M (Peak 1146.14M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.026
+Fra:0 Mem:1146.14M (Peak 1146.14M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.027
+Fra:0 Mem:1146.15M (Peak 1146.15M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.028
+Fra:0 Mem:1146.15M (Peak 1146.15M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.029
+Fra:0 Mem:1146.15M (Peak 1146.15M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.030
+Fra:0 Mem:1146.15M (Peak 1146.15M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.031
+Fra:0 Mem:1146.15M (Peak 1146.15M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.032
+Fra:0 Mem:1146.16M (Peak 1146.16M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.033
+Fra:0 Mem:1146.16M (Peak 1146.16M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.034
+Fra:0 Mem:1146.16M (Peak 1146.16M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.035
+Fra:0 Mem:1146.16M (Peak 1146.16M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.036
+Fra:0 Mem:1146.16M (Peak 1146.16M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.037
+Fra:0 Mem:1146.17M (Peak 1146.17M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.038
+Fra:0 Mem:1146.17M (Peak 1146.17M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.039
+Fra:0 Mem:1146.17M (Peak 1146.17M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.040
+Fra:0 Mem:1164.11M (Peak 1164.11M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.041
+Fra:0 Mem:1164.11M (Peak 1164.11M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cylinder.042
+Fra:0 Mem:1164.12M (Peak 1164.12M) | Time:00:01.61 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Torus.001
+Fra:0 Mem:1218.90M (Peak 1218.90M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Sphere.034
+Fra:0 Mem:1219.51M (Peak 1219.51M) | Time:00:01.67 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | earth
+Fra:0 Mem:1259.99M (Peak 1338.49M) | Time:00:01.76 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Initializing
+Fra:0 Mem:1259.99M (Peak 1452.25M) | Time:00:02.08 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Waiting for render to start
+Fra:0 Mem:1259.99M (Peak 1452.25M) | Time:00:02.08 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Loading render kernels (may take a few minutes the first time)
+Fra:0 Mem:1259.99M (Peak 1452.25M) | Time:00:02.08 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Scene
+Fra:0 Mem:1259.99M (Peak 1452.25M) | Time:00:02.08 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Shaders
+Fra:0 Mem:1260.10M (Peak 1452.25M) | Time:00:02.08 | Mem:0.03M, Peak:0.03M | Scene, ViewLayer | Updating Procedurals
+Fra:0 Mem:1260.10M (Peak 1452.25M) | Time:00:02.08 | Mem:0.03M, Peak:0.03M | Scene, ViewLayer | Updating Background
+Fra:0 Mem:1260.10M (Peak 1452.25M) | Time:00:02.08 | Mem:0.03M, Peak:0.03M | Scene, ViewLayer | Updating Camera
+Fra:0 Mem:1260.10M (Peak 1452.25M) | Time:00:02.08 | Mem:0.03M, Peak:0.03M | Scene, ViewLayer | Updating Meshes Flags
+Fra:0 Mem:1260.10M (Peak 1452.25M) | Time:00:02.08 | Mem:0.03M, Peak:0.03M | Scene, ViewLayer | Updating Objects
+Fra:0 Mem:1260.10M (Peak 1452.25M) | Time:00:02.08 | Mem:0.03M, Peak:0.03M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:0 Mem:1261.64M (Peak 1452.25M) | Time:00:02.08 | Mem:3.60M, Peak:3.60M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:0 Mem:1261.64M (Peak 1452.25M) | Time:00:02.08 | Mem:3.60M, Peak:3.60M | Scene, ViewLayer | Updating Particle Systems
+Fra:0 Mem:1261.64M (Peak 1452.25M) | Time:00:02.08 | Mem:3.60M, Peak:3.60M | Scene, ViewLayer | Updating Particle Systems | Copying Particles to device
+Fra:0 Mem:1261.64M (Peak 1452.25M) | Time:00:02.08 | Mem:3.60M, Peak:3.60M | Scene, ViewLayer | Updating Meshes
+Fra:0 Mem:1291.50M (Peak 1452.25M) | Time:00:02.11 | Mem:3.60M, Peak:3.60M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:0 Mem:1338.16M (Peak 1452.25M) | Time:00:02.12 | Mem:3.65M, Peak:3.65M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:49.06M, Peak:49.06M | Scene, ViewLayer | Updating Geometry BVH Cylinder.087 99/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:49.06M, Peak:49.06M | Scene, ViewLayer | Updating Geometry BVH Cylinder.087 99/99 | Building BVH 0%
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:49.06M, Peak:49.06M | Scene, ViewLayer | Updating Geometry BVH Cylinder.006 3/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:49.06M, Peak:49.06M | Scene, ViewLayer | Updating Geometry BVH Grid 1/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:49.06M, Peak:49.06M | Scene, ViewLayer | Updating Geometry BVH Cylinder.085 98/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:49.07M, Peak:49.07M | Scene, ViewLayer | Updating Geometry BVH Cylinder.088 97/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:58.70M, Peak:58.70M | Scene, ViewLayer | Updating Geometry BVH Cylinder.086 96/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:58.71M, Peak:58.71M | Scene, ViewLayer | Updating Geometry BVH Sphere.032 95/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:58.73M, Peak:58.73M | Scene, ViewLayer | Updating Geometry BVH Sphere.031 94/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:58.74M, Peak:58.75M | Scene, ViewLayer | Updating Geometry BVH Sphere.030 93/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:58.81M, Peak:58.84M | Scene, ViewLayer | Updating Geometry BVH Sphere.029 92/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:58.88M, Peak:58.91M | Scene, ViewLayer | Updating Geometry BVH Cylinder.089 91/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:58.88M, Peak:58.91M | Scene, ViewLayer | Updating Geometry BVH Cylinder.084 90/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:58.89M, Peak:58.91M | Scene, ViewLayer | Updating Geometry BVH Cylinder.083 89/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:58.90M, Peak:58.91M | Scene, ViewLayer | Updating Geometry BVH Cylinder.082 88/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:58.91M, Peak:58.91M | Scene, ViewLayer | Updating Geometry BVH Cylinder.081 87/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:58.92M, Peak:58.92M | Scene, ViewLayer | Updating Geometry BVH Cube.061 86/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:58.93M, Peak:58.94M | Scene, ViewLayer | Updating Geometry BVH Cube.060 85/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:58.93M, Peak:58.94M | Scene, ViewLayer | Updating Geometry BVH Cube.059 84/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:58.95M, Peak:58.96M | Scene, ViewLayer | Updating Geometry BVH Cube.058 83/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:58.97M, Peak:58.97M | Scene, ViewLayer | Updating Geometry BVH Cube.057 82/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:58.98M, Peak:58.99M | Scene, ViewLayer | Updating Geometry BVH Cube.056 81/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:59.01M, Peak:59.02M | Scene, ViewLayer | Updating Geometry BVH Cube.055 80/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:59.03M, Peak:59.04M | Scene, ViewLayer | Updating Geometry BVH Cube.054 79/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:59.05M, Peak:59.05M | Scene, ViewLayer | Updating Geometry BVH Cube.053 78/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:59.06M, Peak:59.07M | Scene, ViewLayer | Updating Geometry BVH Cube.052 77/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:59.08M, Peak:59.09M | Scene, ViewLayer | Updating Geometry BVH Cylinder.078 76/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:59.09M, Peak:59.09M | Scene, ViewLayer | Updating Geometry BVH Cylinder.076 75/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:59.09M, Peak:59.10M | Scene, ViewLayer | Updating Geometry BVH Cylinder.079 74/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:59.10M, Peak:59.10M | Scene, ViewLayer | Updating Geometry BVH Cylinder.077 73/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:59.11M, Peak:59.11M | Scene, ViewLayer | Updating Geometry BVH Sphere.028 72/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:59.12M, Peak:59.13M | Scene, ViewLayer | Updating Geometry BVH Sphere.027 71/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:59.14M, Peak:59.15M | Scene, ViewLayer | Updating Geometry BVH Sphere.026 70/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:59.16M, Peak:59.16M | Scene, ViewLayer | Updating Geometry BVH Sphere.025 69/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:59.23M, Peak:59.25M | Scene, ViewLayer | Updating Geometry BVH Sphere.024 68/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:59.29M, Peak:59.32M | Scene, ViewLayer | Updating Geometry BVH Sphere.002 4/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:59.29M, Peak:59.32M | Scene, ViewLayer | Updating Geometry BVH Cylinder.080 67/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:59.33M, Peak:59.33M | Scene, ViewLayer | Updating Geometry BVH Cylinder.075 66/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:59.34M, Peak:59.35M | Scene, ViewLayer | Updating Geometry BVH Cylinder.074 65/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:59.36M, Peak:59.36M | Scene, ViewLayer | Updating Geometry BVH Cylinder.073 64/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:59.37M, Peak:59.37M | Scene, ViewLayer | Updating Geometry BVH Cylinder.072 63/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:59.39M, Peak:59.39M | Scene, ViewLayer | Updating Geometry BVH Cube.051 62/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:59.42M, Peak:59.42M | Scene, ViewLayer | Updating Geometry BVH Cube.050 61/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:59.43M, Peak:59.43M | Scene, ViewLayer | Updating Geometry BVH Cube.049 60/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:59.43M, Peak:59.47M | Scene, ViewLayer | Updating Geometry BVH Cube.048 59/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:59.44M, Peak:59.47M | Scene, ViewLayer | Updating Geometry BVH Sphere.004 5/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:59.46M, Peak:59.47M | Scene, ViewLayer | Updating Geometry BVH Cube.047 58/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:59.48M, Peak:59.49M | Scene, ViewLayer | Updating Geometry BVH Cube.046 57/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:59.48M, Peak:59.49M | Scene, ViewLayer | Updating Geometry BVH Sphere.005 6/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.12 | Mem:59.52M, Peak:59.54M | Scene, ViewLayer | Updating Geometry BVH Cube.045 56/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:59.55M, Peak:59.56M | Scene, ViewLayer | Updating Geometry BVH Cube.044 55/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:59.56M, Peak:59.57M | Scene, ViewLayer | Updating Geometry BVH Cube.043 54/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:59.58M, Peak:59.59M | Scene, ViewLayer | Updating Geometry BVH Cube.042 53/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:59.60M, Peak:59.60M | Scene, ViewLayer | Updating Geometry BVH Cylinder.069 52/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:59.60M, Peak:59.61M | Scene, ViewLayer | Updating Geometry BVH Cylinder.067 51/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:59.61M, Peak:59.61M | Scene, ViewLayer | Updating Geometry BVH Cylinder.070 50/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:59.62M, Peak:59.62M | Scene, ViewLayer | Updating Geometry BVH Cylinder.068 49/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:59.62M, Peak:59.62M | Scene, ViewLayer | Updating Geometry BVH Sphere.022 48/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:59.64M, Peak:59.65M | Scene, ViewLayer | Updating Geometry BVH Sphere.021 47/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:59.66M, Peak:59.66M | Scene, ViewLayer | Updating Geometry BVH Sphere.020 46/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:59.73M, Peak:59.75M | Scene, ViewLayer | Updating Geometry BVH Sphere.019 45/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:59.79M, Peak:59.82M | Scene, ViewLayer | Updating Geometry BVH Cylinder.071 44/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:59.80M, Peak:59.82M | Scene, ViewLayer | Updating Geometry BVH Cylinder.066 43/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:59.81M, Peak:59.82M | Scene, ViewLayer | Updating Geometry BVH Cylinder.065 42/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:59.82M, Peak:59.82M | Scene, ViewLayer | Updating Geometry BVH Cylinder.064 41/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:59.82M, Peak:59.83M | Scene, ViewLayer | Updating Geometry BVH Cylinder.063 40/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:59.83M, Peak:59.83M | Scene, ViewLayer | Updating Geometry BVH Cube.041 39/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:59.85M, Peak:59.85M | Scene, ViewLayer | Updating Geometry BVH Cube.040 38/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:59.85M, Peak:59.85M | Scene, ViewLayer | Updating Geometry BVH Cube.039 37/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:59.86M, Peak:59.87M | Scene, ViewLayer | Updating Geometry BVH Cube.038 36/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:59.88M, Peak:59.89M | Scene, ViewLayer | Updating Geometry BVH Cube.037 35/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:59.90M, Peak:59.90M | Scene, ViewLayer | Updating Geometry BVH Cube.036 34/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:59.92M, Peak:59.93M | Scene, ViewLayer | Updating Geometry BVH Cube.035 33/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:59.94M, Peak:59.95M | Scene, ViewLayer | Updating Geometry BVH Cube.034 32/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:59.96M, Peak:59.97M | Scene, ViewLayer | Updating Geometry BVH Cube.033 31/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:59.98M, Peak:59.98M | Scene, ViewLayer | Updating Geometry BVH Cube.032 30/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:59.99M, Peak:60.00M | Scene, ViewLayer | Updating Geometry BVH Cylinder.060 29/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:60.00M, Peak:60.00M | Scene, ViewLayer | Updating Geometry BVH Cylinder.058 28/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:60.01M, Peak:60.01M | Scene, ViewLayer | Updating Geometry BVH Cylinder.061 27/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:60.01M, Peak:60.02M | Scene, ViewLayer | Updating Geometry BVH Cylinder.059 26/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:60.02M, Peak:60.02M | Scene, ViewLayer | Updating Geometry BVH Sphere.017 25/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:60.04M, Peak:60.04M | Scene, ViewLayer | Updating Geometry BVH Sphere.016 24/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:60.05M, Peak:60.06M | Scene, ViewLayer | Updating Geometry BVH Sphere.015 23/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:60.12M, Peak:60.15M | Scene, ViewLayer | Updating Geometry BVH Sphere.014 22/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:60.19M, Peak:60.22M | Scene, ViewLayer | Updating Geometry BVH Cylinder.062 21/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:60.20M, Peak:60.22M | Scene, ViewLayer | Updating Geometry BVH Cylinder.057 20/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:60.21M, Peak:60.22M | Scene, ViewLayer | Updating Geometry BVH Cylinder.056 19/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:60.22M, Peak:60.22M | Scene, ViewLayer | Updating Geometry BVH Cylinder.055 18/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:60.22M, Peak:60.22M | Scene, ViewLayer | Updating Geometry BVH Cylinder.054 17/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:60.23M, Peak:60.23M | Scene, ViewLayer | Updating Geometry BVH Cube.031 16/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:60.24M, Peak:60.25M | Scene, ViewLayer | Updating Geometry BVH Cube.030 15/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:60.24M, Peak:60.25M | Scene, ViewLayer | Updating Geometry BVH Cube.029 14/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:60.26M, Peak:60.27M | Scene, ViewLayer | Updating Geometry BVH Cube.028 13/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:60.28M, Peak:60.28M | Scene, ViewLayer | Updating Geometry BVH Cube.027 12/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:60.29M, Peak:60.30M | Scene, ViewLayer | Updating Geometry BVH Cube.026 11/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:60.32M, Peak:60.33M | Scene, ViewLayer | Updating Geometry BVH Cube.025 10/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:60.34M, Peak:60.35M | Scene, ViewLayer | Updating Geometry BVH Cube.024 9/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:60.36M, Peak:60.36M | Scene, ViewLayer | Updating Geometry BVH Cube.023 8/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.13 | Mem:60.38M, Peak:60.38M | Scene, ViewLayer | Updating Geometry BVH Cube.022 7/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.14 | Mem:68.42M, Peak:68.42M | Scene, ViewLayer | Updating Geometry BVH Grid 2/99 | Building BVH
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.37 | Mem:361.71M, Peak:361.71M | Scene, ViewLayer | Updating Geometry BVH Grid 2/99 | Building BVH 36%
+Fra:0 Mem:1336.96M (Peak 1452.25M) | Time:00:02.60 | Mem:529.71M, Peak:529.71M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:0 Mem:1337.08M (Peak 1452.25M) | Time:00:02.60 | Mem:529.71M, Peak:529.71M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:0 Mem:1337.08M (Peak 1452.25M) | Time:00:02.63 | Mem:585.90M, Peak:585.90M | Scene, ViewLayer | Updating Scene BVH | Building BVH 1%
+Fra:0 Mem:1337.08M (Peak 1452.25M) | Time:00:02.74 | Mem:626.45M, Peak:675.90M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:0 Mem:1337.08M (Peak 1452.25M) | Time:00:02.74 | Mem:626.45M, Peak:675.90M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:0 Mem:1404.35M (Peak 1452.25M) | Time:00:02.75 | Mem:626.45M, Peak:675.90M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:0 Mem:1404.35M (Peak 1452.25M) | Time:00:02.75 | Mem:693.72M, Peak:693.72M | Scene, ViewLayer | Updating Mesh | Copying Curves to device
+Fra:0 Mem:1494.07M (Peak 1494.07M) | Time:00:02.77 | Mem:783.45M, Peak:783.45M | Scene, ViewLayer | Updating Objects Flags
+Fra:0 Mem:1494.07M (Peak 1494.07M) | Time:00:02.77 | Mem:783.56M, Peak:783.56M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:0 Mem:1494.13M (Peak 1494.13M) | Time:00:02.77 | Mem:783.62M, Peak:783.62M | Scene, ViewLayer | Updating Images
+Fra:0 Mem:1494.13M (Peak 1494.13M) | Time:00:02.77 | Mem:783.62M, Peak:783.62M | Scene, ViewLayer | Updating Images | Loading dry_riverbed_rock_nor_gl.jpg
+Fra:0 Mem:1494.13M (Peak 1494.13M) | Time:00:02.77 | Mem:783.62M, Peak:783.62M | Scene, ViewLayer | Updating Images | Loading field.hdr
+Fra:0 Mem:1494.13M (Peak 1494.13M) | Time:00:02.77 | Mem:783.62M, Peak:783.62M | Scene, ViewLayer | Updating Images | Loading brown_mud_02_diff.jpg
+Fra:0 Mem:1670.15M (Peak 1670.15M) | Time:00:02.82 | Mem:799.62M, Peak:799.62M | Scene, ViewLayer | Updating Images | Loading earth.jpg
+Fra:0 Mem:1725.76M (Peak 1725.76M) | Time:00:02.83 | Mem:815.62M, Peak:815.62M | Scene, ViewLayer | Updating Images | Loading dry_riverbed_rock_rough.jpg
+Fra:0 Mem:1729.76M (Peak 1729.76M) | Time:00:02.83 | Mem:831.62M, Peak:831.62M | Scene, ViewLayer | Updating Images | Loading gray_rocks_diff.jpg
+Fra:0 Mem:1745.76M (Peak 1745.76M) | Time:00:02.85 | Mem:835.62M, Peak:835.62M | Scene, ViewLayer | Updating Images | Loading dry_riverbed_rock_diff.jpg
+Fra:0 Mem:1761.76M (Peak 1761.76M) | Time:00:02.89 | Mem:851.62M, Peak:851.62M | Scene, ViewLayer | Updating Images | Loading brown_mud_02_rough.jpg
+Fra:0 Mem:1765.76M (Peak 1765.76M) | Time:00:02.91 | Mem:907.24M, Peak:907.24M | Scene, ViewLayer | Updating Images | Loading aerial_grass_rock_rough.jpg
+Fra:0 Mem:1769.76M (Peak 1769.76M) | Time:00:02.91 | Mem:923.24M, Peak:923.24M | Scene, ViewLayer | Updating Images | Loading gray_rocks_nor_gl.jpg
+Fra:0 Mem:1785.76M (Peak 1785.76M) | Time:00:02.92 | Mem:927.24M, Peak:927.24M | Scene, ViewLayer | Updating Images | Loading gray_rocks_rough.jpg
+Fra:0 Mem:1801.76M (Peak 1801.76M) | Time:00:02.92 | Mem:1055.24M, Peak:1055.24M | Scene, ViewLayer | Updating Images | Loading aerial_grass_rock_nor_gl.jpg
+Fra:0 Mem:1817.76M (Peak 1817.76M) | Time:00:02.93 | Mem:1059.24M, Peak:1059.24M | Scene, ViewLayer | Updating Images | Loading brown_mud_02_nor_gl.jpg
+Fra:0 Mem:1833.76M (Peak 1833.76M) | Time:00:02.99 | Mem:1123.24M, Peak:1123.24M | Scene, ViewLayer | Updating Camera Volume
+Fra:0 Mem:1833.76M (Peak 1833.76M) | Time:00:02.99 | Mem:1123.24M, Peak:1123.24M | Scene, ViewLayer | Updating Lookup Tables
+Fra:0 Mem:1833.76M (Peak 1833.76M) | Time:00:02.99 | Mem:1123.32M, Peak:1123.32M | Scene, ViewLayer | Updating Lights
+Fra:0 Mem:1833.77M (Peak 1833.77M) | Time:00:02.99 | Mem:1123.32M, Peak:1123.32M | Scene, ViewLayer | Updating Lights | Importance map
+Fra:0 Mem:1897.80M (Peak 2185.77M) | Time:00:03.42 | Mem:1187.37M, Peak:1347.34M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:0 Mem:2196.95M (Peak 2392.24M) | Time:00:06.28 | Mem:1486.52M, Peak:1486.52M | Scene, ViewLayer | Updating Integrator
+Fra:0 Mem:2196.95M (Peak 2392.24M) | Time:00:06.28 | Mem:1486.52M, Peak:1486.52M | Scene, ViewLayer | Updating Film
+Fra:0 Mem:2196.95M (Peak 2392.24M) | Time:00:06.28 | Mem:1486.44M, Peak:1486.52M | Scene, ViewLayer | Updating Lookup Tables
+Fra:0 Mem:2196.95M (Peak 2392.24M) | Time:00:06.28 | Mem:1486.52M, Peak:1486.52M | Scene, ViewLayer | Updating Baking
+Fra:0 Mem:2196.95M (Peak 2392.24M) | Time:00:06.28 | Mem:1486.52M, Peak:1486.52M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:0 Mem:2197.19M (Peak 2392.24M) | Time:00:06.28 | Mem:1486.52M, Peak:1486.52M | Scene, ViewLayer | Loading denoising kernels (may take a few minutes the first time)
+Fra:0 Mem:2197.19M (Peak 2392.24M) | Time:00:06.28 | Mem:1486.52M, Peak:1486.52M | Scene, ViewLayer | Sample 0/20
+Fra:0 Mem:2236.76M (Peak 2392.24M) | Time:00:07.26 | Remaining:00:18.58 | Mem:1526.07M, Peak:1526.07M | Scene, ViewLayer | Sample 1/20
+Fra:0 Mem:2254.56M (Peak 2392.24M) | Time:00:26.82 | Mem:1526.07M, Peak:1526.07M | Scene, ViewLayer | Sample 20/20
+Fra:0 Mem:2254.56M (Peak 2392.24M) | Time:00:26.82 | Mem:1526.07M, Peak:1526.07M | Scene, ViewLayer | Finished
+Fra:0 Mem:2254.56M (Peak 2392.24M) | Time:00:26.83 | Compositing
+Fra:0 Mem:2254.56M (Peak 2392.24M) | Time:00:26.83 | Compositing | Initializing execution
+Fra:0 Mem:2254.57M (Peak 2392.24M) | Time:00:26.83 | Compositing | Operation 2-9
+Fra:0 Mem:2254.57M (Peak 2392.24M) | Time:00:26.83 | Compositing | Operation 3-9
+Fra:0 Mem:2256.61M (Peak 2392.24M) | Time:00:26.83 | Compositing | Operation 4-9
+Fra:0 Mem:2256.61M (Peak 2392.24M) | Time:00:26.83 | Compositing | Operation 5-9
+Fra:0 Mem:2264.52M (Peak 2392.24M) | Time:00:26.83 | Compositing | Operation 6-9
+Fra:0 Mem:2264.52M (Peak 2392.24M) | Time:00:26.83 | Compositing | Operation 7-9
+Fra:0 Mem:2264.52M (Peak 2392.24M) | Time:00:26.83 | Compositing | Operation 8-9
+Fra:0 Mem:2262.54M (Peak 2392.24M) | Time:00:26.83 | Compositing | Operation 9-9
+Fra:0 Mem:2262.54M (Peak 2392.24M) | Time:00:26.83 | Compositing | Operation 10-9
+Saved: '/home/runner/work/videos/videos/out/erd05/still_0000.png'
+Time: 00:26.99 (Saving: 00:00.15)
+
+Fra:60 Mem:2236.79M (Peak 2236.79M) | Time:00:00.00 | Mem:1526.07M, Peak:1526.07M | Scene, ViewLayer | Synchronizing object | Cube.004
+Fra:60 Mem:2236.79M (Peak 2236.79M) | Time:00:00.00 | Mem:1526.07M, Peak:1526.07M | Scene, ViewLayer | Synchronizing object | Cube.006
+Fra:60 Mem:2236.78M (Peak 2236.79M) | Time:00:00.00 | Mem:1526.07M, Peak:1526.07M | Scene, ViewLayer | Synchronizing object | Cube.008
+Fra:60 Mem:2236.78M (Peak 2236.79M) | Time:00:00.00 | Mem:1526.07M, Peak:1526.07M | Scene, ViewLayer | Synchronizing object | Sphere.003
+Fra:60 Mem:2236.78M (Peak 2236.79M) | Time:00:00.00 | Mem:1526.07M, Peak:1526.07M | Scene, ViewLayer | Synchronizing object | Cylinder.007
+Fra:60 Mem:2236.78M (Peak 2236.79M) | Time:00:00.00 | Mem:1526.07M, Peak:1526.07M | Scene, ViewLayer | Synchronizing object | chefuaL
+Fra:60 Mem:2236.81M (Peak 2236.81M) | Time:00:00.00 | Mem:1526.07M, Peak:1526.07M | Scene, ViewLayer | Synchronizing object | cheffaL
+Fra:60 Mem:2236.76M (Peak 2236.81M) | Time:00:00.00 | Mem:1526.07M, Peak:1526.07M | Scene, ViewLayer | Synchronizing object | cheffaR
+Fra:60 Mem:2236.76M (Peak 2236.81M) | Time:00:00.00 | Mem:1526.07M, Peak:1526.07M | Scene, ViewLayer | Synchronizing object | Cylinder.008
+Fra:60 Mem:2236.75M (Peak 2236.81M) | Time:00:00.00 | Mem:1526.07M, Peak:1526.07M | Scene, ViewLayer | Synchronizing object | Cube.009
+Fra:60 Mem:2236.75M (Peak 2236.81M) | Time:00:00.00 | Mem:1526.07M, Peak:1526.07M | Scene, ViewLayer | Synchronizing object | Cube.010
+Fra:60 Mem:2236.76M (Peak 2236.81M) | Time:00:00.00 | Mem:1526.07M, Peak:1526.07M | Scene, ViewLayer | Synchronizing object | Sphere.006
+Fra:60 Mem:2236.80M (Peak 2236.81M) | Time:00:00.00 | Mem:1526.07M, Peak:1526.07M | Scene, ViewLayer | Synchronizing object | Sphere.018
+Fra:60 Mem:2236.84M (Peak 2236.84M) | Time:00:00.01 | Mem:1526.07M, Peak:1526.07M | Scene, ViewLayer | Synchronizing object | Sphere.033
+Fra:60 Mem:2238.99M (Peak 2238.99M) | Time:00:00.04 | Mem:1526.07M, Peak:1526.07M | Scene, ViewLayer | Initializing
+Fra:60 Mem:2238.96M (Peak 2238.99M) | Time:00:00.08 | Mem:1526.07M, Peak:1526.07M | Scene, ViewLayer | Waiting for render to start
+Fra:60 Mem:2238.96M (Peak 2238.99M) | Time:00:00.08 | Mem:1526.07M, Peak:1526.07M | Scene, ViewLayer | Updating Scene
+Fra:60 Mem:2238.96M (Peak 2238.99M) | Time:00:00.08 | Mem:1526.07M, Peak:1526.07M | Scene, ViewLayer | Updating Shaders
+Fra:60 Mem:2238.96M (Peak 2238.99M) | Time:00:00.08 | Mem:1526.07M, Peak:1526.07M | Scene, ViewLayer | Updating Background
+Fra:60 Mem:2238.96M (Peak 2238.99M) | Time:00:00.08 | Mem:1526.07M, Peak:1526.07M | Scene, ViewLayer | Updating Camera
+Fra:60 Mem:2238.96M (Peak 2238.99M) | Time:00:00.08 | Mem:1526.07M, Peak:1526.07M | Scene, ViewLayer | Updating Meshes Flags
+Fra:60 Mem:2238.84M (Peak 2238.99M) | Time:00:00.09 | Mem:1429.31M, Peak:1526.07M | Scene, ViewLayer | Updating Objects
+Fra:60 Mem:2235.15M (Peak 2238.99M) | Time:00:00.09 | Mem:1425.63M, Peak:1526.07M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:60 Mem:2236.71M (Peak 2238.99M) | Time:00:00.09 | Mem:1429.23M, Peak:1526.07M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:60 Mem:2236.71M (Peak 2238.99M) | Time:00:00.09 | Mem:1429.23M, Peak:1526.07M | Scene, ViewLayer | Updating Particle Systems
+Fra:60 Mem:2236.71M (Peak 2238.99M) | Time:00:00.09 | Mem:1429.23M, Peak:1526.07M | Scene, ViewLayer | Updating Meshes
+Fra:60 Mem:2034.32M (Peak 2238.99M) | Time:00:00.09 | Mem:1226.78M, Peak:1526.07M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:60 Mem:2081.01M (Peak 2238.99M) | Time:00:00.10 | Mem:1226.84M, Peak:1526.07M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:60 Mem:2079.80M (Peak 2238.99M) | Time:00:00.10 | Mem:1272.27M, Peak:1526.07M | Scene, ViewLayer | Updating Geometry BVH Sphere.018 2/2 | Building BVH
+Fra:60 Mem:2079.80M (Peak 2238.99M) | Time:00:00.10 | Mem:1272.27M, Peak:1526.07M | Scene, ViewLayer | Updating Geometry BVH Sphere.018 2/2 | Building BVH 0%
+Fra:60 Mem:2079.80M (Peak 2238.99M) | Time:00:00.10 | Mem:1272.28M, Peak:1526.07M | Scene, ViewLayer | Updating Geometry BVH Sphere.033 1/2 | Building BVH
+Fra:60 Mem:2079.80M (Peak 2238.99M) | Time:00:00.10 | Mem:1272.30M, Peak:1526.07M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:60 Mem:2079.92M (Peak 2238.99M) | Time:00:00.10 | Mem:1272.30M, Peak:1526.07M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:60 Mem:2079.92M (Peak 2238.99M) | Time:00:00.24 | Mem:1371.09M, Peak:1526.07M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:60 Mem:2079.92M (Peak 2238.99M) | Time:00:00.24 | Mem:1371.09M, Peak:1526.07M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:60 Mem:2147.21M (Peak 2238.99M) | Time:00:00.25 | Mem:1371.09M, Peak:1526.07M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:60 Mem:2147.21M (Peak 2238.99M) | Time:00:00.25 | Mem:1438.38M, Peak:1526.07M | Scene, ViewLayer | Updating Mesh | Copying Curves to device
+Fra:60 Mem:2236.93M (Peak 2238.99M) | Time:00:00.27 | Mem:1528.10M, Peak:1528.10M | Scene, ViewLayer | Updating Objects Flags
+Fra:60 Mem:2236.93M (Peak 2238.99M) | Time:00:00.27 | Mem:1528.22M, Peak:1528.22M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:60 Mem:2236.93M (Peak 2238.99M) | Time:00:00.27 | Mem:1528.22M, Peak:1528.22M | Scene, ViewLayer | Updating Images
+Fra:60 Mem:2236.93M (Peak 2238.99M) | Time:00:00.27 | Mem:1528.22M, Peak:1528.22M | Scene, ViewLayer | Updating Camera Volume
+Fra:60 Mem:2236.93M (Peak 2238.99M) | Time:00:00.27 | Mem:1528.22M, Peak:1528.22M | Scene, ViewLayer | Updating Lookup Tables
+Fra:60 Mem:2236.93M (Peak 2238.99M) | Time:00:00.27 | Mem:1528.22M, Peak:1528.22M | Scene, ViewLayer | Updating Lights
+Fra:60 Mem:1873.75M (Peak 2238.99M) | Time:00:00.28 | Mem:1165.04M, Peak:1528.22M | Scene, ViewLayer | Updating Lights | Importance map
+Fra:60 Mem:1937.78M (Peak 2238.99M) | Time:00:00.71 | Mem:1229.07M, Peak:1528.22M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:60 Mem:2236.93M (Peak 2432.22M) | Time:00:03.54 | Mem:1528.22M, Peak:1528.22M | Scene, ViewLayer | Updating Integrator
+Fra:60 Mem:2236.93M (Peak 2432.22M) | Time:00:03.54 | Mem:1528.22M, Peak:1528.22M | Scene, ViewLayer | Updating Film
+Fra:60 Mem:2236.93M (Peak 2432.22M) | Time:00:03.54 | Mem:1528.22M, Peak:1528.22M | Scene, ViewLayer | Updating Lookup Tables
+Fra:60 Mem:2236.93M (Peak 2432.22M) | Time:00:03.54 | Mem:1528.22M, Peak:1528.22M | Scene, ViewLayer | Updating Baking
+Fra:60 Mem:2236.93M (Peak 2432.22M) | Time:00:03.54 | Mem:1528.22M, Peak:1528.22M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:60 Mem:2236.93M (Peak 2432.22M) | Time:00:03.54 | Mem:1528.22M, Peak:1528.22M | Scene, ViewLayer | Sample 0/20
+Fra:60 Mem:2236.93M (Peak 2432.22M) | Time:00:04.60 | Remaining:00:20.04 | Mem:1528.22M, Peak:1528.22M | Scene, ViewLayer | Sample 1/20
+Fra:60 Mem:2254.73M (Peak 2432.22M) | Time:00:25.95 | Mem:1528.22M, Peak:1528.22M | Scene, ViewLayer | Sample 20/20
+Fra:60 Mem:2254.73M (Peak 2432.22M) | Time:00:25.95 | Mem:1528.22M, Peak:1528.22M | Scene, ViewLayer | Finished
+Fra:60 Mem:2254.74M (Peak 2432.22M) | Time:00:25.95 | Compositing
+Fra:60 Mem:2254.74M (Peak 2432.22M) | Time:00:25.95 | Compositing | Initializing execution
+Fra:60 Mem:2254.74M (Peak 2432.22M) | Time:00:25.95 | Compositing | Operation 2-9
+Fra:60 Mem:2254.74M (Peak 2432.22M) | Time:00:25.95 | Compositing | Operation 3-9
+Fra:60 Mem:2256.78M (Peak 2432.22M) | Time:00:25.95 | Compositing | Operation 4-9
+Fra:60 Mem:2256.78M (Peak 2432.22M) | Time:00:25.95 | Compositing | Operation 5-9
+Fra:60 Mem:2264.69M (Peak 2432.22M) | Time:00:25.95 | Compositing | Operation 6-9
+Fra:60 Mem:2264.69M (Peak 2432.22M) | Time:00:25.95 | Compositing | Operation 7-9
+Fra:60 Mem:2264.69M (Peak 2432.22M) | Time:00:25.95 | Compositing | Operation 8-9
+Fra:60 Mem:2262.71M (Peak 2432.22M) | Time:00:25.95 | Compositing | Operation 9-9
+Fra:60 Mem:2262.72M (Peak 2432.22M) | Time:00:25.95 | Compositing | Operation 10-9
+Saved: '/home/runner/work/videos/videos/out/erd05/still_0060.png'
+Time: 00:26.04 (Saving: 00:00.08)
+
+Fra:100 Mem:2236.96M (Peak 2236.96M) | Time:00:00.00 | Mem:1528.22M, Peak:1528.22M | Scene, ViewLayer | Synchronizing object | Cube.004
+Fra:100 Mem:2236.96M (Peak 2236.96M) | Time:00:00.00 | Mem:1528.22M, Peak:1528.22M | Scene, ViewLayer | Synchronizing object | Cube.006
+Fra:100 Mem:2236.95M (Peak 2236.96M) | Time:00:00.00 | Mem:1528.22M, Peak:1528.22M | Scene, ViewLayer | Synchronizing object | Cube.007
+Fra:100 Mem:2236.96M (Peak 2236.96M) | Time:00:00.00 | Mem:1528.22M, Peak:1528.22M | Scene, ViewLayer | Synchronizing object | Cube.008
+Fra:100 Mem:2236.95M (Peak 2236.96M) | Time:00:00.00 | Mem:1528.22M, Peak:1528.22M | Scene, ViewLayer | Synchronizing object | Sphere.003
+Fra:100 Mem:2236.94M (Peak 2236.96M) | Time:00:00.00 | Mem:1528.22M, Peak:1528.22M | Scene, ViewLayer | Synchronizing object | Cylinder.007
+Fra:100 Mem:2236.98M (Peak 2236.98M) | Time:00:00.00 | Mem:1528.22M, Peak:1528.22M | Scene, ViewLayer | Synchronizing object | chefuaL
+Fra:100 Mem:2236.93M (Peak 2236.98M) | Time:00:00.00 | Mem:1528.22M, Peak:1528.22M | Scene, ViewLayer | Synchronizing object | cheffaL
+Fra:100 Mem:2236.93M (Peak 2236.98M) | Time:00:00.00 | Mem:1528.22M, Peak:1528.22M | Scene, ViewLayer | Synchronizing object | cheffaR
+Fra:100 Mem:2236.93M (Peak 2236.98M) | Time:00:00.00 | Mem:1528.22M, Peak:1528.22M | Scene, ViewLayer | Synchronizing object | Cylinder.008
+Fra:100 Mem:2236.92M (Peak 2236.98M) | Time:00:00.00 | Mem:1528.22M, Peak:1528.22M | Scene, ViewLayer | Synchronizing object | Cube.009
+Fra:100 Mem:2236.92M (Peak 2236.98M) | Time:00:00.00 | Mem:1528.22M, Peak:1528.22M | Scene, ViewLayer | Synchronizing object | Cube.010
+Fra:100 Mem:2236.93M (Peak 2236.98M) | Time:00:00.00 | Mem:1528.22M, Peak:1528.22M | Scene, ViewLayer | Synchronizing object | Sphere.012
+Fra:100 Mem:2236.97M (Peak 2236.98M) | Time:00:00.01 | Mem:1528.22M, Peak:1528.22M | Scene, ViewLayer | Synchronizing object | Sphere.028
+Fra:100 Mem:2239.12M (Peak 2239.12M) | Time:00:00.04 | Mem:1528.22M, Peak:1528.22M | Scene, ViewLayer | Initializing
+Fra:100 Mem:2239.07M (Peak 2239.12M) | Time:00:00.09 | Mem:1528.22M, Peak:1528.22M | Scene, ViewLayer | Waiting for render to start
+Fra:100 Mem:2239.07M (Peak 2239.12M) | Time:00:00.09 | Mem:1528.22M, Peak:1528.22M | Scene, ViewLayer | Updating Scene
+Fra:100 Mem:2239.07M (Peak 2239.12M) | Time:00:00.09 | Mem:1528.22M, Peak:1528.22M | Scene, ViewLayer | Updating Shaders
+Fra:100 Mem:2239.06M (Peak 2239.12M) | Time:00:00.09 | Mem:1528.22M, Peak:1528.22M | Scene, ViewLayer | Updating Background
+Fra:100 Mem:2239.06M (Peak 2239.12M) | Time:00:00.09 | Mem:1528.22M, Peak:1528.22M | Scene, ViewLayer | Updating Camera
+Fra:100 Mem:2239.06M (Peak 2239.12M) | Time:00:00.09 | Mem:1528.22M, Peak:1528.22M | Scene, ViewLayer | Updating Meshes Flags
+Fra:100 Mem:2238.94M (Peak 2239.12M) | Time:00:00.09 | Mem:1429.41M, Peak:1528.22M | Scene, ViewLayer | Updating Objects
+Fra:100 Mem:2235.22M (Peak 2239.12M) | Time:00:00.09 | Mem:1425.69M, Peak:1528.22M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:100 Mem:2236.78M (Peak 2239.12M) | Time:00:00.09 | Mem:1429.29M, Peak:1528.22M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:100 Mem:2236.78M (Peak 2239.12M) | Time:00:00.09 | Mem:1429.29M, Peak:1528.22M | Scene, ViewLayer | Updating Particle Systems
+Fra:100 Mem:2236.78M (Peak 2239.12M) | Time:00:00.09 | Mem:1429.29M, Peak:1528.22M | Scene, ViewLayer | Updating Meshes
+Fra:100 Mem:2034.34M (Peak 2239.12M) | Time:00:00.10 | Mem:1226.80M, Peak:1528.22M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:100 Mem:2081.04M (Peak 2239.12M) | Time:00:00.11 | Mem:1226.86M, Peak:1528.22M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:100 Mem:2079.82M (Peak 2239.12M) | Time:00:00.11 | Mem:1272.28M, Peak:1528.22M | Scene, ViewLayer | Updating Geometry BVH Sphere.028 1/1 | Building BVH
+Fra:100 Mem:2079.82M (Peak 2239.12M) | Time:00:00.11 | Mem:1272.29M, Peak:1528.22M | Scene, ViewLayer | Updating Geometry BVH Sphere.028 1/1 | Building BVH 0%
+Fra:100 Mem:2079.82M (Peak 2239.12M) | Time:00:00.11 | Mem:1272.30M, Peak:1528.22M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:100 Mem:2079.94M (Peak 2239.12M) | Time:00:00.11 | Mem:1272.30M, Peak:1528.22M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:100 Mem:2079.94M (Peak 2239.12M) | Time:00:00.25 | Mem:1371.02M, Peak:1528.22M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:100 Mem:2079.94M (Peak 2239.12M) | Time:00:00.25 | Mem:1371.02M, Peak:1528.22M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:100 Mem:2147.23M (Peak 2239.12M) | Time:00:00.27 | Mem:1371.02M, Peak:1528.22M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:100 Mem:2147.23M (Peak 2239.12M) | Time:00:00.27 | Mem:1438.30M, Peak:1528.22M | Scene, ViewLayer | Updating Mesh | Copying Curves to device
+Fra:100 Mem:2236.95M (Peak 2239.12M) | Time:00:00.29 | Mem:1528.03M, Peak:1528.22M | Scene, ViewLayer | Updating Objects Flags
+Fra:100 Mem:2236.95M (Peak 2239.12M) | Time:00:00.29 | Mem:1528.15M, Peak:1528.22M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:100 Mem:2236.95M (Peak 2239.12M) | Time:00:00.29 | Mem:1528.15M, Peak:1528.22M | Scene, ViewLayer | Updating Images
+Fra:100 Mem:2236.95M (Peak 2239.12M) | Time:00:00.29 | Mem:1528.15M, Peak:1528.22M | Scene, ViewLayer | Updating Camera Volume
+Fra:100 Mem:2236.95M (Peak 2239.12M) | Time:00:00.29 | Mem:1528.15M, Peak:1528.22M | Scene, ViewLayer | Updating Lookup Tables
+Fra:100 Mem:2236.95M (Peak 2239.12M) | Time:00:00.29 | Mem:1528.15M, Peak:1528.22M | Scene, ViewLayer | Updating Lights
+Fra:100 Mem:1873.77M (Peak 2239.12M) | Time:00:00.29 | Mem:1164.96M, Peak:1528.22M | Scene, ViewLayer | Updating Lights | Importance map
+Fra:100 Mem:1937.80M (Peak 2239.12M) | Time:00:00.73 | Mem:1228.99M, Peak:1528.22M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:100 Mem:2236.95M (Peak 2432.24M) | Time:00:03.62 | Mem:1528.15M, Peak:1528.22M | Scene, ViewLayer | Updating Integrator
+Fra:100 Mem:2236.95M (Peak 2432.24M) | Time:00:03.62 | Mem:1528.15M, Peak:1528.22M | Scene, ViewLayer | Updating Film
+Fra:100 Mem:2236.95M (Peak 2432.24M) | Time:00:03.62 | Mem:1528.15M, Peak:1528.22M | Scene, ViewLayer | Updating Lookup Tables
+Fra:100 Mem:2236.95M (Peak 2432.24M) | Time:00:03.62 | Mem:1528.15M, Peak:1528.22M | Scene, ViewLayer | Updating Baking
+Fra:100 Mem:2236.95M (Peak 2432.24M) | Time:00:03.62 | Mem:1528.15M, Peak:1528.22M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:100 Mem:2236.95M (Peak 2432.24M) | Time:00:03.62 | Mem:1528.15M, Peak:1528.22M | Scene, ViewLayer | Sample 0/20
+Fra:100 Mem:2236.95M (Peak 2432.24M) | Time:00:04.30 | Remaining:00:12.86 | Mem:1528.15M, Peak:1528.22M | Scene, ViewLayer | Sample 1/20
+Fra:100 Mem:2254.75M (Peak 2432.24M) | Time:00:19.06 | Mem:1528.15M, Peak:1528.22M | Scene, ViewLayer | Sample 20/20
+Fra:100 Mem:2254.75M (Peak 2432.24M) | Time:00:19.06 | Mem:1528.15M, Peak:1528.22M | Scene, ViewLayer | Finished
+Fra:100 Mem:2254.75M (Peak 2432.24M) | Time:00:19.06 | Compositing
+Fra:100 Mem:2254.75M (Peak 2432.24M) | Time:00:19.06 | Compositing | Initializing execution
+Fra:100 Mem:2254.76M (Peak 2432.24M) | Time:00:19.07 | Compositing | Operation 2-9
+Fra:100 Mem:2254.76M (Peak 2432.24M) | Time:00:19.07 | Compositing | Operation 3-9
+Fra:100 Mem:2256.80M (Peak 2432.24M) | Time:00:19.07 | Compositing | Operation 4-9
+Fra:100 Mem:2256.80M (Peak 2432.24M) | Time:00:19.07 | Compositing | Operation 5-9
+Fra:100 Mem:2264.71M (Peak 2432.24M) | Time:00:19.07 | Compositing | Operation 6-9
+Fra:100 Mem:2264.71M (Peak 2432.24M) | Time:00:19.07 | Compositing | Operation 7-9
+Fra:100 Mem:2264.71M (Peak 2432.24M) | Time:00:19.07 | Compositing | Operation 8-9
+Fra:100 Mem:2262.73M (Peak 2432.24M) | Time:00:19.07 | Compositing | Operation 9-9
+Fra:100 Mem:2262.73M (Peak 2432.24M) | Time:00:19.07 | Compositing | Operation 10-9
+Saved: '/home/runner/work/videos/videos/out/erd05/still_0100.png'
+Time: 00:19.15 (Saving: 00:00.07)
+
+Fra:250 Mem:2236.96M (Peak 2236.96M) | Time:00:00.00 | Mem:1528.15M, Peak:1528.15M | Scene, ViewLayer | Synchronizing object | Cube.004
+Fra:250 Mem:2236.97M (Peak 2236.97M) | Time:00:00.00 | Mem:1528.15M, Peak:1528.15M | Scene, ViewLayer | Synchronizing object | Cube.006
+Fra:250 Mem:2236.97M (Peak 2236.97M) | Time:00:00.00 | Mem:1528.15M, Peak:1528.15M | Scene, ViewLayer | Synchronizing object | Cube.007
+Fra:250 Mem:2236.96M (Peak 2236.97M) | Time:00:00.00 | Mem:1528.15M, Peak:1528.15M | Scene, ViewLayer | Synchronizing object | Cube.008
+Fra:250 Mem:2236.96M (Peak 2236.97M) | Time:00:00.00 | Mem:1528.15M, Peak:1528.15M | Scene, ViewLayer | Synchronizing object | Sphere.003
+Fra:250 Mem:2236.97M (Peak 2236.97M) | Time:00:00.00 | Mem:1528.15M, Peak:1528.15M | Scene, ViewLayer | Synchronizing object | Cylinder.007
+Fra:250 Mem:2236.96M (Peak 2236.97M) | Time:00:00.00 | Mem:1528.15M, Peak:1528.15M | Scene, ViewLayer | Synchronizing object | chefuaL
+Fra:250 Mem:2236.94M (Peak 2236.97M) | Time:00:00.00 | Mem:1528.15M, Peak:1528.15M | Scene, ViewLayer | Synchronizing object | cheffaL
+Fra:250 Mem:2236.94M (Peak 2236.97M) | Time:00:00.00 | Mem:1528.15M, Peak:1528.15M | Scene, ViewLayer | Synchronizing object | chefuaR
+Fra:250 Mem:2236.94M (Peak 2236.97M) | Time:00:00.00 | Mem:1528.15M, Peak:1528.15M | Scene, ViewLayer | Synchronizing object | cheffaR
+Fra:250 Mem:2236.94M (Peak 2236.97M) | Time:00:00.00 | Mem:1528.15M, Peak:1528.15M | Scene, ViewLayer | Synchronizing object | Cylinder.008
+Fra:250 Mem:2236.93M (Peak 2236.97M) | Time:00:00.00 | Mem:1528.15M, Peak:1528.15M | Scene, ViewLayer | Synchronizing object | Cube.009
+Fra:250 Mem:2236.93M (Peak 2236.97M) | Time:00:00.00 | Mem:1528.15M, Peak:1528.15M | Scene, ViewLayer | Synchronizing object | Cube.010
+Fra:250 Mem:2236.95M (Peak 2236.97M) | Time:00:00.00 | Mem:1528.15M, Peak:1528.15M | Scene, ViewLayer | Synchronizing object | Sphere.023
+Fra:250 Mem:2239.08M (Peak 2239.08M) | Time:00:00.04 | Mem:1528.15M, Peak:1528.15M | Scene, ViewLayer | Initializing
+Fra:250 Mem:2239.01M (Peak 2239.08M) | Time:00:00.09 | Mem:1528.15M, Peak:1528.15M | Scene, ViewLayer | Waiting for render to start
+Fra:250 Mem:2239.01M (Peak 2239.08M) | Time:00:00.09 | Mem:1528.15M, Peak:1528.15M | Scene, ViewLayer | Updating Scene
+Fra:250 Mem:2239.01M (Peak 2239.08M) | Time:00:00.09 | Mem:1528.15M, Peak:1528.15M | Scene, ViewLayer | Updating Shaders
+Fra:250 Mem:2239.00M (Peak 2239.08M) | Time:00:00.09 | Mem:1528.15M, Peak:1528.15M | Scene, ViewLayer | Updating Background
+Fra:250 Mem:2239.00M (Peak 2239.08M) | Time:00:00.09 | Mem:1528.15M, Peak:1528.15M | Scene, ViewLayer | Updating Camera
+Fra:250 Mem:2239.00M (Peak 2239.08M) | Time:00:00.09 | Mem:1528.15M, Peak:1528.15M | Scene, ViewLayer | Updating Meshes Flags
+Fra:250 Mem:2238.88M (Peak 2239.08M) | Time:00:00.09 | Mem:1429.39M, Peak:1528.15M | Scene, ViewLayer | Updating Objects
+Fra:250 Mem:2235.16M (Peak 2239.08M) | Time:00:00.09 | Mem:1425.67M, Peak:1528.15M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:250 Mem:2236.70M (Peak 2239.08M) | Time:00:00.09 | Mem:1429.24M, Peak:1528.15M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:250 Mem:2236.70M (Peak 2239.08M) | Time:00:00.09 | Mem:1429.24M, Peak:1528.15M | Scene, ViewLayer | Updating Particle Systems
+Fra:250 Mem:2236.70M (Peak 2239.08M) | Time:00:00.09 | Mem:1429.24M, Peak:1528.15M | Scene, ViewLayer | Updating Meshes
+Fra:250 Mem:2034.26M (Peak 2239.08M) | Time:00:00.09 | Mem:1226.75M, Peak:1528.15M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:250 Mem:2080.92M (Peak 2239.08M) | Time:00:00.11 | Mem:1226.80M, Peak:1528.15M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:250 Mem:2079.72M (Peak 2239.08M) | Time:00:00.11 | Mem:1272.21M, Peak:1528.15M | Scene, ViewLayer | Updating Geometry BVH Sphere.023 1/1 | Building BVH
+Fra:250 Mem:2079.72M (Peak 2239.08M) | Time:00:00.11 | Mem:1272.21M, Peak:1528.15M | Scene, ViewLayer | Updating Geometry BVH Sphere.023 1/1 | Building BVH 0%
+Fra:250 Mem:2079.72M (Peak 2239.08M) | Time:00:00.11 | Mem:1272.22M, Peak:1528.15M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:250 Mem:2079.84M (Peak 2239.08M) | Time:00:00.11 | Mem:1272.22M, Peak:1528.15M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:250 Mem:2079.84M (Peak 2239.08M) | Time:00:00.24 | Mem:1370.96M, Peak:1528.15M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:250 Mem:2079.84M (Peak 2239.08M) | Time:00:00.24 | Mem:1370.96M, Peak:1528.15M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:250 Mem:2147.11M (Peak 2239.08M) | Time:00:00.26 | Mem:1370.96M, Peak:1528.15M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:250 Mem:2147.11M (Peak 2239.08M) | Time:00:00.26 | Mem:1438.23M, Peak:1528.15M | Scene, ViewLayer | Updating Mesh | Copying Curves to device
+Fra:250 Mem:2236.83M (Peak 2239.08M) | Time:00:00.28 | Mem:1527.96M, Peak:1528.15M | Scene, ViewLayer | Updating Objects Flags
+Fra:250 Mem:2236.83M (Peak 2239.08M) | Time:00:00.28 | Mem:1528.07M, Peak:1528.15M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:250 Mem:2236.83M (Peak 2239.08M) | Time:00:00.28 | Mem:1528.07M, Peak:1528.15M | Scene, ViewLayer | Updating Images
+Fra:250 Mem:2236.83M (Peak 2239.08M) | Time:00:00.28 | Mem:1528.07M, Peak:1528.15M | Scene, ViewLayer | Updating Camera Volume
+Fra:250 Mem:2236.83M (Peak 2239.08M) | Time:00:00.28 | Mem:1528.07M, Peak:1528.15M | Scene, ViewLayer | Updating Lookup Tables
+Fra:250 Mem:2236.83M (Peak 2239.08M) | Time:00:00.28 | Mem:1528.07M, Peak:1528.15M | Scene, ViewLayer | Updating Lights
+Fra:250 Mem:1873.64M (Peak 2239.08M) | Time:00:00.28 | Mem:1164.89M, Peak:1528.15M | Scene, ViewLayer | Updating Lights | Importance map
+Fra:250 Mem:1937.67M (Peak 2239.08M) | Time:00:00.73 | Mem:1228.92M, Peak:1528.15M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:250 Mem:2236.83M (Peak 2432.12M) | Time:00:03.64 | Mem:1528.07M, Peak:1528.15M | Scene, ViewLayer | Updating Integrator
+Fra:250 Mem:2236.83M (Peak 2432.12M) | Time:00:03.64 | Mem:1528.07M, Peak:1528.15M | Scene, ViewLayer | Updating Film
+Fra:250 Mem:2236.83M (Peak 2432.12M) | Time:00:03.64 | Mem:1528.07M, Peak:1528.15M | Scene, ViewLayer | Updating Lookup Tables
+Fra:250 Mem:2236.83M (Peak 2432.12M) | Time:00:03.64 | Mem:1528.07M, Peak:1528.15M | Scene, ViewLayer | Updating Baking
+Fra:250 Mem:2236.83M (Peak 2432.12M) | Time:00:03.64 | Mem:1528.07M, Peak:1528.15M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:250 Mem:2236.83M (Peak 2432.12M) | Time:00:03.64 | Mem:1528.07M, Peak:1528.15M | Scene, ViewLayer | Sample 0/20
+Fra:250 Mem:2236.83M (Peak 2432.12M) | Time:00:04.47 | Remaining:00:15.83 | Mem:1528.07M, Peak:1528.15M | Scene, ViewLayer | Sample 1/20
+Fra:250 Mem:2254.63M (Peak 2432.12M) | Time:00:21.82 | Mem:1528.07M, Peak:1528.15M | Scene, ViewLayer | Sample 20/20
+Fra:250 Mem:2254.63M (Peak 2432.12M) | Time:00:21.82 | Mem:1528.07M, Peak:1528.15M | Scene, ViewLayer | Finished
+Fra:250 Mem:2254.63M (Peak 2432.12M) | Time:00:21.82 | Compositing
+Fra:250 Mem:2254.63M (Peak 2432.12M) | Time:00:21.82 | Compositing | Initializing execution
+Fra:250 Mem:2254.63M (Peak 2432.12M) | Time:00:21.82 | Compositing | Operation 2-9
+Fra:250 Mem:2254.63M (Peak 2432.12M) | Time:00:21.82 | Compositing | Operation 3-9
+Fra:250 Mem:2256.67M (Peak 2432.12M) | Time:00:21.82 | Compositing | Operation 4-9
+Fra:250 Mem:2256.67M (Peak 2432.12M) | Time:00:21.82 | Compositing | Operation 5-9
+Fra:250 Mem:2264.58M (Peak 2432.12M) | Time:00:21.82 | Compositing | Operation 6-9
+Fra:250 Mem:2264.58M (Peak 2432.12M) | Time:00:21.82 | Compositing | Operation 7-9
+Fra:250 Mem:2264.58M (Peak 2432.12M) | Time:00:21.82 | Compositing | Operation 8-9
+Fra:250 Mem:2262.61M (Peak 2432.12M) | Time:00:21.82 | Compositing | Operation 9-9
+Fra:250 Mem:2262.61M (Peak 2432.12M) | Time:00:21.82 | Compositing | Operation 10-9
+Saved: '/home/runner/work/videos/videos/out/erd05/still_0250.png'
+Time: 00:21.91 (Saving: 00:00.08)
+
+Fra:440 Mem:2236.84M (Peak 2236.84M) | Time:00:00.00 | Mem:1528.07M, Peak:1528.07M | Scene, ViewLayer | Synchronizing object | Cube.004
+Fra:440 Mem:2236.85M (Peak 2236.85M) | Time:00:00.00 | Mem:1528.07M, Peak:1528.07M | Scene, ViewLayer | Synchronizing object | Cube.006
+Fra:440 Mem:2236.84M (Peak 2236.85M) | Time:00:00.00 | Mem:1528.07M, Peak:1528.07M | Scene, ViewLayer | Synchronizing object | Cube.007
+Fra:440 Mem:2236.84M (Peak 2236.85M) | Time:00:00.00 | Mem:1528.07M, Peak:1528.07M | Scene, ViewLayer | Synchronizing object | Cube.008
+Fra:440 Mem:2236.83M (Peak 2236.85M) | Time:00:00.00 | Mem:1528.07M, Peak:1528.07M | Scene, ViewLayer | Synchronizing object | Sphere.003
+Fra:440 Mem:2236.83M (Peak 2236.85M) | Time:00:00.00 | Mem:1528.07M, Peak:1528.07M | Scene, ViewLayer | Synchronizing object | Cylinder.007
+Fra:440 Mem:2236.86M (Peak 2236.86M) | Time:00:00.00 | Mem:1528.07M, Peak:1528.07M | Scene, ViewLayer | Synchronizing object | chefuaL
+Fra:440 Mem:2236.81M (Peak 2236.86M) | Time:00:00.00 | Mem:1528.07M, Peak:1528.07M | Scene, ViewLayer | Synchronizing object | cheffaL
+Fra:440 Mem:2236.81M (Peak 2236.86M) | Time:00:00.00 | Mem:1528.07M, Peak:1528.07M | Scene, ViewLayer | Synchronizing object | chefuaR
+Fra:440 Mem:2236.81M (Peak 2236.86M) | Time:00:00.00 | Mem:1528.07M, Peak:1528.07M | Scene, ViewLayer | Synchronizing object | cheffaR
+Fra:440 Mem:2236.81M (Peak 2236.86M) | Time:00:00.00 | Mem:1528.07M, Peak:1528.07M | Scene, ViewLayer | Synchronizing object | Cylinder.008
+Fra:440 Mem:2236.81M (Peak 2236.86M) | Time:00:00.00 | Mem:1528.07M, Peak:1528.07M | Scene, ViewLayer | Synchronizing object | Cube.009
+Fra:440 Mem:2236.81M (Peak 2236.86M) | Time:00:00.00 | Mem:1528.07M, Peak:1528.07M | Scene, ViewLayer | Synchronizing object | Cube.010
+Fra:440 Mem:2236.81M (Peak 2236.86M) | Time:00:00.00 | Mem:1528.07M, Peak:1528.07M | Scene, ViewLayer | Synchronizing object | Sphere.012
+Fra:440 Mem:2236.85M (Peak 2236.86M) | Time:00:00.01 | Mem:1528.07M, Peak:1528.07M | Scene, ViewLayer | Synchronizing object | Sphere.033
+Fra:440 Mem:2238.97M (Peak 2238.97M) | Time:00:00.04 | Mem:1528.07M, Peak:1528.07M | Scene, ViewLayer | Initializing
+Fra:440 Mem:2238.95M (Peak 2238.97M) | Time:00:00.09 | Mem:1528.07M, Peak:1528.07M | Scene, ViewLayer | Waiting for render to start
+Fra:440 Mem:2238.95M (Peak 2238.97M) | Time:00:00.09 | Mem:1528.07M, Peak:1528.07M | Scene, ViewLayer | Updating Scene
+Fra:440 Mem:2238.95M (Peak 2238.97M) | Time:00:00.09 | Mem:1528.07M, Peak:1528.07M | Scene, ViewLayer | Updating Shaders
+Fra:440 Mem:2238.94M (Peak 2238.97M) | Time:00:00.09 | Mem:1528.07M, Peak:1528.07M | Scene, ViewLayer | Updating Background
+Fra:440 Mem:2238.94M (Peak 2238.97M) | Time:00:00.09 | Mem:1528.07M, Peak:1528.07M | Scene, ViewLayer | Updating Camera
+Fra:440 Mem:2238.94M (Peak 2238.97M) | Time:00:00.09 | Mem:1528.07M, Peak:1528.07M | Scene, ViewLayer | Updating Meshes Flags
+Fra:440 Mem:2238.82M (Peak 2238.97M) | Time:00:00.09 | Mem:1429.31M, Peak:1528.07M | Scene, ViewLayer | Updating Objects
+Fra:440 Mem:2235.14M (Peak 2238.97M) | Time:00:00.09 | Mem:1425.63M, Peak:1528.07M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:440 Mem:2236.68M (Peak 2238.97M) | Time:00:00.10 | Mem:1429.19M, Peak:1528.07M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:440 Mem:2236.68M (Peak 2238.97M) | Time:00:00.10 | Mem:1429.19M, Peak:1528.07M | Scene, ViewLayer | Updating Particle Systems
+Fra:440 Mem:2236.68M (Peak 2238.97M) | Time:00:00.10 | Mem:1429.19M, Peak:1528.07M | Scene, ViewLayer | Updating Meshes
+Fra:440 Mem:2034.28M (Peak 2238.97M) | Time:00:00.10 | Mem:1226.75M, Peak:1528.07M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:440 Mem:2080.95M (Peak 2238.97M) | Time:00:00.11 | Mem:1226.80M, Peak:1528.07M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:440 Mem:2079.75M (Peak 2238.97M) | Time:00:00.11 | Mem:1272.22M, Peak:1528.07M | Scene, ViewLayer | Updating Geometry BVH Sphere.033 1/1 | Building BVH
+Fra:440 Mem:2079.75M (Peak 2238.97M) | Time:00:00.11 | Mem:1272.22M, Peak:1528.07M | Scene, ViewLayer | Updating Geometry BVH Sphere.033 1/1 | Building BVH 0%
+Fra:440 Mem:2079.75M (Peak 2238.97M) | Time:00:00.11 | Mem:1272.23M, Peak:1528.07M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:440 Mem:2079.87M (Peak 2238.97M) | Time:00:00.11 | Mem:1272.23M, Peak:1528.07M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:440 Mem:2079.87M (Peak 2238.97M) | Time:00:00.25 | Mem:1370.98M, Peak:1528.07M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:440 Mem:2079.87M (Peak 2238.97M) | Time:00:00.25 | Mem:1370.98M, Peak:1528.07M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:440 Mem:2147.15M (Peak 2238.97M) | Time:00:00.27 | Mem:1370.98M, Peak:1528.07M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:440 Mem:2147.15M (Peak 2238.97M) | Time:00:00.27 | Mem:1438.25M, Peak:1528.07M | Scene, ViewLayer | Updating Mesh | Copying Curves to device
+Fra:440 Mem:2236.87M (Peak 2238.97M) | Time:00:00.29 | Mem:1527.97M, Peak:1528.07M | Scene, ViewLayer | Updating Objects Flags
+Fra:440 Mem:2236.87M (Peak 2238.97M) | Time:00:00.29 | Mem:1528.09M, Peak:1528.09M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:440 Mem:2236.87M (Peak 2238.97M) | Time:00:00.29 | Mem:1528.09M, Peak:1528.09M | Scene, ViewLayer | Updating Images
+Fra:440 Mem:2236.87M (Peak 2238.97M) | Time:00:00.29 | Mem:1528.09M, Peak:1528.09M | Scene, ViewLayer | Updating Camera Volume
+Fra:440 Mem:2236.87M (Peak 2238.97M) | Time:00:00.29 | Mem:1528.09M, Peak:1528.09M | Scene, ViewLayer | Updating Lookup Tables
+Fra:440 Mem:2236.87M (Peak 2238.97M) | Time:00:00.29 | Mem:1528.09M, Peak:1528.09M | Scene, ViewLayer | Updating Lights
+Fra:440 Mem:1873.69M (Peak 2238.97M) | Time:00:00.29 | Mem:1164.91M, Peak:1528.09M | Scene, ViewLayer | Updating Lights | Importance map
+Fra:440 Mem:1937.72M (Peak 2238.97M) | Time:00:00.73 | Mem:1228.94M, Peak:1528.09M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:440 Mem:2236.87M (Peak 2432.16M) | Time:00:03.63 | Mem:1528.09M, Peak:1528.09M | Scene, ViewLayer | Updating Integrator
+Fra:440 Mem:2236.87M (Peak 2432.16M) | Time:00:03.63 | Mem:1528.09M, Peak:1528.09M | Scene, ViewLayer | Updating Film
+Fra:440 Mem:2236.87M (Peak 2432.16M) | Time:00:03.63 | Mem:1528.09M, Peak:1528.09M | Scene, ViewLayer | Updating Lookup Tables
+Fra:440 Mem:2236.87M (Peak 2432.16M) | Time:00:03.63 | Mem:1528.09M, Peak:1528.09M | Scene, ViewLayer | Updating Baking
+Fra:440 Mem:2236.87M (Peak 2432.16M) | Time:00:03.63 | Mem:1528.09M, Peak:1528.09M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:440 Mem:2236.87M (Peak 2432.16M) | Time:00:03.63 | Mem:1528.09M, Peak:1528.09M | Scene, ViewLayer | Sample 0/20
+Fra:440 Mem:2236.87M (Peak 2432.16M) | Time:00:04.27 | Remaining:00:12.13 | Mem:1528.09M, Peak:1528.09M | Scene, ViewLayer | Sample 1/20
+Fra:440 Mem:2254.67M (Peak 2432.16M) | Time:00:18.48 | Mem:1528.09M, Peak:1528.09M | Scene, ViewLayer | Sample 20/20
+Fra:440 Mem:2254.67M (Peak 2432.16M) | Time:00:18.48 | Mem:1528.09M, Peak:1528.09M | Scene, ViewLayer | Finished
+Fra:440 Mem:2254.68M (Peak 2432.16M) | Time:00:18.48 | Compositing
+Fra:440 Mem:2254.68M (Peak 2432.16M) | Time:00:18.48 | Compositing | Initializing execution
+Fra:440 Mem:2254.68M (Peak 2432.16M) | Time:00:18.48 | Compositing | Operation 2-9
+Fra:440 Mem:2254.68M (Peak 2432.16M) | Time:00:18.48 | Compositing | Operation 3-9
+Fra:440 Mem:2256.72M (Peak 2432.16M) | Time:00:18.48 | Compositing | Operation 4-9
+Fra:440 Mem:2256.72M (Peak 2432.16M) | Time:00:18.48 | Compositing | Operation 5-9
+Fra:440 Mem:2264.63M (Peak 2432.16M) | Time:00:18.48 | Compositing | Operation 6-9
+Fra:440 Mem:2264.63M (Peak 2432.16M) | Time:00:18.48 | Compositing | Operation 7-9
+Fra:440 Mem:2264.63M (Peak 2432.16M) | Time:00:18.48 | Compositing | Operation 8-9
+Fra:440 Mem:2262.65M (Peak 2432.16M) | Time:00:18.48 | Compositing | Operation 9-9
+Fra:440 Mem:2262.65M (Peak 2432.16M) | Time:00:18.48 | Compositing | Operation 10-9
+Saved: '/home/runner/work/videos/videos/out/erd05/still_0440.png'
+Time: 00:18.56 (Saving: 00:00.07)
+
+Fra:560 Mem:2236.89M (Peak 2236.89M) | Time:00:00.00 | Mem:1528.09M, Peak:1528.09M | Scene, ViewLayer | Synchronizing object | Cube.005
+Fra:560 Mem:2236.89M (Peak 2236.89M) | Time:00:00.00 | Mem:1528.09M, Peak:1528.09M | Scene, ViewLayer | Synchronizing object | Cube.006
+Fra:560 Mem:2236.88M (Peak 2236.89M) | Time:00:00.00 | Mem:1528.09M, Peak:1528.09M | Scene, ViewLayer | Synchronizing object | Cube.007
+Fra:560 Mem:2236.88M (Peak 2236.89M) | Time:00:00.00 | Mem:1528.09M, Peak:1528.09M | Scene, ViewLayer | Synchronizing object | Sphere.003
+Fra:560 Mem:2236.86M (Peak 2236.89M) | Time:00:00.00 | Mem:1528.09M, Peak:1528.09M | Scene, ViewLayer | Synchronizing object | Cylinder.007
+Fra:560 Mem:2236.86M (Peak 2236.89M) | Time:00:00.00 | Mem:1528.09M, Peak:1528.09M | Scene, ViewLayer | Synchronizing object | chefuaL
+Fra:560 Mem:2236.86M (Peak 2236.89M) | Time:00:00.00 | Mem:1528.09M, Peak:1528.09M | Scene, ViewLayer | Synchronizing object | cheffaL
+Fra:560 Mem:2236.86M (Peak 2236.89M) | Time:00:00.00 | Mem:1528.09M, Peak:1528.09M | Scene, ViewLayer | Synchronizing object | chefuaR
+Fra:560 Mem:2236.86M (Peak 2236.89M) | Time:00:00.00 | Mem:1528.09M, Peak:1528.09M | Scene, ViewLayer | Synchronizing object | cheffaR
+Fra:560 Mem:2236.86M (Peak 2236.89M) | Time:00:00.00 | Mem:1528.09M, Peak:1528.09M | Scene, ViewLayer | Synchronizing object | Cylinder.008
+Fra:560 Mem:2236.87M (Peak 2236.89M) | Time:00:00.00 | Mem:1528.09M, Peak:1528.09M | Scene, ViewLayer | Synchronizing object | Cube.009
+Fra:560 Mem:2236.86M (Peak 2236.89M) | Time:00:00.00 | Mem:1528.09M, Peak:1528.09M | Scene, ViewLayer | Synchronizing object | Cube.010
+Fra:560 Mem:2238.95M (Peak 2238.95M) | Time:00:00.04 | Mem:1528.09M, Peak:1528.09M | Scene, ViewLayer | Initializing
+Fra:560 Mem:2238.90M (Peak 2238.95M) | Time:00:00.09 | Mem:1528.09M, Peak:1528.09M | Scene, ViewLayer | Waiting for render to start
+Fra:560 Mem:2238.90M (Peak 2238.95M) | Time:00:00.09 | Mem:1528.09M, Peak:1528.09M | Scene, ViewLayer | Updating Scene
+Fra:560 Mem:2238.90M (Peak 2238.95M) | Time:00:00.09 | Mem:1528.09M, Peak:1528.09M | Scene, ViewLayer | Updating Shaders
+Fra:560 Mem:2238.89M (Peak 2238.95M) | Time:00:00.09 | Mem:1528.09M, Peak:1528.09M | Scene, ViewLayer | Updating Background
+Fra:560 Mem:2238.89M (Peak 2238.95M) | Time:00:00.09 | Mem:1528.09M, Peak:1528.09M | Scene, ViewLayer | Updating Camera
+Fra:560 Mem:2238.89M (Peak 2238.95M) | Time:00:00.09 | Mem:1528.09M, Peak:1528.09M | Scene, ViewLayer | Updating Meshes Flags
+Fra:560 Mem:2238.77M (Peak 2238.95M) | Time:00:00.09 | Mem:1429.33M, Peak:1528.09M | Scene, ViewLayer | Updating Objects
+Fra:560 Mem:2235.09M (Peak 2238.95M) | Time:00:00.09 | Mem:1425.65M, Peak:1528.09M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:560 Mem:2236.62M (Peak 2238.95M) | Time:00:00.09 | Mem:1429.18M, Peak:1528.09M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:560 Mem:2236.62M (Peak 2238.95M) | Time:00:00.09 | Mem:1429.18M, Peak:1528.09M | Scene, ViewLayer | Updating Particle Systems
+Fra:560 Mem:2236.62M (Peak 2238.95M) | Time:00:00.09 | Mem:1429.18M, Peak:1528.09M | Scene, ViewLayer | Updating Meshes
+Fra:560 Mem:2034.19M (Peak 2238.95M) | Time:00:00.09 | Mem:1226.71M, Peak:1528.09M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:560 Mem:2080.83M (Peak 2238.95M) | Time:00:00.11 | Mem:1226.76M, Peak:1528.09M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:560 Mem:2079.64M (Peak 2238.95M) | Time:00:00.11 | Mem:1272.15M, Peak:1528.09M | Scene, ViewLayer | Updating Geometry BVH Cylinder.087 27/27 | Refitting BVH
+Fra:560 Mem:2079.64M (Peak 2238.95M) | Time:00:00.11 | Mem:1272.15M, Peak:1528.09M | Scene, ViewLayer | Updating Geometry BVH Cylinder.087 27/27 | Refitting BVH nodes
+Fra:560 Mem:2079.64M (Peak 2238.95M) | Time:00:00.11 | Mem:1272.15M, Peak:1528.09M | Scene, ViewLayer | Updating Geometry BVH Cylinder.087 27/27 | Building BVH 0%
+Fra:560 Mem:2079.64M (Peak 2238.95M) | Time:00:00.11 | Mem:1272.15M, Peak:1528.09M | Scene, ViewLayer | Updating Geometry BVH Cylinder.085 26/27 | Refitting BVH
+Fra:560 Mem:2079.64M (Peak 2238.95M) | Time:00:00.11 | Mem:1272.15M, Peak:1528.09M | Scene, ViewLayer | Updating Geometry BVH Cylinder.085 26/27 | Refitting BVH nodes
+Fra:560 Mem:2079.64M (Peak 2238.95M) | Time:00:00.11 | Mem:1272.15M, Peak:1528.09M | Scene, ViewLayer | Updating Geometry BVH Cylinder.077 1/27 | Refitting BVH
+Fra:560 Mem:2079.64M (Peak 2238.95M) | Time:00:00.11 | Mem:1272.15M, Peak:1528.09M | Scene, ViewLayer | Updating Geometry BVH Cylinder.088 25/27 | Refitting BVH
+Fra:560 Mem:2079.64M (Peak 2238.95M) | Time:00:00.11 | Mem:1272.15M, Peak:1528.09M | Scene, ViewLayer | Updating Geometry BVH Cylinder.088 25/27 | Refitting BVH nodes
+Fra:560 Mem:2079.64M (Peak 2238.95M) | Time:00:00.11 | Mem:1272.15M, Peak:1528.09M | Scene, ViewLayer | Updating Geometry BVH Cylinder.086 24/27 | Refitting BVH
+Fra:560 Mem:2079.64M (Peak 2238.95M) | Time:00:00.11 | Mem:1272.15M, Peak:1528.09M | Scene, ViewLayer | Updating Geometry BVH Cylinder.086 24/27 | Refitting BVH nodes
+Fra:560 Mem:2079.64M (Peak 2238.95M) | Time:00:00.11 | Mem:1272.15M, Peak:1528.09M | Scene, ViewLayer | Updating Geometry BVH Sphere.032 23/27 | Refitting BVH
+Fra:560 Mem:2079.64M (Peak 2238.95M) | Time:00:00.11 | Mem:1272.14M, Peak:1528.09M | Scene, ViewLayer | Updating Geometry BVH Sphere.032 23/27 | Refitting BVH nodes
+Fra:560 Mem:2079.64M (Peak 2238.95M) | Time:00:00.11 | Mem:1272.15M, Peak:1528.09M | Scene, ViewLayer | Updating Geometry BVH Cylinder.078 4/27 | Refitting BVH
+Fra:560 Mem:2079.64M (Peak 2238.95M) | Time:00:00.11 | Mem:1272.15M, Peak:1528.09M | Scene, ViewLayer | Updating Geometry BVH Cylinder.078 4/27 | Refitting BVH nodes
+Fra:560 Mem:2079.64M (Peak 2238.95M) | Time:00:00.11 | Mem:1272.15M, Peak:1528.09M | Scene, ViewLayer | Updating Geometry BVH Cube.053 6/27 | Refitting BVH
+Fra:560 Mem:2079.64M (Peak 2238.95M) | Time:00:00.11 | Mem:1272.15M, Peak:1528.09M | Scene, ViewLayer | Updating Geometry BVH Cube.053 6/27 | Refitting BVH nodes
+Fra:560 Mem:2079.64M (Peak 2238.95M) | Time:00:00.11 | Mem:1272.14M, Peak:1528.09M | Scene, ViewLayer | Updating Geometry BVH Sphere.031 22/27 | Refitting BVH
+Fra:560 Mem:2079.64M (Peak 2238.95M) | Time:00:00.11 | Mem:1272.13M, Peak:1528.09M | Scene, ViewLayer | Updating Geometry BVH Cube.054 7/27 | Refitting BVH
+Fra:560 Mem:2079.64M (Peak 2238.95M) | Time:00:00.11 | Mem:1272.13M, Peak:1528.09M | Scene, ViewLayer | Updating Geometry BVH Cube.054 7/27 | Refitting BVH nodes
+Fra:560 Mem:2079.64M (Peak 2238.95M) | Time:00:00.11 | Mem:1272.14M, Peak:1528.09M | Scene, ViewLayer | Updating Geometry BVH Cube.056 9/27 | Refitting BVH
+Fra:560 Mem:2079.64M (Peak 2238.95M) | Time:00:00.11 | Mem:1272.15M, Peak:1528.09M | Scene, ViewLayer | Updating Geometry BVH Cube.055 8/27 | Refitting BVH nodes
+Fra:560 Mem:2079.64M (Peak 2238.95M) | Time:00:00.11 | Mem:1272.14M, Peak:1528.09M | Scene, ViewLayer | Updating Geometry BVH Cube.057 10/27 | Refitting BVH
+Fra:560 Mem:2079.64M (Peak 2238.95M) | Time:00:00.11 | Mem:1272.14M, Peak:1528.09M | Scene, ViewLayer | Updating Geometry BVH Sphere.030 21/27 | Refitting BVH nodes
+Fra:560 Mem:2079.64M (Peak 2238.95M) | Time:00:00.11 | Mem:1272.12M, Peak:1528.09M | Scene, ViewLayer | Updating Geometry BVH Cube.058 11/27 | Refitting BVH
+Fra:560 Mem:2079.64M (Peak 2238.95M) | Time:00:00.11 | Mem:1272.12M, Peak:1528.09M | Scene, ViewLayer | Updating Geometry BVH Cube.058 11/27 | Refitting BVH nodes
+Fra:560 Mem:2079.64M (Peak 2238.95M) | Time:00:00.11 | Mem:1272.12M, Peak:1528.09M | Scene, ViewLayer | Updating Geometry BVH Cube.059 12/27 | Refitting BVH
+Fra:560 Mem:2079.64M (Peak 2238.95M) | Time:00:00.11 | Mem:1272.10M, Peak:1528.09M | Scene, ViewLayer | Updating Geometry BVH Cube.059 12/27 | Refitting BVH nodes
+Fra:560 Mem:2079.64M (Peak 2238.95M) | Time:00:00.11 | Mem:1272.14M, Peak:1528.09M | Scene, ViewLayer | Updating Geometry BVH Cube.060 13/27 | Refitting BVH
+Fra:560 Mem:2079.64M (Peak 2238.95M) | Time:00:00.11 | Mem:1272.14M, Peak:1528.09M | Scene, ViewLayer | Updating Geometry BVH Cube.060 13/27 | Refitting BVH nodes
+Fra:560 Mem:2079.64M (Peak 2238.95M) | Time:00:00.11 | Mem:1272.14M, Peak:1528.09M | Scene, ViewLayer | Updating Geometry BVH Cube.061 14/27 | Refitting BVH
+Fra:560 Mem:2079.64M (Peak 2238.95M) | Time:00:00.11 | Mem:1272.13M, Peak:1528.09M | Scene, ViewLayer | Updating Geometry BVH Cube.061 14/27 | Refitting BVH nodes
+Fra:560 Mem:2079.64M (Peak 2238.95M) | Time:00:00.11 | Mem:1272.15M, Peak:1528.09M | Scene, ViewLayer | Updating Geometry BVH Cylinder.081 15/27 | Refitting BVH
+Fra:560 Mem:2079.64M (Peak 2238.95M) | Time:00:00.11 | Mem:1272.15M, Peak:1528.09M | Scene, ViewLayer | Updating Geometry BVH Cylinder.081 15/27 | Refitting BVH nodes
+Fra:560 Mem:2079.64M (Peak 2238.95M) | Time:00:00.11 | Mem:1272.16M, Peak:1528.09M | Scene, ViewLayer | Updating Geometry BVH Cylinder.082 16/27 | Refitting BVH
+Fra:560 Mem:2079.64M (Peak 2238.95M) | Time:00:00.11 | Mem:1272.17M, Peak:1528.09M | Scene, ViewLayer | Updating Geometry BVH Cylinder.083 17/27 | Refitting BVH nodes
+Fra:560 Mem:2079.64M (Peak 2238.95M) | Time:00:00.11 | Mem:1272.17M, Peak:1528.09M | Scene, ViewLayer | Updating Geometry BVH Cylinder.084 18/27 | Refitting BVH
+Fra:560 Mem:2079.64M (Peak 2238.95M) | Time:00:00.11 | Mem:1272.17M, Peak:1528.09M | Scene, ViewLayer | Updating Geometry BVH Cylinder.084 18/27 | Refitting BVH nodes
+Fra:560 Mem:2079.64M (Peak 2238.95M) | Time:00:00.11 | Mem:1272.15M, Peak:1528.09M | Scene, ViewLayer | Updating Geometry BVH Sphere.029 20/27 | Refitting BVH
+Fra:560 Mem:2079.64M (Peak 2238.95M) | Time:00:00.11 | Mem:1272.15M, Peak:1528.09M | Scene, ViewLayer | Updating Geometry BVH Cylinder.089 19/27 | Refitting BVH nodes
+Fra:560 Mem:2079.64M (Peak 2238.95M) | Time:00:00.11 | Mem:1272.15M, Peak:1528.09M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:560 Mem:2079.76M (Peak 2238.95M) | Time:00:00.11 | Mem:1272.15M, Peak:1528.09M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:560 Mem:2079.76M (Peak 2238.95M) | Time:00:00.24 | Mem:1368.80M, Peak:1528.09M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:560 Mem:2079.76M (Peak 2238.95M) | Time:00:00.24 | Mem:1368.80M, Peak:1528.09M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:560 Mem:2147.02M (Peak 2238.95M) | Time:00:00.26 | Mem:1368.80M, Peak:1528.09M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:560 Mem:2147.02M (Peak 2238.95M) | Time:00:00.26 | Mem:1436.06M, Peak:1528.09M | Scene, ViewLayer | Updating Mesh | Copying Curves to device
+Fra:560 Mem:2236.74M (Peak 2238.95M) | Time:00:00.28 | Mem:1525.78M, Peak:1528.09M | Scene, ViewLayer | Updating Objects Flags
+Fra:560 Mem:2236.74M (Peak 2238.95M) | Time:00:00.28 | Mem:1525.90M, Peak:1528.09M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:560 Mem:2236.74M (Peak 2238.95M) | Time:00:00.28 | Mem:1525.90M, Peak:1528.09M | Scene, ViewLayer | Updating Images
+Fra:560 Mem:2236.74M (Peak 2238.95M) | Time:00:00.28 | Mem:1525.90M, Peak:1528.09M | Scene, ViewLayer | Updating Camera Volume
+Fra:560 Mem:2236.74M (Peak 2238.95M) | Time:00:00.28 | Mem:1525.90M, Peak:1528.09M | Scene, ViewLayer | Updating Lookup Tables
+Fra:560 Mem:2236.74M (Peak 2238.95M) | Time:00:00.28 | Mem:1525.90M, Peak:1528.09M | Scene, ViewLayer | Updating Lights
+Fra:560 Mem:1873.56M (Peak 2238.95M) | Time:00:00.28 | Mem:1162.72M, Peak:1528.09M | Scene, ViewLayer | Updating Lights | Importance map
+Fra:560 Mem:1937.59M (Peak 2238.95M) | Time:00:00.73 | Mem:1226.75M, Peak:1528.09M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:560 Mem:2236.74M (Peak 2432.03M) | Time:00:03.61 | Mem:1525.90M, Peak:1528.09M | Scene, ViewLayer | Updating Integrator
+Fra:560 Mem:2236.74M (Peak 2432.03M) | Time:00:03.61 | Mem:1525.90M, Peak:1528.09M | Scene, ViewLayer | Updating Film
+Fra:560 Mem:2236.74M (Peak 2432.03M) | Time:00:03.61 | Mem:1525.90M, Peak:1528.09M | Scene, ViewLayer | Updating Lookup Tables
+Fra:560 Mem:2236.74M (Peak 2432.03M) | Time:00:03.61 | Mem:1525.90M, Peak:1528.09M | Scene, ViewLayer | Updating Baking
+Fra:560 Mem:2236.74M (Peak 2432.03M) | Time:00:03.61 | Mem:1525.90M, Peak:1528.09M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:560 Mem:2236.74M (Peak 2432.03M) | Time:00:03.61 | Mem:1525.90M, Peak:1528.09M | Scene, ViewLayer | Sample 0/20
+Fra:560 Mem:2236.74M (Peak 2432.03M) | Time:00:05.57 | Remaining:00:37.27 | Mem:1525.90M, Peak:1528.09M | Scene, ViewLayer | Sample 1/20
+Fra:560 Mem:2236.74M (Peak 2432.03M) | Time:00:36.81 | Remaining:00:05.85 | Mem:1525.90M, Peak:1528.09M | Scene, ViewLayer | Sample 17/20
+Fra:560 Mem:2254.54M (Peak 2432.03M) | Time:00:45.35 | Mem:1525.90M, Peak:1528.09M | Scene, ViewLayer | Sample 20/20
+Fra:560 Mem:2254.54M (Peak 2432.03M) | Time:00:45.35 | Mem:1525.90M, Peak:1528.09M | Scene, ViewLayer | Finished
+Fra:560 Mem:2254.54M (Peak 2432.03M) | Time:00:45.35 | Compositing
+Fra:560 Mem:2254.54M (Peak 2432.03M) | Time:00:45.35 | Compositing | Initializing execution
+Fra:560 Mem:2254.55M (Peak 2432.03M) | Time:00:45.35 | Compositing | Operation 2-9
+Fra:560 Mem:2254.55M (Peak 2432.03M) | Time:00:45.35 | Compositing | Operation 3-9
+Fra:560 Mem:2256.59M (Peak 2432.03M) | Time:00:45.35 | Compositing | Operation 4-9
+Fra:560 Mem:2256.59M (Peak 2432.03M) | Time:00:45.35 | Compositing | Operation 5-9
+Fra:560 Mem:2264.50M (Peak 2432.03M) | Time:00:45.35 | Compositing | Operation 6-9
+Fra:560 Mem:2264.50M (Peak 2432.03M) | Time:00:45.35 | Compositing | Operation 7-9
+Fra:560 Mem:2264.50M (Peak 2432.03M) | Time:00:45.35 | Compositing | Operation 8-9
+Fra:560 Mem:2262.52M (Peak 2432.03M) | Time:00:45.35 | Compositing | Operation 9-9
+Fra:560 Mem:2262.52M (Peak 2432.03M) | Time:00:45.35 | Compositing | Operation 10-9
+Saved: '/home/runner/work/videos/videos/out/erd05/still_0560.png'
+Time: 00:45.43 (Saving: 00:00.07)
+
+Fra:640 Mem:2236.75M (Peak 2236.75M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cube.005
+Fra:640 Mem:2236.76M (Peak 2236.76M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cube.006
+Fra:640 Mem:2236.76M (Peak 2236.76M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cube.007
+Fra:640 Mem:2236.75M (Peak 2236.76M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cube.008
+Fra:640 Mem:2236.74M (Peak 2236.76M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Sphere.003
+Fra:640 Mem:2236.74M (Peak 2236.76M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cylinder.007
+Fra:640 Mem:2236.77M (Peak 2236.77M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | chefuaL
+Fra:640 Mem:2236.78M (Peak 2236.78M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | cheffaL
+Fra:640 Mem:2236.72M (Peak 2236.78M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | chefuaR
+Fra:640 Mem:2236.72M (Peak 2236.78M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | cheffaR
+Fra:640 Mem:2236.72M (Peak 2236.78M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cylinder.008
+Fra:640 Mem:2236.73M (Peak 2236.78M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cube.009
+Fra:640 Mem:2236.72M (Peak 2236.78M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cube.010
+Fra:640 Mem:2238.82M (Peak 2238.82M) | Time:00:00.04 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Initializing
+Fra:640 Mem:2238.82M (Peak 2238.82M) | Time:00:00.08 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Waiting for render to start
+Fra:640 Mem:2238.82M (Peak 2238.82M) | Time:00:00.08 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Scene
+Fra:640 Mem:2238.82M (Peak 2238.82M) | Time:00:00.08 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Shaders
+Fra:640 Mem:2238.81M (Peak 2238.82M) | Time:00:00.08 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Background
+Fra:640 Mem:2238.81M (Peak 2238.82M) | Time:00:00.09 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Camera
+Fra:640 Mem:2238.81M (Peak 2238.82M) | Time:00:00.09 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Meshes Flags
+Fra:640 Mem:2238.69M (Peak 2238.82M) | Time:00:00.09 | Mem:1429.25M, Peak:1525.90M | Scene, ViewLayer | Updating Objects
+Fra:640 Mem:2238.69M (Peak 2238.82M) | Time:00:00.09 | Mem:1429.25M, Peak:1525.90M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:640 Mem:2236.58M (Peak 2238.82M) | Time:00:00.09 | Mem:1429.25M, Peak:1525.90M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:640 Mem:2236.58M (Peak 2238.82M) | Time:00:00.09 | Mem:1429.25M, Peak:1525.90M | Scene, ViewLayer | Updating Particle Systems
+Fra:640 Mem:2236.58M (Peak 2238.82M) | Time:00:00.09 | Mem:1429.25M, Peak:1525.90M | Scene, ViewLayer | Updating Meshes
+Fra:640 Mem:2034.19M (Peak 2238.82M) | Time:00:00.09 | Mem:1226.82M, Peak:1525.90M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:640 Mem:2080.83M (Peak 2238.82M) | Time:00:00.10 | Mem:1226.88M, Peak:1525.90M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:640 Mem:2079.64M (Peak 2238.82M) | Time:00:00.10 | Mem:1272.27M, Peak:1525.90M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:640 Mem:2079.76M (Peak 2238.82M) | Time:00:00.10 | Mem:1272.27M, Peak:1525.90M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:640 Mem:2079.76M (Peak 2238.82M) | Time:00:00.11 | Mem:1325.68M, Peak:1525.90M | Scene, ViewLayer | Updating Scene BVH | Building BVH 0%
+Fra:640 Mem:2079.76M (Peak 2238.82M) | Time:00:00.25 | Mem:1368.91M, Peak:1525.90M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:640 Mem:2079.76M (Peak 2238.82M) | Time:00:00.25 | Mem:1368.91M, Peak:1525.90M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:640 Mem:2147.02M (Peak 2238.82M) | Time:00:00.27 | Mem:1368.91M, Peak:1525.90M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:640 Mem:2147.02M (Peak 2238.82M) | Time:00:00.27 | Mem:1436.18M, Peak:1525.90M | Scene, ViewLayer | Updating Mesh | Copying Curves to device
+Fra:640 Mem:2236.74M (Peak 2238.82M) | Time:00:00.28 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Objects Flags
+Fra:640 Mem:2236.74M (Peak 2238.82M) | Time:00:00.28 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:640 Mem:2236.74M (Peak 2238.82M) | Time:00:00.28 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Images
+Fra:640 Mem:2236.74M (Peak 2238.82M) | Time:00:00.28 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Camera Volume
+Fra:640 Mem:2236.74M (Peak 2238.82M) | Time:00:00.28 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Lookup Tables
+Fra:640 Mem:2236.74M (Peak 2238.82M) | Time:00:00.28 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Lights
+Fra:640 Mem:1873.56M (Peak 2238.82M) | Time:00:00.29 | Mem:1162.72M, Peak:1525.90M | Scene, ViewLayer | Updating Lights | Importance map
+Fra:640 Mem:1937.59M (Peak 2238.82M) | Time:00:00.73 | Mem:1226.75M, Peak:1525.90M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:640 Mem:2236.74M (Peak 2432.03M) | Time:00:03.64 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Integrator
+Fra:640 Mem:2236.74M (Peak 2432.03M) | Time:00:03.64 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Film
+Fra:640 Mem:2236.74M (Peak 2432.03M) | Time:00:03.64 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Lookup Tables
+Fra:640 Mem:2236.74M (Peak 2432.03M) | Time:00:03.64 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Baking
+Fra:640 Mem:2236.74M (Peak 2432.03M) | Time:00:03.64 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:640 Mem:2236.74M (Peak 2432.03M) | Time:00:03.64 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Sample 0/20
+Fra:640 Mem:2236.74M (Peak 2432.03M) | Time:00:05.25 | Remaining:00:30.52 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Sample 1/20
+Fra:640 Mem:2236.74M (Peak 2432.03M) | Time:00:29.96 | Remaining:00:04.64 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Sample 17/20
+Fra:640 Mem:2254.54M (Peak 2432.03M) | Time:00:37.31 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Sample 20/20
+Fra:640 Mem:2254.54M (Peak 2432.03M) | Time:00:37.31 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Finished
+Fra:640 Mem:2254.54M (Peak 2432.03M) | Time:00:37.31 | Compositing
+Fra:640 Mem:2254.54M (Peak 2432.03M) | Time:00:37.31 | Compositing | Initializing execution
+Fra:640 Mem:2254.55M (Peak 2432.03M) | Time:00:37.31 | Compositing | Operation 2-9
+Fra:640 Mem:2254.55M (Peak 2432.03M) | Time:00:37.31 | Compositing | Operation 3-9
+Fra:640 Mem:2256.59M (Peak 2432.03M) | Time:00:37.31 | Compositing | Operation 4-9
+Fra:640 Mem:2256.59M (Peak 2432.03M) | Time:00:37.31 | Compositing | Operation 5-9
+Fra:640 Mem:2264.50M (Peak 2432.03M) | Time:00:37.31 | Compositing | Operation 6-9
+Fra:640 Mem:2264.50M (Peak 2432.03M) | Time:00:37.31 | Compositing | Operation 7-9
+Fra:640 Mem:2264.50M (Peak 2432.03M) | Time:00:37.31 | Compositing | Operation 8-9
+Fra:640 Mem:2262.52M (Peak 2432.03M) | Time:00:37.31 | Compositing | Operation 9-9
+Fra:640 Mem:2262.52M (Peak 2432.03M) | Time:00:37.31 | Compositing | Operation 10-9
+Saved: '/home/runner/work/videos/videos/out/erd05/still_0640.png'
+Time: 00:37.39 (Saving: 00:00.08)
+
+Fra:700 Mem:2236.75M (Peak 2236.75M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cube.005
+Fra:700 Mem:2236.76M (Peak 2236.76M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cube.004
+Fra:700 Mem:2236.75M (Peak 2236.76M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cube.008
+Fra:700 Mem:2236.75M (Peak 2236.76M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Sphere.003
+Fra:700 Mem:2236.76M (Peak 2236.76M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cylinder.007
+Fra:700 Mem:2236.77M (Peak 2236.77M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | chefuaL
+Fra:700 Mem:2236.73M (Peak 2236.77M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | cheffaL
+Fra:700 Mem:2236.73M (Peak 2236.77M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | chefuaR
+Fra:700 Mem:2236.73M (Peak 2236.77M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | cheffaR
+Fra:700 Mem:2236.72M (Peak 2236.77M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cylinder.008
+Fra:700 Mem:2236.72M (Peak 2236.77M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cube.009
+Fra:700 Mem:2236.72M (Peak 2236.77M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cube.010
+Fra:700 Mem:2238.82M (Peak 2238.82M) | Time:00:00.04 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Initializing
+Fra:700 Mem:2238.82M (Peak 2238.82M) | Time:00:00.08 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Waiting for render to start
+Fra:700 Mem:2238.82M (Peak 2238.82M) | Time:00:00.08 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Scene
+Fra:700 Mem:2238.82M (Peak 2238.82M) | Time:00:00.08 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Shaders
+Fra:700 Mem:2238.81M (Peak 2238.82M) | Time:00:00.08 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Background
+Fra:700 Mem:2238.81M (Peak 2238.82M) | Time:00:00.08 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Camera
+Fra:700 Mem:2238.81M (Peak 2238.82M) | Time:00:00.08 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Meshes Flags
+Fra:700 Mem:2238.69M (Peak 2238.82M) | Time:00:00.08 | Mem:1429.25M, Peak:1525.90M | Scene, ViewLayer | Updating Objects
+Fra:700 Mem:2238.69M (Peak 2238.82M) | Time:00:00.09 | Mem:1429.25M, Peak:1525.90M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:700 Mem:2236.58M (Peak 2238.82M) | Time:00:00.09 | Mem:1429.25M, Peak:1525.90M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:700 Mem:2236.58M (Peak 2238.82M) | Time:00:00.09 | Mem:1429.25M, Peak:1525.90M | Scene, ViewLayer | Updating Particle Systems
+Fra:700 Mem:2236.58M (Peak 2238.82M) | Time:00:00.09 | Mem:1429.25M, Peak:1525.90M | Scene, ViewLayer | Updating Meshes
+Fra:700 Mem:2034.19M (Peak 2238.82M) | Time:00:00.09 | Mem:1226.82M, Peak:1525.90M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:700 Mem:2080.83M (Peak 2238.82M) | Time:00:00.10 | Mem:1226.88M, Peak:1525.90M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:700 Mem:2079.64M (Peak 2238.82M) | Time:00:00.10 | Mem:1272.27M, Peak:1525.90M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:700 Mem:2079.76M (Peak 2238.82M) | Time:00:00.10 | Mem:1272.27M, Peak:1525.90M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:700 Mem:2079.76M (Peak 2238.82M) | Time:00:00.11 | Mem:1325.68M, Peak:1525.90M | Scene, ViewLayer | Updating Scene BVH | Building BVH 0%
+Fra:700 Mem:2079.76M (Peak 2238.82M) | Time:00:00.24 | Mem:1368.91M, Peak:1525.90M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:700 Mem:2079.76M (Peak 2238.82M) | Time:00:00.24 | Mem:1368.91M, Peak:1525.90M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:700 Mem:2147.02M (Peak 2238.82M) | Time:00:00.26 | Mem:1368.91M, Peak:1525.90M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:700 Mem:2147.02M (Peak 2238.82M) | Time:00:00.26 | Mem:1436.18M, Peak:1525.90M | Scene, ViewLayer | Updating Mesh | Copying Curves to device
+Fra:700 Mem:2236.74M (Peak 2238.82M) | Time:00:00.28 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Objects Flags
+Fra:700 Mem:2236.74M (Peak 2238.82M) | Time:00:00.28 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:700 Mem:2236.74M (Peak 2238.82M) | Time:00:00.28 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Images
+Fra:700 Mem:2236.74M (Peak 2238.82M) | Time:00:00.28 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Camera Volume
+Fra:700 Mem:2236.74M (Peak 2238.82M) | Time:00:00.28 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Lookup Tables
+Fra:700 Mem:2236.74M (Peak 2238.82M) | Time:00:00.28 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Lights
+Fra:700 Mem:1873.56M (Peak 2238.82M) | Time:00:00.28 | Mem:1162.72M, Peak:1525.90M | Scene, ViewLayer | Updating Lights | Importance map
+Fra:700 Mem:1937.59M (Peak 2238.82M) | Time:00:00.72 | Mem:1226.75M, Peak:1525.90M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:700 Mem:2236.74M (Peak 2432.03M) | Time:00:03.59 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Integrator
+Fra:700 Mem:2236.74M (Peak 2432.03M) | Time:00:03.59 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Film
+Fra:700 Mem:2236.74M (Peak 2432.03M) | Time:00:03.59 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Lookup Tables
+Fra:700 Mem:2236.74M (Peak 2432.03M) | Time:00:03.59 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Baking
+Fra:700 Mem:2236.74M (Peak 2432.03M) | Time:00:03.59 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:700 Mem:2236.74M (Peak 2432.03M) | Time:00:03.59 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Sample 0/20
+Fra:700 Mem:2236.74M (Peak 2432.03M) | Time:00:06.57 | Remaining:00:56.54 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Sample 1/20
+Fra:700 Mem:2236.74M (Peak 2432.03M) | Time:00:29.86 | Remaining:00:32.10 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Sample 9/20
+Fra:700 Mem:2236.74M (Peak 2432.03M) | Time:00:53.39 | Remaining:00:08.78 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Sample 17/20
+Fra:700 Mem:2254.54M (Peak 2432.03M) | Time:01:04.93 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Sample 20/20
+Fra:700 Mem:2254.54M (Peak 2432.03M) | Time:01:04.93 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Finished
+Fra:700 Mem:2254.54M (Peak 2432.03M) | Time:01:04.93 | Compositing
+Fra:700 Mem:2254.54M (Peak 2432.03M) | Time:01:04.94 | Compositing | Initializing execution
+Fra:700 Mem:2254.55M (Peak 2432.03M) | Time:01:04.94 | Compositing | Operation 2-9
+Fra:700 Mem:2254.55M (Peak 2432.03M) | Time:01:04.94 | Compositing | Operation 3-9
+Fra:700 Mem:2256.59M (Peak 2432.03M) | Time:01:04.94 | Compositing | Operation 4-9
+Fra:700 Mem:2256.59M (Peak 2432.03M) | Time:01:04.94 | Compositing | Operation 5-9
+Fra:700 Mem:2264.50M (Peak 2432.03M) | Time:01:04.94 | Compositing | Operation 6-9
+Fra:700 Mem:2264.50M (Peak 2432.03M) | Time:01:04.94 | Compositing | Operation 7-9
+Fra:700 Mem:2264.50M (Peak 2432.03M) | Time:01:04.94 | Compositing | Operation 8-9
+Fra:700 Mem:2262.52M (Peak 2432.03M) | Time:01:04.94 | Compositing | Operation 9-9
+Fra:700 Mem:2262.52M (Peak 2432.03M) | Time:01:04.94 | Compositing | Operation 10-9
+Saved: '/home/runner/work/videos/videos/out/erd05/still_0700.png'
+Time: 01:05.02 (Saving: 00:00.08)
+
+Fra:740 Mem:2236.75M (Peak 2236.75M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cube.004
+Fra:740 Mem:2236.76M (Peak 2236.76M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cube.006
+Fra:740 Mem:2236.75M (Peak 2236.76M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cube.008
+Fra:740 Mem:2236.76M (Peak 2236.76M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Sphere.003
+Fra:740 Mem:2236.75M (Peak 2236.76M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cylinder.007
+Fra:740 Mem:2236.72M (Peak 2236.76M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | cheffaL
+Fra:740 Mem:2236.72M (Peak 2236.76M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | chefuaR
+Fra:740 Mem:2236.73M (Peak 2236.76M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | cheffaR
+Fra:740 Mem:2236.72M (Peak 2236.76M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cylinder.008
+Fra:740 Mem:2236.72M (Peak 2236.76M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cube.009
+Fra:740 Mem:2236.72M (Peak 2236.76M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cube.010
+Fra:740 Mem:2238.82M (Peak 2238.82M) | Time:00:00.04 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Initializing
+Fra:740 Mem:2238.82M (Peak 2238.82M) | Time:00:00.08 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Waiting for render to start
+Fra:740 Mem:2238.82M (Peak 2238.82M) | Time:00:00.08 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Scene
+Fra:740 Mem:2238.82M (Peak 2238.82M) | Time:00:00.08 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Shaders
+Fra:740 Mem:2238.81M (Peak 2238.82M) | Time:00:00.08 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Background
+Fra:740 Mem:2238.81M (Peak 2238.82M) | Time:00:00.08 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Camera
+Fra:740 Mem:2238.81M (Peak 2238.82M) | Time:00:00.08 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Meshes Flags
+Fra:740 Mem:2238.69M (Peak 2238.82M) | Time:00:00.08 | Mem:1429.25M, Peak:1525.90M | Scene, ViewLayer | Updating Objects
+Fra:740 Mem:2238.69M (Peak 2238.82M) | Time:00:00.08 | Mem:1429.25M, Peak:1525.90M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:740 Mem:2236.58M (Peak 2238.82M) | Time:00:00.09 | Mem:1429.25M, Peak:1525.90M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:740 Mem:2236.58M (Peak 2238.82M) | Time:00:00.09 | Mem:1429.25M, Peak:1525.90M | Scene, ViewLayer | Updating Particle Systems
+Fra:740 Mem:2236.58M (Peak 2238.82M) | Time:00:00.09 | Mem:1429.25M, Peak:1525.90M | Scene, ViewLayer | Updating Meshes
+Fra:740 Mem:2034.19M (Peak 2238.82M) | Time:00:00.09 | Mem:1226.82M, Peak:1525.90M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:740 Mem:2080.83M (Peak 2238.82M) | Time:00:00.10 | Mem:1226.88M, Peak:1525.90M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:740 Mem:2079.64M (Peak 2238.82M) | Time:00:00.10 | Mem:1272.27M, Peak:1525.90M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:740 Mem:2079.76M (Peak 2238.82M) | Time:00:00.10 | Mem:1272.27M, Peak:1525.90M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:740 Mem:2079.76M (Peak 2238.82M) | Time:00:00.11 | Mem:1325.68M, Peak:1525.90M | Scene, ViewLayer | Updating Scene BVH | Building BVH 0%
+Fra:740 Mem:2079.76M (Peak 2238.82M) | Time:00:00.24 | Mem:1368.91M, Peak:1525.90M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:740 Mem:2079.76M (Peak 2238.82M) | Time:00:00.24 | Mem:1368.91M, Peak:1525.90M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:740 Mem:2147.02M (Peak 2238.82M) | Time:00:00.26 | Mem:1368.91M, Peak:1525.90M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:740 Mem:2147.02M (Peak 2238.82M) | Time:00:00.26 | Mem:1436.18M, Peak:1525.90M | Scene, ViewLayer | Updating Mesh | Copying Curves to device
+Fra:740 Mem:2236.74M (Peak 2238.82M) | Time:00:00.27 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Objects Flags
+Fra:740 Mem:2236.74M (Peak 2238.82M) | Time:00:00.27 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:740 Mem:2236.74M (Peak 2238.82M) | Time:00:00.27 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Images
+Fra:740 Mem:2236.74M (Peak 2238.82M) | Time:00:00.27 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Camera Volume
+Fra:740 Mem:2236.74M (Peak 2238.82M) | Time:00:00.27 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Lookup Tables
+Fra:740 Mem:2236.74M (Peak 2238.82M) | Time:00:00.27 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Lights
+Fra:740 Mem:1873.56M (Peak 2238.82M) | Time:00:00.27 | Mem:1162.72M, Peak:1525.90M | Scene, ViewLayer | Updating Lights | Importance map
+Fra:740 Mem:1937.59M (Peak 2238.82M) | Time:00:00.72 | Mem:1226.75M, Peak:1525.90M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:740 Mem:2236.74M (Peak 2432.03M) | Time:00:03.61 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Integrator
+Fra:740 Mem:2236.74M (Peak 2432.03M) | Time:00:03.61 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Film
+Fra:740 Mem:2236.74M (Peak 2432.03M) | Time:00:03.61 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Lookup Tables
+Fra:740 Mem:2236.74M (Peak 2432.03M) | Time:00:03.61 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Baking
+Fra:740 Mem:2236.74M (Peak 2432.03M) | Time:00:03.61 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:740 Mem:2236.74M (Peak 2432.03M) | Time:00:03.61 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Sample 0/20
+Fra:740 Mem:2236.74M (Peak 2432.03M) | Time:00:06.33 | Remaining:00:51.62 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Sample 1/20
+Fra:740 Mem:2236.74M (Peak 2432.03M) | Time:00:27.73 | Remaining:00:29.48 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Sample 9/20
+Fra:740 Mem:2236.74M (Peak 2432.03M) | Time:00:49.36 | Remaining:00:08.07 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Sample 17/20
+Fra:740 Mem:2254.54M (Peak 2432.03M) | Time:01:00.31 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Sample 20/20
+Fra:740 Mem:2254.54M (Peak 2432.03M) | Time:01:00.31 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Finished
+Fra:740 Mem:2254.54M (Peak 2432.03M) | Time:01:00.32 | Compositing
+Fra:740 Mem:2254.54M (Peak 2432.03M) | Time:01:00.32 | Compositing | Initializing execution
+Fra:740 Mem:2254.55M (Peak 2432.03M) | Time:01:00.32 | Compositing | Operation 2-9
+Fra:740 Mem:2254.55M (Peak 2432.03M) | Time:01:00.32 | Compositing | Operation 3-9
+Fra:740 Mem:2256.59M (Peak 2432.03M) | Time:01:00.32 | Compositing | Operation 4-9
+Fra:740 Mem:2256.59M (Peak 2432.03M) | Time:01:00.32 | Compositing | Operation 5-9
+Fra:740 Mem:2264.50M (Peak 2432.03M) | Time:01:00.32 | Compositing | Operation 6-9
+Fra:740 Mem:2264.50M (Peak 2432.03M) | Time:01:00.32 | Compositing | Operation 7-9
+Fra:740 Mem:2264.50M (Peak 2432.03M) | Time:01:00.32 | Compositing | Operation 8-9
+Fra:740 Mem:2262.52M (Peak 2432.03M) | Time:01:00.32 | Compositing | Operation 9-9
+Fra:740 Mem:2262.52M (Peak 2432.03M) | Time:01:00.32 | Compositing | Operation 10-9
+Saved: '/home/runner/work/videos/videos/out/erd05/still_0740.png'
+Time: 01:00.40 (Saving: 00:00.07)
+
+Fra:830 Mem:2236.75M (Peak 2236.75M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cube.004
+Fra:830 Mem:2236.75M (Peak 2236.75M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cube.006
+Fra:830 Mem:2236.76M (Peak 2236.76M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cube.007
+Fra:830 Mem:2236.75M (Peak 2236.76M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cube.008
+Fra:830 Mem:2236.75M (Peak 2236.76M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Sphere.003
+Fra:830 Mem:2236.75M (Peak 2236.76M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cylinder.007
+Fra:830 Mem:2236.78M (Peak 2236.78M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | chefuaL
+Fra:830 Mem:2236.72M (Peak 2236.78M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | cheffaL
+Fra:830 Mem:2236.73M (Peak 2236.78M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | chefuaR
+Fra:830 Mem:2236.72M (Peak 2236.78M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | cheffaR
+Fra:830 Mem:2236.72M (Peak 2236.78M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cylinder.008
+Fra:830 Mem:2236.72M (Peak 2236.78M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cube.009
+Fra:830 Mem:2236.73M (Peak 2236.78M) | Time:00:00.00 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cube.010
+Fra:830 Mem:2238.82M (Peak 2238.82M) | Time:00:00.04 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Initializing
+Fra:830 Mem:2238.82M (Peak 2238.82M) | Time:00:00.08 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Waiting for render to start
+Fra:830 Mem:2238.82M (Peak 2238.82M) | Time:00:00.08 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Scene
+Fra:830 Mem:2238.82M (Peak 2238.82M) | Time:00:00.08 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Shaders
+Fra:830 Mem:2238.81M (Peak 2238.82M) | Time:00:00.08 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Background
+Fra:830 Mem:2238.81M (Peak 2238.82M) | Time:00:00.08 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Camera
+Fra:830 Mem:2238.81M (Peak 2238.82M) | Time:00:00.08 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Meshes Flags
+Fra:830 Mem:2238.69M (Peak 2238.82M) | Time:00:00.09 | Mem:1429.25M, Peak:1525.90M | Scene, ViewLayer | Updating Objects
+Fra:830 Mem:2238.69M (Peak 2238.82M) | Time:00:00.09 | Mem:1429.25M, Peak:1525.90M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:830 Mem:2236.58M (Peak 2238.82M) | Time:00:00.09 | Mem:1429.25M, Peak:1525.90M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:830 Mem:2236.58M (Peak 2238.82M) | Time:00:00.09 | Mem:1429.25M, Peak:1525.90M | Scene, ViewLayer | Updating Particle Systems
+Fra:830 Mem:2236.58M (Peak 2238.82M) | Time:00:00.09 | Mem:1429.25M, Peak:1525.90M | Scene, ViewLayer | Updating Meshes
+Fra:830 Mem:2034.19M (Peak 2238.82M) | Time:00:00.09 | Mem:1226.82M, Peak:1525.90M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:830 Mem:2080.82M (Peak 2238.82M) | Time:00:00.10 | Mem:1226.88M, Peak:1525.90M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:830 Mem:2079.64M (Peak 2238.82M) | Time:00:00.10 | Mem:1272.27M, Peak:1525.90M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:830 Mem:2079.75M (Peak 2238.82M) | Time:00:00.10 | Mem:1272.27M, Peak:1525.90M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:830 Mem:2079.75M (Peak 2238.82M) | Time:00:00.11 | Mem:1325.68M, Peak:1525.90M | Scene, ViewLayer | Updating Scene BVH | Building BVH 0%
+Fra:830 Mem:2079.75M (Peak 2238.82M) | Time:00:00.24 | Mem:1370.91M, Peak:1525.90M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:830 Mem:2079.75M (Peak 2238.82M) | Time:00:00.24 | Mem:1370.91M, Peak:1525.90M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:830 Mem:2147.02M (Peak 2238.82M) | Time:00:00.26 | Mem:1370.91M, Peak:1525.90M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:830 Mem:2147.02M (Peak 2238.82M) | Time:00:00.26 | Mem:1438.18M, Peak:1525.90M | Scene, ViewLayer | Updating Mesh | Copying Curves to device
+Fra:830 Mem:2236.74M (Peak 2238.82M) | Time:00:00.28 | Mem:1527.90M, Peak:1527.90M | Scene, ViewLayer | Updating Objects Flags
+Fra:830 Mem:2236.74M (Peak 2238.82M) | Time:00:00.28 | Mem:1527.90M, Peak:1527.90M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:830 Mem:2236.74M (Peak 2238.82M) | Time:00:00.28 | Mem:1527.90M, Peak:1527.90M | Scene, ViewLayer | Updating Images
+Fra:830 Mem:2236.74M (Peak 2238.82M) | Time:00:00.28 | Mem:1527.90M, Peak:1527.90M | Scene, ViewLayer | Updating Camera Volume
+Fra:830 Mem:2236.74M (Peak 2238.82M) | Time:00:00.28 | Mem:1527.90M, Peak:1527.90M | Scene, ViewLayer | Updating Lookup Tables
+Fra:830 Mem:2236.74M (Peak 2238.82M) | Time:00:00.28 | Mem:1527.90M, Peak:1527.90M | Scene, ViewLayer | Updating Lights
+Fra:830 Mem:1873.56M (Peak 2238.82M) | Time:00:00.28 | Mem:1164.72M, Peak:1527.90M | Scene, ViewLayer | Updating Lights | Importance map
+Fra:830 Mem:1937.59M (Peak 2238.82M) | Time:00:00.73 | Mem:1228.75M, Peak:1527.90M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:830 Mem:2236.74M (Peak 2432.03M) | Time:00:03.62 | Mem:1527.90M, Peak:1527.90M | Scene, ViewLayer | Updating Integrator
+Fra:830 Mem:2236.74M (Peak 2432.03M) | Time:00:03.62 | Mem:1527.90M, Peak:1527.90M | Scene, ViewLayer | Updating Film
+Fra:830 Mem:2236.74M (Peak 2432.03M) | Time:00:03.62 | Mem:1527.90M, Peak:1527.90M | Scene, ViewLayer | Updating Lookup Tables
+Fra:830 Mem:2236.74M (Peak 2432.03M) | Time:00:03.62 | Mem:1527.90M, Peak:1527.90M | Scene, ViewLayer | Updating Baking
+Fra:830 Mem:2236.74M (Peak 2432.03M) | Time:00:03.62 | Mem:1527.90M, Peak:1527.90M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:830 Mem:2236.74M (Peak 2432.03M) | Time:00:03.62 | Mem:1527.90M, Peak:1527.90M | Scene, ViewLayer | Sample 0/20
+Fra:830 Mem:2236.74M (Peak 2432.03M) | Time:00:06.05 | Remaining:00:46.30 | Mem:1527.90M, Peak:1527.90M | Scene, ViewLayer | Sample 1/20
+Fra:830 Mem:2236.74M (Peak 2432.03M) | Time:00:44.35 | Remaining:00:07.18 | Mem:1527.90M, Peak:1527.90M | Scene, ViewLayer | Sample 17/20
+Fra:830 Mem:2254.54M (Peak 2432.03M) | Time:00:54.09 | Mem:1527.90M, Peak:1527.90M | Scene, ViewLayer | Sample 20/20
+Fra:830 Mem:2254.54M (Peak 2432.03M) | Time:00:54.09 | Mem:1527.90M, Peak:1527.90M | Scene, ViewLayer | Finished
+Fra:830 Mem:2254.54M (Peak 2432.03M) | Time:00:54.09 | Compositing
+Fra:830 Mem:2254.54M (Peak 2432.03M) | Time:00:54.09 | Compositing | Initializing execution
+Fra:830 Mem:2254.55M (Peak 2432.03M) | Time:00:54.09 | Compositing | Operation 2-9
+Fra:830 Mem:2254.55M (Peak 2432.03M) | Time:00:54.09 | Compositing | Operation 3-9
+Fra:830 Mem:2256.59M (Peak 2432.03M) | Time:00:54.09 | Compositing | Operation 4-9
+Fra:830 Mem:2256.59M (Peak 2432.03M) | Time:00:54.09 | Compositing | Operation 5-9
+Fra:830 Mem:2264.50M (Peak 2432.03M) | Time:00:54.09 | Compositing | Operation 6-9
+Fra:830 Mem:2264.50M (Peak 2432.03M) | Time:00:54.09 | Compositing | Operation 7-9
+Fra:830 Mem:2264.50M (Peak 2432.03M) | Time:00:54.09 | Compositing | Operation 8-9
+Fra:830 Mem:2262.52M (Peak 2432.03M) | Time:00:54.09 | Compositing | Operation 9-9
+Fra:830 Mem:2262.52M (Peak 2432.03M) | Time:00:54.09 | Compositing | Operation 10-9
+Saved: '/home/runner/work/videos/videos/out/erd05/still_0830.png'
+Time: 00:54.17 (Saving: 00:00.07)
+
+Fra:950 Mem:2236.75M (Peak 2236.75M) | Time:00:00.00 | Mem:1527.90M, Peak:1527.90M | Scene, ViewLayer | Synchronizing object | Cube.004
+Fra:950 Mem:2236.76M (Peak 2236.76M) | Time:00:00.00 | Mem:1527.90M, Peak:1527.90M | Scene, ViewLayer | Synchronizing object | Cube.005
+Fra:950 Mem:2236.75M (Peak 2236.76M) | Time:00:00.00 | Mem:1527.90M, Peak:1527.90M | Scene, ViewLayer | Synchronizing object | Cube.007
+Fra:950 Mem:2236.76M (Peak 2236.76M) | Time:00:00.00 | Mem:1527.90M, Peak:1527.90M | Scene, ViewLayer | Synchronizing object | Cube.008
+Fra:950 Mem:2236.75M (Peak 2236.76M) | Time:00:00.00 | Mem:1527.90M, Peak:1527.90M | Scene, ViewLayer | Synchronizing object | Cylinder.007
+Fra:950 Mem:2236.76M (Peak 2236.76M) | Time:00:00.00 | Mem:1527.90M, Peak:1527.90M | Scene, ViewLayer | Synchronizing object | chefuaL
+Fra:950 Mem:2236.77M (Peak 2236.77M) | Time:00:00.00 | Mem:1527.90M, Peak:1527.90M | Scene, ViewLayer | Synchronizing object | cheffaL
+Fra:950 Mem:2236.77M (Peak 2236.77M) | Time:00:00.00 | Mem:1527.90M, Peak:1527.90M | Scene, ViewLayer | Synchronizing object | chefuaR
+Fra:950 Mem:2236.76M (Peak 2236.77M) | Time:00:00.00 | Mem:1527.90M, Peak:1527.90M | Scene, ViewLayer | Synchronizing object | cheffaR
+Fra:950 Mem:2236.72M (Peak 2236.77M) | Time:00:00.00 | Mem:1527.90M, Peak:1527.90M | Scene, ViewLayer | Synchronizing object | Cube.009
+Fra:950 Mem:2236.72M (Peak 2236.77M) | Time:00:00.00 | Mem:1527.90M, Peak:1527.90M | Scene, ViewLayer | Synchronizing object | Cube.010
+Fra:950 Mem:2238.82M (Peak 2238.82M) | Time:00:00.04 | Mem:1527.90M, Peak:1527.90M | Scene, ViewLayer | Initializing
+Fra:950 Mem:2238.82M (Peak 2238.82M) | Time:00:00.08 | Mem:1527.90M, Peak:1527.90M | Scene, ViewLayer | Waiting for render to start
+Fra:950 Mem:2238.82M (Peak 2238.82M) | Time:00:00.08 | Mem:1527.90M, Peak:1527.90M | Scene, ViewLayer | Updating Scene
+Fra:950 Mem:2238.82M (Peak 2238.82M) | Time:00:00.08 | Mem:1527.90M, Peak:1527.90M | Scene, ViewLayer | Updating Shaders
+Fra:950 Mem:2238.81M (Peak 2238.82M) | Time:00:00.08 | Mem:1527.90M, Peak:1527.90M | Scene, ViewLayer | Updating Background
+Fra:950 Mem:2238.81M (Peak 2238.82M) | Time:00:00.08 | Mem:1527.90M, Peak:1527.90M | Scene, ViewLayer | Updating Camera
+Fra:950 Mem:2238.81M (Peak 2238.82M) | Time:00:00.08 | Mem:1527.90M, Peak:1527.90M | Scene, ViewLayer | Updating Meshes Flags
+Fra:950 Mem:2238.69M (Peak 2238.82M) | Time:00:00.08 | Mem:1429.25M, Peak:1527.90M | Scene, ViewLayer | Updating Objects
+Fra:950 Mem:2238.69M (Peak 2238.82M) | Time:00:00.08 | Mem:1429.25M, Peak:1527.90M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:950 Mem:2236.58M (Peak 2238.82M) | Time:00:00.09 | Mem:1429.25M, Peak:1527.90M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:950 Mem:2236.58M (Peak 2238.82M) | Time:00:00.09 | Mem:1429.25M, Peak:1527.90M | Scene, ViewLayer | Updating Particle Systems
+Fra:950 Mem:2236.58M (Peak 2238.82M) | Time:00:00.09 | Mem:1429.25M, Peak:1527.90M | Scene, ViewLayer | Updating Meshes
+Fra:950 Mem:2034.19M (Peak 2238.82M) | Time:00:00.09 | Mem:1226.82M, Peak:1527.90M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:950 Mem:2080.82M (Peak 2238.82M) | Time:00:00.10 | Mem:1226.88M, Peak:1527.90M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:950 Mem:2079.64M (Peak 2238.82M) | Time:00:00.10 | Mem:1272.27M, Peak:1527.90M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:950 Mem:2079.75M (Peak 2238.82M) | Time:00:00.10 | Mem:1272.27M, Peak:1527.90M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:950 Mem:2079.75M (Peak 2238.82M) | Time:00:00.11 | Mem:1325.68M, Peak:1527.90M | Scene, ViewLayer | Updating Scene BVH | Building BVH 0%
+Fra:950 Mem:2079.75M (Peak 2238.82M) | Time:00:00.24 | Mem:1368.91M, Peak:1527.90M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:950 Mem:2079.75M (Peak 2238.82M) | Time:00:00.24 | Mem:1368.91M, Peak:1527.90M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:950 Mem:2147.02M (Peak 2238.82M) | Time:00:00.26 | Mem:1368.91M, Peak:1527.90M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:950 Mem:2147.02M (Peak 2238.82M) | Time:00:00.26 | Mem:1436.18M, Peak:1527.90M | Scene, ViewLayer | Updating Mesh | Copying Curves to device
+Fra:950 Mem:2236.74M (Peak 2238.82M) | Time:00:00.28 | Mem:1525.90M, Peak:1527.90M | Scene, ViewLayer | Updating Objects Flags
+Fra:950 Mem:2236.74M (Peak 2238.82M) | Time:00:00.28 | Mem:1525.90M, Peak:1527.90M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:950 Mem:2236.74M (Peak 2238.82M) | Time:00:00.28 | Mem:1525.90M, Peak:1527.90M | Scene, ViewLayer | Updating Images
+Fra:950 Mem:2236.74M (Peak 2238.82M) | Time:00:00.28 | Mem:1525.90M, Peak:1527.90M | Scene, ViewLayer | Updating Camera Volume
+Fra:950 Mem:2236.74M (Peak 2238.82M) | Time:00:00.28 | Mem:1525.90M, Peak:1527.90M | Scene, ViewLayer | Updating Lookup Tables
+Fra:950 Mem:2236.74M (Peak 2238.82M) | Time:00:00.28 | Mem:1525.90M, Peak:1527.90M | Scene, ViewLayer | Updating Lights
+Fra:950 Mem:1873.56M (Peak 2238.82M) | Time:00:00.28 | Mem:1162.72M, Peak:1527.90M | Scene, ViewLayer | Updating Lights | Importance map
+Fra:950 Mem:1937.59M (Peak 2238.82M) | Time:00:00.72 | Mem:1226.75M, Peak:1527.90M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:950 Mem:2236.74M (Peak 2432.03M) | Time:00:03.62 | Mem:1525.90M, Peak:1527.90M | Scene, ViewLayer | Updating Integrator
+Fra:950 Mem:2236.74M (Peak 2432.03M) | Time:00:03.62 | Mem:1525.90M, Peak:1527.90M | Scene, ViewLayer | Updating Film
+Fra:950 Mem:2236.74M (Peak 2432.03M) | Time:00:03.62 | Mem:1525.90M, Peak:1527.90M | Scene, ViewLayer | Updating Lookup Tables
+Fra:950 Mem:2236.74M (Peak 2432.03M) | Time:00:03.62 | Mem:1525.90M, Peak:1527.90M | Scene, ViewLayer | Updating Baking
+Fra:950 Mem:2236.74M (Peak 2432.03M) | Time:00:03.62 | Mem:1525.90M, Peak:1527.90M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:950 Mem:2236.74M (Peak 2432.03M) | Time:00:03.62 | Mem:1525.90M, Peak:1527.90M | Scene, ViewLayer | Sample 0/20
+Fra:950 Mem:2236.74M (Peak 2432.03M) | Time:00:05.92 | Remaining:00:43.83 | Mem:1525.90M, Peak:1527.90M | Scene, ViewLayer | Sample 1/20
+Fra:950 Mem:2236.74M (Peak 2432.03M) | Time:00:42.78 | Remaining:00:06.91 | Mem:1525.90M, Peak:1527.90M | Scene, ViewLayer | Sample 17/20
+Fra:950 Mem:2254.54M (Peak 2432.03M) | Time:00:52.49 | Mem:1525.90M, Peak:1527.90M | Scene, ViewLayer | Sample 20/20
+Fra:950 Mem:2254.54M (Peak 2432.03M) | Time:00:52.49 | Mem:1525.90M, Peak:1527.90M | Scene, ViewLayer | Finished
+Fra:950 Mem:2254.54M (Peak 2432.03M) | Time:00:52.49 | Compositing
+Fra:950 Mem:2254.54M (Peak 2432.03M) | Time:00:52.50 | Compositing | Initializing execution
+Fra:950 Mem:2254.55M (Peak 2432.03M) | Time:00:52.50 | Compositing | Operation 2-9
+Fra:950 Mem:2254.55M (Peak 2432.03M) | Time:00:52.50 | Compositing | Operation 3-9
+Fra:950 Mem:2256.59M (Peak 2432.03M) | Time:00:52.50 | Compositing | Operation 4-9
+Fra:950 Mem:2256.59M (Peak 2432.03M) | Time:00:52.50 | Compositing | Operation 5-9
+Fra:950 Mem:2264.50M (Peak 2432.03M) | Time:00:52.50 | Compositing | Operation 6-9
+Fra:950 Mem:2264.50M (Peak 2432.03M) | Time:00:52.50 | Compositing | Operation 7-9
+Fra:950 Mem:2264.50M (Peak 2432.03M) | Time:00:52.50 | Compositing | Operation 8-9
+Fra:950 Mem:2262.52M (Peak 2432.03M) | Time:00:52.50 | Compositing | Operation 9-9
+Fra:950 Mem:2262.52M (Peak 2432.03M) | Time:00:52.50 | Compositing | Operation 10-9
+Saved: '/home/runner/work/videos/videos/out/erd05/still_0950.png'
+Time: 00:52.58 (Saving: 00:00.08)
+
+Fra:1060 Mem:2237.04M (Peak 2237.04M) | Time:00:00.01 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cube.005
+Fra:1060 Mem:2237.04M (Peak 2237.04M) | Time:00:00.01 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cube.004
+Fra:1060 Mem:2237.03M (Peak 2237.04M) | Time:00:00.01 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cube.008
+Fra:1060 Mem:2237.03M (Peak 2237.04M) | Time:00:00.01 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Sphere.003
+Fra:1060 Mem:2237.06M (Peak 2237.06M) | Time:00:00.01 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cylinder.007
+Fra:1060 Mem:2237.01M (Peak 2237.06M) | Time:00:00.01 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | chefuaL
+Fra:1060 Mem:2237.00M (Peak 2237.06M) | Time:00:00.01 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | chefuaR
+Fra:1060 Mem:2237.01M (Peak 2237.06M) | Time:00:00.01 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | cheffaR
+Fra:1060 Mem:2237.00M (Peak 2237.06M) | Time:00:00.01 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cylinder.008
+Fra:1060 Mem:2237.00M (Peak 2237.06M) | Time:00:00.01 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cube.009
+Fra:1060 Mem:2237.00M (Peak 2237.06M) | Time:00:00.01 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cube.010
+Fra:1060 Mem:2237.00M (Peak 2237.06M) | Time:00:00.01 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Sphere.006
+Fra:1060 Mem:2237.00M (Peak 2237.06M) | Time:00:00.01 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cylinder.009
+Fra:1060 Mem:2237.03M (Peak 2237.06M) | Time:00:00.01 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cube.011
+Fra:1060 Mem:2237.05M (Peak 2237.06M) | Time:00:00.01 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cylinder.010
+Fra:1060 Mem:2237.05M (Peak 2237.06M) | Time:00:00.01 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cube.012
+Fra:1060 Mem:2237.07M (Peak 2237.07M) | Time:00:00.01 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cube.013
+Fra:1060 Mem:2237.08M (Peak 2237.08M) | Time:00:00.01 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cube.014
+Fra:1060 Mem:2237.09M (Peak 2237.09M) | Time:00:00.01 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cube.015
+Fra:1060 Mem:2237.13M (Peak 2237.13M) | Time:00:00.01 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cube.016
+Fra:1060 Mem:2237.13M (Peak 2237.13M) | Time:00:00.01 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cube.017
+Fra:1060 Mem:2237.15M (Peak 2237.15M) | Time:00:00.01 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cylinder.011
+Fra:1060 Mem:2237.16M (Peak 2237.16M) | Time:00:00.01 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Sphere.007
+Fra:1060 Mem:2237.21M (Peak 2237.21M) | Time:00:00.01 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cube.018
+Fra:1060 Mem:2237.24M (Peak 2237.24M) | Time:00:00.01 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Sphere.008
+Fra:1060 Mem:2237.31M (Peak 2237.31M) | Time:00:00.01 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cylinder.012
+Fra:1060 Mem:2237.33M (Peak 2237.33M) | Time:00:00.01 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | blakeuaL
+Fra:1060 Mem:2237.34M (Peak 2237.34M) | Time:00:00.01 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | blakefaL
+Fra:1060 Mem:2237.36M (Peak 2237.36M) | Time:00:00.01 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Sphere.009
+Fra:1060 Mem:2237.36M (Peak 2237.36M) | Time:00:00.01 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | blakeuaR
+Fra:1060 Mem:2237.37M (Peak 2237.37M) | Time:00:00.01 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | blakefaR
+Fra:1060 Mem:2237.38M (Peak 2237.38M) | Time:00:00.01 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Sphere.010
+Fra:1060 Mem:2237.39M (Peak 2237.39M) | Time:00:00.01 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cylinder.013
+Fra:1060 Mem:2237.41M (Peak 2237.41M) | Time:00:00.01 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cube.019
+Fra:1060 Mem:2237.40M (Peak 2237.41M) | Time:00:00.01 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Cube.020
+Fra:1060 Mem:2237.41M (Peak 2237.41M) | Time:00:00.01 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Sphere.018
+Fra:1060 Mem:2237.45M (Peak 2237.45M) | Time:00:00.01 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Synchronizing object | Sphere.033
+Fra:1060 Mem:2239.59M (Peak 2239.59M) | Time:00:00.04 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Initializing
+Fra:1060 Mem:2239.59M (Peak 2239.59M) | Time:00:00.08 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Waiting for render to start
+Fra:1060 Mem:2239.59M (Peak 2239.59M) | Time:00:00.09 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Scene
+Fra:1060 Mem:2239.59M (Peak 2239.59M) | Time:00:00.09 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Shaders
+Fra:1060 Mem:2239.58M (Peak 2239.59M) | Time:00:00.09 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Background
+Fra:1060 Mem:2239.58M (Peak 2239.59M) | Time:00:00.09 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Camera
+Fra:1060 Mem:2239.58M (Peak 2239.59M) | Time:00:00.09 | Mem:1525.90M, Peak:1525.90M | Scene, ViewLayer | Updating Meshes Flags
+Fra:1060 Mem:2239.46M (Peak 2239.59M) | Time:00:00.09 | Mem:1429.25M, Peak:1525.90M | Scene, ViewLayer | Updating Objects
+Fra:1060 Mem:2235.82M (Peak 2239.59M) | Time:00:00.09 | Mem:1425.61M, Peak:1525.90M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1060 Mem:2237.38M (Peak 2239.59M) | Time:00:00.09 | Mem:1429.22M, Peak:1525.90M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1060 Mem:2237.38M (Peak 2239.59M) | Time:00:00.09 | Mem:1429.22M, Peak:1525.90M | Scene, ViewLayer | Updating Particle Systems
+Fra:1060 Mem:2237.38M (Peak 2239.59M) | Time:00:00.09 | Mem:1429.22M, Peak:1525.90M | Scene, ViewLayer | Updating Meshes
+Fra:1060 Mem:2035.08M (Peak 2239.59M) | Time:00:00.09 | Mem:1226.79M, Peak:1525.90M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:1060 Mem:2081.83M (Peak 2239.59M) | Time:00:00.10 | Mem:1226.85M, Peak:1525.90M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1060 Mem:2080.60M (Peak 2239.59M) | Time:00:00.10 | Mem:1272.30M, Peak:1525.90M | Scene, ViewLayer | Updating Geometry BVH Sphere.033 6/6 | Building BVH
+Fra:1060 Mem:2080.60M (Peak 2239.59M) | Time:00:00.10 | Mem:1272.30M, Peak:1525.90M | Scene, ViewLayer | Updating Geometry BVH Cylinder.015 1/6 | Building BVH
+Fra:1060 Mem:2080.60M (Peak 2239.59M) | Time:00:00.10 | Mem:1272.31M, Peak:1525.90M | Scene, ViewLayer | Updating Geometry BVH Cylinder.015 1/6 | Building BVH 0%
+Fra:1060 Mem:2080.60M (Peak 2239.59M) | Time:00:00.10 | Mem:1272.32M, Peak:1525.90M | Scene, ViewLayer | Updating Geometry BVH Sphere.007 2/6 | Building BVH
+Fra:1060 Mem:2080.60M (Peak 2239.59M) | Time:00:00.10 | Mem:1272.33M, Peak:1525.90M | Scene, ViewLayer | Updating Geometry BVH Sphere.010 4/6 | Building BVH
+Fra:1060 Mem:2080.60M (Peak 2239.59M) | Time:00:00.10 | Mem:1272.33M, Peak:1525.90M | Scene, ViewLayer | Updating Geometry BVH Sphere.018 5/6 | Building BVH
+Fra:1060 Mem:2080.60M (Peak 2239.59M) | Time:00:00.10 | Mem:1272.45M, Peak:1525.90M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:1060 Mem:2080.72M (Peak 2239.59M) | Time:00:00.10 | Mem:1272.45M, Peak:1525.90M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1060 Mem:2080.72M (Peak 2239.59M) | Time:00:00.24 | Mem:1371.24M, Peak:1525.90M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1060 Mem:2080.72M (Peak 2239.59M) | Time:00:00.24 | Mem:1371.24M, Peak:1525.90M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:1060 Mem:2148.18M (Peak 2239.59M) | Time:00:00.26 | Mem:1371.24M, Peak:1525.90M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1060 Mem:2148.18M (Peak 2239.59M) | Time:00:00.26 | Mem:1438.70M, Peak:1525.90M | Scene, ViewLayer | Updating Mesh | Copying Curves to device
+Fra:1060 Mem:2237.90M (Peak 2239.59M) | Time:00:00.28 | Mem:1528.42M, Peak:1528.42M | Scene, ViewLayer | Updating Objects Flags
+Fra:1060 Mem:2237.90M (Peak 2239.59M) | Time:00:00.28 | Mem:1528.54M, Peak:1528.54M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:1060 Mem:2237.90M (Peak 2239.59M) | Time:00:00.28 | Mem:1528.54M, Peak:1528.54M | Scene, ViewLayer | Updating Images
+Fra:1060 Mem:2237.90M (Peak 2239.59M) | Time:00:00.28 | Mem:1528.54M, Peak:1528.54M | Scene, ViewLayer | Updating Camera Volume
+Fra:1060 Mem:2237.90M (Peak 2239.59M) | Time:00:00.28 | Mem:1528.54M, Peak:1528.54M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1060 Mem:2237.90M (Peak 2239.59M) | Time:00:00.28 | Mem:1528.54M, Peak:1528.54M | Scene, ViewLayer | Updating Lights
+Fra:1060 Mem:1874.72M (Peak 2239.59M) | Time:00:00.28 | Mem:1165.36M, Peak:1528.54M | Scene, ViewLayer | Updating Lights | Importance map
+Fra:1060 Mem:1938.75M (Peak 2239.59M) | Time:00:00.72 | Mem:1229.39M, Peak:1528.54M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:1060 Mem:2237.90M (Peak 2433.20M) | Time:00:03.58 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Updating Integrator
+Fra:1060 Mem:2237.90M (Peak 2433.20M) | Time:00:03.58 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Updating Film
+Fra:1060 Mem:2237.90M (Peak 2433.20M) | Time:00:03.58 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1060 Mem:2237.90M (Peak 2433.20M) | Time:00:03.58 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Updating Baking
+Fra:1060 Mem:2237.90M (Peak 2433.20M) | Time:00:03.58 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:1060 Mem:2237.90M (Peak 2433.20M) | Time:00:03.58 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Sample 0/20
+Fra:1060 Mem:2237.90M (Peak 2433.20M) | Time:00:04.36 | Remaining:00:14.84 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Sample 1/20
+Fra:1060 Mem:2255.71M (Peak 2433.20M) | Time:00:21.08 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Sample 20/20
+Fra:1060 Mem:2255.71M (Peak 2433.20M) | Time:00:21.08 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Finished
+Fra:1060 Mem:2255.71M (Peak 2433.20M) | Time:00:21.08 | Compositing
+Fra:1060 Mem:2255.71M (Peak 2433.20M) | Time:00:21.08 | Compositing | Initializing execution
+Fra:1060 Mem:2255.71M (Peak 2433.20M) | Time:00:21.08 | Compositing | Operation 2-9
+Fra:1060 Mem:2255.71M (Peak 2433.20M) | Time:00:21.08 | Compositing | Operation 3-9
+Fra:1060 Mem:2257.75M (Peak 2433.20M) | Time:00:21.08 | Compositing | Operation 4-9
+Fra:1060 Mem:2257.75M (Peak 2433.20M) | Time:00:21.08 | Compositing | Operation 5-9
+Fra:1060 Mem:2265.66M (Peak 2433.20M) | Time:00:21.08 | Compositing | Operation 6-9
+Fra:1060 Mem:2265.66M (Peak 2433.20M) | Time:00:21.08 | Compositing | Operation 7-9
+Fra:1060 Mem:2265.66M (Peak 2433.20M) | Time:00:21.08 | Compositing | Operation 8-9
+Fra:1060 Mem:2263.69M (Peak 2433.20M) | Time:00:21.08 | Compositing | Operation 9-9
+Fra:1060 Mem:2263.69M (Peak 2433.20M) | Time:00:21.08 | Compositing | Operation 10-9
+Saved: '/home/runner/work/videos/videos/out/erd05/still_1060.png'
+Time: 00:21.16 (Saving: 00:00.08)
+
+Fra:1180 Mem:2237.92M (Peak 2237.92M) | Time:00:00.00 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Synchronizing object | Cube.004
+Fra:1180 Mem:2237.92M (Peak 2237.92M) | Time:00:00.00 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Synchronizing object | Cube.006
+Fra:1180 Mem:2237.92M (Peak 2237.92M) | Time:00:00.00 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Synchronizing object | Cube.007
+Fra:1180 Mem:2237.92M (Peak 2237.92M) | Time:00:00.00 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Synchronizing object | Cube.008
+Fra:1180 Mem:2237.91M (Peak 2237.92M) | Time:00:00.00 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Synchronizing object | Sphere.003
+Fra:1180 Mem:2237.90M (Peak 2237.92M) | Time:00:00.00 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Synchronizing object | Cylinder.007
+Fra:1180 Mem:2237.93M (Peak 2237.93M) | Time:00:00.00 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Synchronizing object | chefuaL
+Fra:1180 Mem:2237.94M (Peak 2237.94M) | Time:00:00.00 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Synchronizing object | cheffaL
+Fra:1180 Mem:2237.90M (Peak 2237.94M) | Time:00:00.00 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Synchronizing object | chefuaR
+Fra:1180 Mem:2237.89M (Peak 2237.94M) | Time:00:00.00 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Synchronizing object | cheffaR
+Fra:1180 Mem:2237.89M (Peak 2237.94M) | Time:00:00.00 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Synchronizing object | Cylinder.008
+Fra:1180 Mem:2237.89M (Peak 2237.94M) | Time:00:00.00 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Synchronizing object | Cube.009
+Fra:1180 Mem:2237.89M (Peak 2237.94M) | Time:00:00.00 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Synchronizing object | Cube.010
+Fra:1180 Mem:2237.90M (Peak 2237.94M) | Time:00:00.00 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Synchronizing object | Sphere.023
+Fra:1180 Mem:2237.92M (Peak 2237.94M) | Time:00:00.01 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Synchronizing object | Sphere.028
+Fra:1180 Mem:2240.07M (Peak 2240.07M) | Time:00:00.04 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Initializing
+Fra:1180 Mem:2239.72M (Peak 2240.07M) | Time:00:00.09 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Waiting for render to start
+Fra:1180 Mem:2239.72M (Peak 2240.07M) | Time:00:00.09 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Updating Scene
+Fra:1180 Mem:2239.72M (Peak 2240.07M) | Time:00:00.09 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Updating Shaders
+Fra:1180 Mem:2239.73M (Peak 2240.07M) | Time:00:00.09 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Updating Background
+Fra:1180 Mem:2239.73M (Peak 2240.07M) | Time:00:00.09 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Updating Camera
+Fra:1180 Mem:2239.73M (Peak 2240.07M) | Time:00:00.09 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Updating Meshes Flags
+Fra:1180 Mem:2239.61M (Peak 2240.07M) | Time:00:00.09 | Mem:1429.61M, Peak:1528.55M | Scene, ViewLayer | Updating Objects
+Fra:1180 Mem:2235.88M (Peak 2240.07M) | Time:00:00.09 | Mem:1425.88M, Peak:1528.55M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1180 Mem:2237.44M (Peak 2240.07M) | Time:00:00.09 | Mem:1429.48M, Peak:1528.55M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1180 Mem:2237.44M (Peak 2240.07M) | Time:00:00.09 | Mem:1429.48M, Peak:1528.55M | Scene, ViewLayer | Updating Particle Systems
+Fra:1180 Mem:2237.44M (Peak 2240.07M) | Time:00:00.09 | Mem:1429.48M, Peak:1528.55M | Scene, ViewLayer | Updating Meshes
+Fra:1180 Mem:2034.79M (Peak 2240.07M) | Time:00:00.10 | Mem:1226.79M, Peak:1528.55M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:1180 Mem:2081.48M (Peak 2240.07M) | Time:00:00.11 | Mem:1226.85M, Peak:1528.55M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1180 Mem:2080.26M (Peak 2240.07M) | Time:00:00.11 | Mem:1272.26M, Peak:1528.55M | Scene, ViewLayer | Updating Geometry BVH Sphere.023 2/2 | Building BVH
+Fra:1180 Mem:2080.26M (Peak 2240.07M) | Time:00:00.11 | Mem:1272.26M, Peak:1528.55M | Scene, ViewLayer | Updating Geometry BVH Sphere.028 1/2 | Building BVH
+Fra:1180 Mem:2080.26M (Peak 2240.07M) | Time:00:00.11 | Mem:1272.27M, Peak:1528.55M | Scene, ViewLayer | Updating Geometry BVH Sphere.028 1/2 | Building BVH 0%
+Fra:1180 Mem:2080.26M (Peak 2240.07M) | Time:00:00.11 | Mem:1272.29M, Peak:1528.55M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:1180 Mem:2080.38M (Peak 2240.07M) | Time:00:00.11 | Mem:1272.29M, Peak:1528.55M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1180 Mem:2080.38M (Peak 2240.07M) | Time:00:00.25 | Mem:1371.09M, Peak:1528.55M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1180 Mem:2080.38M (Peak 2240.07M) | Time:00:00.25 | Mem:1371.09M, Peak:1528.55M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:1180 Mem:2147.66M (Peak 2240.07M) | Time:00:00.27 | Mem:1371.09M, Peak:1528.55M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1180 Mem:2147.66M (Peak 2240.07M) | Time:00:00.27 | Mem:1438.36M, Peak:1528.55M | Scene, ViewLayer | Updating Mesh | Copying Curves to device
+Fra:1180 Mem:2237.38M (Peak 2240.07M) | Time:00:00.28 | Mem:1528.08M, Peak:1528.55M | Scene, ViewLayer | Updating Objects Flags
+Fra:1180 Mem:2237.38M (Peak 2240.07M) | Time:00:00.28 | Mem:1528.20M, Peak:1528.55M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:1180 Mem:2237.38M (Peak 2240.07M) | Time:00:00.28 | Mem:1528.20M, Peak:1528.55M | Scene, ViewLayer | Updating Images
+Fra:1180 Mem:2109.38M (Peak 2240.07M) | Time:00:00.29 | Mem:1400.20M, Peak:1528.55M | Scene, ViewLayer | Updating Camera Volume
+Fra:1180 Mem:2109.38M (Peak 2240.07M) | Time:00:00.29 | Mem:1400.20M, Peak:1528.55M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1180 Mem:2109.38M (Peak 2240.07M) | Time:00:00.29 | Mem:1400.20M, Peak:1528.55M | Scene, ViewLayer | Updating Lights
+Fra:1180 Mem:1746.20M (Peak 2240.07M) | Time:00:00.29 | Mem:1037.02M, Peak:1528.55M | Scene, ViewLayer | Updating Lights | Importance map
+Fra:1180 Mem:1810.23M (Peak 2240.07M) | Time:00:01.81 | Mem:1101.05M, Peak:1528.55M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:1180 Mem:2109.38M (Peak 2304.68M) | Time:00:04.72 | Mem:1400.20M, Peak:1528.55M | Scene, ViewLayer | Updating Integrator
+Fra:1180 Mem:2109.38M (Peak 2304.68M) | Time:00:04.72 | Mem:1400.20M, Peak:1528.55M | Scene, ViewLayer | Updating Film
+Fra:1180 Mem:2109.38M (Peak 2304.68M) | Time:00:04.72 | Mem:1400.20M, Peak:1528.55M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1180 Mem:2109.38M (Peak 2304.68M) | Time:00:04.72 | Mem:1400.20M, Peak:1528.55M | Scene, ViewLayer | Updating Baking
+Fra:1180 Mem:2109.38M (Peak 2304.68M) | Time:00:04.72 | Mem:1400.20M, Peak:1528.55M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:1180 Mem:2109.38M (Peak 2304.68M) | Time:00:04.72 | Mem:1400.20M, Peak:1528.55M | Scene, ViewLayer | Sample 0/20
+Fra:1180 Mem:2109.38M (Peak 2304.68M) | Time:00:05.62 | Remaining:00:17.24 | Mem:1400.20M, Peak:1528.55M | Scene, ViewLayer | Sample 1/20
+Fra:1180 Mem:2127.18M (Peak 2304.68M) | Time:00:24.47 | Mem:1400.20M, Peak:1528.55M | Scene, ViewLayer | Sample 20/20
+Fra:1180 Mem:2127.18M (Peak 2304.68M) | Time:00:24.47 | Mem:1400.20M, Peak:1528.55M | Scene, ViewLayer | Finished
+Fra:1180 Mem:2127.19M (Peak 2304.68M) | Time:00:24.47 | Compositing
+Fra:1180 Mem:2127.19M (Peak 2304.68M) | Time:00:24.47 | Compositing | Initializing execution
+Fra:1180 Mem:2127.19M (Peak 2304.68M) | Time:00:24.47 | Compositing | Operation 2-9
+Fra:1180 Mem:2127.19M (Peak 2304.68M) | Time:00:24.47 | Compositing | Operation 3-9
+Fra:1180 Mem:2129.23M (Peak 2304.68M) | Time:00:24.47 | Compositing | Operation 4-9
+Fra:1180 Mem:2129.23M (Peak 2304.68M) | Time:00:24.47 | Compositing | Operation 5-9
+Fra:1180 Mem:2137.14M (Peak 2304.68M) | Time:00:24.48 | Compositing | Operation 6-9
+Fra:1180 Mem:2137.14M (Peak 2304.68M) | Time:00:24.48 | Compositing | Operation 7-9
+Fra:1180 Mem:2137.14M (Peak 2304.68M) | Time:00:24.48 | Compositing | Operation 8-9
+Fra:1180 Mem:2135.17M (Peak 2304.68M) | Time:00:24.48 | Compositing | Operation 9-9
+Fra:1180 Mem:2135.17M (Peak 2304.68M) | Time:00:24.48 | Compositing | Operation 10-9
+Saved: '/home/runner/work/videos/videos/out/erd05/still_1180.png'
+Time: 00:24.56 (Saving: 00:00.07)
+
+Fra:1350 Mem:2109.40M (Peak 2109.40M) | Time:00:00.00 | Mem:1400.20M, Peak:1400.20M | Scene, ViewLayer | Synchronizing object | Cube.004
+Fra:1350 Mem:2109.40M (Peak 2109.40M) | Time:00:00.00 | Mem:1400.20M, Peak:1400.20M | Scene, ViewLayer | Synchronizing object | Cube.005
+Fra:1350 Mem:2109.40M (Peak 2109.40M) | Time:00:00.00 | Mem:1400.20M, Peak:1400.20M | Scene, ViewLayer | Synchronizing object | Cube.007
+Fra:1350 Mem:2109.40M (Peak 2109.40M) | Time:00:00.00 | Mem:1400.20M, Peak:1400.20M | Scene, ViewLayer | Synchronizing object | Cube.008
+Fra:1350 Mem:2109.40M (Peak 2109.40M) | Time:00:00.00 | Mem:1400.20M, Peak:1400.20M | Scene, ViewLayer | Synchronizing object | Sphere.003
+Fra:1350 Mem:2109.43M (Peak 2109.43M) | Time:00:00.00 | Mem:1400.20M, Peak:1400.20M | Scene, ViewLayer | Synchronizing object | Cylinder.007
+Fra:1350 Mem:2109.38M (Peak 2109.43M) | Time:00:00.00 | Mem:1400.20M, Peak:1400.20M | Scene, ViewLayer | Synchronizing object | chefuaL
+Fra:1350 Mem:2109.37M (Peak 2109.43M) | Time:00:00.00 | Mem:1400.20M, Peak:1400.20M | Scene, ViewLayer | Synchronizing object | cheffaL
+Fra:1350 Mem:2109.37M (Peak 2109.43M) | Time:00:00.00 | Mem:1400.20M, Peak:1400.20M | Scene, ViewLayer | Synchronizing object | chefuaR
+Fra:1350 Mem:2109.37M (Peak 2109.43M) | Time:00:00.00 | Mem:1400.20M, Peak:1400.20M | Scene, ViewLayer | Synchronizing object | cheffaR
+Fra:1350 Mem:2109.37M (Peak 2109.43M) | Time:00:00.00 | Mem:1400.20M, Peak:1400.20M | Scene, ViewLayer | Synchronizing object | Cylinder.008
+Fra:1350 Mem:2109.37M (Peak 2109.43M) | Time:00:00.00 | Mem:1400.20M, Peak:1400.20M | Scene, ViewLayer | Synchronizing object | Cube.009
+Fra:1350 Mem:2109.37M (Peak 2109.43M) | Time:00:00.00 | Mem:1400.20M, Peak:1400.20M | Scene, ViewLayer | Synchronizing object | Cube.010
+Fra:1350 Mem:2109.37M (Peak 2109.43M) | Time:00:00.00 | Mem:1400.20M, Peak:1400.20M | Scene, ViewLayer | Synchronizing object | Cylinder.009
+Fra:1350 Mem:2109.37M (Peak 2109.43M) | Time:00:00.00 | Mem:1400.20M, Peak:1400.20M | Scene, ViewLayer | Synchronizing object | Cube.011
+Fra:1350 Mem:2109.37M (Peak 2109.43M) | Time:00:00.00 | Mem:1400.20M, Peak:1400.20M | Scene, ViewLayer | Synchronizing object | Cube.012
+Fra:1350 Mem:2109.37M (Peak 2109.43M) | Time:00:00.00 | Mem:1400.20M, Peak:1400.20M | Scene, ViewLayer | Synchronizing object | Cube.013
+Fra:1350 Mem:2109.39M (Peak 2109.43M) | Time:00:00.00 | Mem:1400.20M, Peak:1400.20M | Scene, ViewLayer | Synchronizing object | Cube.014
+Fra:1350 Mem:2109.39M (Peak 2109.43M) | Time:00:00.00 | Mem:1400.20M, Peak:1400.20M | Scene, ViewLayer | Synchronizing object | Cube.015
+Fra:1350 Mem:2109.40M (Peak 2109.43M) | Time:00:00.00 | Mem:1400.20M, Peak:1400.20M | Scene, ViewLayer | Synchronizing object | Cube.016
+Fra:1350 Mem:2109.42M (Peak 2109.43M) | Time:00:00.00 | Mem:1400.20M, Peak:1400.20M | Scene, ViewLayer | Synchronizing object | Cube.017
+Fra:1350 Mem:2109.42M (Peak 2109.43M) | Time:00:00.00 | Mem:1400.20M, Peak:1400.20M | Scene, ViewLayer | Synchronizing object | Cylinder.011
+Fra:1350 Mem:2109.43M (Peak 2109.43M) | Time:00:00.00 | Mem:1400.20M, Peak:1400.20M | Scene, ViewLayer | Synchronizing object | Sphere.007
+Fra:1350 Mem:2109.46M (Peak 2109.46M) | Time:00:00.00 | Mem:1400.20M, Peak:1400.20M | Scene, ViewLayer | Synchronizing object | Cube.018
+Fra:1350 Mem:2109.49M (Peak 2109.49M) | Time:00:00.00 | Mem:1400.20M, Peak:1400.20M | Scene, ViewLayer | Synchronizing object | Sphere.008
+Fra:1350 Mem:2109.48M (Peak 2109.49M) | Time:00:00.00 | Mem:1400.20M, Peak:1400.20M | Scene, ViewLayer | Synchronizing object | Cylinder.012
+Fra:1350 Mem:2109.52M (Peak 2109.52M) | Time:00:00.00 | Mem:1400.20M, Peak:1400.20M | Scene, ViewLayer | Synchronizing object | blakeuaL
+Fra:1350 Mem:2109.53M (Peak 2109.53M) | Time:00:00.00 | Mem:1400.20M, Peak:1400.20M | Scene, ViewLayer | Synchronizing object | blakefaL
+Fra:1350 Mem:2109.53M (Peak 2109.53M) | Time:00:00.00 | Mem:1400.20M, Peak:1400.20M | Scene, ViewLayer | Synchronizing object | Sphere.009
+Fra:1350 Mem:2109.53M (Peak 2109.53M) | Time:00:00.00 | Mem:1400.20M, Peak:1400.20M | Scene, ViewLayer | Synchronizing object | blakeuaR
+Fra:1350 Mem:2109.54M (Peak 2109.54M) | Time:00:00.00 | Mem:1400.20M, Peak:1400.20M | Scene, ViewLayer | Synchronizing object | blakefaR
+Fra:1350 Mem:2109.55M (Peak 2109.55M) | Time:00:00.00 | Mem:1400.20M, Peak:1400.20M | Scene, ViewLayer | Synchronizing object | Cylinder.013
+Fra:1350 Mem:2109.55M (Peak 2109.55M) | Time:00:00.00 | Mem:1400.20M, Peak:1400.20M | Scene, ViewLayer | Synchronizing object | Cube.020
+Fra:1350 Mem:2109.56M (Peak 2109.56M) | Time:00:00.00 | Mem:1400.20M, Peak:1400.20M | Scene, ViewLayer | Synchronizing object | Sphere.011
+Fra:1350 Mem:2111.74M (Peak 2111.74M) | Time:00:00.04 | Mem:1400.20M, Peak:1400.20M | Scene, ViewLayer | Initializing
+Fra:1350 Mem:2111.74M (Peak 2111.74M) | Time:00:00.08 | Mem:1400.20M, Peak:1400.20M | Scene, ViewLayer | Waiting for render to start
+Fra:1350 Mem:2111.74M (Peak 2111.74M) | Time:00:00.09 | Mem:1400.20M, Peak:1400.20M | Scene, ViewLayer | Updating Scene
+Fra:1350 Mem:2111.74M (Peak 2111.74M) | Time:00:00.09 | Mem:1400.20M, Peak:1400.20M | Scene, ViewLayer | Updating Shaders
+Fra:1350 Mem:2111.73M (Peak 2111.74M) | Time:00:00.09 | Mem:1400.20M, Peak:1400.20M | Scene, ViewLayer | Updating Background
+Fra:1350 Mem:2111.73M (Peak 2111.74M) | Time:00:00.09 | Mem:1400.20M, Peak:1400.20M | Scene, ViewLayer | Updating Camera
+Fra:1350 Mem:2111.73M (Peak 2111.74M) | Time:00:00.09 | Mem:1400.20M, Peak:1400.20M | Scene, ViewLayer | Updating Meshes Flags
+Fra:1350 Mem:2111.61M (Peak 2111.74M) | Time:00:00.09 | Mem:1301.41M, Peak:1400.20M | Scene, ViewLayer | Updating Objects
+Fra:1350 Mem:2107.89M (Peak 2111.74M) | Time:00:00.09 | Mem:1297.69M, Peak:1400.20M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1350 Mem:2109.45M (Peak 2111.74M) | Time:00:00.09 | Mem:1301.29M, Peak:1400.20M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1350 Mem:2109.45M (Peak 2111.74M) | Time:00:00.09 | Mem:1301.29M, Peak:1400.20M | Scene, ViewLayer | Updating Particle Systems
+Fra:1350 Mem:2109.45M (Peak 2111.74M) | Time:00:00.09 | Mem:1301.29M, Peak:1400.20M | Scene, ViewLayer | Updating Meshes
+Fra:1350 Mem:1907.10M (Peak 2111.74M) | Time:00:00.09 | Mem:1098.82M, Peak:1400.20M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:1350 Mem:1953.85M (Peak 2111.74M) | Time:00:00.10 | Mem:1098.89M, Peak:1400.20M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1350 Mem:1952.62M (Peak 2111.74M) | Time:00:00.10 | Mem:1144.34M, Peak:1400.20M | Scene, ViewLayer | Updating Geometry BVH Sphere.010 4/4 | Building BVH
+Fra:1350 Mem:1952.62M (Peak 2111.74M) | Time:00:00.10 | Mem:1144.34M, Peak:1400.20M | Scene, ViewLayer | Updating Geometry BVH Cylinder.015 1/4 | Building BVH
+Fra:1350 Mem:1952.62M (Peak 2111.74M) | Time:00:00.10 | Mem:1144.35M, Peak:1400.20M | Scene, ViewLayer | Updating Geometry BVH Cylinder.015 1/4 | Building BVH 0%
+Fra:1350 Mem:1952.62M (Peak 2111.74M) | Time:00:00.10 | Mem:1144.36M, Peak:1400.20M | Scene, ViewLayer | Updating Geometry BVH Sphere.007 2/4 | Building BVH
+Fra:1350 Mem:1952.62M (Peak 2111.74M) | Time:00:00.10 | Mem:1144.40M, Peak:1400.20M | Scene, ViewLayer | Updating Geometry BVH Sphere.009 3/4 | Building BVH
+Fra:1350 Mem:1952.62M (Peak 2111.74M) | Time:00:00.11 | Mem:1144.45M, Peak:1400.20M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:1350 Mem:1952.74M (Peak 2111.74M) | Time:00:00.11 | Mem:1144.45M, Peak:1400.20M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1350 Mem:1952.74M (Peak 2111.74M) | Time:00:00.24 | Mem:1243.25M, Peak:1400.20M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1350 Mem:1952.74M (Peak 2111.74M) | Time:00:00.24 | Mem:1243.25M, Peak:1400.20M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:1350 Mem:2020.20M (Peak 2111.74M) | Time:00:00.26 | Mem:1243.25M, Peak:1400.20M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1350 Mem:2020.20M (Peak 2111.74M) | Time:00:00.26 | Mem:1310.70M, Peak:1400.20M | Scene, ViewLayer | Updating Mesh | Copying Curves to device
+Fra:1350 Mem:2109.92M (Peak 2111.74M) | Time:00:00.28 | Mem:1400.42M, Peak:1400.42M | Scene, ViewLayer | Updating Objects Flags
+Fra:1350 Mem:2109.92M (Peak 2111.74M) | Time:00:00.28 | Mem:1400.54M, Peak:1400.54M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:1350 Mem:2109.92M (Peak 2111.74M) | Time:00:00.28 | Mem:1400.54M, Peak:1400.54M | Scene, ViewLayer | Updating Images
+Fra:1350 Mem:2109.92M (Peak 2111.74M) | Time:00:00.28 | Mem:1400.54M, Peak:1400.54M | Scene, ViewLayer | Updating Images | Loading field.hdr
+Fra:1350 Mem:2237.92M (Peak 2237.92M) | Time:00:00.38 | Mem:1528.54M, Peak:1528.54M | Scene, ViewLayer | Updating Camera Volume
+Fra:1350 Mem:2237.92M (Peak 2237.92M) | Time:00:00.38 | Mem:1528.54M, Peak:1528.54M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1350 Mem:2237.92M (Peak 2237.92M) | Time:00:00.38 | Mem:1528.54M, Peak:1528.54M | Scene, ViewLayer | Updating Lights
+Fra:1350 Mem:1874.74M (Peak 2237.92M) | Time:00:00.38 | Mem:1165.36M, Peak:1528.54M | Scene, ViewLayer | Updating Lights | Importance map
+Fra:1350 Mem:1938.77M (Peak 2237.92M) | Time:00:00.83 | Mem:1229.39M, Peak:1528.54M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:1350 Mem:2237.92M (Peak 2433.21M) | Time:00:03.67 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Updating Integrator
+Fra:1350 Mem:2237.92M (Peak 2433.21M) | Time:00:03.67 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Updating Film
+Fra:1350 Mem:2237.92M (Peak 2433.21M) | Time:00:03.67 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1350 Mem:2237.92M (Peak 2433.21M) | Time:00:03.67 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Updating Baking
+Fra:1350 Mem:2237.92M (Peak 2433.21M) | Time:00:03.67 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:1350 Mem:2237.92M (Peak 2433.21M) | Time:00:03.67 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Sample 0/20
+Fra:1350 Mem:2237.92M (Peak 2433.21M) | Time:00:04.32 | Remaining:00:12.42 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Sample 1/20
+Fra:1350 Mem:2255.72M (Peak 2433.21M) | Time:00:18.56 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Sample 20/20
+Fra:1350 Mem:2255.72M (Peak 2433.21M) | Time:00:18.56 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Finished
+Fra:1350 Mem:2255.73M (Peak 2433.21M) | Time:00:18.56 | Compositing
+Fra:1350 Mem:2255.73M (Peak 2433.21M) | Time:00:18.56 | Compositing | Initializing execution
+Fra:1350 Mem:2255.73M (Peak 2433.21M) | Time:00:18.56 | Compositing | Operation 2-9
+Fra:1350 Mem:2255.73M (Peak 2433.21M) | Time:00:18.56 | Compositing | Operation 3-9
+Fra:1350 Mem:2257.77M (Peak 2433.21M) | Time:00:18.56 | Compositing | Operation 4-9
+Fra:1350 Mem:2257.77M (Peak 2433.21M) | Time:00:18.56 | Compositing | Operation 5-9
+Fra:1350 Mem:2265.68M (Peak 2433.21M) | Time:00:18.57 | Compositing | Operation 6-9
+Fra:1350 Mem:2265.68M (Peak 2433.21M) | Time:00:18.57 | Compositing | Operation 7-9
+Fra:1350 Mem:2265.68M (Peak 2433.21M) | Time:00:18.57 | Compositing | Operation 8-9
+Fra:1350 Mem:2263.70M (Peak 2433.21M) | Time:00:18.57 | Compositing | Operation 9-9
+Fra:1350 Mem:2263.70M (Peak 2433.21M) | Time:00:18.57 | Compositing | Operation 10-9
+Saved: '/home/runner/work/videos/videos/out/erd05/still_1350.png'
+Time: 00:18.65 (Saving: 00:00.07)
+
+Fra:1530 Mem:2237.94M (Peak 2237.94M) | Time:00:00.00 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Synchronizing object | Cube.004
+Fra:1530 Mem:2237.94M (Peak 2237.94M) | Time:00:00.00 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Synchronizing object | Cube.006
+Fra:1530 Mem:2237.94M (Peak 2237.94M) | Time:00:00.00 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Synchronizing object | Cube.007
+Fra:1530 Mem:2237.95M (Peak 2237.95M) | Time:00:00.00 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Synchronizing object | Cube.008
+Fra:1530 Mem:2237.95M (Peak 2237.95M) | Time:00:00.00 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Synchronizing object | Sphere.003
+Fra:1530 Mem:2237.96M (Peak 2237.96M) | Time:00:00.00 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Synchronizing object | Cylinder.007
+Fra:1530 Mem:2237.91M (Peak 2237.96M) | Time:00:00.00 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Synchronizing object | cheffaL
+Fra:1530 Mem:2237.91M (Peak 2237.96M) | Time:00:00.00 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Synchronizing object | chefuaR
+Fra:1530 Mem:2237.91M (Peak 2237.96M) | Time:00:00.00 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Synchronizing object | cheffaR
+Fra:1530 Mem:2237.91M (Peak 2237.96M) | Time:00:00.00 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Synchronizing object | Cylinder.008
+Fra:1530 Mem:2237.91M (Peak 2237.96M) | Time:00:00.00 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Synchronizing object | Cube.010
+Fra:1530 Mem:2237.92M (Peak 2237.96M) | Time:00:00.00 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Synchronizing object | Cylinder.009
+Fra:1530 Mem:2237.91M (Peak 2237.96M) | Time:00:00.00 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Synchronizing object | Cube.011
+Fra:1530 Mem:2237.91M (Peak 2237.96M) | Time:00:00.00 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Synchronizing object | Cube.012
+Fra:1530 Mem:2237.91M (Peak 2237.96M) | Time:00:00.00 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Synchronizing object | Cube.013
+Fra:1530 Mem:2237.91M (Peak 2237.96M) | Time:00:00.00 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Synchronizing object | Cube.014
+Fra:1530 Mem:2237.90M (Peak 2237.96M) | Time:00:00.00 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Synchronizing object | Cube.016
+Fra:1530 Mem:2237.90M (Peak 2237.96M) | Time:00:00.00 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Synchronizing object | Cube.017
+Fra:1530 Mem:2237.91M (Peak 2237.96M) | Time:00:00.00 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Synchronizing object | Cube.018
+Fra:1530 Mem:2237.89M (Peak 2237.96M) | Time:00:00.00 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Synchronizing object | Sphere.008
+Fra:1530 Mem:2237.88M (Peak 2237.96M) | Time:00:00.00 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Synchronizing object | Cylinder.012
+Fra:1530 Mem:2237.91M (Peak 2237.96M) | Time:00:00.00 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Synchronizing object | blakeuaL
+Fra:1530 Mem:2237.92M (Peak 2237.96M) | Time:00:00.00 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Synchronizing object | blakefaL
+Fra:1530 Mem:2237.88M (Peak 2237.96M) | Time:00:00.00 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Synchronizing object | blakeuaR
+Fra:1530 Mem:2237.86M (Peak 2237.96M) | Time:00:00.00 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Synchronizing object | Cylinder.013
+Fra:1530 Mem:2237.86M (Peak 2237.96M) | Time:00:00.00 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Synchronizing object | Cube.019
+Fra:1530 Mem:2237.86M (Peak 2237.96M) | Time:00:00.00 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Synchronizing object | Cube.020
+Fra:1530 Mem:2237.86M (Peak 2237.96M) | Time:00:00.00 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Synchronizing object | Sphere.013
+Fra:1530 Mem:2240.01M (Peak 2240.01M) | Time:00:00.04 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Initializing
+Fra:1530 Mem:2239.96M (Peak 2240.01M) | Time:00:00.08 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Waiting for render to start
+Fra:1530 Mem:2239.96M (Peak 2240.01M) | Time:00:00.08 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Updating Scene
+Fra:1530 Mem:2239.96M (Peak 2240.01M) | Time:00:00.08 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Updating Shaders
+Fra:1530 Mem:2239.96M (Peak 2240.01M) | Time:00:00.08 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Updating Background
+Fra:1530 Mem:2239.96M (Peak 2240.01M) | Time:00:00.08 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Updating Camera
+Fra:1530 Mem:2239.96M (Peak 2240.01M) | Time:00:00.08 | Mem:1528.55M, Peak:1528.55M | Scene, ViewLayer | Updating Meshes Flags
+Fra:1530 Mem:2239.83M (Peak 2240.01M) | Time:00:00.09 | Mem:1429.73M, Peak:1528.55M | Scene, ViewLayer | Updating Objects
+Fra:1530 Mem:2236.11M (Peak 2240.01M) | Time:00:00.09 | Mem:1426.01M, Peak:1528.55M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1530 Mem:2237.65M (Peak 2240.01M) | Time:00:00.09 | Mem:1429.58M, Peak:1528.55M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1530 Mem:2237.65M (Peak 2240.01M) | Time:00:00.09 | Mem:1429.58M, Peak:1528.55M | Scene, ViewLayer | Updating Particle Systems
+Fra:1530 Mem:2237.65M (Peak 2240.01M) | Time:00:00.09 | Mem:1429.58M, Peak:1528.55M | Scene, ViewLayer | Updating Meshes
+Fra:1530 Mem:2035.06M (Peak 2240.01M) | Time:00:00.09 | Mem:1226.88M, Peak:1528.55M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:1530 Mem:2081.78M (Peak 2240.01M) | Time:00:00.10 | Mem:1226.95M, Peak:1528.55M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1530 Mem:2080.56M (Peak 2240.01M) | Time:00:00.10 | Mem:1272.39M, Peak:1528.55M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:1530 Mem:2080.68M (Peak 2240.01M) | Time:00:00.10 | Mem:1272.39M, Peak:1528.55M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1530 Mem:2080.68M (Peak 2240.01M) | Time:00:00.11 | Mem:1325.95M, Peak:1528.55M | Scene, ViewLayer | Updating Scene BVH | Building BVH 0%
+Fra:1530 Mem:2080.68M (Peak 2240.01M) | Time:00:00.24 | Mem:1369.13M, Peak:1528.55M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1530 Mem:2080.68M (Peak 2240.01M) | Time:00:00.24 | Mem:1369.13M, Peak:1528.55M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:1530 Mem:2148.13M (Peak 2240.01M) | Time:00:00.26 | Mem:1369.13M, Peak:1528.55M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1530 Mem:2148.13M (Peak 2240.01M) | Time:00:00.26 | Mem:1436.58M, Peak:1528.55M | Scene, ViewLayer | Updating Mesh | Copying Curves to device
+Fra:1530 Mem:2237.85M (Peak 2240.01M) | Time:00:00.27 | Mem:1526.30M, Peak:1528.55M | Scene, ViewLayer | Updating Objects Flags
+Fra:1530 Mem:2237.85M (Peak 2240.01M) | Time:00:00.27 | Mem:1526.42M, Peak:1528.55M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:1530 Mem:2237.85M (Peak 2240.01M) | Time:00:00.27 | Mem:1526.42M, Peak:1528.55M | Scene, ViewLayer | Updating Images
+Fra:1530 Mem:2237.85M (Peak 2240.01M) | Time:00:00.27 | Mem:1526.42M, Peak:1528.55M | Scene, ViewLayer | Updating Camera Volume
+Fra:1530 Mem:2237.85M (Peak 2240.01M) | Time:00:00.27 | Mem:1526.42M, Peak:1528.55M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1530 Mem:2237.85M (Peak 2240.01M) | Time:00:00.27 | Mem:1526.42M, Peak:1528.55M | Scene, ViewLayer | Updating Lights
+Fra:1530 Mem:1874.67M (Peak 2240.01M) | Time:00:00.28 | Mem:1163.24M, Peak:1528.55M | Scene, ViewLayer | Updating Lights | Importance map
+Fra:1530 Mem:1938.70M (Peak 2240.01M) | Time:00:00.71 | Mem:1227.27M, Peak:1528.55M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:1530 Mem:2237.85M (Peak 2433.14M) | Time:00:03.60 | Mem:1526.42M, Peak:1528.55M | Scene, ViewLayer | Updating Integrator
+Fra:1530 Mem:2237.85M (Peak 2433.14M) | Time:00:03.60 | Mem:1526.42M, Peak:1528.55M | Scene, ViewLayer | Updating Film
+Fra:1530 Mem:2237.85M (Peak 2433.14M) | Time:00:03.60 | Mem:1526.42M, Peak:1528.55M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1530 Mem:2237.85M (Peak 2433.14M) | Time:00:03.60 | Mem:1526.42M, Peak:1528.55M | Scene, ViewLayer | Updating Baking
+Fra:1530 Mem:2237.85M (Peak 2433.14M) | Time:00:03.60 | Mem:1526.42M, Peak:1528.55M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:1530 Mem:2237.85M (Peak 2433.14M) | Time:00:03.60 | Mem:1526.42M, Peak:1528.55M | Scene, ViewLayer | Sample 0/20
+Fra:1530 Mem:2237.85M (Peak 2433.14M) | Time:00:04.27 | Remaining:00:12.69 | Mem:1526.42M, Peak:1528.55M | Scene, ViewLayer | Sample 1/20
+Fra:1530 Mem:2255.65M (Peak 2433.14M) | Time:00:18.88 | Mem:1526.42M, Peak:1528.55M | Scene, ViewLayer | Sample 20/20
+Fra:1530 Mem:2255.65M (Peak 2433.14M) | Time:00:18.88 | Mem:1526.42M, Peak:1528.55M | Scene, ViewLayer | Finished
+Fra:1530 Mem:2255.65M (Peak 2433.14M) | Time:00:18.88 | Compositing
+Fra:1530 Mem:2255.65M (Peak 2433.14M) | Time:00:18.88 | Compositing | Initializing execution
+Fra:1530 Mem:2255.66M (Peak 2433.14M) | Time:00:18.88 | Compositing | Operation 2-9
+Fra:1530 Mem:2255.66M (Peak 2433.14M) | Time:00:18.88 | Compositing | Operation 3-9
+Fra:1530 Mem:2257.70M (Peak 2433.14M) | Time:00:18.88 | Compositing | Operation 4-9
+Fra:1530 Mem:2257.70M (Peak 2433.14M) | Time:00:18.88 | Compositing | Operation 5-9
+Fra:1530 Mem:2265.61M (Peak 2433.14M) | Time:00:18.88 | Compositing | Operation 6-9
+Fra:1530 Mem:2265.61M (Peak 2433.14M) | Time:00:18.88 | Compositing | Operation 7-9
+Fra:1530 Mem:2265.61M (Peak 2433.14M) | Time:00:18.88 | Compositing | Operation 8-9
+Fra:1530 Mem:2263.63M (Peak 2433.14M) | Time:00:18.88 | Compositing | Operation 9-9
+Fra:1530 Mem:2263.63M (Peak 2433.14M) | Time:00:18.88 | Compositing | Operation 10-9
+Saved: '/home/runner/work/videos/videos/out/erd05/still_1530.png'
+Time: 00:18.96 (Saving: 00:00.08)
+
+MENGE 664
+TIMES desc 17.7434 23.6113 vein 25.9428 blake 34.0673 space 37.8834 back 43.263200000000005 NF 1547
+STILL 0
+STILL 60
+STILL 100
+STILL 250
+STILL 440
+STILL 560
+STILL 640
+STILL 700
+STILL 740
+STILL 830
+STILL 950
+STILL 1060
+STILL 1180
+STILL 1350
+STILL 1530
+
+Blender quit
