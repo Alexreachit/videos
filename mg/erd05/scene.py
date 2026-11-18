@@ -191,7 +191,7 @@ def cyl_between(name, m, r=.05):
 def diamond_mat():
     m, nt, b = newmat("diamond"); b.inputs["Base Color"].default_value = hexc("#e8f8ff"); b.inputs["Roughness"].default_value = .0
     b.inputs["Transmission Weight"].default_value = 1.; b.inputs["IOR"].default_value = 2.42
-    b.inputs["Emission Color"].default_value = hexc("#9fe6ff"); b.inputs["Emission Strength"].default_value = .35
+    b.inputs["Emission Color"].default_value = hexc("#9fe6ff"); b.inputs["Emission Strength"].default_value = .8
     return m
 DIAM = diamond_mat()
 def build_worker(name, ghost=False, shirt=None, blade=None):
@@ -294,8 +294,9 @@ def tube(r, z0, z1, m, name):
     o.data.materials.append(m); smooth(o)
     bm2 = bmesh.new(); bm2.from_mesh(o.data); bmesh.ops.reverse_faces(bm2, faces=bm2.faces[:]); bm2.to_mesh(o.data); bm2.free()
     return o
-MANTLE, mnt, mb, *_ = texmat("mantle", "dry_riverbed_rock", scale=.35, worldcoords=False, bump=1.6, tint="#ff7a4a")
-mb.inputs["Emission Color"].default_value = hexc("#ff3d0a"); mb.inputs["Emission Strength"].default_value = .55
+MANTLE, mnt, mb, *_ = texmat("mantle", "dry_riverbed_rock", scale=.35, worldcoords=False, bump=1.6, tint="#b8604a")
+mb.inputs["Emission Color"].default_value = hexc("#ff3a08"); mb.inputs["Emission Strength"].default_value = .22
+before_shaft = set(bpy.data.objects)
 tube(SH.PIT_R, .05, -3.0, SSOIL, "soil"); tube(SH.PIT_R, -2.95, -SH.CRUST, SROCK, "rock"); tube(SH.PIT_R, -SH.CRUST + .05, -SH.DEPTH - 2, MANTLE, "mantle")
 prim("cylinder", (0, 0, -SH.DEPTH - .3), (SH.PIT_R + .2, SH.PIT_R + .2, .3), m=MANTLE, vertices=48)
 LAMPM = pbr("lamp", "#ffcf8a", .4, emis="#ffc27a", es=18.)
@@ -304,19 +305,29 @@ ar = lr.modifiers.new("arr", "ARRAY"); ar.use_relative_offset = False; ar.use_co
 # Diamanten-Ader (Kimberlit) unten in der Wand (+Y), Diamanten als Oktaeder
 KIMB, *_ = texmat("kimberlit", "gray_rocks", scale=1.2, worldcoords=False, bump=1.8, tint="#5f7a78")
 ZV = SH.ZB - .3
-vein = prim("cube", (0, 2.5, ZV), (.75, .1, 1.7), m=KIMB); bevel(vein, .05)
-dv_ = vein.modifiers.new("d", "DISPLACE"); tv_ = bpy.data.textures.new("vein", "CLOUDS"); tv_.noise_scale = .25; dv_.texture = tv_; dv_.strength = .06
+VA, VB, VC = .85, .16, 1.9
+vein = prim("uv_sphere", (0, 2.58, ZV), (VA, VB, VC), m=KIMB, segments=48, ring_count=32); smooth(vein)
+dv_ = vein.modifiers.new("d", "DISPLACE"); tv_ = bpy.data.textures.new("vein", "CLOUDS"); tv_.noise_scale = .35; tv_.noise_depth = 3; dv_.texture = tv_; dv_.strength = .14
 def octa(name, loc, r, rot):
     me = bpy.data.meshes.new(name); V = [(r, 0, 0), (-r, 0, 0), (0, r, 0), (0, -r, 0), (0, 0, r * 1.05), (0, 0, -r * 1.05)]
     Fc = [(0, 2, 4), (2, 1, 4), (1, 3, 4), (3, 0, 4), (2, 0, 5), (1, 2, 5), (3, 1, 5), (0, 3, 5)]
     me.from_pydata(V, [], Fc); me.materials.append(DIAM); o = bpy.data.objects.new(name, me); link(o); o.location = loc; o.rotation_euler = rot; return o
 drnd = random.Random(7)
-for k in range(34):
-    r = drnd.uniform(.018, .05) if k > 3 else drnd.uniform(.07, .1)
-    octa("dia%d" % k, (drnd.uniform(-.62, .62), 2.39 + drnd.uniform(0, .02), ZV + drnd.uniform(-1.3, 1.3)), r, (drnd.random() * 6, drnd.random() * 6, drnd.random() * 6))
+k = 0
+while k < 30:
+    x, dz = drnd.uniform(-.7, .7), drnd.uniform(-1.6, 1.6); q_ = 1 - (x / VA) ** 2 - (dz / VC) ** 2
+    if q_ < .12: continue
+    r = drnd.uniform(.02, .05) if k > 3 else drnd.uniform(.07, .1)
+    octa("dia%d" % k, (x, 2.58 - VB * math.sqrt(q_) - .03, ZV + dz), r, (drnd.random() * 6, drnd.random() * 6, drnd.random() * 6)); k += 1
 for k, zz in enumerate((ZV + .7, ZV - .5)):
     vl_ = bpy.data.lights.new("vein%d" % k, "POINT"); vl_.energy = 25; vl_.color = (.8, .93, 1.); vl_.shadow_soft_size = .05
     vo_ = bpy.data.objects.new("vein%d" % k, vl_); link(vo_); vo_.location = (.3 - .6 * k, 1.6, zz)
+for o in set(bpy.data.objects) - before_shaft:          # Schacht im All ausblenden (reicht sonst durch die Erde)
+    for f, v in ((0, False), (F(SH.T_SPACE), True), (F(SH.T_BACK), False)):
+        o.hide_render = v; o.keyframe_insert("hide_render", frame=f)
+    for fc in o.animation_data.action.fcurves:
+        for kp in fc.keyframe_points: kp.interpolation = 'CONSTANT'
+
 # Gelaender am Rand (Holzpfosten + Seil)
 for k in range(28):
     a_ = k / 28 * 6.283; r_ = SH.PIT_R + .35
@@ -424,7 +435,7 @@ for f in range(SH.NF):
     cd.dof.focus_distance = fd; cd.dof.keyframe_insert("focus_distance", frame=f)
 # Bewegungsunschaerfe nur beim Abstieg (Verschluss animiert)
 S.render.use_motion_blur = True; S.render.motion_blur_position = 'CENTER'
-for f, v in ((0, 0.), (F(SH.T_DESC0) + 6, 0.), (F(SH.T_DESC0) + 12, .5), (F(SH.T_DESC1) - 6, .5), (F(SH.T_DESC1), 0.)):
+for f, v in ((0, 0.), (F(SH.T_DESC0) + 6, 0.), (F(SH.T_DESC0) + 12, .15), (F(SH.T_DESC1) - 6, .15), (F(SH.T_DESC1), 0.)):
     S.render.motion_blur_shutter = v
     try: S.render.keyframe_insert("motion_blur_shutter", frame=f)
     except Exception as ex: print("MB-KEY", ex)
