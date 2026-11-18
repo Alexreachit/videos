@@ -296,7 +296,25 @@ def tube(r, z0, z1, m, name):
     return o
 MANTLE, mnt, mb, *_ = texmat("mantle", "dry_riverbed_rock", scale=.35, worldcoords=False, bump=1.6, tint="#b8604a")
 mb.inputs["Emission Color"].default_value = hexc("#ff3a08"); mb.inputs["Emission Strength"].default_value = .22
+def depth_dark(m):
+    """Wand wird nach unten schnell dunkel (von oben wirkt das Loch tief); beim Abstieg animiert auf hell"""
+    nt = m.node_tree; b = nt.nodes["Principled BSDF"]; src = b.inputs["Base Color"].links[0].from_socket
+    geo = nt.nodes.new("ShaderNodeNewGeometry"); sp = nt.nodes.new("ShaderNodeSeparateXYZ"); nt.links.new(geo.outputs["Position"], sp.inputs[0])
+    mr = nt.nodes.new("ShaderNodeMapRange"); mr.inputs["From Min"].default_value = -9.; mr.inputs["From Max"].default_value = -.2; mr.inputs["To Max"].default_value = 1.
+    nt.links.new(sp.outputs[2], mr.inputs["Value"])
+    pw = nt.nodes.new("ShaderNodeMath"); pw.operation = 'POWER'; pw.inputs[1].default_value = 1.6; nt.links.new(mr.outputs["Result"], pw.inputs[0])
+    mx = nt.nodes.new("ShaderNodeMix"); mx.data_type = 'RGBA'; mx.blend_type = 'MULTIPLY'; mx.inputs["Factor"].default_value = 1.
+    nt.links.new(src, mx.inputs[6]); cb = nt.nodes.new("ShaderNodeCombineXYZ"); [nt.links.new(pw.outputs[0], cb.inputs[i]) for i in range(3)]; nt.links.new(cb.outputs[0], mx.inputs[7])
+    nt.links.new(mx.outputs[2], b.inputs["Base Color"])
+    tm = mr.inputs["To Min"]
+    for f, v in ((0, .015), (F(SH.T_DESC0), .015), (F(SH.T_DESC0) + 30, 1.), (F(SH.T_BLAKE) - 1, 1.), (F(SH.T_BLAKE), .015)):
+        tm.default_value = v; tm.keyframe_insert("default_value", frame=f)
+depth_dark(SSOIL); depth_dark(SROCK)
 before_shaft = set(bpy.data.objects)
+ROPE = pbr("rope2", "#c9a36a", .8)
+for a_ in (math.radians(78), math.radians(104)):          # Seile haengen in die Tiefe
+    x_, y_ = math.cos(a_) * (SH.PIT_R - .12), math.sin(a_) * (SH.PIT_R - .12)
+    prim("cylinder", (x_, y_, -24.), (.016, .016, 25.), m=ROPE, vertices=8)
 tube(SH.PIT_R, .05, -3.0, SSOIL, "soil"); tube(SH.PIT_R, -2.95, -SH.CRUST, SROCK, "rock"); tube(SH.PIT_R, -SH.CRUST + .05, -SH.DEPTH - 2, MANTLE, "mantle")
 prim("cylinder", (0, 0, -SH.DEPTH - .3), (SH.PIT_R + .2, SH.PIT_R + .2, .3), m=MANTLE, vertices=48)
 LAMPM = pbr("lamp", "#ffcf8a", .4, emis="#ffc27a", es=18.)
@@ -354,13 +372,20 @@ for vk in range(4):
             if c is not col: c.objects.unlink(o)
     VARS.append((Wv, col))
 for f in range(SH.NF):
-    t = f / FPS; on = t < SH.T_DESC0 + .5 or t >= SH.T_BLAKE - .1
+    t = f / FPS; on = t < SH.T_DESC0 + .5 or t >= SH.T_DESC1 - 1.
     for vk, (Wv, col) in enumerate(VARS):
         pose_worker(Wv, t, vk * .29, on, False, f, on)
 print("MENGE", len(SH.POS))
 for i_, (x_, y_, yaw_, s_) in enumerate(SH.POS):
     e = bpy.data.objects.new("crew%d" % i_, None); e.instance_type = 'COLLECTION'; e.instance_collection = VARS[i_ % 4][1]; link(e)
     e.location = (x_, y_, 0); e.rotation_euler = (0, 0, yaw_); e.scale = (s_, s_, s_)
+
+BOT = [(-1.1, .8, .99), (1.15, .75, 2.15), (-.42, 1.65, math.pi / 2), (.45, 1.7, math.pi / 2)]
+for i_, (x_, y_, yaw_) in enumerate(BOT):
+    e = bpy.data.objects.new("bot%d" % i_, None); e.instance_type = 'COLLECTION'; e.instance_collection = VARS[(i_ + 1) % 4][1]; link(e)
+    e.location = (x_, y_, -SH.DEPTH); e.rotation_euler = (0, 0, yaw_)
+    for f, v in ((0, False), (F(SH.T_SPACE), True), (F(SH.T_BACK), False)):
+        e.hide_render = v; e.keyframe_insert("hide_render", frame=f)
 
 # ======================================================= ERDE (aufgeschnitten)
 def earth_mat():
@@ -431,7 +456,7 @@ for f in range(SH.NF):
     ground = t < SH.T_SPACE or t >= SH.T_BACK
     fd = (Vector(tg) - Vector(p)).length if ground else 1e4
     if SH.T_DESC0 <= t < SH.T_VEIN: fd = 1e4
-    if SH.T_VEIN <= t < SH.T_BLAKE: fd = max(1., (SH.ZB - .3 - p[2]) * 0 + (2.4 - p[1]))
+    if SH.T_DESC1 <= t < SH.T_BLAKE: fd = 3.4 if t >= SH.T_VEIN + .5 else max(1., p[2] + SH.DEPTH)
     cd.dof.focus_distance = fd; cd.dof.keyframe_insert("focus_distance", frame=f)
 # Bewegungsunschaerfe nur beim Abstieg (Verschluss animiert)
 S.render.use_motion_blur = True; S.render.motion_blur_position = 'CENTER'

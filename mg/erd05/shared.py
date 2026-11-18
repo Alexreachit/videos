@@ -139,8 +139,8 @@ def cam_at(t):
         z = cam_z(t); return [.2, -.4, z], [0, 0, z - 40]
     if t < T_BLAKE:                      # unten: zur Diamanten-Ader drehen
         u = sm(T_VEIN, T_VEIN + 1.4); z = ZB
-        p = vlerp([.2, -.4, z], [0., -.9, z - .2], u)
-        tg = vlerp([0, 0, z - 40], [0., 3.0, z - .5], u)
+        p = vlerp([.2, -.4, z], [0., -1.9, z + .3], u)
+        tg = vlerp([0, 0, z - 40], [0., 2.5, z - .2], u)
         push = max(0., t - T_VEIN - 1.4) * .08
         return add(p, [0, push, 0]), tg
     if t < T_SPACE:                      # Blake mit Diamantschaufel
