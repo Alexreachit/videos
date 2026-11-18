@@ -1,0 +1,49 @@
+name: Blender-Teile aus zwei Laeufen zusammenfuegen
+
+# mg/blender_join2_queue.txt: "<name> <run_A> <run_B> <A_vorher_bis> <A_nachher_ab>"
+# Reihenfolge: Teile 0..<A_vorher_bis> aus Lauf A, dann alle Teile aus Lauf B (Ersatz fuer den Mittelteil), dann Teile <A_nachher_ab>..19 aus Lauf A.
+on:
+  push:
+    branches: [main]
+    paths: ["mg/blender_join2_queue.txt"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  join:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - id: q
+        run: |
+          L=$(grep -v '^#' mg/blender_join2_queue.txt | awk 'NF{print; exit}')
+          echo "n=$(echo $L | awk '{print $1}')" >> "$GITHUB_OUTPUT"; echo "a=$(echo $L | awk '{print $2}')" >> "$GITHUB_OUTPUT"; echo "b=$(echo $L | awk '{print $3}')" >> "$GITHUB_OUTPUT"
+          echo "p=$(echo $L | awk '{print $4}')" >> "$GITHUB_OUTPUT"; echo "s=$(echo $L | awk '{print $5}')" >> "$GITHUB_OUTPUT"
+      - uses: actions/download-artifact@v4
+        with: { pattern: "part-*", path: pa, merge-multiple: true, run-id: "${{ steps.q.outputs.a }}", github-token: "${{ github.token }}" }
+      - uses: actions/download-artifact@v4
+        with: { pattern: "part-*", path: pb, merge-multiple: true, run-id: "${{ steps.q.outputs.b }}", github-token: "${{ github.token }}" }
+      - name: Zusammenfuegen + ablegen
+        run: |
+          for i in 1 2 3; do command -v ffmpeg >/dev/null && break; sudo apt-get update -q >/dev/null || true; sudo apt-get install -y --no-install-recommends ffmpeg >/dev/null || true; done
+          NAME=${{ steps.q.outputs.n }}; P=${{ steps.q.outputs.p }}; S=${{ steps.q.outputs.s }}
+          ls pa pb
+          for k in $(seq 0 $P); do f=pa/part_$(printf %02d $k).mp4; [ -f $f ] || { echo "fehlt $f"; exit 1; }; echo "file '$f'" >> list.txt; done
+          [ "$(ls pb | wc -l)" = "20" ] || { echo "Lauf B unvollstaendig"; exit 1; }
+          for f in $(ls pb | sort); do echo "file 'pb/$f'" >> list.txt; done
+          for k in $(seq $S 19); do f=pa/part_$(printf %02d $k).mp4; [ -f $f ] || { echo "fehlt $f"; exit 1; }; echo "file '$f'" >> list.txt; done
+          cat list.txt
+          ffmpeg -v error -y -f concat -safe 0 -i list.txt -c:v libx264 -crf 18 -preset slow -pix_fmt yuv420p ${NAME}_silent.mp4
+          ls -la ${NAME}_silent.mp4; ffprobe -v error -count_frames -select_streams v -show_entries stream=nb_read_frames -of csv=p=0 ${NAME}_silent.mp4
+          git config --global user.name "mg-bot"; git config --global user.email "mg-bot@users.noreply.github.com"
+          for k in 1 2 3 4 5 6 7 8; do
+            rm -rf rb
+            git clone --depth 1 --branch renders "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" rb
+            mkdir -p rb/renders/$NAME && cp ${NAME}_silent.mp4 rb/renders/$NAME/
+            cd rb && git add -A && git commit -qm "blender-join2 $NAME" && git push -q origin renders && cd .. && exit 0
+            cd ..; sleep $((k*7))
+          done
+          exit 1
