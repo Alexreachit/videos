@@ -80,7 +80,7 @@ function blakeComment(t) {
     <div><div class="sub">Top-Kommentar von <b style="color:${DIA}">Blake</b> · ❤️ meiste Likes</div><div style="font:800 42px P,Arial">Idee: Diamanten finden → Diamantschaufel</div></div></div>`;
 }
 function veinTag(t) {
-  if (t < Lt(7).start || t > TT.blake) return '';
+  if (t < Lt(7).start || t > Lt(8).start - .1) return '';
   const p = anc('vein', t), s = pop(t, wt(7, /diamant/i) - .2, .4); if (!p) return '';
   return tagAt([p[0], p[1] - 120], `<div class="tag" style="position:relative;font-size:60px;background:#1a8fb0">💎 DIAMANTEN!</div>`, s);
 }
@@ -93,7 +93,7 @@ function factCard(t) {
       <rect x="0" y="20" width="840" height="${y150}" fill="rgba(140,110,80,.45)"/><rect x="0" y="${20 + y150}" width="840" height="${H - y150}" fill="rgba(200,70,30,.45)"/>
       <line x1="0" y1="20" x2="840" y2="20" stroke="#7ac05a" stroke-width="6"/>
       <path d="M380,20 L460,20 L440,${20 + y150 * .8} L425,${20 + H} L415,${20 + H} L400,${20 + y150 * .8} Z" fill="#4f6b6a" stroke="${DIA}" stroke-width="3"/>
-      <text x="470" y="${20 + H - 20}" font-family="P,Arial" font-weight="700" font-size="30" fill="#fff">Diamanten entstehen hier</text>
+      <text x="465" y="${20 + H - 60}" font-family="P,Arial" font-weight="700" font-size="28" fill="#fff">hier entstehen</text><text x="465" y="${20 + H - 26}" font-family="P,Arial" font-weight="700" font-size="28" fill="#fff">Diamanten</text>
       <circle cx="420" cy="${20 + H - 30 - (H - 70) * g}" r="16" fill="${DIA}" stroke="#fff" stroke-width="3"/>
       <line x1="0" y1="${20 + y150}" x2="840" y2="${20 + y150}" stroke="#fff" stroke-width="3" stroke-dasharray="14 10"/>
       <text x="20" y="${20 + y150 - 12}" font-family="IB,Arial" font-weight="900" font-size="34" fill="#fff">150 km</text>
@@ -113,7 +113,7 @@ function blakeShovel(t) {
 function workerTags(t) {
   let h = '';
   if (t > Lt(1).start && t < Lt(2).start - .1) h += tagAt(anc('chef', t), `<div class="tag" style="font-size:36px;background:${ORANGE}">ICH · CHEF</div>`, pop(t, Lt(1).start + .1) * fade(t, Lt(2).start - .3, Lt(2).start - .1));
-  if ((t > TT.blake && t < TT.space) || t > TT.back) { const b = anc('blake', t); h += tagAt(b, `<div class="tag" style="font-size:40px;background:#1a8fb0">💎 BLAKE</div>`, pop(t, t > TT.back ? TT.back + .3 : TT.blake + .25, .4)); }
+  if (t > TT.back) { const b = anc('blake', t); h += tagAt(b, `<div class="tag" style="font-size:40px;background:#1a8fb0">💎 BLAKE</div>`, pop(t, t > TT.back ? TT.back + .3 : TT.blake + .25, .4)); }
   return h;
 }
 function earthUI(t) {
