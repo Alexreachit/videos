@@ -127,7 +127,7 @@ def cam_at(t):
         u = sm(0, ST[1][0]); h = lerp(34., 15., u); a = lerp(-.7, -.2, u)
         return [math.sin(a) * lerp(22, 16, u), -math.cos(a) * lerp(22, 16, u), h], [0, 0, 0]
     if t < ST[2][0]:                     # tief: Chef vorn, Menge hinten
-        u = sm(ST[1][0], ST[2][0]); return vlerp([3.6, -8.6, 1.5], [3.0, -7.6, 1.45], u), vlerp([.4, -2.6, 1.0], [.3, -2.4, 1.05], u)
+        u = sm(ST[1][0], ST[2][0]); return vlerp([3.6, -8.6, 2.4], [3.0, -7.6, 2.3], u), vlerp([.4, -2.6, .55], [.3, -2.4, .6], u)
     if t < ST[3][0]:                     # langsam um die Menge
         u = sm(ST[2][0], ST[3][0]); a = lerp(-.4, .45, u)
         return [math.sin(a) * 19., -math.cos(a) * 19., lerp(7.5, 9.0, u)], [0, 0, 0]
@@ -154,7 +154,7 @@ def cam_at(t):
         drift = max(0., t - T_ZOOM_END) * .12
         return add(tgt, mul(dirn, dist - drift)), tgt
     u = sm(T_BACK, DUR)
-    return vlerp([1.4, -8.0, 1.55], [1.0, -7.2, 1.5], u), vlerp([-.25, -3.1, 1.0], [-.25, -3.1, 1.0], u)
+    return vlerp([1.4, -8.0, 2.4], [1.0, -7.2, 2.3], u), vlerp([-.25, -3.1, .6], [-.25, -3.1, .6], u)
 
 def project(cam, tgt, X):
     f = norm(sub(tgt, cam)); r = norm(cross(f, [0, 0, 1])); up = cross(r, f)
