@@ -353,7 +353,7 @@
 ## AUTOMATIK-PLAN (Alex 2026-11-16 ~12:00: voll automatisch, keine Rückfragen)
 - Short alle 2 Tage, Langvideo alle 3 Tage; selbst auswählen, bauen, hochladen, öffentlich 19:00 planen.
 - Short-Termine: ys_pizza 17.11. 19:00 | ys_louvre 19.11. 19:00 (geplant) -> nächster fällig 21.11., dann 23.11. …
-- Langvideo-Termine: erstes fällig 19.11. (danach 22.11., 25.11. …). Langvideo in Arbeit: – (yt_cons16 geplant 19.11.; nächstes Langvideo fällig 22.11.)
+- Langvideo-Termine: yt_cons16 19.11. | yt_fortune17 22.11. (geplant) -> nächstes fällig 25.11. Langvideo in Arbeit: –
 - Ideen-Vorrat Shorts: Fyre Festival 2017 | Ronaldo/Coca-Cola-Flaschen 2021 (-$4 Mrd. Börsenwert) | Mt. Gox | Lustig-ähnliche Betrüger.
 - Animations-Test: ys_pizza = komplett Code-gezeichnete Objekte (Pizza, Bitcoin-Münze, Röhrenmonitor, Handy) im Sky-Stil, kein Gemini (PC-Downloads nicht erreichbar). Mit Blockbuster (ebenfalls Code-Objekte) vergleichen.
 - 2026-11-16 13:45: ys_pizza FERTIG (mg-batch Run 43867215996, 25,9 s, Ø -20,6 dB / max -3,5 dB, Loop geprüft, Kontaktblätter angesehen: Endkarte überlappte mit Hook-Titel -> korrigiert, neu gerendert).
@@ -390,3 +390,15 @@
   Render v1 Run 44120028095 -> Sichtprüfung (Kontaktblätter 1 Bild/s angesehen): Uhr überlappte "THEY'RE IN", Wortabstände in "WHERE ARE THE JEWELS?" fehlten, leere Kopfzeile am Szenenanfang (Escape/Arrested), Kommentar-Pill zu spät -> korrigiert; v2 (26,2 s, Ø -20,5 dB / max -3,0 dB, Loop erster=letzter Frame) nachgeprüft ok. Upload 2-Pass 2700k (9,3 MB).
 - NÄCHSTE TERMINE: Short fällig 21.11. (Ideen: Ronaldo/Coca-Cola 2021 | Fyre Festival | Mt. Gox). Langvideo fällig 22.11. – noch NICHT begonnen (Ideen: "Biggest Heists in History" (Louvre-Szenen wiederverwenden) | "Companies That Turned Down Fortunes" (Blockbuster-Erfolg)) -> im nächsten Lauf starten.
 - Auswertung nächster Lauf: Pizza Eslb30E1uUk (live 17.11.), ab 20.11. CTR yt_cons16 wWp3nB7dgJE und Louvre ZLKwvpFuD24 (Hook-Bild mit Drama).
+
+## Lauf 2026-11-18 ~08:00–09:50 MEZ (Routine, Automatik)
+- Chrome erreichbar. 11 Abos (unverändert). 48-h-Echtzeit: 41 Aufrufe (Pizza 25). 28 T (20.10.–16.11.): 7.927 Aufrufe, 24,8 h, +7 Abos.
+- Shorts: Pizza Eslb30E1uUk nach ~14 h: 25 Aufrufe, nur 16 % angesehen / 84 % weggewischt, 0 Likes -> Flop (wie PayPal/Binance: Bitcoin/Zahl auf Bildschirm). Blockbuster 583 | Escobar 29 | PayPal 35 | Hushpuppi 3 | Milch 294 | Eiffel 1.262 | Felicity 1.324 -> stehen.
+- Langform: Ponzi 20 | Mistakes 19 | Never-age 2 | Supermarkt 1 | Bank 1.201 -> unverändert. yt_cons16 (19.11.) + Louvre-Short (19.11.) weiter geplant.
+- Erkenntnis (Themen/Animation): Code-Objekte allein retten kein abstraktes Thema – Pizza (Bitcoin) fiel trotz greifbarer Pizza durch; Blockbuster (bekannte Marke + "hätte kaufen können") bleibt das stärkste Muster seit Eiffel -> Langvideo 17 baut genau darauf auf.
+- LANGVIDEO GEBAUT + GEPLANT: yt_fortune17 "6 Times Someone Said No to a Fortune (Google Was $750,000)" ID aY8cdCQgjL8 (6:26), öffentlich 22.11.2026 19:00 (GMT+1), eigenes Thumbnail (Scheck "Google $750,000" + DECLINED-Stempel + Sam, "THEY SAID NO"), Beschreibung mit 8 Kapiteln + Quellen + Hashtags, nicht für Kinder. Upload 10 Teile à 9,5 MB + DataTransfer (volle Qualität).
+  Countdown: #6 Decca/Beatles 1962, #5 Kodak-Digitalkamera 1975, #4 Blockbuster/Netflix 2000, #3 Yahoo/Microsoft $44,6 Mrd. 2008, #2 Facebook lehnt Yahoos $1 Mrd. ab 2006 (Twist: das richtige Nein), #1 Excite lehnt Google für $750.000 ab 1999. Quellen in mg/yt_fortune17/mk_project.py.
+  Neue Animationen (Test): wiederkehrendes ACCEPT/DECLINE-Motiv (Cursor klickt DECLINE, Ring-Puls) in jedem Kapitel, THEN->NOW-Wertvergleich ($750K -> $3,6 Bio.), Kaufangebot-Scheck, drehende Schallplatte, Kassetten-Kamera mit Aufnahmebalken, 100x100-Pixelbild baut sich auf, Videothek mit CLOSED, Suchleiste tippt, VW-Bus im Schnee; Continuity jetzt für alle Elemente (kein Neu-Ploppen gleicher Objekte).
+  Sichtprüfung: Fake-TTS-Kontaktblätter (352 s) angesehen -> korrigiert: leere Intro-/Decca-/Outro-Momente gefüllt, doppelte Kamera (Neu-Ploppen), "$0 BILLION"-Zähler, Then/Now zu spät, CLOSED/BANKRUPT überlappt, Excite/Google-Pins übereinander, erfundene Balkenrelation Beatles/Tremeloes entfernt. Render mg-chunks Run 44263273214, alle Kontaktblätter des finalen Videos (386 s) angesehen: ok. Ø -20,9 dB / max -2,6 dB.
+- NÄCHSTE TERMINE: Short fällig 21.11. (Ideen: Ronaldo/Coca-Cola 2021 | Fyre Festival | Mt. Gox) -> im Lauf am 19./20.11. bauen. Langvideo fällig 25.11. (Ideen: "Biggest Heists in History" (Louvre-Szenen) | "Brands That Disappeared Overnight").
+- Auswertung nächster Lauf: Louvre-Short + yt_cons16 (beide 19.11.), ab 23.11. CTR yt_fortune17 (Scheck-Thumbnail).
