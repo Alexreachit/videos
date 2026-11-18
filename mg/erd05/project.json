@@ -1,0 +1,119 @@
+{
+ "title": "TikTok-Serie Bis zum Erdkern – Tag 3 (Deutsch)",
+ "_sources": "Wikipedia (Kola-Bohrung 12.262 m), Britannica (Kruste ~40 km, Erdmitte ~6.370 km), GIA Gems & Gemology Summer 2019 (Diamanten 150-700 km, Kimberlit). Zahlen von Alex.",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "elevenlabs:Alexander - Deep TV Narrator (erd05/voice)",
+ "rate": "+16%",
+ "lead": 0.05,
+ "gap": 0.12,
+ "tail": 1.4,
+ "crf": 20,
+ "music": {
+  "style": "cinematic",
+  "bpm": 100,
+  "gain": 0.12,
+  "ambience": 0.0,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.55,
+ "lines": [
+  {
+   "text": "Tag 3: Ihr seid komplett eskaliert!",
+   "spec": {
+    "type": "intro",
+    "mood": "bright"
+   },
+   "say": "Tag drei: Ihr seid komplett eskaliert!"
+  },
+  {
+   "text": "Wir sind jetzt 666 Arbeiter!",
+   "spec": {
+    "type": "crowd",
+    "mood": "bright"
+   },
+   "say": "Wir sind jetzt sechshundertsechsundsechzig Arbeiter!"
+  },
+  {
+   "text": "594 Likes und 124 Shares: Das sind 1.214 Schaufeln pro Arbeiter!",
+   "spec": {
+    "type": "calc"
+   },
+   "say": "Fünfhundertvierundneunzig Likes und hundertvierundzwanzig Shares: Das sind tausendzweihundertvierzehn Schaufeln pro Arbeiter!"
+  },
+  {
+   "text": "Unser neuester Arbeiter: Freddy! Willkommen am Loch!",
+   "spec": {
+    "type": "newest",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Und jetzt geht's runter! Wir sind tiefer als das tiefste Bohrloch der Welt!",
+   "spec": {
+    "type": "desc1"
+   }
+  },
+  {
+   "text": "Wir sind durch die Erdkruste durch!",
+   "spec": {
+    "type": "desc2",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "80,9 Kilometer an einem Tag!",
+   "spec": {
+    "type": "desc3",
+    "mood": "bright"
+   },
+   "say": "Achtzig Komma neun Kilometer an einem Tag!"
+  },
+  {
+   "text": "Und Blake hatte recht: Diamanten!",
+   "spec": {
+    "type": "diamonds",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Kimberlit-Gestein bringt sie aus über 150 Kilometern Tiefe nach oben.",
+   "spec": {
+    "type": "fact"
+   },
+   "say": "Kimberlitgestein bringt sie aus über hundertfünfzig Kilometern Tiefe nach oben."
+  },
+  {
+   "text": "Blakes Diamantschaufel gräbt zehnmal so tief wie eine normale!",
+   "spec": {
+    "type": "blake",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Bis zum Erdkern fehlen noch über 6.288 Kilometer.",
+   "spec": {
+    "type": "earth",
+    "mood": "calm"
+   },
+   "say": "Bis zum Erdkern fehlen noch über sechstausendzweihundertachtundachtzig Kilometer."
+  },
+  {
+   "text": "Der beste Kommentar bekommt jeden Tag ein Upgrade.",
+   "spec": {
+    "type": "rule"
+   }
+  },
+  {
+   "text": "Was brauchen wir als Nächstes? Schreib es in die Kommentare!",
+   "spec": {
+    "type": "comment"
+   }
+  }
+ ]
+}

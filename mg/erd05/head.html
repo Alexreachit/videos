@@ -1,0 +1,16 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:IB;src:url(fonts/Inter-Black.otf);font-weight:900}
+@font-face{font-family:P;src:url(fonts/Poppins-Bold.ttf);font-weight:700}
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#000}
+#stage{position:absolute;inset:0;overflow:hidden;background:#000}
+#bg{position:absolute;left:0;top:0;width:1080px;height:1920px}
+#ov,#ui,#fx{position:absolute;inset:0}
+.glass{position:absolute;background:rgba(12,16,22,.66);border:2px solid rgba(255,255,255,.18);border-radius:26px;box-shadow:0 18px 40px rgba(0,0,0,.35);font-family:IB,P,Arial;font-weight:900;color:#fff;backdrop-filter:blur(6px)}
+.tag{position:absolute;font-family:IB,P,Arial;font-weight:900;border-radius:16px;padding:6px 22px;white-space:nowrap;color:#fff;box-shadow:0 8px 24px rgba(0,0,0,.35)}
+.lbl{position:absolute;font-family:IB,P,Arial;font-weight:900;white-space:nowrap;color:#fff;text-align:center}
+.sub{font:700 34px P,Arial;color:rgba(255,255,255,.78)}
+</style></head><body><div id="stage"><img id="bg"><div id="ov"></div><div id="fx"></div><div id="ui"></div></div>
+<script src="../lib/core.js"></script>
+<script>
+const W = 1080, H = 1920, {cl, ez, ei, bo, el, lerp} = MG;
+const $ = id => document.getElementById(id);
