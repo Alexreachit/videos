@@ -300,14 +300,14 @@ def depth_dark(m):
     """Wand wird nach unten schnell dunkel (von oben wirkt das Loch tief); beim Abstieg animiert auf hell"""
     nt = m.node_tree; b = nt.nodes["Principled BSDF"]; src = b.inputs["Base Color"].links[0].from_socket
     geo = nt.nodes.new("ShaderNodeNewGeometry"); sp = nt.nodes.new("ShaderNodeSeparateXYZ"); nt.links.new(geo.outputs["Position"], sp.inputs[0])
-    mr = nt.nodes.new("ShaderNodeMapRange"); mr.inputs["From Min"].default_value = -9.; mr.inputs["From Max"].default_value = -.2; mr.inputs["To Max"].default_value = 1.
+    mr = nt.nodes.new("ShaderNodeMapRange"); mr.inputs["From Min"].default_value = -3.2; mr.inputs["From Max"].default_value = -.1; mr.inputs["To Max"].default_value = 1.
     nt.links.new(sp.outputs[2], mr.inputs["Value"])
-    pw = nt.nodes.new("ShaderNodeMath"); pw.operation = 'POWER'; pw.inputs[1].default_value = 1.6; nt.links.new(mr.outputs["Result"], pw.inputs[0])
+    pw = nt.nodes.new("ShaderNodeMath"); pw.operation = 'POWER'; pw.inputs[1].default_value = 2.2; nt.links.new(mr.outputs["Result"], pw.inputs[0])
     mx = nt.nodes.new("ShaderNodeMix"); mx.data_type = 'RGBA'; mx.blend_type = 'MULTIPLY'; mx.inputs["Factor"].default_value = 1.
     nt.links.new(src, mx.inputs[6]); cb = nt.nodes.new("ShaderNodeCombineXYZ"); [nt.links.new(pw.outputs[0], cb.inputs[i]) for i in range(3)]; nt.links.new(cb.outputs[0], mx.inputs[7])
     nt.links.new(mx.outputs[2], b.inputs["Base Color"])
     tm = mr.inputs["To Min"]
-    for f, v in ((0, .015), (F(SH.T_DESC0), .015), (F(SH.T_DESC0) + 30, 1.), (F(SH.T_BLAKE) - 1, 1.), (F(SH.T_BLAKE), .015)):
+    for f, v in ((0, 0.), (F(SH.T_DESC0), 0.), (F(SH.T_DESC0) + 30, 1.), (F(SH.T_BLAKE) - 1, 1.), (F(SH.T_BLAKE), 0.)):
         tm.default_value = v; tm.keyframe_insert("default_value", frame=f)
 depth_dark(SSOIL); depth_dark(SROCK)
 before_shaft = set(bpy.data.objects)
@@ -456,7 +456,7 @@ for f in range(SH.NF):
     ground = t < SH.T_SPACE or t >= SH.T_BACK
     fd = (Vector(tg) - Vector(p)).length if ground else 1e4
     if SH.T_DESC0 <= t < SH.T_VEIN: fd = 1e4
-    if SH.T_DESC1 <= t < SH.T_BLAKE: fd = 3.4 if t >= SH.T_VEIN + .5 else max(1., p[2] + SH.DEPTH)
+    if SH.T_DESC1 <= t < SH.T_BLAKE: fd = 3.4 if t >= SH.T_DESC1 + 1.6 else max(1., p[2] + SH.DEPTH)
     cd.dof.focus_distance = fd; cd.dof.keyframe_insert("focus_distance", frame=f)
 # Bewegungsunschaerfe nur beim Abstieg (Verschluss animiert)
 S.render.use_motion_blur = True; S.render.motion_blur_position = 'CENTER'

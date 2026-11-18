@@ -138,13 +138,13 @@ def cam_at(t):
     if t < T_DESC1:
         z = cam_z(t); return [.2, -.4, z], [0, 0, z - 40]
     if t < T_BLAKE:                      # unten: zur Diamanten-Ader drehen
-        u = sm(T_VEIN, T_VEIN + 1.4); z = ZB
+        u = sm(T_DESC1 + .3, T_DESC1 + 2.0); z = ZB
         p = vlerp([.2, -.4, z], [0., -1.9, z + .3], u)
         tg = vlerp([0, 0, z - 40], [0., 2.5, z - .2], u)
-        push = max(0., t - T_VEIN - 1.4) * .08
+        push = max(0., t - T_DESC1 - 2.0) * .06
         return add(p, [0, push, 0]), tg
     if t < T_SPACE:                      # Blake mit Diamantschaufel
-        u = sm(T_BLAKE, T_SPACE); return vlerp([-2.7, -.8, 1.95], [-2.45, -1.1, 1.8], u), vlerp([-.9, -3.4, .5], [-.9, -3.45, .5], u)
+        u = sm(T_BLAKE, T_SPACE); return vlerp([-2.35, -2.5, 1.3], [-2.2, -2.62, 1.2], u), vlerp([-.95, -3.25, .55], [-.95, -3.3, .5], u)
     if t < T_BACK:
         u = ease((t - T_SPACE) / (T_ZOOM_END - T_SPACE)); u = 1 - (1 - u) ** 1.6
         dist = math.exp(lerp(math.log(.9), math.log(35.5), u))
