@@ -402,3 +402,8 @@
   Sichtprüfung: Fake-TTS-Kontaktblätter (352 s) angesehen -> korrigiert: leere Intro-/Decca-/Outro-Momente gefüllt, doppelte Kamera (Neu-Ploppen), "$0 BILLION"-Zähler, Then/Now zu spät, CLOSED/BANKRUPT überlappt, Excite/Google-Pins übereinander, erfundene Balkenrelation Beatles/Tremeloes entfernt. Render mg-chunks Run 44263273214, alle Kontaktblätter des finalen Videos (386 s) angesehen: ok. Ø -20,9 dB / max -2,6 dB.
 - NÄCHSTE TERMINE: Short fällig 21.11. (Ideen: Ronaldo/Coca-Cola 2021 | Fyre Festival | Mt. Gox) -> im Lauf am 19./20.11. bauen. Langvideo fällig 25.11. (Ideen: "Biggest Heists in History" (Louvre-Szenen) | "Brands That Disappeared Overnight").
 - Auswertung nächster Lauf: Louvre-Short + yt_cons16 (beide 19.11.), ab 23.11. CTR yt_fortune17 (Scheck-Thumbnail).
+
+## 2026-11-18 ~10:00 Alex: neue Animations-Referenz
+- Alex: Shorts UND Videos mehr in Richtung https://youtube.com/shorts/R-mWVMM-LAs animieren ("probiere das Beste draus zu machen").
+- Chrome war beim Eintreffen nicht erreichbar -> Referenz noch nicht angesehen. ERSTER SCHRITT im nächsten Lauf mit Chrome: Referenz analysieren (siehe ANLEITUNG, Abschnitt "NEUE ANIMATIONS-REFERENZ"), dann den Short für 21.11. bereits in diesem Stil bauen.
+- Bereits geplante Videos (Louvre 19.11., yt_cons16 19.11., yt_fortune17 22.11.) bleiben unverändert.

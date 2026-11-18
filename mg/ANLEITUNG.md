@@ -197,3 +197,12 @@ Rendern auf GitHub: Projektname in `mg/render_queue.txt` eintragen und pushen (W
 - Alle 2 Tage ein Short, alle 3 Tage ein langes Video: selbst Thema wählen, Fakten belegen, bauen, Sichtprüfung, hochladen, ÖFFENTLICH auf 19:00 planen.
 - KEINE Rückfragen mehr ("Idee ok?", "hochladen?"). Voraussetzung: Alex' PC/Chrome ist an; sonst melden und abbrechen.
 - Laufend auswerten, welche Themen UND welche Art von Animation (Szenentypen, Objekte, Hook-Bild, Farben, Sam, Karte, Zähler) gut ankommen, und das in die nächsten Videos einfließen lassen.
+
+## NEUE ANIMATIONS-REFERENZ (Alex 2026-11-18): https://youtube.com/shorts/R-mWVMM-LAs
+- Alex: "Bei den Shorts und Videos mehr in diese Richtung der Animation gehen – probiere das Beste draus zu machen."
+- Gilt für ALLE kommenden Shorts UND Langvideos.
+- 18.11.: noch NICHT analysiert (Chrome auf Alex' PC nicht erreichbar, Seite ohne Browser nicht lesbar).
+- NÄCHSTER LAUF MIT CHROME, VOR dem Bau des nächsten Videos: Short in Chrome öffnen, alle ~1–2 s Screenshot (pausieren/vorspulen),
+  Stil genau festhalten (Zeichenstil, Figuren, Kamera/Bewegung, Übergänge, Text/Untertitel, Farben, Tempo, Sound/Musik, Hook in Sek. 0–3)
+  und hier als Abschnitt "Stil R-mWVMM-LAs" eintragen. Danach Engine/Vorlage entsprechend anpassen (bestehende Sky-/Code-Objekte nur, wo es passt).
+- Keine Figuren/Logos/Grafiken des Referenzkanals kopieren – nur Machart übernehmen.
