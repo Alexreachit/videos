@@ -1,2 +1,2 @@
-erd05/scene.py erd05v 1547 0 samples=20 hrot=90 only=0,5,16
-# run 1795027720
+erd05/scene.py erd05v 1547 0 samples=20 hrot=90
+# run 1795029663
