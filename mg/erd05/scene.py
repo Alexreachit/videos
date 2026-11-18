@@ -120,6 +120,9 @@ for v in bm.verts:
     edge = max(0., (max(abs(x), abs(y)) - 17) / 2); z -= edge * .02
     v.co.z = z
 bmesh.ops.delete(bm, geom=[v for v in bm.verts if math.hypot(v.co.x, v.co.y) < SH.PIT_R - .02], context='VERTS')
+for v in bm.verts:                                   # gezackten Lochrand auf exakten Kreis ziehen
+    d = math.hypot(v.co.x, v.co.y)
+    if v.is_boundary and d < SH.PIT_R + .3: v.co.x *= SH.PIT_R / d; v.co.y *= SH.PIT_R / d; v.co.z = 0.
 bm.to_mesh(gr.data); bm.free()
 smooth(gr); gr.data.materials.append(GROUND)
 far = prim("plane", (0, 0, -.03), (1, 1, 1), m=GROUND, size=170)
@@ -300,9 +303,9 @@ def depth_dark(m):
     """Wand wird nach unten schnell dunkel (von oben wirkt das Loch tief); beim Abstieg animiert auf hell"""
     nt = m.node_tree; b = nt.nodes["Principled BSDF"]; src = b.inputs["Base Color"].links[0].from_socket
     geo = nt.nodes.new("ShaderNodeNewGeometry"); sp = nt.nodes.new("ShaderNodeSeparateXYZ"); nt.links.new(geo.outputs["Position"], sp.inputs[0])
-    mr = nt.nodes.new("ShaderNodeMapRange"); mr.inputs["From Min"].default_value = -3.2; mr.inputs["From Max"].default_value = -.1; mr.inputs["To Max"].default_value = 1.
+    mr = nt.nodes.new("ShaderNodeMapRange"); mr.inputs["From Min"].default_value = -1.25; mr.inputs["From Max"].default_value = .0; mr.inputs["To Max"].default_value = 1.
     nt.links.new(sp.outputs[2], mr.inputs["Value"])
-    pw = nt.nodes.new("ShaderNodeMath"); pw.operation = 'POWER'; pw.inputs[1].default_value = 2.2; nt.links.new(mr.outputs["Result"], pw.inputs[0])
+    pw = nt.nodes.new("ShaderNodeMath"); pw.operation = 'POWER'; pw.inputs[1].default_value = 1.5; nt.links.new(mr.outputs["Result"], pw.inputs[0])
     mx = nt.nodes.new("ShaderNodeMix"); mx.data_type = 'RGBA'; mx.blend_type = 'MULTIPLY'; mx.inputs["Factor"].default_value = 1.
     nt.links.new(src, mx.inputs[6]); cb = nt.nodes.new("ShaderNodeCombineXYZ"); [nt.links.new(pw.outputs[0], cb.inputs[i]) for i in range(3)]; nt.links.new(cb.outputs[0], mx.inputs[7])
     nt.links.new(mx.outputs[2], b.inputs["Base Color"])

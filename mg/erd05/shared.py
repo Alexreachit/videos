@@ -144,7 +144,7 @@ def cam_at(t):
         push = max(0., t - T_DESC1 - 2.0) * .06
         return add(p, [0, push, 0]), tg
     if t < T_SPACE:                      # Blake mit Diamantschaufel
-        u = sm(T_BLAKE, T_SPACE); return vlerp([-2.35, -2.5, 1.3], [-2.2, -2.62, 1.2], u), vlerp([-.95, -3.25, .55], [-.95, -3.3, .5], u)
+        u = sm(T_BLAKE, T_SPACE); return vlerp([-.55, -.4, 1.75], [-.45, -.65, 1.7], u), vlerp([-.85, -3.1, .85], [-.85, -3.15, .85], u)
     if t < T_BACK:
         u = ease((t - T_SPACE) / (T_ZOOM_END - T_SPACE)); u = 1 - (1 - u) ** 1.6
         dist = math.exp(lerp(math.log(.9), math.log(35.5), u))
