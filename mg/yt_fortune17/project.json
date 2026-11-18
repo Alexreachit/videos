@@ -1,0 +1,2201 @@
+{
+ "title": "YouTube 17: They Said No to a Fortune",
+ "_sources": "YouTube 17 (long form, 16:9): \"They Said No to a Fortune: 6 Deals That Changed History\" -> project.json\nSources (checked 2026-11-18):\nHook/#1 Excite & Google: TechCrunch 29 Sep 2010 \"When Google Wanted To Sell To Excite For Under $1 Million — And They Passed\"\n   (Vinod Khosla at Disrupt: early 1999, Page & Brin asked $1M, Khosla talked them down to $750,000, Excite CEO George Bell\n   still said no); Fortune 29 Sep 2010 \"Excite passed up buying Google for $750,000 in 1999\"; CNN Money 28 Sep 2001 /\n   Wikipedia \"@Home Network\" (Excite@Home filed for bankruptcy Sept 2001); FourWeekMBA ticker hub 16 Nov 2026\n   (Alphabet ~ $3.6 trillion at 13 Nov 2026 close).\n#6 Decca & Beatles: Wikipedia \"The Beatles' Decca audition\" (1 Jan 1962, Decca Studios West Hampstead, 15 songs, Decca signed\n   Brian Poole and the Tremeloes instead, partly because they were closer to London; \"guitar groups are on the way out\"\n   attributed by Brian Epstein, Dick Rowe denied it); Wikipedia \"Dick Rowe\" (later signed the Rolling Stones after a tip\n   from George Harrison).\n#5 Kodak: NYT via Business Insider \"This man invented the digital camera in 1975 ...\" (Steve Sasson, 100x100 pixels b/w,\n   23 seconds to record to cassette tape, \"no one would ever want to look at their pictures on a television set\");\n   PetaPixel 21 Sep 2017 (8-pound camera, 0.01 megapixel, Sasson was 24; Kodak filed for bankruptcy 2012).\n#4 Blockbuster & Netflix: Marketplace 2020 (Hastings: offered Netflix for $50M in 2000, ~9,000 stores, Netflix lost $57M);\n   NZ Herald / Marc Randolph (Antioco \"struggling not to laugh\"); Wikipedia \"Blockbuster LLC\" (bankrupt 2010).\n#3 Yahoo & Microsoft: CIO Insight / HeraldNet 1 Feb 2008 (Microsoft bids $44.6 billion for Yahoo); Supercar Blondie 2025\n   (Yahoo board: offer \"substantially undervalued\" Yahoo); Axios 4 May 2021 (Verizon acquired Yahoo for $4.48B in 2017;\n   Yahoo + AOL sold to Apollo for $5B in 2021).\n#2 Facebook & Yahoo: Business Insider (excerpt \"An Ugly Truth\", Frenkel & Kang): Yahoo offer June 2006, $1 billion;\n   Zuckerberg turned it down; much of the management team / staff left afterwards; Zuckerberg quote about staff quitting.\n   finhacker.cz: Meta market cap $1.601 trillion on 16 Nov 2026.",
+ "size": [
+  1920,
+  1080
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+0%",
+ "lead": 0.6,
+ "gap": 0.48,
+ "tail": 3.0,
+ "crf": 21,
+ "music": {
+  "style": "ttdark",
+  "bpm": 140,
+  "gain": 0.15,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.4,
+ "lines": [
+  {
+   "text": "In nineteen ninety-nine, Google was for sale, for seven hundred fifty thousand dollars. And the buyer said no.",
+   "spec": {
+    "type": "beat",
+    "scene": "intro",
+    "els": [
+     {
+      "e": "title",
+      "a": "GOOGLE FOR $750,000?",
+      "b": "…and the buyer said NO",
+      "at": -1,
+      "out": [
+       2,
+       0
+      ]
+     },
+     {
+      "e": "check",
+      "x": 640,
+      "y": 620,
+      "w": 720,
+      "to": "Google",
+      "amt": "$750,000",
+      "at": -1,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "stamp",
+      "txt": "DECLINED",
+      "x": 640,
+      "y": 640,
+      "at": 0.55,
+      "col": "red",
+      "sz": 100,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "obj",
+      "k": "samyell",
+      "x": 1400,
+      "y": 640,
+      "w": 440,
+      "at": -1,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "sky",
+    "mood": "tense"
+   }
+  },
+  {
+   "text": "Today, Google's parent company is worth more than three trillion dollars.",
+   "spec": {
+    "type": "beat",
+    "scene": "intro",
+    "els": [
+     {
+      "e": "thennow",
+      "then": "$750K",
+      "now": "$3.6 TRILLION",
+      "at": 0.1,
+      "end": 0.8,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "It's not the only time someone said no to a fortune. A record label turned down the Beatles. Blockbuster laughed at Netflix.",
+   "spec": {
+    "type": "beat",
+    "scene": "intro",
+    "els": [
+     {
+      "e": "vinyl",
+      "x": 520,
+      "y": 600,
+      "r": 230,
+      "label": "DECCA?",
+      "at": 0.03,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "env",
+      "x": 1380,
+      "y": 600,
+      "w": 520,
+      "at": 0.45,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "stamp",
+      "txt": "NO",
+      "x": 520,
+      "y": 600,
+      "at": 0.3,
+      "col": "red",
+      "sz": 90,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "stamp",
+      "txt": "NO",
+      "x": 1380,
+      "y": 600,
+      "at": 0.8,
+      "col": "red",
+      "sz": 90,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "These are six times someone said no to a fortune, counted down to the most expensive no in history.",
+   "spec": {
+    "type": "beat",
+    "scene": "intro",
+    "els": [
+     {
+      "e": "tx",
+      "txt": "THEY SAID NO TO A FORTUNE",
+      "x": 960,
+      "y": 300,
+      "size": 86,
+      "at": 0,
+      "col": "gold",
+      "out": [
+       2,
+       0.99
+      ]
+     },
+     {
+      "e": "ladder",
+      "n": 6,
+      "at": 0.2,
+      "out": [
+       2,
+       0.99
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "And one of them wasn't a mistake at all. Stay to the end, and you'll see why.",
+   "spec": {
+    "type": "beat",
+    "scene": "intro",
+    "els": [
+     {
+      "e": "ladderhi",
+      "x": 1290,
+      "green": true,
+      "txt": "not a mistake?",
+      "at": 0.1,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Number six. London, New Year's Day, nineteen sixty-two.",
+   "spec": {
+    "type": "map",
+    "cam": [
+     -3,
+     54,
+     2.4
+    ],
+    "cam2": [
+     -0.19,
+     51.55,
+     9
+    ],
+    "chap": 6,
+    "chapsub": "THE BAND NOBODY WANTED",
+    "pins": [
+     {
+      "at": [
+       -0.19,
+       51.55
+      ],
+      "label": "Decca Studios",
+      "col": "gold",
+      "delay": 0.45
+     }
+    ]
+   }
+  },
+  {
+   "text": "A young band from Liverpool drives down through the snow for an audition at Decca, one of the biggest record labels in Britain.",
+   "spec": {
+    "type": "beat",
+    "scene": "decca",
+    "els": [
+     {
+      "e": "van",
+      "x": 520,
+      "y": 640,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "card",
+      "x": 1340,
+      "y": 330,
+      "w": 620,
+      "big": "Decca Records",
+      "small": "audition · 1 January 1962",
+      "at": 0.4,
+      "col": "ink",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "sky",
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "They play fifteen songs in about an hour. Their name is the Beatles.",
+   "spec": {
+    "type": "beat",
+    "scene": "decca",
+    "els": [
+     {
+      "e": "vinyl",
+      "x": 560,
+      "y": 600,
+      "r": 240,
+      "label": "15 SONGS",
+      "at": 0,
+      "out": [
+       2,
+       0
+      ]
+     },
+     {
+      "e": "count",
+      "x": 1340,
+      "y": 440,
+      "to": 15,
+      "at": 0.1,
+      "end": 0.45,
+      "suf": " songs",
+      "size": 120,
+      "col": "gold",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "🎸 The Beatles",
+      "x": 1340,
+      "y": 620,
+      "size": 56,
+      "at": 0.7,
+      "bg": "blue",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "A few weeks later, the answer comes back. No. Decca signs another band instead, partly because they lived closer to London.",
+   "spec": {
+    "type": "beat",
+    "scene": "decca",
+    "els": [
+     {
+      "e": "deal",
+      "x": 1340,
+      "y": 560,
+      "press": 0.35,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "✍️ signed instead: Brian Poole and the Tremeloes",
+      "x": 960,
+      "y": 300,
+      "size": 40,
+      "at": 0.7,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "According to the Beatles' manager, Brian Epstein, he was told that guitar groups were on their way out.",
+   "spec": {
+    "type": "beat",
+    "scene": "decca",
+    "els": [
+     {
+      "e": "letter",
+      "x": 1340,
+      "y": 290,
+      "w": 700,
+      "head": "DECCA RECORDS · LONDON",
+      "body": "“Guitar groups are on their way out, Mr. Epstein.”",
+      "at": 0.05,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "obj",
+      "k": "samthink",
+      "x": 520,
+      "y": 640,
+      "w": 380,
+      "at": 0.1,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "The executive who got the blame, Dick Rowe, always denied saying it. But the decision stuck to him for the rest of his life.",
+   "spec": {
+    "type": "beat",
+    "scene": "decca",
+    "els": [
+     {
+      "e": "card",
+      "x": 1340,
+      "y": 320,
+      "w": 640,
+      "big": "Dick Rowe",
+      "small": "always denied the quote",
+      "at": 0.1,
+      "col": "ink",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "stamp",
+      "txt": "BLAMED",
+      "x": 1340,
+      "y": 640,
+      "at": 0.6,
+      "col": "red",
+      "sz": 80,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "A few months later, the Beatles signed with a different label, and went on to become the best-selling band in music history.",
+   "spec": {
+    "type": "beat",
+    "scene": "decca",
+    "els": [
+     {
+      "e": "vinyl",
+      "x": 560,
+      "y": 600,
+      "r": 240,
+      "label": "BEATLES",
+      "gold": true,
+      "at": 0.03,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "🏆 best-selling band in history",
+      "x": 1340,
+      "y": 520,
+      "size": 48,
+      "at": 0.6,
+      "bg": "gold",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Rowe did get one thing right afterwards. On a tip from George Harrison, he signed another guitar band: the Rolling Stones.",
+   "spec": {
+    "type": "beat",
+    "scene": "decca",
+    "els": [
+     {
+      "e": "vinyl",
+      "x": 560,
+      "y": 600,
+      "r": 220,
+      "label": "DECCA",
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "💡 tip from George Harrison",
+      "x": 1340,
+      "y": 400,
+      "size": 46,
+      "at": 0.3,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "stamp",
+      "txt": "SIGNED",
+      "x": 1340,
+      "y": 600,
+      "at": 0.8,
+      "col": "green",
+      "sz": 90,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Lesson one: experts can be wrong about what people will love.",
+   "spec": {
+    "type": "beat",
+    "scene": "decca",
+    "els": [
+     {
+      "e": "obj",
+      "k": "samthink",
+      "x": 520,
+      "y": 620,
+      "w": 460,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "card",
+      "x": 1300,
+      "y": 380,
+      "w": 760,
+      "big": "Lesson #1",
+      "small": "Experts can be wrong about what people will love.",
+      "at": 0.2,
+      "col": "gold",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Number five. Rochester, New York, nineteen seventy-five.",
+   "spec": {
+    "type": "map",
+    "cam": [
+     -98,
+     39,
+     1.0
+    ],
+    "cam2": [
+     -77.61,
+     43.16,
+     8
+    ],
+    "chap": 5,
+    "chapsub": "THE CAMERA THEY HID",
+    "pins": [
+     {
+      "at": [
+       -77.61,
+       43.16
+      ],
+      "label": "Kodak",
+      "col": "gold",
+      "delay": 0.45
+     }
+    ]
+   }
+  },
+  {
+   "text": "Kodak ruled photography. It made money on almost every roll of film people bought.",
+   "spec": {
+    "type": "beat",
+    "scene": "kodak",
+    "els": [
+     {
+      "e": "film",
+      "x": 560,
+      "y": 600,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "🎞️ film = Kodak's money machine",
+      "x": 1340,
+      "y": 420,
+      "size": 46,
+      "at": 0.4,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "sky",
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "Then a twenty-four-year-old engineer named Steve Sasson built something strange: a camera with no film at all.",
+   "spec": {
+    "type": "beat",
+    "scene": "kodak",
+    "els": [
+     {
+      "e": "camera",
+      "x": 620,
+      "y": 600,
+      "w": 520,
+      "at": 0,
+      "out": [
+       3,
+       0
+      ]
+     },
+     {
+      "e": "card",
+      "x": 1340,
+      "y": 330,
+      "w": 620,
+      "big": "Steve Sasson",
+      "small": "Kodak engineer · age 24",
+      "at": 0.35,
+      "col": "ink",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "stamp",
+      "txt": "NO FILM",
+      "x": 1340,
+      "y": 640,
+      "at": 0.8,
+      "col": "red",
+      "sz": 80,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "It weighed about eight pounds, and took black-and-white pictures of just a hundred by a hundred pixels.",
+   "spec": {
+    "type": "beat",
+    "scene": "kodak",
+    "els": [
+     {
+      "e": "camera",
+      "x": 620,
+      "y": 600,
+      "w": 520,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pixels",
+      "x": 1340,
+      "y": 560,
+      "w": 420,
+      "at": 0.35,
+      "end": 0.85,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "100 × 100 pixels",
+      "x": 1340,
+      "y": 830,
+      "size": 44,
+      "at": 0.7,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Each photo took twenty-three seconds to save, onto a cassette tape.",
+   "spec": {
+    "type": "beat",
+    "scene": "kodak",
+    "els": [
+     {
+      "e": "camera",
+      "x": 620,
+      "y": 600,
+      "w": 520,
+      "rec": true,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "count",
+      "x": 1340,
+      "y": 460,
+      "to": 23,
+      "at": 0.1,
+      "end": 0.8,
+      "suf": " sec",
+      "size": 140,
+      "col": "gold",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "📼 saved to cassette tape",
+      "x": 1340,
+      "y": 620,
+      "size": 44,
+      "at": 0.6,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Sasson showed it to Kodak's managers. They were convinced nobody would ever want to look at their photos on a TV screen.",
+   "spec": {
+    "type": "beat",
+    "scene": "kodak",
+    "els": [
+     {
+      "e": "obj",
+      "k": "samthink",
+      "x": 520,
+      "y": 640,
+      "w": 380,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "letter",
+      "x": 1340,
+      "y": 300,
+      "w": 700,
+      "head": "KODAK MANAGEMENT · 1975",
+      "body": "“No one would ever want to look at their pictures on a television set.”",
+      "at": 0.15,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "And a camera without film threatened the film business that paid for everything. So Kodak didn't push it.",
+   "spec": {
+    "type": "beat",
+    "scene": "kodak",
+    "els": [
+     {
+      "e": "deal",
+      "x": 1340,
+      "y": 560,
+      "press": 0.45,
+      "at": 0,
+      "txt": "DIGITAL?",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "film",
+      "x": 560,
+      "y": 600,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Others did. Digital cameras took over, and then phones put a camera in almost every pocket.",
+   "spec": {
+    "type": "beat",
+    "scene": "kodak",
+    "els": [
+     {
+      "e": "camera",
+      "x": 560,
+      "y": 600,
+      "w": 420,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "obj",
+      "k": "phone",
+      "x": 1340,
+      "y": 600,
+      "w": 420,
+      "at": 0.55,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "📷 → 📱",
+      "x": 960,
+      "y": 300,
+      "size": 60,
+      "at": 0.4,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "In twenty twelve, Kodak, the company that invented the digital camera, filed for bankruptcy.",
+   "spec": {
+    "type": "beat",
+    "scene": "kodak",
+    "els": [
+     {
+      "e": "chart",
+      "kind": "crash",
+      "x": 300,
+      "y": 300,
+      "w": 1320,
+      "h": 520,
+      "at": 0,
+      "end": 0.6,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "stamp",
+      "txt": "BANKRUPT",
+      "x": 960,
+      "y": 560,
+      "at": 0.65,
+      "col": "red",
+      "sz": 110,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "cut": true,
+    "mood": "tense"
+   }
+  },
+  {
+   "text": "Lesson two: if you don't replace your own product, someone else will.",
+   "spec": {
+    "type": "beat",
+    "scene": "kodak",
+    "els": [
+     {
+      "e": "obj",
+      "k": "samsad",
+      "x": 520,
+      "y": 620,
+      "w": 460,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "card",
+      "x": 1300,
+      "y": 380,
+      "w": 760,
+      "big": "Lesson #2",
+      "small": "If you don't replace your own product, someone else will.",
+      "at": 0.2,
+      "col": "gold",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Number four. Dallas, Texas, the year two thousand.",
+   "spec": {
+    "type": "map",
+    "cam": [
+     -98,
+     39,
+     1.0
+    ],
+    "cam2": [
+     -96.8,
+     32.78,
+     8
+    ],
+    "chap": 4,
+    "chapsub": "THE DEAL THEY LAUGHED AT",
+    "pins": [
+     {
+      "at": [
+       -96.8,
+       32.78
+      ],
+      "label": "Blockbuster HQ",
+      "col": "gold",
+      "delay": 0.45
+     }
+    ]
+   }
+  },
+  {
+   "text": "Blockbuster was the king of movie nights, with almost nine thousand stores.",
+   "spec": {
+    "type": "beat",
+    "scene": "bb",
+    "els": [
+     {
+      "e": "store",
+      "x": 600,
+      "y": 620,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "count",
+      "x": 1340,
+      "y": 460,
+      "to": 9000,
+      "at": 0.2,
+      "end": 0.8,
+      "size": 140,
+      "col": "gold",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "🏬 stores worldwide",
+      "x": 1340,
+      "y": 620,
+      "size": 46,
+      "at": 0.5,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "sky",
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "Netflix was a small startup that mailed DVDs in red envelopes. That year, it lost fifty-seven million dollars.",
+   "spec": {
+    "type": "beat",
+    "scene": "bb",
+    "els": [
+     {
+      "e": "env",
+      "x": 600,
+      "y": 600,
+      "w": 560,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "count",
+      "x": 1340,
+      "y": 460,
+      "to": 57,
+      "at": 0.4,
+      "end": 0.85,
+      "pre": "-$",
+      "suf": "M",
+      "size": 140,
+      "col": "red",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "lost in 2000",
+      "x": 1340,
+      "y": 620,
+      "size": 44,
+      "at": 0.7,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "So its founders flew to Dallas, and offered to sell Netflix to Blockbuster, for fifty million dollars.",
+   "spec": {
+    "type": "beat",
+    "scene": "bb",
+    "els": [
+     {
+      "e": "obj",
+      "k": "jet",
+      "x": 560,
+      "y": 560,
+      "w": 420,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "check",
+      "x": 1340,
+      "y": 560,
+      "w": 620,
+      "to": "Netflix",
+      "amt": "$50,000,000",
+      "at": 0.45,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "According to Netflix co-founder Marc Randolph, Blockbuster's CEO was struggling not to laugh.",
+   "spec": {
+    "type": "beat",
+    "scene": "bb",
+    "els": [
+     {
+      "e": "obj",
+      "k": "samyell",
+      "x": 520,
+      "y": 620,
+      "w": 420,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "letter",
+      "x": 1340,
+      "y": 320,
+      "w": 680,
+      "head": "DALLAS · 2000",
+      "body": "Blockbuster's CEO was “struggling not to laugh.” — Marc Randolph",
+      "at": 0.1,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "The answer was no. Ten years later, Blockbuster filed for bankruptcy.",
+   "spec": {
+    "type": "beat",
+    "scene": "bb",
+    "els": [
+     {
+      "e": "deal",
+      "x": 960,
+      "y": 420,
+      "press": 0.2,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "store",
+      "x": 760,
+      "y": 790,
+      "w": 440,
+      "closed": true,
+      "at": 0.55,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "stamp",
+      "txt": "BANKRUPT 2010",
+      "x": 1340,
+      "y": 800,
+      "at": 0.85,
+      "col": "red",
+      "sz": 70,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Today, just one Blockbuster store is left, in Bend, Oregon. And Netflix is worth roughly two hundred fifty billion dollars.",
+   "spec": {
+    "type": "beat",
+    "scene": "bb",
+    "els": [
+     {
+      "e": "pill",
+      "txt": "📍 last store: Bend, Oregon",
+      "x": 960,
+      "y": 280,
+      "size": 46,
+      "at": 0.05,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "thennow",
+      "then": "$50M",
+      "now": "$250 BILLION",
+      "at": 0.2,
+      "end": 0.85,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Lesson three: the small idea you laugh at today might be the one that replaces you.",
+   "spec": {
+    "type": "beat",
+    "scene": "bb",
+    "els": [
+     {
+      "e": "obj",
+      "k": "samthink",
+      "x": 520,
+      "y": 620,
+      "w": 460,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "card",
+      "x": 1300,
+      "y": 380,
+      "w": 760,
+      "big": "Lesson #3",
+      "small": "The small idea you laugh at might replace you.",
+      "at": 0.2,
+      "col": "gold",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Number three. Sunnyvale, California, February twenty oh-eight.",
+   "spec": {
+    "type": "map",
+    "cam": [
+     -98,
+     39,
+     1.0
+    ],
+    "cam2": [
+     -122.04,
+     37.37,
+     8
+    ],
+    "chap": 3,
+    "chapsub": "THE $44.6 BILLION NO",
+    "pins": [
+     {
+      "at": [
+       -122.04,
+       37.37
+      ],
+      "label": "Yahoo",
+      "col": "gold",
+      "delay": 0.4
+     },
+     {
+      "at": [
+       -122.12,
+       47.67
+      ],
+      "label": "Microsoft",
+      "col": "red",
+      "delay": 0.6
+     }
+    ]
+   }
+  },
+  {
+   "text": "Microsoft wanted to catch up with Google in search. So it made Yahoo an offer of forty-four point six billion dollars.",
+   "spec": {
+    "type": "beat",
+    "scene": "yahoo",
+    "els": [
+     {
+      "e": "search",
+      "x": 960,
+      "y": 300,
+      "w": 1100,
+      "q": "how to catch up with google",
+      "at": 0,
+      "end": 0.45,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "check",
+      "x": 960,
+      "y": 680,
+      "w": 760,
+      "to": "Yahoo",
+      "amt": "$44,600,000,000",
+      "at": 0.5,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "sky",
+    "mood": "tense"
+   }
+  },
+  {
+   "text": "Yahoo's board said the offer substantially undervalued the company. Even when Microsoft raised it, Yahoo still wanted more.",
+   "spec": {
+    "type": "beat",
+    "scene": "yahoo",
+    "els": [
+     {
+      "e": "deal",
+      "x": 960,
+      "y": 560,
+      "press": 0.3,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "“substantially undervalues Yahoo”",
+      "x": 960,
+      "y": 300,
+      "size": 46,
+      "at": 0.05,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "A few months later, Microsoft walked away.",
+   "spec": {
+    "type": "beat",
+    "scene": "yahoo",
+    "els": [
+     {
+      "e": "obj",
+      "k": "jet",
+      "x": 960,
+      "y": 560,
+      "w": 380,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "👋 Microsoft withdraws",
+      "x": 960,
+      "y": 300,
+      "size": 50,
+      "at": 0.3,
+      "bg": "red",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Then the financial crisis hit, Google kept growing, and Yahoo slowly faded.",
+   "spec": {
+    "type": "beat",
+    "scene": "yahoo",
+    "els": [
+     {
+      "e": "chart",
+      "kind": "crash",
+      "x": 300,
+      "y": 300,
+      "w": 1320,
+      "h": 520,
+      "at": 0,
+      "end": 0.95,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "In twenty seventeen, Verizon bought Yahoo's main business for about four and a half billion dollars. Roughly a tenth of Microsoft's offer.",
+   "spec": {
+    "type": "beat",
+    "scene": "yahoo",
+    "els": [
+     {
+      "e": "bars",
+      "x": 380,
+      "y": 360,
+      "w": 1100,
+      "end": 0.8,
+      "rows": [
+       [
+        "Microsoft's offer (2008)",
+        44.6,
+        "green"
+       ],
+       [
+        "Verizon deal (2017)",
+        4.5,
+        "red"
+       ]
+      ],
+      "at": 0.1,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "≈ 1/10",
+      "x": 1580,
+      "y": 720,
+      "size": 60,
+      "at": 0.8,
+      "bg": "red",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "cut": true
+   }
+  },
+  {
+   "text": "Lesson four: holding out for a better offer only works if you keep getting stronger.",
+   "spec": {
+    "type": "beat",
+    "scene": "yahoo",
+    "els": [
+     {
+      "e": "obj",
+      "k": "samsad",
+      "x": 520,
+      "y": 620,
+      "w": 460,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "card",
+      "x": 1300,
+      "y": 380,
+      "w": 760,
+      "big": "Lesson #4",
+      "small": "Holding out only works if you keep getting stronger.",
+      "at": 0.2,
+      "col": "gold",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Number two is the twist. Palo Alto, twenty oh-six.",
+   "spec": {
+    "type": "map",
+    "cam": [
+     -98,
+     39,
+     1.0
+    ],
+    "cam2": [
+     -122.14,
+     37.44,
+     8
+    ],
+    "chap": 2,
+    "chapsub": "THE NO THAT WAS RIGHT",
+    "pins": [
+     {
+      "at": [
+       -122.14,
+       37.44
+      ],
+      "label": "Facebook",
+      "col": "green",
+      "delay": 0.45
+     }
+    ]
+   }
+  },
+  {
+   "text": "Facebook was two years old. Yahoo offered to buy it, for one billion dollars.",
+   "spec": {
+    "type": "beat",
+    "scene": "fb",
+    "els": [
+     {
+      "e": "obj",
+      "k": "laptop",
+      "x": 560,
+      "y": 600,
+      "w": 460,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "check",
+      "x": 1340,
+      "y": 560,
+      "w": 640,
+      "to": "Facebook",
+      "amt": "$1,000,000,000",
+      "at": 0.4,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "sky",
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "Its founder, Mark Zuckerberg, was twenty-two. One billion dollars, at twenty-two.",
+   "spec": {
+    "type": "beat",
+    "scene": "fb",
+    "els": [
+     {
+      "e": "card",
+      "x": 1340,
+      "y": 320,
+      "w": 620,
+      "big": "Mark Zuckerberg",
+      "small": "founder · age 22",
+      "at": 0.05,
+      "col": "ink",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "tx",
+      "txt": "$1 BILLION",
+      "x": 1340,
+      "y": 620,
+      "size": 110,
+      "at": 0.45,
+      "col": "green",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "obj",
+      "k": "samthink",
+      "x": 520,
+      "y": 620,
+      "w": 400,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "He said no. According to the book An Ugly Truth, he told his advisers he wouldn't know what to do with the money, and would probably just build another Facebook.",
+   "spec": {
+    "type": "beat",
+    "scene": "fb",
+    "els": [
+     {
+      "e": "deal",
+      "x": 960,
+      "y": 360,
+      "press": 0.15,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "letter",
+      "x": 960,
+      "y": 640,
+      "w": 900,
+      "head": "ACCORDING TO “AN UGLY TRUTH”",
+      "body": "He wouldn't know what to do with the money – he'd probably just build another Facebook.",
+      "at": 0.45,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Many people in the company thought he was crazy. Zuckerberg later said that after he turned it down, huge numbers of people quit.",
+   "spec": {
+    "type": "beat",
+    "scene": "fb",
+    "els": [
+     {
+      "e": "people",
+      "x": 960,
+      "y": 700,
+      "n": 10,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "🚪 many quit",
+      "x": 960,
+      "y": 340,
+      "size": 56,
+      "at": 0.5,
+      "bg": "red",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Today, Facebook's parent company Meta is worth around one point six trillion dollars.",
+   "spec": {
+    "type": "beat",
+    "scene": "fb",
+    "els": [
+     {
+      "e": "thennow",
+      "then": "$1B",
+      "now": "$1.6 TRILLION",
+      "at": 0.2,
+      "end": 0.85,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "So saying no isn't always the mistake. It depends on whether you believe in what you're building, and whether you're right.",
+   "spec": {
+    "type": "beat",
+    "scene": "fb",
+    "els": [
+     {
+      "e": "obj",
+      "k": "samhappy",
+      "x": 520,
+      "y": 620,
+      "w": 460,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "card",
+      "x": 1300,
+      "y": 380,
+      "w": 760,
+      "big": "Lesson #5",
+      "small": "A no is only right if you believe in it – and you're right.",
+      "at": 0.3,
+      "col": "gold",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "And number one. Silicon Valley, early nineteen ninety-nine.",
+   "spec": {
+    "type": "map",
+    "cam": [
+     -98,
+     39,
+     1.0
+    ],
+    "cam2": [
+     -122.2,
+     37.45,
+     8
+    ],
+    "chap": 1,
+    "chapsub": "THE MOST EXPENSIVE NO",
+    "pins": [
+     {
+      "at": [
+       -122.24,
+       37.49
+      ],
+      "label": "Excite",
+      "col": "gold",
+      "delay": 0.4
+     },
+     {
+      "at": [
+       -122.14,
+       37.43
+      ],
+      "label": "Google",
+      "col": "green",
+      "delay": 0.6,
+      "dy": 1
+     }
+    ]
+   }
+  },
+  {
+   "text": "Back then, the hot search engine wasn't Google. It was Excite, a big, popular web portal.",
+   "spec": {
+    "type": "beat",
+    "scene": "exc",
+    "els": [
+     {
+      "e": "search",
+      "x": 960,
+      "y": 300,
+      "w": 1100,
+      "q": "best search engine 1999",
+      "at": 0,
+      "end": 0.4,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "card",
+      "x": 960,
+      "y": 520,
+      "w": 640,
+      "big": "Excite",
+      "small": "one of the web's biggest portals",
+      "at": 0.5,
+      "col": "ink",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "sky",
+    "mood": "tense"
+   }
+  },
+  {
+   "text": "Google was a tiny startup, run by two Stanford students, Larry Page and Sergey Brin. And they were ready to sell.",
+   "spec": {
+    "type": "beat",
+    "scene": "exc",
+    "els": [
+     {
+      "e": "obj",
+      "k": "laptop",
+      "x": 560,
+      "y": 600,
+      "w": 420,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "card",
+      "x": 1340,
+      "y": 330,
+      "w": 640,
+      "big": "Larry Page & Sergey Brin",
+      "small": "founders of a tiny startup",
+      "at": 0.3,
+      "col": "ink",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "🏷️ for sale",
+      "x": 1340,
+      "y": 640,
+      "size": 56,
+      "at": 0.75,
+      "bg": "red",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "According to investor Vinod Khosla, the founders asked one million dollars. Excite's CEO, George Bell, said no.",
+   "spec": {
+    "type": "beat",
+    "scene": "exc",
+    "els": [
+     {
+      "e": "check",
+      "x": 960,
+      "y": 560,
+      "w": 720,
+      "to": "Google",
+      "amt": "$1,000,000",
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "stamp",
+      "txt": "NO",
+      "x": 1260,
+      "y": 520,
+      "at": 0.8,
+      "col": "red",
+      "sz": 90,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "So Khosla talked the price down. Seven hundred fifty thousand dollars.",
+   "spec": {
+    "type": "beat",
+    "scene": "exc",
+    "els": [
+     {
+      "e": "check",
+      "x": 960,
+      "y": 560,
+      "w": 720,
+      "to": "Google",
+      "amt": "$750,000",
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "count",
+      "x": 960,
+      "y": 860,
+      "to": 750000,
+      "at": 0.3,
+      "end": 0.85,
+      "from_": 1000000,
+      "pre": "$",
+      "size": 90,
+      "col": "gold",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "And George Bell still said no.",
+   "spec": {
+    "type": "beat",
+    "scene": "exc",
+    "els": [
+     {
+      "e": "deal",
+      "x": 960,
+      "y": 560,
+      "press": 0.3,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "cut": true
+   }
+  },
+  {
+   "text": "Two years later, Excite's parent company went bankrupt.",
+   "spec": {
+    "type": "beat",
+    "scene": "exc",
+    "els": [
+     {
+      "e": "chart",
+      "kind": "crash",
+      "x": 300,
+      "y": 300,
+      "w": 1320,
+      "h": 520,
+      "at": 0,
+      "end": 0.7,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "stamp",
+      "txt": "BANKRUPT 2001",
+      "x": 960,
+      "y": 560,
+      "at": 0.7,
+      "col": "red",
+      "sz": 100,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "And Google became one of the most valuable companies on Earth. Today, its parent company Alphabet is worth around three point six trillion dollars.",
+   "spec": {
+    "type": "beat",
+    "scene": "exc",
+    "els": [
+     {
+      "e": "thennow",
+      "then": "$750K",
+      "now": "$3.6 TRILLION",
+      "at": 0.05,
+      "end": 0.75,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "That's almost five million times the price Excite turned down.",
+   "spec": {
+    "type": "beat",
+    "scene": "exc",
+    "els": [
+     {
+      "e": "count",
+      "x": 960,
+      "y": 460,
+      "to": 5000000,
+      "at": 0.05,
+      "end": 0.6,
+      "from_": 1000,
+      "suf": "×",
+      "size": 160,
+      "col": "gold",
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "what $750,000 turned into",
+      "x": 960,
+      "y": 640,
+      "size": 46,
+      "at": 0.6,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "So what do all these stories have in common? Every no looked smart at the time.",
+   "spec": {
+    "type": "beat",
+    "scene": "outro",
+    "els": [
+     {
+      "e": "obj",
+      "k": "samthink",
+      "x": 480,
+      "y": 620,
+      "w": 480,
+      "at": 0,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "tx",
+      "txt": "every NO looked smart at the time",
+      "x": 1260,
+      "y": 420,
+      "size": 62,
+      "at": 0.2,
+      "col": "gold",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ],
+    "bg": "sky",
+    "mood": "calm"
+   }
+  },
+  {
+   "text": "Guitar bands, digital cameras, DVDs by mail, a website for students, and a tiny search engine.",
+   "spec": {
+    "type": "beat",
+    "scene": "outro",
+    "els": [
+     {
+      "e": "vinyl",
+      "x": 300,
+      "y": 480,
+      "r": 120,
+      "label": "",
+      "at": 0.02,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "camera",
+      "x": 640,
+      "y": 480,
+      "w": 260,
+      "at": 0.18,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "env",
+      "x": 980,
+      "y": 480,
+      "w": 280,
+      "at": 0.38,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "obj",
+      "k": "laptop",
+      "x": 1310,
+      "y": 480,
+      "w": 260,
+      "at": 0.6,
+      "out": [
+       1,
+       0
+      ]
+     },
+     {
+      "e": "search",
+      "x": 960,
+      "y": 780,
+      "w": 900,
+      "q": "google",
+      "at": 0.8,
+      "end": 0.98,
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "The people who said no weren't stupid. They just measured the future by the present.",
+   "spec": {
+    "type": "beat",
+    "scene": "outro",
+    "els": [
+     {
+      "e": "card",
+      "x": 960,
+      "y": 380,
+      "w": 900,
+      "big": "They measured the future by the present.",
+      "small": "that's the real mistake",
+      "at": 0.05,
+      "col": "ink",
+      "out": [
+       1,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "text": "Which no would you have said? Tell me in the comments. And if you like true money stories, subscribe.",
+   "spec": {
+    "type": "beat",
+    "scene": "outro",
+    "els": [
+     {
+      "e": "obj",
+      "k": "samhappy",
+      "x": 560,
+      "y": 600,
+      "w": 560,
+      "at": 0,
+      "out": [
+       99,
+       0
+      ]
+     },
+     {
+      "e": "card",
+      "x": 1300,
+      "y": 300,
+      "w": 720,
+      "big": "Which no would you have said?",
+      "small": "tell me in the comments 👇",
+      "at": 0.05,
+      "col": "ink",
+      "out": [
+       99,
+       0
+      ]
+     },
+     {
+      "e": "pill",
+      "txt": "🔔 Subscribe for more true money stories",
+      "x": 1300,
+      "y": 640,
+      "size": 44,
+      "at": 0.55,
+      "bg": "red",
+      "out": [
+       99,
+       0
+      ]
+     }
+    ]
+   }
+  }
+ ]
+}
