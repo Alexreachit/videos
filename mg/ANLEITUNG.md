@@ -218,3 +218,5 @@ Rendern auf GitHub: Projektname in `mg/render_queue.txt` eintragen und pushen (W
 - Hook Sek. 0: Figur steht schon mitten in der Szene und handelt (rollt die Bombe), erster Satz startet sofort.
 - Umsetzung bei uns: gl3d-Toon-Welt (wie Roundhead Island/Ponzi) + MG_SAM-SVG-Figuren (samrig, Kostüme über sw/pa/hat) projiziert in die 3D-Szene,
   Story-Erzählung mit Figuren in Aktion, viele Einstellungen, Untertitel 1–2 Wörter (maxWords 2) in der Mitte. Erster Test: ys_bridge (Brooklyn-Bridge-Betrug).
+- Langvideo im neuen Stil (yt_heists18, 2026-11-19): Vorlage mg/yt_heists18 (p1_base.js = Sets/Licht-Presets/Figuren-Looks/Shot-Registry SHOT[name]={set,light,cam,upd,figs,ui,sfx}/Kapitelkarten; je Fall eigenes Set-Modul). 
+  HTML-Overlays (z. B. Gitterstäbe) nie mit z-index über die Untertitel legen; Sets ohne Boden prüfen (Wald!); Labels erst nach der Kapitelkarte (Start + 2,7 s) einblenden.
