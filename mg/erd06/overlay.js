@@ -16,7 +16,7 @@ async function setBg(t) {
 function tagAt(p, html, s) { if (!p || s <= .01) return ''; return `<div style="position:absolute;left:${p[0]}px;top:${p[1]}px;transform:translate(-50%,-100%) scale(${s});transform-origin:50% 100%">${html}</div>` }
 function dayTag(t) {
   const s = pop(t, .05, .4) * fade(t, Lt(1).start - .2, Lt(1).start + .1); if (s <= .01) return '';
-  return `<div class="glass" style="left:50%;top:330px;transform:translateX(-50%) scale(${s});padding:18px 44px 22px;text-align:center">
+  return `<div class="glass" style="left:50%;top:430px;transform:translateX(-50%) scale(${s});padding:18px 44px 22px;text-align:center">
     <div style="font-size:40px;letter-spacing:6px;color:${ORANGE}">BIS ZUM ERDKERN</div><div style="font-size:128px;line-height:1">TAG 4</div></div>`;
 }
 // Arbeiter- und Tiefen-Anzeige
@@ -75,7 +75,7 @@ function blakeShovel(t) {
 function lenaCard(t) {
   const t0 = TT.up + .05, t1 = TT.space - .3, s = pop(t, t0, .4) * fade(t, t1, t1 + .2); if (s <= .01) return '';
   return `<div class="glass" style="left:50%;top:190px;width:880px;transform:translateX(-50%) scale(${s});padding:20px 26px;display:flex;align-items:center;gap:22px;border-color:${PINK}">
-    <div style="width:96px;height:96px;flex:none;border-radius:50%;background:rgba(255,79,179,.2);font:900 56px/96px IB,Arial;text-align:center">⛑️</div>
+    <div style="width:96px;height:96px;flex:none;border-radius:50%;background:rgba(255,79,179,.2);font:900 56px/96px IB,Arial;text-align:center">🩷</div>
     <div><div class="sub">Top-Kommentar von <b style="color:${PINK}">Lena</b></div><div style="font:800 46px P,Arial">Wunsch: pinker Helm ✔</div></div></div>`;
 }
 function workerTags(t) {
