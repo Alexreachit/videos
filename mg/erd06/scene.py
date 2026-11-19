@@ -193,9 +193,9 @@ def cyl_between(name, m, r=.05):
     o.data.transform(Matrix.Translation((0, 0, .5)))            # Ursprung an einem Ende, Laenge 1 in +Z
     o.rotation_mode = 'QUATERNION'; return o
 def diamond_mat():
-    m, nt, b = newmat("diamond"); b.inputs["Base Color"].default_value = hexc("#e8f8ff"); b.inputs["Roughness"].default_value = .0
+    m, nt, b = newmat("diamond"); b.inputs["Base Color"].default_value = hexc("#a8ecff"); b.inputs["Roughness"].default_value = .0
     b.inputs["Transmission Weight"].default_value = 1.; b.inputs["IOR"].default_value = 2.42
-    b.inputs["Emission Color"].default_value = hexc("#9fe6ff"); b.inputs["Emission Strength"].default_value = 2.5
+    b.inputs["Emission Color"].default_value = hexc("#2fc4ff"); b.inputs["Emission Strength"].default_value = .9
     return m
 DIAM = diamond_mat()
 def build_worker(name, ghost=False, shirt=None, blade=None, hat=None):
@@ -271,9 +271,10 @@ ground_vis = lambda t: t < SH.T_SPACE or t >= SH.T_BACK
 for f in range(SH.NF):
     t = f / FPS; gv = ground_vis(t)
     chef_active = gv and not (SH.T_DESC0 - .5 < t < SH.T_UP)
-    pose_worker(LE, t, .3, gv, False, f, gv)
+    le_vis = gv and t >= SH.T_UP - .05                     # Lena erscheint erst mit ihrem pinken Helm
+    pose_worker(LE, t, .3, le_vis, False, f, le_vis)
     for o in LE["parts"]:
-        if o.type == 'MESH' and o is not LE.get("clod"): o.hide_render = not gv; o.keyframe_insert("hide_render", frame=f)
+        if o.type == 'MESH' and o is not LE.get("clod"): o.hide_render = not le_vis; o.keyframe_insert("hide_render", frame=f)
     pose_worker(CHEF, t, 0., chef_active, False, f, gv)
     gh_vis = gv
     pose_worker(GH, t, .55, gh_vis, True, f, gh_vis)
