@@ -407,3 +407,15 @@
 - Alex: Shorts UND Videos mehr in Richtung https://youtube.com/shorts/R-mWVMM-LAs animieren ("probiere das Beste draus zu machen").
 - Chrome war beim Eintreffen nicht erreichbar -> Referenz noch nicht angesehen. ERSTER SCHRITT im nächsten Lauf mit Chrome: Referenz analysieren (siehe ANLEITUNG, Abschnitt "NEUE ANIMATIONS-REFERENZ"), dann den Short für 21.11. bereits in diesem Stil bauen.
 - Bereits geplante Videos (Louvre 19.11., yt_cons16 19.11., yt_fortune17 22.11.) bleiben unverändert.
+
+## Lauf 2026-11-19 ~09:20 MEZ (Routine, Automatik)
+- Chrome erreichbar. 11 Abos (unverändert). 48-h-Echtzeit: 48 Aufrufe (Pizza 31). 28 T (21.10.–17.11.): 7.951 Aufrufe, 24,6 h, +7 Abos; Traffic 28 T: Suche 87 %, Videovorschläge 6 %.
+- Shorts: Pizza Eslb30E1uUk 31 nach ~1 T 14 h, Ø 54 % Wiedergabedauer, 0 Likes -> Flop bestätigt | Blockbuster 582 | Hushpuppi 3 | Rest unverändert. Louvre ZLKwvpFuD24 heute 19:00 geplant (geprüft).
+- Langform: Ponzi 20 | Mistakes 19 | Never-age 2 | Supermarkt 2 | Bank 1.201. yt_cons16 wWp3nB7dgJE heute 19:00 + yt_fortune17 aY8cdCQgjL8 22.11. geplant (geprüft).
+- REFERENZ R-mWVMM-LAs analysiert (12 Standbilder): 2D-Rundkopf-Strichfiguren in 3D-Spielwelt, erzählte Story, viele Einstellungen, Untertitel 1–2 Wörter -> ANLEITUNG "Stil R-mWVMM-LAs".
+- Erkenntnis: unser Sam/samrig + gl3d-Toon-Welt passt fast 1:1 zu dieser Machart -> ab jetzt Shorts als kleine Figuren-Geschichten in 3D statt UI-Karten/Zahlen.
+- SHORT IN ARBEIT: mg/ys_bridge "He Sold the Brooklyn Bridge" (Hook "Why you should never buy a bridge from a stranger"), erster Test im neuen Stil:
+  Brooklyn Bridge in 3D (Türme, Kabel, Skyline, Abendlicht), Betrüger (Melone, Krawatte), Sam als Neuankömmling, Polizist; Szenen: Hero mit FOR-SALE-Schild, Totale + SOLD-Stempel,
+  Hafen mit Dampfer + Menge, Urkunde-Close-up (FAKE), Maut-Hologramm + Pferdewagen, Geldübergabe ($1,000 + $4,000), Sam baut Mauthäuschen -> Polizist pfeift -> Häuschen kippt, Sing-Sing-Zelle (LIFE), Ende Sam mit Schild + YES/NO.
+  Fakten: Wikipedia George C. Parker (gefälschte Urkunden, Einwanderer, Mautstellen + Polizei laut NYT 2005, 1928 lebenslang Sing Sing), CrimeReads/Dean Jobb 2024 ("over and over", $1,000 + $4,000, Maut-Pitch), Brownstoner 2016. Identität umstritten -> nur "a con man".
+  Fake-TTS-Standbilder angesehen und korrigiert (dunkle Fahrbahn = Umriss-Hülle, Kabel vor der Kamera -> Kamera in Brückenachse, Figuren aus dem Bild, Kiste vor Figuren, TWEEET abgeschnitten). Render mg-chunks Run 44489142698.
