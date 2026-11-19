@@ -20,6 +20,7 @@ const LIGHT = {
   indoorWarm: { sun: [.3, .85, .45], sunCol: '#ffe6c0', sky: '#f3dcc0', gnd: '#7a5a44', fog: '#4a3a34', fogN: 60, fogF: 200, shCol: '#8a6a8a', bg: '#3a2c2a' },
   indoorDark: { sun: [.3, .85, .45], sunCol: '#b6c0e6', sky: '#6a74a0', gnd: '#2a2c40', fog: '#22263a', fogN: 40, fogF: 140, shCol: '#454a80', bg: '#1c2033' },
   day: { sun: [.55, .75, .35], sunCol: '#fff1d6', sky: '#cfe9ff', gnd: '#b9a27a', fog: '#cfe6f6', fogN: 70, fogF: 260, shCol: '#8c9be0', bg: 'linear-gradient(#7fb6ea 0%,#bfe0f8 55%,#e8f3fb 100%)' },
+  vault: { sun: [.3, .85, .45], sunCol: '#eef2ff', sky: '#c4cce6', gnd: '#5a5e70', fog: '#3a4058', fogN: 50, fogF: 160, shCol: '#7a84b8', bg: '#2a3044' },
   dusk: { sun: [.62, .45, .4], sunCol: '#ffd9a8', sky: '#f2c9a0', gnd: '#8a7a66', fog: '#e8c4a4', fogN: 60, fogF: 240, shCol: '#7f86c8', bg: 'linear-gradient(#5a7fc6 0%,#b9b6d6 40%,#f6cfa0 70%,#f3b27a 100%)' },
 };
 function setLight(k) { const L = LIGHT[k]; w.sun = G.v.norm(L.sun); w.sunCol = G.hex(L.sunCol); w.sky = G.hex(L.sky); w.gnd = G.hex(L.gnd); w.fog = G.hex(L.fog); w.fogN = L.fogN; w.fogF = L.fogF; w.shCol = G.hex(L.shCol); $('bg').style.background = L.bg }
