@@ -419,3 +419,11 @@
   Hafen mit Dampfer + Menge, Urkunde-Close-up (FAKE), Maut-Hologramm + Pferdewagen, Geldübergabe ($1,000 + $4,000), Sam baut Mauthäuschen -> Polizist pfeift -> Häuschen kippt, Sing-Sing-Zelle (LIFE), Ende Sam mit Schild + YES/NO.
   Fakten: Wikipedia George C. Parker (gefälschte Urkunden, Einwanderer, Mautstellen + Polizei laut NYT 2005, 1928 lebenslang Sing Sing), CrimeReads/Dean Jobb 2024 ("over and over", $1,000 + $4,000, Maut-Pitch), Brownstoner 2016. Identität umstritten -> nur "a con man".
   Fake-TTS-Standbilder angesehen und korrigiert (dunkle Fahrbahn = Umriss-Hülle, Kabel vor der Kamera -> Kamera in Brückenachse, Figuren aus dem Bild, Kiste vor Figuren, TWEEET abgeschnitten). Render mg-chunks Run 44489142698.
+  Echte Renders: v1 Run 44489142698 -> Sichtprüfung (Kontaktblätter 1 Bild/s, alle 31 s angesehen): Figuren/UI der nächsten Zeile erschienen 0,25 s zu früh in der alten Kamera (MG.cur-Vorlauf),
+  SOLD-Stempel zu spät -> v2 Run 44492338493 (2 Bilder/s angesehen): Gitterstab über dem Gefangenen, Figur über Untertitel -> v3 Run (ca51ef8) nachgeprüft ok. 31,3 s, Ø -20,6 dB / max -3,7 dB.
+  HOCHGELADEN + GEPLANT: "He Sold the Brooklyn Bridge – Over and Over Again 🌉" ID CIKXsaaE21s, öffentlich 21.11.2026 19:00 (GMT+1), nicht für Kinder, Beschreibung mit Quellen + #brooklynbridge #scam #history #newyork #shorts. Upload 2-Pass 2200k (9,1 MB).
+- NÄCHSTE TERMINE: Short fällig 23.11. (Ideen: Fyre Festival | Mt. Gox nur mit greifbarem Objekt | "The man who sold the Statue of Liberty"? nur belegt | Great Emu War? kein Geld). Langvideo fällig 25.11. – noch NICHT begonnen -> im Lauf 20./21.11. starten,
+  ebenfalls im neuen 3D+2D-Figurenstil (Idee: "Biggest Heists in History" mit Figuren-Szenen; Louvre/Brücken-Sets wiederverwendbar).
+- Technik-Lehren ys_bridge (für alle 3D+2D-Videos): große flache Boxen (Fahrbahn, Pier) mit outline:false (sonst färbt die Umriss-Hülle sie dunkel); Hochformat = schmaler Blick -> Figuren max. ±1,2 Einheiten bei 5 m Abstand;
+  Figuren liegen immer VOR der 3D-Welt -> Objekte nie zwischen Kamera und Figur; Zeilenindex ohne Vorlauf (t >= start) wenn Kamera hart schneidet; #fx/#ui per z-index über die Figuren legen.
+- Auswertung nächster Lauf: Louvre-Short + yt_cons16 (live heute 19:00); ab 22.11. Brücken-Short (neuer Stil) vs. Louvre/Blockbuster.
