@@ -427,3 +427,15 @@
 - Technik-Lehren ys_bridge (für alle 3D+2D-Videos): große flache Boxen (Fahrbahn, Pier) mit outline:false (sonst färbt die Umriss-Hülle sie dunkel); Hochformat = schmaler Blick -> Figuren max. ±1,2 Einheiten bei 5 m Abstand;
   Figuren liegen immer VOR der 3D-Welt -> Objekte nie zwischen Kamera und Figur; Zeilenindex ohne Vorlauf (t >= start) wenn Kamera hart schneidet; #fx/#ui per z-index über die Figuren legen.
 - Auswertung nächster Lauf: Louvre-Short + yt_cons16 (live heute 19:00); ab 22.11. Brücken-Short (neuer Stil) vs. Louvre/Blockbuster.
+
+## Lauf 2026-11-19 ~16:50–18:00 MEZ (Routine, Automatik)
+- Chrome erreichbar. Zahlen seit Morgen unverändert (Pizza 32, Blockbuster 582, Escobar 29, PayPal 36, Hushpuppi 3; Langform: Ponzi 20, Mistakes 19, Never-age 2, Supermarkt 2, Bank 1.201).
+  Geplant und geprüft: Louvre ZLKwvpFuD24 + yt_cons16 wWp3nB7dgJE heute 19:00, Brücke CIKXsaaE21s 21.11., yt_fortune17 aY8cdCQgjL8 22.11.
+- Erkenntnis: nichts Neues (Louvre/Con-Artists erst ab 19:00 live) -> Auswertung im nächsten Lauf.
+- Short-Takt: nichts fällig (Brücke 21.11., nächster Short fällig 23.11.).
+- LANGVIDEO IN ARBEIT: mg/yt_heists18 "6 Heists So Bold They Look Fake (One Is Still Unsolved)" (fällig 25.11. 19:00), erstes Langvideo im neuen 3D+2D-Figurenstil (R-mWVMM-LAs).
+  Countdown: #6 Great Train Robbery 1963 | #5 Mona Lisa 1911 (+ Louvre 2025) | #4 Hatton Garden 2015 | #3 Dresdner Grünes Gewölbe 2019 | #2 Antwerpen 2003 | #1 Gardner Museum 1990 (Hook ab Sek. 0: leere Rahmen, "$500 MILLION OF ART / STOLEN IN 80 MINUTES").
+  Skript fertig (62 Zeilen, 981 Wörter, Fake-TTS 6:10), alle Fakten mit Quellen in mk_project.py (Wikipedia-Artikel je Fall, Guinness 2026 + A&E zu Gardner). Nicht belegt und deshalb NICHT im Skript: "Schrank", "28 Stunden" (Mona Lisa), Box-Zahl Hatton Garden.
+  Szene modular: p0_shell.html + p1_base.js (Sets/Licht/Figuren/Shot-Registry/Kapitelkarten) + p2_gardner.js (Museum außen/innen, Rahmen, Countdown-Wand) + p3_train.js (Gleis, Signal mit Handschuh/Batterie, Zug, Postwagen, Lkw, Farm mit Brettspiel+Geld, Gefängnismauer) + p9_draw.js; build.sh baut scene.html.
+  FERTIG gebaut + per Fake-TTS-Standbildern angesehen/korrigiert: Hook (Zeilen 0–3) und Kapitel #6 (Zeilen 4–13). Korrigiert: Zug außerhalb des Bildes -> Kamera folgt dem Zug; Kamera im Lok-Inneren; Handschuh zu früh; Lkw immer sichtbar; Dieb schwebte -> Leiter; Kamera im Busch; Geldbündel zu groß.
+  OFFEN (nächste Läufe): Shots für #5 Mona Lisa (m_*), #4 Hatton (h_*), #3 Dresden (d_*), #2 Antwerpen (a_*), #1 Gardner (g_*, Set GAR vorhanden), Outro; Thumbnail (leerer Goldrahmen + "$500M STILL MISSING"); Render über mg-chunks; Sichtprüfung; Upload + Planen 25.11. 19:00.

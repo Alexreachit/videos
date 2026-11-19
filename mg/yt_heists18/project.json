@@ -1,0 +1,473 @@
+{
+ "title": "YouTube 18: 6 Heists So Bold They Look Fake (One Is Still Unsolved)",
+ "_sources": "Sources (checked 2026-11-19):\n- Guinness World Records news 19 Mar 2026 \"Missing: Have you seen this painting? The greatest art robbery remains unsolved\": 18 Mar 1990,\n  two men dressed as police buzzed in, two guards tied up and taken to the basement, ~80 minutes (motion-sensor logs), 13 works incl. Vermeer\n  \"The Concert\" and Rembrandt \"Storm on the Sea of Galilee\", valued ~$500 million, reward $10,000,000, Dutch Room frames hang empty, never seen again.\n- A&E \"The Unsolved Heist at Isabella Stewart Gardner Museum\" (2025/2026): early hours 18 Mar 1990, fake officers claimed a disturbance, guard let\n  them in against policy, guards duct-taped/handcuffed in basement, left 2:45 a.m., 13 works, $10M reward, empty frames still hang,\n  FBI 2015 named two suspects (both dead), nothing recovered.\n- Wikipedia \"Antwerp diamond heist\": 15-16 Feb 2003, Leonardo Notarbartolo rented an office in the Antwerp Diamond Center (>2 years prep),\n  vault: combination lock, infrared heat detectors, seismic sensor, Doppler radar, magnetic field; hairspray on thermal sensor, polystyrene\n  shield, tape on light sensor; 109 of 189 boxes; >$100 million; trash dumped near E19 motorway, found by landowner next morning;\n  DNA from a partially eaten salami sandwich; Notarbartolo 10 years; most diamonds never recovered.\n- Wikipedia \"Vincenzo Peruggia\": 21 Aug 1911 (Monday, closed day), former Louvre worker, white smock, lifted it off the wall, removed frame,\n  a plumber let him out; discovered next day; Picasso questioned/Apollinaire arrested; hid it in a trunk in his apartment for two years;\n  12 Dec 1913 arrested in Florence after offering it to dealer Alfredo Geri (Uffizi director Poggi verified); served about seven months;\n  crowds came to stare at the empty space on the wall.\n- Smithsonian Magazine \"The Theft That Made the 'Mona Lisa' a Masterpiece\" (title -> \"many say the theft made it famous\").\n- Louvre 2025: ABC News timeline 21 Oct 2025 (about 7 minutes, truck with ladder) - see mg/ys_louvre.\n- Wikipedia \"Hatton Garden safe deposit burglary\": Easter weekend April 2015, down a lift shaft, Hilti drill through 50 cm vault wall,\n  alarm went off 3 Apr 00:21 but police did not respond; up to GBP 14 million; six elderly men, ringleader Brian Reader 76 at arrest;\n  caught via cars/CCTV, Flying Squad; sentences ~6-7 years; only GBP 4.3m recovered.\n- Wikipedia \"Dresden Green Vault burglary\": 25 Nov 2019 ~4 a.m. fire at a power box on Augustus Bridge cut street lights; window bars cut;\n  display case smashed with an axe; 21 pieces with >4,300 diamonds; at least EUR 113 million; Audi later found burned in an underground car park;\n  Dec 2022 31 items returned (Berlin), 16 May 2023 five members of the Remmo clan convicted; some pieces still missing (artnet 2023).\n- Wikipedia \"Great Train Robbery (1963)\" + \"Ronnie Biggs\": 8 Aug 1963 just after 3 a.m., Royal Mail train, glove over the green light +\n  battery for the red light, 15 men, driver Jack Mills hit over the head, GBP 2.6 million (~GBP 48-50 million today), Leatherslade Farm,\n  Monopoly with real money + fingerprints, sentences up to 30 years; Biggs escaped Wandsworth 1965 by rope ladder, ~36 years a fugitive,\n  returned 2001; bulk of the money never recovered.",
+ "size": [
+  1920,
+  1080
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+4%",
+ "lead": 0.3,
+ "gap": 0.42,
+ "tail": 3.0,
+ "crf": 21,
+ "music": {
+  "style": "suspense",
+  "bpm": 96,
+  "gain": 0.13,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.42,
+ "lines": [
+  {
+   "text": "Two police officers rang the bell of a museum in Boston, in the middle of the night. Eighty minutes later, half a billion dollars of art was gone.",
+   "spec": {
+    "shot": "g_hook_door",
+    "ui": "hook500"
+   }
+  },
+  {
+   "text": "Thirteen works, including a Rembrandt and a Vermeer. And to this day, not a single one has been found.",
+   "spec": {
+    "shot": "g_hook_frames",
+    "ui": "missing"
+   }
+  },
+  {
+   "text": "That's number one on this list. But first, five other heists so bold they almost look fake.",
+   "spec": {
+    "shot": "count_wall",
+    "ui": "list"
+   }
+  },
+  {
+   "text": "And watch closely. Because almost every one of these crews made one tiny mistake.",
+   "spec": {
+    "shot": "magnifier",
+    "ui": "mistake"
+   }
+  },
+  {
+   "text": "Number six. England, August 8th, 1963. Just after three in the morning, a Royal Mail train is rolling through the dark.",
+   "spec": {
+    "shot": "t_train_night",
+    "cut": true,
+    "mood": "tense",
+    "ui": "n6"
+   }
+  },
+  {
+   "text": "It's carrying sacks of used banknotes. Millions of them.",
+   "spec": {
+    "shot": "t_sacks",
+    "ui": "sacks"
+   }
+  },
+  {
+   "text": "Up ahead, a signal turns red. So the driver stops the train.",
+   "spec": {
+    "shot": "t_signal",
+    "ui": "red"
+   }
+  },
+  {
+   "text": "But the signal was a trick. The gang had covered the green light with a glove, and powered the red light with a battery.",
+   "spec": {
+    "shot": "t_glove",
+    "ui": "glove"
+   }
+  },
+  {
+   "text": "Fifteen men stormed the train. The driver, Jack Mills, was hit over the head.",
+   "spec": {
+    "shot": "t_storm",
+    "ui": "fifteen"
+   }
+  },
+  {
+   "text": "They unloaded more than two-and-a-half million pounds. Today, that's close to fifty million.",
+   "spec": {
+    "shot": "t_unload",
+    "ui": "gbp26"
+   }
+  },
+  {
+   "text": "Then they hid at a farmhouse. And while they waited, they played Monopoly. With the real money.",
+   "spec": {
+    "shot": "t_monopoly",
+    "ui": "monopoly"
+   }
+  },
+  {
+   "text": "That was the mistake. Police found the farm, and fingerprints all over the game.",
+   "spec": {
+    "shot": "t_prints",
+    "ui": "prints"
+   }
+  },
+  {
+   "text": "The leaders got thirty years in prison. One of them, Ronnie Biggs, escaped over the wall on a rope ladder, and stayed on the run for about thirty-six years.",
+   "spec": {
+    "shot": "t_biggs",
+    "ui": "yrs30"
+   }
+  },
+  {
+   "text": "And most of the money was never found.",
+   "spec": {
+    "shot": "t_empty",
+    "ui": "notfound"
+   }
+  },
+  {
+   "text": "Number five. Paris, August 21st, 1911. It's a Monday, and the Louvre is closed.",
+   "spec": {
+    "shot": "m_louvre",
+    "cut": true,
+    "mood": "calm",
+    "ui": "n5"
+   }
+  },
+  {
+   "text": "A man in a white worker's smock walks in through the staff entrance. Nobody looks twice. He used to work here.",
+   "spec": {
+    "shot": "m_smock",
+    "ui": "smock"
+   }
+  },
+  {
+   "text": "His name is Vincenzo Peruggia. He walks up to the Mona Lisa, lifts it off the wall, and takes it out of its frame.",
+   "spec": {
+    "shot": "m_lift",
+    "ui": "lift"
+   }
+  },
+  {
+   "text": "At a locked door, a plumber even lets him out, thinking he's staff.",
+   "spec": {
+    "shot": "m_plumber",
+    "ui": "plumber"
+   }
+  },
+  {
+   "text": "Nobody notices the painting is gone until the next day.",
+   "spec": {
+    "shot": "m_empty_wall",
+    "ui": "nextday"
+   }
+  },
+  {
+   "text": "Police even question Pablo Picasso. And crowds come to the Louvre just to stare at the empty space on the wall.",
+   "spec": {
+    "shot": "m_crowd",
+    "ui": "crowd"
+   }
+  },
+  {
+   "text": "For two years, the Mona Lisa sits in a trunk in Peruggia's apartment.",
+   "spec": {
+    "shot": "m_trunk",
+    "ui": "yrs2"
+   }
+  },
+  {
+   "text": "Then he takes it to Florence and offers it to an art dealer. The dealer calls in the museum director, and police arrest Peruggia at his hotel.",
+   "spec": {
+    "shot": "m_florence",
+    "ui": "arrest"
+   }
+  },
+  {
+   "text": "He served only about seven months. And many say the theft is what made the Mona Lisa the most famous painting in the world.",
+   "spec": {
+    "shot": "m_famous",
+    "ui": "famous"
+   }
+  },
+  {
+   "text": "And the Louvre? In 2025, thieves robbed it again. With a ladder truck, in about seven minutes.",
+   "spec": {
+    "shot": "m_louvre2025",
+    "ui": "l2025"
+   }
+  },
+  {
+   "text": "Number four. London, Easter weekend, 2015.",
+   "spec": {
+    "shot": "h_street",
+    "cut": true,
+    "mood": "tense",
+    "ui": "n4"
+   }
+  },
+  {
+   "text": "Hatton Garden is London's jewelry district. And under one building sits a vault full of safe deposit boxes.",
+   "spec": {
+    "shot": "h_vault",
+    "ui": "vault"
+   }
+  },
+  {
+   "text": "The thieves climb down an elevator shaft. Then they use an industrial drill to bore through a vault wall half a meter thick.",
+   "spec": {
+    "shot": "h_drill",
+    "ui": "wall50"
+   }
+  },
+  {
+   "text": "The alarm goes off. But no police come.",
+   "spec": {
+    "shot": "h_alarm",
+    "ui": "alarm"
+   }
+  },
+  {
+   "text": "They walk out with loot worth up to fourteen million pounds.",
+   "spec": {
+    "shot": "h_loot",
+    "ui": "gbp14"
+   }
+  },
+  {
+   "text": "And the gang? Mostly pensioners. Their ringleader was seventy-six years old.",
+   "spec": {
+    "shot": "h_grandpas",
+    "ui": "age76"
+   }
+  },
+  {
+   "text": "Their mistake: they used their own cars. Cameras picked them up, and the police tracked them for weeks.",
+   "spec": {
+    "shot": "h_cars",
+    "ui": "cars"
+   }
+  },
+  {
+   "text": "Most of them got six to seven years. And millions of pounds' worth of the loot is still missing.",
+   "spec": {
+    "shot": "h_prison",
+    "ui": "missing4"
+   }
+  },
+  {
+   "text": "Number three. Dresden, Germany, November 25th, 2019. Around four in the morning.",
+   "spec": {
+    "shot": "d_city",
+    "cut": true,
+    "ui": "n3"
+   }
+  },
+  {
+   "text": "A fire breaks out in a power box on a bridge. The streetlights go dark.",
+   "spec": {
+    "shot": "d_fire",
+    "ui": "dark"
+   }
+  },
+  {
+   "text": "Two men cut through the iron bars of a window and climb into the Green Vault, a royal treasure chamber from the 1700s.",
+   "spec": {
+    "shot": "d_window",
+    "ui": "window"
+   }
+  },
+  {
+   "text": "They smash a display case with an axe.",
+   "spec": {
+    "shot": "d_axe",
+    "ui": "axe"
+   }
+  },
+  {
+   "text": "And grab jewelry set with more than four thousand diamonds. Worth more than one hundred and thirteen million euros.",
+   "spec": {
+    "shot": "d_jewels",
+    "ui": "eur113"
+   }
+  },
+  {
+   "text": "Their getaway car was later found burned in an underground garage.",
+   "spec": {
+    "shot": "d_car",
+    "ui": "burned"
+   }
+  },
+  {
+   "text": "But police tracked down the gang, members of a Berlin crime family.",
+   "spec": {
+    "shot": "d_police",
+    "ui": "clan"
+   }
+  },
+  {
+   "text": "In 2022, most of the jewels came back as part of a deal. And in 2023, five men were convicted.",
+   "spec": {
+    "shot": "d_return",
+    "ui": "back"
+   }
+  },
+  {
+   "text": "But some pieces are still missing today.",
+   "spec": {
+    "shot": "d_missing",
+    "ui": "missing3"
+   }
+  },
+  {
+   "text": "Number two. Antwerp, Belgium. The diamond capital of the world. February 2003.",
+   "spec": {
+    "shot": "a_city",
+    "cut": true,
+    "mood": "tense",
+    "ui": "n2"
+   }
+  },
+  {
+   "text": "A man named Leonardo Notarbartolo rents an office in the Antwerp Diamond Center. For over two years, he plays the part of a diamond trader.",
+   "spec": {
+    "shot": "a_office",
+    "ui": "yrs2b"
+   }
+  },
+  {
+   "text": "Below the building sits a vault with a combination lock, heat sensors, a seismic sensor, radar, and a magnetic field.",
+   "spec": {
+    "shot": "a_vault",
+    "ui": "layers"
+   }
+  },
+  {
+   "text": "His crew beat them one by one. Hairspray on the heat sensor. A foam shield in front of the infrared. Tape over the light sensor.",
+   "spec": {
+    "shot": "a_beat",
+    "ui": "beat"
+   }
+  },
+  {
+   "text": "Over one weekend, they opened one hundred and nine of one hundred and eighty-nine safe deposit boxes.",
+   "spec": {
+    "shot": "a_boxes",
+    "ui": "boxes109"
+   }
+  },
+  {
+   "text": "The haul was worth more than one hundred million dollars. People called it the heist of the century.",
+   "spec": {
+    "shot": "a_haul",
+    "ui": "usd100"
+   }
+  },
+  {
+   "text": "Then, on the way out, they dumped their trash in a forest next to the highway.",
+   "spec": {
+    "shot": "a_forest",
+    "ui": "trash"
+   }
+  },
+  {
+   "text": "The landowner found it the next morning. Inside was a half-eaten salami sandwich.",
+   "spec": {
+    "shot": "a_sandwich",
+    "ui": "sandwich"
+   }
+  },
+  {
+   "text": "The DNA on it helped convict the gang. Notarbartolo got ten years.",
+   "spec": {
+    "shot": "a_dna",
+    "ui": "dna10"
+   }
+  },
+  {
+   "text": "But most of the diamonds were never found.",
+   "spec": {
+    "shot": "a_never",
+    "ui": "never2"
+   }
+  },
+  {
+   "text": "And number one. Boston, March 18th, 1990. The early hours of the morning.",
+   "spec": {
+    "shot": "g_street",
+    "cut": true,
+    "mood": "tense",
+    "ui": "n1"
+   }
+  },
+  {
+   "text": "Two men in police uniforms ring the bell at the Isabella Stewart Gardner Museum. They say they're responding to a disturbance.",
+   "spec": {
+    "shot": "g_bell",
+    "ui": "uniform"
+   }
+  },
+  {
+   "text": "The guard breaks the rules, and lets them in.",
+   "spec": {
+    "shot": "g_letin",
+    "ui": "rules"
+   }
+  },
+  {
+   "text": "Minutes later, both guards are tied up in the basement.",
+   "spec": {
+    "shot": "g_basement",
+    "ui": "tied"
+   }
+  },
+  {
+   "text": "For about eighty minutes, the thieves walk through the museum.",
+   "spec": {
+    "shot": "g_walk",
+    "ui": "min80"
+   }
+  },
+  {
+   "text": "They take thirteen works. Rembrandt's Storm on the Sea of Galilee. Vermeer's The Concert.",
+   "spec": {
+    "shot": "g_take",
+    "ui": "works13"
+   }
+  },
+  {
+   "text": "Together, worth around five hundred million dollars. The biggest art theft in history.",
+   "spec": {
+    "shot": "g_value",
+    "ui": "usd500"
+   }
+  },
+  {
+   "text": "The museum offers a reward of ten million dollars. It has never been paid.",
+   "spec": {
+    "shot": "g_reward",
+    "ui": "reward10"
+   }
+  },
+  {
+   "text": "The FBI later named two suspects. Both are dead.",
+   "spec": {
+    "shot": "g_fbi",
+    "ui": "fbi"
+   }
+  },
+  {
+   "text": "And today, the empty frames still hang on the wall. Waiting for the paintings to come home.",
+   "spec": {
+    "shot": "g_frames_end",
+    "mood": "calm",
+    "ui": "frames"
+   }
+  },
+  {
+   "text": "So, which heist was the boldest? Tell me in the comments. And subscribe to Roundhead Stories for more true money stories.",
+   "spec": {
+    "shot": "outro",
+    "mood": "bright",
+    "ui": "end"
+   }
+  }
+ ]
+}
