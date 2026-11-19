@@ -78,6 +78,6 @@ SHOT.outro = { set: 'GAR', light: 'indoorWarm',
   upd: gaUpd,
   figs: (t, i) => fig([GI[0] + 8, 0, GI[2] + 1.6], 'sam', { mouth: 'grin', talk: tk(t, i) * .8, blink: bl(t, 0), look: [-5, 0], hR: [214, 90 + 10 * Math.sin(t * 4)] }),
   ui: (t, i) => { let h = ''; CASES.forEach((c, j) => { const q = w.project(X(c.p, -.1, 1.05, 0)); if (q.vis) h += `<div style="position:absolute;left:${q.x}px;top:${q.y}px;transform:translate(-50%,-100%);font:900 56px IB;color:${j == 5 ? '#ffd166' : '#fff'};text-shadow:${shadowTxt(OL, 5)};z-index:2100">#${6 - j}</div>` });
-    h += bigText(960, 150, t, Lt(i).start + .1, 1e9, 'WHICH WAS THE BOLDEST? 💬', 84);
-    h += pillAt(960, 270, t, wt(i, /subscribe/) - .1, 1e9, '🔔 SUBSCRIBE', '#e0303a', '#fff', 60); return h },
+    h += bigText(960, 720, t, Lt(i).start + .1, 1e9, 'WHICH WAS THE BOLDEST? 💬', 84);
+    h += pillAt(380, 560, t, wt(i, /subscribe/) - .1, 1e9, '🔔 SUBSCRIBE', '#e0303a', '#fff', 60); return h },
   sfx: i => [{ k: 'pop', t: Lt(i).start + .1 }, { k: 'ding', t: wt(i, /subscribe/) }] };

@@ -93,7 +93,7 @@ SHOT.h_cars = { set: 'HAT', light: 'night',
 SHOT.h_prison = { set: 'HAT', light: 'vault',
   cam: i => ({ a: { pos: [HV[0], HV[1] + 1.8, HV[2] + 4.5], at: [HV[0], HV[1] + 1.2, HV[2] - 1], fov: 46 }, b: { pos: [HV[0], HV[1] + 1.6, HV[2] + 3.6], at: [HV[0], HV[1] + 1.1, HV[2] - 1], fov: 44 } }),
   figs: (t, i) => OLDS(t, 4, HV[2] - 1, 1.5, { sw: '#d0d0d0', swd: '#9a9a9a', pa: '#9a9a9a', mid: MID.stripes, mouth: 'sad' }),
-  ui: (t, i) => { let h = ''; if (t < wt(i, /millions/) - .2) { for (let k = 0; k < 11; k++) h += `<div style="position:absolute;left:${300 + k * 132}px;top:0;width:26px;height:1080px;background:linear-gradient(90deg,#2a2a33,#5a5a66 45%,#2a2a33);border:3px solid ${OL};z-index:1900"></div>`;
+  ui: (t, i) => { let h = ''; if (t < wt(i, /millions/) - .2) { for (let k = 0; k < 11; k++) h += `<div style="position:absolute;left:${300 + k * 132}px;top:0;width:26px;height:1080px;background:linear-gradient(90deg,#2a2a33,#5a5a66 45%,#2a2a33);border:3px solid ${OL}"></div>`;
       h += stampAt(960, 300, t, wt(i, /six/) - .05, '6–7 YEARS', '#e0303a', 110, -6) }
     h += pillAt(960, 200, t, wt(i, /millions/) - .1, nextStart(i), '💎 MILLIONS STILL MISSING', '#e0303a', '#fff', 58); return h },
   sfx: i => [{ k: 'impact', t: wt(i, /six/) }, { k: 'ding', t: wt(i, /millions/) }] };
