@@ -6,6 +6,7 @@ html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#f6c48a
 #sun{position:absolute;width:640px;height:640px;border-radius:50%;background:radial-gradient(circle,#fffbe8 0%,#ffeeb0dd 14%,#ffd88a55 38%,transparent 70%)}
 canvas{position:absolute;left:0;top:0;width:1080px;height:1920px}
 #ov,#ui,#fx{position:absolute;inset:0}
+#fx{z-index:3000}#ui{z-index:5000}
 .pill{position:absolute;font-family:IB,P,Arial;font-weight:900;border:7px solid #232838;border-radius:22px;padding:8px 30px;box-shadow:0 10px 0 #2328384d;white-space:nowrap}
 </style></head><body><div id="stage"><div id="sun"></div><canvas id="cv"></canvas><div id="ov"></div><div id="fx"></div><div id="ui"></div></div>
 <script src="../lib/core.js"></script><script src="../lib/gl3d.js"></script><script src="../lib/samrig.js"></script>
@@ -189,7 +190,7 @@ function shots() {
   // 6 Polizei: Sam baut, Polizist rennt von hinten an
   sh(L(6).start, L(7).start, { pos: [TB[0] + 11, D + 2.6, .2], at: [TB[0] + .5, D + 1.3, 0], fov: 46 }, { pos: [TB[0] + 9.5, D + 2.2, .2], at: [TB[0] + .8, D + 1.2, 0], fov: 46 });
   // 7 Gefaengnis
-  sh(L(7).start, L(8).start, { pos: [PR[0] - .5, PR[1] + 1.7, PR[2] + 5.6], at: [PR[0] - .9, PR[1] + 1.3, PR[2] - .4], fov: 44 }, { pos: [PR[0] - .7, PR[1] + 1.55, PR[2] + 4.2], at: [PR[0] - .9, PR[1] + 1.25, PR[2] - .4], fov: 42 });
+  sh(L(7).start, L(8).start, { pos: [PR[0] - 1.05, PR[1] + 1.7, PR[2] + 5.6], at: [PR[0] - 1.05, PR[1] + 1.3, PR[2] - .4], fov: 44 }, { pos: [PR[0] - 1.05, PR[1] + 1.55, PR[2] + 4.2], at: [PR[0] - 1.05, PR[1] + 1.25, PR[2] - .4], fov: 42 });
   // 8 Ende: Sam auf der Bruecke mit FOR-SALE-Schild (wie Hero)
   sh(L(8).start, 999, { pos: X(CON0, 7, 2.0, .2), at: X(CON0, 0, 1.4, 0), fov: 44 }, { pos: X(CON0, 5.4, 1.7, .2), at: X(CON0, 0, 1.35, 0), fov: 42 });
   return S;
@@ -305,7 +306,7 @@ window.draw = function (t) {
     if (t > tCop2 + .4 && t < tF + .9) ov += `<div style="position:absolute;left:0;right:0;top:420px;text-align:center;z-index:2300;font:900 130px IB;color:#fff;transform:rotate(-6deg) scale(${pop(t, tCop2 + .4)});text-shadow:${shadowTxt(OL, 7)}">TWEEET!</div>`;
   }
   if (i == 7) {
-    ov += fig([PR[0] - .9, PR[1], PR[2] - .4], 'con', { mouth: 'sad', blink: bl(1), sw: '#d0d0d0', swd: '#9a9a9a', pa: '#9a9a9a', mid: `<rect x="56" y="176" width="88" height="10" fill="#555"/><rect x="54" y="206" width="92" height="10" fill="#555"/>`, hat: '', armL: [.1, .1], armR: [.1, .1], look: [0, 6], tilt: .1 });
+    ov += fig([PR[0] - 1.05, PR[1], PR[2] - .4], 'con', { mouth: 'sad', blink: bl(1), sw: '#d0d0d0', swd: '#9a9a9a', pa: '#9a9a9a', mid: `<rect x="56" y="176" width="88" height="10" fill="#555"/><rect x="54" y="206" width="92" height="10" fill="#555"/>`, hat: '', armL: [.1, .1], armR: [.1, .1], look: [0, 6], tilt: .1 });
   }
   if (i >= 8) {
     ov += fig(CON0, 'sam', { mouth: 'grin', blink: bl(.2), hR: [182, 96 + 6 * Math.sin(t * 3)], prop: P_SALE, look: [-4, 0], bob: 2 * Math.sin(t * 4) });
