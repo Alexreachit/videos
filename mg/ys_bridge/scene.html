@@ -1,0 +1,352 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:IB;src:url(fonts/Inter-Black.otf);font-weight:900}
+@font-face{font-family:P;src:url(fonts/Poppins-Bold.ttf);font-weight:700}
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#f6c48a}
+#stage{position:absolute;inset:0;overflow:hidden;background:linear-gradient(#5a8fd6 0%,#9cc3ea 30%,#f6d6a8 50%,#ffc98a 58%,#f3b27a 64%)}
+#sun{position:absolute;width:640px;height:640px;border-radius:50%;background:radial-gradient(circle,#fffbe8 0%,#ffeeb0dd 14%,#ffd88a55 38%,transparent 70%)}
+canvas{position:absolute;left:0;top:0;width:1080px;height:1920px}
+#ov,#ui,#fx{position:absolute;inset:0}
+.pill{position:absolute;font-family:IB,P,Arial;font-weight:900;border:7px solid #232838;border-radius:22px;padding:8px 30px;box-shadow:0 10px 0 #2328384d;white-space:nowrap}
+</style></head><body><div id="stage"><div id="sun"></div><canvas id="cv"></canvas><div id="ov"></div><div id="fx"></div><div id="ui"></div></div>
+<script src="../lib/core.js"></script><script src="../lib/gl3d.js"></script><script src="../lib/samrig.js"></script>
+<script>
+const W = 1080, H = 1920, G = GL3D, {cl, ez, ei, bo, lerp} = MG;
+const $ = id => document.getElementById(id);
+const OL = '#232838', PI = Math.PI;
+const shadowTxt = (c = OL, r = 5) => MG.outline(r).replace(/#000/g, c);
+// ================= Welt =================
+const w = G.World($('cv'), W, H, 1.5);
+w.toon = true; w.rim = .34; w.outline = .0017;
+w.fog = G.hex('#f2d2a8'); w.fogN = 70; w.fogF = 330; w.sky = G.hex('#ffe2bc'); w.gnd = G.hex('#8a7a66');
+w.sunCol = G.hex('#ffe2b0'); w.sun = G.v.norm([.62, .6, .38]); w.shCol = G.hex('#7f86c8');
+const M = (geo, o = {}) => w.mesh(geo, o);
+const at = (g, p, r = [0, 0, 0], s = [1, 1, 1]) => [g, G.m4.compose(p, r, s)];
+function merge(list) { const g = new G.Geo(); list.forEach(([a, m]) => g.add(a, m)); return g }
+const D = 4.5;   // Fahrbahn-Oberkante
+const STONE = '#d6bf96', STONE2 = '#c2a57a';
+// Wasser
+(function water() {
+  const g = new G.Geo(), k = G.hex('#3d8fc4'), N = 70;
+  const P = (i, j) => { const x = (i / N - .5) * 700, z = -260 + Math.pow(j / N, 1.7) * 520; return [x, -.1, z] };
+  for (let i = 0; i < N; i++) for (let j = 0; j < N; j++) { const a = P(i, j), b = P(i + 1, j), c = P(i + 1, j + 1), d = P(i, j + 1); g.tri(a, c, b, k); g.tri(a, d, c, k) }
+  M(g, { wave: .16, foam: 0, cast: false, recv: true });
+})();
+// Brueckentuerme
+function tower(x) {
+  const L = [];
+  L.push(at(G.box(5, 6, 10.4, STONE2, { base: true }), [x, -1, 0]));
+  [-3.9, 0, 3.9].forEach(z => L.push(at(G.box(3.2, 9, 2.0, STONE, { base: true }), [x, 4, z])));
+  L.push(at(G.box(3.4, 7.2, 10.0, STONE, { base: true }), [x, 13, 0]));
+  L.push(at(G.box(3.8, .7, 10.4, STONE2, { base: true }), [x, 20.2, 0]));
+  // Spitzbogen-Andeutung
+  [-1.95, 1.95].forEach(z => { L.push(at(G.box(3.25, 1.6, 1.3, STONE, { base: true }), [x, 12.2, z - .7], [-.62, 0, 0])); L.push(at(G.box(3.25, 1.6, 1.3, STONE, { base: true }), [x, 12.2, z + .7], [.62, 0, 0])) });
+  // Fenster/Fugen
+  [-1.95, 1.95].forEach(z => L.push(at(G.box(3.5, 1.4, .5, '#8e7756', { base: true }), [x, 16.2, z])));
+  return M(merge(L).vary(.05, x));
+}
+tower(-16); tower(16);
+// Fahrbahn + Gelaender
+M(merge([at(G.box(150, .7, 7.0, '#9c8b74', { top: '#c4b49a' }), [0, D - .35, 0]),
+  at(G.box(150, .2, .22, '#eeeeee'), [0, D + .02, 0]),
+  at(G.box(150, .5, .25, '#4a3b30'), [0, D + .25, 3.4]), at(G.box(150, .5, .25, '#4a3b30'), [0, D + .25, -3.4]),
+  at(G.box(150, .15, .15, '#3b2f27'), [0, D + 1.0, 3.4]), at(G.box(150, .15, .15, '#3b2f27'), [0, D + 1.0, -3.4]),
+]), { outline: false });
+// Kabel (Kettenlinie) + Haenger + Schraegseile
+(function cables() {
+  const L = [], seg = (a, b, r = .13, col = '#5b4a3a') => { const dx = b[0] - a[0], dy = b[1] - a[1], dz = b[2] - a[2], len = Math.hypot(dx, dy, dz);
+    L.push(at(G.box(len, r, r, col), [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2, (a[2] + b[2]) / 2], [0, -Math.atan2(dz, dx), Math.atan2(dy, Math.hypot(dx, dz))])) };
+  const top = 20.4, mid = D + 1.4;
+  [-3.6, 3.6].forEach(z => {
+    const cy = x => mid + (top - mid) * Math.pow(x / 16, 2);
+    for (let x = -16; x < 16; x += 1) seg([x, cy(x), z], [x + 1, cy(x + 1), z], .22);
+    for (let x = -14; x <= 14; x += 2) seg([x, D + .5, z], [x, cy(x), z], .06, '#4a3b30');
+    [-1, 1].forEach(s => { const yo = x => top - (top - D - 1.2) * Math.pow((Math.abs(x) - 16) / 44, .8);
+      for (let x = 16; x < 60; x += 2) seg([s * x, yo(x), z], [s * (x + 2), yo(x + 2), z], .22);
+      for (let x = 18; x <= 58; x += 2) seg([s * x, D + .5, z], [s * x, yo(x), z], .06, '#4a3b30') });
+    for (let k = 1; k <= 6; k++) { seg([-16, 19.6, z], [-16 + k * 2.4, D + .6, z], .05, '#6d5a47'); seg([16, 19.6, z], [16 - k * 2.4, D + .6, z], .05, '#6d5a47') }
+  });
+  M(merge(L), { outlineW: .6 });
+})();
+// Skyline (1920er), weit hinten im Dunst
+(function skyline() {
+  const L = []; for (let i = 0; i < 60; i++) { const z = -150 + (i % 30) * 10 + G.hash(i) * 3, x = -78 - Math.floor(i / 30) * 14 - G.hash(i, 5) * 8, h = 8 + G.hash(i, 2) * 26 + (Math.abs(z) < 50 ? 12 * G.hash(i, 7) : 0), wd = 4 + G.hash(i, 3) * 4;
+    const col = ['#b9a8b8', '#c7b4ae', '#a99ab4', '#d0bba4'][i % 4]; L.push(at(G.box(wd, h, wd, col, { base: true }), [x, 0, z]));
+    if (G.hash(i, 9) > .6) L.push(at(G.cyl(wd * .3, 0, 5, 6, col), [x, h, z])) }
+  M(merge(L), { shade: .55, emis: .1, outline: false, cast: false });
+  // Brooklyn-Ufer (rechts) + Manhattan-Ufer (links)
+  M(merge([at(G.box(70, 3, 60, '#9f9076', { base: true }), [-95, -1, 0]), at(G.box(70, 3, 60, '#9f9076', { base: true }), [95, -1, 0])]), { outline: false });
+})();
+// Wolken
+const clouds = [];
+for (let k = 0; k < 7; k++) { const g = new G.Geo(); for (let j = 0; j < 4; j++) g.add(G.ico(3 + G.hash(k, j) * 2, 2, '#fff4e4'), G.m4.compose([j * 3.6 - 5, G.hash(j, k) * 1.2, 0], [0, 0, 0], [1.3, .7, 1]));
+  const base = [-120 + k * 42, 34 + G.hash(k, 4) * 14, -120 + G.hash(k, 6) * 30]; clouds.push(Object.assign(M(g, { cast: false, recv: false, shade: .2, emis: .3, outline: false }), { base })) }
+// ---------- Hafen (Ankunft) bei z=+34 ----------
+const PIER = [-30, 1.4, 30];
+M(merge([at(G.box(30, 1.2, 10, '#8a6a46', { base: true, top: '#a2805a' }), [PIER[0], .2, PIER[2]]),
+  ...[...Array(8)].map((_, k) => at(G.cyl(.35, .35, 2, 8, '#5e4630'), [PIER[0] - 14 + k * 4, -.6, PIER[2] - 5]))]), { outline: false });
+const CRATE = [PIER[0] + 1.1, PIER[1], PIER[2] - .7];
+M(merge([at(G.box(1.6, 1.1, 1.2, '#b98a50', { base: true }), CRATE)]));
+M(merge([at(G.box(1.2, .9, 1.0, '#a8783f', { base: true }), [PIER[0] + 5.5, PIER[1], PIER[2] - 1.8]), at(G.box(.9, .7, .9, '#c49a5c', { base: true }), [PIER[0] + 5.3, PIER[1] + .9, PIER[2] - 1.8])]));
+// Dampfschiff
+M(merge([at(G.box(26, 3.2, 6.2, '#2b2d3a', { base: true }), [PIER[0] - 2, -.4, PIER[2] - 9.5]), at(G.box(24, .5, 6.3, '#b8322a', { base: true }), [PIER[0] - 2, -.4, PIER[2] - 9.5]),
+  at(G.box(16, 2.2, 5, '#f4efe2', { base: true }), [PIER[0] - 3, 2.8, PIER[2] - 9.5]),
+  at(G.cyl(.9, .9, 5, 14, '#d9a23c'), [PIER[0] - 6, 4.8, PIER[2] - 9.5]), at(G.cyl(.9, .9, 5, 14, '#d9a23c'), [PIER[0], 4.8, PIER[2] - 9.5]),
+  at(G.cyl(.92, .92, .7, 14, '#232838'), [PIER[0] - 6, 9.1, PIER[2] - 9.5]), at(G.cyl(.92, .92, .7, 14, '#232838'), [PIER[0], 9.1, PIER[2] - 9.5])]));
+// Urkunde (Canvas-Textur)
+function deedTex() {
+  const c = document.createElement('canvas'); c.width = 640; c.height = 840; const x = c.getContext('2d');
+  x.fillStyle = '#f5e7c4'; x.fillRect(0, 0, 640, 840); x.strokeStyle = '#8a6a3a'; x.lineWidth = 14; x.strokeRect(22, 22, 596, 796); x.lineWidth = 4; x.strokeRect(44, 44, 552, 752);
+  x.fillStyle = '#3a2a1a'; x.textAlign = 'center'; x.font = '900 92px Georgia,serif'; x.fillText('DEED', 320, 160);
+  x.font = '700 40px Georgia,serif'; x.fillText('of ownership', 320, 215); x.font = '900 60px Georgia,serif'; x.fillText('BROOKLYN', 320, 330); x.fillText('BRIDGE', 320, 400);
+  x.font = 'italic 34px Georgia,serif'; x.fillText('The bearer is the sole', 320, 480); x.fillText('and lawful owner.', 320, 525);
+  x.strokeStyle = '#3a2a1a'; x.lineWidth = 3; x.beginPath(); x.moveTo(120, 690); x.lineTo(380, 690); x.stroke();
+  x.font = 'italic 46px cursive'; x.fillText('Owner', 250, 675);
+  x.fillStyle = '#b8322a'; x.beginPath(); x.arc(490, 680, 62, 0, 7); x.fill(); x.fillStyle = '#f5e7c4'; x.font = '900 30px Georgia'; x.fillText('SEAL', 490, 692);
+  return w.texture(c);
+}
+const deed = M(G.plane(1.0, 1.31, 1, 1, '#ffffff'), { tex: deedTex(), outline: false, cast: false, pos: [CRATE[0], CRATE[1] + 1.12, CRATE[2]], rot: [-PI / 2, .12, 0] });
+// ---------- Mautstelle auf der Bruecke ----------
+const TB = [-5, D, -.3];
+function boothGeo() { return merge([at(G.box(1.7, 2.0, 1.6, '#d9483c', { base: true }), [0, 0, 0]), at(G.box(.12, .8, 1.1, '#ffe9b0', { base: true }), [.86, 1.0, 0]),
+  at(G.box(2.2, .3, 2.1, '#2f3b5c', { base: true }), [0, 2.0, 0]), at(G.cyl(.05, .05, 1.3, 6, '#3a2a1a'), [0, 2.3, 0]), at(G.box(.06, .7, 1.5, '#ffd166', { base: true }), [0, 3.1, 0])]) }
+function signTex(txt, bg, fg) { const c = document.createElement('canvas'); c.width = 512; c.height = 240; const x = c.getContext('2d'); x.fillStyle = bg; x.fillRect(0, 0, 512, 240); x.fillStyle = fg; x.font = '900 120px Arial'; x.textAlign = 'center'; x.fillText(txt, 256, 165); return w.texture(c) }
+const booth = M(boothGeo(), { pos: [...TB] });
+const boothSign = M(G.plane(1.5, .7, 1, 1, '#fff'), { tex: signTex('TOLL', '#ffd166', '#232838'), outline: false, cast: false });
+const holo = M(boothGeo(), { pos: [...TB], alpha: .45, emis: .6, tint: G.hex('#ffd166'), tintA: .6, outline: false, cast: false });
+// Planken fuer den Bau (Zeile 6)
+const PLANKS = [...Array(6)].map((_, k) => M(G.box(.14, .38, 2.0, '#b98a50'), { pos: [TB[0] + 1.12, D + .2 + k * .4, TB[2]] }));
+// Pferdewagen
+function wagon(col) {
+  const root = M(merge([at(G.box(2.4, .9, 1.6, col, { base: true }), [-.4, .6, 0]), at(G.box(2.6, .15, 1.8, '#5e4630', { base: true }), [-.4, .55, 0]),
+    at(G.box(1.6, .7, .55, '#8a5a32', { base: true }), [2.0, .95, 0]), at(G.box(.5, .9, .4, '#8a5a32', { base: true }), [2.9, 1.3, 0], [0, 0, -.6]), at(G.box(.55, .35, .42, '#7a4c28', { base: true }), [3.15, 1.9, 0]),
+    ...[[1.4, .4], [2.6, .4], [1.4, -.4], [2.6, -.4]].map(([x, z]) => at(G.box(.18, .95, .18, '#7a4c28', { base: true }), [x, 0, z])),
+    at(G.box(1.4, .08, .08, '#3a2a1a'), [1.0, 1.0, .5]), at(G.box(1.4, .08, .08, '#3a2a1a'), [1.0, 1.0, -.5])]));
+  const wh = [[-1.3, .9], [.5, .9], [-1.3, -.9], [.5, -.9]].map(([x, z]) => M(G.cyl(.55, .55, .14, 12, '#3a2a1a', { cap: '#c89a5a' }), { parent: root, pos: [x, .55, z + (z > 0 ? 0 : -.14)], rot: [PI / 2, 0, 0] }));
+  return { root, wh };
+}
+const WAG = [wagon('#3f7fb5'), wagon('#4f8a3c'), wagon('#b5803f')];
+// Geldbuendel (3D) fuer Zeile 5
+const cash = M(merge([at(G.box(.62, .28, .3, '#4f9a5a'), [0, 0, 0]), at(G.box(.12, .3, .32, '#f4efe2'), [0, 0, 0])]), { cast: false });
+// ---------- Gefaengnis (weit weg, z=-190 unter "Erde") ----------
+const PR = [0, 0, 200];
+M(merge([at(G.box(10, .4, 8, '#8d8a86', { base: true }), [PR[0], PR[1] - .4, PR[2]]), at(G.box(10, 6, .5, '#a8a39a', { base: true }), [PR[0], PR[1], PR[2] - 3]),
+  at(G.box(.5, 6, 8, '#9d988f', { base: true }), [PR[0] - 4.5, PR[1], PR[2]]), at(G.box(.5, 6, 8, '#9d988f', { base: true }), [PR[0] + 4.5, PR[1], PR[2]]), at(G.box(10, .5, 8, '#8d8a86', { base: true }), [PR[0], PR[1] + 6, PR[2]]),
+  at(G.box(1.4, 1.0, .2, '#ffe9b0', { base: true }), [PR[0] + 1.6, PR[1] + 3.6, PR[2] - 2.85]),
+  at(G.box(2.4, .5, 1.0, '#7a5a3a', { base: true }), [PR[0] - 2.4, PR[1], PR[2] - 2.0])]).vary(.04, 3));
+M(merge([...[...Array(4)].map((_, k) => at(G.cyl(.05, .05, 1.0, 6, '#3a3a44'), [PR[0] + 1.6 - .5 + k * .33, PR[1] + 3.6, PR[2] - 2.7]))]));
+const BARS = M(merge([...[...Array(13)].map((_, k) => at(G.cyl(.07, .07, 6, 8, '#3a3a44'), [PR[0] - 4.2 + k * .7, PR[1], PR[2] + 2.2])),
+  at(G.box(9, .25, .2, '#3a3a44'), [PR[0], PR[1] + 4.6, PR[2] + 2.2]), at(G.box(9, .25, .2, '#3a3a44'), [PR[0], PR[1] + 1.2, PR[2] + 2.2])]));
+const prisonLight = M(G.box(1.3, 1.2, .1, '#fff6d0'), { pos: [PR[0] + 1.6, PR[1] + 4.1, PR[2] - 2.95], emis: 1, outline: false, cast: false });
+
+// ================= Figuren (2D-SVG) =================
+const HAT_BOWLER = `<path d="M54,42 Q52,-8 100,-10 Q148,-8 146,42 Z" fill="#22222b" stroke="${OL}" stroke-width="6"/><rect x="55" y="28" width="90" height="11" fill="#8a2230"/><path d="M26,44 Q100,26 174,44 Q176,56 100,52 Q24,56 26,44 Z" fill="#1b1b22" stroke="${OL}" stroke-width="6" stroke-linejoin="round"/>`;
+const HAT_CAP = `<path d="M38,50 Q38,8 100,6 Q162,8 162,50 Q100,40 38,50Z" fill="#8a6a4a" stroke="${OL}" stroke-width="6"/><path d="M128,44 Q176,40 188,56 Q150,62 124,54Z" fill="#6e523a" stroke="${OL}" stroke-width="6" stroke-linejoin="round"/>`;
+const HAT_COP = `<path d="M36,44 L42,4 Q100,-10 158,4 L164,44 Z" fill="#1b2f6b" stroke="${OL}" stroke-width="6" stroke-linejoin="round"/><circle cx="100" cy="24" r="10" fill="#ffd166" stroke="${OL}" stroke-width="4"/><path d="M40,42 Q100,60 160,42 L156,52 Q100,70 44,52Z" fill="#11131c" stroke="${OL}" stroke-width="4"/>`;
+const TIE = `<path d="M84,150 L100,176 L116,150Z" fill="#fff" stroke="${OL}" stroke-width="3"/><path d="M100,160 L92,176 L100,214 L108,176Z" fill="#c0303a" stroke="${OL}" stroke-width="3"/>`;
+const BUTTONS = `<circle cx="100" cy="178" r="5" fill="#ffd166" stroke="${OL}" stroke-width="2"/><circle cx="100" cy="200" r="5" fill="#ffd166" stroke="${OL}" stroke-width="2"/><circle cx="100" cy="222" r="5" fill="#ffd166" stroke="${OL}" stroke-width="2"/>`;
+const SWEAT = `<path d="M160,40 Q172,62 160,70 Q148,62 160,40Z" fill="#8fd3ff" stroke="${OL}" stroke-width="4"/>`;
+const P_SALE = `<g transform="translate(-6,-4)"><rect x="-6" y="-8" width="12" height="120" fill="#8b5a2b" stroke="${OL}" stroke-width="4"/><rect x="-86" y="-120" width="172" height="112" rx="10" fill="#fff" stroke="${OL}" stroke-width="7"/><text x="0" y="-74" text-anchor="middle" font-family="IB,Arial" font-weight="900" font-size="44" fill="#c0303a">FOR</text><text x="0" y="-26" text-anchor="middle" font-family="IB,Arial" font-weight="900" font-size="44" fill="#c0303a">SALE</text></g>`;
+const P_CASE = `<g transform="translate(-38,-6)"><rect x="0" y="0" width="76" height="56" rx="8" fill="#8a5a32" stroke="${OL}" stroke-width="5"/><path d="M26,0 L26,-10 L50,-10 L50,0" fill="none" stroke="${OL}" stroke-width="5"/><rect x="0" y="22" width="76" height="6" fill="#5e3a1e"/></g>`;
+const P_CASH = `<g transform="translate(-34,-22) rotate(-10)"><rect x="0" y="0" width="68" height="40" rx="5" fill="#5fb06a" stroke="${OL}" stroke-width="5"/><rect x="28" y="0" width="12" height="40" fill="#f4efe2" stroke="${OL}" stroke-width="3"/><text x="14" y="28" font-family="IB,Arial" font-weight="900" font-size="20" fill="#235a2c">$</text></g>`;
+const P_HAMMER = a => `<g transform="rotate(${a})"><rect x="-5" y="-70" width="10" height="80" rx="4" fill="#a0703a" stroke="${OL}" stroke-width="4"/><rect x="-24" y="-88" width="48" height="22" rx="4" fill="#6b6f7a" stroke="${OL}" stroke-width="5"/></g>`;
+const P_WHISTLE = `<g transform="translate(-6,-14)"><rect x="0" y="0" width="30" height="16" rx="7" fill="#c9ccd4" stroke="${OL}" stroke-width="4"/></g>`;
+const P_DEED = `<g transform="translate(-30,-60) rotate(-6)"><rect x="0" y="0" width="64" height="82" rx="3" fill="#f5e7c4" stroke="${OL}" stroke-width="5"/><rect x="10" y="12" width="44" height="6" fill="#8a6a3a"/><rect x="10" y="26" width="44" height="4" fill="#b59b6a"/><rect x="10" y="36" width="36" height="4" fill="#b59b6a"/><circle cx="46" cy="64" r="9" fill="#c0303a"/></g>`;
+const LOOK = { con: { sw: '#2b2b36', swd: '#1e1e28', pa: '#3a3a46', hat: HAT_BOWLER, mid: TIE }, sam: { hat: HAT_CAP }, cop: { sw: '#22408e', swd: '#183070', pa: '#1a2a55', hat: HAT_COP, mid: BUTTONS } };
+function fig(p, who, o = {}, H3 = 1.75) {
+  const q = w.project(p); if (!q.vis) return '';
+  const s = q.s * H3 / 350 * 240;
+  const base = Object.assign({}, LOOK[who]); const oo = Object.assign(base, o);
+  if (o.sweat) oo.hat = (oo.hat || '') + SWEAT;
+  return `<div style="position:absolute;left:${(q.x - s / 240 * 120).toFixed(1)}px;top:${(q.y - s / 240 * 342).toFixed(1)}px;width:${s.toFixed(1)}px;z-index:${Math.round(1000 - q.z)}">${MG_SAM.svg(Object.assign(oo, { w: s }))}</div>`;
+}
+const walk = (t, sp = 9) => ({ legL: .35 * Math.sin(t * sp), legR: -.35 * Math.sin(t * sp), bob: Math.abs(Math.sin(t * sp)) * 6 });
+// Crowd am Hafen
+const CROWD = [...Array(14)].map((_, k) => ({ x: PIER[0] - 9 + (k % 7) * 2.7 + G.hash(k) * 1.2, z: PIER[2] - 1.4 - Math.floor(k / 7) * 1.6 - G.hash(k, 2) * .6, sw: ['#7a4f8a', '#4f8a3c', '#b5803f', '#3f7fb5', '#8a3c3c', '#5e6a7a', '#a0703a'][k % 7], k }));
+
+// ================= Timeline =================
+const Lt = i => MG.L(i);
+function wt(i, re, end) { const l = Lt(i); if (!l.words) return l.start; for (const x of l.words) if (re.test(x[0])) return l.start + (end ? x[2] : x[1]); return l.start }
+// Kamera-Shots: je Zeile Start-/Endpose; Ortswechsel = harter Schnitt
+const CON0 = [-1, D, -1.2], CONT = [TB[0] + 4, D, -1.9], SAMT = [TB[0] + 4, D, -.6];
+function shots() {
+  const S = [];
+  const sh = (t0, t1, a, b) => S.push({ t0, t1, a, b });
+  const L = Lt;
+  const X = (p, dx, dy, dz) => [p[0] + dx, p[1] + dy, p[2] + dz];
+  // 0 Hero: Blick die Bruecke entlang (zwischen den Kabeln), Fahrt auf den Betrueger zu
+  sh(0, L(1).start, { pos: X(CON0, 14, 3.4, 0), at: X(CON0, 0, 1.6, 0), fov: 44 }, { pos: X(CON0, 5.2, 1.7, .2), at: X(CON0, 0, 1.35, 0), fov: 42 });
+  // 1 Totale: Bruecke im Abendlicht, SOLD-Stempel
+  sh(L(1).start, L(2).start, { pos: [38, 8, 44], at: [-4, 11, 0], fov: 52 }, { pos: [26, 6.5, 52], at: [-8, 12, 0], fov: 52 });
+  // 2 Hafen: Menge vor dem Dampfer, Betrueger kommt dazu
+  sh(L(2).start, L(3).start, { pos: [PIER[0] + .6, PIER[1] + 3.0, PIER[2] + 12.5], at: [PIER[0] + .6, PIER[1] + 1.2, PIER[2]], fov: 44 }, { pos: [PIER[0] + 1.1, PIER[1] + 2.2, PIER[2] + 7.6], at: [PIER[0] + 1.1, PIER[1] + 1.2, PIER[2] + .8], fov: 42 });
+  // 3 Urkunde von oben, dann Zweier-Einstellung hinter der Kiste
+  sh(L(3).start, wt(3, /saying/), { pos: X(CRATE, 0, 2.9, .9), at: X(CRATE, 0, 1.1, -.05), fov: 40 }, { pos: X(CRATE, 0, 2.45, .75), at: X(CRATE, 0, 1.1, -.05), fov: 38 });
+  sh(wt(3, /saying/), L(4).start, { pos: X(CRATE, 0, 3.3, 6.6), at: X(CRATE, 0, 1.15, .2), fov: 46 }, { pos: X(CRATE, 0, 3.1, 6.1), at: X(CRATE, 0, 1.15, .2), fov: 45 });
+  // 4 Maut: Hologramm-Haeuschen, Wagen fahren vorbei
+  sh(L(4).start, L(5).start, { pos: [TB[0] + 15, D + 3.4, .2], at: [TB[0] + 1.5, D + 1.4, -.4], fov: 46 }, { pos: [TB[0] + 12, D + 2.6, 0], at: [TB[0] + 1.5, D + 1.3, -.4], fov: 46 });
+  // 5 Geld: Zweier-Einstellung
+  sh(L(5).start, L(6).start, { pos: [CONT[0] + 6.2, D + 1.7, -1.25], at: [CONT[0], D + 1.2, -1.25], fov: 40 }, { pos: [CONT[0] + 5.0, D + 1.55, -1.25], at: [CONT[0], D + 1.15, -1.25], fov: 38 });
+  // 6 Polizei: Sam baut, Polizist rennt von hinten an
+  sh(L(6).start, L(7).start, { pos: [TB[0] + 11, D + 2.6, .2], at: [TB[0] + .5, D + 1.3, 0], fov: 46 }, { pos: [TB[0] + 9.5, D + 2.2, .2], at: [TB[0] + .8, D + 1.2, 0], fov: 46 });
+  // 7 Gefaengnis
+  sh(L(7).start, L(8).start, { pos: [PR[0] - .5, PR[1] + 1.7, PR[2] + 5.6], at: [PR[0] - .9, PR[1] + 1.3, PR[2] - .4], fov: 44 }, { pos: [PR[0] - .7, PR[1] + 1.55, PR[2] + 4.2], at: [PR[0] - .9, PR[1] + 1.25, PR[2] - .4], fov: 42 });
+  // 8 Ende: Sam auf der Bruecke mit FOR-SALE-Schild (wie Hero)
+  sh(L(8).start, 999, { pos: X(CON0, 7, 2.0, .2), at: X(CON0, 0, 1.4, 0), fov: 44 }, { pos: X(CON0, 5.4, 1.7, .2), at: X(CON0, 0, 1.35, 0), fov: 42 });
+  return S;
+}
+let SH = null;
+function camAt(t) {
+  let s = SH[0]; for (const x of SH) if (t >= x.t0 - .001) s = x;
+  const end = s.t1 > 900 ? MG.TL.dur : s.t1, u = ei(cl(t, s.t0, end));
+  return { pos: G.v.lerp(s.a.pos, s.b.pos, u), at: G.v.lerp(s.a.at, s.b.at, u), fov: lerp(s.a.fov, s.b.fov, u) };
+}
+const cutTimes = () => [1, 2, 3, 4, 5, 6, 7, 8].map(i => Lt(i).start).concat([wt(3, /saying/)]);
+// ================= UI =================
+function pop(t, t0, d = .35) { return bo(cl(t, t0, t0 + d)) }
+function fade(t, t0, t1) { return 1 - ez(cl(t, t0, t1)) }
+function stampAt(x, y, t, t0, txt, col, size = 120, rot = -8, t1 = 99) {
+  if (t < t0 || t > t1) return '';
+  return `<div style="position:absolute;left:${x}px;top:${y}px;transform:translate(-50%,-50%) rotate(${rot}deg) scale(${lerp(2.4, 1, ez(cl(t, t0, t0 + .15))) * fade(t, t1 - .2, t1)});border:12px solid ${col};border-radius:24px;padding:4px 34px;color:${col};background:#ffffffe0;font:900 ${size}px/1.0 IB,Arial;white-space:nowrap;z-index:2000">${txt}</div>`;
+}
+const PILL = (txt, bg, col = '#fff', fs = 48) => `<div class="pill" style="position:relative;font-size:${fs}px;color:${col};background:${bg};${col == '#fff' ? 'text-shadow:' + shadowTxt(OL, 3) : ''}">${txt}</div>`;
+function labelAt(p, html, t, t0, t1) {
+  if (t < t0 || t > t1) return ''; const q = w.project(p); if (!q.vis) return '';
+  const k = pop(t, t0, .4) * fade(t, t1 - .2, t1);
+  return `<div style="position:absolute;left:${q.x}px;top:${q.y}px;transform:translate(-50%,-100%) scale(${k});transform-origin:50% 100%;z-index:2100">${html}</div>`;
+}
+function titleCard(t) {
+  const t1 = Lt(1).start + .1; if (t > t1) return '';
+  const k = t < .02 ? 1 : 1, o = fade(t, t1 - .25, t1);
+  return `<div style="position:absolute;left:0;right:0;top:250px;text-align:center;opacity:${o};transform:scale(${k})">
+   <div style="display:inline-block;font:900 92px/1.02 IB,Arial;color:#fff;text-shadow:${shadowTxt(OL, 7)},0 12px 24px #0006">HE SOLD THE<br><span style="color:#ffd166">BROOKLYN BRIDGE</span></div></div>`;
+}
+function cashCounter(t) {
+  const i = 5, a = wt(i, /thousand/) - .3, b = wt(i, /four/) - .1; if (t < Lt(i).start || t > Lt(i + 1).start) return '';
+  const v = Math.round(lerp(0, 1000, ez(cl(t, a, a + .6)))), k = pop(t, a - .1, .35);
+  let h = `<div style="position:absolute;left:50%;top:300px;transform:translate(-50%,0) scale(${k});text-align:center;z-index:2200">${PILL('PAID: ' + MG.fmt(v, 0, '$'), '#35a862', '#fff', 78)}</div>`;
+  if (t > b) h += `<div style="position:absolute;left:50%;top:430px;transform:translate(-50%,0) scale(${pop(t, b, .35)});z-index:2200">${PILL('+ $4,000 PROMISED', '#ffd166', OL, 58)}</div>`;
+  return h;
+}
+function yearPill(t) {
+  const i = 7; if (t < Lt(i).start || t > Lt(i + 1).start) return '';
+  return `<div style="position:absolute;left:50%;top:300px;transform:translate(-50%,0) scale(${pop(t, Lt(i).start + .1)});z-index:2200">${PILL('1928', '#232838', '#fff', 70)}</div>` +
+    stampAt(540, 640, t, wt(i, /life/) - .05, 'LIFE', '#e0303a', 150, -8);
+}
+function endCard(t) {
+  const i = 8; if (t < Lt(i).start) return '';
+  const k = pop(t, Lt(i).start + .1, .4);
+  const btn = (txt, bg, d) => `<div style="flex:1;text-align:center;font:900 64px/1 IB,Arial;color:#fff;background:${bg};border:7px solid ${OL};border-radius:26px;padding:22px 0;text-shadow:${shadowTxt(OL, 3)};transform:scale(${pop(t, Lt(i).start + d, .3)})">${txt}</div>`;
+  return `<div style="position:absolute;left:90px;right:90px;top:250px;transform:scale(${k});background:#fff;border:8px solid ${OL};border-radius:34px;box-shadow:0 14px 0 #2328384d;padding:30px 34px;text-align:center;z-index:2200">
+    <div style="font:900 64px/1.1 IB,Arial;color:${OL}">Would you have bought it? 💬</div>
+    <div style="display:flex;gap:30px;margin-top:26px">${btn('YES', '#35a862', .35)}${btn('NO', '#e0303a', .5)}</div></div>`;
+}
+// ================= Draw =================
+window.setTimeline = tl => { MG.TL = tl; SH = shots() };
+window.draw = function (t) {
+  const c = camAt(t), i = MG.cur(t);
+  w.cam.pos = c.pos; w.cam.at = c.at; w.cam.fov = c.fov;
+  w.shadowCenter = [c.at[0], 0, c.at[2]]; w.shadowSize = Math.min(60, 10 + Math.hypot(...G.v.sub(c.pos, c.at)) * .7);
+  const inPrison = i == 7;
+  $('stage').style.background = inPrison ? '#3a3640' : '';
+  const sp = w.project([c.pos[0] + w.sun[0] * 100, c.pos[1] + w.sun[1] * 100, c.pos[2] + w.sun[2] * 100]);
+  $('sun').style.cssText = `left:${sp.x - 320}px;top:${Math.min(sp.y, 1150) - 320}px;opacity:${sp.vis && !inPrison ? 1 : 0}`;
+  clouds.forEach((m, k) => { m.pos = [m.base[0] + ((t * (1.0 + .3 * k)) % 300), m.base[1], m.base[2]] });
+  // Mautstelle: Hologramm (4), Bau (6), Einsturz (6)
+  const L4 = Lt(4), L6 = Lt(6), tHolo = wt(4, /toll/) - .2, tCop = wt(6, /until/) - .1, tFall = wt(6, /chased/) - .1;
+  holo.vis = i == 4 && t > tHolo; holo.scl = [1, Math.max(.01, bo(cl(t, tHolo, tHolo + .5))), 1]; holo.alpha = .35 + .15 * Math.sin(t * 6);
+  const built = i == 6, bu = cl(t, L6.start + .2, tCop);
+  booth.vis = built && t > tCop - .3; const fall = ez(cl(t, tFall, tFall + .6));
+  booth.pos = [TB[0] - fall * .6, D, TB[2]]; booth.rot = [0, 0, fall * 1.45]; booth.scl = [1, 1, 1];
+  boothSign.vis = booth.vis || (holo.vis); boothSign.alpha = holo.vis ? .6 : 1;
+  if (booth.vis && fall > 0) boothSign.vis = false; boothSign.pos = [TB[0] + .05, D + 3.45 * (holo.vis ? holo.scl[1] : 1), TB[2]]; boothSign.rot = [0, PI / 2, 0];
+  PLANKS.forEach((m, k) => { const a = L6.start + .2 + k * (tCop - .3 - L6.start - .2) / 6; m.vis = built && t > a && t < tCop - .3; m.scl = [1, Math.max(.01, bo(cl(t, a, a + .25))), 1] });
+  // Wagen (Zeile 4) rollen durch das Hologramm
+  WAG.forEach((g, k) => { const t0 = L4.start + .2 + k * .9, x = lerp(TB[0] + 9, TB[0] - 24, cl((t - t0) / 3.4, 0, 1)); g.root.vis = i == 4 && t > t0; g.root.pos = [x, D, 1.6]; g.root.rot = [0, PI, 0]; g.wh.forEach(m => m.rot = [PI / 2, 0, -x * 1.6]) });
+  cash.vis = false;
+  deed.vis = true;
+  w.render(t);
+  // ---------- Figuren ----------
+  let ov = '';
+  const tk = l => MG_SAM.talk(t, l), bl = k => MG_SAM.blink(t + k);
+  if (i == 0 || i == 1) {
+    ov += fig(CON0, 'con', { mouth: 'grin', blink: bl(0), hR: [182, 96 + 6 * Math.sin(t * 3)], prop: P_SALE, armL: [.2, .2], bob: 2 * Math.sin(t * 4), tilt: .06 * Math.sin(t * 2) });
+  }
+  if (i == 1) { // Kaeufer nacheinander kurz am Ende der Bruecke (klein)
+  }
+  if (i == 2) {
+    CROWD.forEach(p => { ov += fig([p.x, PIER[1], p.z], 'sam', { sw: p.sw, swd: p.sw, hat: p.k % 3 ? HAT_CAP : '', mouth: 'smile', blink: bl(p.k), look: [Math.sin(t + p.k) * 4, 0], propL: p.k % 2 ? P_CASE : '', hL: p.k % 2 ? [40, 236] : null, bob: 2 * Math.sin(t * 2 + p.k) }, 1.7) });
+    const tw = cl(t, Lt(2).start, Lt(2).start + 1.4), cx = lerp(PIER[0] - 4, PIER[0] + .3, ez(tw));
+    ov += fig([PIER[0] + 1.9, PIER[1], PIER[2] + .7], 'sam', { mouth: 'smile', blink: bl(.3), propL: P_CASE, hL: [40, 236], look: [-6, -2], bob: 3 * Math.sin(t * 3) });
+    ov += fig([cx, PIER[1], PIER[2] + .9], 'con', Object.assign({ mouth: 'grin', blink: bl(1), hR: tw >= 1 ? [215, 118] : [150, 240], look: [5, 0] }, tw < 1 ? walk(t) : {}));
+    ov += labelAt([PIER[0] + 1.9, PIER[1] + 2.05, PIER[2] + .7], PILL('NEW IN TOWN', '#3f7fb5', '#fff', 46), t, wt(2, /new/) - .1, Lt(3).start);
+  }
+  if (i == 3) {
+    const close = t >= wt(3, /saying/);
+    ov += (close ? fig([CRATE[0] + .95, CRATE[1], CRATE[2] + .7], 'sam', { mouth: close ? 'o' : 'smile', talk: close ? .6 : 0, blink: bl(.3), look: close ? [-6, 6] : [0, 4], propL: P_CASE, hL: [40, 236], sweat: false }) : '');
+    if (close) ov += fig([CRATE[0] - .95, CRATE[1], CRATE[2] + .7], 'con', { mouth: 'grin', blink: bl(1), hR: [232, 200], look: [6, 4] });
+    if (close) ov += labelAt([CRATE[0] + .95, CRATE[1] + 2.1, CRATE[2] + .7], `<div style="font:900 120px IB;color:#ffd166;text-shadow:${shadowTxt(OL, 6)}">!</div>`, t, wt(3, /owned/) - .1, Lt(4).start);
+    if (!close) ov += stampAt(540, 960 - 380, t, wt(3, /forged/) + .1, 'FAKE', '#e0303a', 120, -12, wt(3, /saying/));
+  }
+  if (i == 4 || i == 5) {
+    const talkC = i == 4 ? tk(Lt(4)) * .9 : 0;
+    ov += fig(CONT, 'con', { mouth: i == 5 ? 'grin' : 'smile', talk: talkC, blink: bl(1), hR: i == 4 ? [230 + 10 * Math.sin(t * 3), 110] : [210, 200], hL: i == 4 ? null : null, armL: [.25, .2], look: [6, 0] });
+    if (i == 5) { const tg = wt(5, /cash/) - .1, u = ez(cl(t, tg - .5, tg + .3)); ov += fig(SAMT, 'sam', { mouth: 'smile', blink: bl(.2), hL: [lerp(60, -10, u), lerp(230, 190, u)], propL: u < 1 ? P_CASH : '', look: [-6, 0] });
+    }
+    else ov += fig(SAMT, 'sam', { mouth: 'o', talk: .3 + .2 * Math.sin(t * 5), blink: bl(.2), look: [-5, -3], propL: P_CASE, hL: [40, 236] });
+    if (i == 4) WAG.forEach((g, k) => { const t0 = Lt(4).start + .2 + k * .9; if (g.root.vis && Math.abs(g.root.pos[0] - TB[0]) < .8) ov += labelAt([TB[0], D + 4.4, TB[2]], `<div style="font:900 80px IB;color:#ffd166;text-shadow:${shadowTxt(OL, 5)}">+10¢</div>`, t, t - .01, t + 1) });
+    if (i == 4) { const a = wt(4, /rich/) - .1; if (t > a) ov += labelAt([TB[0], D + 5.8, TB[2]], PILL('💰 GET RICH!', '#35a862', '#fff', 60), t, a, Lt(5).start) }
+  }
+  if (i == 6) {
+    const tCop2 = wt(6, /until/) - .1, run = cl((t - tCop2) / 1.2, 0, 1), tF = wt(6, /chased/) - .1;
+    const sx = lerp(TB[0] + 1.9, TB[0] + 6.5, ez(cl((t - tF) / .9, 0, 1)));
+    const hammer = t < tCop2 ? P_HAMMER(-30 + 40 * Math.abs(Math.sin(t * 9))) : '';
+    ov += fig([sx, D, -1.4], 'sam', Object.assign({ mouth: t > tCop2 ? 'o' : 'grin', blink: bl(.2), sweat: t > tCop2, prop: hammer, hR: t < tCop2 ? [176, 120 + 30 * Math.abs(Math.sin(t * 9))] : [196, 70], hL: t > tCop2 ? [4, 70] : null, look: t > tCop2 ? [6, -2] : [-6, 2] }, t > tF ? walk(t, 14) : {}));
+    if (t > tCop2) { const cx = lerp(TB[0] - 12, TB[0] + 1.0, ez(run)); ov += fig([cx, D, 1.4], 'cop', Object.assign({ mouth: 'o', talk: .7, blink: bl(2), hR: [118, 118], prop: P_WHISTLE, hL: [-20, 90 + 20 * Math.sin(t * 10)], look: [-6, 0] }, run < 1 ? walk(t, 12) : {})) }
+    if (t > tCop2 + .4 && t < tF + .9) ov += `<div style="position:absolute;left:0;right:0;top:420px;text-align:center;z-index:2300;font:900 130px IB;color:#fff;transform:rotate(-6deg) scale(${pop(t, tCop2 + .4)});text-shadow:${shadowTxt(OL, 7)}">TWEEET!</div>`;
+  }
+  if (i == 7) {
+    ov += fig([PR[0] - .9, PR[1], PR[2] - .4], 'con', { mouth: 'sad', blink: bl(1), sw: '#d0d0d0', swd: '#9a9a9a', pa: '#9a9a9a', mid: `<rect x="56" y="176" width="88" height="10" fill="#555"/><rect x="54" y="206" width="92" height="10" fill="#555"/>`, hat: '', armL: [.1, .1], armR: [.1, .1], look: [0, 6], tilt: .1 });
+  }
+  if (i >= 8) {
+    ov += fig(CON0, 'sam', { mouth: 'grin', blink: bl(.2), hR: [182, 96 + 6 * Math.sin(t * 3)], prop: P_SALE, look: [-4, 0], bob: 2 * Math.sin(t * 4) });
+  }
+  $('ov').innerHTML = ov;
+  // Bars vor dem Gefangenen: zweites Gitter als HTML ueber der Figur (Figuren liegen sonst immer vorne)
+  let fx = '';
+  if (inPrison) { for (let k = 0; k < 13; k++) { const a = w.project([PR[0] - 4.2 + k * .7, PR[1] + 6, PR[2] + 2.2]), b = w.project([PR[0] - 4.2 + k * .7, PR[1], PR[2] + 2.2]); const r = a.s * .07;
+    fx += `<div style="position:absolute;left:${a.x - r}px;top:${a.y}px;width:${2 * r}px;height:${b.y - a.y}px;background:linear-gradient(90deg,#2a2a33,#5a5a66 45%,#2a2a33);border:3px solid ${OL};border-radius:${r}px"></div>` }
+    const a = w.project([PR[0] - 4.5, PR[1] + 4.6, PR[2] + 2.2]), b = w.project([PR[0] + 4.5, PR[1] + 4.6, PR[2] + 2.2]); fx += `<div style="position:absolute;left:${a.x}px;top:${a.y - 8}px;width:${b.x - a.x}px;height:20px;background:#3a3a44;border:3px solid ${OL}"></div>`;
+    const c2 = w.project([PR[0] - 4.5, PR[1] + 1.2, PR[2] + 2.2]), d = w.project([PR[0] + 4.5, PR[1] + 1.2, PR[2] + 2.2]); fx += `<div style="position:absolute;left:${c2.x}px;top:${c2.y - 8}px;width:${d.x - c2.x}px;height:20px;background:#3a3a44;border:3px solid ${OL}"></div>` }
+  // Weisser Blitz bei harten Schnitten
+  const cuts = cutTimes(); let fl = 0; cuts.forEach(x => { const f = cl(t, x - .06, x + .16); if (f > 0 && f < 1) fl = Math.max(fl, Math.sin(f * PI) * .55) });
+  if (fl > 0) fx += `<div style="position:absolute;inset:0;background:#fff;opacity:${fl}"></div>`;
+  $('fx').innerHTML = fx;
+  // ---------- UI ----------
+  let ui = titleCard(t);
+  if (i == 1) { const ws = [wt(1, /once/) - .05, wt(1, /over/) - .05, wt(1, /over/, 1) + .05, wt(1, /again/) - .05];
+    const P3 = [[290, 560], [780, 700], [380, 860], [720, 480]];
+    ws.forEach((a, k) => { const q = { x: P3[k][0], y: P3[k][1] }; if (t > a) ui += stampAt(q.x, q.y, t, a, 'SOLD!', ['#e0303a', '#e0303a', '#e0303a', '#e0303a'][k], 92, [-10, 6, -4, 8][k]) });
+    ui += `<div style="position:absolute;left:50%;top:300px;transform:translate(-50%,0) scale(${pop(t, wt(1, /brooklyn/) - .1)});z-index:2200">${PILL('🌉 NEW YORK', '#3f7fb5', '#fff', 56)}</div>`;
+  }
+  ui += cashCounter(t) + yearPill(t) + endCard(t);
+  ui += MG.captions(t, { y: 1420, size: 104, maxWords: 2, hl: '#ffd166', stageW: 1080 }).replace(/'Arial Black',Arial/, 'IB,Arial');
+  $('ui').innerHTML = ui;
+};
+window.sfxEvents = function () {
+  const E = [], L = Lt;
+  E.push({ k: 'whoosh', t: .05, d: .8 }, { k: 'pop', t: .2 });
+  cutTimes().forEach(x => E.push({ k: 'whoosh', t: x - .12, d: .45 }));
+  [wt(1, /once/), wt(1, /over/), wt(1, /over/, 1) + .1, wt(1, /again/)].forEach(x => E.push({ k: 'impact', t: x, g: .55 }));
+  E.push({ k: 'pop', t: wt(1, /brooklyn/) });
+  E.push({ k: 'pop', t: wt(2, /new/) }, { k: 'ding', t: wt(2, /town/) });
+  E.push({ k: 'impact', t: wt(3, /forged/) + .1, g: .6 }, { k: 'ding', t: wt(3, /owned/) });
+  E.push({ k: 'pop', t: wt(4, /toll/) - .2 }); [0, 1, 2].forEach(k => E.push({ k: 'cash', t: L(4).start + .2 + k * .9 + 3.2 * (16 - TB[0]) / 42 }));
+  E.push({ k: 'ding', t: wt(4, /rich/) });
+  E.push({ k: 'cash', t: wt(5, /thousand/) + .2 }, { k: 'pop', t: wt(5, /four/) });
+  const tc = wt(6, /until/) - .1; for (let k = 0; k < 6; k++) E.push({ k: 'thud', t: L(6).start + .2 + k * (tc - .3 - L(6).start - .2) / 6, g: .5 });
+  E.push({ k: 'bell', t: tc + .5 }, { k: 'impact', t: wt(6, /chased/) + .2 });
+  E.push({ k: 'pop', t: L(7).start + .1 }, { k: 'impact', t: wt(7, /life/) });
+  E.push({ k: 'pop', t: L(8).start + .1 }, { k: 'pop', t: L(8).start + .45 }, { k: 'pop', t: L(8).start + .6 });
+  return E;
+};
+</script></body></html>

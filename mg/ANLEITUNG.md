@@ -206,3 +206,15 @@ Rendern auf GitHub: Projektname in `mg/render_queue.txt` eintragen und pushen (W
   Stil genau festhalten (Zeichenstil, Figuren, Kamera/Bewegung, Übergänge, Text/Untertitel, Farben, Tempo, Sound/Musik, Hook in Sek. 0–3)
   und hier als Abschnitt "Stil R-mWVMM-LAs" eintragen. Danach Engine/Vorlage entsprechend anpassen (bestehende Sky-/Code-Objekte nur, wo es passt).
 - Keine Figuren/Logos/Grafiken des Referenzkanals kopieren – nur Machart übernehmen.
+
+## Stil R-mWVMM-LAs (analysiert 19.11.2026, 12 Standbilder 0–58 s angesehen)
+- Video: "Why Samurai Feared The Flying Thunder" (@RicksClips3000), 59 s, ~21.000 Likes. Erzählte GESCHICHTE mit Figuren, keine UI/Zahlen-Karten.
+- Look: flache 2D-Strichfiguren mit großem weißem Rundkopf (dicke schwarze Kontur, Punkt-/Strichaugen, Schweißtropfen, Mimik), Kostüme
+  (Kimono, Hut, Rüstung) – eingesetzt in eine aufwendige 3D-Welt (Spiel-Engine-Look: Nacht mit Mond, Lagerfeuer, Zeltinneres mit Teppich, Mauern, Gras).
+- Kamera: echte 3D-Kamerafahrten und Einstellungswechsel alle ~2–3 s: Totale (Lager bei Nacht), Nahaufnahme Gesicht, Über-die-Schulter, Objekt-Close-up
+  (3D-Bombe rollt ins Bild), Figuren gehen/schleichen durchs Bild, Dialog zwischen 2–3 Figuren, Gruppen um ein Objekt.
+- Objekte: 3D (Bombe, Fass, Zylinder mit Lunte), Effekte (Blitze/Explosion), Licht (Fackeln, Laternen).
+- Text: NUR Untertitel, 1–2 Wörter gleichzeitig, weiß fett mit schwarzer Kontur, Bildmitte unten (~y 70 %). Kein Titel/Zähler im Bild.
+- Hook Sek. 0: Figur steht schon mitten in der Szene und handelt (rollt die Bombe), erster Satz startet sofort.
+- Umsetzung bei uns: gl3d-Toon-Welt (wie Roundhead Island/Ponzi) + MG_SAM-SVG-Figuren (samrig, Kostüme über sw/pa/hat) projiziert in die 3D-Szene,
+  Story-Erzählung mit Figuren in Aktion, viele Einstellungen, Untertitel 1–2 Wörter (maxWords 2) in der Mitte. Erster Test: ys_bridge (Brooklyn-Bridge-Betrug).
