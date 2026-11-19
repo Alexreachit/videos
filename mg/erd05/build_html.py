@@ -17,3 +17,5 @@ T['depth'] = [round(SH.depth_at(f / SH.FPS), 1) for f in range(SH.NF)]
 head = open(os.path.join(HERE, "head.html")).read(); body = open(os.path.join(HERE, "overlay.js")).read()
 open(os.path.join(HERE, "scene.html"), "w").write(head + "const ANCH = " + json.dumps(A, separators=(",", ":")) + ";\nconst TT = " + json.dumps(T) + ";\nconst MAP = " + json.dumps(list(range(SH.NF)), separators=(',', ':')) + ";\n" + body)
 print("scene.html", SH.NF, "frames")
+
+json.dump({"ANCH": A, "TT": T}, open(os.path.join(HERE, "anchors_tt.json"), "w"))
