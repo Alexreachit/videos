@@ -34,7 +34,7 @@ jobs:
           NAME=${{ steps.q.outputs.n }}
           ls parts; [ "$(ls parts | wc -l)" = "20" ] || { echo "nicht alle 20 Teile da"; exit 1; }
           for f in $(ls parts | sort); do echo "file 'parts/$f'" >> list.txt; done; cat list.txt
-          ffmpeg -v error -y -f concat -safe 0 -i list.txt -c:v libx264 -crf ${{ steps.q.outputs.c }} -preset slow -pix_fmt yuv420p ${NAME}_silent.mp4
+          ffmpeg -v error -y -f concat -safe 0 -i list.txt -c:v libx264 -crf ${{ steps.q.outputs.c }} -preset medium -pix_fmt yuv420p ${NAME}_silent.mp4
           ls -la ${NAME}_silent.mp4; ffprobe -v error -show_entries format=duration -of csv=p=0 ${NAME}_silent.mp4
           git config --global user.name "mg-bot"; git config --global user.email "mg-bot@users.noreply.github.com"
           for k in 1 2 3 4 5 6 7 8; do
