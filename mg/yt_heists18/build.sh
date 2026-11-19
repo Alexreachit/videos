@@ -1,1 +1,1 @@
-cd "$(dirname "$0")" && { cat p0_shell.html p1_base.js p2_gardner.js p3_train.js p4_louvre.js p5_hatton.js p6_dresden.js p9_draw.js; echo '</script></body></html>'; } > scene.html
+cd "$(dirname "$0")" && { cat p0_shell.html p1_base.js p2_gardner.js p3_train.js p4_louvre.js p5_hatton.js p6_dresden.js p7_antwerp.js p8_gardner1.js p9_draw.js; echo '</script></body></html>'; } > scene.html

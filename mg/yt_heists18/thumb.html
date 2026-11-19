@@ -1,0 +1,21 @@
+<!doctype html><meta charset=utf-8><style>
+@font-face{font-family:IB;src:url(fonts/Inter-Black.otf);font-weight:900}
+body{margin:0}#t{position:relative;width:1280px;height:720px;overflow:hidden;background:#1d2a26}
+.tx{position:absolute;font:900 120px/1 IB;color:#fff;letter-spacing:-2px}
+</style><div id=t>
+<img src="thumb_bg.png" style="position:absolute;left:-200px;top:-120px;width:1700px;filter:brightness(1.25) saturate(1.2) blur(2px)">
+<div style="position:absolute;inset:0;background:radial-gradient(ellipse at 34% 50%,#fff3c040 0%,transparent 45%,#000a 100%)"></div>
+<!-- grosser leerer Goldrahmen -->
+<div style="position:absolute;left:110px;top:120px;width:380px;height:470px;box-sizing:border-box;border:46px solid #e2b23c;border-radius:6px;box-shadow:inset 0 0 0 8px #8a5a1a,0 0 0 8px #8a5a1a,0 0 80px #ffd16688,0 30px 50px #000a;background:#2f4a40"></div>
+<div style="position:absolute;left:140px;top:150px;width:320px;height:410px;border:6px dashed #ffffff33"></div>
+<div style="position:absolute;left:300px;top:355px;transform:translate(-50%,-50%) rotate(-10deg);font:900 230px IB;color:#ffd166;text-shadow:0 0 0 #000,6px 6px 0 #232838,-6px -6px 0 #232838,6px -6px 0 #232838,-6px 6px 0 #232838">?</div>
+<div id=thief style="position:absolute;left:700px;top:215px"></div>
+<div class=tx style="left:640px;top:40px;font-size:150px;color:#ffd166;text-shadow:7px 7px 0 #232838,-7px -7px 0 #232838,7px -7px 0 #232838,-7px 7px 0 #232838,0 14px 30px #000">$500M</div>
+<div style="position:absolute;left:560px;top:585px;white-space:nowrap;transform:rotate(-4deg);border:11px solid #e0303a;border-radius:22px;padding:4px 26px;background:#fff;color:#e0303a;font:900 80px/1 IB;box-shadow:0 14px 30px #000a">STILL MISSING</div>
+</div>
+<script src="../lib/core.js"></script><script src="../lib/samrig.js"></script><script>
+const OL='#232838';
+const HAT=`<path d="M38,96 Q30,10 100,14 Q170,10 162,96 Q164,150 100,152 Q36,150 38,96Z" fill="#23232c" stroke="${OL}" stroke-width="6"/><rect x="62" y="70" width="78" height="30" rx="14" fill="#f7e4b5" stroke="${OL}" stroke-width="4"/>`;
+const PAINT=`<g transform="translate(-30,-150)"><rect x="0" y="0" width="190" height="150" rx="4" fill="#2e4a6a" stroke="#e2b23c" stroke-width="14"/><path d="M24,112 Q70,50 110,95 Q140,60 166,112Z" fill="#e8d8a8"/><path d="M60,40 L120,40 L95,95Z" fill="#d8ccaa"/></g>`;
+document.getElementById('thief').innerHTML = MG_SAM.svg({w:290, sw:'#2b2b36', swd:'#1e1e28', pa:'#2f2f3a', hat:HAT, mouth:'grin', look:[6,0], prop:PAINT, hR:[214,110], hL:[150,120], legL:.6, legR:-.5, lean:.18, bob:8});
+</script>
