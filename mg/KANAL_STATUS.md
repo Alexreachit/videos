@@ -448,3 +448,12 @@
 - Abgebrochen: Chrome-Erweiterung auf Alex' PC nicht erreichbar (PC aus/Schlaf oder Chrome zu). Keine Analyse, nichts im Studio geändert, nichts hochgeladen.
 - Takt unkritisch: Brücken-Short CIKXsaaE21s ist für 21.11. 19:00 geplant, yt_fortune17 22.11., yt_heists18 25.11. Nächster Short fällig 23.11. (neuer Figurenstil), nächstes Langvideo fällig 28.11.
 - Auswertung Louvre-Short + yt_cons16 (live seit 19.11.) im nächsten Lauf mit Chrome nachholen.
+
+## Lauf 2026-11-20 ~16:50 MEZ (Routine, Automatik)
+- Chrome erreichbar. 11 Abos (unverändert). 28 T: 7.964 Aufrufe, 23,1 h. 48-h-Echtzeit: Louvre 34, Bank 4, Investment-Banking 3.
+- Shorts: Louvre ZLKwvpFuD24 nach ~22 h: 34 Aufrufe, 0 Abos, Wiedergabezeit 0,0 h, weit unter "typischer Leistung" -> Flop (Bindung: "nicht genügend Daten") | Pizza 30 | Blockbuster 582 | PayPal 36 | Escobar 29 | Hushpuppi 3 | Milch 294 | Binance 57. Brücke CIKXsaaE21s 21.11. 19:00 geplant (geprüft).
+- Langform: yt_cons16 wWp3nB7dgJE nach ~22 h: 0 Aufrufe (!) | Never-age 2 | Ponzi 20 | Supermarkt 2 | Mistakes 19 | Bank 1.205. yt_fortune17 22.11. + yt_heists18 25.11. geplant (geprüft).
+- Erkenntnis: Auch Louvre (Code-UI-Karten, Heist-Uhr, Zähler) fiel durch – nach Pizza der zweite Short im alten UI-/Objekt-Stil in Folge mit <40 Aufrufen; Blockbuster/Eiffel (Marke/Wahrzeichen + "hätte") bleiben die einzigen Ausreißer.
+  Langvideos bekommen weiterhin praktisch keine Impressionen (Con Artists 0). -> Entscheidend ist jetzt der Brücken-Short (21.11., erster im 3D+2D-Figurenstil): erst dessen Zahlen abwarten, dann Stil für den 23.11.-Short festlegen.
+- Short-Takt: nichts fällig (Brücke 21.11.). Nächster Short fällig 23.11. -> im Lauf 21./22.11. nach erster Brücken-Auswertung bauen (Ideen: D. B. Cooper | Fyre Festival).
+- Langvideo-Takt: nächstes fällig 28.11. – noch nicht begonnen (Start spätestens 25./26.11.).
