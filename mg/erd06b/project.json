@@ -1,0 +1,103 @@
+{
+ "title": "TikTok-Serie Bis zum Erdkern – Tag 4 (Deutsch) – mit Intro",
+ "_sources": "Zahlen von Alex; Erdradius ~6.370 km (Britannica).",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "elevenlabs:Alexander - Deep TV Narrator (erd06b/voice)",
+ "rate": "+16%",
+ "lead": 0.05,
+ "gap": 0.12,
+ "tail": 1.4,
+ "crf": 20,
+ "music": {
+  "style": "cinematic",
+  "bpm": 100,
+  "gain": 0.12,
+  "ambience": 0.0,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.55,
+ "lines": [
+  {
+   "text": "Tag 4: Wir graben ein Loch bis zum Erdkern!",
+   "spec": {
+    "type": "intro"
+   },
+   "say": "Tag vier: Wir graben ein Loch bis zum Erdkern!"
+  },
+  {
+   "text": "Folg mir und werde Arbeiter. Jedes Like und jeder Share bringt uns tiefer!",
+   "spec": {
+    "type": "rules"
+   }
+  },
+  {
+   "text": "Wir sind jetzt 750 Arbeiter!",
+   "spec": {
+    "type": "count"
+   },
+   "say": "Wir sind jetzt siebenhundertfünfzig Arbeiter!"
+  },
+  {
+   "text": "Unser neuester Arbeiter: fosa! Willkommen am Loch!",
+   "spec": {
+    "type": "newest",
+    "mood": "bright"
+   },
+   "say": "Unser neuester Arbeiter: Fosa! Willkommen am Loch!"
+  },
+  {
+   "text": "49 Likes und 2 Shares: 59 Schaufeln pro Arbeiter.",
+   "spec": {
+    "type": "calc"
+   },
+   "say": "Neunundvierzig Likes und zwei Shares: neunundfünfzig Schaufeln pro Arbeiter."
+  },
+  {
+   "text": "Und Blakes Diamantschaufel gräbt heute zum ersten Mal mit: zehnmal so tief!",
+   "spec": {
+    "type": "blake",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Gestern 80,9 Kilometer, heute nur 4,5. Mehr Likes, mehr Tiefe!",
+   "spec": {
+    "type": "desc"
+   },
+   "say": "Gestern achtzig Komma neun Kilometer, heute nur vier Komma fünf. Mehr Likes, mehr Tiefe!"
+  },
+  {
+   "text": "Lena wollte einen pinken Helm. Bitteschön, Lena!",
+   "spec": {
+    "type": "lena",
+    "mood": "bright"
+   }
+  },
+  {
+   "text": "Bis zum Erdkern fehlen noch über 6.283 Kilometer.",
+   "spec": {
+    "type": "earth",
+    "mood": "calm"
+   },
+   "say": "Bis zum Erdkern fehlen noch über sechstausendzweihundertdreiundachtzig Kilometer."
+  },
+  {
+   "text": "Der beste Kommentar bekommt jeden Tag ein Upgrade.",
+   "spec": {
+    "type": "rule"
+   }
+  },
+  {
+   "text": "Was brauchen wir als Nächstes? Schreib es in die Kommentare!",
+   "spec": {
+    "type": "comment"
+   }
+  }
+ ]
+}
