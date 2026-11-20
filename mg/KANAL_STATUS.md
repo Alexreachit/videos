@@ -443,3 +443,8 @@
   Render v1 mg-chunks Run 44564047206 -> Kontaktblätter 1 Bild/s (alle 374 s) angesehen: Gefängnisgitter lag über den Untertiteln, Outro-Labels überlappten -> v2 Run 44573528510, nachgeprüft ok. Ø -20,8 dB / max -2,3 dB.
 - NÄCHSTE TERMINE: Short fällig 23.11. (im neuen Figurenstil; Ideen: Fyre Festival | D. B. Cooper (Flugzeug-Entführung 1971, $200.000, nie gefunden) | Mt. Gox nur mit greifbarem Objekt). Langvideo fällig 28.11.
 - Auswertung nächster Lauf: Louvre-Short + yt_cons16 (live 19.11.), Brücken-Short (21.11., erster Short im neuen Stil), ab 23.11. CTR yt_fortune17, ab 26.11. yt_heists18 (erstes Langvideo im neuen Stil) vs. Ponzi.
+
+## Lauf 2026-11-20 (Routine, Automatik)
+- Abgebrochen: Chrome-Erweiterung auf Alex' PC nicht erreichbar (PC aus/Schlaf oder Chrome zu). Keine Analyse, nichts im Studio geändert, nichts hochgeladen.
+- Takt unkritisch: Brücken-Short CIKXsaaE21s ist für 21.11. 19:00 geplant, yt_fortune17 22.11., yt_heists18 25.11. Nächster Short fällig 23.11. (neuer Figurenstil), nächstes Langvideo fällig 28.11.
+- Auswertung Louvre-Short + yt_cons16 (live seit 19.11.) im nächsten Lauf mit Chrome nachholen.
