@@ -457,3 +457,12 @@
   Langvideos bekommen weiterhin praktisch keine Impressionen (Con Artists 0). -> Entscheidend ist jetzt der Brücken-Short (21.11., erster im 3D+2D-Figurenstil): erst dessen Zahlen abwarten, dann Stil für den 23.11.-Short festlegen.
 - Short-Takt: nichts fällig (Brücke 21.11.). Nächster Short fällig 23.11. -> im Lauf 21./22.11. nach erster Brücken-Auswertung bauen (Ideen: D. B. Cooper | Fyre Festival).
 - Langvideo-Takt: nächstes fällig 28.11. – noch nicht begonnen (Start spätestens 25./26.11.).
+
+## Lauf 2026-11-21 ~08:50 MEZ (Routine, Automatik)
+- Chrome erreichbar. 11 Abos (unverändert). 28 T (23.10.–19.11., Tageswerte nicht aktualisiert): 7.964 Aufrufe, 23,1 h, +7 Abos; Traffic 28 T: Suche 89 %, Videovorschläge 5 %. 48-h-Echtzeit: 49 Aufrufe (Louvre 37, Bank 6).
+- Shorts: Louvre ZLKwvpFuD24 36 nach ~1,5 T -> Flop bestätigt | Pizza 29 | Blockbuster 582 | Hushpuppi 3 | Escobar 31 | PayPal 36 | Milch 294 | Binance 57 | Eiffel 1.262 | Felicity 1.323 -> stehen.
+- Langform: yt_cons16 wWp3nB7dgJE nach ~1 T 13 h: 0 Aufrufe, nur 4 Impressionen (Ponzi hatte am 1. Tag 833) -> YouTube spielt es praktisch gar nicht aus | Ponzi 20 | Mistakes 19 | Never-age 2 | Supermarkt 2 | Bank 1.206.
+  Geplant geprüft: Brücke CIKXsaaE21s 21.11. 19:00, yt_fortune17 aY8cdCQgjL8 22.11., yt_heists18 77H2-Th4UcM 25.11.
+- Erkenntnis: Langvideos bekommen seit Ponzi kaum noch Impressionen (Con Artists 4) -> Reichweite hängt komplett an Shorts; Brücken-Short (erster im 3D+2D-Figurenstil) ist der entscheidende Test.
+- Short-Takt: nichts fällig. Nächster Short fällig 23.11. -> im Lauf 22.11. bauen, nach erster Brücken-Auswertung (Ideen: D. B. Cooper | Fyre Festival). Langvideo fällig 28.11., Start 25./26.11.
+- Keine Korrekturen, nichts im Studio geändert, nichts hochgeladen.
