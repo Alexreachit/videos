@@ -21,7 +21,7 @@ DEPTH0 = 93881.3                        # Tiefe vor Tag 6
 DEPTH = 103385.1                        # Tiefe nach Tag 6 (+ 9.503,8 m)
 KOLA, CRUST = 12262., 40000.
 T_DESC0 = ST[6][0] - .05                # Schnitt in den Schacht (bei 93,9 km)
-T_DESC1 = ST[6][0] + 2.5                # unten angekommen
+T_DESC1 = ST[6][0] + 1.9                # unten angekommen
 T_VEIN = T_DESC1
 T_UP = ST[7][0] - .05                   # unten bleiben bis zum All (keine Lena-Szene)
 T_BLAKE = T_UP                          # (Szene: ab hier wieder Oberflaeche)
@@ -135,9 +135,9 @@ def cam_at(t):
     if t < T_DESC1:
         z = cam_z(t); return [.2, -.4, z], [0, 0, z - 40]
     if t < T_UP:                         # unten: zu den Arbeitern drehen
-        u = sm(T_DESC1 + .1, T_DESC1 + 1.5); z = ZB
+        u = sm(T_DESC1 + .02, T_DESC1 + .85); z = ZB
         p = vlerp([.2, -.4, z], [0., -1.9, z + .3], u); tg = vlerp([0, 0, z - 40], [0., 2.5, z - .4], u)
-        return add(p, [0, max(0., t - T_DESC1 - 1.5) * .06, 0]), tg
+        return add(p, [0, max(0., t - T_DESC1 - .85) * .06, 0]), tg
     if t < T_SPACE:                      # Lena mit pinkem Helm
         u = sm(T_UP, T_SPACE); return vlerp([2.55, -.45, 1.75], [2.45, -.7, 1.7], u), vlerp([2.05, -3.0, 1.05], [2.05, -3.05, 1.05], u)
     if t < T_BACK:
