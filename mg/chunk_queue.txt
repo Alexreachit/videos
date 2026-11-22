@@ -1,2 +1,2 @@
 ys_cooper
-# v1 2026-11-22
+# v2 2026-11-22 (Passagier vor Kamera, Labels)

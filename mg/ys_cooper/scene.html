@@ -289,8 +289,8 @@ window.draw = function (t) {
   }
   if (i >= 1 && i <= 3) {
     // Passagiere (sitzend, hinter den Lehnen abgeschnitten)
-    const rows = [[2, -1.35], [3, .85], [4, -.85], [5, 1.35], [6, -1.35], [7, .85], [9, -.85], [10, 1.35], [12, -1.35], [13, .85], [15, -.85], [16, 1.35]];
-    rows.forEach(([r, z], k) => { const x = C0[0] - 10 + r * .95, cy = w.project([seatTop(r + 1).x, seatTop(r + 1).y, C0[2] + z]).y;
+    const rows = [[2, -1.35], [3, -.85], [4, -.85], [5, 1.35], [6, -1.35], [7, .85], [9, -.85], [10, 1.35], [12, -1.35], [13, .85], [15, -.85], [16, 1.35]];
+    rows.forEach(([r, z], k) => { const x = C0[0] - 10 + r * .95; if (x > c.pos[0] - 1.2) return; const cy = w.project([seatTop(r + 1).x, seatTop(r + 1).y, C0[2] + z]).y;
       ov += fig([x, -.12, C0[2] + z], 'pax', { sw: PAXC[k % 8], swd: PAXC[k % 8], hat: HAIR[k % 4], mouth: i >= 2 && k < 4 ? 'o' : 'smile', blink: bl(k * .7), look: [Math.sin(t * .7 + k) * 3, 0] }, 1.75, cy) });
     const cx = C0[0] - 10, cz = C0[2] + .85, clipC = i == 1 ? w.project([seatTop(1).x, seatTop(1).y, cz]).y : w.project([cx + .24, .44, cz]).y;
     const L2 = Lt(2), tGive = wt(2, /attendant/), tNote = wt(2, /note/), tBomb = wt(2, /bomb/);
@@ -309,7 +309,7 @@ window.draw = function (t) {
     const ta = L4.start + .4, ux = ez(cl((t - ta) / 2.2, 0, 1));
     ov += fig([lerp(RW[0] + 20, RW[0] + 9, ux), 0, lerp(RW[2] + 17, RW[2] + 5, ux)], 'agent', Object.assign({ mouth: 'hmm', blink: bl(2), propL: P_BAG, hL: [44, 226], prop: P_PACK, hR: [170, 220], look: [-6, -2] }, ux < 1 ? walk(t, 8) : {}));
     ov += labelAt([RW[0] + 9, 2.6, RW[2] + 10], PILL('36 PASSENGERS FREE', '#35a862', '#fff', 46), t, wt(4, /passengers/) - .1, Lt(5).start);
-    ov += labelAt([lerp(RW[0] + 20, RW[0] + 9, ux), 2.3, lerp(RW[2] + 17, RW[2] + 5, ux)], PILL('$200,000', '#ffd166', OL, 50), t, tMoney - .1, Lt(5).start);
+    
   }
   if (i == 6) {
     const dig = Math.abs(Math.sin(t * 9)), found = t > wt(6, /found/);
@@ -340,6 +340,7 @@ window.draw = function (t) {
   if (i == 3) { const a = wt(3, /two/) - .15, v = Math.round(lerp(0, 200000, ez(cl(t, a, a + .9)))); const tp = wt(3, /four/) - .1;
     if (t > a) ui += topPill(t, a, PILL(MG.fmt(v, 0, '$'), '#35a862', '#fff', 92), 230) + topPill(t, a + .5, PILL('IN $20 BILLS', '#ffd166', OL, 44), 370);
     [0, 1, 2, 3].forEach(k => { if (t > tp + k * .12) ui += CHUTE_ICON(pop(t, tp + k * .12, .3), 210 + k * 220) }) }
+  if (i == 4) ui += topPill(t, wt(4, /money/) - .1, PILL('💰 $200,000 DELIVERED', '#ffd166', OL, 52));
   if (i == 5) ui += topPill(t, wt(5, /night/) - .1, PILL('🌧 NIGHT · STORM · 10,000 FT', '#232838', '#fff', 46));
   if (i == 6) ui += topPill(t, Lt(6).start + .15, PILL('1980', '#232838', '#fff', 64)) + topPill(t, wt(6, /river/) - .2, PILL('🏞 COLUMBIA RIVER', '#3f7fb5', '#fff', 50), 410);
   if (i == 7) { ui += stampAt(540, 560, t, wt(7, /never/) - .05, 'NEVER FOUND', '#e0303a', 108, -8); ui += topPill(t, wt(7, /neither/) - .1, PILL('🕵 STILL UNIDENTIFIED', '#232838', '#fff', 50), 760) }
