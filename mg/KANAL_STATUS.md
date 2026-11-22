@@ -466,3 +466,11 @@
 - Erkenntnis: Langvideos bekommen seit Ponzi kaum noch Impressionen (Con Artists 4) -> Reichweite hängt komplett an Shorts; Brücken-Short (erster im 3D+2D-Figurenstil) ist der entscheidende Test.
 - Short-Takt: nichts fällig. Nächster Short fällig 23.11. -> im Lauf 22.11. bauen, nach erster Brücken-Auswertung (Ideen: D. B. Cooper | Fyre Festival). Langvideo fällig 28.11., Start 25./26.11.
 - Keine Korrekturen, nichts im Studio geändert, nichts hochgeladen.
+
+## Lauf 2026-11-22 ~16:50 MEZ (Routine, Automatik)
+- Chrome erreichbar. Brücken-Short CIKXsaaE21s (erster im 3D+2D-Figurenstil, live 21.11. 19:00): 377 Aufrufe nach ~22 h (Welle in den ersten ~6 h, dann flach), 8 Likes, 1,2 h Wiedergabezeit, 41,1 % angesehen / 58,9 % weggewischt, 0 Abos, Bindungskurve "nicht genügend Daten".
+  -> ~10x Louvre (35) / Pizza (29): bester Short seit Blockbuster (582). Figuren-Story mit Wahrzeichen + Betrug funktioniert -> 3D+2D-Figurenstil bleibt Standard.
+- Shorts sonst unverändert (Louvre 35, Pizza 29, Blockbuster 582, Hushpuppi 3). Langform: Con Artists wWp3nB7dgJE 0, Never-age 2, Ponzi 20; geplant geprüft: yt_fortune17 aY8cdCQgjL8 heute 19:00, yt_heists18 77H2-Th4UcM 25.11. 19:00.
+- Short-Takt: Short fällig 23.11. -> ys_cooper (D. B. Cooper, Figurenstil) wird gerade in einer ANDEREN Session gebaut (v2-Render 16:44) – hier nicht angefasst, um Doppelarbeit/Doppel-Upload zu vermeiden.
+- Langvideo-Takt: nächstes fällig 28.11., Start 25./26.11. (Figurenstil).
+- Keine Korrekturen, nichts im Studio geändert, nichts hochgeladen.
