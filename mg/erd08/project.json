@@ -1,0 +1,86 @@
+{
+ "title": "TikTok-Serie Bis zum Erdkern – Tag 6 (Deutsch)",
+ "_sources": "Zahlen von Alex; Erdradius ~6.370 km (Britannica).",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "elevenlabs:Alexander - Deep TV Narrator (erd08/voice)",
+ "rate": "+16%",
+ "lead": 0.05,
+ "gap": 0.12,
+ "tail": 1.4,
+ "crf": 20,
+ "music": {
+  "style": "cinematic",
+  "bpm": 100,
+  "gain": 0.12,
+  "ambience": 0.0,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.55,
+ "lines": [
+  {
+   "text": "Tag 6: Wir graben ein Loch bis zum Erdkern!",
+   "spec": {
+    "type": "intro"
+   },
+   "say": "Tag sechs: Wir graben ein Loch bis zum Erdkern!"
+  },
+  {
+   "text": "Die Regeln: Folgen macht dich zum Arbeiter, jedes Like ist eine Schaufel, jeder Share sogar fünf!",
+   "spec": {
+    "type": "rules"
+   }
+  },
+  {
+   "text": "Wir sind jetzt 770 Arbeiter!",
+   "spec": {
+    "type": "count"
+   },
+   "say": "Wir sind jetzt siebenhundertsiebzig Arbeiter!"
+  },
+  {
+   "text": "Neu dabei: Tutorials! Willkommen am Loch!",
+   "spec": {
+    "type": "newest"
+   }
+  },
+  {
+   "text": "42 Likes, 16 Shares: 122 Schaufeln!",
+   "spec": {
+    "type": "calc"
+   },
+   "say": "Zweiundvierzig Likes, sechzehn Shares: hundertzweiundzwanzig Schaufeln!"
+  },
+  {
+   "text": "Karlstumbles wollte wissen, wo er steht. Hier bist du!",
+   "spec": {
+    "type": "karl"
+   }
+  },
+  {
+   "text": "Heute 9,5 Kilometer: 100 Kilometer geknackt!",
+   "spec": {
+    "type": "desc"
+   },
+   "say": "Heute neun Komma fünf Kilometer: hundert Kilometer geknackt!"
+  },
+  {
+   "text": "Noch über 6.266 Kilometer!",
+   "spec": {
+    "type": "earth"
+   },
+   "say": "Noch über sechstausendzweihundertsechsundsechzig Kilometer!"
+  },
+  {
+   "text": "Was brauchen wir als Nächstes? Schreib es in die Kommentare!",
+   "spec": {
+    "type": "comment"
+   }
+  }
+ ]
+}
