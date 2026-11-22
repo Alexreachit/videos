@@ -474,3 +474,17 @@
 - Short-Takt: Short fällig 23.11. -> ys_cooper (D. B. Cooper, Figurenstil) wird gerade in einer ANDEREN Session gebaut (v2-Render 16:44) – hier nicht angefasst, um Doppelarbeit/Doppel-Upload zu vermeiden.
 - Langvideo-Takt: nächstes fällig 28.11., Start 25./26.11. (Figurenstil).
 - Keine Korrekturen, nichts im Studio geändert, nichts hochgeladen.
+
+## Lauf 2026-11-22 ~16:00–18:15 MEZ (Routine, Automatik)
+- Chrome erreichbar. 11 Abos (unverändert). 28 T (25.10.–21.11.): 8.330 Aufrufe, 23,7 h, +7 Abos. 48-h-Echtzeit: 385 Aufrufe (fast alles Brücke).
+- Shorts: BRÜCKE CIKXsaaE21s (erster Short im 3D+2D-Figurenstil) nach ~21 h: 375 Aufrufe (über "typischer Leistung" 255), 40,9 % angesehen / 59,1 % weggewischt, 8 Likes (Kanal-Rekord), Wiedergabezeit 1,1 h
+  -> bester Short-Start seit Eiffel; Bindung deutlich besser als Louvre/Pizza/Blockbuster (15–27 %). Louvre 35 | Pizza 29 | Blockbuster 582 | Hushpuppi 3 | Escobar 31 | PayPal 36 | Milch 294 -> stehen.
+- Langform: Con Artists wWp3nB7dgJE 0 | Never-age 2 | Ponzi 20 | Supermarkt 2 | Mistakes 20 | Bank 1.207. yt_fortune17 aY8cdCQgjL8 heute 19:00, yt_heists18 77H2-Th4UcM 25.11. geplant (geprüft).
+- ERKENNTNIS (Animation): Der neue Stil nach Alex' Referenz (Figuren-Geschichte in 3D-Toon-Welt, Kamerawechsel alle 2–3 s, Untertitel 2 Wörter) funktioniert klar besser als UI-Karten/Zähler-Shorts. -> Shorts ab jetzt nur noch so. Thema: Betrug/Kriminalfall mit bekanntem Objekt (Brücke) passt.
+- SHORT GEBAUT + GEPLANT: ys_cooper "He Hijacked a Plane for $200,000 – Then Jumped Out 🪂" ID zK00wgXprTM, öffentlich 23.11.2026 19:00 (GMT+1), nicht für Kinder, Beschreibung mit Quellen + #dbcooper #truecrime #mystery #history #shorts. 28,7 s, Ø -20,1 dB / max -3,1 dB.
+  Stil wie ys_bridge: 727-artiges Flugzeug (T-Leitwerk, Heck-Triebwerke, Hecktreppe, ohne Airline-Logo) im Gewittersturm (Regen, Blitze), Kabine mit Sitzreihen (sitzende Figuren hinter Lehnen per clip-path), Rollfeld Seattle bei Nacht, Sprung + Fallschirm (Kamera folgt), Flussufer 1980 (Junge gräbt, Geldbündel), Nachtwald (NEVER FOUND). Hook-Bild: Totale Flugzeug + Titel "HE HIJACKED A PLANE …AND VANISHED", Push-in auf Cooper; Ende fährt zurück auf das erste Bild (Loop).
+  Fakten: FBI "A Byte Out of History: D.B. Cooper" (2006/2016), History.com "Hijacker parachutes into thunderstorm"; Wikipedia (Rest nie gefunden, nie identifiziert). $5.800 laut FBI (History: ~$5.880) -> $5.800.
+  Sichtprüfung: Fake-TTS-Standbilder 3 Runden (Hero ohne erkennbares Flugzeug, Passagiere unsichtbar, Kamera im Baum, Geist-Fade-Fehler, Runway-Labels abgeschnitten u. a. korrigiert); Render v1 mg-chunks Run 45037366798 -> Kontaktblätter 2 Bilder/s komplett angesehen:
+  Passagierkopf vor der Kamera (9,5–10,5 s) + überlappende Labels (14,5 s) -> korrigiert; da die Runner belegt waren (Erdkern-Render), Abschnitt 9,3–15,7 s lokal mit der v1-Timeline neu gerendert und eingesetzt (Ton unverändert), nachgeprüft ok. Run v2 45039975566 war noch in der Warteschlange (ändert nichts mehr).
+- NÄCHSTE TERMINE: Short fällig 25.11. (neuer Figurenstil; Ideen: Fyre Festival | "The man who sold the Eiffel Tower twice" schon da -> Frank Abagnale nur wenn belegt | Great Brink's Robbery 1950 | Lufthansa-Raub 1978). Langvideo fällig 28.11. – noch NICHT begonnen (Start im Lauf 24./25.11., ebenfalls im 3D+2D-Stil, z. B. "Unsolved Mysteries of Money": Cooper-Sets wiederverwendbar).
+- Auswertung nächster Lauf: CTR yt_fortune17 (ab 23.11.), Cooper-Short (ab 24.11.) vs. Brücke.
