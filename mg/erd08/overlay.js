@@ -75,11 +75,11 @@ function hundredCard(t) {
 }
 function karlCard(t) {
   const l = Lt(5); if (t < l.start - .1 || t > TT.d0) return '';
-  const p = anc('karl', t), s = pop(t, wt(5, /hier/i) - .3, .45) * fade(t, TT.d0 - .2, TT.d0); if (!p || s <= .01) return '';
+  const p = anc('karl', t), s = pop(t, l.start + 1.2, .45) * fade(t, TT.d0 - .2, TT.d0); if (!p || s <= .01) return '';
   const bob = 12 * Math.sin(t * 7);
-  return `<div style="position:absolute;left:${p[0]}px;top:${p[1] - 70 + bob}px;transform:translate(-50%,-100%) scale(${s});transform-origin:50% 100%;text-align:center">
-      <div class="glass" style="position:relative;padding:12px 30px 16px;border-color:${GOLD}"><div class="sub" style="color:${GOLD};font-size:26px">TOP-KOMMENTAR</div><div style="font-size:64px;line-height:1.05">Karlstumbles</div><div class="sub" style="font-size:30px">Hier bist du!</div></div>
-      <div style="font-size:90px;line-height:1;margin-top:4px">👇</div></div>`;
+  return `<div style="position:absolute;left:${p[0]}px;top:${p[1] - 20 + bob}px;transform:translate(-50%,-100%) scale(${s});transform-origin:50% 100%;text-align:center">
+      <div class="glass" style="position:relative;padding:12px 30px 16px;border-color:${GOLD}"><div class="sub" style="color:${GOLD};font-size:34px">TOP-KOMMENTAR</div><div style="font-size:92px;line-height:1.05">Karlstumbles</div><div class="sub" style="font-size:40px">Hier bist du!</div></div>
+      <div style="font-size:130px;line-height:1;margin-top:4px">👇</div></div>`;
 }
 function missionCard(t) {
   const t0 = wt(0, /loch/i) - .25, s = pop(t, t0, .4) * fade(t, Lt(1).start - .2, Lt(1).start); if (s <= .01) return '';
