@@ -1,2 +1,2 @@
-erd09/scene.py erd09v 1141 0 samples=20 hrot=90
-# run 1795460470
+erd09/scene.py erd09d 767 622 samples=20 hrot=90
+# run 1795466121

@@ -255,10 +255,10 @@ _v = [_b.verts.new(p) for p in ((1,0,0),(-1,0,0),(0,1,0),(0,-1,0),(0,0,1.35),(0,
 for f_ in ((0,2,4),(2,1,4),(1,3,4),(3,0,4),(2,0,5),(1,2,5),(3,1,5),(0,3,5)): _b.faces.new([_v[i] for i in f_])
 _b.to_mesh(dm_); _b.free()
 do_ = bpy.data.objects.new("emilio_diamond", dm_); link(do_); do_.data.materials.append(DIAM); do_.scale = (.17, .17, .17)
-_dx, _dy = _kx * .93, _ky * .93
+_dx, _dy = _kx * 1.0, _ky * 1.0      # direkt ueber Emilio (vorher .93 -> oben aus dem Bild)
 for f in range(0, SH.NF + 1, 3):
     t = f / SH.FPS; vis = SH.ST[5][0] - .1 <= t < SH.T_DESC0
-    do_.location = (_dx, _dy, 2.35 * _ks + .06 * math.sin(t * 3.)); do_.rotation_euler = (0, 0, t * 2.2)
+    do_.location = (_dx, _dy, 1.95 * _ks + .05 * math.sin(t * 3.)); do_.rotation_euler = (0, 0, t * 2.2)
     do_.keyframe_insert("location", frame=f); do_.keyframe_insert("rotation_euler", frame=f)
 for f, v in ((0, True), (F(SH.ST[5][0] - .1), False), (F(SH.T_DESC0), True)):
     do_.hide_render = v; do_.keyframe_insert("hide_render", frame=f)
