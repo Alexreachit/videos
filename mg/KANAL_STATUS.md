@@ -493,7 +493,7 @@
 - Chrome erreichbar. 11 Abos (unverändert). 28 T (25.10.–21.11., Tageswerte nicht aktualisiert): 8.330 Aufrufe, 23,7 h, +7 Abos. 48-h-Echtzeit: 382 Aufrufe (fast alles Brücke).
 - Shorts: Brücke CIKXsaaE21s 377 nach ~1,5 T (seit gestern +2 -> Welle vorbei nach ~6 h), 41,1 % angesehen, 1,2 h, 0 Abos, 370 von 377 aus Shorts-Feed | Louvre 35 | Pizza 29 | Blockbuster 582 | Hushpuppi 3 | Escobar 31 | PayPal 36 -> stehen.
   Cooper zK00wgXprTM heute 23.11. 19:00 geplant (geprüft).
-- Langform: yt_fortune17 aY8cdCQgjL8 nach ~14 h: 2 Aufrufe, 19 Impressionen, CTR 5,3 % (Scheck-Thumbnail; CTR ok, aber YouTube testet kaum an), Ø 0:40 | Con Artists wWp3nB7dgJE 0 | Never-age 2 | Ponzi 20 | Supermarkt 2 | Mistakes 2x. yt_heists18 77H2-Th4UcM 25.11. 19:00 geplant (geprüft).
+- Langform: yt_fortune17 aY8cdCQgjL8 nach ~14 h: 2 Aufrufe, 19 Impressionen, CTR 5,3 % (Scheck-Thumbnail; CTR ok, aber YouTube testet kaum an), Ø 0:40 | Con Artists wWp3nB7dgJE 0 | Never-age 2 | Ponzi 20 | Supermarkt 2 | Mistakes ~20. yt_heists18 77H2-Th4UcM 25.11. 19:00 geplant (geprüft).
 - Erkenntnis: Figurenstil-Short (Brücke) holt ~10x mehr als UI-Shorts, aber die Welle endet nach ~6 h bei ~375 -> Takt alle 2 Tage beibehalten; Cooper heute zeigt, ob der Stil wiederholbar ist. Langvideos: Thumbnail-CTR erstmals >5 %, Engpass sind die Impressionen (Nische/Kanalgröße), nicht das Thumbnail.
 - Short-Takt: heute Cooper geplant, nächster Short fällig 25.11. -> im Lauf 24.11. bauen (Figurenstil; Ideen: Great Brink's Robbery 1950 | Lufthansa-Raub 1978 | Fyre Festival). Langvideo fällig 28.11., Start 24./25.11. (Figurenstil, z. B. "Unsolved Mysteries of Money", Cooper-Sets wiederverwenden).
 - Keine Korrekturen, nichts im Studio geändert, nichts hochgeladen.
