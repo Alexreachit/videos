@@ -498,3 +498,11 @@
 - Short-Takt: heute Cooper geplant, nächster Short fällig 25.11. -> im Lauf 24.11. bauen (Figurenstil; Ideen: Great Brink's Robbery 1950 | Lufthansa-Raub 1978 | Fyre Festival). Langvideo fällig 28.11., Start 24./25.11. (Figurenstil, z. B. "Unsolved Mysteries of Money", Cooper-Sets wiederverwenden).
 - Keine Korrekturen, nichts im Studio geändert, nichts hochgeladen.
 - Auswertung nächster Lauf: Cooper (live heute 19:00) vs. Brücke; yt_fortune17 Impressionen/CTR.
+
+## Lauf 2026-11-23 ~16:50 MEZ (Routine, Automatik)
+- Chrome erreichbar. Zahlen seit Morgen unverändert: Brücke 374 | Louvre 35 | Pizza 29 | Blockbuster 582; Langform: yt_fortune17 2 | Con Artists 0 | Never-age 2 | Ponzi 20.
+  Geplant geprüft: Cooper zK00wgXprTM heute 23.11. 19:00, yt_heists18 77H2-Th4UcM 25.11. 19:00.
+- Erkenntnis: nichts Neues (Cooper erst ab 19:00 live).
+- Short-Takt: nichts fällig (Cooper heute). Nächster Short fällig 25.11. -> im Lauf 24.11. nach erster Cooper-Auswertung bauen (Figurenstil; Ideen: Great Brink's Robbery 1950 | Lufthansa-Raub 1978 | Fyre Festival).
+- Langvideo-Takt: fällig 28.11., Start 24./25.11. (Figurenstil, z. B. "Unsolved Mysteries of Money").
+- Keine Korrekturen, nichts im Studio geändert, nichts hochgeladen.
