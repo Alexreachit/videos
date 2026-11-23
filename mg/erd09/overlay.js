@@ -72,12 +72,11 @@ function karlCard(t) {
   const l = Lt(5); if (t < l.start - .1 || t > TT.d0) return '';
   const p = anc('karl', t), s = pop(t, wt(5, /diamanten/i) - .3, .45) * fade(t, TT.d0 - .2, TT.d0); if (!p || s <= .01) return '';
   const g = pop(t, wt(5, /diamantschaufel/i) - .2, .45);
-  return `<div class="glass" style="left:50%;top:230px;width:920px;transform:translateX(-50%) scale(${s});padding:18px 30px 24px;text-align:center;border-color:#7fe3ff">
+  return `<div class="glass" style="left:50%;top:1010px;width:920px;transform:translateX(-50%) scale(${s});transform-origin:50% 0;padding:18px 30px 24px;text-align:center;border-color:#7fe3ff">
       <div class="sub" style="color:#7fe3ff;font-size:32px">TOP-KOMMENTAR</div><div style="font-size:80px;line-height:1.05">Emilio</div>
       <div style="font-size:40px;opacity:.9">„Ich habe Diamanten gefunden“</div>
       <div style="margin-top:14px;font-size:54px;opacity:${Math.min(1, g)};transform:scale(${.7 + .3 * g})">💎 Belohnung: <span style="color:#7fe3ff">Diamantschaufel</span></div>
-      <div class="sub" style="font-size:28px;opacity:${Math.min(1, g)}">ab morgen gräbt Emilio 10× so tief</div></div>
-    <div style="position:absolute;left:${p[0]}px;top:${p[1] - 20 + 12 * Math.sin(t * 7)}px;transform:translate(-50%,-100%) scale(${s});font-size:120px">👇</div>`;
+      <div class="sub" style="font-size:28px;opacity:${Math.min(1, g)}">ab morgen gräbt Emilio 10× so tief</div></div>`;
 }
 function missionCard(t) {
   const t0 = wt(0, /loch/i) - .25, s = pop(t, t0, .4) * fade(t, Lt(1).start - .2, Lt(1).start); if (s <= .01) return '';
