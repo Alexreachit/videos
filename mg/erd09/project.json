@@ -1,0 +1,86 @@
+{
+ "title": "TikTok-Serie Bis zum Erdkern – Tag 7 (Deutsch)",
+ "_sources": "Zahlen von Alex; Erdradius ~6.370 km (Britannica).",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "elevenlabs:Alexander - Deep TV Narrator (erd09/voice, vorlaeufig)",
+ "rate": "+16%",
+ "lead": 0.05,
+ "gap": 0.12,
+ "tail": 1.4,
+ "crf": 20,
+ "music": {
+  "style": "cinematic",
+  "bpm": 100,
+  "gain": 0.12,
+  "ambience": 0.0,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.55,
+ "lines": [
+  {
+   "text": "Tag 7: Wir graben ein Loch bis zum Erdkern!",
+   "spec": {
+    "type": "intro"
+   },
+   "say": "Tag sieben: Wir graben ein Loch bis zum Erdkern!"
+  },
+  {
+   "text": "Die Regeln: Folgen macht dich zum Arbeiter, jedes Like ist eine Schaufel, jeder Share sogar fünf!",
+   "spec": {
+    "type": "rules"
+   }
+  },
+  {
+   "text": "Wir sind jetzt 793 Arbeiter!",
+   "spec": {
+    "type": "count"
+   },
+   "say": "Wir sind jetzt siebenhundertdreiundneunzig Arbeiter!"
+  },
+  {
+   "text": "Neu dabei: Lukas! Willkommen am Loch!",
+   "spec": {
+    "type": "newest"
+   }
+  },
+  {
+   "text": "45 Likes, 6 Shares: 75 Schaufeln!",
+   "spec": {
+    "type": "calc"
+   },
+   "say": "Fünfundvierzig Likes, sechs Shares: fünfundsiebzig Schaufeln!"
+  },
+  {
+   "text": "Emilio hat Diamanten gefunden! Dafür bekommt er eine Diamantschaufel!",
+   "spec": {
+    "type": "emilio"
+   }
+  },
+  {
+   "text": "Heute 6 Kilometer. Jetzt sind wir 109 Kilometer tief!",
+   "spec": {
+    "type": "desc"
+   },
+   "say": "Heute sechs Kilometer. Jetzt sind wir hundertneun Kilometer tief!"
+  },
+  {
+   "text": "Noch über 6.260 Kilometer!",
+   "spec": {
+    "type": "earth"
+   },
+   "say": "Noch über sechstausendzweihundertsechzig Kilometer!"
+  },
+  {
+   "text": "Was brauchen wir als Nächstes? Schreib es in die Kommentare!",
+   "spec": {
+    "type": "comment"
+   }
+  }
+ ]
+}

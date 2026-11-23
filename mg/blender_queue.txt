@@ -1,2 +1,2 @@
-erd08/scene.py stills=60,330,420,520,660,700,760,820,880 samples=20 pct=50 hrot=90
-# run 1795361467
+erd09/scene.py stills=60,400,500,640,700,760,800,880 samples=20 pct=50 hrot=90
+# run 1795460470
