@@ -512,3 +512,19 @@
 - Gelesen (Shorts-Liste): Cooper zK00wgXprTM nach ~15 h: 43 Aufrufe (im Bereich "typische Leistung", 0 in der letzten Stunde) -> deutlich schwächer als Brücke (375). Brücke 375 | Louvre 35 | Pizza 29 | Blockbuster 582 | Felicity 1.328 | Eiffel 1.262 -> stehen.
 - Erkenntnis: Figurenstil allein garantiert keine Welle – Brücke (Wahrzeichen + Betrug) zündete, Cooper (Flugzeug/Mystery) nicht. Bindung Cooper noch nicht gelesen (Verbindung weg). Nächster Short: wieder bekanntes Wahrzeichen/Objekt + Betrug.
 - OFFEN/FÄLLIG: Short für 25.11. 19:00 noch NICHT gebaut (Ideen: Great Brink's Robbery 1950 | Lufthansa-Raub 1978 | Fyre Festival – Wahrzeichen-Betrug bevorzugt). yt_heists18 77H2-Th4UcM für 25.11. 19:00 geplant (zuletzt 23.11. geprüft). Langvideo fällig 28.11. – nicht begonnen.
+
+## Lauf 2026-11-24 ~22:10–00:10 MEZ (Routine, Automatik, Nachholung)
+- Chrome erreichbar. COOPER zK00wgXprTM zündete verspätet (55. Jahrestag am 24.11.!): 1.189 Aufrufe in 48 h (vormittags noch 43), 98 % Shorts-Feed, 43,8 % angesehen / 56,2 % weggewischt, 20 Likes (Kanal-Rekord), +2 Abos, 3,4 h Wiedergabezeit
+  -> bester Short seit Eiffel/Felicity. Brücke 375 | Louvre 35 | Pizza 29 | Blockbuster 582 | Eiffel 1.262.
+- Langform: Fortune17 2 | Con Artists 1 | Never-age 3 | Ponzi 20 | Supermarkt 2 | Mistakes 20 | Bank 1.210. yt_heists18 77H2-Th4UcM 25.11. 19:00 geplant (geprüft).
+- ERKENNTNIS: 3D+2D-Figurenstil jetzt 2x erfolgreich (Brücke 375, Cooper 1.189). Krimi/Mystery mit echter Person + greifbarem Ort funktioniert; Jahrestag als Aufhänger könnte geholfen haben -> künftig Jahrestage prüfen und Short am/vor dem Jahrestag planen.
+- SHORT GEBAUT + GEPLANT: ys_brinks "11 Men Stole $2.7 Million – Then One of Them Talked 💰" ID MIYMvDx4EOs, öffentlich 25.11.2026 19:00 (GMT+1), nicht für Kinder, Vorabprüfung ok, Beschreibung mit 5 Quellen + #truecrime #heist #history #boston #shorts. 28,7 s, Ø -20,5 dB / max -1,7 dB.
+  Hook "Why you should never cheat your partners in crime", Figurenstil wie Cooper, modular wie yt_heists18 (p0/p1/p2_boston/p9 + build.sh, SHOT-Registry, Hochformat): Nachtstraße Boston + Brink's-Gebäude, Beobachter auf dem Dach (11 Köpfe),
+  Schlüssel-Kopie an der Tür (5 Schlüssel), Maskierte (bunte Halloween-Masken + Chauffeursmützen + Cabanjacken) laufen rein, Tresorraum (Rundtür, Angestellte mit Händen oben, Zähler $1,218,211), Versteck (Specs mit Brille, leerer Sack, "HIS SHARE: $0?"),
+  Gasse mit Auftragsmörder -> FBI-Büro, Deadline-Kalender 9->5 Tage + CHARGED, Gefängnis "8 × LIFE", Ende = Hero + YES/NO-Karte.
+  Fakten: FBI Byte Out of History 2007 + FBI Artefakt "Brinks Robbery Cap", Smithsonian, History.com, Wikipedia (Quellen in mg/ys_brinks/mk_project.py). Nicht verwendet (Quellen widersprüchlich): wie viel Geld je gefunden wurde.
+  Sichtprüfung: Fake-TTS-Standbilder 3 Runden (Dach-Kamera im Nachbarhaus, LKW-Rad vor der Kamera, Säcke blieben sichtbar, Figuren außerhalb des Bildes, Countdown >9) korrigiert; Render v1 Run 45489874083 -> Kontaktblätter 2 Bilder/s komplett angesehen:
+  CHARGED/BIGGEST-Stempel über Gesichtern, Schlüssel zu klein, Specs/FBI-Framing, Pillen über Lampe -> v2 Run 45494380258, Kontaktblätter erneut komplett angesehen: ok.
+- Technik: git fetch renders klappt mit `git fetch --depth 1 --no-tags origin +refs/heads/renders:refs/remotes/origin/renders` (Hintergrund, ~5–8 Min); Studio-Zeitfeld nur über die Optionsliste (19:00) setzen, Tippen geht nicht.
+- NÄCHSTE TERMINE: Short fällig 27.11. (Figurenstil; Ideen: Lufthansa-Raub 1978 | Fyre Festival | Jahrestage prüfen). Langvideo fällig 28.11. – noch NICHT begonnen (Start im nächsten Lauf; Idee "Unsolved Mysteries of Money" mit Cooper-/Brinks-Sets).
+- Auswertung nächster Lauf: Brinks-Short (25.11.) + yt_heists18 (25.11., erstes Langvideo im Figurenstil) vs. Ponzi; Cooper-Verlauf.
