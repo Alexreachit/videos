@@ -7,7 +7,7 @@
  ],
  "fps": 30,
  "scene": "scene.html",
- "voice": "elevenlabs:Alexander - Deep TV Narrator (erd09/voice, vorlaeufig)",
+ "voice": "elevenlabs:Alexander - Deep TV Narrator (erd09/voice; Zeilen 1+8 aus erd07)",
  "rate": "+16%",
  "lead": 0.05,
  "gap": 0.12,
