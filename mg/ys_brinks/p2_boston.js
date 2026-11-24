@@ -64,7 +64,7 @@ const DOOR = [3, 0, 0];          // Personaltuer (Fassade z=0)
   // ---- dunkle Gasse (Auftragsmoerder) ----
   mk(S, merge([at(G.box(30, .3, 20, '#2e3346', { base: true }), [AL[0], -.3, AL[2]]), at(G.box(30, 9, .4, '#5a3e36', { base: true }), [AL[0], 0, AL[2] - 3]),
     at(G.box(1.4, 1.2, 1, '#3a4a3a', { base: true }), [AL[0] + 3.4, 0, AL[2] - 2.2]), at(G.box(.9, 1.3, .9, '#4a4a52', { base: true }), [AL[0] - 3.6, 0, AL[2] - 2.2])]).vary(.03, 29), { outline: false });
-  mk(S, G.box(.4, .4, .3, '#ffe7a0', { base: true }), { pos: [AL[0] + .6, 3.6, AL[2] - 2.75], emis: 1, outline: false, cast: false });
+  mk(S, G.box(.4, .3, .3, '#f0c040', { base: true }), { pos: [AL[0] + .6, 3.6, AL[2] - 2.75], emis: .6, outline: false, cast: false });
 })();
 // Fluchtwagen (gruener Pritschen-LKW, 1949er Stil)
 const TRUCK = mk(S, merge([
@@ -124,12 +124,12 @@ SHOT.keys = { set: S, light: 'night',
   cam: i => ({ a: { pos: [DOOR[0] + 1.2, 1.6, 6.0], at: [DOOR[0] - .3, 1.3, 0], fov: 42 }, b: { pos: [DOOR[0] + 1.0, 1.5, 5.0], at: [DOOR[0] - .25, 1.2, 0], fov: 40 } }),
   figs: (t, i) => figk([DOOR[0] - .55, 0, 1.0], 'gang', 0, { mouth: 'hmm', blink: bl(t, 0), look: [6, 2], hR: [196 + 8 * Math.sin(t * 14), 140], prop: P_SCREW, sweat: false }, 1.75),
   ui: (t, i) => {
-    let h = pillAt(540, 250, t, wt(i, /months/) - .1, nextStart(i), '🗓 FOR MONTHS', '#232838', '#fff', 54);
     const a = wt(i, /copied/) - .1, b = wt(i, /every/) - .1;
+    let h = pillAt(540, 250, t, wt(i, /months/) - .1, b + .1, '🗓 FOR MONTHS', '#232838', '#fff', 54);
     if (t > a) { const n = t > b ? 1 + Math.min(5, Math.floor((t - b) / .14)) : 1;
-      let keys = ''; for (let k = 0; k < n; k++) keys += `<div style="display:inline-block;margin:0 -6px;transform:rotate(${-20 + k * 8}deg) scale(${pop(t, k == 0 ? a : b + (k - 1) * .14, .3)})"><svg width="170" height="300" viewBox="0 0 80 150"><circle cx="40" cy="30" r="24" fill="#ffd166" stroke="${OL}" stroke-width="6"/><circle cx="40" cy="30" r="9" fill="#fff6dc" stroke="${OL}" stroke-width="5"/><path d="M34,52 L46,52 L46,140 L60,140 L60,128 L52,128 L52,118 L62,118 L62,104 L46,104" fill="#ffd166" stroke="${OL}" stroke-width="6" stroke-linejoin="round"/></svg></div>`;
+      let keys = ''; for (let k = 0; k < n; k++) keys += `<div style="display:inline-block;margin:0 -4px;transform:rotate(${-20 + k * 8}deg) scale(${pop(t, k == 0 ? a : b + (k - 1) * .14, .3)})"><svg width="180" height="338" viewBox="0 0 80 150"><circle cx="40" cy="30" r="24" fill="#ffd166" stroke="${OL}" stroke-width="6"/><circle cx="40" cy="30" r="9" fill="#fff6dc" stroke="${OL}" stroke-width="5"/><path d="M34,52 L46,52 L46,140 L60,140 L60,128 L52,128 L52,118 L62,118 L62,104 L46,104" fill="#ffd166" stroke="${OL}" stroke-width="6" stroke-linejoin="round"/></svg></div>`;
       h += `<div style="position:absolute;left:0;right:0;top:360px;text-align:center;z-index:2200">${keys}</div>` }
-    h += pillAt(540, 720, t, b + .2, nextStart(i), '🔑 EVERY DOOR', '#ffd166', OL, 58);
+    h += pillAt(540, 250, t, b + .15, nextStart(i), '🔑 EVERY DOOR', '#ffd166', OL, 58);
     return h },
   sfx: i => [{ k: 'pop', t: wt(i, /months/) }, { k: 'click', t: wt(i, /copied/) }, ...[0, 1, 2, 3, 4].map(k => ({ k: 'tick', t: wt(i, /every/) + k * .14, f: 1800 }))] };
 SHOT.enter = { set: S, light: 'night',
@@ -153,20 +153,20 @@ SHOT.vault = { set: S, light: 'vault',
     let h = pillAt(540, 250, t, Lt(i).start + .1, nextStart(i), '⏱ ~20 MINUTES', '#232838', '#fff', 56);
     if (t > a - .4) h += pillAt(540, 400, t, a - .4, nextStart(i), MG.fmt(Math.round(v), 0, '$'), '#35a862', '#fff', 104) + pillAt(540, 530, t, a + .5, nextStart(i), '💵 IN CASH', '#ffd166', OL, 50);
     h += pillAt(540, 650, t, wt(i, /cash/) + .2, nextStart(i), '+ $1.5M IN CHECKS', '#3f7fb5', '#fff', 46);
-    h += stampAt(540, 1180, t, wt(i, /cash/) + .55, 'BIGGEST U.S. ROBBERY', '#e0303a', 68, -6);
+    h += stampAt(540, 790, t, wt(i, /cash/) + .55, 'BIGGEST U.S. ROBBERY', '#e0303a', 68, -6);
     return h },
   sfx: i => [{ k: 'pop', t: Lt(i).start + .1 }, { k: 'cash', t: wt(i, /million/) + .4 }, { k: 'pop', t: wt(i, /cash/) + .2 }, { k: 'impact', t: wt(i, /cash/) + .55, g: .6 }] };
 SHOT.split = { set: S, light: 'indoorWarm',
   cam: i => ({ a: { pos: [SH[0] + 1.0, 2.4, SH[2] + 9.4], at: [SH[0] + .3, 1.4, SH[2]], fov: 44 }, b: { pos: [SH[0] + 1.4, 2.0, SH[2] + 7.6], at: [SH[0] + .6, 1.3, SH[2]], fov: 42 } }),
   figs: (t, i) => { let h = ''; const sp = wt(i, /specs/i) - .1, ch = wt(i, /cheated/) - .1;
-    [[-2.0, -.9], [-.7, -1.2], [.6, -1.2]].forEach(([dx, dz], k) => h += figk([SH[0] + dx, 0, SH[2] + dz], 'gang', k + 1, { mouth: 'grin', talk: .25 + .2 * Math.sin(t * 5 + k), blink: bl(t, k), look: [k - 1, 3], prop: P_CASH, hR: [180, 120 + 10 * Math.sin(t * 4 + k)], propL: P_SACK, hL: [44, 226] }));
-    h += fig([SH[0] + 1.85, 0, SH[2] + .5], 'specs', { mouth: t > ch ? 'sad' : 'hmm', blink: bl(t, 3), sweat: t > ch, look: [-6, 2], propL: t > ch ? P_EMPTY : '', hL: t > ch ? [40, 150] : null, tilt: t > ch ? -.08 : 0 });
+    [[-2.3, -.9], [-1.0, -1.2], [.3, -1.2]].forEach(([dx, dz], k) => h += figk([SH[0] + dx, 0, SH[2] + dz], 'gang', k + 1, { mouth: 'grin', talk: .25 + .2 * Math.sin(t * 5 + k), blink: bl(t, k), look: [k - 1, 3], prop: P_CASH, hR: [180, 120 + 10 * Math.sin(t * 4 + k)], propL: P_SACK, hL: [44, 226] }));
+    h += fig([SH[0] + 1.45, 0, SH[2] + .5], 'specs', { mouth: t > ch ? 'sad' : 'hmm', blink: bl(t, 3), sweat: t > ch, look: [-6, 2], propL: t > ch ? P_EMPTY : '', hL: t > ch ? [40, 150] : null, tilt: t > ch ? -.08 : 0 });
     return h },
   upd: (t, i) => {},
-  ui: (t, i) => { let h = labelAt([SH[0] + 1.85, 2.25, SH[2] + .5], PILL('"SPECS"', '#232838', '#fff', 50), t, wt(i, /specs/i) - .15, nextStart(i));
-    const ch = wt(i, /cheated/) - .1; h += pillAt(540, 260, t, ch, nextStart(i), 'HIS SHARE: $0?', '#e0303a', '#fff', 70);
+  ui: (t, i) => { let h = labelAt([SH[0] + 1.45, 2.25, SH[2] + .5], PILL('"SPECS"', '#232838', '#fff', 50), t, wt(i, /specs/i) - .15, nextStart(i));
+    const ch = wt(i, /cheated/) - .1; h += pillAt(540, 220, t, ch, nextStart(i), 'HIS SHARE: $0?', '#e0303a', '#fff', 70);
     const piles = [...Array(10)].map((_, k) => `<div style="display:inline-block;margin:0 4px;transform:scale(${pop(t, Lt(i).start + .2 + k * .06, .25)})">${k == 9 && t > ch ? '<div style="width:62px;height:40px;border:5px dashed #e0303a;border-radius:6px"></div>' : '<div style="width:62px;height:40px;background:#5fb06a;border:5px solid ' + OL + ';border-radius:6px"></div>'}</div>`).join('');
-    h += `<div style="position:absolute;left:0;right:0;top:420px;text-align:center;z-index:2200">${piles}</div>`.replace('top:420px','top:380px');
+    h += `<div style="position:absolute;left:0;right:0;top:420px;text-align:center;z-index:2200">${piles}</div>`.replace('top:420px','top:330px');
     return h },
   sfx: i => [{ k: 'cash', t: Lt(i).start + .3 }, { k: 'ding', t: wt(i, /specs/i) }, { k: 'error', t: wt(i, /cheated/) }] };
 SHOT.fbi = { set: S, light: (t, i) => t < wt(i, /told/) - .15 ? 'night' : 'indoorWarm',
@@ -177,7 +177,7 @@ SHOT.fbi = { set: S, light: (t, i) => t < wt(i, /told/) - .15 ? 'night' : 'indoo
     if (t < c) { const u = ez(cl((t - Lt(i).start) / (c - Lt(i).start), 0, 1));
       h += fig([AL[0] - .7, 0, AL[2] + .4], 'specs', Object.assign({ mouth: t > wt(i, /hitman/) ? 'o' : 'hmm', blink: bl(t, 0), sweat: t > wt(i, /hitman/), look: [5, 0] }, walk(t, 7)));
       h += fig([lerp(AL[0] + 2.2, AL[0] + .9, u), 0, AL[2] - 1.0], 'hitman', Object.assign({ mouth: 'hmm', blink: 0, look: [-6, 1] }, u < 1 ? walk(t, 6) : {})) }
-    else { h += fig([FB[0] - 1.9, 0, FB[2] + .6], 'specs', { mouth: 'hmm', talk: .5 + .4 * Math.sin(t * 9), blink: bl(t, 1), look: [5, 0], hR: [176, 150 + 14 * Math.sin(t * 6)] });
+    else { h += fig([FB[0] - 1.55, 0, FB[2] + .6], 'specs', { mouth: 'hmm', talk: .5 + .4 * Math.sin(t * 9), blink: bl(t, 1), look: [5, 0], hR: [176, 150 + 14 * Math.sin(t * 6)] });
       h += fig([FB[0] + .3, 0, FB[2] - 1.6], 'agent', { mouth: 'smile', blink: bl(t, 2), look: [-6, 2], prop: P_PAD, hR: [160, 160], hL: [70, 170] }) }
     return h },
   ui: (t, i) => { const c = wt(i, /told/) - .15; let h = '';
@@ -198,7 +198,7 @@ SHOT.prison = { set: S, light: (t, i) => t < wt(i, /eight/i) - .15 ? 'indoorWarm
       h += pillAt(540, 260, t, a, c, '🗓 JANUARY 1956', '#232838', '#fff', 56);
       h += `<div style="position:absolute;left:50%;top:360px;transform:translate(-50%,0) scale(${pop(t, a + .2)});width:520px;background:#fff;border:8px solid ${OL};border-radius:28px;box-shadow:0 12px 0 #2328384d;text-align:center;overflow:hidden;z-index:2200">
         <div style="background:#e0303a;color:#fff;font:900 46px/1.6 IB,Arial;text-shadow:${shadowTxt(OL, 3)}">⏳ 6-YEAR DEADLINE</div><div style="font:900 150px/1.1 IB,Arial;color:${OL}">${d}</div><div style="font:900 44px/1.4 IB,Arial;color:${OL}">DAYS LEFT</div></div>`;
-      h += stampAt(540, 1060, t, wt(i, /charged/) - .05, 'CHARGED', '#e0303a', 100, -6, c);
+      h += stampAt(540, 820, t, wt(i, /charged/) - .05, 'CHARGED', '#e0303a', 100, -6, c);
       return h }
     for (let k = 0; k < 7; k++) h += `<div style="position:absolute;left:${110 + k * 140}px;top:0;width:28px;height:1290px;background:linear-gradient(90deg,#2a2a33,#6a6a76 45%,#2a2a33);border:4px solid ${OL};border-top:0;border-radius:0 0 14px 14px;z-index:1500"></div>`;
     h += `<div style="position:absolute;left:0;right:0;top:330px;height:26px;background:linear-gradient(#2a2a33,#6a6a76 45%,#2a2a33);border:4px solid ${OL};z-index:1500"></div>`;

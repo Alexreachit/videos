@@ -1,2 +1,2 @@
 ys_brinks
-# v1 2026-11-24 (Brinks-Raub 1950, Figurenstil)
+# v2 2026-11-24 (Stempel/Schluessel/Figuren-Positionen)
