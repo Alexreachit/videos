@@ -506,3 +506,9 @@
 - Short-Takt: nichts fällig (Cooper heute). Nächster Short fällig 25.11. -> im Lauf 24.11. nach erster Cooper-Auswertung bauen (Figurenstil; Ideen: Great Brink's Robbery 1950 | Lufthansa-Raub 1978 | Fyre Festival).
 - Langvideo-Takt: fällig 28.11., Start 24./25.11. (Figurenstil, z. B. "Unsolved Mysteries of Money").
 - Keine Korrekturen, nichts im Studio geändert, nichts hochgeladen.
+
+## Lauf 2026-11-24 ~10:50 MEZ (Routine, Automatik)
+- Chrome kurz erreichbar, dann Verbindung verloren (nach 2 Wiederholungen ~3 Min weiter weg) -> abgebrochen. Nichts im Studio geändert, nichts hochgeladen.
+- Gelesen (Shorts-Liste): Cooper zK00wgXprTM nach ~15 h: 43 Aufrufe (im Bereich "typische Leistung", 0 in der letzten Stunde) -> deutlich schwächer als Brücke (375). Brücke 375 | Louvre 35 | Pizza 29 | Blockbuster 582 | Felicity 1.328 | Eiffel 1.262 -> stehen.
+- Erkenntnis: Figurenstil allein garantiert keine Welle – Brücke (Wahrzeichen + Betrug) zündete, Cooper (Flugzeug/Mystery) nicht. Bindung Cooper noch nicht gelesen (Verbindung weg). Nächster Short: wieder bekanntes Wahrzeichen/Objekt + Betrug.
+- OFFEN/FÄLLIG: Short für 25.11. 19:00 noch NICHT gebaut (Ideen: Great Brink's Robbery 1950 | Lufthansa-Raub 1978 | Fyre Festival – Wahrzeichen-Betrug bevorzugt). yt_heists18 77H2-Th4UcM für 25.11. 19:00 geplant (zuletzt 23.11. geprüft). Langvideo fällig 28.11. – nicht begonnen.
