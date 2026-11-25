@@ -1,0 +1,942 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:IB;src:url(fonts/Inter-Black.otf);font-weight:900}
+@font-face{font-family:P;src:url(fonts/Poppins-Bold.ttf);font-weight:700}
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#1a2340}
+#stage{position:absolute;inset:0;overflow:hidden}
+#bg{position:absolute;inset:0}
+canvas{position:absolute;left:0;top:0;width:1920px;height:1080px}
+#ov,#ui,#fx{position:absolute;inset:0}
+#fx{z-index:3000}#ui{z-index:5000}
+.pill{position:absolute;font-family:IB,P,Arial;font-weight:900;border:6px solid #232838;border-radius:20px;padding:6px 26px;box-shadow:0 8px 0 #2328384d;white-space:nowrap}
+</style></head><body><div id="stage"><div id="bg"></div><canvas id="cv"></canvas><div id="ov"></div><div id="fx"></div><div id="ui"></div></div>
+<script src="../lib/core.js"></script><script src="../lib/mapdata.js"></script><script src="../lib/gl3d.js"></script><script src="../lib/samrig.js"></script>
+<script>
+// ===================== YT19 Lost Treasures – Basis (gl3d Toon + 2D-Figuren) =====================
+const W = 1920, H = 1080, G = GL3D, {cl, ez, ei, bo, lerp} = MG;
+const $ = id => document.getElementById(id);
+const OL = '#232838', PI = Math.PI;
+const shadowTxt = (c = OL, r = 5) => MG.outline(r).replace(/#000/g, c);
+const w = G.World($('cv'), W, H, 1.5);
+w.toon = true; w.rim = .34; w.outline = .0017;
+const at = (g, p, r = [0, 0, 0], s = [1, 1, 1]) => [g, G.m4.compose(p, r, s)];
+function merge(list) { const g = new G.Geo(); list.forEach(([a, m]) => g.add(a, m)); return g }
+// ---------- Sets: jedes Set an eigenem Ort, nur das aktive ist sichtbar ----------
+const SETS = {};
+function mk(set, geo, o = {}) { const m = w.mesh(geo, o); (SETS[set] || (SETS[set] = [])).push(m); m._v = o.vis ?? true; return m }
+function showSet(name) { for (const k in SETS) SETS[k].forEach(m => { if (k != name) m.vis = false; else if (m._auto !== false) m.vis = m._v }) }
+function tex(wd, ht, fn) { const c = document.createElement('canvas'); c.width = wd; c.height = ht; fn(c.getContext('2d'), wd, ht); return w.texture(c) }
+const TEXQ = [];
+function texPlane(set, wd, ht, fn, o = {}) { const m = mk(set, G.plane(wd, ht, 1, 1, '#ffffff'), Object.assign({ outline: false, cast: false }, o)); TEXQ.push(() => m.tex = fn()); return m }
+// Licht-Stimmungen
+const LIGHT = {
+  deep: { sun: [.2, .95, .2], sunCol: '#a8e4ff', sky: '#3a8ac0', gnd: '#1a3a5a', fog: '#0b2a48', fogN: 10, fogF: 60, shCol: '#1a3a70', bg: 'linear-gradient(#0d3a66 0%,#082646 60%,#051a33 100%)' },
+  amber: { sun: [.3, .85, .45], sunCol: '#ffe2a8', sky: '#ffd9a0', gnd: '#8a5a2a', fog: '#6a4426', fogN: 60, fogF: 200, shCol: '#a0603a', bg: '#4a2e1a' },
+  storm: { sun: [.6, .5, .4], sunCol: '#ffc890', sky: '#c9a8a0', gnd: '#5a5a6a', fog: '#8a7a86', fogN: 60, fogF: 260, shCol: '#6a5a8a', bg: 'linear-gradient(#3a3a5a 0%,#8a6a7a 45%,#f0a070 75%,#f6c890 100%)' },
+  night: { sun: [.4, .7, .5], sunCol: '#9fb2ec', sky: '#2c3a6e', gnd: '#202640', fog: '#1d2748', fogN: 40, fogF: 160, shCol: '#3a3f78', bg: 'radial-gradient(ellipse at 70% 20%,#3d4f8f 0%,#1d2748 55%,#141a33 100%)' },
+  indoorWarm: { sun: [.3, .85, .45], sunCol: '#ffe6c0', sky: '#f3dcc0', gnd: '#7a5a44', fog: '#4a3a34', fogN: 60, fogF: 200, shCol: '#8a6a8a', bg: '#3a2c2a' },
+  indoorDark: { sun: [.3, .85, .45], sunCol: '#b6c0e6', sky: '#6a74a0', gnd: '#2a2c40', fog: '#22263a', fogN: 40, fogF: 140, shCol: '#454a80', bg: '#1c2033' },
+  day: { sun: [.55, .75, .35], sunCol: '#fff1d6', sky: '#cfe9ff', gnd: '#b9a27a', fog: '#cfe6f6', fogN: 70, fogF: 260, shCol: '#8c9be0', bg: 'linear-gradient(#7fb6ea 0%,#bfe0f8 55%,#e8f3fb 100%)' },
+  vault: { sun: [.3, .85, .45], sunCol: '#eef2ff', sky: '#c4cce6', gnd: '#5a5e70', fog: '#3a4058', fogN: 50, fogF: 160, shCol: '#7a84b8', bg: '#2a3044' },
+  dusk: { sun: [.62, .45, .4], sunCol: '#ffd9a8', sky: '#f2c9a0', gnd: '#8a7a66', fog: '#e8c4a4', fogN: 60, fogF: 240, shCol: '#7f86c8', bg: 'linear-gradient(#5a7fc6 0%,#b9b6d6 40%,#f6cfa0 70%,#f3b27a 100%)' },
+};
+function setLight(k) { const L = LIGHT[k]; w.sun = G.v.norm(L.sun); w.sunCol = G.hex(L.sunCol); w.sky = G.hex(L.sky); w.gnd = G.hex(L.gnd); w.fog = G.hex(L.fog); w.fogN = L.fogN; w.fogF = L.fogF; w.shCol = G.hex(L.shCol); $('bg').style.background = L.bg }
+// ---------- Figuren (2D-SVG, wie ys_bridge) ----------
+const HAT = {
+  cap: `<path d="M38,50 Q38,8 100,6 Q162,8 162,50 Q100,40 38,50Z" fill="#8a6a4a" stroke="${OL}" stroke-width="6"/><path d="M128,44 Q176,40 188,56 Q150,62 124,54Z" fill="#6e523a" stroke="${OL}" stroke-width="6" stroke-linejoin="round"/>`,
+  cop: `<path d="M36,44 L42,4 Q100,-10 158,4 L164,44 Z" fill="#1b2f6b" stroke="${OL}" stroke-width="6" stroke-linejoin="round"/><circle cx="100" cy="24" r="10" fill="#ffd166" stroke="${OL}" stroke-width="4"/><path d="M40,42 Q100,60 160,42 L156,52 Q100,70 44,52Z" fill="#11131c" stroke="${OL}" stroke-width="4"/>`,
+  beanie: `<path d="M40,52 Q36,2 100,0 Q164,2 160,52 Q100,42 40,52Z" fill="#2a2a33" stroke="${OL}" stroke-width="6"/><rect x="40" y="40" width="120" height="16" rx="6" fill="#3a3a46" stroke="${OL}" stroke-width="5"/>`,
+  balaclava: `<path d="M38,96 Q30,10 100,14 Q170,10 162,96 Q164,150 100,152 Q36,150 38,96Z" fill="#23232c" stroke="${OL}" stroke-width="6"/><rect x="62" y="70" width="78" height="30" rx="14" fill="#f7e4b5" stroke="${OL}" stroke-width="4"/>`,
+  driver: `<path d="M40,48 Q40,12 100,10 Q160,12 160,48 Z" fill="#2c3550" stroke="${OL}" stroke-width="6"/><path d="M36,44 L164,44 L170,56 L30,56Z" fill="#1b2236" stroke="${OL}" stroke-width="5" stroke-linejoin="round"/>`,
+  guard: `<path d="M38,46 Q40,8 100,6 Q160,8 162,46 Z" fill="#5a6070" stroke="${OL}" stroke-width="6"/><path d="M34,42 Q100,60 166,42 L162,54 Q100,70 38,54Z" fill="#2a2e3a" stroke="${OL}" stroke-width="4"/>`,
+  detective: `<path d="M46,48 Q42,2 100,0 Q158,2 154,48Z" fill="#a07a4a" stroke="${OL}" stroke-width="6"/><path d="M30,48 Q100,34 170,48 Q172,60 100,58 Q28,60 30,48Z" fill="#8a6438" stroke="${OL}" stroke-width="5"/>`,
+  grey: `<path d="M50,40 Q60,14 100,16 Q140,14 150,40 Q130,28 100,30 Q70,28 50,40Z" fill="#e8e8ee" stroke="${OL}" stroke-width="5"/>`,
+};
+const MID = {
+  tie: `<path d="M84,150 L100,176 L116,150Z" fill="#fff" stroke="${OL}" stroke-width="3"/><path d="M100,160 L92,176 L100,214 L108,176Z" fill="#c0303a" stroke="${OL}" stroke-width="3"/>`,
+  buttons: `<circle cx="100" cy="178" r="5" fill="#ffd166" stroke="${OL}" stroke-width="2"/><circle cx="100" cy="200" r="5" fill="#ffd166" stroke="${OL}" stroke-width="2"/><circle cx="100" cy="222" r="5" fill="#ffd166" stroke="${OL}" stroke-width="2"/>`,
+  badge: `<path d="M112,168 l10,0 l4,8 l-4,8 l-10,0 l-4,-8z" fill="#ffd166" stroke="${OL}" stroke-width="3"/>`,
+  stripes: `<rect x="56" y="176" width="88" height="10" fill="#555"/><rect x="54" y="206" width="92" height="10" fill="#555"/>`,
+};
+const SWEAT = `<path d="M160,40 Q172,62 160,70 Q148,62 160,40Z" fill="#8fd3ff" stroke="${OL}" stroke-width="4"/>`;
+const LOOK = {
+  sam: { hat: HAT.cap },
+  thief: { sw: '#2b2b36', swd: '#1e1e28', pa: '#2f2f3a', hat: HAT.beanie },
+  mask: { sw: '#2b2b36', swd: '#1e1e28', pa: '#2f2f3a', hat: HAT.balaclava },
+  cop: { sw: '#22408e', swd: '#183070', pa: '#1a2a55', hat: HAT.cop, mid: MID.buttons },
+  fakecop: { sw: '#22408e', swd: '#183070', pa: '#1a2a55', hat: HAT.cop, mid: MID.buttons },
+  guard: { sw: '#6a7080', swd: '#555a68', pa: '#3a3e4a', hat: HAT.guard, mid: MID.badge },
+  driver: { sw: '#2c3550', swd: '#1f273d', pa: '#2a3045', hat: HAT.driver },
+  smock: { sw: '#f2f2ea', swd: '#d6d6cc', pa: '#5a4a3a' },
+  suit: { sw: '#3a3f55', swd: '#2c3044', pa: '#2c3044', mid: MID.tie },
+  old: { sw: '#6b5a4a', swd: '#57483a', pa: '#3e3a36', hat: HAT.grey },
+  prisoner: { sw: '#d0d0d0', swd: '#9a9a9a', pa: '#9a9a9a', mid: MID.stripes },
+  det: { sw: '#a07a4a', swd: '#8a6438', pa: '#5e4a36', hat: HAT.detective },
+};
+// p: Fusspunkt in 3D, H3: Figurenhoehe in Welt-Einheiten
+function fig(p, who, o = {}, H3 = 1.75) {
+  const q = w.project(p); if (!q.vis) return '';
+  const s = q.s * H3 / 350 * 240;
+  const oo = Object.assign({}, LOOK[who] || {}, o);
+  if (o.sweat) oo.hat = (oo.hat || '') + SWEAT;
+  return `<div style="position:absolute;left:${(q.x - s / 240 * 120).toFixed(1)}px;top:${(q.y - s / 240 * 342).toFixed(1)}px;width:${s.toFixed(1)}px;z-index:${Math.round(1000 - q.z)}">${MG_SAM.svg(Object.assign(oo, { w: s }))}</div>`;
+}
+const walk = (t, sp = 9) => ({ legL: .35 * Math.sin(t * sp), legR: -.35 * Math.sin(t * sp), bob: Math.abs(Math.sin(t * sp)) * 6 });
+const tk = (t, i) => MG_SAM.talk(t, MG.L(i)), bl = (t, k) => MG_SAM.blink(t + k);
+// Requisiten (SVG in der Hand)
+const PROP = {
+  sack: `<g transform="translate(-30,-10)"><path d="M6,0 Q30,-10 54,0 L60,56 Q30,66 0,56Z" fill="#c9b48a" stroke="${OL}" stroke-width="5"/><path d="M14,8 Q30,2 46,8" stroke="${OL}" stroke-width="4" fill="none"/><text x="30" y="42" text-anchor="middle" font-family="IB,Arial" font-weight="900" font-size="20" fill="#7a5a2a">£</text></g>`,
+  cash: `<g transform="translate(-34,-22) rotate(-10)"><rect x="0" y="0" width="68" height="40" rx="5" fill="#5fb06a" stroke="${OL}" stroke-width="5"/><rect x="28" y="0" width="12" height="40" fill="#f4efe2" stroke="${OL}" stroke-width="3"/></g>`,
+  glove: `<g transform="translate(-20,-26)"><path d="M6,40 L4,14 Q4,6 10,6 L12,26 L14,2 Q20,-2 22,4 L22,24 L26,4 Q32,0 34,6 L32,26 L38,10 Q44,8 44,14 L38,44 Q30,54 14,52Z" fill="#6b4a2e" stroke="${OL}" stroke-width="4"/></g>`,
+  cosh: a => `<g transform="rotate(${a})"><rect x="-6" y="-62" width="12" height="70" rx="6" fill="#3a3a44" stroke="${OL}" stroke-width="4"/></g>`,
+  magnifier: `<g transform="translate(-4,-6) rotate(-20)"><rect x="-6" y="0" width="12" height="46" rx="5" fill="#8a5a32" stroke="${OL}" stroke-width="4"/><circle cx="0" cy="-28" r="30" fill="#bfe6ff88" stroke="${OL}" stroke-width="7"/><circle cx="-8" cy="-36" r="8" fill="#fff" opacity=".7"/></g>`,
+  drill: `<g transform="translate(-10,-20)"><rect x="0" y="0" width="70" height="34" rx="8" fill="#e0303a" stroke="${OL}" stroke-width="5"/><rect x="66" y="10" width="44" height="12" fill="#c9ccd4" stroke="${OL}" stroke-width="4"/><rect x="14" y="30" width="18" height="34" rx="5" fill="#2a2a33" stroke="${OL}" stroke-width="4"/></g>`,
+  axe: a => `<g transform="rotate(${a})"><rect x="-5" y="-80" width="10" height="90" rx="4" fill="#a0703a" stroke="${OL}" stroke-width="4"/><path d="M4,-82 L34,-92 Q42,-70 34,-50 L4,-58Z" fill="#c9ccd4" stroke="${OL}" stroke-width="5" stroke-linejoin="round"/></g>`,
+  painting: `<g transform="translate(-50,-80)"><rect x="0" y="0" width="100" height="80" rx="3" fill="#2e4a6a" stroke="#c9a23c" stroke-width="9"/><path d="M14,58 Q40,30 60,50 Q76,30 88,58Z" fill="#e8d8a8"/></g>`,
+  bag: `<g transform="translate(-34,-6)"><path d="M4,10 Q34,-4 64,10 L68,58 Q34,68 0,58Z" fill="#2a2a33" stroke="${OL}" stroke-width="5"/><path d="M20,10 Q34,-14 48,10" stroke="${OL}" stroke-width="5" fill="none"/></g>`,
+  sandwich: `<g transform="translate(-30,-16)"><path d="M0,20 Q30,0 60,20 L60,30 Q30,22 0,30Z" fill="#e8b866" stroke="${OL}" stroke-width="4"/><rect x="2" y="26" width="56" height="6" fill="#d64545"/><path d="M0,34 Q30,28 60,34 L58,42 Q30,48 2,42Z" fill="#e8b866" stroke="${OL}" stroke-width="4"/></g>`,
+  spray: `<g transform="translate(-10,-40)"><rect x="0" y="10" width="22" height="46" rx="5" fill="#d35fa0" stroke="${OL}" stroke-width="4"/><rect x="5" y="0" width="12" height="12" fill="#c9ccd4" stroke="${OL}" stroke-width="3"/></g>`,
+};
+// ---------- UI-Helfer ----------
+const pop = (t, t0, d = .35) => bo(cl(t, t0, t0 + d));
+const fade = (t, t0, t1) => 1 - ez(cl(t, t0, t1));
+function stampAt(x, y, t, t0, txt, col, size = 110, rot = -8, t1 = 1e9) {
+  if (t < t0 || t > t1) return '';
+  return `<div style="position:absolute;left:${x}px;top:${y}px;transform:translate(-50%,-50%) rotate(${rot}deg) scale(${lerp(2.4, 1, ez(cl(t, t0, t0 + .15))) * fade(t, t1 - .2, t1)});border:11px solid ${col};border-radius:22px;padding:2px 30px;color:${col};background:#ffffffe0;font:900 ${size}px/1.0 IB,Arial;white-space:nowrap;z-index:2000">${txt}</div>`;
+}
+const PILL = (txt, bg, col = '#fff', fs = 44) => `<div class="pill" style="position:relative;display:inline-block;font-size:${fs}px;color:${col};background:${bg};${col == '#fff' ? 'text-shadow:' + shadowTxt(OL, 3) : ''}">${txt}</div>`;
+function pillAt(x, y, t, t0, t1, txt, bg, col = '#fff', fs = 44) {
+  if (t < t0 || t > t1) return '';
+  return `<div style="position:absolute;left:${x}px;top:${y}px;transform:translate(-50%,-50%) scale(${pop(t, t0) * fade(t, t1 - .2, t1)});z-index:2200">${PILL(txt, bg, col, fs)}</div>`;
+}
+function labelAt(p, html, t, t0, t1) {
+  if (t < t0 || t > t1) return ''; const q = w.project(p); if (!q.vis) return '';
+  const k = pop(t, t0, .4) * fade(t, t1 - .2, t1);
+  return `<div style="position:absolute;left:${q.x}px;top:${q.y}px;transform:translate(-50%,-100%) scale(${k});transform-origin:50% 100%;z-index:2100">${html}</div>`;
+}
+function bigText(x, y, t, t0, t1, html, size = 120, col = '#fff', rot = 0) {
+  if (t < t0 || t > t1) return '';
+  return `<div style="position:absolute;left:${x}px;top:${y}px;transform:translate(-50%,-50%) rotate(${rot}deg) scale(${pop(t, t0, .4) * fade(t, t1 - .2, t1)});font:900 ${size}px/1.02 IB,Arial;color:${col};text-align:center;white-space:nowrap;text-shadow:${shadowTxt(OL, 7)},0 10px 22px #0007;z-index:2300">${html}</div>`;
+}
+// Zaehler: v0->v1 zwischen ta..tb
+function counter(x, y, t, t0, t1, ta, tb, v0, v1, fmt, bg = '#35a862', col = '#fff', fs = 70) {
+  if (t < t0 || t > t1) return '';
+  const v = lerp(v0, v1, ez(cl(t, ta, tb)));
+  return pillAt(x, y, t, t0, t1, fmt(v), bg, col, fs);
+}
+// ---------- Timeline ----------
+const Lt = i => MG.L(i);
+const NL = () => MG.TL.lines.length;
+const SPEC = i => MG.TL.lines[i].spec || {};
+function wt(i, re, end) { const l = Lt(i); if (!l.words) return l.start; for (const x of l.words) if (re.test(x[0])) return l.start + (end ? x[2] : x[1]); return l.start + (l.end - l.start) * .4 }
+const nextStart = i => i + 1 < NL() ? Lt(i + 1).start : MG.TL.dur + 1;
+function lineAt(t) { let k = 0; for (let i = 0; i < NL(); i++) if (t >= Lt(i).start - .001) k = i; return k }
+const X = (p, dx, dy, dz) => [p[0] + dx, p[1] + dy, p[2] + dz];
+// SHOT-Registry: SHOT[name] = { set, light, cam(i)->[{t0,a,b}] oder {a,b}, upd(t,i,u), figs(t,i,u)->html, ui(t,i,u)->html, sfx(i)->[] }
+const SHOT = {};
+function camOf(i) {
+  const s = SHOT[SPEC(i).shot]; if (!s) return [{ t0: Lt(i).start, a: { pos: [0, 5, 20], at: [0, 1, 0], fov: 45 }, b: { pos: [0, 5, 20], at: [0, 1, 0], fov: 45 } }];
+  let c = s.cam(i); if (!Array.isArray(c)) c = [Object.assign({ t0: Lt(i).start }, c)];
+  return c;
+}
+let CAMS = null;
+function camAt(t) {
+  const i = lineAt(t), c = CAMS[i]; let k = 0; c.forEach((x, j) => { if (t >= x.t0 - .001) k = j });
+  const s = c[k], t1 = k + 1 < c.length ? c[k + 1].t0 : nextStart(i), u = ei(cl(t, s.t0, t1));
+  return { pos: G.v.lerp(s.a.pos, s.b.pos, u), at: G.v.lerp(s.a.at, s.b.at, u), fov: lerp(s.a.fov, s.b.fov, u) };
+}
+function cutTimes() { const r = []; for (let i = 1; i < NL(); i++) r.push(Lt(i).start); CAMS.forEach(c => c.slice(1).forEach(x => r.push(x.t0))); return r }
+// Kapitel-Karte (#6 ... #1) + kleines Kapitel-Label oben links
+const CHAP = [];   // {i, n, title, year, place}
+function chapterUI(t) {
+  let h = ''; let cur = null; CHAP.forEach(c => { if (t >= Lt(c.i).start) cur = c });
+  if (!cur) return '';
+  const t0 = Lt(cur.i).start, big = t < t0 + 2.6;
+  if (big) {
+    const k = pop(t, t0 + .05, .45), o = fade(t, t0 + 2.3, t0 + 2.6);
+    h += `<div style="position:absolute;left:0;right:0;top:120px;text-align:center;opacity:${o};z-index:2400">
+      <div style="display:inline-block;transform:scale(${k}) rotate(-3deg);font:900 230px/1 IB,Arial;color:#ffd166;text-shadow:${shadowTxt(OL, 10)},0 16px 30px #0008">#${cur.n}</div>
+      <div style="margin-top:8px;transform:scale(${pop(t, t0 + .35, .4)});font:900 78px/1.05 IB,Arial;color:#fff;text-shadow:${shadowTxt(OL, 7)}">${cur.title}</div></div>`;
+  } else {
+    const k = ez(cl(t, t0 + 2.4, t0 + 2.8));
+    h += `<div style="position:absolute;left:40px;top:34px;opacity:${k};z-index:2400;display:flex;gap:14px;align-items:center">
+      <div style="font:900 64px/1 IB,Arial;color:#ffd166;text-shadow:${shadowTxt(OL, 5)}">#${cur.n}</div>
+      ${PILL(cur.place + ' · ' + cur.year, '#232838cc', '#fff', 34)}</div>`;
+  }
+  return h;
+}
+// ===================== Helfer fuer kompakte Shots =====================
+const cm = (pos, at, fov = 48) => ({ pos, at, fov });
+const mv = (a, b) => ({ a, b });                  // Kamerafahrt a->b ueber die Zeile
+// zweiteilige Einstellung: Schnitt beim Wort re
+const cut2 = (i, re, a1, b1, a2, b2) => [{ t0: Lt(i).start, a: a1, b: b1 }, { t0: wt(i, re) - .15, a: a2, b: b2 }];
+function seaGrid(set, cx, cz, size, step, col, o = {}, sz = size) {
+  const g = new G.Geo(), k = G.hex(col), n = Math.round(size / step), m = Math.round(sz / step);
+  for (let i = 0; i < n; i++) for (let j = 0; j < m; j++) { const x0 = cx - size / 2 + i * step, z0 = cz - sz / 2 + j * step, x1 = x0 + step, z1 = z0 + step;
+    g.tri([x0, 0, z0], [x0, 0, z1], [x1, 0, z1], k); g.tri([x0, 0, z0], [x1, 0, z1], [x1, 0, z0], k) }
+  return mk(set, g, Object.assign({ wave: .22, cast: false, recv: true, outline: false }, o));
+}
+const tree = (x, z, s = 1, c = '#2f6a3a', k = 0) => [at(G.cyl(.25 * s, .2 * s, 2.4 * s, 8, '#5a3a26'), [x, 0, z]), at(G.cyl(1.7 * s, .08, 4.2 * s, 9, c), [x, 2 * s, z]), at(G.cyl(1.3 * s, .06, 3.2 * s, 9, c), [x, 3.6 * s, z])];
+const leafy = (x, z, s = 1, c = '#3a7a3a') => [at(G.cyl(.3 * s, .24 * s, 3 * s, 8, '#5a3a26'), [x, 0, z]), at(G.ico(1.9 * s, 2, c), [x, 3.8 * s, z]), at(G.ico(1.4 * s, 2, c), [x + .9 * s, 4.4 * s, z + .3 * s])];
+// ===================== Set INT: Schreibtisch mit Schatzkarte (Hook-Liste + Outro) =====================
+const IX = -600, ID = [IX, 0, 0];
+(function intro() {
+  const S = 'INT';
+  mk(S, merge([at(G.box(30, .3, 20, '#4a3428', { base: true }), [IX, -.3, 0]), at(G.box(30, 9, .4, '#5a4436', { base: true }), [IX, 0, -7]),
+    at(G.box(10, .3, 6, '#7a4a2a', { base: true, top: '#8a5632' }), [IX, 1.5, 0]), ...[[-4.6, -2.6], [4.6, -2.6], [-4.6, 2.6], [4.6, 2.6]].map(([x, z]) => at(G.box(.35, 1.5, .35, '#5a3420', { base: true }), [IX + x, 0, z]))]), { outline: false });
+  // Regal mit Buechern hinten
+  const B = [at(G.box(8, 5, .8, '#4a2e1e', { base: true }), [IX - 6, 0, -6.4])];
+  for (let r = 0; r < 4; r++) for (let k = 0; k < 14; k++) B.push(at(G.box(.4, .9 + G.hash(k, r) * .3, .6, ['#8a2a2a', '#2a5a8a', '#c9a23c', '#3a6a3a', '#6a3a7a'][(k + r) % 5], { base: true }), [IX - 9 + k * .48, .2 + r * 1.2, -6.2]));
+  mk(S, merge(B), { outline: false });
+  // Lampe
+  mk(S, merge([at(G.cyl(.4, .3, .15, 12, '#2a2a33'), [IX + 3.6, 1.8, -1.8]), at(G.cyl(.05, .05, 1.6, 6, '#2a2a33'), [IX + 3.6, 1.8, -1.8]), at(G.cyl(.7, .25, .6, 14, '#2f7a4a', { open: true }), [IX + 3.6, 3.1, -1.6])]));
+  mk(S, G.ico(.2, 2, '#fff2c0'), { pos: [IX + 3.6, 3.05, -1.6], emis: 1, outline: false, cast: false });
+  // Kompass + Lupe auf dem Tisch
+  mk(S, merge([at(G.cyl(.45, .45, .12, 20, '#c9a23c'), [IX - 3.7, 1.8, 1.6]), at(G.cyl(.36, .36, .13, 20, '#f4efe2'), [IX - 3.7, 1.82, 1.6])]));
+})();
+// Weltkarte als Pergament (Natural Earth, mapdata.js) – Ausschnitt lon -130..45, lat 0..68
+const MAPB = { lon0: -130, lon1: 45, lat0: 0, lat1: 68 };
+function mapXY(lon, lat, wd, ht) { const [x0, y1] = MAPP(MAPB.lon0, MAPB.lat0), [x1, y0] = MAPP(MAPB.lon1, MAPB.lat1), [x, y] = MAPP(lon, lat); return [(x - x0) / (x1 - x0) * wd, (y - y0) / (y1 - y0) * ht] }
+function mapTex() { return tex(2048, 1280, (x, wd, ht) => {
+  const g = x.createRadialGradient(wd / 2, ht / 2, 200, wd / 2, ht / 2, 1300); g.addColorStop(0, '#f3e2b8'); g.addColorStop(1, '#c9a46a'); x.fillStyle = g; x.fillRect(0, 0, wd, ht);
+  const [x0, y1] = MAPP(MAPB.lon0, MAPB.lat0), [x1, y0] = MAPP(MAPB.lon1, MAPB.lat1);
+  x.save(); x.scale(wd / (x1 - x0), ht / (y1 - y0)); x.translate(-x0, -y0);
+  for (const k in WORLD) { const p = new Path2D(WORLD[k]); x.fillStyle = '#d9c08a'; x.fill(p); x.strokeStyle = '#7a5a32'; x.lineWidth = 1.2; x.stroke(p) }
+  x.restore();
+  x.strokeStyle = '#a0804a55'; x.lineWidth = 3; for (let k = 1; k < 8; k++) { x.beginPath(); x.moveTo(k * wd / 8, 0); x.lineTo(k * wd / 8, ht); x.stroke() } for (let k = 1; k < 5; k++) { x.beginPath(); x.moveTo(0, k * ht / 5); x.lineTo(wd, k * ht / 5); x.stroke() }
+  x.strokeStyle = '#6a4a22'; x.lineWidth = 16; x.strokeRect(8, 8, wd - 16, ht - 16);
+}) }
+const MAPW = 8, MAPH = 5;
+texPlane('INT', MAPW, MAPH, mapTex, { pos: [IX, 1.82, 0], rot: [-PI / 2, 0, 0] });
+// 6 Schaetze: lon/lat -> 3D-Punkt auf der Karte
+const TRS = [
+  { n: 6, ic: '🚂', name: 'NAZI GOLD TRAIN', lon: 16.3, lat: 50.8 },
+  { n: 5, ic: '🏝️', name: 'OAK ISLAND', lon: -64.3, lat: 44.5 },
+  { n: 4, ic: '🧰', name: "FENN'S CHEST", lon: -108, lat: 43.5 },
+  { n: 3, ic: '🥚', name: 'FABERGÉ EGG', lon: 37.6, lat: 55.7 },
+  { n: 2, ic: '🟧', name: 'AMBER ROOM', lon: 30.4, lat: 59.7 },
+  { n: 1, ic: '⛵', name: 'SAN JOSÉ', lon: -75.5, lat: 10.4 }];
+TRS.forEach(c => { const [u, v] = mapXY(c.lon, c.lat, MAPW, MAPH); c.p = [IX - MAPW / 2 + u, 1.84, -MAPH / 2 + v] });
+const PINS = TRS.map(c => mk('INT', merge([at(G.cyl(.03, .03, .5, 6, '#2a2a33'), [0, 0, 0]), at(G.ico(.12, 2, c.n == 1 ? '#ffd166' : '#e0303a'), [0, .5, 0])]), { pos: c.p }));
+function pinUI(t, t0, step, hi) {
+  let h = ''; TRS.forEach((c, j) => { const a = t0 + j * step; if (t < a) return; const q = w.project(X(c.p, 0, .7, 0)); if (!q.vis) return;
+    h += `<div style="position:absolute;left:${q.x}px;top:${q.y}px;transform:translate(-50%,-100%) scale(${pop(t, a)});transform-origin:50% 100%;z-index:2100">${PILL(c.ic + ' #' + c.n, c.n == hi ? '#ffd166' : '#232838', c.n == hi ? OL : '#fff', 40)}</div>` });
+  return h;
+}
+function intUpd(t, i) { PINS.forEach((m, j) => { m.vis = true; m.scl = [1, 1, 1] }) }
+SHOT.count_wall = { set: 'INT', light: 'indoorWarm',
+  cam: i => mv(cm([IX, 7.5, 5.2], [IX, 1.8, .2], 46), cm([IX, 6.6, 4.4], [IX, 1.8, .1], 46)),
+  upd: (t, i) => { intUpd(t, i); PINS.forEach((m, j) => { const a = wt(i, /five/) + j * .22; m.vis = t > a || j == 5; m.scl = [1, j == 5 ? 1 : bo(cl(t, a, a + .3)), 1] }) },
+  ui: (t, i) => pinUI(t, wt(i, /five/), .22, 1) + bigText(960, 140, t, wt(i, /number/) - .1, nextStart(i), '#1 = SAN JOSÉ', 80, '#ffd166'),
+  sfx: i => [{ k: 'impact', t: wt(i, /number/), g: .5 }, ...[0, 1, 2, 3, 4].map(j => ({ k: 'pop', t: wt(i, /five/) + j * .22 }))] };
+SHOT.count_wall2 = { set: 'INT', light: 'indoorWarm',
+  cam: i => mv(cm([IX + 2.4, 4.4, 9.4], [IX + 1.8, 2.2, 0], 50), cm([IX + 2.2, 4, 8.4], [IX + 1.8, 2.2, 0], 48)),
+  upd: intUpd,
+  figs: (t, i) => fig([IX + 5.4, 0, 3.4], 'sam', { mouth: 'o', talk: tk(t, i) * .7, blink: bl(t, 0), look: [-4, 4], prop: PROP.magnifier, hR: [190, 130] }),
+  ui: (t, i) => { const P3 = [[/never/, '❓ NEVER FOUND', '#232838'], [/accident/, '🍀 FOUND BY ACCIDENT', '#35a862'], [/melted/, '🔥 ALMOST MELTED', '#e0303a']];
+    return P3.map(([re, tx, bg], k) => pillAt(560, 260 + k * 130, t, wt(i, re) - .1, nextStart(i), tx, bg, '#fff', 50)).join('') },
+  sfx: i => [{ k: 'pop', t: wt(i, /never/) }, { k: 'ding', t: wt(i, /accident/) }, { k: 'impact', t: wt(i, /melted/), g: .5 }] };
+SHOT.outro = { set: 'INT', light: 'indoorWarm',
+  cam: i => mv(cm([IX + 2.4, 5, 9.4], [IX + 1.6, 2, 0], 50), cm([IX + 2.2, 4.6, 8.6], [IX + 1.6, 2, 0], 50)),
+  upd: intUpd,
+  figs: (t, i) => fig([IX + 5.4, 0, 3.4], 'sam', { mouth: 'grin', talk: tk(t, i) * .8, blink: bl(t, 0), look: [-5, 2], hR: [214, 90 + 10 * Math.sin(t * 4)] }),
+  ui: (t, i) => pinUI(t, Lt(i).start + .1, .1, 0) + bigText(960, 150, t, Lt(i).start + .2, 1e9, 'WHICH ONE WOULD YOU HUNT? 💬', 80) + pillAt(960, 270, t, wt(i, /subscribe/) - .1, 1e9, '🔔 SUBSCRIBE', '#e0303a', '#fff', 60),
+  sfx: i => [{ k: 'pop', t: Lt(i).start + .1 }, { k: 'ding', t: wt(i, /subscribe/) }] };
+// ===================== Set NAZ: Polen, Berge bei Walbrzych (Gleis, Tunnel, Schatzsucher, Bagger) =====================
+const NX = 0, NT = [NX + 6, 0, -14];   // Tunnelportal
+PROP.shovel = `<g transform="rotate(20)"><rect x="-5" y="-70" width="10" height="96" rx="4" fill="#a0703a" stroke="${OL}" stroke-width="4"/><path d="M-18,24 L18,24 L14,58 Q0,70 -14,58Z" fill="#9aa0ac" stroke="${OL}" stroke-width="5" stroke-linejoin="round"/></g>`;
+PROP.detector = `<g transform="rotate(30)"><rect x="-4" y="-40" width="8" height="110" rx="4" fill="#3a3a44" stroke="${OL}" stroke-width="4"/><ellipse cx="0" cy="76" rx="30" ry="10" fill="#ffd166" stroke="${OL}" stroke-width="5"/><rect x="-14" y="-30" width="28" height="18" rx="4" fill="#2fa36b" stroke="${OL}" stroke-width="4"/></g>`;
+PROP.tablet = `<g transform="translate(-34,-30)"><rect x="0" y="0" width="68" height="50" rx="6" fill="#232838" stroke="${OL}" stroke-width="5"/><rect x="6" y="6" width="56" height="38" rx="3" fill="#35e08a"/><path d="M10,30 L24,18 L36,28 L56,12" stroke="#0a3a20" stroke-width="4" fill="none"/></g>`;
+PROP.map = `<g transform="translate(-40,-30) rotate(-6)"><rect x="0" y="0" width="80" height="56" fill="#f3e2b8" stroke="${OL}" stroke-width="5"/><path d="M10,40 Q30,10 50,30 T74,16" stroke="#c0303a" stroke-width="4" stroke-dasharray="6 5" fill="none"/><text x="62" y="46" font-family="IB" font-weight="900" font-size="20" fill="#c0303a">X</text></g>`;
+LOOK.hunter = { sw: '#4f7a3c', swd: '#3e632e', pa: '#5a4a3a', hat: HAT.beanie };
+LOOK.hunter2 = { sw: '#c96a2a', swd: '#a8561f', pa: '#3a3f55', hat: HAT.cap };
+LOOK.sci = { sw: '#f2f2ea', swd: '#d6d6cc', pa: '#3a3f55' };
+LOOK.soldier = { sw: '#5a6048', swd: '#484d3a', pa: '#4a4e3a', hat: `<path d="M34,52 Q34,0 100,0 Q166,0 166,52 L176,60 L24,60Z" fill="#4e5440" stroke="${OL}" stroke-width="6" stroke-linejoin="round"/>` };
+(function naz() {
+  const S = 'NAZ';
+  mk(S, G.box(300, .4, 300, '#5a8a44', { base: true }), { pos: [NX, -.4, 0], outline: false, cast: false });
+  // Berge (gruene Kuppen + Wald)
+  const M = []; [[-30, -40, 22], [10, -74, 26], [44, -38, 20], [-60, -60, 30], [70, -64, 34]].forEach(([x, z, r], k) => M.push(at(G.ico(r, 3, k % 2 ? '#4a7a3c' : '#557f42', .06, k, .55), [NX + x, -2, z])));
+  mk(S, merge(M).smooth(), { cast: false, outline: false });
+  // Huegel mit Tunnel direkt hinter dem Gleisende
+  const T = []; for (let k = 0; k < 70; k++) { const a = k * 2.4, r = 16 + G.hash(k) * 40, x = NX + Math.cos(a) * r, z = -24 + Math.sin(a) * r * .5 - 10; if (Math.abs(x - NX - 6) < 5 && z > -20) continue; T.push(...tree(x, z, .9 + G.hash(k, 2) * .6, k % 3 ? '#2f5a34' : '#3a6a3a')) }
+  mk(S, merge(T), { cast: true });
+  // Gleis (Damm) Richtung Tunnel
+  const R = [at(G.box(4, .4, 60, '#7a7466', { base: true }), [NT[0], 0, NT[2] + 26]), at(G.box(.12, .14, 60, '#a8acb8', { base: true }), [NT[0] - .72, .4, NT[2] + 26]), at(G.box(.12, .14, 60, '#a8acb8', { base: true }), [NT[0] + .72, .4, NT[2] + 26])];
+  for (let z = -4; z < 56; z += 1.1) R.push(at(G.box(2.2, .1, .3, '#4a3a2a', { base: true }), [NT[0], .34, NT[2] + z]));
+  mk(S, merge(R), { outline: false, cast: false });
+  // Tunnelportal (Steinbogen) + schwarzes Loch
+  mk(S, merge([at(G.box(8, 6.5, 2, '#8a8478', { base: true }), [NT[0], 0, NT[2] - 1]), at(G.box(8.6, .6, 2.2, '#77716a', { base: true }), [NT[0], 6.5, NT[2] - 1])]).vary(.05, 3));
+  mk(S, merge([at(G.box(4.2, 4.2, .2, '#08080c', { base: true }), [NT[0], 0, NT[2] + .02]), at(G.cyl(2.1, 2.1, .2, 18, '#08080c'), [NT[0], 4.2, NT[2] + .02], [PI / 2, 0, 0])]), { outline: false, cast: false });
+  // Stadt in der Ferne (Kleinstadt)
+  const H2 = []; for (let k = 0; k < 14; k++) { const x = NX - 40 + k * 3.2, z = 20 + (k % 3) * 3; H2.push(at(G.box(2.6, 2.2 + (k % 4) * .6, 2.6, ['#e8d8b8', '#d8a878', '#c9b8a0', '#f0e0c8'][k % 4], { base: true }), [x, 0, z]), at(G.cyl(2, .05, 1.4, 4, '#b04a3a', { rot: PI / 4 }), [x, 2.2 + (k % 4) * .6, z])) }
+  mk(S, merge(H2));
+})();
+// Zug (dunkel, Kisten mit Gold sichtbar auf offenem Wagen)
+const NTRAIN = mk('NAZ', merge([at(G.box(2.6, 2.8, 9, '#3a3d44', { base: true }), [0, .4, 0]), at(G.cyl(.9, .9, 6, 14, '#2c2f36'), [0, 2.2, .5], [PI / 2, 0, 0]), at(G.cyl(.35, .4, 1.4, 10, '#2c2f36'), [0, 3.1, -2.6]),
+  ...[-3, -1, 1, 3].map(z => at(G.cyl(.55, .55, 2.8, 12, '#1b1b22'), [-1.4, .55, z], [0, 0, PI / 2])),
+  at(G.box(2.6, 1.2, 9, '#4a4e3a', { base: true }), [0, .4, 10]), ...[-3, -1, 1, 3].map(z => at(G.cyl(.5, .5, 2.8, 12, '#1b1b22'), [-1.4, .5, z + 10], [0, 0, PI / 2]))]), { pos: [NT[0], .4, 40] });
+const NGOLD = mk('NAZ', merge([...Array(8)].map((_, k) => at(G.box(.9, .4, .5, '#ffcc44', { base: true }), [-.5 + (k % 2) * 1, 1.6 + Math.floor(k / 4) * .42, 7.5 + (Math.floor(k / 2) % 2) * 3]))), { parent: NTRAIN, emis: .35, spec: 1, outline: false });
+// Radar-Hologramm (Tunnel + Zug) im Huegel
+const NHILL = mk('NAZ', G.ico(14, 3, '#4f8040', .05, 9, .6).smooth(), { pos: [NT[0], -1, NT[2] - 10], outline: false });
+const NHOLO_T = mk('NAZ', G.box(4.4, 4.4, 30, '#7fd0ff'), { pos: [NT[0], 2.2, NT[2] - 18], alpha: .4, emis: 1, outline: false, cast: false, recv: false });
+const NHOLO_TR = mk('NAZ', merge([at(G.box(2.4, 2.6, 8, '#ffd166'), [0, 0, -5]), at(G.box(2.4, 2.0, 8, '#ffd166'), [0, -.3, 4])]), { pos: [NT[0], 1.8, NT[2] - 18], alpha: .4, emis: 1, outline: false, cast: false, recv: false });
+// Bagger + 3 Gruben
+const PITS = [[-6, 6], [0, 9], [6, 5]].map(([x, z]) => [NT[0] + 14 + x, 0, NT[2] + 14 + z]);
+const PITM = PITS.map(p => mk('NAZ', merge([at(G.cyl(2, 1.6, .2, 18, '#3a2a1e'), [0, 0, 0]), at(G.ico(1.2, 2, '#6a4a2e', .2, 3, .5), [2.8, 0, 0]), at(G.ico(.9, 2, '#7a5634', .2, 4, .5), [2.6, 0, 1.4])]).smooth(), { pos: X(p, 0, .01, 0) }));
+const EXC = mk('NAZ', merge([at(G.box(3.2, .9, 4, '#2a2a33', { base: true }), [0, 0, 0]), at(G.box(2.8, 1.6, 2.8, '#f2b21c', { base: true }), [0, .9, -.2]), at(G.box(1.3, 1.2, 1.3, '#f2b21c', { base: true }), [.6, 2.5, .3]), at(G.box(1.1, .9, .1, '#9fd3f0', { base: true }), [.6, 2.7, .96])]), { pos: X(PITS[1], -4.5, 0, -1), rot: [0, .6, 0] });
+const EXA = mk('NAZ', merge([at(G.box(.5, .5, 4.4, '#f2b21c'), [0, 0, 2.2]), at(G.box(.45, .45, 3, '#e0a010'), [0, -1.4, 4.4], [.9, 0, 0]), at(G.box(1.1, .8, .9, '#3a3a44'), [0, -2.6, 5.4])]), { parent: EXC, pos: [-.6, 2.2, .6] });
+CHAP.push({ line: 'n6', n: 6, title: 'THE NAZI GOLD TRAIN', year: '2015', place: '🇵🇱 Poland' });
+let NA_I0 = 0;
+function naUpd(t, i) {
+  const k = i - NA_I0; NHILL.alpha = (k == 3 || (k == 5 && t > wt(i, /verdict/) - .15)) ? .3 : 1; NTRAIN.vis = k == 1; NHOLO_T.vis = k == 3 || k == 5; NHOLO_TR.vis = k == 3 || (k == 5 && t < wt(i, /train/) - .1);
+  NHOLO_TR.alpha = k == 5 ? .4 * (1 - cl((t - wt(i, /^no\b/i)) * 2, 0, 1)) + .05 : .75 + .2 * Math.sin(t * 6);
+  if (k == 1) { const a = Lt(i).start + 1.2, u = ez(cl((t - a) / 6, 0, 1)); NTRAIN.pos = [NT[0], .4, lerp(NT[2] + 20, NT[2] - 16, u)] }
+  PITM.forEach((m, j) => m.vis = k == 7 || (k == 6 && t > Lt(i).start + 1 + j * 1.2)); PITM.forEach((m, j) => m.scl = [k == 6 ? ez(cl((t - Lt(i).start - 1 - j * 1.2) / .8, 0, 1)) : 1, 1, k == 6 ? ez(cl((t - Lt(i).start - 1 - j * 1.2) / .8, 0, 1)) : 1]);
+  EXC.vis = k == 6 || k == 7; EXA.rot = [k == 6 ? .25 * Math.sin(t * 2.2) - .1 : -.2, 0, 0];
+}
+SHOT.n_hills = { set: 'NAZ', light: 'day',
+  cam: i => { NA_I0 = i; return mv(cm([NX - 30, 16, 50], [NX, 4, -20], 50), cm([NX - 18, 10, 36], [NX + 4, 3, -14], 48)) },
+  upd: naUpd,
+  ui: (t, i) => pillAt(960, 930 - 110, t, Lt(i).start + 2.7, nextStart(i), '📍 WAŁBRZYCH, POLAND · AUGUST 2015', '#232838', '#fff', 44),
+  sfx: i => [{ k: 'whoosh', t: Lt(i).start + .3, d: 1.2 }] };
+SHOT.n_legend = { set: 'NAZ', light: 'dusk',
+  cam: i => mv(cm([NT[0] + 9, 4, NT[2] + 30], [NT[0], 2.4, NT[2] + 10], 48), cm([NT[0] + 7, 3.4, NT[2] + 14], [NT[0], 2.4, NT[2] - 2], 46)),
+  upd: naUpd,
+  ui: (t, i) => pillAt(960, 160, t, Lt(i).start + .1, nextStart(i), '📜 LEGEND · 1945', '#8a6a3a', '#fff', 50) + bigText(960, 330, t, wt(i, /never/) - .1, nextStart(i), 'NEVER SEEN AGAIN', 96, '#ffd166', -3),
+  sfx: i => [{ k: 'thud', t: Lt(i).start + 1.4, g: .5 }, { k: 'whoosh', t: wt(i, /tunnel/), d: 1.2 }, { k: 'impact', t: wt(i, /never/), g: .5 }] };
+SHOT.n_hunters = { set: 'NAZ', light: 'day',
+  cam: i => mv(cm([NT[0] + 3, 2.4, NT[2] + 12], [NT[0] - .5, 1.6, NT[2] + 4], 46), cm([NT[0] + 2.4, 2.2, NT[2] + 10], [NT[0] - .5, 1.6, NT[2] + 4], 44)),
+  upd: naUpd,
+  figs: (t, i) => fig([NT[0] - 2.4, 0, NT[2] + 5.4], 'hunter', { mouth: 'grin', talk: tk(t, i) * .6, blink: bl(t, 0), look: [4, 0], prop: PROP.map, hR: [170, 130] }) + fig([NT[0] + 1.4, 0, NT[2] + 5], 'hunter2', { mouth: 'grin', blink: bl(t, 2), look: [-4, 0], hR: [205, 70], hL: [-10, 70] }),
+  ui: (t, i) => pillAt(960, 170, t, wt(i, /two/) - .1, nextStart(i), '🕵️ TWO TREASURE HUNTERS', '#232838', '#fff', 52) + stampAt(1460, 400, t, wt(i, /found/) - .05, '"WE FOUND IT!"', '#35a862', 70, 6),
+  sfx: i => [{ k: 'pop', t: wt(i, /two/) }, { k: 'ding', t: wt(i, /found/) }] };
+SHOT.n_radar = { set: 'NAZ', light: 'dusk',
+  cam: i => mv(cm([NT[0] + 6, 28, NT[2] + 16], [NT[0], 0, NT[2] - 16], 50), cm([NT[0] + 4, 24, NT[2] + 12], [NT[0], 0, NT[2] - 17], 48)),
+  upd: naUpd,
+  ui: (t, i) => { const a = wt(i, /radar/) - .2; let h = '';
+    if (t > a) h += `<div style="position:absolute;left:330px;top:250px;transform:translate(-50%,0) scale(${pop(t, a)});width:440px;height:300px;border:10px solid ${OL};border-radius:18px;background:repeating-linear-gradient(90deg,#3a2a6a 0 6px,#2a2a5a 6px 12px);overflow:hidden;box-shadow:0 14px 0 #0005;z-index:2200">
+      <div style="position:absolute;left:70px;top:120px;width:300px;height:60px;border-radius:30px;background:radial-gradient(ellipse,#ffe14a 0%,#ff8a2a 60%,transparent 75%)"></div><div style="position:absolute;left:0;right:0;bottom:8px;text-align:center;font:900 34px IB;color:#fff">GROUND RADAR</div></div>`;
+    h += counter(1450, 230, t, wt(i, /ninety/) - .2, nextStart(i), wt(i, /ninety/) - .1, wt(i, /percent/), 0, 99, v => Math.round(v) + '% SURE', '#35a862', '#fff', 84);
+    return h },
+  sfx: i => [{ k: 'blip', t: wt(i, /radar/) }, { k: 'tick', t: wt(i, /ninety/) }, { k: 'ding', t: wt(i, /percent/) }] };
+SHOT.n_rush = { set: 'NAZ', light: 'day',
+  cam: i => mv(cm([NX - 14, 5, 46], [NX - 10, 2, 24], 50), cm([NX - 10, 4, 42], [NX - 8, 2, 24], 48)),
+  upd: naUpd,
+  figs: (t, i) => { let h = ''; for (let k = 0; k < 7; k++) { const u = ((t - Lt(i).start) * .9 + k * 1.7) % 12; h += fig([NX - 20 + u * 1.6, 0, 31 + (k % 3) * 1.4], k % 2 ? 'hunter' : 'hunter2', Object.assign(walk(t + k, 8), { mouth: 'grin', blink: bl(t, k), look: [4, 0], prop: k % 3 == 0 ? PROP.detector : k % 3 == 1 ? PROP.shovel : '', hR: k % 3 < 2 ? [180, 160] : null })) } return h },
+  ui: (t, i) => pillAt(960, 170, t, wt(i, /news/) - .1, nextStart(i), '📰 WORLD NEWS: NAZI GOLD TRAIN FOUND?', '#e0303a', '#fff', 52),
+  sfx: i => [{ k: 'paper', t: wt(i, /news/) }, { k: 'whoosh', t: wt(i, /poured/), d: .8 }] };
+SHOT.n_scan = { set: 'NAZ', light: 'dusk',
+  cam: i => cut2(i, /verdict/, cm([NT[0] + 7, 3, NT[2] + 12], [NT[0] - 2, 2, NT[2] - 2], 48), cm([NT[0] + 6, 3, NT[2] + 10], [NT[0] - 2, 2, NT[2] - 2], 46), cm([NT[0] + 6, 28, NT[2] + 16], [NT[0], 0, NT[2] - 16], 50), cm([NT[0] + 4, 25, NT[2] + 13], [NT[0], 0, NT[2] - 17], 48)),
+  upd: naUpd,
+  figs: (t, i) => t > wt(i, /verdict/) - .15 ? '' : fig([NT[0] - 3, 0, NT[2] + 5], 'sci', { mouth: 'hmm', blink: bl(t, 0), look: [3, -2], prop: PROP.tablet, hR: [170, 120] }) + fig([NT[0] + 1, 0, NT[2] + 4.6], 'sci', { mouth: 'hmm', blink: bl(t, 1), look: [-3, -2], prop: PROP.detector, hR: [180, 160] }),
+  ui: (t, i) => pillAt(960, 170, t, wt(i, /krakow/i) - .1, wt(i, /verdict/) - .2, '🔬 SCIENTISTS FROM KRAKÓW', '#2a8fd6', '#fff', 52) + pillAt(700, 200, t, wt(i, /tunnel/) - .1, nextStart(i), '✅ TUNNEL? MAYBE', '#35a862', '#fff', 50) + stampAt(1300, 420, t, wt(i, /train/) - .05, 'NO TRAIN', '#e0303a', 110, -6),
+  sfx: i => [{ k: 'blip', t: wt(i, /scanned/) }, { k: 'ding', t: wt(i, /tunnel/) }, { k: 'impact', t: wt(i, /train/) }] };
+SHOT.n_dig = { set: 'NAZ', light: 'day',
+  cam: i => mv(cm([PITS[1][0] + 4, 7, PITS[1][2] + 18], [PITS[1][0] - 2, 1.5, PITS[1][2]], 50), cm([PITS[1][0] + 2, 6, PITS[1][2] + 14], [PITS[1][0] - 2, 1.5, PITS[1][2]], 48)),
+  upd: naUpd,
+  figs: (t, i) => fig([PITS[0][0] + 2, 0, PITS[0][2] + 4], 'hunter', { mouth: 'grin', blink: bl(t, 0), look: [3, 0], prop: PROP.shovel, hR: [180, 150 + 20 * Math.sin(t * 5)] }) + fig([PITS[2][0] - 1, 0, PITS[2][2] + 4], 'hunter2', { mouth: 'grin', blink: bl(t, 1), look: [-3, 2], hR: [200, 110], hL: [0, 110] }),
+  ui: (t, i) => pillAt(960, 170, t, wt(i, /excavators/) - .1, nextStart(i), '🚜 SUMMER 2016: THE BIG DIG', '#f2b21c', OL, 52),
+  sfx: i => [{ k: 'thud', t: Lt(i).start + 1, g: .6 }, { k: 'thud', t: Lt(i).start + 2.2, g: .6 }, { k: 'thud', t: Lt(i).start + 3.4, g: .6 }] };
+SHOT.n_holes = { set: 'NAZ', light: 'day',
+  cam: i => mv(cm([PITS[1][0] + 1, 14, PITS[1][2] + 10], [PITS[1][0], 0, PITS[1][2]], 50), cm([PITS[1][0] + 1, 11, PITS[1][2] + 8], [PITS[1][0], 0, PITS[1][2]], 50)),
+  upd: naUpd,
+  figs: (t, i) => fig([PITS[1][0] + 2.6, 0, PITS[1][2] + 2.4], 'hunter', { mouth: 'sad', blink: bl(t, 0), look: [-3, 5], sweat: true, prop: PROP.shovel, hR: [170, 200] }),
+  ui: (t, i) => stampAt(560, 300, t, wt(i, /train/) - .05, 'NO TRAIN', '#e0303a', 80, -8) + stampAt(1360, 300, t, wt(i, /tunnel/) - .05, 'NO TUNNEL', '#e0303a', 80, 6) +
+    counter(960, 760 - 40, t, wt(i, /three/) - .1, nextStart(i), wt(i, /cost/), wt(i, /dollars/), 0, 37000, v => '💸 $' + Math.round(v).toLocaleString('en-US'), '#232838', '#fff', 70),
+  sfx: i => [{ k: 'error', t: wt(i, /train/) }, { k: 'error', t: wt(i, /tunnel/) }, { k: 'cash', t: wt(i, /dollars/) }] };
+// ===================== Set OAK: Oak Island, Nova Scotia (Insel im Meer + Schnittbild der Grube) =====================
+const OX = 500, OI = [OX, 0, 0];          // Insel-Mitte (Grube bei OI)
+const OC = [OX, 0, -120];                   // Schnittbild (Ameisenfarm-Blick), Schacht-Mitte, Oberflaeche y=0
+LOOK.teen = { sw: '#8a3a2a', swd: '#702e22', pa: '#4a3a2a', hat: HAT.cap };
+LOOK.fdr = { sw: '#3a3f55', swd: '#2c3044', pa: '#2c3044', mid: MID.tie, hat: `<path d="M46,40 Q46,10 100,8 Q154,10 154,40Z" fill="#e8d8a0" stroke="${OL}" stroke-width="6"/><path d="M22,44 Q100,30 178,44 Q178,54 100,52 Q22,54 22,44Z" fill="#d8c890" stroke="${OL}" stroke-width="5"/><rect x="48" y="30" width="104" height="10" fill="#3a3f55"/>` };
+LOOK.miner = { sw: '#6a5a4a', swd: '#57483a', pa: '#3e3a36', hat: `<path d="M38,50 Q38,4 100,2 Q162,4 162,50Z" fill="#f2b21c" stroke="${OL}" stroke-width="6"/><rect x="30" y="44" width="140" height="12" rx="5" fill="#e0a010" stroke="${OL}" stroke-width="4"/><circle cx="100" cy="24" r="9" fill="#fff6c0" stroke="${OL}" stroke-width="3"/>` };
+LOOK.crew = { sw: '#2a2a33', swd: '#1e1e28', pa: '#3a3f55', hat: HAT.cap };
+PROP.pick = `<g transform="rotate(-30)"><rect x="-5" y="-70" width="10" height="100" rx="4" fill="#a0703a" stroke="${OL}" stroke-width="4"/><path d="M-46,-62 Q0,-90 46,-62 L40,-56 Q0,-76 -40,-56Z" fill="#9aa0ac" stroke="${OL}" stroke-width="5" stroke-linejoin="round"/></g>`;
+PROP.cam = `<g transform="translate(-40,-40)"><rect x="0" y="10" width="70" height="44" rx="6" fill="#2a2a33" stroke="${OL}" stroke-width="5"/><circle cx="76" cy="32" r="16" fill="#4a4e5a" stroke="${OL}" stroke-width="5"/><circle cx="20" cy="4" r="12" fill="#2a2a33" stroke="${OL}" stroke-width="4"/><circle cx="48" cy="4" r="12" fill="#2a2a33" stroke="${OL}" stroke-width="4"/><circle cx="12" cy="22" r="4" fill="#e0303a"/></g>`;
+(function oak() {
+  const S = 'OAK';
+  seaGrid(S, OX, 0, 220, 2.2, '#2a8fc0', { pos: [0, -.6, 0] });
+  mk(S, G.cyl(26, 25, 1.4, 40, '#5f9a48'), { pos: [OX, -1.4, 0], outline: false, terrain: 0 });
+  mk(S, G.cyl(29, 28, 1.4, 40, '#e8d4a0'), { pos: [OX, -1.6, 0], outline: false, cast: false });
+  const T = []; for (let k = 0; k < 46; k++) { const a = k * 2.39, r = 8 + G.hash(k) * 15, x = OX + Math.cos(a) * r, z = Math.sin(a) * r * .8; if (z > -2 && x > OX - 6) continue; T.push(...tree(x, z, .8 + G.hash(k, 4) * .5, k % 3 ? '#2f5a34' : '#3a6a3a')) }
+  mk(S, merge(T));
+  // die alte Eiche + Grube (Mulde)
+  mk(S, merge([at(G.cyl(.7, .5, 5, 10, '#5a3a26'), [OX - 2.6, 0, -1]), at(G.cyl(.25, .2, 3.4, 8, '#5a3a26'), [OX - 2.6, 4, -1], [0, 0, -1.1]), at(G.ico(3.2, 2, '#4a8a3c', .1, 2), [OX - 3, 7, -1]), at(G.ico(2.4, 2, '#3f7a34', .1, 3), [OX - .6, 6.4, -.6]), at(G.ico(2.2, 2, '#4f9440', .1, 6), [OX - 5, 6, -.4])]).smooth());
+  mk(S, merge([at(G.cyl(1.8, 1.4, .12, 20, '#5a4430'), [OX, 0, 0])]), { outline: false, cast: false });
+  // Flaschenzug am Ast
+  mk(S, merge([at(G.cyl(.02, .02, 2.6, 4, '#c9b48a'), [OX - .2, 2.9, 0]), at(G.cyl(.2, .2, .2, 10, '#6a4a2e'), [OX - .2, 5.4, 0], [PI / 2, 0, 0])]), { outline: false });
+  // ---------- Schnittbild ----------
+  const D = 22, SH = 1.6, dirt = '#7a5634', dirt2 = '#6a4a2e', top = '#5f9a48';
+  mk(S, merge([at(G.box(30, D, 30, dirt, { base: true, top }), [OC[0] - 15 - SH, -D, OC[2] - 15 + SH]), at(G.box(30, D, 30, dirt2, { base: true, top }), [OC[0] + 15 + SH, -D, OC[2] - 15 + SH]),
+    at(G.box(2 * SH, D, 30, dirt2, { base: true, top }), [OC[0], -D, OC[2] - 15 - SH])]).vary(.04, 8), { outline: false });
+  // Erdschichten-Streifen auf der Schnittflaeche
+  const ST = []; for (let k = 1; k < 7; k++) [-1, 1].forEach(sg => ST.push(at(G.box(28, .25, .05, k % 2 ? '#8a6440' : '#5e4228', { base: true }), [OC[0] + sg * (14 + SH), -k * 3.1, OC[2] + SH + .03])));
+  mk(S, merge(ST), { outline: false, cast: false });
+  // Steine in der Erde
+  mk(S, merge([...Array(20)].map((_, k) => at(G.ico(.3 + G.hash(k) * .4, 1, '#8a8478', .2, k), [OC[0] + (k % 2 ? 1 : -1) * (3 + G.hash(k, 2) * 12), -1 - G.hash(k, 3) * 19, OC[2] + SH + .05]))), { outline: false });
+  // Hintergrund oben: Baeume, Eiche
+  const T2 = []; for (let k = 0; k < 16; k++) T2.push(...tree(OC[0] - 22 + k * 3, OC[2] - 6 - (k % 3) * 3, .9, '#2f5a34'));
+  T2.push(...leafy(OC[0] - 4, OC[2] - 3, 1.3, '#4a8a3c')); mk(S, merge(T2));
+})();
+// Baumstamm-Lagen im Schacht (alle ~10 Fuss)
+const OLOGS = [1, 2, 3, 4].map(k => mk('OAK', merge([...Array(5)].map((_, j) => at(G.cyl(.28, .28, 3.2, 10, '#8a5a32'), [-1.6, 0, -1.2 + j * .6], [0, 0, -PI / 2]))), { pos: [OC[0], -k * 3.3, OC[2]] }));
+const OSTONE = mk('OAK', G.box(1.4, .9, .3, '#8a8478'), { pos: [OC[0], -15.6, OC[2] + .4] });
+function stoneTex() { return tex(512, 330, (x, wd, ht) => { x.fillStyle = '#8a8478'; x.fillRect(0, 0, wd, ht); x.strokeStyle = '#3a3830'; x.lineWidth = 9; x.lineCap = 'round';
+  const sym = ['M0,0 L30,40', 'M0,40 L30,0', 'M0,20 L30,20 M15,0 L15,40', 'M0,0 L30,0 L15,40Z', 'M0,40 Q15,-10 30,40', 'M0,0 L0,40 L30,40', 'M15,0 A15,15 0 1 0 15.1,0', 'M0,20 L30,0 L30,40Z'];
+  for (let r = 0; r < 3; r++) for (let c = 0; c < 8; c++) { x.save(); x.translate(40 + c * 56, 50 + r * 100); x.stroke(new Path2D(sym[(c * 3 + r) % 8])); x.restore() } }) }
+const OSTONE_T = texPlane('OAK', 1.3, .84, stoneTex, { pos: [OC[0], -15.15, OC[2] + .56] });
+const OWATER = mk('OAK', G.box(3.2, 1, 3.2, '#2a8fd6', { base: true }), { pos: [OC[0], -22, OC[2]], alpha: .62, emis: .2, outline: false, cast: false });
+const OGAS = mk('OAK', G.ico(1.4, 2, '#9ad04a', .3, 7), { pos: [OC[0], -18, OC[2]], alpha: .35, emis: .5, outline: false, cast: false, recv: false });
+const OLADDER = mk('OAK', merge([at(G.box(.06, 20, .06, '#c9b48a'), [-.35, -10, 0]), at(G.box(.06, 20, .06, '#c9b48a'), [.35, -10, 0]), ...[...Array(30)].map((_, k) => at(G.box(.7, .05, .05, '#c9b48a'), [0, -.4 - k * .65, 0]))]), { pos: [OC[0] + 1.2, 0, OC[2] - 1.2], outline: false });
+const OTVCAM = mk('OAK', merge([at(G.cyl(.05, .05, 1.5, 6, '#2a2a33'), [-.3, 0, 0], [0, 0, .2]), at(G.cyl(.05, .05, 1.5, 6, '#2a2a33'), [.3, 0, 0], [0, 0, -.2]), at(G.box(.6, .45, .9, '#2a2a33'), [0, 1.6, 0]), at(G.cyl(.15, .15, .4, 10, '#4a4e5a'), [0, 1.6, .6], [PI / 2, 0, 0])]), { pos: [OI[0] + 3.6, 0, OI[2] + 2.4], rot: [0, -.9, 0] });
+CHAP.push({ line: 'n5', n: 5, title: 'THE OAK ISLAND MONEY PIT', year: '1795', place: '🇨🇦 Nova Scotia' });
+let OA_I0 = 0;
+function oaUpd(t, i) {
+  const k = i - OA_I0;
+  OLOGS.forEach((m, j) => m.vis = k != 2 || t > Lt(i).start + .8 + j * ((Lt(i).end - Lt(i).start - 1.2) / 4));
+  OSTONE.vis = OSTONE_T.vis = k == 3 || k == 4;
+  const fl = k == 4 ? ez(cl((t - wt(i, /flooded/) + .3) / 2.4, 0, 1)) : (k == 6 ? .25 : 0);
+  OWATER.vis = fl > 0; OWATER.scl = [1, Math.max(.01, fl * 16), 1]; OWATER.pos = [OC[0], -22, OC[2]];
+  OGAS.vis = k == 6 && t > wt(i, /gas/) - .4; OGAS.scl = [1 + .1 * Math.sin(t * 3), 1.6, 1]; OGAS.alpha = .3 + .08 * Math.sin(t * 4);
+  OLADDER.vis = k >= 2 && k <= 6; OTVCAM.vis = k == 8;
+}
+const cutCam = (y, z = 15, fov = 46) => cm([OC[0] + 1.5, y + 1, OC[2] + z], [OC[0], y, OC[2]], fov);
+SHOT.o_island = { set: 'OAK', light: 'day',
+  cam: i => { OA_I0 = i; return mv(cm([OX + 46, 22, 50], [OX, 0, 0], 46), cm([OX + 30, 14, 34], [OX, 1, 0], 46)) },
+  upd: oaUpd,
+  ui: (t, i) => pillAt(960, 930 - 110, t, Lt(i).start + 2.7, nextStart(i), '📍 NOVA SCOTIA, CANADA', '#232838', '#fff', 44),
+  sfx: i => [{ k: 'wave', t: Lt(i).start + .2 }, { k: 'gull', t: Lt(i).start + 1.4 }] };
+SHOT.o_dip = { set: 'OAK', light: 'day',
+  cam: i => mv(cm([OX + 4, 2.4, 7.5], [OX - .6, 1.6, 0], 48), cm([OX + 3, 2.1, 6.2], [OX - .6, 1.4, 0], 46)),
+  upd: oaUpd,
+  figs: (t, i) => fig([OX + 1.6, 0, 1.4], 'teen', { mouth: 'o', talk: 0, blink: bl(t, 0), look: [-5, 4], hR: [200, 110], tilt: -.08 }),
+  ui: (t, i) => pillAt(960, 170, t, wt(i, /1795/) - .1, nextStart(i), '📜 THE STORY GOES… 1795', '#8a6a3a', '#fff', 52) + labelAt([OX, .4, 0], PILL('🕳️ A STRANGE DIP', '#232838', '#fff', 40), t, wt(i, /dip/) - .1, nextStart(i)),
+  sfx: i => [{ k: 'pop', t: wt(i, /dip/) }, { k: 'gull', t: Lt(i).start + .5 }] };
+SHOT.o_logs = { set: 'OAK', light: 'day',
+  cam: i => mv(cutCam(-2, 18, 50), cutCam(-8, 16, 50)),
+  upd: oaUpd,
+  figs: (t, i) => { const u = cl((t - Lt(i).start) / (nextStart(i) - Lt(i).start), 0, 1), y = -u * 13.5; return fig([OC[0] - .4, y, OC[2] + .6], 'teen', { mouth: 'grin', blink: bl(t, 0), look: [2, 5], prop: PROP.shovel, hR: [180, 150 + 25 * Math.sin(t * 6)] }, 1.75) },
+  ui: (t, i) => { let h = ''; const dt = (Lt(i).end - Lt(i).start - 1.2) / 4; OLOGS.forEach((m, j) => { const a = Lt(i).start + .8 + j * dt; h += labelAt(X(m.pos, 3.6, .3, 0), PILL('🪵 ' + (j + 1) * 10 + ' FT', '#8a5a32', '#fff', 38), t, a, nextStart(i)) }); return h },
+  sfx: i => { const dt = (Lt(i).end - Lt(i).start - 1.2) / 4; return [0, 1, 2, 3].map(j => ({ k: 'thud', t: Lt(i).start + .8 + j * dt, g: .5 })) } };
+SHOT.o_stone = { set: 'OAK', light: 'day',
+  cam: i => mv(cm([OC[0] + .4, -14.6, OC[2] + 4.2], [OC[0], -15.2, OC[2] + .4], 40), cm([OC[0] + .2, -14.9, OC[2] + 3.2], [OC[0], -15.2, OC[2] + .4], 38)),
+  upd: oaUpd,
+  ui: (t, i) => bigText(960, 190, t, wt(i, /ten/) - .1, nextStart(i), '"10 FEET BELOW: <span style="color:#ffd166">£2,000,000</span>"', 72) + pillAt(960, 320, t, wt(i, /claimed/) - .1, nextStart(i), '⚠️ CLAIMED – NEVER PROVEN', '#232838', '#fff', 42),
+  sfx: i => [{ k: 'shimmer', t: wt(i, /stone/) }, { k: 'cash', t: wt(i, /million/) }] };
+SHOT.o_flood = { set: 'OAK', light: 'day',
+  cam: i => mv(cutCam(-12, 22, 52), cutCam(-10, 20, 52)),
+  upd: oaUpd,
+  figs: (t, i) => { const a = wt(i, /flooded/); const y = t < a ? -14 : lerp(-14, -1, ez(cl((t - a) / 1.6, 0, 1))); return fig([OC[0] + .9, y, OC[2] - .6], 'teen', Object.assign(walk(t, 12), { mouth: 'o', blink: bl(t, 0), look: [0, -6], sweat: true, hR: [190, 40], hL: [10, 40] })) },
+  ui: (t, i) => stampAt(1400, 300, t, wt(i, /water/) - .05, 'FLOODED!', '#2a8fd6', 100, 6),
+  sfx: i => [{ k: 'splash', t: wt(i, /flooded/) }, { k: 'wave', t: wt(i, /water/) }] };
+SHOT.o_fdr = { set: 'OAK', light: 'day',
+  cam: i => mv(cm([OX + 6, 2.6, 9], [OX, 1.4, 0], 50), cm([OX + 4.8, 2.4, 7.6], [OX, 1.4, 0], 48)),
+  upd: oaUpd,
+  figs: (t, i) => { const a = wt(i, /roosevelt/i) - .3; let h = fig([OX - 1.6, 0, 1.4], 'miner', { mouth: 'grin', blink: bl(t, 1), look: [3, 2], prop: PROP.pick, hR: [180, 140 + 20 * Math.sin(t * 5)] });
+    if (t > a) h += fig([OX + 1.8, 0, 2], 'fdr', { mouth: 'smile', blink: bl(t, 0), look: [-4, 0], prop: PROP.cash, hR: [200, 140] }); return h },
+  ui: (t, i) => counter(960, 160, t, Lt(i).start + .1, nextStart(i), Lt(i).start + .2, wt(i, /years/), 1795, 2026, v => '⏳ ' + Math.round(v), '#232838', '#fff', 64) + labelAt([OX + 1.8, 2.2, 2], PILL('FRANKLIN D. ROOSEVELT · 1909', '#2a8fd6', '#fff', 36), t, wt(i, /roosevelt/i) - .1, nextStart(i)),
+  sfx: i => [{ k: 'tick', t: Lt(i).start + .3 }, { k: 'pop', t: wt(i, /roosevelt/i) }, { k: 'cash', t: wt(i, /invested/) }] };
+SHOT.o_deaths = { set: 'OAK', light: 'indoorDark',
+  cam: i => mv(cutCam(-14, 18, 50), cutCam(-16, 15, 48)),
+  upd: oaUpd,
+  ui: (t, i) => { let h = counter(960, 170, t, wt(i, /six/i) - .1, nextStart(i), wt(i, /six/i), wt(i, /died/), 0, 6, v => '⚠️ ' + Math.round(v) + ' DEATHS', '#e0303a', '#fff', 70);
+    h += pillAt(960, 300, t, wt(i, /1965/) - .1, nextStart(i), '☠️ 1965: TOXIC GAS IN THE SHAFT', '#232838', '#fff', 46); return h },
+  sfx: i => [{ k: 'impact', t: wt(i, /died/), g: .5 }, { k: 'heartbeat', t: wt(i, /gas/), n: 2 }] };
+SHOT.o_science = { set: 'OAK', light: 'day',
+  cam: i => cut2(i, /stone/, cutCam(-10, 24, 52), cutCam(-9, 22, 52), cm([OC[0] + .2, -14.9, OC[2] + 3.6], [OC[0], -15.2, OC[2] + .4], 40), cm([OC[0] + .2, -14.9, OC[2] + 3.0], [OC[0], -15.2, OC[2] + .4], 38)),
+  upd: (t, i) => { oaUpd(t, i); OWATER.vis = t < wt(i, /stone/) - .15; OWATER.scl = [1, 6 + 2 * Math.sin(t * 2), 1]; OSTONE.vis = false; OSTONE_T.vis = false },
+  ui: (t, i) => pillAt(960, 170, t, wt(i, /natural/) - .1, wt(i, /stone/) - .2, '🌊 NATURAL FLOODING (STUDY, 1995)', '#2a8fd6', '#fff', 50) + stampAt(960, 470, t, wt(i, /lost/) - .05, 'LOST', '#e0303a', 130, -6) + bigText(960, 300, t, wt(i, /stone/) - .1, nextStart(i), '?', 220, '#ffd166'),
+  sfx: i => [{ k: 'ding', t: wt(i, /natural/) }, { k: 'impact', t: wt(i, /lost/), g: .5 }] };
+SHOT.o_tv = { set: 'OAK', light: 'day',
+  cam: i => mv(cm([OX + 7, 3, 8], [OX + 1, 1.4, 0], 50), cm([OX + 5.6, 2.6, 6.6], [OX + 1, 1.4, 0], 48)),
+  upd: oaUpd,
+  figs: (t, i) => fig([OX - 1.4, 0, 1.2], 'miner', { mouth: 'sad', blink: bl(t, 0), look: [3, 4], prop: PROP.shovel, hR: [180, 190] }) + fig([OX + 2.4, 0, 3.4], 'crew', { mouth: 'grin', blink: bl(t, 1), look: [-5, 0], prop: PROP.cam, hR: [150, 60], hL: [50, 70] }),
+  ui: (t, i) => stampAt(960, 230, t, wt(i, /no/) - .05, 'NO TREASURE', '#e0303a', 100, -5) + pillAt(1440, 420, t, wt(i, /tv/i) - .1, nextStart(i), '📺 ON TV SINCE 2014', '#e0303a', '#fff', 50),
+  sfx: i => [{ k: 'impact', t: wt(i, /no/), g: .5 }, { k: 'ding', t: wt(i, /tv/i) }] };
+// ===================== Set FEN: Santa Fe + Rocky Mountains (Kiste mit Gold) =====================
+const FX = 1000, FT = [FX, 0, 0], FS = [FX, 0, -90], FM = [FX, 0, 200];   // Stadt / Arbeitszimmer / Berge
+LOOK.dealer = { sw: '#e8e0d0', swd: '#cfc6b4', pa: '#4a5a7a', hat: `<path d="M46,44 Q46,6 100,4 Q154,6 154,44Z" fill="#d8c8a8" stroke="${OL}" stroke-width="6"/><path d="M14,46 Q100,30 186,46 Q186,58 100,56 Q14,58 14,46Z" fill="#c8b490" stroke="${OL}" stroke-width="5"/><rect x="48" y="32" width="104" height="10" fill="#6a4a2e"/>`, mid: `<path d="M80,154 L100,170 L120,154" stroke="#2a8fd6" stroke-width="7" fill="none"/>` };
+LOOK.student = { sw: '#2a5ab0', swd: '#204890', pa: '#3a3f55', hat: HAT.beanie };
+LOOK.hiker = { sw: '#d64545', swd: '#b43636', pa: '#4a5a3a', hat: HAT.cap };
+LOOK.hiker2 = { sw: '#f2b21c', swd: '#d49a10', pa: '#3a3f55', hat: HAT.beanie };
+(function fenn() {
+  const S = 'FEN';
+  // Santa Fe: Wueste + Adobe-Haeuser
+  mk(S, G.box(160, .4, 80, '#d8b888', { base: true }), { pos: [FX, -.4, 0], outline: false, cast: false });
+  const A = []; for (let k = 0; k < 16; k++) { const x = FX - 26 + (k % 8) * 7 + G.hash(k) * 2, z = -6 - Math.floor(k / 8) * 9 - G.hash(k, 2) * 2, hh = 2.6 + (k % 3) * 1.2;
+    A.push(at(G.box(5, hh, 4.6, ['#d9a676', '#c98f5f', '#e0b488'][k % 3], { base: true }), [x, 0, z]), at(G.box(5.2, .3, 4.8, '#b97a4a', { base: true }), [x, hh, z]), at(G.box(1, 1.4, .1, '#4a7ab0', { base: true }), [x - 1, .2, z + 2.32]), at(G.box(.9, .9, .1, '#2a3a5a', { base: true }), [x + 1.2, 1.4, z + 2.32]));
+    for (let j = 0; j < 4; j++) A.push(at(G.cyl(.1, .1, .8, 6, '#6a4a2e'), [x - 1.8 + j * 1.2, hh - .4, z + 2.3], [PI / 2, 0, 0])) }
+  mk(S, merge(A).vary(.03, 4));
+  const C = []; for (let k = 0; k < 10; k++) { const x = FX - 30 + k * 6.6, z = 6 + (k % 3) * 2; C.push(at(G.cyl(.3, .3, 1.6, 8, '#4f8a3c'), [x, 0, z]), at(G.cyl(.16, .16, .7, 6, '#4f8a3c'), [x + .4, .8, z], [0, 0, -1])) }
+  mk(S, merge(C));
+  // Arbeitszimmer
+  mk(S, merge([at(G.box(12, .3, 9, '#7a5a3a', { base: true }), [FS[0], -.3, FS[2]]), at(G.box(12, 5, .3, '#e0c8a0', { base: true }), [FS[0], 0, FS[2] - 4.5]),
+    at(G.box(.3, 5, 9, '#d4b890', { base: true }), [FS[0] - 6, 0, FS[2]]), at(G.box(3.4, .14, 1.6, '#6b4226', { base: true }), [FS[0], 1.0, FS[2] - 1.5]), at(G.box(3.2, 1.0, 1.4, '#5a3a20', { base: true }), [FS[0], 0, FS[2] - 1.5]),
+    at(G.box(5, .1, 3, '#a03a2a', { base: true }), [FS[0], 0, FS[2] + 1]), at(G.box(1.6, 1.2, .1, '#2a4a6a', { base: true }), [FS[0] - 3, 2.2, FS[2] - 4.34]), at(G.box(1.6, 1.2, .1, '#8a3a2a', { base: true }), [FS[0] + 2.6, 2.4, FS[2] - 4.34])]), { outline: false });
+  // Rocky Mountains: Gipfel mit Schnee, Wald, Fluss
+  mk(S, G.box(260, .4, 140, '#5f8a48', { base: true }), { pos: [FM[0], -.4, FM[2]], outline: false, cast: false });
+  const P = []; [[-40, -40, 22, 30], [0, -52, 28, 40], [42, -44, 24, 32], [-80, -60, 26, 36], [82, -62, 30, 42]].forEach(([x, z, r, h], k) => { P.push(at(G.cyl(r, 0, h, 7, k % 2 ? '#7a7f8c' : '#8a8f9c', { rot: k }), [FM[0] + x, -1, FM[2] + z]), at(G.cyl(r * .32, 0, h * .32, 7, '#f4f6fb', { rot: k }), [FM[0] + x, h * .68 - 1, FM[2] + z])) });
+  mk(S, merge(P), { cast: false });
+  const T = []; for (let k = 0; k < 80; k++) { const x = FM[0] - 50 + (k % 20) * 5 + G.hash(k) * 3, z = FM[2] - 8 - Math.floor(k / 20) * 5 - G.hash(k, 2) * 3; T.push(...tree(x, z, .9 + G.hash(k, 3) * .6, k % 3 ? '#2a5030' : '#356038')) }
+  mk(S, merge(T));
+  // Felsen am Fluss
+  mk(S, merge([...Array(14)].map((_, k) => at(G.ico(.5 + G.hash(k) * .9, 1, '#8a8478', .25, k), [FM[0] - 14 + k * 2.2, 0, FM[2] + 4.2 + (k % 2) * 3.2]))).smooth());
+})();
+const FRIVER = seaGrid('FEN', FM[0], FM[2] + 5.8, 90, 1, '#3a9ad6', { wave: .08, pos: [0, .08, 0] }, 2.6);
+// Kiste (Bronze) mit Deckel + Goldinhalt
+const FCH = mk('FEN', merge([at(G.box(.9, .5, .7, '#a8743a', { base: true }), [0, 0, 0]), at(G.box(.94, .08, .74, '#7a5226', { base: true }), [0, .22, 0])]), { pos: [FS[0] - .6, 1.14, FS[2] - 1.5], spec: .6 });
+const FLID = mk('FEN', merge([at(G.box(.94, .14, .74, '#b8844a', { base: true }), [0, 0, .37]), at(G.box(.12, .16, .14, '#ffd166', { base: true }), [0, -.06, .74])]), { parent: FCH, pos: [0, .5, -.37], spec: .6 });
+const FGOLD = mk('FEN', merge([...Array(16)].map((_, k) => at(G.cyl(.1, .1, .03, 12, k % 4 ? '#ffcc44' : '#e84a6a'), [-.3 + (k % 4) * .2, .52 + Math.floor(k / 8) * .05, -.2 + (Math.floor(k / 4) % 2) * .3], [.3 * (k % 3), 0, .2]))), { parent: FCH, emis: .3, spec: 1, outline: false });
+CHAP.push({ line: 'n4', n: 4, title: "FORREST FENN'S TREASURE", year: '2010', place: '🇺🇸 Rocky Mountains' });
+let FE_I0 = 0;
+function feUpd(t, i) {
+  const k = i - FE_I0; FCH.vis = k >= 1 && k <= 2 || k == 6; FGOLD.vis = FCH.vis;
+  if (k == 1) { FCH.pos = [FS[0] - .6, 1.14, FS[2] - 1.5]; FCH.rot = [0, .3, 0]; FLID.rot = [-1.6, 0, 0] }
+  if (k == 2) { FCH.pos = [FM[0] + 3, 0, FM[2] + 1]; FCH.rot = [0, -.4, 0]; FLID.rot = [0, 0, 0] }
+  if (k == 6) { FCH.pos = [FM[0] - 1, 0, FM[2] + 8]; FCH.rot = [0, .5, 0]; FLID.rot = [-1.4 * ez(cl((t - wt(i, /found/)) / .6, 0, 1)), 0, 0] }
+}
+SHOT.f_town = { set: 'FEN', light: 'day',
+  cam: i => { FE_I0 = i; return mv(cm([FX + 14, 7, 22], [FX - 2, 2, -8], 50), cm([FX + 8, 5, 16], [FX - 2, 2, -8], 48)) },
+  upd: feUpd,
+  ui: (t, i) => pillAt(960, 930 - 110, t, Lt(i).start + 2.7, nextStart(i), '📍 SANTA FE, NEW MEXICO', '#232838', '#fff', 44),
+  sfx: i => [{ k: 'whoosh', t: Lt(i).start + .3, d: 1.2 }] };
+SHOT.f_chest = { set: 'FEN', light: 'indoorWarm',
+  cam: i => cut2(i, /gold/, cm([FS[0] + 3, 2.2, FS[2] + 4.4], [FS[0] - .3, 1.4, FS[2] - 1.5], 48), cm([FS[0] + 2.4, 2.1, FS[2] + 3.6], [FS[0] - .3, 1.4, FS[2] - 1.5], 46),
+    cm([FS[0] - .5, 2.9, FS[2] - .3], [FS[0] - .6, 1.4, FS[2] - 1.5], 40), cm([FS[0] - .5, 2.7, FS[2] - .5], [FS[0] - .6, 1.4, FS[2] - 1.5], 38)),
+  upd: feUpd,
+  figs: (t, i) => t > wt(i, /gold/) - .15 ? '' : fig([FS[0] + 1.3, 0, FS[2] - .5], 'dealer', { mouth: 'grin', talk: 0, blink: bl(t, 0), look: [-5, 3], hR: [150, 150] }),
+  ui: (t, i) => labelAt([FS[0] + 1.3, 2.2, FS[2] - .5], PILL('🎨 ART DEALER, AGE 80', '#232838', '#fff', 38), t, wt(i, /dealer/) - .1, wt(i, /gold/) - .2) +
+    counter(960, 180, t, wt(i, /worth/) - .1, nextStart(i), wt(i, /worth/), wt(i, /dollars/), 0, 1, v => '💰 $' + v.toFixed(1).replace('.0', '') + ' MILLION+', '#35a862', '#fff', 72),
+  sfx: i => [{ k: 'coin', t: wt(i, /gold/) }, { k: 'shimmer', t: wt(i, /gems/) }, { k: 'cash', t: wt(i, /dollars/) }] };
+SHOT.f_hide = { set: 'FEN', light: 'dusk',
+  cam: i => mv(cm([FM[0] + 16, 8, FM[2] + 22], [FM[0], 8, FM[2] - 30], 52), cm([FM[0] + 8, 3, FM[2] + 9], [FM[0] + 3, .6, FM[2] + 1], 46)),
+  upd: feUpd,
+  figs: (t, i) => fig([FM[0] + 4.6, 0, FM[2] + 1.8], 'dealer', { mouth: 'grin', blink: bl(t, 0), look: [-5, 4], hR: [170, 200], lean: .15 }),
+  ui: (t, i) => bigText(960, 190, t, wt(i, /rocky/i) - .1, nextStart(i), '🏔️ SOMEWHERE IN THE ROCKIES', 80),
+  sfx: i => [{ k: 'whoosh', t: Lt(i).start + .2, d: 1.4 }, { k: 'thud', t: nextStart(i) - .6, g: .4 }] };
+SHOT.f_poem = { set: 'FEN', light: 'indoorWarm',
+  cam: i => mv(cm([FS[0] + .5, 2.6, FS[2] + 2], [FS[0], 1.1, FS[2] - 1.5], 44), cm([FS[0] + .3, 2.4, FS[2] + 1.2], [FS[0], 1.1, FS[2] - 1.5], 42)),
+  upd: feUpd,
+  ui: (t, i) => { const a = Lt(i).start + .1; if (t < a) return ''; let ln = ''; const n = Math.round(24 * ez(cl((t - a) / 2.4, 0, 1)));
+    for (let k = 0; k < n; k++) ln += `<div style="height:9px;margin:5px 0;width:${60 + 30 * G.hash(k)}%;background:#5a4a3a;border-radius:5px${[2, 5, 8, 11, 13, 16, 18, 20, 22].includes(k) && t > wt(i, /nine/) ? ';background:#e0a010;box-shadow:0 0 10px #ffd166' : ''}"></div>`;
+    return `<div style="position:absolute;left:960px;top:150px;transform:translate(-50%,0) rotate(-2deg) scale(${pop(t, a)});width:420px;padding:28px 34px;background:#f6ecd2;border:9px solid ${OL};border-radius:10px;box-shadow:0 16px 0 #0005;z-index:2200">
+      <div style="font:900 40px IB;color:${OL};text-align:center;margin-bottom:8px">📜 THE POEM</div>${ln}</div>` + pillAt(1460, 300, t, wt(i, /twenty/) - .1, nextStart(i), '24 LINES', '#232838', '#fff', 46) + pillAt(1460, 420, t, wt(i, /nine/) - .1, nextStart(i), '🔑 9 CLUES', '#ffd166', OL, 50) },
+  sfx: i => [{ k: 'paper', t: Lt(i).start + .1 }, { k: 'ding', t: wt(i, /nine/) }] };
+SHOT.f_search = { set: 'FEN', light: 'day',
+  cam: i => mv(cm([FM[0] + 10, 4, FM[2] + 18], [FM[0], 1.2, FM[2] + 5], 52), cm([FM[0] + 6, 3.2, FM[2] + 15], [FM[0] - 1, 1.2, FM[2] + 5], 50)),
+  upd: feUpd,
+  figs: (t, i) => { let h = ''; const L4 = [['hiker', [-6, 0, 2], PROP.shovel, 0], ['hiker2', [-2, -.4, 6], PROP.detector, 1], ['student', [2, 0, 2.6], PROP.map, 0], ['hunter', [5, -.4, 6.4], '', 1]];
+    L4.forEach(([who, p, pr, wade], k) => h += fig([FM[0] + p[0] + Math.sin(t * .6 + k) * .4, p[1], FM[2] + p[2]], who, Object.assign(walk(t + k, 7), { mouth: 'grin', blink: bl(t, k), look: [k % 2 ? -4 : 4, 3], prop: pr, hR: pr ? [180, 150] : [200, 100], legsOff: !!wade })));
+    return h },
+  ui: (t, i) => counter(960, 170, t, Lt(i).start + .1, nextStart(i), Lt(i).start + .2, wt(i, /looking/), 0, 1000, v => '🔎 ' + (v > 990 ? 'THOUSANDS' : Math.round(v)) + ' OF SEARCHERS', '#232838', '#fff', 60),
+  sfx: i => [{ k: 'splash', t: wt(i, /waded/) }, { k: 'thud', t: wt(i, /dug/), g: .4 }] };
+SHOT.f_danger = { set: 'FEN', light: 'dusk',
+  cam: i => mv(cm([FM[0] + 2, 2, FM[2] + 13], [FM[0] - 2, 1, FM[2] + 5], 48), cm([FM[0] + 1, 1.6, FM[2] + 11], [FM[0] - 2, 1, FM[2] + 5], 46)),
+  upd: feUpd,
+  figs: (t, i) => fig([FM[0] - 3, -.5, FM[2] + 6], 'hiker', { mouth: 'o', blink: bl(t, 0), look: [0, -4], sweat: true, legsOff: true, hR: [200, 60], hL: [0, 60], tilt: .1 * Math.sin(t * 3) }),
+  ui: (t, i) => pillAt(960, 170, t, wt(i, /dangerous/) - .1, nextStart(i), '⚠️ DANGEROUS', '#e0303a', '#fff', 56) + counter(960, 300, t, wt(i, /five/) - .1, nextStart(i), wt(i, /five/), wt(i, /died/), 0, 5, v => 'AT LEAST ' + Math.round(v) + ' DIED', '#232838', '#fff', 64),
+  sfx: i => [{ k: 'splash', t: Lt(i).start + .4 }, { k: 'impact', t: wt(i, /died/), g: .5 }] };
+SHOT.f_found = { set: 'FEN', light: 'day',
+  cam: i => cut2(i, /found/, cm([FM[0] + 4, 2, FM[2] + 15], [FM[0] - 1, 1, FM[2] + 7], 48), cm([FM[0] + 3, 2, FM[2] + 14], [FM[0] - 1, 1, FM[2] + 7], 46),
+    cm([FM[0] + .6, 1.4, FM[2] + 10.6], [FM[0] - 1, .4, FM[2] + 8], 42), cm([FM[0] + .4, 1.3, FM[2] + 10.2], [FM[0] - 1, .4, FM[2] + 8], 40)),
+  upd: feUpd,
+  figs: (t, i) => { const f = wt(i, /found/) - .15; return t < f ? fig([FM[0] - .2, 0, FM[2] + 9], 'student', Object.assign(walk(t, 7), { mouth: 'smile', blink: bl(t, 0), look: [-3, 3], prop: PROP.map, hR: [170, 130] })) : fig([FM[0] + .2, 0, FM[2] + 8.6], 'student', { mouth: 'grin', talk: .6, blink: bl(t, 0), look: [-3, 4], hR: [210, 60], hL: [-10, 60] }) },
+  ui: (t, i) => counter(960, 160, t, Lt(i).start + .1, wt(i, /found/), Lt(i).start + .2, wt(i, /2020/), 2010, 2020, v => '📅 ' + Math.round(v), '#232838', '#fff', 64) + labelAt([FM[0] + .2, 2.1, FM[2] + 8.6], PILL('🩺 MEDICAL STUDENT, 32', '#2a5ab0', '#fff', 38), t, wt(i, /student/) - .1, nextStart(i)) + stampAt(1450, 340, t, wt(i, /found/), 'FOUND!', '#35a862', 110, 6),
+  sfx: i => [{ k: 'tick', t: Lt(i).start + .3 }, { k: 'impact', t: wt(i, /found/), g: .6 }, { k: 'shimmer', t: wt(i, /found/) + .3 }] };
+SHOT.f_wyoming = { set: 'FEN', light: 'dusk',
+  cam: i => mv(cm([FM[0] + 22, 14, FM[2] + 30], [FM[0], 6, FM[2] - 10], 52), cm([FM[0] + 18, 10, FM[2] + 26], [FM[0], 5, FM[2] - 10], 50)),
+  upd: feUpd,
+  ui: (t, i) => bigText(960, 200, t, wt(i, /wyoming/i) - .1, nextStart(i), '📍 WYOMING', 110, '#ffd166', -3) + pillAt(960, 360, t, wt(i, /confirmed/) - .1, nextStart(i), '✅ CONFIRMED BY FENN', '#35a862', '#fff', 48) +
+    pillAt(960, 470, t, wt(i, /ninety/) - .1, nextStart(i), '🕊️ FENN DIED IN SEPT 2020, AGE 90', '#232838', '#fff', 44),
+  sfx: i => [{ k: 'impact', t: wt(i, /wyoming/i), g: .5 }, { k: 'ding', t: wt(i, /confirmed/) }, { k: 'bell', t: wt(i, /ninety/) }] };
+// ===================== Set EGG: Zarenpalast 1887 / Antikmarkt im Mittleren Westen / Schrottwerkstatt / Juwelier London =====================
+const EX = 1500, EP = [EX, 0, 0], EM = [EX, 0, 90], EW = [EX, 0, 170], EL = [EX, 0, -90];
+const CROWN = `<path d="M50,44 L56,4 L78,26 L100,0 L122,26 L144,4 L150,44Z" fill="#ffd166" stroke="${OL}" stroke-width="6" stroke-linejoin="round"/><circle cx="100" cy="30" r="7" fill="#e0303a" stroke="${OL}" stroke-width="3"/>`;
+LOOK.tsar = { sw: '#2a4a8a', swd: '#203a70', pa: '#1b2236', hat: CROWN, mid: MID.buttons };
+LOOK.empress = { sw: '#e8e0f0', swd: '#d0c6e0', pa: '#c8b8e0', hat: `<path d="M64,40 L70,14 L86,30 L100,8 L114,30 L130,14 L136,40Z" fill="#f2f2f8" stroke="${OL}" stroke-width="5" stroke-linejoin="round"/><circle cx="100" cy="26" r="6" fill="#60a5fa" stroke="${OL}" stroke-width="3"/>` };
+LOOK.scrap = { sw: '#5a6a8a', swd: '#4a5a78', pa: '#3a3f55', hat: HAT.cap };
+LOOK.jeweler = { sw: '#3a3f55', swd: '#2c3044', pa: '#2c3044', mid: MID.tie };
+LOOK.redguard = { sw: '#5a6048', swd: '#484d3a', pa: '#3a3e30', hat: `<path d="M36,50 Q36,6 100,4 Q164,6 164,50Z" fill="#6a6e5a" stroke="${OL}" stroke-width="6"/><circle cx="100" cy="28" r="9" fill="#e0303a" stroke="${OL}" stroke-width="3"/>` };
+(function egg() {
+  const S = 'EGG';
+  // Palast-Saal
+  mk(S, merge([at(G.box(22, .3, 14, '#a8743a', { base: true, top: '#c08a4a' }), [EP[0], -.3, EP[2]]), at(G.box(22, 8, .4, '#e8d8c0', { base: true }), [EP[0], 0, EP[2] - 7]),
+    at(G.box(.4, 8, 14, '#e0ceb4', { base: true }), [EP[0] - 11, 0, EP[2]]), at(G.box(10, .05, 8, '#a02a3a', { base: true }), [EP[0], 0, EP[2]]),
+    ...[-8, -4, 4, 8].map(x => at(G.box(.8, 8, .8, '#e8c060', { base: true }), [EP[0] + x, 0, EP[2] - 6.4])),
+    ...[-6, 0, 6].map(x => at(G.box(2.4, 4, .1, '#bfe0f6', { base: true }), [EP[0] + x, 2, EP[2] - 6.76])),
+    at(G.box(22, .6, .6, '#e8c060', { base: true }), [EP[0], 7.4, EP[2] - 6.6]), at(G.box(1.6, 1.1, 1.0, '#f2ead8', { base: true }), [EP[0], 0, EP[2] - 1])]), { outline: false });
+  mk(S, merge([at(G.cyl(.1, .1, 1.4, 6, '#c9a23c'), [EP[0], 6.4, EP[2]]), at(G.ico(.8, 2, '#fff2c0'), [EP[0], 6, EP[2]])]), { emis: .8, outline: false, cast: false });
+  // Antikmarkt (draussen, Tag)
+  mk('EGGM', G.box(120, .4, 60, '#9a9a8a', { base: true }), { pos: [EM[0], -.4, EM[2]], outline: false, cast: false });
+  const M = []; [[-6, 0, '#e0303a'], [0, -1, '#2a8fd6'], [6, 0, '#35a862']].forEach(([x, z, c]) => { M.push(at(G.box(3.4, .12, 1.6, '#8a6a46', { base: true }), [EM[0] + x, 1, EM[2] + z]), ...[[-1.5, -.7], [1.5, -.7], [-1.5, .7], [1.5, .7]].map(([a, b]) => at(G.box(.12, 1, .12, '#6b4226', { base: true }), [EM[0] + x + a, 0, EM[2] + z + b])),
+    at(G.box(3.8, .12, 2.2, c, { base: true }), [EM[0] + x, 2.6, EM[2] + z]), ...[-1.8, 1.8].map(a => at(G.cyl(.05, .05, 2.6, 6, '#3a3a44'), [EM[0] + x + a, 0, EM[2] + z + .9]))) });
+  for (let k = 0; k < 18; k++) M.push(at(k % 3 ? G.box(.3 + G.hash(k) * .3, .2 + G.hash(k, 1) * .4, .3, ['#c9ccd4', '#8a5a32', '#6a8acb', '#d8c8a8'][k % 4], { base: true }) : G.cyl(.15, .1, .4, 8, '#9aa0ac'), [EM[0] - 7.4 + (k % 6) * .55 + Math.floor(k / 6) * 6, 1.12, EM[2] + (k % 2) * .4 - .2 - (Math.floor(k / 6) == 1 ? 1 : 0)]));
+  M.push(...[-14, -10, 12, 16].map((x, k) => at(G.box(3, 2 + k % 2, 3, ['#c9b896', '#a8b0c0', '#d8c8a8', '#b8a07a'][k], { base: true }), [EM[0] + x, 0, EM[2] - 6])));
+  mk('EGGM', merge(M));
+  // Werkstatt (Schrott + Schmelzofen)
+  mk('EGGW', merge([at(G.box(14, .3, 10, '#5a5e6a', { base: true }), [EW[0], -.3, EW[2]]), at(G.box(14, 5, .3, '#7a6a5a', { base: true }), [EW[0], 0, EW[2] - 5]), at(G.box(.3, 5, 10, '#6a5a4a', { base: true }), [EW[0] - 7, 0, EW[2]]),
+    at(G.box(3, .14, 1.4, '#4a4e5a', { base: true }), [EW[0] + 1.6, 1.0, EW[2] - 1.4]), at(G.box(2.8, 1.0, 1.2, '#3a3e4a', { base: true }), [EW[0] + 1.6, 0, EW[2] - 1.4])]), { outline: false });
+  mk('EGGW', merge([...Array(22)].map((_, k) => at(k % 2 ? G.box(.6 + G.hash(k) * .6, .2, .5, ['#9aa0ac', '#8a6a46', '#b8744a'][k % 3]) : G.cyl(.25, .25, .7, 10, ['#9aa0ac', '#b8744a'][k % 2]), [EW[0] - 5.5 + (k % 7) * .6, .2 + Math.floor(k / 7) * .3, EW[2] - 3.8 + G.hash(k, 3) * 1.2], [0, k, .3 * (k % 3)]))), { outline: true });
+  mk('EGGW', merge([at(G.cyl(.9, .8, 1.4, 16, '#3a3a44'), [EW[0] - 2.2, 0, EW[2] - 1.2]), at(G.cyl(.55, .5, .6, 14, '#5a5e6a'), [EW[0] - 2.2, 1.4, EW[2] - 1.2])]));
+  // Juwelier London: dunkles Holz, Vitrine
+  mk('EGGL', merge([at(G.box(12, .3, 9, '#3a2a22', { base: true }), [EL[0], -.3, EL[2]]), at(G.box(12, 5, .3, '#2a3a32', { base: true }), [EL[0], 0, EL[2] - 4.5]), at(G.box(.3, 5, 9, '#26342c', { base: true }), [EL[0] - 6, 0, EL[2]]),
+    at(G.box(3, 1.0, 1.2, '#5a3a26', { base: true }), [EL[0], 0, EL[2] - 1.2]), at(G.box(.9, .5, .9, '#6a1a2a', { base: true }), [EL[0], 1.0, EL[2] - 1.2])]), { outline: false });
+  mk('EGGL', G.box(1.4, 1.1, 1.2, '#d8f0ff'), { pos: [EL[0], 1.5, EL[2] - 1.2], alpha: .18, spec: 1, outline: false, cast: false, recv: false });
+})();
+// Das Ei (Gold, 3 Saphir-Schleifen, Staender) – Wurzel bewegt sich zwischen den Orten
+function eggGeo(gold = '#f0c040') { return merge([at(G.ico(.22, 3, gold, 0, 1, 1.25), [0, .42, 0]), at(G.cyl(.06, .1, .16, 12, '#e0b030'), [0, .06, 0]), ...[0, 1, 2].map(k => at(G.cyl(.012, .012, .2, 6, '#e0b030'), [Math.cos(k * 2.1) * .12, 0, Math.sin(k * 2.1) * .12], [0, 0, .5 * (k - 1)])),
+  ...[0, 1, 2].map(k => at(G.ico(.035, 1, '#3a6ad6'), [Math.cos(k * 2.1) * .21, .5, Math.sin(k * 2.1) * .21])), at(G.ico(.02, 1, '#ffffff'), [0, .7, 0])]).smooth() }
+const EGG = mk('EGG', eggGeo(), { pos: [EP[0], 1.1, EP[2] - 1], spec: 1, emis: .12 });
+const EGG2 = [0, 1, 2].map(k => mk('EGG', eggGeo(['#d8e8f8', '#f0c0d0', '#c0e8c8'][k]), { pos: [EP[0] - 1.6 + k * 1.6, 1.1, EP[2] - 1], spec: 1, alpha: .5, emis: .2, outline: false }));
+const EFIRE = mk('EGGW', G.ico(.5, 2, '#ff8a2a', .3, 3), { pos: [EW[0] - 2.2, 2.1, EW[2] - 1.2], emis: 1, outline: false, cast: false });
+const ECRATES = [0, 1, 2].map(k => mk('EGG', merge([at(G.box(1.2, .9, .9, '#a07a4a', { base: true }), [0, 0, 0]), at(G.box(1.24, .1, .94, '#7a5a32', { base: true }), [0, .4, 0])]), { pos: [EP[0] - 5 + k * 1.6, 0, EP[2] + 1.6] }));
+const ELAPTOP = mk('EGGW', merge([at(G.box(1.1, .05, .75, '#c9ccd4', { base: true }), [0, 0, 0]), at(G.box(1.1, .72, .05, '#c9ccd4', { base: true }), [0, 0, -.36], [-.25, 0, 0])]), { pos: [EW[0] + 1.4, 1.14, EW[2] - 1.4] });
+CHAP.push({ line: 'n3', n: 3, title: 'THE LOST FABERGÉ EGG', year: '1887', place: '🇷🇺 Russia' });
+let EG_I0 = 0;
+function egUpd(t, i) {
+  const k = i - EG_I0; EGG.vis = true; EGG.rot = [0, t * .5, 0]; EGG.alpha = 1; EGG2.forEach(m => m.vis = false); EFIRE.vis = k == 5 || k == 4; EFIRE.scl = [1 + .08 * Math.sin(t * 9), 1 + .15 * Math.sin(t * 7), 1];
+  ECRATES.forEach((m, j) => { m.vis = k == 2; m.pos = [EP[0] - 5 + j * 1.6 + (k == 2 ? (t - Lt(i).start) * 1.4 : 0), 0, EP[2] + 1.6] });
+  if (k <= 3) EGG.pos = [EP[0], 1.1, EP[2] - 1];
+  if (k == 2) EGG.vis = t < wt(i, /seized/) + .2;
+  if (k == 3) { EGG.alpha = Math.max(.01, 1 - ez(cl((t - wt(i, /disappeared/)) / 1, 0, 1))); EGG.vis = EGG.alpha > .02 }
+  if (k == 4) EGG.pos = [EM[0], 1.12, EM[2] - 1.2];
+  if (k == 5 || k == 6 || k == 7) EGG.pos = [EW[0] + .5, 1.14, EW[2] - 1.3];
+  if (k == 8) EGG.pos = [EL[0], 1.5, EL[2] - 1.2];
+  if (k == 9) { EGG.vis = false; EGG2.forEach((m, j) => { m.vis = t > Lt(i).start + 1.2 + j * .4 && t > wt(i, /still/) - .2; m.rot = [0, t * .4, 0] }) }
+}
+SHOT.e_palace = { set: 'EGG', light: 'indoorWarm',
+  cam: i => { EG_I0 = i; return mv(cm([EP[0] + 6, 4.2, EP[2] + 9], [EP[0], 2.4, EP[2] - 3], 50), cm([EP[0] + 3.6, 3.2, EP[2] + 6.4], [EP[0], 2, EP[2] - 2], 48)) },
+  upd: egUpd,
+  ui: (t, i) => pillAt(960, 930 - 110, t, Lt(i).start + 2.7, nextStart(i), '🥚 EASTER 1887 · ST. PETERSBURG', '#232838', '#fff', 44),
+  sfx: i => [{ k: 'bell', t: Lt(i).start + .4 }] };
+SHOT.e_gift = { set: 'EGG', light: 'indoorWarm',
+  cam: i => cut2(i, /inside/i, cm([EP[0] + 2, 2.4, EP[2] + 4.4], [EP[0], 1.7, EP[2] - 1], 48), cm([EP[0] + 1.4, 2.2, EP[2] + 3.6], [EP[0], 1.6, EP[2] - 1], 46),
+    cm([EP[0] + .3, 1.75, EP[2] + .2], [EP[0], 1.55, EP[2] - 1], 34), cm([EP[0] + .2, 1.7, EP[2] - .1], [EP[0], 1.55, EP[2] - 1], 32)),
+  upd: egUpd,
+  figs: (t, i) => t > wt(i, /inside/i) - .15 ? '' : fig([EP[0] - 1.6, 0, EP[2]], 'tsar', { mouth: 'smile', blink: bl(t, 0), look: [4, 2], hR: [190, 150] }) + fig([EP[0] + 1.5, 0, EP[2] + .2], 'empress', { mouth: 'o', blink: bl(t, 1), look: [-4, 2], hR: [170, 60], hL: [30, 60] }),
+  ui: (t, i) => labelAt([EP[0], 2.2, EP[2] - 1], PILL('FABERGÉ', '#ffd166', OL, 40), t, wt(i, /faberge/i) - .1, wt(i, /inside/i) - .2) + pillAt(960, 170, t, wt(i, /watch/) - .1, nextStart(i), '⌚ A TINY WATCH INSIDE', '#232838', '#fff', 52),
+  sfx: i => [{ k: 'shimmer', t: wt(i, /golden/) }, { k: 'tick', t: wt(i, /watch/) }] };
+SHOT.e_revolution = { set: 'EGG', light: 'indoorDark',
+  cam: i => mv(cm([EP[0] + 4, 3, EP[2] + 8], [EP[0] - 2, 1.6, EP[2]], 50), cm([EP[0] + 3, 2.6, EP[2] + 6.6], [EP[0] - 1, 1.6, EP[2]], 48)),
+  upd: egUpd,
+  figs: (t, i) => { let h = ''; [0, 1].forEach(k => { const x = EP[0] - 4 + k * 2.6 + (t - Lt(i).start) * 1.4; h += fig([x, 0, EP[2] + 2.8], 'redguard', Object.assign(walk(t + k, 8), { mouth: 'hmm', blink: bl(t, k), look: [5, 0], hR: [170, 120], hL: [40, 120] })) });
+    const s = wt(i, /seized/); if (t > s - .3) h += fig([EP[0] + 1.4, 0, EP[2] - .2], 'redguard', { mouth: 'grin', blink: bl(t, 3), look: [-5, 3], hL: [10, 140] }); return h },
+  ui: (t, i) => stampAt(1400, 300, t, wt(i, /seized/), 'SEIZED', '#e0303a', 110, 6) + pillAt(960, 170, t, wt(i, /sold/) - .1, nextStart(i), '💵 SOLD ABROAD', '#35a862', '#fff', 52),
+  sfx: i => [{ k: 'impact', t: wt(i, /revolution/), g: .5 }, { k: 'impact', t: wt(i, /seized/) }, { k: 'cash', t: wt(i, /sold/) }] };
+SHOT.e_lost = { set: 'EGG', light: 'indoorDark',
+  cam: i => mv(cm([EP[0] + .6, 2, EP[2] + 1.8], [EP[0], 1.55, EP[2] - 1], 38), cm([EP[0] + .3, 1.9, EP[2] + 1.2], [EP[0], 1.55, EP[2] - 1], 36)),
+  upd: egUpd,
+  ui: (t, i) => bigText(960, 330, t, wt(i, /disappeared/) + .4, nextStart(i), '?', 260, '#ffd166') + pillAt(960, 170, t, wt(i, /decades/) - .1, nextStart(i), '⏳ LOST FOR DECADES', '#232838', '#fff', 56),
+  sfx: i => [{ k: 'air', t: wt(i, /disappeared/), d: 1 }, { k: 'tick', t: wt(i, /decades/) }] };
+SHOT.e_market = { set: 'EGGM', light: 'day',
+  cam: i => cut2(i, /spots/, cm([EM[0] + 8, 4, EM[2] + 12], [EM[0], 1.4, EM[2]], 50), cm([EM[0] + 5, 3.4, EM[2] + 9], [EM[0], 1.4, EM[2]], 48),
+    cm([EM[0] + .9, 2, EM[2] + 1.6], [EM[0], 1.3, EM[2] - 1.2], 40), cm([EM[0] + .6, 1.8, EM[2] + 1.1], [EM[0], 1.3, EM[2] - 1.2], 36)),
+  upd: egUpd,
+  figs: (t, i) => t > wt(i, /spots/) - .15 ? '' : fig([EM[0] + 1.6 - Math.max(0, 1.6 - (t - Lt(i).start) * .6), 0, EM[2] + 1.6], 'scrap', Object.assign(walk(t, 7), { mouth: 'o', blink: bl(t, 0), look: [-4, 3] })),
+  ui: (t, i) => pillAt(960, 170, t, wt(i, /midwest/i) - .1, wt(i, /spots/) - .2, '🇺🇸 A SCRAP METAL DEALER', '#232838', '#fff', 52) + pillAt(960, 930 - 110, t, wt(i, /decades/) - .1, wt(i, /spots/) - .2, '🛒 ANTIQUES MARKET', '#2a8fd6', '#fff', 44),
+  sfx: i => [{ k: 'whoosh', t: Lt(i).start + .2, d: 1 }, { k: 'shimmer', t: wt(i, /spots/) }] };
+SHOT.e_melt = { set: 'EGGW', light: 'indoorWarm',
+  cam: i => mv(cm([EW[0] + 1.4, 2.8, EW[2] + 4.4], [EW[0] - 1.2, 1.3, EW[2] - 1.2], 48), cm([EW[0] + .8, 2.4, EW[2] + 3.4], [EW[0] - 1.4, 1.3, EW[2] - 1.2], 46)),
+  upd: egUpd,
+  figs: (t, i) => fig([EW[0] + 1.4, 0, EW[2] - .2], 'scrap', { mouth: 'grin', talk: tk(t, i) * .5, blink: bl(t, 0), look: [-5, 2], hL: [20, 150] }),
+  ui: (t, i) => counter(960, 170, t, Lt(i).start + .1, nextStart(i), Lt(i).start + .2, wt(i, /dollars/), 0, 14000, v => '💵 PAID: $' + Math.round(v / 100) * 100 / 1000 + 'K', '#35a862', '#fff', 64) + stampAt(1400, 340, t, wt(i, /melt/) - .05, '🔥 MELT IT?', '#e0303a', 90, 6),
+  sfx: i => [{ k: 'cash', t: wt(i, /dollars/) }, { k: 'impact', t: wt(i, /melt/), g: .5 }] };
+SHOT.e_google = { set: 'EGGW', light: 'indoorDark',
+  cam: i => mv(cm([EW[0] + 2.6, 2.1, EW[2] + 1.6], [EW[0] + 1.4, 1.5, EW[2] - 1.6], 44), cm([EW[0] + 2.2, 2, EW[2] + 1.1], [EW[0] + 1.4, 1.5, EW[2] - 1.6], 42)),
+  upd: egUpd,
+  figs: (t, i) => fig([EW[0] + 3.3, 0, EW[2] - 1.0], 'scrap', { mouth: 'hmm', blink: bl(t, 0), look: [-5, 4], hR: [130, 150], hL: [70, 150] }),
+  ui: (t, i) => { const a = wt(i, /typed/) - .2; if (t < a) return pillAt(960, 170, t, wt(i, /no one/) - .1, nextStart(i), '❌ NO BUYER', '#e0303a', '#fff', 56);
+    const q = 'egg vacheron constantin', n = Math.round(q.length * cl((t - a) / 1.6, 0, 1));
+    return `<div style="position:absolute;left:960px;top:200px;transform:translate(-50%,0) scale(${pop(t, a)});width:900px;padding:22px 30px;background:#fff;border:8px solid ${OL};border-radius:60px;font:700 50px P;color:#232838;box-shadow:0 14px 0 #0005;z-index:2200">🔍 ${q.slice(0, n)}<span style="opacity:${Math.floor(t * 3) % 2}">|</span></div>` },
+  sfx: i => [{ k: 'error', t: wt(i, /no one/) }, { k: 'type', t: wt(i, /typed/), n: 14 }] };
+SHOT.e_article = { set: 'EGGW', light: 'indoorDark',
+  cam: i => mv(cm([EW[0] + 2.2, 2, EW[2] + 1.1], [EW[0] + 1.4, 1.5, EW[2] - 1.6], 42), cm([EW[0] + 2, 1.95, EW[2] + .8], [EW[0] + 1.4, 1.5, EW[2] - 1.6], 40)),
+  upd: egUpd,
+  ui: (t, i) => { const a = Lt(i).start + .1; if (t < a) return '';
+    return `<div style="position:absolute;left:960px;top:120px;transform:translate(-50%,0) scale(${pop(t, a)});width:860px;background:#fff;border:8px solid ${OL};border-radius:16px;overflow:hidden;box-shadow:0 14px 0 #0005;z-index:2200">
+      <div style="background:#232838;color:#fff;font:900 34px IB;padding:10px 24px">📰 NEWS</div><div style="display:flex;gap:24px;padding:24px;align-items:center">
+      <svg width="200" height="230" viewBox="0 0 200 230"><ellipse cx="100" cy="100" rx="70" ry="88" fill="#f0c040" stroke="${OL}" stroke-width="7"/><circle cx="60" cy="90" r="10" fill="#3a6ad6"/><circle cx="140" cy="90" r="10" fill="#3a6ad6"/><rect x="80" y="190" width="40" height="30" fill="#e0b030" stroke="${OL}" stroke-width="5"/></svg>
+      <div style="font:900 52px/1.1 IB;color:${OL}">HAVE YOU SEEN THIS LOST FABERGÉ EGG?</div></div></div>` + stampAt(1500, 640, t, wt(i, /exactly/) - .05, 'MATCH!', '#35a862', 100, -6) },
+  sfx: i => [{ k: 'pop', t: Lt(i).start + .1 }, { k: 'impact', t: wt(i, /exactly/), g: .5 }] };
+SHOT.e_value = { set: 'EGGL', light: 'indoorWarm',
+  cam: i => mv(cm([EL[0] + 2.4, 2.4, EL[2] + 3.6], [EL[0], 1.6, EL[2] - 1.2], 46), cm([EL[0] + .8, 1.9, EL[2] + 1.4], [EL[0], 1.7, EL[2] - 1.2], 40)),
+  upd: egUpd,
+  figs: (t, i) => fig([EL[0] - 1.8, 0, EL[2] - .4], 'jeweler', { mouth: 'o', blink: bl(t, 0), look: [5, 0], prop: PROP.magnifier, hR: [200, 120] }),
+  ui: (t, i) => pillAt(960, 160, t, wt(i, /london/i) - .1, nextStart(i), '🇬🇧 EXPERTS IN LONDON: REAL!', '#232838', '#fff', 50) + labelAt([EL[0], 2.4, EL[2] - 1.2], PILL('THE THIRD IMPERIAL EGG', '#ffd166', OL, 40), t, wt(i, /third/i) - .1, nextStart(i)) +
+    counter(960, 300, t, wt(i, /worth/) - .1, nextStart(i), wt(i, /worth/), wt(i, /dollars/), 0, 33, v => '~$' + Math.round(v) + ' MILLION', '#35a862', '#fff', 84),
+  sfx: i => [{ k: 'ding', t: wt(i, /confirmed/) }, { k: 'cash', t: wt(i, /dollars/) }] };
+SHOT.e_missing = { set: 'EGG', light: 'indoorDark',
+  cam: i => mv(cm([EP[0], 2.6, EP[2] + 4.6], [EP[0], 1.5, EP[2] - 1], 46), cm([EP[0], 2.2, EP[2] + 3.4], [EP[0], 1.5, EP[2] - 1], 44)),
+  upd: (t, i) => { egUpd(t, i); if (t < wt(i, /still/) - .15) { EGG.vis = true; EGG.pos = [EP[0], 1.1, EP[2] - 1] } },
+  ui: (t, i) => stampAt(1300, 300, t, wt(i, /almost/) - .05, 'ALMOST MELTED', '#e0303a', 80, -6, wt(i, /still/) - .15) + bigText(960, 200, t, wt(i, /nobody/) - .1, nextStart(i), 'STILL MISSING', 100, '#ffd166', -3),
+  sfx: i => [{ k: 'impact', t: wt(i, /almost/), g: .5 }, { k: 'shimmer', t: wt(i, /nobody/) }] };
+// ===================== Set AMB: Katharinenpalast + Bernsteinzimmer + Koenigsberg =====================
+const AX2 = 2000, AP = [AX2, 0, 0], AR = [AX2, 0, -90], AK = [AX2, 0, 90];
+LOOK.king = { sw: '#2a3a6a', swd: '#203058', pa: '#e8e0d0', hat: CROWN, mid: MID.buttons };
+LOOK.peter = { sw: '#2a6a3a', swd: '#20582e', pa: '#e8e0d0', hat: CROWN, mid: MID.buttons };
+(function amber() {
+  const S = 'AMB';
+  // Palast aussen: lange blau-weisse Fassade, goldene Kuppeln
+  mk(S, G.box(200, .4, 120, '#7aa85a', { base: true }), { pos: [AX2, -.4, 0], outline: false, cast: false });
+  const F = [at(G.box(60, 9, 6, '#4a8ad6', { base: true }), [AX2, 0, -12]), at(G.box(60.6, .6, 6.4, '#f2f2f8', { base: true }), [AX2, 9, -12]), at(G.box(60.6, .5, 6.4, '#f2f2f8', { base: true }), [AX2, 4.2, -12])];
+  for (let k = -14; k <= 14; k++) { F.push(at(G.box(.5, 9, .5, '#f2f2f8', { base: true }), [AX2 + k * 2.1, 0, -8.8])); if (k % 2) F.push(at(G.box(1.1, 2, .1, '#e8f4ff', { base: true }), [AX2 + k * 2.1 + 1.05, 1.2, -8.92]), at(G.box(1.1, 2, .1, '#e8f4ff', { base: true }), [AX2 + k * 2.1 + 1.05, 5.6, -8.92])) }
+  [-24, -12, 0, 12, 24].forEach(x => F.push(at(G.cyl(1.4, 1.4, 1.6, 14, '#f2f2f8'), [AX2 + x, 9.5, -12])));
+  mk(S, merge(F).vary(.02, 2));
+  mk(S, merge([-24, -12, 0, 12, 24].map(x => at(G.ico(1.6, 2, '#ffcc44', 0, 1, 1.1), [AX2 + x, 11.8, -12])).concat([-24, -12, 0, 12, 24].map(x => at(G.cyl(.4, 0, 2.4, 10, '#ffcc44'), [AX2 + x, 13, -12])))), { spec: 1, emis: .15 });
+  // Bernsteinzimmer innen (Waende = Textur)
+  mk(S, merge([at(G.box(16, .3, 12, '#6a3a1a', { base: true, top: '#8a5228' }), [AR[0], -.3, AR[2]]), at(G.box(16, .5, 12, '#f2e2b8', { base: true }), [AR[0], 7, AR[2]])]), { outline: false });
+  mk(S, merge([at(G.ico(.45, 2, '#fff2c0'), [0, 0, 0]), ...[0, 1, 2, 3, 4, 5].map(k => at(G.ico(.18, 1, '#fff2c0'), [Math.cos(k) * .8, -.3, Math.sin(k) * .8]))]), { pos: [AR[0], 6.3, AR[2]], emis: 1, outline: false, cast: false });
+  mk(S, G.box(16, 7, .2, '#cfc2a8', { base: true }), { pos: [AR[0], 0, AR[2] - 6.2], outline: false });
+  // Koenigsberg: Burg aus Backstein
+  mk(S, G.box(200, .4, 80, '#6a7a5a', { base: true }), { pos: [AK[0], -.4, AK[2]], outline: false, cast: false });
+  mk(S, merge([at(G.box(26, 8, 8, '#a8583a', { base: true }), [AK[0], 0, AK[2] - 10]), at(G.box(5, 18, 5, '#9a4e32', { base: true }), [AK[0] + 8, 0, AK[2] - 10]), at(G.cyl(3.4, 0, 5, 4, '#3a4a5a', { rot: PI / 4 }), [AK[0] + 8, 18, AK[2] - 10]),
+    ...[...Array(12)].map((_, k) => at(G.box(1, 1, 8.4, '#a8583a', { base: true }), [AK[0] - 12 + k * 2.2, 8, AK[2] - 10]))]).vary(.04, 6));
+  const HH = []; for (let k = 0; k < 12; k++) { const x = AK[0] - 30 + k * 5.2, z = AK[2] - 26 - (k % 2) * 4; HH.push(at(G.box(4, 4 + (k % 3), 4, ['#c8b098', '#b89878', '#d8c0a0'][k % 3], { base: true }), [x, 0, z]), at(G.cyl(3, .05, 2, 4, '#7a3a2a', { rot: PI / 4 }), [x, 4 + (k % 3), z])) }
+  mk(S, merge(HH));
+})();
+function amberTex() { return tex(1024, 512, (x, wd, ht) => {
+  x.fillStyle = '#8a4a14'; x.fillRect(0, 0, wd, ht);
+  for (let k = 0; k < 900; k++) { const px = G.hash(k) * wd, py = G.hash(k, 2) * ht, r = 8 + G.hash(k, 3) * 22; const c = ['#e8962a', '#f0b040', '#c86a18', '#ffcc66', '#d47a1c'][k % 5];
+    x.fillStyle = c; x.beginPath(); for (let j = 0; j < 6; j++) { const a = j / 6 * 6.283 + k; x.lineTo(px + Math.cos(a) * r * (.7 + G.hash(k, j) * .5), py + Math.sin(a) * r * (.7 + G.hash(k, j + 9) * .5)) } x.fill() }
+  x.strokeStyle = '#ffd166'; x.lineWidth = 14; for (let c = 0; c < 4; c++) { x.strokeRect(20 + c * 252, 30, 220, ht - 60); x.strokeStyle = '#ffd166' }
+  x.fillStyle = '#ffe8a0'; for (let c = 0; c < 4; c++) { x.beginPath(); x.ellipse(130 + c * 252, 160, 50, 64, 0, 0, 7); x.fill(); x.fillStyle = '#c8e8ff'; x.beginPath(); x.ellipse(130 + c * 252, 160, 38, 52, 0, 0, 7); x.fill(); x.fillStyle = '#ffe8a0' }
+}) }
+const AWALLS = [[AR[0], 3.5, AR[2] - 6, 0], [AR[0] - 8, 3.5, AR[2], PI / 2], [AR[0] + 8, 3.5, AR[2], -PI / 2]].map(([x, y, z, r]) => texPlane('AMB', r ? 12 : 16, 7, amberTex, { pos: [x, y, z], rot: [0, r, 0], spec: .5 }));
+// 12 Paneele, die abgenommen werden (Rueckwand vorn)
+const APAN = [...Array(6)].map((_, k) => texPlane('AMB', 2.4, 3, amberTex, { pos: [AR[0] - 6 + k * 2.4, 2, AR[2] - 5.9] }));
+const ACRATES = [...Array(9)].map((_, k) => mk('AMB', merge([at(G.box(1.6, 1.1, 1.1, '#a07a4a', { base: true }), [0, 0, 0]), at(G.box(1.64, .12, 1.14, '#7a5a32', { base: true }), [0, .55, 0])]), { pos: [0, 0, 0] }));
+const ATRUCK = mk('AMB', merge([at(G.box(6, 2.8, 2.6, '#4e5440', { base: true }), [-1, .8, 0]), at(G.box(2.2, 2.0, 2.4, '#40463a', { base: true }), [3.2, .8, 0]), at(G.box(1.8, .8, .1, '#9fd3f0', { base: true }), [3.3, 2.0, 1.22]),
+  ...[[-3, 1.2], [1, 1.2], [3.2, 1.2], [-3, -1.5], [1, -1.5], [3.2, -1.5]].map(([x, z]) => at(G.cyl(.5, .5, .3, 12, '#1b1b22'), [x, .5, z], [PI / 2, 0, 0]))]), { pos: [AK[0] - 20, 0, AK[2] + 2] });
+const AFIRE = [...Array(7)].map((_, k) => mk('AMB', G.ico(1.2 + G.hash(k) * 1.2, 2, k % 2 ? '#ff8a2a' : '#ffcc44', .3, k), { pos: [AK[0] - 10 + k * 3.4, 8 + G.hash(k, 4) * 3, AK[2] - 9], emis: 1, outline: false, cast: false }));
+const ASMOKE = [...Array(6)].map((_, k) => mk('AMB', G.ico(2.4, 2, '#3a3a44', .2, k), { pos: [AK[0] - 8 + k * 3.2, 14, AK[2] - 10], alpha: .5, outline: false, cast: false, recv: false }));
+CHAP.push({ line: 'n2', n: 2, title: 'THE AMBER ROOM', year: '1941', place: '🇷🇺 near St. Petersburg' });
+let AM_I0 = 0;
+function amUpd(t, i) {
+  const k = i - AM_I0;
+  APAN.forEach((m, j) => { m.vis = k <= 3 || k == 8; m.pos = [AR[0] - 6 + j * 2.4, 2, AR[2] - 5.9]; m.rot = [0, 0, 0];
+    if (k == 3) { const a = wt(i, /apart/) - 1.2 + j * .35, u = ez(cl((t - a) / .8, 0, 1)); m.pos = [AR[0] - 6 + j * 2.4, 2 - u * .6, AR[2] - 5.9 + u * 3]; m.rot = [-u * 1.3, 0, 0]; m.vis = u < .98 } });
+  AWALLS[0].vis = k < 3 || k == 8 || (k == 3 && t < wt(i, /apart/) - 1.2); ACRATES.forEach((m, j) => { m.vis = false });
+  if (k == 3) ACRATES.forEach((m, j) => { m.vis = t > wt(i, /apart/) - .6 + j * .2; m.pos = [AR[0] - 4.8 + (j % 3) * 1.8, 0, AR[2] + 1 + Math.floor(j / 3) * 1.4] });
+  if (k == 4) { const u = ez(cl((t - wt(i, /ship/)) / 3, 0, 1)); ATRUCK.pos = [lerp(AK[0] - 34, AK[0] - 6, u), 0, AK[2] + 2]; ACRATES.forEach((m, j) => { m.vis = true; m.pos = X(ATRUCK.pos, -3.2 + (j % 3) * 1.6, 1.6 + Math.floor(j / 3) * .5 * 0, j < 3 ? -.6 : j < 6 ? .6 : 0); m.pos[1] = 1.6 + Math.floor(j / 6) * 1.1 }) }
+  ATRUCK.vis = k == 4;
+  AFIRE.forEach((m, j) => { m.vis = (k == 5 && t > wt(i, /bombed/) - .2) || k == 6; m.scl = [1 + .15 * Math.sin(t * 8 + j), 1 + .25 * Math.sin(t * 6 + j * 2), 1] });
+  ASMOKE.forEach((m, j) => { m.vis = (k == 5 && t > wt(i, /ruins/) - .4) || k == 6; m.pos = [AK[0] - 8 + j * 3.2, 14 + ((t * .8 + j) % 5), AK[2] - 10] });
+}
+SHOT.a_palace = { set: 'AMB', light: 'day',
+  cam: i => { AM_I0 = i; return mv(cm([AX2 + 30, 6, 30], [AX2, 6, -12], 52), cm([AX2 + 16, 4, 18], [AX2, 6, -12], 50)) },
+  upd: amUpd,
+  ui: (t, i) => pillAt(960, 930 - 110, t, Lt(i).start + 2.7, nextStart(i), '📍 CATHERINE PALACE · 1941', '#232838', '#fff', 44),
+  sfx: i => [{ k: 'whoosh', t: Lt(i).start + .3, d: 1.2 }, { k: 'bell', t: Lt(i).start + 1.5 }] };
+SHOT.a_room = { set: 'AMB', light: 'amber',
+  cam: i => mv(cm([AR[0] + 5, 2.4, AR[2] + 5.4], [AR[0] - 2, 2.8, AR[2] - 5], 58), cm([AR[0] - 3, 2.2, AR[2] + 4.6], [AR[0] + 3, 3, AR[2] - 5], 58)),
+  upd: amUpd,
+  figs: (t, i) => fig([AR[0] + .6, 0, AR[2] + .6], 'sam', { hat: '', mouth: 'o', blink: bl(t, 0), look: [0, -5], hR: [200, 100], hL: [0, 100] }),
+  ui: (t, i) => counter(960, 170, t, wt(i, /six/) - .1, nextStart(i), wt(i, /six/), wt(i, /tons/), 0, 6, v => '🟧 ' + Math.round(v) + ' TONS OF AMBER', '#e8962a', '#fff', 66) + bigText(960, 320, t, wt(i, /eighth/) - .1, nextStart(i), '"8TH WONDER OF THE WORLD"', 70, '#ffd166', -3),
+  sfx: i => [{ k: 'shimmer', t: wt(i, /amber/) }, { k: 'ding', t: wt(i, /eighth/) }] };
+SHOT.a_gift = { set: 'AMB', light: 'amber',
+  cam: i => mv(cm([AR[0] + 1, 2.2, AR[2] + 6], [AR[0], 1.8, AR[2] - 2], 52), cm([AR[0] + .6, 2.1, AR[2] + 5], [AR[0], 1.8, AR[2] - 2], 50)),
+  upd: amUpd,
+  figs: (t, i) => fig([AR[0] - 1.8, 0, AR[2]], 'king', { mouth: 'smile', blink: bl(t, 0), look: [5, 0], hR: [210, 140] }) + fig([AR[0] + 1.8, 0, AR[2]], 'peter', { mouth: 'grin', blink: bl(t, 1), look: [-5, 0], hL: [-10, 140] }),
+  ui: (t, i) => labelAt([AR[0] - 1.8, 2.1, AR[2]], PILL('KING OF PRUSSIA', '#2a3a6a', '#fff', 36), t, wt(i, /prussia/i) - .1, nextStart(i)) + labelAt([AR[0] + 1.8, 2.1, AR[2]], PILL('PETER THE GREAT', '#2a6a3a', '#fff', 36), t, wt(i, /peter/i) - .1, nextStart(i)) + pillAt(960, 170, t, wt(i, /gift/) - .1, nextStart(i), '🎁 A ROYAL GIFT · 1716', '#232838', '#fff', 52),
+  sfx: i => [{ k: 'pop', t: wt(i, /prussia/i) }, { k: 'pop', t: wt(i, /peter/i) }] };
+SHOT.a_tear = { set: 'AMB', light: 'indoorDark',
+  cam: i => mv(cm([AR[0] + 2, 2.6, AR[2] + 6], [AR[0] - 1, 1.8, AR[2] - 5], 56), cm([AR[0] + 1.4, 2.4, AR[2] + 4.6], [AR[0] - 1, 1.8, AR[2] - 5], 54)),
+  upd: amUpd,
+  figs: (t, i) => { let h = ''; [-4, -1, 2].forEach((dx, k) => h += fig([AR[0] + dx, 0, AR[2] - 3.6], 'soldier', { mouth: 'hmm', blink: bl(t, k), look: [0, -4], hR: [190, 40 + 20 * Math.sin(t * 5 + k)], hL: [10, 40 + 20 * Math.sin(t * 5 + k + 1)] })); return h },
+  ui: (t, i) => pillAt(960, 170, t, wt(i, /invades/) - .1, nextStart(i), '⚔️ JUNE 1941: GERMANY INVADES', '#232838', '#fff', 50) + counter(960, 300, t, wt(i, /thirty/) - .1, nextStart(i), wt(i, /thirty/), wt(i, /hours/) + .8, 0, 36, v => '⏱️ ' + Math.round(v) + ' HOURS', '#e0303a', '#fff', 70),
+  sfx: i => [{ k: 'impact', t: wt(i, /invades/), g: .5 }, ...[0, 1, 2, 3, 4, 5].map(j => ({ k: 'hammer', t: wt(i, /apart/) - 1.2 + j * .35 }))] };
+SHOT.a_crates = { set: 'AMB', light: 'dusk',
+  cam: i => mv(cm([AK[0] - 6, 4, AK[2] + 16], [AK[0] - 6, 3, AK[2] - 4], 52), cm([AK[0] - 2, 4.4, AK[2] + 18], [AK[0] - 2, 5, AK[2] - 8], 52)),
+  upd: amUpd,
+  ui: (t, i) => counter(960, 170, t, wt(i, /twenty/) - .1, nextStart(i), wt(i, /twenty/), wt(i, /crates/), 0, 27, v => '📦 ' + Math.round(v) + ' CRATES', '#a07a4a', '#fff', 64) + pillAt(960, 930 - 110, t, wt(i, /castle/) - .1, nextStart(i), '🏰 KÖNIGSBERG CASTLE', '#232838', '#fff', 46),
+  sfx: i => [{ k: 'thud', t: Lt(i).start + .3, g: .5 }, { k: 'whoosh', t: wt(i, /ship/), d: 1.4 }] };
+SHOT.a_bomb = { set: 'AMB', light: 'night',
+  cam: i => mv(cm([AK[0] + 4, 6, AK[2] + 26], [AK[0], 8, AK[2] - 10], 54), cm([AK[0] + 2, 5, AK[2] + 20], [AK[0], 8, AK[2] - 10], 52)),
+  upd: amUpd,
+  ui: (t, i) => stampAt(960, 300, t, wt(i, /cold/) - .05, 'TRAIL LOST', '#e0303a', 100, -5),
+  sfx: i => [{ k: 'impact', t: wt(i, /bombed/) }, { k: 'impact', t: wt(i, /bombed/) + .5, g: .5 }, { k: 'thud', t: wt(i, /ruins/), g: .6 }, { k: 'air', t: wt(i, /cold/), d: 1 }] };
+SHOT.a_theories = { set: 'AMB', light: 'night',
+  cam: i => mv(cm([AK[0] - 8, 3, AK[2] + 18], [AK[0], 7, AK[2] - 10], 54), cm([AK[0] - 5, 3, AK[2] + 15], [AK[0], 7, AK[2] - 10], 52)),
+  upd: amUpd,
+  ui: (t, i) => { const C3 = [[/destroyed/, '💥', 'DESTROYED?'], [/hidden/, '🕳️', 'HIDDEN?'], [/sunk/, '🌊', 'SUNK?']]; let h = '';
+    C3.forEach(([re, ic, tx], k) => { const a = wt(i, re) - .1; if (t > a) h += `<div style="position:absolute;left:${420 + k * 540}px;top:330px;transform:translate(-50%,-50%) rotate(${(k - 1) * 4}deg) scale(${pop(t, a)});width:400px;padding:26px 0;background:#f6ecd2;border:9px solid ${OL};border-radius:18px;text-align:center;box-shadow:0 14px 0 #0006;z-index:2200"><div style="font-size:110px">${ic}</div><div style="font:900 54px IB;color:${OL}">${tx}</div></div>` });
+    return h + bigText(960, 640 - 40, t, wt(i, /nobody/i) - .1, nextStart(i), 'NOBODY KNOWS', 90, '#ffd166', -2) },
+  sfx: i => [{ k: 'pop', t: wt(i, /destroyed/) }, { k: 'pop', t: wt(i, /hidden/) }, { k: 'pop', t: wt(i, /sunk/) }] };
+SHOT.a_copy = { set: 'AMB', light: 'amber',
+  cam: i => mv(cm([AR[0] - 4, 2.6, AR[2] + 5], [AR[0] + 2, 3, AR[2] - 5], 58), cm([AR[0] + 4, 2.4, AR[2] + 5], [AR[0] - 2, 3, AR[2] - 5], 58)),
+  upd: amUpd,
+  ui: (t, i) => counter(700, 170, t, wt(i, /twenty/) - .1, nextStart(i), wt(i, /twenty/), wt(i, /years/), 0, 25, v => '🛠️ ' + Math.round(v) + ' YEARS', '#232838', '#fff', 56) + counter(1240, 170, t, wt(i, /eleven/) - .1, nextStart(i), wt(i, /eleven/), wt(i, /dollars/), 0, 11, v => '$' + Math.round(v) + ' MILLION', '#35a862', '#fff', 56) +
+    pillAt(960, 300, t, wt(i, /copy/) - .1, nextStart(i), 'REPLICA · 2003', '#e8962a', '#fff', 50) + stampAt(960, 470, t, wt(i, /never/) - .05, 'ORIGINAL: NEVER FOUND', '#e0303a', 74, -4),
+  sfx: i => [{ k: 'tick', t: wt(i, /twenty/) }, { k: 'cash', t: wt(i, /dollars/) }, { k: 'impact', t: wt(i, /never/), g: .5 }] };
+// ===================== Set SEA: Karibik 1708 (Seeschlacht) + Wrack in 600 m Tiefe + Ostsee-Wrack =====================
+const SX = 2500, SD = [SX, -60, -100], SB = [SX + 70, -60, -100];
+LOOK.diver = { sw: '#2a2a33', swd: '#1e1e28', pa: '#2a2a33', hat: `<circle cx="100" cy="96" r="70" fill="#9fd3f055" stroke="${OL}" stroke-width="7"/><rect x="58" y="70" width="84" height="40" rx="18" fill="#bfe6ff88" stroke="${OL}" stroke-width="5"/><rect x="150" y="60" width="22" height="70" rx="8" fill="#f2b21c" stroke="${OL}" stroke-width="5"/>` };
+function galleonGeo(hull, sail, flag, sails = true) { const G2 = [at(G.box(9, 2.2, 2.8, hull, { base: true }), [0, -.6, 0]), at(G.box(2.6, 1.6, 2.6, hull, { base: true }), [-3.6, 1.6, 0]), at(G.box(1.8, .9, 2.4, hull, { base: true }), [3.8, 1.6, 0]),
+  at(G.cyl(1.4, .1, 2.6, 4, hull, { rot: PI / 4 }), [4.6, -.6, 0], [0, 0, -PI / 2]), at(G.box(9.2, .2, 3, '#e8c060', { base: true }), [0, 1.5, 0]),
+  ...[-1.4, 0, 1.4].map(x => at(G.box(.4, .3, .1, '#1b1b22', { base: true }), [x, .6, 1.42])), ...[-1.4, 0, 1.4].map(x => at(G.box(.4, .3, .1, '#1b1b22', { base: true }), [x, .6, -1.42]))];
+  [[-2, 8], [.8, 9.5], [3, 7]].forEach(([x, h]) => { G2.push(at(G.cyl(.12, .1, h, 8, '#5a3a26'), [x, 1.6, 0])); if (sails) [.5, .78].forEach((f, k) => G2.push(at(G.box(.12, h * .26, 2.8 - k * .7, sail, { base: true }), [x + .2, 1.6 + h * (f - .18), 0]))); G2.push(at(G.box(.04, .6, 1, flag, { base: true }), [x, 1.6 + h, .5])) });
+  return merge(G2) }
+(function sea() {
+  const S = 'SEA';
+  seaGrid(S, SX, 0, 240, 2.4, '#2a7ab0', { pos: [0, -.3, 0] });
+  // Kueste in der Ferne (Cartagena)
+  mk(S, merge([at(G.ico(30, 2, '#5f8a48', .1, 3, .15), [SX + 60, -3, -80]), at(G.ico(24, 2, '#6a9a50', .1, 4, .18), [SX + 20, -3, -95])]).smooth(), { outline: false, cast: false });
+  // Meeresgrund
+  mk(S, G.ico(60, 3, '#c9b48a', .02, 2, .08).smooth(), { pos: [SX + 30, SD[1] - 4.2, SD[2]], outline: false });
+  const R = []; for (let k = 0; k < 30; k++) R.push(at(G.ico(.6 + G.hash(k) * 1.4, 1, '#8a8a7a', .3, k), [SX - 20 + G.hash(k, 1) * 40, SD[1], SD[2] - 14 + G.hash(k, 2) * 30]));
+  for (let k = 0; k < 22; k++) R.push(at(G.cyl(.08, .04, 1 + G.hash(k, 3) * 1.6, 5, ['#d65a7a', '#e8962a', '#7ad0a0'][k % 3]), [SX - 16 + G.hash(k, 5) * 32, SD[1], SD[2] - 10 + G.hash(k, 6) * 18]));
+  mk(S, merge(R), { outline: false });
+  // Wrack San Jose: Galeone ohne Segel, schraeg im Sand
+  mk(S, galleonGeo('#6a5038', '#000', '#5a4a3a', false), { pos: [SD[0] - 1, SD[1] + .2, SD[2] - 3], rot: [.22, .35, .18] });
+  // Ostsee-Wrack (Dampfer, grau)
+  mk(S, merge([at(G.box(12, 3, 3.2, '#7a808c', { base: true }), [0, 0, 0]), at(G.box(3, 2, 2.6, '#5a5e68', { base: true }), [1, 3, 0]), at(G.cyl(.6, .6, 2.6, 10, '#3a3e48'), [1, 5, 0])]), { pos: [SB[0], SB[1] - .4, SB[2] - 2], rot: [.2, -.3, .15] });
+})();
+const SJ = mk('SEA', galleonGeo('#7a4a2a', '#f4ecd8', '#e8c040'), { pos: [SX, 0, 0] });
+const BR = [0, 1].map(k => mk('SEA', galleonGeo('#3a3a44', '#ecece4', '#c03030'), { pos: [SX - 30, 0, 18 + k * 8] }));
+const SMOKE = [...Array(8)].map((_, k) => mk('SEA', G.ico(1.4, 2, '#e8e4dc', .25, k), { pos: [0, 0, 0], alpha: .7, outline: false, cast: false, recv: false }));
+const BOOM = mk('SEA', G.ico(3, 2, '#ffb030', .35, 3), { pos: [SX, 2, 0], emis: 1, outline: false, cast: false, alpha: .9 });
+// Schatz am Grund: Kanonen, Kruege, Muenzhaufen
+const CAN = (p, r) => at(merge([at(G.cyl(.32, .24, 2.6, 12, '#3a5a4a'), [0, 0, 0], [0, 0, -PI / 2]), at(G.ico(.36, 1, '#3a5a4a'), [0, 0, 0])]), p, r);
+mk('SEA', merge([CAN([SD[0] + 2.4, SD[1] + .3, SD[2] + 1.2], [0, .6, 0]), CAN([SD[0] - 4.6, SD[1] + .3, SD[2] + 2], [0, -.9, 0]), CAN([SD[0] + 4.6, SD[1] + .3, SD[2] - 1.4], [0, 2.2, 0]),
+  ...[...Array(9)].map((_, k) => at(merge([at(G.cyl(.2, .15, .6, 12, '#b08a5a'), [0, 0, 0]), at(G.ico(.24, 2, '#b08a5a', 0, 1, 1.1), [0, .2, 0])]), [SD[0] - 2 + (k % 3) * .8 + G.hash(k) * .5, SD[1] + .2, SD[2] + 2.6 + Math.floor(k / 3) * .7], [k % 2 ? PI / 2.3 : 0, k, 0]))]), {});
+const COINS = mk('SEA', merge([...Array(60)].map((_, k) => at(G.cyl(.12, .12, .04, 10, k % 5 ? '#ffcc44' : '#d8dce4'), [SD[0] + .6 + G.hash(k) * 2 - 1, SD[1] + .05 + G.hash(k, 3) * .3 * (1 - Math.abs(G.hash(k) - .5)), SD[2] + 3.4 + G.hash(k, 2) * 1.6 - .8], [G.hash(k, 4) * 1.4, k, 0])).concat(
+  [...Array(6)].map((_, k) => at(G.ico(.1, 1, '#35e08a'), [SD[0] + G.hash(k, 7) * 2, SD[1] + .12, SD[2] + 3 + G.hash(k, 8)])))), { emis: .35, spec: 1, outline: false });
+const ROV = mk('SEA', merge([at(G.box(1.6, 1, 1.1, '#f2b21c', { base: true }), [0, 0, 0]), at(G.box(1.7, .25, 1.2, '#2a2a33', { base: true }), [0, -.2, 0]), at(G.cyl(.18, .18, .3, 10, '#2a2a33'), [-.6, .5, .55], [PI / 2, 0, 0]), at(G.cyl(.18, .18, .3, 10, '#2a2a33'), [.6, .5, .55], [PI / 2, 0, 0]),
+  at(G.box(.12, .12, .8, '#9aa0ac'), [.5, -.15, .9])]), { pos: [SD[0], SD[1] + 3, SD[2] + 8] });
+const ROVL = mk('SEA', merge([at(G.ico(.12, 1, '#fff6c0'), [-.6, .5, .72]), at(G.ico(.12, 1, '#fff6c0'), [.6, .5, .72])]), { parent: ROV, emis: 1, outline: false, cast: false });
+const BEAM = mk('SEA', G.cyl(2.2, .15, 9, 18, '#fff6c0', { open: true }), { parent: ROV, pos: [0, .5, .7], rot: [-PI / 2 - .35, 0, 0], alpha: .14, emis: 1, outline: false, cast: false, recv: false });
+const BUBS = [...Array(10)].map((_, k) => mk('SEA', G.ico(.08 + G.hash(k) * .08, 1, '#d8f0ff'), { alpha: .6, emis: .5, outline: false, cast: false, recv: false }));
+const LOOT = [mk('SEA', merge([at(G.cyl(.32, .24, 2.6, 12, '#3a5a4a'), [0, 0, 0], [0, 0, -PI / 2])]), {}), mk('SEA', merge([at(G.cyl(.18, .12, .22, 14, '#f4f4f8'), [0, 0, 0]), at(G.cyl(.185, .185, .03, 14, '#3a6ad6'), [0, .14, 0])]), {}),
+  mk('SEA', merge([0, 1, 2].map(k => at(G.cyl(.13, .13, .04, 10, '#ffcc44'), [k * .3 - .3, 0, 0], [.4, 0, 0]))), { emis: .3, spec: 1 })];
+CHAP.push({ line: 'n1', n: 1, title: 'THE SAN JOSÉ GALLEON', year: '1708', place: '🇨🇴 Caribbean Sea' });
+let SE_I0 = 999;
+const rovAt = (t, a, b, t0, t1) => G.v.lerp(a, b, ei(cl((t - t0) / (t1 - t0), 0, 1)));
+function bubbles(t, p) { BUBS.forEach((m, j) => { const u = (t * .5 + j / 10) % 1; m.vis = true; m.pos = [p[0] + Math.sin(j * 3 + t) * .4, p[1] + u * 5, p[2] + Math.cos(j * 2) * .4]; m.alpha = .6 * (1 - u) }) }
+function seUpd(t, i) {
+  const k = i - SE_I0, sh = SPEC(i).shot;
+  BR.forEach(m => m.vis = false); SMOKE.forEach(m => m.vis = false); BOOM.vis = false; SJ.vis = true; SJ.rot = [0, 0, 0]; SJ.pos = [SX + (t - (Lt(SE_I0 + 1) ? Lt(SE_I0 + 1).start : 0)) * .6, 0, 0];
+  LOOT.forEach(m => m.vis = false); BUBS.forEach(m => m.vis = false); ROV.vis = true; COINS.vis = true;
+  if (sh == 's_attack' || sh == 's_sink') { BR.forEach((m, j) => { m.vis = true; m.pos = [SJ.pos[0] - 10 + j * 14, 0, -13 - j * 3]; m.rot = [0, -.25, 0] });
+    SMOKE.forEach((m, j) => { const ft = Lt(i).start + .6 + j * .35, u = cl((t - ft) / 2.2, 0, 1); m.vis = t > ft; const b = BR[j % 2].pos; m.pos = [b[0] + 1 + u * 1.5, 1 + u * 1.2, b[2] + 1.6 + u * 2]; m.scl = [.4 + u, .4 + u, .4 + u]; m.alpha = .75 * (1 - u * .7) }) }
+  if (sh == 's_sink') { const b = wt(i, /down/) - .6, u = ez(cl((t - b) / 3.2, 0, 1)); SJ.pos = [SJ.pos[0], -u * 5, 0]; SJ.rot = [u * .5, 0, -u * .35]; BOOM.vis = t > b - .2 && t < b + .9; BOOM.pos = X(SJ.pos, 0, 2, 0); const s = ez(cl((t - b + .2) / .5, 0, 1)) * 1.4; BOOM.scl = [s, s, s]; BOOM.alpha = .9 * (1 - cl((t - b - .3) / .6, 0, 1)) }
+}
+const deepCam = (dx, dy, dz, ax = 0, ay = 0, az = 0, f = 50) => cm([SD[0] + dx, SD[1] + dy, SD[2] + dz], [SD[0] + ax, SD[1] + ay, SD[2] + az], f);
+SHOT.s_hook = { set: 'SEA', light: 'deep',
+  cam: i => mv(deepCam(9, 4.5, 14, -1, 1, -1, 50), deepCam(6, 3, 10, 0, .6, 1, 46)),
+  upd: (t, i) => { seUpd(t, i); ROV.pos = rovAt(t, [SD[0] - 5, SD[1] + 4, SD[2] + 4], [SD[0] - 1.5, SD[1] + 2.6, SD[2] + 5], 0, nextStart(i)); ROV.rot = [0, .9, 0]; bubbles(t, X(ROV.pos, 0, .8, 0)) },
+  ui: (t, i) => pillAt(960, 330, t, wt(i, /seventeen/) - .1, nextStart(i), '💰 ~$17 BILLION?', '#35a862', '#fff', 60),
+  sfx: i => [{ k: 'air', t: .2, d: 1.5 }, { k: 'shimmer', t: wt(i, /gold/) }, { k: 'cash', t: wt(i, /dollars/) }] };
+SHOT.s_hook2 = { set: 'SEA', light: 'deep',
+  cam: i => mv(deepCam(-3, 2, 7, .6, .3, 3, 46), deepCam(-1.6, 1.4, 5.4, .6, .2, 3.4, 42)),
+  upd: (t, i) => { seUpd(t, i); ROV.pos = rovAt(t, [SD[0] + 1.6, SD[1] + 2.4, SD[2] + 6.4], [SD[0] + 2.6, SD[1] + 2, SD[2] + 5.4], Lt(i).start, nextStart(i)); ROV.rot = [0, .5, 0]; bubbles(t, X(ROV.pos, 0, .8, 0)) },
+  ui: (t, i) => pillAt(960, 930 - 120, t, wt(i, /found/) - .1, nextStart(i), '🔎 FOUND IN 2015', '#2a8fd6', '#fff', 56) + stampAt(1460, 330, t, wt(i, /still/) - .05, 'STILL DOWN THERE', '#e0303a', 70, 6),
+  sfx: i => [{ k: 'blip', t: wt(i, /found/) }, { k: 'impact', t: wt(i, /still/), g: .5 }] };
+SHOT.s_sea = { set: 'SEA', light: 'storm',
+  cam: i => { SE_I0 = i; return mv(cm([SX - 30, 14, 40], [SX, 3, 0], 50), cm([SX - 18, 8, 28], [SX + 2, 3, 0], 48)) },
+  upd: seUpd,
+  ui: (t, i) => pillAt(960, 930 - 110, t, Lt(i).start + 2.7, nextStart(i), '📍 OFF CARTAGENA, COLOMBIA', '#232838', '#fff', 44),
+  sfx: i => [{ k: 'wave', t: Lt(i).start + .2 }, { k: 'gull', t: Lt(i).start + 1.8 }] };
+SHOT.s_sail = { set: 'SEA', light: 'storm',
+  cam: i => mv(cm([SX + 10, 4, 12], [SX + 1, 3.6, 0], 50), cm([SX + 12, 3, 9], [SX + 3, 3.6, 0], 48)),
+  upd: seUpd,
+  ui: (t, i) => { const C = [[/gold/, '🥇 GOLD', '#ffd166', OL], [/silver/, '🥈 SILVER', '#d8dce4', OL], [/emeralds/, '💚 EMERALDS', '#35a862', '#fff']];
+    return labelAt(X(SJ.pos, 0, 12, 0), PILL('🇪🇸 SAN JOSÉ', '#232838', '#fff', 44), t, wt(i, /san/i) - .1, nextStart(i)) + C.map(([re, tx, bg, col], k) => pillAt(560 + k * 400, 930 - 120, t, wt(i, re) - .1, nextStart(i), tx, bg, col, 48)).join('') },
+  sfx: i => [{ k: 'pop', t: wt(i, /san/i) }, { k: 'coin', t: wt(i, /gold/) }, { k: 'coin', t: wt(i, /silver/) }, { k: 'shimmer', t: wt(i, /emeralds/) }] };
+SHOT.s_attack = { set: 'SEA', light: 'storm',
+  cam: i => mv(cm([SX - 6, 6, 34], [SX - 2, 3, 8], 54), cm([SX - 2, 5, 30], [SX, 3, 8], 52)),
+  upd: seUpd,
+  ui: (t, i) => pillAt(960, 170, t, wt(i, /british/i) - .1, nextStart(i), '🇬🇧 BRITISH WARSHIPS', '#c03030', '#fff', 54),
+  sfx: i => [0, 1, 2, 3, 4].map(j => ({ k: 'impact', t: Lt(i).start + .6 + j * .35, g: .45 })) };
+SHOT.s_sink = { set: 'SEA', light: 'storm',
+  cam: i => mv(cm([SX + 2, 6, 26], [SX + 2, 1, 0], 52), cm([SX + 4, 4, 22], [SX + 3, 0, 0], 52)),
+  upd: seUpd,
+  ui: (t, i) => { const a = wt(i, /six/) - .1, b = wt(i, /eleven/) - .1; let h = pillAt(960, 170, t, wt(i, /hour/) - .1, wt(i, /down/) + .6, '⏱️ ~1 HOUR OF FIGHTING', '#232838', '#fff', 50);
+    if (t > a) h += counter(960, 170, t, a, nextStart(i), a, wt(i, /board/), 0, 600, v => '👥 ~' + Math.round(v) + ' ON BOARD', '#232838', '#fff', 60);
+    h += stampAt(960, 340, t, b, 'ONLY ~11 SURVIVE', '#e0303a', 84, -4); return h },
+  sfx: i => [{ k: 'impact', t: wt(i, /down/) - .6 }, { k: 'splash', t: wt(i, /down/) }, { k: 'impact', t: wt(i, /eleven/), g: .5 }] };
+SHOT.s_lost = { set: 'SEA', light: 'deep',
+  cam: i => mv(deepCam(-14, 8, 16, 0, 0, 0, 52), deepCam(-10, 5, 12, 0, 0, 0, 50)),
+  upd: (t, i) => { seUpd(t, i); ROV.vis = false },
+  ui: (t, i) => counter(960, 170, t, Lt(i).start + .1, nextStart(i), Lt(i).start + .2, nextStart(i) - .3, 1708, 2015, v => '⏳ ' + Math.round(v), '#232838', '#fff', 70),
+  sfx: i => [{ k: 'air', t: Lt(i).start + .2, d: 1.5 }, { k: 'tick', t: Lt(i).start + .3 }] };
+SHOT.s_found = { set: 'SEA', light: 'deep',
+  cam: i => mv(deepCam(8, 8, 12, 0, 1, 0, 52), deepCam(5, 4, 9, 0, .6, 1, 48)),
+  upd: (t, i) => { seUpd(t, i); ROV.pos = rovAt(t, [SD[0] + 6, SD[1] + 10, SD[2] + 6], [SD[0] + 2, SD[1] + 3, SD[2] + 5], Lt(i).start, nextStart(i)); ROV.rot = [0, .4, 0]; bubbles(t, X(ROV.pos, 0, .8, 0)) },
+  ui: (t, i) => { let h = pillAt(960, 170, t, wt(i, /colombia/i) - .1, nextStart(i), '🇨🇴 2015: COLOMBIA FINDS IT', '#2a8fd6', '#fff', 52);
+    const a = wt(i, /two/) - .1; if (t > a) { const d = Math.round(2000 * ez(cl((t - a) / 1.4, 0, 1)));
+      h += `<div style="position:absolute;left:1700px;top:200px;transform:scale(${pop(t, a)});width:130px;height:520px;background:linear-gradient(#2a8fd6,#051a33);border:8px solid ${OL};border-radius:20px;z-index:2200"><div style="position:absolute;left:-14px;right:-14px;top:${20 + d / 2000 * 440}px;height:14px;background:#ffd166;border:4px solid ${OL};border-radius:8px"></div></div>` + pillAt(1500, 760 - 40, t, a, nextStart(i), '⬇️ ' + d.toLocaleString('en-US') + ' FT', '#232838', '#fff', 50) }
+    return h },
+  sfx: i => [{ k: 'blip', t: wt(i, /found/) }, { k: 'air', t: wt(i, /two/), d: 1.2 }] };
+SHOT.s_coins = { set: 'SEA', light: 'deep',
+  cam: i => [{ t0: Lt(i).start, ...mv(deepCam(-6, 2.6, 8, -2, .4, 0, 46), deepCam(-5, 2.2, 7, -2, .4, 0, 44)) }, { t0: wt(i, /jars/) - .15, ...mv(deepCam(-1, 1.4, 5.6, -1.2, .2, 3, 40), deepCam(-.6, 1.2, 5.2, -1, .2, 3, 38)) },
+    { t0: wt(i, /coins/) - .15, ...mv(deepCam(1.6, 1.4, 5.8, .6, .1, 3.4, 40), deepCam(1.2, 1, 5, .6, .1, 3.4, 36)) }],
+  upd: (t, i) => { seUpd(t, i); ROV.vis = false },
+  ui: (t, i) => { const a = wt(i, /some/i) - .1; return counter(960, 170, t, a, nextStart(i), a, wt(i, /coins/, 1) + 1.4, 0, 11, v => '🪙 UP TO ' + Math.round(v) + ' MILLION COINS?', '#ffd166', OL, 60) },
+  sfx: i => [{ k: 'thud', t: Lt(i).start + .2, g: .4 }, { k: 'pop', t: wt(i, /jars/) }, { k: 'coin', t: wt(i, /coins/) }, { k: 'cash', t: nextStart(i) - .6 }] };
+SHOT.s_owners = { set: 'SEA', light: 'deep',
+  cam: i => mv(deepCam(0, 6, 13, 0, 0, 1, 54), deepCam(0, 5, 11, 0, 0, 1, 52)),
+  upd: (t, i) => { seUpd(t, i); ROV.vis = false },
+  ui: (t, i) => { const C4 = [[/colombia/i, '🇨🇴', 'COLOMBIA', 'IT\'S OURS'], [/spain/i, '🇪🇸', 'SPAIN', 'OURS TOO'], [/investors/, '🇺🇸', 'US INVESTORS', 'WANT $10B'], [/bolivia/i, '🇧🇴', 'QHARA QHARA', 'OUR ANCESTORS\'']]; let h = '';
+    C4.forEach(([re, fl, who, say], k) => { const a = wt(i, re) - .1; if (t > a) h += `<div style="position:absolute;left:${250 + k * 473}px;top:250px;transform:translate(-50%,0) rotate(${(k % 2 ? 3 : -3)}deg) scale(${pop(t, a)});width:410px;padding:18px 0 22px;background:#fff;border:8px solid ${OL};border-radius:18px;text-align:center;box-shadow:0 12px 0 #0006;z-index:2200"><div style="font-size:90px;line-height:1.1">${fl}</div><div style="font:900 40px IB;color:${OL}">${who}</div><div style="font:700 32px P;color:#c0303a">${say}</div></div>` });
+    return pillAt(960, 140, t, Lt(i).start + .1, nextStart(i), '⚖️ WHO OWNS IT?', '#232838', '#fff', 56) + h },
+  sfx: i => [/colombia/i, /spain/i, /investors/, /bolivia/i].map(re => ({ k: 'pop', t: wt(i, re) })) };
+SHOT.s_raise = { set: 'SEA', light: 'deep',
+  cam: i => mv(deepCam(6, 4, 12, 1, 2.6, 3, 50), deepCam(5, 6.4, 11, 1, 5, 3, 50)),
+  upd: (t, i) => { seUpd(t, i); const a = Lt(i).start + 1, u = ez(cl((t - a) / (nextStart(i) - a), 0, 1)); ROV.pos = [SD[0] + 1, SD[1] + 1.6 + u * 6, SD[2] + 3.6]; ROV.rot = [0, 0, 0]; bubbles(t, X(ROV.pos, 0, .8, 0));
+    const R3 = [/cannon/, /cup/, /coins/]; LOOT.forEach((m, j) => { const s = wt(i, R3[j]) - .2; m.vis = t > s; m.pos = X(ROV.pos, -.6 + j * .6, -.5 - (j == 0 ? .3 : 0), .3) }) },
+  ui: (t, i) => { const P3 = [[/cannon/, '💣 CANNON'], [/cup/, '☕ PORCELAIN CUP'], [/coins/, '🪙 3 COINS']]; return pillAt(960, 160, t, wt(i, /2025/) - .1, nextStart(i), '🤖 2025: FIRST OBJECTS RAISED', '#2a8fd6', '#fff', 52) + P3.map(([re, tx], k) => pillAt(400 + k * 560, 930 - 120, t, wt(i, re) - .1, nextStart(i), tx, '#232838', '#fff', 46)).join('') },
+  sfx: i => [{ k: 'ding', t: wt(i, /cannon/) }, { k: 'ding', t: wt(i, /cup/) }, { k: 'coin', t: wt(i, /coins/) }] };
+SHOT.s_secret = { set: 'SEA', light: 'deep',
+  cam: i => mv(deepCam(2, 3, 9, 0, 0, 2, 46), deepCam(-4, 18, 30, 0, 0, 0, 56)),
+  upd: (t, i) => { seUpd(t, i); ROV.vis = false },
+  ui: (t, i) => bigText(960, 190, t, wt(i, /rest/) - .1, nextStart(i), 'STILL ON THE SEAFLOOR', 86, '#ffd166', -2) + stampAt(960, 400, t, wt(i, /secret/) - .05, '📍 TOP SECRET', '#e0303a', 96, 5),
+  sfx: i => [{ k: 'air', t: Lt(i).start + .2, d: 2 }, { k: 'impact', t: wt(i, /secret/), g: .5 }] };
+// Bernsteinzimmer-Kapitel: Taucher am Ostsee-Wrack
+SHOT.a_divers = { set: 'SEA', light: 'deep',
+  cam: i => mv(cm([SB[0] + 6, SB[1] + 3, SB[2] + 10], [SB[0], SB[1] + 1.4, SB[2] - 1], 50), cm([SB[0] + 4, SB[1] + 2.6, SB[2] + 8], [SB[0], SB[1] + 1.4, SB[2] - 1], 48)),
+  upd: (t, i) => { ROV.vis = false; COINS.vis = false; bubbles(t, [SB[0] - 1.6, SB[1] + 2.4, SB[2] + 2.6]) },
+  figs: (t, i) => fig([SB[0] - 1.6, SB[1] + .8 + .2 * Math.sin(t * 1.5), SB[2] + 2.6], 'diver', { mouth: 'hmm', blink: bl(t, 0), look: [4, 2], hR: [200, 120 + 20 * Math.sin(t * 2)], legL: .3 * Math.sin(t * 3), legR: -.3 * Math.sin(t * 3) }) +
+    fig([SB[0] + 2, SB[1] + 1.2 + .2 * Math.sin(t * 1.3 + 1), SB[2] + 2], 'diver', { mouth: 'sad', blink: bl(t, 1), look: [-4, 3], hR: [190, 80], legL: .3 * Math.sin(t * 3 + 1), legR: -.3 * Math.sin(t * 3 + 1) }),
+  ui: (t, i) => pillAt(960, 170, t, wt(i, /sunken/) - .1, nextStart(i), '🤿 2020: A SUNKEN GERMAN SHIP', '#2a8fd6', '#fff', 50) + stampAt(960, 380, t, wt(i, /amber/) - .05, 'NO AMBER', '#e0303a', 110, -5),
+  sfx: i => [{ k: 'air', t: Lt(i).start + .2, d: 1.2 }, { k: 'error', t: wt(i, /amber/) }] };
+// ===================== Draw =====================
+let LASTSET = null;
+window.setTimeline = tl => {
+  MG.TL = tl; CAMS = [];
+  for (let i = 0; i < NL(); i++) CAMS.push(camOf(i));
+  CHAP.forEach(c => { c.i = MG.TL.lines.findIndex(l => (l.spec || {}).ui == c.line); });
+  for (let k = CHAP.length - 1; k >= 0; k--) if (CHAP[k].i < 0) CHAP.splice(k, 1);
+};
+window.ready = false;
+Promise.all(['900 40px IB', '700 40px P'].map(f => document.fonts.load(f))).then(() => { TEXQ.forEach(f => f()); window.ready = true }).catch(() => { TEXQ.forEach(f => f()); window.ready = true });
+window.draw = function (t) {
+  const i = lineAt(t), sh = SHOT[SPEC(i).shot] || { set: 'INT', light: 'indoorWarm' };
+  showSet(sh.set); setLight((typeof sh.light == 'function' ? sh.light(t, i) : sh.light) || 'night');
+  const c = camAt(t); w.cam.pos = c.pos; w.cam.at = c.at; w.cam.fov = c.fov;
+  w.shadowCenter = [c.at[0], 0, c.at[2]]; w.shadowSize = Math.min(60, 10 + Math.hypot(...G.v.sub(c.pos, c.at)) * .7);
+  if (sh.upd) sh.upd(t, i);
+  w.render(t);
+  $('ov').innerHTML = sh.figs ? sh.figs(t, i) : '';
+  let fx = '';
+  const cuts = cutTimes(); let fl = 0; cuts.forEach(x => { const f = cl(t, x - .06, x + .16); if (f > 0 && f < 1) fl = Math.max(fl, Math.sin(f * PI) * .5) });
+  if (fl > 0) fx += `<div style="position:absolute;inset:0;background:#fff;opacity:${fl}"></div>`;
+  $('fx').innerHTML = fx;
+  let ui = chapterUI(t) + (sh.ui ? sh.ui(t, i) : '') + hookTitle(t);
+  ui += MG.captions(t, { y: 900, size: 78, maxWords: 2, hl: '#ffd166', stageW: 1920 }).replace(/'Arial Black',Arial/, 'IB,Arial');
+  $('ui').innerHTML = ui;
+};
+// Hook-Text ab Frame 0 (stumm verstaendlich)
+function hookTitle(t) {
+  const t1 = Lt(2).start; if (t > t1) return '';
+  const o = fade(t, t1 - .25, t1);
+  return `<div style="position:absolute;left:0;right:0;top:40px;text-align:center;opacity:${o};z-index:2350">
+   <div style="display:inline-block;font:900 96px/1.02 IB,Arial;color:#fff;text-shadow:${shadowTxt(OL, 7)},0 12px 24px #0007"><span style="color:#ffd166">$17 BILLION</span> OF GOLD<br><span style="font-size:70px">AT THE BOTTOM OF THE SEA</span></div></div>`;
+}
+window.sfxEvents = function () {
+  const E = [{ k: 'whoosh', t: .05, d: .8 }];
+  cutTimes().forEach(x => E.push({ k: 'whoosh', t: x - .12, d: .45 }));
+  CHAP.forEach(c => E.push({ k: 'impact', t: Lt(c.i).start + .1, g: .6 }));
+  for (let i = 0; i < NL(); i++) { const s = SHOT[SPEC(i).shot]; if (s && s.sfx) s.sfx(i).forEach(e => { if (isFinite(e.t)) E.push(e) }) }
+  return E;
+};
+</script></body></html>
