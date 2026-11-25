@@ -136,8 +136,8 @@ def cam_at(t):
         return vlerp([1.9, -11.5, 3.6], [1.6, -10.3, 3.3], u), vlerp([DRILL[0] - .3, DRILL[1], 2.7], [DRILL[0] - .3, DRILL[1], 2.5], u)
     if t < T_DESC0:                      # Emilio: ueber das Loch zu ihm hin
         x_, y_, _, sc_ = POS[KARL]; r_ = math.hypot(x_, y_); d_ = (x_ / r_, y_ / r_)
-        u = sm(ST[6][0] - .05, ST[6][0] + 1.6); k_ = lerp(6.5, 1.7, u)
-        return [d_[0] * (r_ - k_), d_[1] * (r_ - k_), lerp(4.2, 1.85, u)], [x_, y_, lerp(1.0, 1.5, u) * sc_]
+        u = sm(ST[6][0] - .05, ST[6][0] + 1.6); k_ = lerp(6.5, 2.5, u)
+        return [d_[0] * (r_ - k_), d_[1] * (r_ - k_), lerp(4.2, 2.15, u)], [x_ - d_[0] * .25, y_ - d_[1] * .25, lerp(1.0, .75, u) * sc_]
     if t < T_DESC0:
         return [math.sin(a) * 19., -math.cos(a) * 19., lerp(7.5, 9.0, u)], [0, 0, 0]
     if t < T_DESC1:
@@ -168,8 +168,8 @@ def project(cam, tgt, X):
 
 def rig_z(t):
     """Hoehe des Bohrturms ueber dem Boden (faellt, setzt mit kleinem Nachfedern auf)"""
-    if t < T_DROP0: return 14.
-    if t < T_LAND: u = (t - T_DROP0) / (T_LAND - T_DROP0); return 14. * (1 - u * u)
+    if t < T_DROP0: return 11.
+    if t < T_LAND: u = (t - T_DROP0) / (T_LAND - T_DROP0); return 11. * (1 - u * u)
     s_ = t - T_LAND; return .16 * math.exp(-6 * s_) * abs(math.sin(s_ * 11))
 def rig_vis(t): return T_DROP0 - .05 <= t and not (T_SPACE <= t < T_BACK)
 def spin(t): return 0. if t < T_SPIN else 2 * math.pi * 2.2 * (t - T_SPIN) * min(1., (t - T_SPIN) / .6 + .2)

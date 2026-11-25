@@ -245,15 +245,16 @@ for sp_ in SPARK:
         sp_.energy = v; sp_.keyframe_insert("energy", frame=f)
 # Emilio (Tag 8): eigener Arbeiter mit Diamantschaufel (statt Instanz aus der Menge) + Spotlicht in seiner Szene
 _kx, _ky, _kyaw, _ks = SH.POS[SH.KARL]
-EM = build_worker("emilio", blade=DIAM)
+DIAM_EM = diamond_mat(); _b = DIAM_EM.node_tree.nodes["Principled BSDF"]; _b.inputs["Emission Strength"].default_value = 4.; _b.inputs["Transmission Weight"].default_value = .55
+EM = build_worker("emilio", blade=DIAM_EM)
 EM["root"].location = (_kx, _ky, 0); EM["root"].rotation_euler = (0, 0, _kyaw); EM["root"].scale = (_ks, _ks, _ks)
 EM_SPARK = []
 for o in EM["parts"]:
-    if o.type == 'MESH' and DIAM in [ms.material for ms in o.material_slots]:
-        sp_ = bpy.data.lights.new("emilio_sparkle", "POINT"); sp_.energy = 18; sp_.color = (.75, .92, 1.); sp_.shadow_soft_size = .02
+    if o.type == 'MESH' and DIAM_EM in [ms.material for ms in o.material_slots]:
+        sp_ = bpy.data.lights.new("emilio_sparkle", "POINT"); sp_.energy = 30; sp_.color = (.75, .92, 1.); sp_.shadow_soft_size = .02
         so_ = bpy.data.objects.new("emilio_sparkle", sp_); link(so_); so_.parent = o; so_.location = (.25, 0, .05); EM_SPARK.append(sp_)
 for sp_ in EM_SPARK:
-    for f, v in ((0, 18.), (F(SH.T_SPACE) - 1, 18.), (F(SH.T_SPACE), 0.), (F(SH.T_BACK) - 1, 0.), (F(SH.T_BACK), 18.)):
+    for f, v in ((0, 30.), (F(SH.T_SPACE) - 1, 30.), (F(SH.T_SPACE), 0.), (F(SH.T_BACK) - 1, 0.), (F(SH.T_BACK), 30.)):
         sp_.energy = v; sp_.keyframe_insert("energy", frame=f)
 kl_ = bpy.data.lights.new("karl_spot", "SPOT"); kl_.spot_size = math.radians(16); kl_.spot_blend = .35; kl_.color = (1., .93, .7); kl_.shadow_soft_size = .15
 klo_ = bpy.data.objects.new("karl_spot", kl_); link(klo_); klo_.location = (_kx * .82, _ky * .82, 6.5)
