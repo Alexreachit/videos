@@ -111,8 +111,8 @@ SHOT.s_owners = { set: 'SEA', light: 'deep',
     return pillAt(960, 140, t, Lt(i).start + .1, nextStart(i), '⚖️ WHO OWNS IT?', '#232838', '#fff', 56) + h },
   sfx: i => [/colombia/i, /spain/i, /investors/, /bolivia/i].map(re => ({ k: 'pop', t: wt(i, re) })) };
 SHOT.s_raise = { set: 'SEA', light: 'deep',
-  cam: i => mv(deepCam(6, 4, 12, 1, 2.6, 3, 50), deepCam(5, 6.4, 11, 1, 5, 3, 50)),
-  upd: (t, i) => { seUpd(t, i); const a = Lt(i).start + 1, u = ez(cl((t - a) / (nextStart(i) - a), 0, 1)); ROV.pos = [SD[0] + 1, SD[1] + 1.6 + u * 6, SD[2] + 3.6]; ROV.rot = [0, 0, 0]; bubbles(t, X(ROV.pos, 0, .8, 0));
+  cam: i => mv(deepCam(5, 3.6, 10, 1, 2.6, 3.4, 48), deepCam(4.4, 4, 9, 1, 3.2, 3.4, 46)),
+  upd: (t, i) => { seUpd(t, i); const a = Lt(i).start + 1, u = ez(cl((t - a) / (nextStart(i) - a), 0, 1)); ROV.pos = [SD[0] + 1, SD[1] + 1.6 + u * 2.6, SD[2] + 3.6]; ROV.rot = [0, -.5, 0]; bubbles(t, X(ROV.pos, 0, .8, 0));
     const R3 = [/cannon/, /cup/, /coins/]; LOOT.forEach((m, j) => { const s = wt(i, R3[j]) - .2; m.vis = t > s; m.pos = X(ROV.pos, -.6 + j * .6, -.5 - (j == 0 ? .3 : 0), .3) }) },
   ui: (t, i) => { const P3 = [[/cannon/, '💣 CANNON'], [/cup/, '☕ PORCELAIN CUP'], [/coins/, '🪙 3 COINS']]; return pillAt(960, 160, t, wt(i, /2025/) - .1, nextStart(i), '🤖 2025: FIRST OBJECTS RAISED', '#2a8fd6', '#fff', 52) + P3.map(([re, tx], k) => pillAt(400 + k * 560, 930 - 120, t, wt(i, re) - .1, nextStart(i), tx, '#232838', '#fff', 46)).join('') },
   sfx: i => [{ k: 'ding', t: wt(i, /cannon/) }, { k: 'ding', t: wt(i, /cup/) }, { k: 'coin', t: wt(i, /coins/) }] };

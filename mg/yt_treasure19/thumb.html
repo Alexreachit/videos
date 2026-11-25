@@ -1,0 +1,15 @@
+<!doctype html><meta charset=utf-8><style>
+@font-face{font-family:IB;src:url(fonts/Inter-Black.otf);font-weight:900}
+body{margin:0}#t{position:relative;width:1280px;height:720px;overflow:hidden;background:#0d3a66}
+</style><div id=t>
+<img src="thumb_bg.png" style="position:absolute;left:-260px;top:-130px;width:1700px;filter:brightness(1.15) saturate(1.35)">
+<div style="position:absolute;inset:0;background:radial-gradient(ellipse at 52% 74%,#ffd16655 0%,transparent 32%,#0008 100%)"></div>
+<div style="position:absolute;left:0;right:0;top:26px;text-align:center;font:900 168px/1 IB;color:#ffd166;letter-spacing:-3px;text-shadow:8px 8px 0 #232838,-8px -8px 0 #232838,8px -8px 0 #232838,-8px 8px 0 #232838,0 16px 34px #000">$17 BILLION</div>
+<div id=diver style="position:absolute;left:930px;top:300px"></div>
+<div style="position:absolute;left:90px;top:215px;white-space:nowrap;transform:rotate(-4deg);border:11px solid #e0303a;border-radius:22px;padding:4px 26px;background:#fff;color:#e0303a;font:900 66px/1 IB;box-shadow:0 14px 30px #000a">STILL DOWN THERE</div>
+</div>
+<script src="../lib/core.js"></script><script src="../lib/samrig.js"></script><script>
+const OL='#232838';
+const HAT=`<circle cx="100" cy="96" r="70" fill="#9fd3f055" stroke="${OL}" stroke-width="7"/><rect x="58" y="70" width="84" height="40" rx="18" fill="#bfe6ff88" stroke="${OL}" stroke-width="5"/><rect x="150" y="60" width="22" height="70" rx="8" fill="#f2b21c" stroke="${OL}" stroke-width="5"/>`;
+document.getElementById('diver').innerHTML = MG_SAM.svg({w:260, sw:'#2a2a33', swd:'#1e1e28', pa:'#2a2a33', hat:HAT, mouth:'o', look:[-6,4], hR:[214,70], hL:[-14,70], legL:.4, legR:-.3, bob:6});
+</script>

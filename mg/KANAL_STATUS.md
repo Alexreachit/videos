@@ -529,6 +529,19 @@
 - NÄCHSTE TERMINE: Short fällig 27.11. (Figurenstil; Ideen: Lufthansa-Raub 1978 | Fyre Festival | Jahrestage prüfen). Langvideo fällig 28.11. – noch NICHT begonnen (Start im nächsten Lauf; Idee "Unsolved Mysteries of Money" mit Cooper-/Brinks-Sets).
 - Auswertung nächster Lauf: Brinks-Short (25.11.) + yt_heists18 (25.11., erstes Langvideo im Figurenstil) vs. Ponzi; Cooper-Verlauf.
 
-## Lauf 2026-11-25 ~08:50 MEZ (Routine, Automatik) – IN ARBEIT
-- Chrome erreichbar. 14 Abos (+3). 28 T (27.10.–23.11.): 7.944 Aufrufe, 22,7 h, +6 Abos. Cooper zK00wgXprTM 1.177 (Welle vorbei, 43,8 % angesehen, +2 Abos). Brinks MIYMvDx4EOs + yt_heists18 77H2-Th4UcM heute 19:00 geplant (geprüft).
-- LANGVIDEO IN ARBEIT (fällig 28.11.): mg/yt_treasure19 "6 Lost Treasures …" (Figurenstil, Countdown #6 Nazi-Goldzug, #5 Oak Island, #4 Fenn-Schatz, #3 Fabergé-Ei, #2 Bernsteinzimmer, #1 San José). Wird in DIESER Session gebaut – andere Sessions bitte nicht parallel anfangen.
+## Lauf 2026-11-25 ~08:50–12:30 MEZ (Routine, Automatik)
+- Chrome erreichbar. 14 Abos (+3 seit 24.11.). 28 T (27.10.–23.11.): 7.944 Aufrufe, 22,7 h, +6 Abos. 48 h: 1.197 Aufrufe (fast nur Cooper).
+- Shorts: Cooper zK00wgXprTM 1.177 (Welle vorbei, 43,8 % angesehen, 98 % Shorts-Feed, +2 Abos) | Brücke 377 | Louvre 36 | Pizza 30 | Blockbuster 583. Brinks MIYMvDx4EOs heute 19:00 geplant (geprüft).
+- Langform: Fortune17 3 | Con Artists 1 | Never-age 3 | Ponzi 20 | Supermarkt 2 | Mistakes 20 | Bank 1.210. yt_heists18 77H2-Th4UcM heute 19:00 geplant (geprüft).
+- Erkenntnis: Figurenstil-Shorts mit echter Person + Ort + Krimi/Mystery (Cooper, Brücke) bleiben die Gewinner; Abos steigen erstmals spürbar (11 -> 14).
+- LANGVIDEO GEBAUT + GEPLANT: yt_treasure19 "6 Lost Treasures Worth Billions (One Was Almost Melted for Scrap)" ID WgWYMxHVjIc (6:22), öffentlich 28.11.2026 19:00 (GMT+1),
+  Thumbnail "$17 BILLION / STILL DOWN THERE" (Wrack + Goldhaufen + Sam als Taucher), Beschreibung mit 8 Kapiteln + Quellen + #treasure #history #mystery #shipwreck #money, nicht für Kinder, Vorabprüfung ok.
+  Countdown: #6 Nazi-Goldzug Polen 2015 | #5 Oak Island | #4 Fenn-Schatz | #3 Drittes Fabergé-Ei (fast eingeschmolzen) | #2 Bernsteinzimmer | #1 San José (Hook ab Sek. 0: Wrack am Meeresgrund + "$17 BILLION OF GOLD").
+  Neu: 6 eigene gl3d-Sets (Schreibtisch mit Weltkarte aus mapdata.js als Pergament-Textur, Bergtunnel + Radar-Hologramm + Bagger, Oak-Island-Schnittbild ("Ameisenfarm"-Blick in die Grube mit Holzlagen/Stein/Flutung),
+  Santa Fe + Rockies mit Fluss, Zarenpalast/Antikmarkt/Werkstatt mit Schmelzofen/Juwelier, Bernsteinzimmer (Textur) + Königsberg brennt, Seeschlacht mit Galeonen + Tiefsee-Wrack mit ROV). Quellen in mg/yt_treasure19/mk_project.py.
+  Sichtprüfung: Fake-TTS-Standbilder 3 Runden (Kamera im Baum/Berg/Insel, Hologramm im Berg, Häuser vor Kamera, Stein-Streifen vor dem Stein, Markt sah Palast, Zahlen-Regex u. a. korrigiert);
+  Render v1 mg-chunks scheiterte (Chunk 11, Runner-Fehler), v2 Run 45574527580 ok -> Kontaktblätter 1 Bild/s komplett angesehen: FOUND!-Stempel über Gesicht, Markt-Ei verdeckt, Kisten-Zähler "$0 MILLION", ROV/Fundstücke aus dem Bild
+  -> 4 Abschnitte lokal mit der v2-Timeline neu gerendert und eingesetzt (Ton unverändert), nachgeprüft ok. Ø -21,0 dB / max -2,8 dB. Upload 13 Teile + DataTransfer (volle Qualität, 118 MB).
+- Technik-Lehre: Kapitel-Zeiten aus timeline.json über spec.ui suchen; Studio-Zeit 19:00 über die Optionsliste; mg-chunks-Runs laufen nacheinander (20 Runner), ein Lauf ~55–75 Min.
+- NÄCHSTE TERMINE: Short fällig 27.11. -> im Lauf 26.11. bauen (Figurenstil; Ideen: Lufthansa-Raub 1978 | Fyre Festival | Jahrestage prüfen). Nächstes Langvideo fällig 01.12. (Start 29./30.11.).
+- Auswertung nächster Lauf: Brinks-Short + yt_heists18 (beide 25.11. 19:00) vs. Cooper/Ponzi.

@@ -51,7 +51,7 @@ SHOT.f_chest = { set: 'FEN', light: 'indoorWarm',
   upd: feUpd,
   figs: (t, i) => t > wt(i, /gold/) - .15 ? '' : fig([FS[0] + 1.3, 0, FS[2] - .5], 'dealer', { mouth: 'grin', talk: 0, blink: bl(t, 0), look: [-5, 3], hR: [150, 150] }),
   ui: (t, i) => labelAt([FS[0] + 1.3, 2.2, FS[2] - .5], PILL('🎨 ART DEALER, AGE 80', '#232838', '#fff', 38), t, wt(i, /dealer/) - .1, wt(i, /gold/) - .2) +
-    counter(960, 180, t, wt(i, /worth/) - .1, nextStart(i), wt(i, /worth/), wt(i, /dollars/), 0, 1, v => '💰 $' + v.toFixed(1).replace('.0', '') + ' MILLION+', '#35a862', '#fff', 72),
+    pillAt(960, 180, t, wt(i, /million/) - .1, nextStart(i), '💰 $1 MILLION+', '#35a862', '#fff', 72),
   sfx: i => [{ k: 'coin', t: wt(i, /gold/) }, { k: 'shimmer', t: wt(i, /gems/) }, { k: 'cash', t: wt(i, /dollars/) }] };
 SHOT.f_hide = { set: 'FEN', light: 'dusk',
   cam: i => mv(cm([FM[0] + 16, 8, FM[2] + 22], [FM[0], 8, FM[2] - 30], 52), cm([FM[0] + 8, 3, FM[2] + 9], [FM[0] + 3, .6, FM[2] + 1], 46)),
@@ -86,7 +86,7 @@ SHOT.f_found = { set: 'FEN', light: 'day',
     cm([FM[0] + .6, 1.4, FM[2] + 10.6], [FM[0] - 1, .4, FM[2] + 8], 42), cm([FM[0] + .4, 1.3, FM[2] + 10.2], [FM[0] - 1, .4, FM[2] + 8], 40)),
   upd: feUpd,
   figs: (t, i) => { const f = wt(i, /found/) - .15; return t < f ? fig([FM[0] - .2, 0, FM[2] + 9], 'student', Object.assign(walk(t, 7), { mouth: 'smile', blink: bl(t, 0), look: [-3, 3], prop: PROP.map, hR: [170, 130] })) : fig([FM[0] + .2, 0, FM[2] + 8.6], 'student', { mouth: 'grin', talk: .6, blink: bl(t, 0), look: [-3, 4], hR: [210, 60], hL: [-10, 60] }) },
-  ui: (t, i) => counter(960, 160, t, Lt(i).start + .1, wt(i, /found/), Lt(i).start + .2, wt(i, /2020/), 2010, 2020, v => '📅 ' + Math.round(v), '#232838', '#fff', 64) + labelAt([FM[0] + .2, 2.1, FM[2] + 8.6], PILL('🩺 MEDICAL STUDENT, 32', '#2a5ab0', '#fff', 38), t, wt(i, /student/) - .1, nextStart(i)) + stampAt(1450, 340, t, wt(i, /found/), 'FOUND!', '#35a862', 110, 6),
+  ui: (t, i) => counter(960, 160, t, Lt(i).start + .1, wt(i, /found/), Lt(i).start + .2, wt(i, /2020/), 2010, 2020, v => '📅 ' + Math.round(v), '#232838', '#fff', 64) + labelAt([FM[0] + .2, 2.1, FM[2] + 8.6], PILL('🩺 MEDICAL STUDENT, 32', '#2a5ab0', '#fff', 38), t, wt(i, /student/) - .1, nextStart(i)) + stampAt(480, 330, t, wt(i, /found/), 'FOUND!', '#35a862', 110, -6),
   sfx: i => [{ k: 'tick', t: Lt(i).start + .3 }, { k: 'impact', t: wt(i, /found/), g: .6 }, { k: 'shimmer', t: wt(i, /found/) + .3 }] };
 SHOT.f_wyoming = { set: 'FEN', light: 'dusk',
   cam: i => mv(cm([FM[0] + 22, 14, FM[2] + 30], [FM[0], 6, FM[2] - 10], 52), cm([FM[0] + 18, 10, FM[2] + 26], [FM[0], 5, FM[2] - 10], 50)),

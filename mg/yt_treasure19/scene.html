@@ -506,7 +506,7 @@ SHOT.f_chest = { set: 'FEN', light: 'indoorWarm',
   upd: feUpd,
   figs: (t, i) => t > wt(i, /gold/) - .15 ? '' : fig([FS[0] + 1.3, 0, FS[2] - .5], 'dealer', { mouth: 'grin', talk: 0, blink: bl(t, 0), look: [-5, 3], hR: [150, 150] }),
   ui: (t, i) => labelAt([FS[0] + 1.3, 2.2, FS[2] - .5], PILL('🎨 ART DEALER, AGE 80', '#232838', '#fff', 38), t, wt(i, /dealer/) - .1, wt(i, /gold/) - .2) +
-    counter(960, 180, t, wt(i, /worth/) - .1, nextStart(i), wt(i, /worth/), wt(i, /dollars/), 0, 1, v => '💰 $' + v.toFixed(1).replace('.0', '') + ' MILLION+', '#35a862', '#fff', 72),
+    pillAt(960, 180, t, wt(i, /million/) - .1, nextStart(i), '💰 $1 MILLION+', '#35a862', '#fff', 72),
   sfx: i => [{ k: 'coin', t: wt(i, /gold/) }, { k: 'shimmer', t: wt(i, /gems/) }, { k: 'cash', t: wt(i, /dollars/) }] };
 SHOT.f_hide = { set: 'FEN', light: 'dusk',
   cam: i => mv(cm([FM[0] + 16, 8, FM[2] + 22], [FM[0], 8, FM[2] - 30], 52), cm([FM[0] + 8, 3, FM[2] + 9], [FM[0] + 3, .6, FM[2] + 1], 46)),
@@ -541,7 +541,7 @@ SHOT.f_found = { set: 'FEN', light: 'day',
     cm([FM[0] + .6, 1.4, FM[2] + 10.6], [FM[0] - 1, .4, FM[2] + 8], 42), cm([FM[0] + .4, 1.3, FM[2] + 10.2], [FM[0] - 1, .4, FM[2] + 8], 40)),
   upd: feUpd,
   figs: (t, i) => { const f = wt(i, /found/) - .15; return t < f ? fig([FM[0] - .2, 0, FM[2] + 9], 'student', Object.assign(walk(t, 7), { mouth: 'smile', blink: bl(t, 0), look: [-3, 3], prop: PROP.map, hR: [170, 130] })) : fig([FM[0] + .2, 0, FM[2] + 8.6], 'student', { mouth: 'grin', talk: .6, blink: bl(t, 0), look: [-3, 4], hR: [210, 60], hL: [-10, 60] }) },
-  ui: (t, i) => counter(960, 160, t, Lt(i).start + .1, wt(i, /found/), Lt(i).start + .2, wt(i, /2020/), 2010, 2020, v => '📅 ' + Math.round(v), '#232838', '#fff', 64) + labelAt([FM[0] + .2, 2.1, FM[2] + 8.6], PILL('🩺 MEDICAL STUDENT, 32', '#2a5ab0', '#fff', 38), t, wt(i, /student/) - .1, nextStart(i)) + stampAt(1450, 340, t, wt(i, /found/), 'FOUND!', '#35a862', 110, 6),
+  ui: (t, i) => counter(960, 160, t, Lt(i).start + .1, wt(i, /found/), Lt(i).start + .2, wt(i, /2020/), 2010, 2020, v => '📅 ' + Math.round(v), '#232838', '#fff', 64) + labelAt([FM[0] + .2, 2.1, FM[2] + 8.6], PILL('🩺 MEDICAL STUDENT, 32', '#2a5ab0', '#fff', 38), t, wt(i, /student/) - .1, nextStart(i)) + stampAt(480, 330, t, wt(i, /found/), 'FOUND!', '#35a862', 110, -6),
   sfx: i => [{ k: 'tick', t: Lt(i).start + .3 }, { k: 'impact', t: wt(i, /found/), g: .6 }, { k: 'shimmer', t: wt(i, /found/) + .3 }] };
 SHOT.f_wyoming = { set: 'FEN', light: 'dusk',
   cam: i => mv(cm([FM[0] + 22, 14, FM[2] + 30], [FM[0], 6, FM[2] - 10], 52), cm([FM[0] + 18, 10, FM[2] + 26], [FM[0], 5, FM[2] - 10], 50)),
@@ -570,7 +570,7 @@ LOOK.redguard = { sw: '#5a6048', swd: '#484d3a', pa: '#3a3e30', hat: `<path d="M
   mk('EGGM', G.box(120, .4, 60, '#9a9a8a', { base: true }), { pos: [EM[0], -.4, EM[2]], outline: false, cast: false });
   const M = []; [[-6, 0, '#e0303a'], [0, -1, '#2a8fd6'], [6, 0, '#35a862']].forEach(([x, z, c]) => { M.push(at(G.box(3.4, .12, 1.6, '#8a6a46', { base: true }), [EM[0] + x, 1, EM[2] + z]), ...[[-1.5, -.7], [1.5, -.7], [-1.5, .7], [1.5, .7]].map(([a, b]) => at(G.box(.12, 1, .12, '#6b4226', { base: true }), [EM[0] + x + a, 0, EM[2] + z + b])),
     at(G.box(3.8, .12, 2.2, c, { base: true }), [EM[0] + x, 2.6, EM[2] + z]), ...[-1.8, 1.8].map(a => at(G.cyl(.05, .05, 2.6, 6, '#3a3a44'), [EM[0] + x + a, 0, EM[2] + z + .9]))) });
-  for (let k = 0; k < 18; k++) M.push(at(k % 3 ? G.box(.3 + G.hash(k) * .3, .2 + G.hash(k, 1) * .4, .3, ['#c9ccd4', '#8a5a32', '#6a8acb', '#d8c8a8'][k % 4], { base: true }) : G.cyl(.15, .1, .4, 8, '#9aa0ac'), [EM[0] - 7.4 + (k % 6) * .55 + Math.floor(k / 6) * 6, 1.12, EM[2] + (k % 2) * .4 - .2 - (Math.floor(k / 6) == 1 ? 1 : 0)]));
+  for (let k = 0; k < 18; k++) if (!(Math.floor(k / 6) == 1 && Math.abs((k % 6) * .55 - 1.4) < .6)) M.push(at(k % 3 ? G.box(.3 + G.hash(k) * .3, .2 + G.hash(k, 1) * .4, .3, ['#c9ccd4', '#8a5a32', '#6a8acb', '#d8c8a8'][k % 4], { base: true }) : G.cyl(.15, .1, .4, 8, '#9aa0ac'), [EM[0] - 7.4 + (k % 6) * .55 + Math.floor(k / 6) * 6, 1.12, EM[2] + (k % 2) * .4 - .2 - (Math.floor(k / 6) == 1 ? 1 : 0)]));
   M.push(...[-14, -10, 12, 16].map((x, k) => at(G.box(3, 2 + k % 2, 3, ['#c9b896', '#a8b0c0', '#d8c8a8', '#b8a07a'][k], { base: true }), [EM[0] + x, 0, EM[2] - 6])));
   mk('EGGM', merge(M));
   // Werkstatt (Schrott + Schmelzofen)
@@ -881,8 +881,8 @@ SHOT.s_owners = { set: 'SEA', light: 'deep',
     return pillAt(960, 140, t, Lt(i).start + .1, nextStart(i), '⚖️ WHO OWNS IT?', '#232838', '#fff', 56) + h },
   sfx: i => [/colombia/i, /spain/i, /investors/, /bolivia/i].map(re => ({ k: 'pop', t: wt(i, re) })) };
 SHOT.s_raise = { set: 'SEA', light: 'deep',
-  cam: i => mv(deepCam(6, 4, 12, 1, 2.6, 3, 50), deepCam(5, 6.4, 11, 1, 5, 3, 50)),
-  upd: (t, i) => { seUpd(t, i); const a = Lt(i).start + 1, u = ez(cl((t - a) / (nextStart(i) - a), 0, 1)); ROV.pos = [SD[0] + 1, SD[1] + 1.6 + u * 6, SD[2] + 3.6]; ROV.rot = [0, 0, 0]; bubbles(t, X(ROV.pos, 0, .8, 0));
+  cam: i => mv(deepCam(5, 3.6, 10, 1, 2.6, 3.4, 48), deepCam(4.4, 4, 9, 1, 3.2, 3.4, 46)),
+  upd: (t, i) => { seUpd(t, i); const a = Lt(i).start + 1, u = ez(cl((t - a) / (nextStart(i) - a), 0, 1)); ROV.pos = [SD[0] + 1, SD[1] + 1.6 + u * 2.6, SD[2] + 3.6]; ROV.rot = [0, -.5, 0]; bubbles(t, X(ROV.pos, 0, .8, 0));
     const R3 = [/cannon/, /cup/, /coins/]; LOOT.forEach((m, j) => { const s = wt(i, R3[j]) - .2; m.vis = t > s; m.pos = X(ROV.pos, -.6 + j * .6, -.5 - (j == 0 ? .3 : 0), .3) }) },
   ui: (t, i) => { const P3 = [[/cannon/, '💣 CANNON'], [/cup/, '☕ PORCELAIN CUP'], [/coins/, '🪙 3 COINS']]; return pillAt(960, 160, t, wt(i, /2025/) - .1, nextStart(i), '🤖 2025: FIRST OBJECTS RAISED', '#2a8fd6', '#fff', 52) + P3.map(([re, tx], k) => pillAt(400 + k * 560, 930 - 120, t, wt(i, re) - .1, nextStart(i), tx, '#232838', '#fff', 46)).join('') },
   sfx: i => [{ k: 'ding', t: wt(i, /cannon/) }, { k: 'ding', t: wt(i, /cup/) }, { k: 'coin', t: wt(i, /coins/) }] };

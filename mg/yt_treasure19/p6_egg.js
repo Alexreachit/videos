@@ -19,7 +19,7 @@ LOOK.redguard = { sw: '#5a6048', swd: '#484d3a', pa: '#3a3e30', hat: `<path d="M
   mk('EGGM', G.box(120, .4, 60, '#9a9a8a', { base: true }), { pos: [EM[0], -.4, EM[2]], outline: false, cast: false });
   const M = []; [[-6, 0, '#e0303a'], [0, -1, '#2a8fd6'], [6, 0, '#35a862']].forEach(([x, z, c]) => { M.push(at(G.box(3.4, .12, 1.6, '#8a6a46', { base: true }), [EM[0] + x, 1, EM[2] + z]), ...[[-1.5, -.7], [1.5, -.7], [-1.5, .7], [1.5, .7]].map(([a, b]) => at(G.box(.12, 1, .12, '#6b4226', { base: true }), [EM[0] + x + a, 0, EM[2] + z + b])),
     at(G.box(3.8, .12, 2.2, c, { base: true }), [EM[0] + x, 2.6, EM[2] + z]), ...[-1.8, 1.8].map(a => at(G.cyl(.05, .05, 2.6, 6, '#3a3a44'), [EM[0] + x + a, 0, EM[2] + z + .9]))) });
-  for (let k = 0; k < 18; k++) M.push(at(k % 3 ? G.box(.3 + G.hash(k) * .3, .2 + G.hash(k, 1) * .4, .3, ['#c9ccd4', '#8a5a32', '#6a8acb', '#d8c8a8'][k % 4], { base: true }) : G.cyl(.15, .1, .4, 8, '#9aa0ac'), [EM[0] - 7.4 + (k % 6) * .55 + Math.floor(k / 6) * 6, 1.12, EM[2] + (k % 2) * .4 - .2 - (Math.floor(k / 6) == 1 ? 1 : 0)]));
+  for (let k = 0; k < 18; k++) if (!(Math.floor(k / 6) == 1 && Math.abs((k % 6) * .55 - 1.4) < .6)) M.push(at(k % 3 ? G.box(.3 + G.hash(k) * .3, .2 + G.hash(k, 1) * .4, .3, ['#c9ccd4', '#8a5a32', '#6a8acb', '#d8c8a8'][k % 4], { base: true }) : G.cyl(.15, .1, .4, 8, '#9aa0ac'), [EM[0] - 7.4 + (k % 6) * .55 + Math.floor(k / 6) * 6, 1.12, EM[2] + (k % 2) * .4 - .2 - (Math.floor(k / 6) == 1 ? 1 : 0)]));
   M.push(...[-14, -10, 12, 16].map((x, k) => at(G.box(3, 2 + k % 2, 3, ['#c9b896', '#a8b0c0', '#d8c8a8', '#b8a07a'][k], { base: true }), [EM[0] + x, 0, EM[2] - 6])));
   mk('EGGM', merge(M));
   // Werkstatt (Schrott + Schmelzofen)
