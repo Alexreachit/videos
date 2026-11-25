@@ -14,7 +14,7 @@ function galleonGeo(hull, sail, flag, sails = true) { const G2 = [at(G.box(9, 2.
   // Meeresgrund
   mk(S, G.ico(60, 3, '#c9b48a', .02, 2, .08).smooth(), { pos: [SX + 30, SD[1] - 4.2, SD[2]], outline: false });
   const R = []; for (let k = 0; k < 30; k++) R.push(at(G.ico(.6 + G.hash(k) * 1.4, 1, '#8a8a7a', .3, k), [SX - 20 + G.hash(k, 1) * 40, SD[1], SD[2] - 14 + G.hash(k, 2) * 30]));
-  for (let k = 0; k < 22; k++) R.push(at(G.cyl(.08, .04, 1 + G.hash(k, 3) * 1.6, 5, ['#d65a7a', '#e8962a', '#7ad0a0'][k % 3]), [SX - 16 + G.hash(k, 5) * 32, SD[1], SD[2] - 10 + G.hash(k, 6) * 18]));
+  for (let k = 0; k < 22; k++) { const cx = -16 + G.hash(k, 5) * 32, cz = -10 + G.hash(k, 6) * 18; if (Math.abs(cx) < 7 && cz > -6) continue; R.push(at(G.cyl(.08, .04, 1 + G.hash(k, 3) * 1.6, 5, ['#d65a7a', '#e8962a', '#7ad0a0'][k % 3]), [SX + cx, SD[1], SD[2] + cz])) }
   mk(S, merge(R), { outline: false });
   // Wrack San Jose: Galeone ohne Segel, schraeg im Sand
   mk(S, galleonGeo('#6a5038', '#000', '#5a4a3a', false), { pos: [SD[0] - 1, SD[1] + .2, SD[2] - 3], rot: [.22, .35, .18] });
