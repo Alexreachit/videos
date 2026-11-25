@@ -528,3 +528,7 @@
 - Technik: git fetch renders klappt mit `git fetch --depth 1 --no-tags origin +refs/heads/renders:refs/remotes/origin/renders` (Hintergrund, ~5–8 Min); Studio-Zeitfeld nur über die Optionsliste (19:00) setzen, Tippen geht nicht.
 - NÄCHSTE TERMINE: Short fällig 27.11. (Figurenstil; Ideen: Lufthansa-Raub 1978 | Fyre Festival | Jahrestage prüfen). Langvideo fällig 28.11. – noch NICHT begonnen (Start im nächsten Lauf; Idee "Unsolved Mysteries of Money" mit Cooper-/Brinks-Sets).
 - Auswertung nächster Lauf: Brinks-Short (25.11.) + yt_heists18 (25.11., erstes Langvideo im Figurenstil) vs. Ponzi; Cooper-Verlauf.
+
+## Lauf 2026-11-25 ~08:50 MEZ (Routine, Automatik) – IN ARBEIT
+- Chrome erreichbar. 14 Abos (+3). 28 T (27.10.–23.11.): 7.944 Aufrufe, 22,7 h, +6 Abos. Cooper zK00wgXprTM 1.177 (Welle vorbei, 43,8 % angesehen, +2 Abos). Brinks MIYMvDx4EOs + yt_heists18 77H2-Th4UcM heute 19:00 geplant (geprüft).
+- LANGVIDEO IN ARBEIT (fällig 28.11.): mg/yt_treasure19 "6 Lost Treasures …" (Figurenstil, Countdown #6 Nazi-Goldzug, #5 Oak Island, #4 Fenn-Schatz, #3 Fabergé-Ei, #2 Bernsteinzimmer, #1 San José). Wird in DIESER Session gebaut – andere Sessions bitte nicht parallel anfangen.
