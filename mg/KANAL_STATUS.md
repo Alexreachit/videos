@@ -568,3 +568,11 @@
   -> Neue Thumbnail-Machart (Gemini-Illustration + scharfer Text per mg/lib/thumb_text.py, Regel in ANLEITUNG "THUMBNAILS ab 2026-11-26").
   Sofort getauscht: yt_treasure19 WgWYMxHVjIc (geplant 28.11.) und yt_heists18 77H2-Th4UcM (live, CTR war 1,1 %) – beide "Änderungen gespeichert", Video-IDs geprüft.
   yt_fortune17 (CTR 5,3 %) vorerst unverändert als Vergleich. Auswertung: CTR Heists ab jetzt vs. 1,1 % vorher.
+
+## Lauf 2026-11-26 ~22:30 MEZ (Routine, Automatik, geplant 15:47 UTC, verspätet)
+- Chrome erreichbar (Inhaltsliste "Shorts" lud nicht: "Ein Fehler ist aufgetreten" -> Dashboard/Videodetails per JS gelesen). 14 Abos (+5 in 28 T). 28 T: 5.994 Aufrufe, 16,6 h.
+- Shorts: Brinks MIYMvDx4EOs 272 (morgens 270 -> Welle vorbei) | Cooper 1.178 (18 Likes) | Brücke 378. Langform: yt_heists18 3 | Fortune17 3.
+- Geplant geprüft: Brink's-Mat Q7XNnqpo0uc 27.11. 19:00 ("Geplant"), yt_treasure19 WgWYMxHVjIc 28.11. 19:00 ("Geplant").
+- Erkenntnis: nichts Neues; Heists-CTR nach Thumbnail-Tausch (11:15) noch zu früh -> nächster Lauf.
+- Takt: nichts fällig. Short fällig 29.11. -> im Lauf 27./28.11. bauen (Figurenstil; Ideen: Lufthansa-Raub 1978 | Fyre Festival | Jahrestage prüfen). Langvideo fällig 01.12. – Start im Lauf 27.–29.11. (Thumbnail neu per Gemini, ein Objekt + Zahl).
+- Keine Korrekturen, nichts hochgeladen.
