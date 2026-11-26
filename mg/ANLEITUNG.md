@@ -220,3 +220,17 @@ Rendern auf GitHub: Projektname in `mg/render_queue.txt` eintragen und pushen (W
   Story-Erzählung mit Figuren in Aktion, viele Einstellungen, Untertitel 1–2 Wörter (maxWords 2) in der Mitte. Erster Test: ys_bridge (Brooklyn-Bridge-Betrug).
 - Langvideo im neuen Stil (yt_heists18, 2026-11-19): Vorlage mg/yt_heists18 (p1_base.js = Sets/Licht-Presets/Figuren-Looks/Shot-Registry SHOT[name]={set,light,cam,upd,figs,ui,sfx}/Kapitelkarten; je Fall eigenes Set-Modul). 
   HTML-Overlays (z. B. Gitterstäbe) nie mit z-index über die Untertitel legen; Sets ohne Boden prüfen (Wald!); Labels erst nach der Kapitelkarte (Start + 2,7 s) einblenden.
+
+## THUMBNAILS ab 2026-11-26 (Alex: "die Thumbnails müssen viel besser aussehen – wenn Claude das nicht gut hinbekommt, wende dich an Gemini")
+- Langvideo-Thumbnails NICHT mehr aus der eigenen 3D-/HTML-Engine rendern (wirkten billig: Low-Poly, matte Farben). Stattdessen:
+  1. Hintergrund-Illustration in Gemini (Alex' Chrome, gemini.google.com) erzeugen. Prompt-Bausteine: "YouTube thumbnail background, 16:9, polished modern 2D cartoon
+     illustration, thick clean dark outlines, vivid saturated colors, high contrast, cinematic lighting", EIN klares Hauptmotiv + Figur mit starker Emotion,
+     "keep the upper-left third calm and dark (empty space for title text)", "Absolutely NO text, letters, numbers or logos".
+     Figur immer: "big perfectly round smooth cream-colored head, NO ears, NO eyebrows, NO nose, two small solid black dot eyes" (+ Kostüm). Alle Thumbnails im selben Gemini-Chat
+     ("same style as before") -> einheitlicher Kanal-Look. Ergebnis IMMER ansehen (Ausschnitt Gesicht): Brauen/Ohren -> Gemini um Korrektur bitten.
+  2. Download per JS (<a download>, Canvas -> PNG) nach C:\Users\Alex\Downloads -> device_stage_files.
+  3. Text lokal drauf (scharf, eigene Schrift): `python3 mg/lib/thumb_text.py <bg.png> '<ZAHL>' '<ZEILE 2>' '<ROTES BAND>' <out.jpg>` -> 1280x720,
+     große goldene Zahl oben links (Inter Black, dunkle Kontur), max. 2 Zeilen + rotes Band, max. ~5 Wörter insgesamt.
+  4. Fertiges Thumbnail ansehen (auch verkleinert auf Handy-Größe denken), dann im Studio hochladen (Thumbnail-file-input), href-Video-ID prüfen, Speichern.
+- Erste Beispiele: mg/yt_treasure19/thumb_v2.jpg ($17 BILLION, Wrack + Schatz + Taucher), mg/yt_heists18/thumb_v2.jpg ($500M OF ART, Museum + falscher Polizist).
+- Shorts: kein eigenes Thumbnail nötig, aber das erste Bild (Hook-Frame) muss genauso klar sein: ein Motiv, große Zahl, wenig Text.

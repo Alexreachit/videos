@@ -564,3 +564,7 @@
 - Technik-Lehre: Alle Orte liegen in EINEM gl3d-Set -> Außenboden nie unter Innen-Sets legen (Innenräume weit weg, z. B. z=-140); Innenböden bis hinter die Kamera verlängern. Studio-Screenshots froren zeitweise ein -> Status per JS lesen, Klicks per ref.
 - NÄCHSTE TERMINE: Short fällig 29.11. (Figurenstil; Ideen: Lufthansa-Raub 1978 (Jahrestag 11.12.) | Fyre Festival | Jahrestage prüfen). Langvideo fällig 01.12. – noch NICHT begonnen (Start im nächsten Lauf; Thumbnail: ein Objekt + Zahl).
 - Auswertung nächster Lauf: Brink's-Mat-Short (27.11.) vs. Brinks/Cooper; yt_heists18 CTR; yt_treasure19 ab 28.11.
+- 26.11. ~11:15 Alex (live): neue Animationen gefallen ihm; Änderungsbedarf NUR bei den Thumbnails ("müssen viel besser aussehen", notfalls Gemini).
+  -> Neue Thumbnail-Machart (Gemini-Illustration + scharfer Text per mg/lib/thumb_text.py, Regel in ANLEITUNG "THUMBNAILS ab 2026-11-26").
+  Sofort getauscht: yt_treasure19 WgWYMxHVjIc (geplant 28.11.) und yt_heists18 77H2-Th4UcM (live, CTR war 1,1 %) – beide "Änderungen gespeichert", Video-IDs geprüft.
+  yt_fortune17 (CTR 5,3 %) vorerst unverändert als Vergleich. Auswertung: CTR Heists ab jetzt vs. 1,1 % vorher.
