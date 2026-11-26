@@ -545,3 +545,22 @@
 - Technik-Lehre: Kapitel-Zeiten aus timeline.json über spec.ui suchen; Studio-Zeit 19:00 über die Optionsliste; mg-chunks-Runs laufen nacheinander (20 Runner), ein Lauf ~55–75 Min.
 - NÄCHSTE TERMINE: Short fällig 27.11. -> im Lauf 26.11. bauen (Figurenstil; Ideen: Lufthansa-Raub 1978 | Fyre Festival | Jahrestage prüfen). Nächstes Langvideo fällig 01.12. (Start 29./30.11.).
 - Auswertung nächster Lauf: Brinks-Short + yt_heists18 (beide 25.11. 19:00) vs. Cooper/Ponzi.
+
+## Lauf 2026-11-26 ~08:50–10:40 MEZ (Routine, Automatik)
+- Chrome erreichbar. Shorts: BRINKS MIYMvDx4EOs nach ~14 h: 270 Aufrufe (über "typischer Leistung" 170), 23,1 % angesehen / 76,9 % weggewischt (schwächer als Cooper 43,8 % / Brücke 41 %), 5 Likes, 0 Abos, 0,5 h
+  | Cooper 1.177 | Brücke 377 | Louvre 36 | Pizza 30.
+- Langform: yt_heists18 77H2-Th4UcM (erstes Langvideo im Figurenstil) nach ~14 h: 2 Aufrufe, 91 Impressionen, CTR 1,1 % (schwach), Ø Wiedergabe 6:14 (wer klickt, schaut fast ganz)
+  | Fortune17 3 | Con Artists 1 | Never-age 3 | Ponzi 22. yt_treasure19 WgWYMxHVjIc 28.11. 19:00 geplant (geprüft).
+- Erkenntnis: Figurenstil-Shorts liegen konstant über "typischer Leistung" (Brücke 377, Cooper 1.177, Brinks 270), aber Brinks-Bindung (23 %) deutlich schwächer -> Hook "never cheat your partners" + Boston-Nacht zog weniger als Cooper (Mystery + Jahrestag).
+  Langvideos: Heists-Thumbnail-CTR 1,1 % (Fortune 5,3 %) -> nächstes Langvideo-Thumbnail mit EINEM großen Objekt + Zahl wie Fortune (Scheck) statt Szene mit vielen Elementen.
+- SHORT GEBAUT + GEPLANT: ys_brinksmat "They Came for Cash – and Found £26 Million in Gold 🥇" ID Q7XNnqpo0uc, öffentlich 27.11.2026 19:00 (GMT+1), nicht für Kinder, Vorabprüfung ok,
+  Beschreibung mit 3 Quellen + #truecrime #heist #history #london #shorts. 31,9 s, Ø -20,1 dB / max -2,7 dB. (Jahrestag Brink's-Mat = 26.11.1983)
+  Hook "Why you should never hire your brother-in-law for a heist", Figurenstil, modular wie ys_brinks (p0/p1/p2_heathrow/p9 + build.sh): Gewerbegebiet Heathrow bei Morgendämmerung (Halle "UNIT 7", Tower, überfliegendes Verkehrsflugzeug ohne Airline),
+  Wächter übergibt Schlüssel, Halle innen (gefesselte Angestellte, Benzinkanister + Streichholz, Rundtresor + Code-Pille), Goldraum mit Barrenberg + Zähler £26,000,000, Verhörraum (SUSPECT, GUARD ↔ ROBBER, BROTHER-IN-LAW),
+  Zelle "2 × 25 YEARS", Schmelzhütte "NEVER FOUND", Juweliergeschäft "BRINK'S-MAT GOLD?", Ende = Hero + YES/NO "Would you still wear it?" (Loop).
+  Fakten: Wikipedia "Brink's-Mat robbery", World History Encyclopedia, CBC Archiv 1983 (Quellen in mg/ys_brinksmat/mk_project.py). Schmuck-Satz als "Some say" (laut Wikipedia/BBC "some have claimed"). Nicht verwendet: Uhrzeit/Dauer, gefundene Menge.
+  Sichtprüfung: Fake-TTS-Standbilder 4 Runden (Außen-Boden lag unter den Innen-Sets -> Böden dunkel/verschattet; Wächter abgeschnitten, Pfütze wie Podest, Tresor zu nah, Van-Rad vor Kamera, Ring wie Telefon, Schmelzofen abgeschnitten, 25-Jahre-Stempel zu kurz) korrigiert;
+  Render v1 mg-chunks Run 45779528766 (~15 Min) -> Kontaktblätter 2 Bilder/s komplett angesehen: ok, keine Korrektur nötig.
+- Technik-Lehre: Alle Orte liegen in EINEM gl3d-Set -> Außenboden nie unter Innen-Sets legen (Innenräume weit weg, z. B. z=-140); Innenböden bis hinter die Kamera verlängern. Studio-Screenshots froren zeitweise ein -> Status per JS lesen, Klicks per ref.
+- NÄCHSTE TERMINE: Short fällig 29.11. (Figurenstil; Ideen: Lufthansa-Raub 1978 (Jahrestag 11.12.) | Fyre Festival | Jahrestage prüfen). Langvideo fällig 01.12. – noch NICHT begonnen (Start im nächsten Lauf; Thumbnail: ein Objekt + Zahl).
+- Auswertung nächster Lauf: Brink's-Mat-Short (27.11.) vs. Brinks/Cooper; yt_heists18 CTR; yt_treasure19 ab 28.11.
