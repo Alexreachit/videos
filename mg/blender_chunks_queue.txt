@@ -1,2 +1,2 @@
-erd10/scene.py erd10q 842 782 samples=20 hrot=90
-# run 1795615226
+erd11/scene.py erd11v 1304 0 samples=20 hrot=90
+# run 1795735732
