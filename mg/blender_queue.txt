@@ -1,2 +1,2 @@
-erd11/scene.py stills=639,756,822,992 samples=20 pct=50 hrot=90
-# run 1795726801
+erd11/scene.py stills=650,756,822 samples=20 pct=50 hrot=90
+# run 1795727527

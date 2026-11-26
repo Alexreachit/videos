@@ -36,7 +36,7 @@ PIT_R = 2.6
 DRILL = (1.6 * math.cos(math.radians(75)), 1.6 * math.sin(math.radians(75)))
 T_RMIN = wt(5, "Bohrmeister") - .1     # rmin bekommt den goldenen Helm (Bohrmeister)
 T_TURBO = wt(6, "Turbo") - .05          # Turbo: Drehzahl verdoppelt
-RMIN_ROOT = [DRILL[0] - 1.25, DRILL[1] - .42, .33]; RMIN_YAW = 0.   # steht auf dem vorderen Traeger am Steuerpult
+RMIN_ROOT = [DRILL[0] - 1.25, DRILL[1] - .42, .33]; RMIN_YAW = -.6   # steht auf dem vorderen Traeger am Steuerpult
 # ---------------------------------------------------------------- kleine Vektor-Helfer
 def add(a, b): return [a[0] + b[0], a[1] + b[1], a[2] + b[2]]
 def sub(a, b): return [a[0] - b[0], a[1] - b[1], a[2] - b[2]]

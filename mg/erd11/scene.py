@@ -351,10 +351,12 @@ GH["root"].location = SH.BLAKE_ROOT; GH["root"].rotation_euler = (0, 0, SH.BLAKE
 LE = build_worker("lena", hat=pbr("pink_helmet", "#ff4fb3", .3))
 LE["root"].location = SH.LENA_ROOT; LE["root"].rotation_euler = (0, 0, SH.LENA_YAW)
 # rmin (Tag 9): Bohrmeister mit goldenem Helm am Steuerpult, ohne Schaufel
-GOLDHAT = pbr("gold_helmet", "#ffc531", .16, metal=1., coat=.8, emis="#ffb000", es=.5)
+GOLDHAT = pbr("gold_helmet", "#e8a000", .07, metal=1., coat=1., emis="#ff9a00", es=1.6)
 RM = build_worker("rmin", hat=GOLDHAT, shirt=pbr("rmin_shirt", "#2b2f36", .8))
 RM["root"].location = SH.RMIN_ROOT; RM["root"].rotation_euler = (0, 0, SH.RMIN_YAW)
 for o in RM["shovel"].children: o.hide_render = True
+_hl = prim("cylinder", (.19, 0, .9), (.035, .035, .02), m=pbr("rmin_lamp", "#fff6d8", .2, emis="#fff2c0", es=40.), vertices=16, rot=(0, math.pi / 2, 0)); _hl.parent = RM["spine"]; RM["parts"].append(_hl)
+_st = prim("cone", (.0, 0, .985), (.05, .05, .04), m=GOLDHAT, vertices=5); _st.parent = RM["spine"]; RM["parts"].append(_st)
 _rs = bpy.data.lights.new("rmin_spot", "SPOT"); _rs.spot_size = math.radians(18); _rs.spot_blend = .4; _rs.color = (1., .9, .65); _rs.shadow_soft_size = .15
 _rso = bpy.data.objects.new("rmin_spot", _rs); link(_rso); _rso.location = (SH.RMIN_ROOT[0] - 1.2, SH.RMIN_ROOT[1] - 1.6, 6.5)
 _dv = Vector((SH.RMIN_ROOT[0], SH.RMIN_ROOT[1], 1.4)) - _rso.location; _rso.rotation_euler = _dv.to_track_quat('-Z', 'Y').to_euler()
