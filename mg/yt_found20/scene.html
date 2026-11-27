@@ -910,10 +910,10 @@ SHOT.k_sold = { set: 'AUC', light: 'indoorWarm',
     stampAt(1460, 400, t, wt(i, /euros/), 'SOLD!', '#e0303a', 120, -8, wt(i, /painting/) - .15) + pillAt(960, 860, t, wt(i, /stove/) - .1, nextStart(i), '🍳 IT HUNG OVER THE STOVE', '#ffd166', OL, 54),
   sfx: i => [{ k: 'impact', t: wt(i, /euros/) }, { k: 'cash', t: wt(i, /euros/) + .2 }, { k: 'pop', t: wt(i, /stove/) }] };
 SHOT.k_louvre = { set: 'KIT', light: 'indoorWarm',
-  cam: i => cut2(i, /louvre/i, cm([AX + 0, 0, 0], [AX, 0, -1], 40), cm([AX, 0, 0], [AX, 0, -1], 40), cm([KL[0] + 2.4, 2.2, KL[2] + 2.6], [KL[0], 1.8, KL[2] - 4.6], 44), cm([KL[0] + 1.2, 2, KL[2] + 1.2], [KL[0], 1.85, KL[2] - 4.6], 40)),
+  cam: i => mv(cm([KL[0] + 2.6, 2.3, KL[2] + 3.4], [KL[0], 1.8, KL[2] - 4.6], 46), cm([KL[0] + 1.2, 2.05, KL[2] + 1.6], [KL[0], 1.85, KL[2] - 4.6], 40)),
   upd: kUpd,
-  figs: (t, i) => t < wt(i, /louvre/i) - .15 ? '' : fig([KL[0] - 1.6, 0, KL[2] - 1.4], 'visitor', { mouth: 'o', blink: bl(t, 0), look: [3, -2] }) + fig([KL[0] + 1.8, 0, KL[2] - 1], 'lady', { mouth: 'smile', blink: bl(t, 1), look: [-3, -2] }),
-  ui: (t, i) => (t < wt(i, /louvre/i) - .15 ? `<div style="position:absolute;inset:0;background:#2a3044;z-index:1400"></div>` + stampAt(960, 420, t, wt(i, /blocked/) - .05, '🇫🇷 EXPORT BLOCKED', '#2a5ad6', 100, -5) : '') +
+  figs: (t, i) => fig([KL[0] - 1.5, 0, KL[2] - 3.6], 'visitor', { mouth: 'o', blink: bl(t, 0), look: [3, -2] }) + fig([KL[0] + 1.4, 0, KL[2] - 3.7], 'lady', { mouth: 'smile', blink: bl(t, 1), look: [-3, -2] }),
+  ui: (t, i) => stampAt(960, 330, t, wt(i, /blocked/) - .05, '🇫🇷 EXPORT BLOCKED', '#2a5ad6', 90, -5, wt(i, /louvre/i) - .15) +
     pillAt(960, 160, t, wt(i, /louvre/i) - .1, nextStart(i), '🏛️ THE LOUVRE · 2023', '#232838', '#fff', 56),
   sfx: i => [{ k: 'impact', t: wt(i, /blocked/), g: .5 }, { k: 'ding', t: wt(i, /louvre/i) }] };
 SHOT.k_grandma = { set: 'KIT', light: 'indoorWarm',

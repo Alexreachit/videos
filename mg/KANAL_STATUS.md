@@ -352,8 +352,8 @@
 
 ## AUTOMATIK-PLAN (Alex 2026-11-16 ~12:00: voll automatisch, keine Rückfragen)
 - Short alle 2 Tage, Langvideo alle 3 Tage; selbst auswählen, bauen, hochladen, öffentlich 19:00 planen.
-- Short-Termine: ys_pizza 17.11. 19:00 | ys_louvre 19.11. 19:00 (geplant) -> nächster fällig 21.11., dann 23.11. …
-- Langvideo-Termine: yt_cons16 19.11. | yt_fortune17 22.11. (geplant) -> nächstes fällig 25.11. Langvideo in Arbeit: –
+- Short-Termine (Stand 27.11.): … Brinks 25.11. | Brink's-Mat 27.11. (geplant) -> nächster fällig 29.11. (noch nicht gebaut), dann 01.12. …
+- Langvideo-Termine (Stand 27.11.): yt_heists18 25.11. | yt_treasure19 28.11. (geplant) | yt_found20 01.12. (geplant) -> nächstes fällig 04.12. Langvideo in Arbeit: –
 - Ideen-Vorrat Shorts: Fyre Festival 2017 | Ronaldo/Coca-Cola-Flaschen 2021 (-$4 Mrd. Börsenwert) | Mt. Gox | Lustig-ähnliche Betrüger.
 - Animations-Test: ys_pizza = komplett Code-gezeichnete Objekte (Pizza, Bitcoin-Münze, Röhrenmonitor, Handy) im Sky-Stil, kein Gemini (PC-Downloads nicht erreichbar). Mit Blockbuster (ebenfalls Code-Objekte) vergleichen.
 - 2026-11-16 13:45: ys_pizza FERTIG (mg-batch Run 43867215996, 25,9 s, Ø -20,6 dB / max -3,5 dB, Loop geprüft, Kontaktblätter angesehen: Endkarte überlappte mit Hook-Titel -> korrigiert, neu gerendert).
@@ -576,3 +576,18 @@
 - Erkenntnis: nichts Neues; Heists-CTR nach Thumbnail-Tausch (11:15) noch zu früh -> nächster Lauf.
 - Takt: nichts fällig. Short fällig 29.11. -> im Lauf 27./28.11. bauen (Figurenstil; Ideen: Lufthansa-Raub 1978 | Fyre Festival | Jahrestage prüfen). Langvideo fällig 01.12. – Start im Lauf 27.–29.11. (Thumbnail neu per Gemini, ein Objekt + Zahl).
 - Keine Korrekturen, nichts hochgeladen.
+
+## Lauf 2026-11-27 ~08:50–11:30 MEZ (Routine, Automatik)
+- Chrome erreichbar. Shorts: Brinks MIYMvDx4EOs 272 | Cooper 1.179 | Brücke 378 | Louvre 36 | Pizza 30 | Blockbuster 584. Brink's-Mat Q7XNnqpo0uc heute 27.11. 19:00 geplant (geprüft).
+- Langform: yt_heists18 77H2-Th4UcM seit Thumbnail-Tausch (26.11. 11:15): 99 Impressionen (vorher 91), CTR gesamt 2,0 % (vorher 1,1 %), 3 Aufrufe -> neues Gemini-Thumbnail hebt CTR, aber YouTube testet kaum an.
+- Erkenntnis: Gemini-Thumbnails (ein Objekt + große Zahl + Figur mit Emotion) verbessern die CTR; Engpass bleiben die Impressionen. Themen mit Alltagsmenschen + greifbarem Objekt + Summe (Fortune17: CTR 5,3 %) als Langvideo weiter verfolgen.
+- LANGVIDEO GEBAUT + GEPLANT: yt_found20 "6 People Who Found a Fortune by Accident (One Hung Over a Stove)" ID xsshCNLTbnM (5:44), öffentlich 01.12.2026 19:00 (GMT+1),
+  Gemini-Thumbnail "€24 MILLION / OVER HER STOVE" (Küche, leuchtendes Goldbild über Kochplatte, Oma mit Händen an den Wangen; mg/yt_found20/thumb_v2.jpg), Beschreibung mit 8 Kapiteln + Quellen + #treasure #history #money #art #truestory, nicht für Kinder.
+  Countdown: #6 £10-Ring (Car-Boot-Sale -> £656,750) | #5 $4-Bild mit Unabhängigkeitserklärung ($2,42M / $8,14M) | #4 Saddle Ridge Hoard (8 Dosen, 1.427 Goldmünzen, ~$10M) | #3 Hoxne Hoard (verlorener Hammer, £1,75M) | #2 Caravaggio im Dachboden Toulouse (bis €150M geschätzt, Preis geheim) | #1 Cimabue über der Kochplatte (€24M, Louvre) – Hook ab Sek. 0: Bild über Kochplatte + "€24 MILLION / HUNG IN HER KITCHEN".
+  Neu: Auktionssaal-Set (Publikum mit Bieter-Schildern, Podium, Staffelei, Preis-Bildschirm), Los-Tisch mit 6 Fundstücken als Liste/Outro, Car-Boot-Sale, Flohmarkt + zerfallender Rahmen + Dokument, Grundstück mit Hund (2D-SVG), Acker + Polizeiauto + British Museum, Dachboden mit Leck, Küche mit Dampf, Louvre-Saal. Quellen in mg/yt_found20/mk_project.py.
+  Sichtprüfung: Fake-TTS-Standbilder 2 Runden (Dachschräge verdeckte das Gemälde, Lampen-Kugeln als weiße Flecken, Kamera hinter der Staffelei -> Dokument spiegelverkehrt, Dampfkugeln vor dem Bild, Preis-Bildschirm außerhalb des Bildes u. a. korrigiert);
+  Render v1 mg-chunks Run 45963251085 (~50 Min) -> Kontaktblätter 1 Bild/s komplett angesehen: "EXPORT BLOCKED" 4 s auf leerem Hintergrund statt Louvre -> Einstellung neu gebaut, Abschnitt 324,2–330,3 s lokal mit der v1-Timeline neu gerendert und eingesetzt (Ton unverändert), nachgeprüft ok.
+  Ø -21,1 dB / max -3,3 dB. Neu kodiert auf 2,6 Mbit/s (117 MB), Upload 13 Teile + DataTransfer.
+- Technik-Lehre: file_upload erlaubt max. 10,4 MB PRO AUFRUF – auch in browser_batch zählt die Summe -> jeden Teil einzeln hochladen. Lokaler Abschnitts-Render: /tmp-Skript seg.js (setTimeline(echte timeline.json) + draw(f/30) + Screenshot) + ffmpeg trim/concat.
+- NÄCHSTE TERMINE: Short fällig 29.11. 19:00 – noch NICHT gebaut -> im nächsten Lauf (27.11. nachmittags oder 28.11.) bauen (Figurenstil; Ideen: Lufthansa-Raub 1978 (Jahrestag 11.12.) | Fyre Festival | Jahrestage prüfen). Nächstes Langvideo fällig 04.12. (Start 02./03.12.).
+- Auswertung nächster Lauf: Brink's-Mat-Short (27.11.), yt_treasure19 (28.11.), Heists-CTR.
