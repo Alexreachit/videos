@@ -1,0 +1,94 @@
+{
+ "title": "TikTok-Serie Bis zum Erdkern – Tag 10 (Deutsch)",
+ "_sources": "Zahlen von Alex; Erdradius ~6.370 km (Britannica).",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "elevenlabs:Alexander - Deep TV Narrator (erd12/voice; Zeile 9 aus erd07)",
+ "rate": "+16%",
+ "lead": 0.05,
+ "gap": 0.12,
+ "tail": 1.4,
+ "crf": 20,
+ "music": {
+  "style": "cinematic",
+  "bpm": 100,
+  "gain": 0.12,
+  "ambience": 0.0,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.55,
+ "lines": [
+  {
+   "text": "Tag 10: Wir graben ein Loch bis zum Erdkern!",
+   "spec": {
+    "type": "intro"
+   },
+   "say": "Tag zehn: Wir graben ein Loch bis zum Erdkern!"
+  },
+  {
+   "text": "Folgen: Arbeiter. Like: Schaufel. Share: fünf Schaufeln!",
+   "spec": {
+    "type": "rules"
+   }
+  },
+  {
+   "text": "Wir sind jetzt 869 Arbeiter!",
+   "spec": {
+    "type": "count"
+   },
+   "say": "Wir sind jetzt achthundertneunundsechzig Arbeiter!"
+  },
+  {
+   "text": "Neu dabei: london14! Willkommen am Loch!",
+   "spec": {
+    "type": "newest"
+   },
+   "say": "Neu dabei: London vierzehn! Willkommen am Loch!"
+  },
+  {
+   "text": "31 Likes, 12 Shares: 91 Schaufeln!",
+   "spec": {
+    "type": "calc"
+   },
+   "say": "Einunddreißig Likes, zwölf Shares: einundneunzig Schaufeln!"
+  },
+  {
+   "text": "Baldi sagt: Ich arbeite nicht kostenlos! Sein Lohn: ein Riesenbohrer!",
+   "spec": {
+    "type": "drill"
+   }
+  },
+  {
+   "text": "Bohrmeister rmin wirft ihn an: Er bohrt heute 10 Kilometer!",
+   "spec": {
+    "type": "turbo"
+   },
+   "say": "Bohrmeister Ermin wirft ihn an: Er bohrt heute zehn Kilometer!"
+  },
+  {
+   "text": "Heute 18,1 Kilometer. Jetzt sind wir über 150 Kilometer tief!",
+   "spec": {
+    "type": "desc"
+   },
+   "say": "Heute achtzehn Komma eins Kilometer. Jetzt sind wir über hundertfünfzig Kilometer tief!"
+  },
+  {
+   "text": "Noch über 6.210 Kilometer!",
+   "spec": {
+    "type": "earth"
+   },
+   "say": "Noch über sechstausendzweihundertzehn Kilometer!"
+  },
+  {
+   "text": "Was brauchen wir als Nächstes? Schreib es in die Kommentare!",
+   "spec": {
+    "type": "comment"
+   }
+  }
+ ]
+}
