@@ -1,1 +1,1 @@
-erd11/scene.py erd11p 978 912 samples=20 hrot=90
+erd12/scene.py erd12v 1168 0 samples=20 hrot=90
