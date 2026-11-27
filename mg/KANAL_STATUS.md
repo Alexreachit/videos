@@ -352,7 +352,7 @@
 
 ## AUTOMATIK-PLAN (Alex 2026-11-16 ~12:00: voll automatisch, keine Rückfragen)
 - Short alle 2 Tage, Langvideo alle 3 Tage; selbst auswählen, bauen, hochladen, öffentlich 19:00 planen.
-- Short-Termine (Stand 27.11. abends): … Brinks 25.11. | Brink's-Mat 27.11. (geplant) | ys_fyre 29.11. (GEBAUT, Upload ausstehend – Chrome weg) -> dann 01.12. …
+- Short-Termine (Stand 27.11. abends): … Brinks 25.11. | Brink's-Mat 27.11. (geplant) | ys_fyre v1QJSStIPnE 29.11. (geplant) -> dann 01.12. …
 - Langvideo-Termine (Stand 27.11.): yt_heists18 25.11. | yt_treasure19 28.11. (geplant) | yt_found20 01.12. (geplant) -> nächstes fällig 04.12. Langvideo in Arbeit: –
 - Ideen-Vorrat Shorts: Fyre Festival 2017 | Ronaldo/Coca-Cola-Flaschen 2021 (-$4 Mrd. Börsenwert) | Mt. Gox | Lustig-ähnliche Betrüger.
 - Animations-Test: ys_pizza = komplett Code-gezeichnete Objekte (Pizza, Bitcoin-Münze, Röhrenmonitor, Handy) im Sky-Stil, kein Gemini (PC-Downloads nicht erreichbar). Mit Blockbuster (ebenfalls Code-Objekte) vergleichen.
@@ -607,3 +607,5 @@
   -> NÄCHSTER LAUF ZUERST: renders/ys_fyre/ys_fyre_final.mp4 holen, 2-Pass 2050k kodieren (9,2 MB), hochladen, öffentlich 29.11. 19:00 planen (falls 29.11. 19:00 schon vorbei: nächster 19:00-Termin).
 - NÄCHSTE TERMINE: Short ys_fyre 29.11. (Upload offen), nächster Short fällig 01.12. (Ideen: Lufthansa-Raub 1978 (Jahrestag 11.12. -> evtl. auf 11.12. legen) | Mt. Gox | Jahrestage prüfen). Langvideo fällig 04.12. (Start 02./03.12.).
 - Auswertung nächster Lauf: Brink's-Mat (27.11.), yt_treasure19 (28.11.), Heists-CTR.
+- NACHTRAG ~18:05 (Alex live "jetzt"): Chrome wieder da -> ys_fyre hochgeladen: ID v1QJSStIPnE, öffentlich 29.11.2026 19:00 geplant ("Veröffentlichungszeitpunkt festgelegt"),
+  nicht für Kinder, Titel + Beschreibung (3 Quellen, #fyrefestival #scam #truestory #history #shorts) per JS geprüft. Upload-Punkt oben damit erledigt.
