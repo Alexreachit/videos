@@ -1,0 +1,965 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:IB;src:url(fonts/Inter-Black.otf);font-weight:900}
+@font-face{font-family:P;src:url(fonts/Poppins-Bold.ttf);font-weight:700}
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#1a2340}
+#stage{position:absolute;inset:0;overflow:hidden}
+#bg{position:absolute;inset:0}
+canvas{position:absolute;left:0;top:0;width:1920px;height:1080px}
+#ov,#ui,#fx{position:absolute;inset:0}
+#fx{z-index:3000}#ui{z-index:5000}
+.pill{position:absolute;font-family:IB,P,Arial;font-weight:900;border:6px solid #232838;border-radius:20px;padding:6px 26px;box-shadow:0 8px 0 #2328384d;white-space:nowrap}
+</style></head><body><div id="stage"><div id="bg"></div><canvas id="cv"></canvas><div id="ov"></div><div id="fx"></div><div id="ui"></div></div>
+<script src="../lib/core.js"></script><script src="../lib/mapdata.js"></script><script src="../lib/gl3d.js"></script><script src="../lib/samrig.js"></script>
+<script>
+// ===================== YT20 Found a Fortune – Basis (gl3d Toon + 2D-Figuren) =====================
+const W = 1920, H = 1080, G = GL3D, {cl, ez, ei, bo, lerp} = MG;
+const $ = id => document.getElementById(id);
+const OL = '#232838', PI = Math.PI;
+const shadowTxt = (c = OL, r = 5) => MG.outline(r).replace(/#000/g, c);
+const w = G.World($('cv'), W, H, 1.5);
+w.toon = true; w.rim = .34; w.outline = .0017;
+const at = (g, p, r = [0, 0, 0], s = [1, 1, 1]) => [g, G.m4.compose(p, r, s)];
+function merge(list) { const g = new G.Geo(); list.forEach(([a, m]) => g.add(a, m)); return g }
+// ---------- Sets: jedes Set an eigenem Ort, nur das aktive ist sichtbar ----------
+const SETS = {};
+function mk(set, geo, o = {}) { const m = w.mesh(geo, o); (SETS[set] || (SETS[set] = [])).push(m); m._v = o.vis ?? true; return m }
+function showSet(name) { for (const k in SETS) SETS[k].forEach(m => { if (k != name) m.vis = false; else if (m._auto !== false) m.vis = m._v }) }
+function tex(wd, ht, fn) { const c = document.createElement('canvas'); c.width = wd; c.height = ht; fn(c.getContext('2d'), wd, ht); return w.texture(c) }
+const TEXQ = [];
+function texPlane(set, wd, ht, fn, o = {}) { const m = mk(set, G.plane(wd, ht, 1, 1, '#ffffff'), Object.assign({ outline: false, cast: false }, o)); TEXQ.push(() => m.tex = fn()); return m }
+// Licht-Stimmungen
+const LIGHT = {
+  deep: { sun: [.2, .95, .2], sunCol: '#a8e4ff', sky: '#3a8ac0', gnd: '#1a3a5a', fog: '#0b2a48', fogN: 10, fogF: 60, shCol: '#1a3a70', bg: 'linear-gradient(#0d3a66 0%,#082646 60%,#051a33 100%)' },
+  amber: { sun: [.3, .85, .45], sunCol: '#ffe2a8', sky: '#ffd9a0', gnd: '#8a5a2a', fog: '#6a4426', fogN: 60, fogF: 200, shCol: '#a0603a', bg: '#4a2e1a' },
+  storm: { sun: [.6, .5, .4], sunCol: '#ffc890', sky: '#c9a8a0', gnd: '#5a5a6a', fog: '#8a7a86', fogN: 60, fogF: 260, shCol: '#6a5a8a', bg: 'linear-gradient(#3a3a5a 0%,#8a6a7a 45%,#f0a070 75%,#f6c890 100%)' },
+  night: { sun: [.4, .7, .5], sunCol: '#9fb2ec', sky: '#2c3a6e', gnd: '#202640', fog: '#1d2748', fogN: 40, fogF: 160, shCol: '#3a3f78', bg: 'radial-gradient(ellipse at 70% 20%,#3d4f8f 0%,#1d2748 55%,#141a33 100%)' },
+  indoorWarm: { sun: [.3, .85, .45], sunCol: '#ffe6c0', sky: '#f3dcc0', gnd: '#7a5a44', fog: '#4a3a34', fogN: 60, fogF: 200, shCol: '#8a6a8a', bg: '#3a2c2a' },
+  indoorDark: { sun: [.3, .85, .45], sunCol: '#b6c0e6', sky: '#6a74a0', gnd: '#2a2c40', fog: '#22263a', fogN: 40, fogF: 140, shCol: '#454a80', bg: '#1c2033' },
+  day: { sun: [.55, .75, .35], sunCol: '#fff1d6', sky: '#cfe9ff', gnd: '#b9a27a', fog: '#cfe6f6', fogN: 70, fogF: 260, shCol: '#8c9be0', bg: 'linear-gradient(#7fb6ea 0%,#bfe0f8 55%,#e8f3fb 100%)' },
+  vault: { sun: [.3, .85, .45], sunCol: '#eef2ff', sky: '#c4cce6', gnd: '#5a5e70', fog: '#3a4058', fogN: 50, fogF: 160, shCol: '#7a84b8', bg: '#2a3044' },
+  dusk: { sun: [.62, .45, .4], sunCol: '#ffd9a8', sky: '#f2c9a0', gnd: '#8a7a66', fog: '#e8c4a4', fogN: 60, fogF: 240, shCol: '#7f86c8', bg: 'linear-gradient(#5a7fc6 0%,#b9b6d6 40%,#f6cfa0 70%,#f3b27a 100%)' },
+};
+function setLight(k) { const L = LIGHT[k]; w.sun = G.v.norm(L.sun); w.sunCol = G.hex(L.sunCol); w.sky = G.hex(L.sky); w.gnd = G.hex(L.gnd); w.fog = G.hex(L.fog); w.fogN = L.fogN; w.fogF = L.fogF; w.shCol = G.hex(L.shCol); $('bg').style.background = L.bg }
+// ---------- Figuren (2D-SVG, wie ys_bridge) ----------
+const HAT = {
+  cap: `<path d="M38,50 Q38,8 100,6 Q162,8 162,50 Q100,40 38,50Z" fill="#8a6a4a" stroke="${OL}" stroke-width="6"/><path d="M128,44 Q176,40 188,56 Q150,62 124,54Z" fill="#6e523a" stroke="${OL}" stroke-width="6" stroke-linejoin="round"/>`,
+  cop: `<path d="M36,44 L42,4 Q100,-10 158,4 L164,44 Z" fill="#1b2f6b" stroke="${OL}" stroke-width="6" stroke-linejoin="round"/><circle cx="100" cy="24" r="10" fill="#ffd166" stroke="${OL}" stroke-width="4"/><path d="M40,42 Q100,60 160,42 L156,52 Q100,70 44,52Z" fill="#11131c" stroke="${OL}" stroke-width="4"/>`,
+  beanie: `<path d="M40,52 Q36,2 100,0 Q164,2 160,52 Q100,42 40,52Z" fill="#2a2a33" stroke="${OL}" stroke-width="6"/><rect x="40" y="40" width="120" height="16" rx="6" fill="#3a3a46" stroke="${OL}" stroke-width="5"/>`,
+  balaclava: `<path d="M38,96 Q30,10 100,14 Q170,10 162,96 Q164,150 100,152 Q36,150 38,96Z" fill="#23232c" stroke="${OL}" stroke-width="6"/><rect x="62" y="70" width="78" height="30" rx="14" fill="#f7e4b5" stroke="${OL}" stroke-width="4"/>`,
+  driver: `<path d="M40,48 Q40,12 100,10 Q160,12 160,48 Z" fill="#2c3550" stroke="${OL}" stroke-width="6"/><path d="M36,44 L164,44 L170,56 L30,56Z" fill="#1b2236" stroke="${OL}" stroke-width="5" stroke-linejoin="round"/>`,
+  guard: `<path d="M38,46 Q40,8 100,6 Q160,8 162,46 Z" fill="#5a6070" stroke="${OL}" stroke-width="6"/><path d="M34,42 Q100,60 166,42 L162,54 Q100,70 38,54Z" fill="#2a2e3a" stroke="${OL}" stroke-width="4"/>`,
+  detective: `<path d="M46,48 Q42,2 100,0 Q158,2 154,48Z" fill="#a07a4a" stroke="${OL}" stroke-width="6"/><path d="M30,48 Q100,34 170,48 Q172,60 100,58 Q28,60 30,48Z" fill="#8a6438" stroke="${OL}" stroke-width="5"/>`,
+  grey: `<path d="M50,40 Q60,14 100,16 Q140,14 150,40 Q130,28 100,30 Q70,28 50,40Z" fill="#e8e8ee" stroke="${OL}" stroke-width="5"/>`,
+};
+const MID = {
+  tie: `<path d="M84,150 L100,176 L116,150Z" fill="#fff" stroke="${OL}" stroke-width="3"/><path d="M100,160 L92,176 L100,214 L108,176Z" fill="#c0303a" stroke="${OL}" stroke-width="3"/>`,
+  buttons: `<circle cx="100" cy="178" r="5" fill="#ffd166" stroke="${OL}" stroke-width="2"/><circle cx="100" cy="200" r="5" fill="#ffd166" stroke="${OL}" stroke-width="2"/><circle cx="100" cy="222" r="5" fill="#ffd166" stroke="${OL}" stroke-width="2"/>`,
+  badge: `<path d="M112,168 l10,0 l4,8 l-4,8 l-10,0 l-4,-8z" fill="#ffd166" stroke="${OL}" stroke-width="3"/>`,
+  stripes: `<rect x="56" y="176" width="88" height="10" fill="#555"/><rect x="54" y="206" width="92" height="10" fill="#555"/>`,
+};
+const SWEAT = `<path d="M160,40 Q172,62 160,70 Q148,62 160,40Z" fill="#8fd3ff" stroke="${OL}" stroke-width="4"/>`;
+const LOOK = {
+  sam: { hat: HAT.cap },
+  thief: { sw: '#2b2b36', swd: '#1e1e28', pa: '#2f2f3a', hat: HAT.beanie },
+  mask: { sw: '#2b2b36', swd: '#1e1e28', pa: '#2f2f3a', hat: HAT.balaclava },
+  cop: { sw: '#22408e', swd: '#183070', pa: '#1a2a55', hat: HAT.cop, mid: MID.buttons },
+  fakecop: { sw: '#22408e', swd: '#183070', pa: '#1a2a55', hat: HAT.cop, mid: MID.buttons },
+  guard: { sw: '#6a7080', swd: '#555a68', pa: '#3a3e4a', hat: HAT.guard, mid: MID.badge },
+  driver: { sw: '#2c3550', swd: '#1f273d', pa: '#2a3045', hat: HAT.driver },
+  smock: { sw: '#f2f2ea', swd: '#d6d6cc', pa: '#5a4a3a' },
+  suit: { sw: '#3a3f55', swd: '#2c3044', pa: '#2c3044', mid: MID.tie },
+  old: { sw: '#6b5a4a', swd: '#57483a', pa: '#3e3a36', hat: HAT.grey },
+  prisoner: { sw: '#d0d0d0', swd: '#9a9a9a', pa: '#9a9a9a', mid: MID.stripes },
+  det: { sw: '#a07a4a', swd: '#8a6438', pa: '#5e4a36', hat: HAT.detective },
+};
+// p: Fusspunkt in 3D, H3: Figurenhoehe in Welt-Einheiten
+function fig(p, who, o = {}, H3 = 1.75) {
+  const q = w.project(p); if (!q.vis) return '';
+  const s = q.s * H3 / 350 * 240;
+  const oo = Object.assign({}, LOOK[who] || {}, o);
+  if (o.sweat) oo.hat = (oo.hat || '') + SWEAT;
+  return `<div style="position:absolute;left:${(q.x - s / 240 * 120).toFixed(1)}px;top:${(q.y - s / 240 * 342).toFixed(1)}px;width:${s.toFixed(1)}px;z-index:${Math.round(1000 - q.z)}">${MG_SAM.svg(Object.assign(oo, { w: s }))}</div>`;
+}
+const walk = (t, sp = 9) => ({ legL: .35 * Math.sin(t * sp), legR: -.35 * Math.sin(t * sp), bob: Math.abs(Math.sin(t * sp)) * 6 });
+const tk = (t, i) => MG_SAM.talk(t, MG.L(i)), bl = (t, k) => MG_SAM.blink(t + k);
+// Requisiten (SVG in der Hand)
+const PROP = {
+  sack: `<g transform="translate(-30,-10)"><path d="M6,0 Q30,-10 54,0 L60,56 Q30,66 0,56Z" fill="#c9b48a" stroke="${OL}" stroke-width="5"/><path d="M14,8 Q30,2 46,8" stroke="${OL}" stroke-width="4" fill="none"/><text x="30" y="42" text-anchor="middle" font-family="IB,Arial" font-weight="900" font-size="20" fill="#7a5a2a">£</text></g>`,
+  cash: `<g transform="translate(-34,-22) rotate(-10)"><rect x="0" y="0" width="68" height="40" rx="5" fill="#5fb06a" stroke="${OL}" stroke-width="5"/><rect x="28" y="0" width="12" height="40" fill="#f4efe2" stroke="${OL}" stroke-width="3"/></g>`,
+  glove: `<g transform="translate(-20,-26)"><path d="M6,40 L4,14 Q4,6 10,6 L12,26 L14,2 Q20,-2 22,4 L22,24 L26,4 Q32,0 34,6 L32,26 L38,10 Q44,8 44,14 L38,44 Q30,54 14,52Z" fill="#6b4a2e" stroke="${OL}" stroke-width="4"/></g>`,
+  cosh: a => `<g transform="rotate(${a})"><rect x="-6" y="-62" width="12" height="70" rx="6" fill="#3a3a44" stroke="${OL}" stroke-width="4"/></g>`,
+  magnifier: `<g transform="translate(-4,-6) rotate(-20)"><rect x="-6" y="0" width="12" height="46" rx="5" fill="#8a5a32" stroke="${OL}" stroke-width="4"/><circle cx="0" cy="-28" r="30" fill="#bfe6ff88" stroke="${OL}" stroke-width="7"/><circle cx="-8" cy="-36" r="8" fill="#fff" opacity=".7"/></g>`,
+  drill: `<g transform="translate(-10,-20)"><rect x="0" y="0" width="70" height="34" rx="8" fill="#e0303a" stroke="${OL}" stroke-width="5"/><rect x="66" y="10" width="44" height="12" fill="#c9ccd4" stroke="${OL}" stroke-width="4"/><rect x="14" y="30" width="18" height="34" rx="5" fill="#2a2a33" stroke="${OL}" stroke-width="4"/></g>`,
+  axe: a => `<g transform="rotate(${a})"><rect x="-5" y="-80" width="10" height="90" rx="4" fill="#a0703a" stroke="${OL}" stroke-width="4"/><path d="M4,-82 L34,-92 Q42,-70 34,-50 L4,-58Z" fill="#c9ccd4" stroke="${OL}" stroke-width="5" stroke-linejoin="round"/></g>`,
+  painting: `<g transform="translate(-50,-80)"><rect x="0" y="0" width="100" height="80" rx="3" fill="#2e4a6a" stroke="#c9a23c" stroke-width="9"/><path d="M14,58 Q40,30 60,50 Q76,30 88,58Z" fill="#e8d8a8"/></g>`,
+  bag: `<g transform="translate(-34,-6)"><path d="M4,10 Q34,-4 64,10 L68,58 Q34,68 0,58Z" fill="#2a2a33" stroke="${OL}" stroke-width="5"/><path d="M20,10 Q34,-14 48,10" stroke="${OL}" stroke-width="5" fill="none"/></g>`,
+  sandwich: `<g transform="translate(-30,-16)"><path d="M0,20 Q30,0 60,20 L60,30 Q30,22 0,30Z" fill="#e8b866" stroke="${OL}" stroke-width="4"/><rect x="2" y="26" width="56" height="6" fill="#d64545"/><path d="M0,34 Q30,28 60,34 L58,42 Q30,48 2,42Z" fill="#e8b866" stroke="${OL}" stroke-width="4"/></g>`,
+  spray: `<g transform="translate(-10,-40)"><rect x="0" y="10" width="22" height="46" rx="5" fill="#d35fa0" stroke="${OL}" stroke-width="4"/><rect x="5" y="0" width="12" height="12" fill="#c9ccd4" stroke="${OL}" stroke-width="3"/></g>`,
+};
+// ---------- UI-Helfer ----------
+const pop = (t, t0, d = .35) => bo(cl(t, t0, t0 + d));
+const fade = (t, t0, t1) => 1 - ez(cl(t, t0, t1));
+function stampAt(x, y, t, t0, txt, col, size = 110, rot = -8, t1 = 1e9) {
+  if (t < t0 || t > t1) return '';
+  return `<div style="position:absolute;left:${x}px;top:${y}px;transform:translate(-50%,-50%) rotate(${rot}deg) scale(${lerp(2.4, 1, ez(cl(t, t0, t0 + .15))) * fade(t, t1 - .2, t1)});border:11px solid ${col};border-radius:22px;padding:2px 30px;color:${col};background:#ffffffe0;font:900 ${size}px/1.0 IB,Arial;white-space:nowrap;z-index:2000">${txt}</div>`;
+}
+const PILL = (txt, bg, col = '#fff', fs = 44) => `<div class="pill" style="position:relative;display:inline-block;font-size:${fs}px;color:${col};background:${bg};${col == '#fff' ? 'text-shadow:' + shadowTxt(OL, 3) : ''}">${txt}</div>`;
+function pillAt(x, y, t, t0, t1, txt, bg, col = '#fff', fs = 44) {
+  if (t < t0 || t > t1) return '';
+  return `<div style="position:absolute;left:${x}px;top:${y}px;transform:translate(-50%,-50%) scale(${pop(t, t0) * fade(t, t1 - .2, t1)});z-index:2200">${PILL(txt, bg, col, fs)}</div>`;
+}
+function labelAt(p, html, t, t0, t1) {
+  if (t < t0 || t > t1) return ''; const q = w.project(p); if (!q.vis) return '';
+  const k = pop(t, t0, .4) * fade(t, t1 - .2, t1);
+  return `<div style="position:absolute;left:${q.x}px;top:${q.y}px;transform:translate(-50%,-100%) scale(${k});transform-origin:50% 100%;z-index:2100">${html}</div>`;
+}
+function bigText(x, y, t, t0, t1, html, size = 120, col = '#fff', rot = 0) {
+  if (t < t0 || t > t1) return '';
+  return `<div style="position:absolute;left:${x}px;top:${y}px;transform:translate(-50%,-50%) rotate(${rot}deg) scale(${pop(t, t0, .4) * fade(t, t1 - .2, t1)});font:900 ${size}px/1.02 IB,Arial;color:${col};text-align:center;white-space:nowrap;text-shadow:${shadowTxt(OL, 7)},0 10px 22px #0007;z-index:2300">${html}</div>`;
+}
+// Zaehler: v0->v1 zwischen ta..tb
+function counter(x, y, t, t0, t1, ta, tb, v0, v1, fmt, bg = '#35a862', col = '#fff', fs = 70) {
+  if (t < t0 || t > t1) return '';
+  const v = lerp(v0, v1, ez(cl(t, ta, tb)));
+  return pillAt(x, y, t, t0, t1, fmt(v), bg, col, fs);
+}
+// ---------- Timeline ----------
+const Lt = i => MG.L(i);
+const NL = () => MG.TL.lines.length;
+const SPEC = i => MG.TL.lines[i].spec || {};
+function wt(i, re, end) { const l = Lt(i); if (!l.words) return l.start; for (const x of l.words) if (re.test(x[0])) return l.start + (end ? x[2] : x[1]); return l.start + (l.end - l.start) * .4 }
+const nextStart = i => i + 1 < NL() ? Lt(i + 1).start : MG.TL.dur + 1;
+function lineAt(t) { let k = 0; for (let i = 0; i < NL(); i++) if (t >= Lt(i).start - .001) k = i; return k }
+const X = (p, dx, dy, dz) => [p[0] + dx, p[1] + dy, p[2] + dz];
+// SHOT-Registry: SHOT[name] = { set, light, cam(i)->[{t0,a,b}] oder {a,b}, upd(t,i,u), figs(t,i,u)->html, ui(t,i,u)->html, sfx(i)->[] }
+const SHOT = {};
+function camOf(i) {
+  const s = SHOT[SPEC(i).shot]; if (!s) return [{ t0: Lt(i).start, a: { pos: [0, 5, 20], at: [0, 1, 0], fov: 45 }, b: { pos: [0, 5, 20], at: [0, 1, 0], fov: 45 } }];
+  let c = s.cam(i); if (!Array.isArray(c)) c = [Object.assign({ t0: Lt(i).start }, c)];
+  return c;
+}
+let CAMS = null;
+function camAt(t) {
+  const i = lineAt(t), c = CAMS[i]; let k = 0; c.forEach((x, j) => { if (t >= x.t0 - .001) k = j });
+  const s = c[k], t1 = k + 1 < c.length ? c[k + 1].t0 : nextStart(i), u = ei(cl(t, s.t0, t1));
+  return { pos: G.v.lerp(s.a.pos, s.b.pos, u), at: G.v.lerp(s.a.at, s.b.at, u), fov: lerp(s.a.fov, s.b.fov, u) };
+}
+function cutTimes() { const r = []; for (let i = 1; i < NL(); i++) r.push(Lt(i).start); CAMS.forEach(c => c.slice(1).forEach(x => r.push(x.t0))); return r }
+// Kapitel-Karte (#6 ... #1) + kleines Kapitel-Label oben links
+const CHAP = [];   // {i, n, title, year, place}
+function chapterUI(t) {
+  let h = ''; let cur = null; CHAP.forEach(c => { if (t >= Lt(c.i).start) cur = c });
+  if (!cur) return '';
+  const t0 = Lt(cur.i).start, big = t < t0 + 2.6;
+  if (big) {
+    const k = pop(t, t0 + .05, .45), o = fade(t, t0 + 2.3, t0 + 2.6);
+    h += `<div style="position:absolute;left:0;right:0;top:120px;text-align:center;opacity:${o};z-index:2400">
+      <div style="display:inline-block;transform:scale(${k}) rotate(-3deg);font:900 230px/1 IB,Arial;color:#ffd166;text-shadow:${shadowTxt(OL, 10)},0 16px 30px #0008">#${cur.n}</div>
+      <div style="margin-top:8px;transform:scale(${pop(t, t0 + .35, .4)});font:900 78px/1.05 IB,Arial;color:#fff;text-shadow:${shadowTxt(OL, 7)}">${cur.title}</div></div>`;
+  } else {
+    const k = ez(cl(t, t0 + 2.4, t0 + 2.8));
+    h += `<div style="position:absolute;left:40px;top:34px;opacity:${k};z-index:2400;display:flex;gap:14px;align-items:center">
+      <div style="font:900 64px/1 IB,Arial;color:#ffd166;text-shadow:${shadowTxt(OL, 5)}">#${cur.n}</div>
+      ${PILL(cur.place + ' · ' + cur.year, '#232838cc', '#fff', 34)}</div>`;
+  }
+  return h;
+}
+// ===================== Helfer fuer kompakte Shots =====================
+const cm = (pos, at, fov = 48) => ({ pos, at, fov });
+const mv = (a, b) => ({ a, b });                  // Kamerafahrt a->b ueber die Zeile
+// zweiteilige Einstellung: Schnitt beim Wort re
+const cut2 = (i, re, a1, b1, a2, b2) => [{ t0: Lt(i).start, a: a1, b: b1 }, { t0: wt(i, re) - .15, a: a2, b: b2 }];
+function seaGrid(set, cx, cz, size, step, col, o = {}, sz = size) {
+  const g = new G.Geo(), k = G.hex(col), n = Math.round(size / step), m = Math.round(sz / step);
+  for (let i = 0; i < n; i++) for (let j = 0; j < m; j++) { const x0 = cx - size / 2 + i * step, z0 = cz - sz / 2 + j * step, x1 = x0 + step, z1 = z0 + step;
+    g.tri([x0, 0, z0], [x0, 0, z1], [x1, 0, z1], k); g.tri([x0, 0, z0], [x1, 0, z1], [x1, 0, z0], k) }
+  return mk(set, g, Object.assign({ wave: .22, cast: false, recv: true, outline: false }, o));
+}
+const tree = (x, z, s = 1, c = '#2f6a3a', k = 0) => [at(G.cyl(.25 * s, .2 * s, 2.4 * s, 8, '#5a3a26'), [x, 0, z]), at(G.cyl(1.7 * s, .08, 4.2 * s, 9, c), [x, 2 * s, z]), at(G.cyl(1.3 * s, .06, 3.2 * s, 9, c), [x, 3.6 * s, z])];
+const leafy = (x, z, s = 1, c = '#3a7a3a') => [at(G.cyl(.3 * s, .24 * s, 3 * s, 8, '#5a3a26'), [x, 0, z]), at(G.ico(1.9 * s, 2, c), [x, 3.8 * s, z]), at(G.ico(1.4 * s, 2, c), [x + .9 * s, 4.4 * s, z + .3 * s])];
+// ===================== Gemeinsame Objekte + Texturen =====================
+// Gemaelde-Texturen (stilisiert, keine Kopien): Ikone auf Goldgrund (Cimabue), dunkles Barockbild (Caravaggio), triste Landschaft (Flohmarkt), Unabhaengigkeitserklaerung
+function paintIcon() { return tex(512, 660, (x, wd, ht) => {
+  const g = x.createLinearGradient(0, 0, wd, ht); g.addColorStop(0, '#f6d26a'); g.addColorStop(.5, '#d9a93a'); g.addColorStop(1, '#f0c450'); x.fillStyle = g; x.fillRect(0, 0, wd, ht);
+  x.fillStyle = '#5a3a22'; x.fillRect(0, ht * .78, wd, ht * .22);
+  // Mittelfigur mit Heiligenschein + blauem Mantel
+  x.fillStyle = '#ffe9a0'; x.beginPath(); x.arc(wd / 2, ht * .3, 70, 0, 7); x.fill(); x.strokeStyle = '#a8741a'; x.lineWidth = 6; x.stroke();
+  x.fillStyle = '#f1d2b0'; x.beginPath(); x.arc(wd / 2, ht * .3, 40, 0, 7); x.fill();
+  x.fillStyle = '#2a4aa0'; x.beginPath(); x.moveTo(wd / 2 - 70, ht * .82); x.quadraticCurveTo(wd / 2, ht * .32, wd / 2 + 70, ht * .82); x.fill();
+  x.fillStyle = '#b8323a'; x.beginPath(); x.moveTo(wd / 2 - 30, ht * .8); x.quadraticCurveTo(wd / 2, ht * .45, wd / 2 + 30, ht * .8); x.fill();
+  // Seitenfiguren
+  [[.16, '#7a3a8a'], [.3, '#3a7a5a'], [.7, '#9a5a2a'], [.84, '#4a5a8a']].forEach(([u, c], k) => { const cx = wd * u, cy = ht * (.42 + (k % 2) * .05);
+    x.fillStyle = '#e8c8a0'; x.beginPath(); x.arc(cx, cy, 24, 0, 7); x.fill(); x.fillStyle = c; x.beginPath(); x.moveTo(cx - 40, ht * .8); x.quadraticCurveTo(cx, cy, cx + 40, ht * .8); x.fill() });
+  x.strokeStyle = '#8a5a1a'; x.lineWidth = 18; x.strokeRect(9, 9, wd - 18, ht - 18);
+}) }
+function paintBaroque() { return tex(800, 640, (x, wd, ht) => {
+  const g = x.createRadialGradient(wd * .45, ht * .4, 40, wd * .5, ht * .5, 600); g.addColorStop(0, '#9a6a40'); g.addColorStop(1, '#2a1a10'); x.fillStyle = g; x.fillRect(0, 0, wd, ht);
+  x.fillStyle = '#8a1a1a'; x.beginPath(); x.moveTo(0, 0); x.lineTo(wd * .6, 0); x.quadraticCurveTo(wd * .3, ht * .2, wd * .1, ht * .45); x.lineTo(0, ht * .5); x.fill();
+  [[.32, .38, '#f2d8b8'], [.58, .34, '#e8c4a0'], [.74, .42, '#c9a07a']].forEach(([u, v, c]) => { x.fillStyle = c; x.beginPath(); x.arc(wd * u, ht * v, 46, 0, 7); x.fill() });
+  x.fillStyle = '#e8e0d0'; x.beginPath(); x.moveTo(wd * .48, ht * .45); x.quadraticCurveTo(wd * .6, ht * .7, wd * .52, ht); x.lineTo(wd * .78, ht); x.quadraticCurveTo(wd * .7, ht * .6, wd * .66, ht * .45); x.fill();
+  x.fillStyle = '#3a2a1e'; x.fillRect(wd * .2, ht * .55, wd * .22, ht * .45);
+  x.fillStyle = '#ffffff10'; for (let k = 0; k < 400; k++) x.fillRect(G.hash(k) * wd, G.hash(k, 1) * ht, 3, 3);
+}) }
+function paintLand() { return tex(640, 480, (x, wd, ht) => {
+  x.fillStyle = '#9aa6a0'; x.fillRect(0, 0, wd, ht * .55); x.fillStyle = '#6a7458'; x.fillRect(0, ht * .55, wd, ht * .45);
+  x.fillStyle = '#5a5a4a'; x.beginPath(); x.moveTo(0, ht * .6); x.quadraticCurveTo(wd * .3, ht * .35, wd * .6, ht * .58); x.quadraticCurveTo(wd * .8, ht * .45, wd, ht * .6); x.lineTo(wd, ht); x.lineTo(0, ht); x.fill();
+  x.fillStyle = '#7a5a40'; x.fillRect(wd * .62, ht * .5, 70, 50); x.fillStyle = '#5a3a2a'; x.beginPath(); x.moveTo(wd * .6, ht * .5); x.lineTo(wd * .62 + 35, ht * .4); x.lineTo(wd * .62 + 80, ht * .5); x.fill();
+  x.fillStyle = '#3e4a34'; [.15, .22, .85].forEach(u => { x.beginPath(); x.arc(wd * u, ht * .55, 34, 0, 7); x.fill() });
+}) }
+function paintDecl() { return tex(600, 760, (x, wd, ht) => {
+  x.fillStyle = '#efe2c0'; x.fillRect(0, 0, wd, ht); x.fillStyle = '#e0cfa4'; for (let k = 0; k < 3; k++) x.fillRect(0, ht * (k + 1) / 4 - 2, wd, 4);
+  x.fillStyle = '#2a2420'; x.textAlign = 'center'; x.font = '900 34px IB,Arial'; x.fillText('IN CONGRESS, JULY 4, 1776.', wd / 2, 64);
+  x.font = '900 40px IB,Arial'; x.fillText('A DECLARATION', wd / 2, 124); x.font = '700 22px P,Arial'; x.fillText('BY THE REPRESENTATIVES OF THE', wd / 2, 160);
+  x.font = '900 30px IB,Arial'; x.fillText('UNITED STATES OF AMERICA,', wd / 2, 200);
+  x.fillStyle = '#4a4038'; for (let k = 0; k < 2; k++) for (let r = 0; r < 26; r++) x.fillRect(30 + k * 280, 236 + r * 19, 250 - G.hash(r, k) * 50, 7);
+}) }
+// Gold-Requisiten
+const ringGeo = () => merge([at(G.cyl(.075, .075, .035, 20, '#f0c040', { open: true }), [0, 0, 0], [PI / 2, 0, 0]), at(G.cyl(.06, .06, .036, 20, '#d8a830', { open: true }), [0, 0, 0], [PI / 2, 0, 0]),
+  at(G.ico(.06, 1, '#eaf6ff', 0, 1, .8), [0, .1, 0])]);
+const coinPile = (n, r, seed = 0, col = '#ffcc44') => merge([...Array(n)].map((_, k) => { const a = G.hash(k, seed) * 6.28, d = Math.sqrt(G.hash(k, seed + 1)) * r;
+  return at(G.cyl(.06, .06, .02, 10, k % 7 ? col : '#d8dde6'), [Math.cos(a) * d, .01 + (r - d) * .5 * G.hash(k, seed + 2), Math.sin(a) * d], [G.hash(k, 4) * .6, 0, G.hash(k, 5) * .6]) }));
+const canGeo = () => merge([at(G.cyl(.16, .16, .36, 14, '#8a4a26'), [0, 0, 0]), at(G.cyl(.17, .17, .04, 14, '#6a3a1e'), [0, .34, 0])]);
+const hammerGeo = () => merge([at(G.cyl(.03, .03, .55, 8, '#a0703a'), [0, 0, 0], [0, 0, PI / 2]), at(G.box(.08, .1, .2, '#7a7f8c', { base: true }), [.28, -.05, 0])]);
+LOOK.auctioneer = { sw: '#2a2f45', swd: '#20243a', pa: '#20243a', mid: MID.tie };
+LOOK.lady = { sw: '#c0508a', swd: '#a03a70', pa: '#3a3f55', hat: `<path d="M44,60 Q30,0 100,-2 Q170,0 156,60 Q150,30 100,26 Q50,30 44,60Z" fill="#7a4a2a" stroke="${OL}" stroke-width="5"/>` };
+LOOK.bidder = { sw: '#4a6a8a', swd: '#3a5a78', pa: '#2c3044', mid: MID.tie };
+LOOK.bidder2 = { sw: '#8a4a5a', swd: '#723a4a', pa: '#2c3044' };
+LOOK.bidder3 = { sw: '#5a7a4a', swd: '#4a6a3a', pa: '#3a3f55', hat: HAT.grey };
+LOOK.expert = { sw: '#3a3f55', swd: '#2c3044', pa: '#2c3044', mid: MID.tie, hat: `<circle cx="78" cy="96" r="20" fill="none" stroke="${OL}" stroke-width="6"/><circle cx="124" cy="96" r="20" fill="none" stroke="${OL}" stroke-width="6"/><path d="M98,96 L104,96" stroke="${OL}" stroke-width="6"/>` };
+PROP.gavel = a => `<g transform="rotate(${a})"><rect x="-5" y="-46" width="10" height="52" rx="4" fill="#8a5a32" stroke="${OL}" stroke-width="4"/><rect x="-22" y="-62" width="44" height="22" rx="7" fill="#6a3a1e" stroke="${OL}" stroke-width="5"/></g>`;
+PROP.paddle = n => `<g transform="translate(-4,-10)"><rect x="-4" y="-6" width="8" height="40" fill="#8a5a32" stroke="${OL}" stroke-width="3"/><circle cx="0" cy="-30" r="26" fill="#fff" stroke="${OL}" stroke-width="5"/><text x="0" y="-21" text-anchor="middle" font-family="IB,Arial" font-weight="900" font-size="26" fill="${OL}">${n}</text></g>`;
+// ===================== Set AUC: Auktionssaal (Sotheby's/Senlis) + Los-Tisch fuer Liste/Outro =====================
+const AX = -600, AU = [AX, 0, 0];
+(function auc() {
+  const S = 'AUC';
+  mk(S, merge([at(G.box(26, .3, 24, '#6a4630', { base: true, top: '#7a5236' }), [AX, -.3, 0]), at(G.box(26, 10, .4, '#7a2a34', { base: true }), [AX, 0, -8]),
+    at(G.box(.4, 10, 24, '#6e2630', { base: true }), [AX - 13, 0, 0]), at(G.box(.4, 10, 24, '#6e2630', { base: true }), [AX + 13, 0, 0]),
+    at(G.box(26, .5, .5, '#e8c060', { base: true }), [AX, 6.6, -7.7]), at(G.box(26, .1, .3, '#e8c060', { base: true }), [AX, 1.2, -7.75]),
+    ...[-10, -5, 5, 10].map(x => at(G.box(.9, 10, .6, '#5a1e26', { base: true }), [AX + x, 0, -7.6])),
+    at(G.box(6, .05, 14, '#3a2a5a', { base: true }), [AX, 0, 3]),
+    // Podium + Staffelei
+    at(G.box(1.5, 1.3, 1, '#4a3020', { base: true }), [AX - 4.6, 0, -4]), at(G.box(1.6, .1, 1.1, '#e8c060', { base: true }), [AX - 4.6, 1.3, -4]),
+    at(G.box(.08, 2.4, .08, '#6a4428', { base: true }), [AX - .6, 0, -5]), at(G.box(.08, 2.4, .08, '#6a4428', { base: true }), [AX + .6, 0, -5]), at(G.box(1.5, .08, .25, '#6a4428', { base: true }), [AX, 1.2, -4.95]),
+    // Bildschirm
+    at(G.box(5.4, 3, .15, '#14182a', { base: true }), [AX + 6, 2.6, -7.7])]), { outline: false });
+  // Stuhlreihen (Publikum schaut nach -z)
+  const C = []; for (let r = 0; r < 4; r++) for (let k = 0; k < 8; k++) { const x = AX - 4.9 + k * 1.4, z = r * 1.7;
+    C.push(at(G.box(.7, .08, .6, '#b8323a', { base: true }), [x, .55, z]), at(G.box(.7, .8, .08, '#9a2a30', { base: true }), [x, .6, z + .3]), at(G.box(.06, .55, .06, '#e8c060', { base: true }), [x - .3, 0, z - .25]), at(G.box(.06, .55, .06, '#e8c060', { base: true }), [x + .3, 0, z - .25])) }
+  mk(S, merge(C));
+  // Kronleuchter
+  [-5, 5].forEach(x => { mk(S, merge([at(G.cyl(.04, .04, 1.4, 6, '#c9a23c'), [AX + x, 7.2, 1]), at(G.cyl(.9, .3, .3, 14, '#e8c060'), [AX + x, 7, 1])]), { outline: false });
+    mk(S, merge([0, 1, 2, 3, 4, 5].map(k => at(G.ico(.12, 1, '#fff2c0'), [AX + x + Math.cos(k) * .75, 7.3, 1 + Math.sin(k) * .75]))), { emis: 1, outline: false, cast: false }) });
+  // Los-Tisch (Liste)
+})();
+const LOTT = mk('AUC', merge([at(G.box(10, .12, 1.4, '#f4efe2', { base: true }), [0, 1.0, 0]), at(G.box(9.8, 1.0, 1.3, '#2a3a5a', { base: true }), [0, 0, 0])]), { pos: [AX, 0, -2], outline: false });
+// 6 Lose: Ring, Rahmen-Gemaelde, Dose, Hammer, grosses Gemaelde, kleine Ikone
+const LOTX = [-3.9, -2.35, -.8, .8, 2.35, 3.9].map(x => AX + x);
+const LOTS = [
+  mk('AUC', merge([at(G.box(.4, .3, .4, '#2a2a3a', { base: true }), [0, 0, 0]), at(G.box(.42, .05, .42, '#f4efe2', { base: true }), [0, .3, 0])]), { pos: [LOTX[0], 1.12, -2] }),
+  mk('AUC', G.box(.9, .7, .08, '#b88a3a', { base: true }), { pos: [LOTX[1], 1.12, -2.2], rot: [-.25, 0, 0] }),
+  mk('AUC', canGeo(), { pos: [LOTX[2], 1.12, -2] }),
+  mk('AUC', hammerGeo(), { pos: [LOTX[3], 1.2, -2], rot: [0, .6, 0] }),
+  mk('AUC', G.box(1.2, .95, .06, '#3a2a1e', { base: true }), { pos: [LOTX[4], 1.12, -2.3], rot: [-.2, 0, 0] }),
+  mk('AUC', G.box(.4, .52, .05, '#a8741a', { base: true }), { pos: [LOTX[5], 1.12, -2.1], rot: [-.2, 0, 0] })];
+const LRING = mk('AUC', ringGeo(), { pos: [LOTX[0], 1.5, -2], spec: 1, emis: .15, outline: false });
+const LTEX = [[1, .78, .6, paintLand, -2.16], [4, 1.08, .84, paintBaroque, -2.26], [5, .34, .44, paintIcon, -2.07]].map(([j, wd, ht, f, z]) => texPlane('AUC', wd, ht, f, { pos: [LOTX[j], 1.12 + ht / 2 + .05, z + .05], rot: [-.2, 0, 0] }));
+// Exponat auf der Staffelei (wechselt): 0=Ring-Kissen, 1=Erklaerung, 2=Ikone
+const EAS = [mk('AUC', merge([at(G.box(.7, .5, .5, '#2a2a3a', { base: true }), [0, 0, 0]), at(G.box(.72, .06, .52, '#b8323a', { base: true }), [0, .5, 0])]), { pos: [AX, 1.25, -4.95] }),
+  texPlane('AUC', .9, 1.14, paintDecl, { pos: [AX, 1.9, -4.86], rot: [-.08, 0, 0] }),
+  texPlane('AUC', .5, .64, paintIcon, { pos: [AX, 1.66, -4.86], rot: [-.08, 0, 0] })];
+const ERING = mk('AUC', ringGeo(), { pos: [AX, 1.95, -4.95], spec: 1, emis: .2, outline: false, scl: [1.6, 1.6, 1.6] });
+const EFRAME = mk('AUC', G.box(.66, .8, .04, '#c9a23c', { base: true }), { pos: [AX, 1.25, -4.9], outline: true });
+function aucUpd(t, i, ex = -1, lots = false) {
+  LOTT.vis = lots; LOTS.forEach(m => m.vis = lots); LRING.vis = lots; LTEX.forEach(m => m.vis = lots); LRING.rot = [0, t * .8, 0];
+  EAS.forEach((m, j) => m.vis = j == ex); ERING.vis = ex == 0; ERING.rot = [.3, t * .7, 0]; EFRAME.vis = ex == 2;
+}
+// Publikum (sitzend, Beine abgeschnitten) – nur, wenn die Kamera zum Publikum schaut
+const AUD = [[0, 1, 'bidder'], [0, 3, 'lady'], [0, 6, 'bidder2'], [1, 0, 'bidder3'], [1, 2, 'bidder'], [1, 4, 'bidder2'], [1, 7, 'lady'], [2, 1, 'bidder3'], [2, 3, 'bidder2'], [2, 5, 'bidder'], [3, 2, 'lady'], [3, 6, 'bidder3']];
+function seatFig(p, who, o) { const h = fig(p, who, o); return h ? h.replace('<div style="position:absolute;', '<div style="position:absolute;clip-path:inset(0 0 33% 0);') : '' }
+function audience(t, i, paddles = 0) {
+  let h = ''; AUD.forEach(([r, k, who], j) => { const up = paddles && j % 3 == (Math.floor(t * 1.5) % 3);
+    h += seatFig([AX - 4.9 + k * 1.4, .02, r * 1.7 - .05], who, { mouth: up ? 'o' : 'smile', blink: bl(t, j), look: [0, -3], hR: up ? [175, 30] : null, prop: up ? PROP.paddle(10 + j * 7) : null }) });
+  return h;
+}
+function screenPrice(t, t0, t1, html, col = '#ffd166') { return labelAt([AX + 6, 1.4, -7.55], `<div style="width:520px;height:270px;display:flex;align-items:center;justify-content:center;font:900 76px/1 IB,Arial;color:${col};text-shadow:0 0 18px ${col}88">${html}</div>`, t, t0, t1) }
+const auctioneer = (t, i, k = 0) => fig([AX - 4.6, .15, -4.4], 'auctioneer', { mouth: 'grin', talk: tk(t, i) * .3, blink: bl(t, k), look: [4, 0], prop: PROP.gavel(-30 + 40 * Math.max(0, Math.sin(t * 5)) ** 8), hR: [190, 110] });
+// Kameras im Saal
+const CAM_AUD = [cm([AX + 2.6, 3.2, -4.2], [AX - .4, 1.1, 3.5], 52), cm([AX + 1.6, 3, -3.8], [AX - .4, 1.1, 3.5], 50)];     // vom Podium auf das Publikum
+const CAM_POD = [cm([AX + 1.2, 3.2, 6.4], [AX + .6, 2.2, -5], 58), cm([AX + 1, 3, 5.2], [AX + .6, 2.2, -5], 56)];  // aus dem Saal auf Podium + Staffelei
+// ---------- Liste / Outro ----------
+const LOTN = [['💍', 'A £10 RING', 6], ['🖼️', 'A $4 PAINTING', 5], ['🥫', 'A RUSTY CAN', 4], ['🔨', 'A LOST HAMMER', 3], ['🏚️', 'A LEAKY ATTIC', 2], ['🍳', 'THE KITCHEN', 1]];
+function lotUI(t, ts, hi = 0) {
+  let h = ''; LOTN.forEach(([ic, tx, n], j) => { const a = ts[j]; if (a == null || t < a) return; const q = w.project([LOTX[j], 2.35 + (j == 4 ? .3 : 0), -2]); if (!q.vis) return;
+    h += `<div style="position:absolute;left:${q.x}px;top:${q.y}px;transform:translate(-50%,-100%) scale(${pop(t, a)});transform-origin:50% 100%;z-index:2100">${PILL(ic + ' #' + n, n == hi ? '#ffd166' : '#232838', n == hi ? OL : '#fff', 38)}</div>` });
+  return h;
+}
+SHOT.list = { set: 'AUC', light: 'indoorWarm',
+  cam: i => mv(cm([AX, 4.2, 5.4], [AX, 1.4, -2], 50), cm([AX, 3.6, 4.4], [AX, 1.4, -2], 48)),
+  upd: (t, i) => aucUpd(t, i, -1, true),
+  figs: (t, i) => fig([AX + 5.6, 0, -1.2], 'sam', { mouth: 'o', talk: tk(t, i) * .7, blink: bl(t, 0), look: [-5, 2], hR: [200, 100] }),
+  ui: (t, i) => lotUI(t, [5, 4, 3, 2, 1, 0].map(k => wt(i, /five/) + k * .2), 1) + bigText(960, 150, t, wt(i, /number/) - .1, nextStart(i), '#1 = THE KITCHEN', 80, '#ffd166'),
+  sfx: i => [{ k: 'impact', t: wt(i, /number/), g: .5 }, ...[0, 1, 2, 3, 4, 5].map(j => ({ k: 'pop', t: wt(i, /five/) + j * .2 }))] };
+SHOT.list2 = { set: 'AUC', light: 'indoorWarm',
+  cam: i => { const tt = [/ring/, /four/, /rusty/, /hammer/, /leaky/].map(r => wt(i, r) - .1), C = [];
+    tt.forEach((x, j) => { const p = [LOTX[j], 1.4, -2]; C.push({ t0: j ? x : Lt(i).start, a: cm(X(p, .3, .9, 2.6), X(p, 0, .1, 0), 40), b: cm(X(p, -.2, .8, 2.2), X(p, 0, .1, 0), 38) }) });
+    return C },
+  upd: (t, i) => aucUpd(t, i, -1, true),
+  ui: (t, i) => { const R = [/ring/, /four/, /rusty/, /hammer/, /leaky/]; let k = 0; R.forEach((r, j) => { if (t >= wt(i, r) - .1) k = j });
+    return pillAt(960, 200, t, wt(i, R[k]) - .05, nextStart(i), LOTN[k][0] + ' ' + LOTN[k][1], '#232838', '#fff', 60) },
+  sfx: i => [/ring/, /four/, /rusty/, /hammer/, /leaky/].map(r => ({ k: 'pop', t: wt(i, r) })) };
+SHOT.outro = { set: 'AUC', light: 'indoorWarm',
+  cam: i => mv(cm([AX + 1, 4.4, 6.4], [AX + .6, 1.6, -2], 52), cm([AX + 1, 4, 5.6], [AX + .6, 1.6, -2], 50)),
+  upd: (t, i) => aucUpd(t, i, -1, true),
+  figs: (t, i) => fig([AX + 5.6, 0, -1.2], 'sam', { mouth: 'grin', talk: tk(t, i) * .8, blink: bl(t, 0), look: [-5, 2], hR: [214, 90 + 10 * Math.sin(t * 4)] }),
+  ui: (t, i) => lotUI(t, [0, 1, 2, 3, 4, 5].map(k => Lt(i).start + .1 + k * .08)) + bigText(960, 150, t, Lt(i).start + .2, 1e9, 'WHICH FIND WOULD YOU PICK? 💬', 78) + pillAt(960, 270, t, wt(i, /subscribe/) - .1, 1e9, '🔔 SUBSCRIBE', '#e0303a', '#fff', 60),
+  sfx: i => [{ k: 'pop', t: Lt(i).start + .1 }, { k: 'ding', t: wt(i, /subscribe/) }] };
+// ===================== #6 Set BOOT: Car-Boot-Sale West London / Wohnzimmer / Juwelier =====================
+const BX = 600, BB = [BX, 0, 0], BH = [BX, 0, 90], BJ = [BX, 0, -90];
+LOOK.seller = { sw: '#3a6a4a', swd: '#2e5a3c', pa: '#3a3f55', hat: HAT.beanie };
+LOOK.seller2 = { sw: '#d68a2a', swd: '#b8741e', pa: '#2c3044', hat: HAT.cap };
+LOOK.jeweler = { sw: '#3a3f55', swd: '#2c3044', pa: '#2c3044', mid: MID.tie };
+PROP.ring = `<g transform="translate(0,-6)"><circle cx="0" cy="0" r="9" fill="none" stroke="#f0c040" stroke-width="5"/><path d="M-9,-14 L0,-24 L9,-14 L0,-6Z" fill="#eaf6ff" stroke="${OL}" stroke-width="3"/><circle cx="-14" cy="-26" r="3" fill="#fff"/><circle cx="14" cy="-22" r="2" fill="#fff"/></g>`;
+function car(x, z, col, ry = 0, open = true) {
+  const L = [at(G.box(4, .8, 1.8, col, { base: true }), [0, .35, 0]), at(G.box(2.2, .7, 1.6, col, { base: true }), [-.2, 1.15, 0]), at(G.box(2.0, .5, 1.62, '#a8d8f0', { base: true }), [-.2, 1.2, 0]),
+    ...[[-1.3, .9], [1.3, .9], [-1.3, -.9], [1.3, -.9]].map(([a, b]) => at(G.cyl(.36, .36, .26, 14, '#22242c'), [a, .36, b], [PI / 2, 0, 0]))];
+  if (open) L.push(at(G.box(.08, .9, 1.6, col, { base: true }), [1.95, 1.15, 0], [0, 0, -.5]));
+  const g = merge(L); return [g, G.m4.compose([x, 0, z], [0, ry, 0], [1, 1, 1])];
+}
+(function boot() {
+  const S = 'BOOT';
+  mk(S, G.box(120, .4, 80, '#8a9a7a', { base: true }), { pos: [BX, -.4, 0], outline: false, cast: false });
+  mk(S, G.box(40, .05, 20, '#6a7278', { base: true }), { pos: [BX, 0, 0], outline: false, cast: false });
+  // Autos mit offenen Kofferraeumen + Tische
+  const C = [[-9, -3, '#d64545', 0], [-3, -3.4, '#2a8fd6', 0], [3, -3, '#f2b21c', 0], [9, -3.2, '#35a862', 0], [-6, 5.4, '#e8e8ee', PI], [2, 5.6, '#8a5ab0', PI]];
+  const M = []; C.forEach(([x, z, c, r]) => { M.push(car(BX + x, z, c, r)); const tz = z + (r ? -2 : 2);
+    M.push(at(G.box(2.6, .1, 1.1, '#f4efe2', { base: true }), [BX + x + 1, .9, tz]), ...[[-1.2, -.45], [1.2, -.45], [-1.2, .45], [1.2, .45]].map(([a, b]) => at(G.box(.06, .9, .06, '#9aa0ac', { base: true }), [BX + x + 1 + a, 0, tz + b])));
+    for (let k = 0; k < 6; k++) M.push(at(k % 3 ? G.box(.25 + G.hash(k, x) * .3, .15 + G.hash(k, z) * .35, .25, ['#c9ccd4', '#8a5a32', '#6a8acb', '#d8c8a8', '#e07a5a'][k % 5], { base: true }) : G.cyl(.12, .1, .3, 8, '#9aa0ac'), [BX + x + .1 + k * .38, 1.0, tz + (k % 2) * .3 - .15])) });
+  mk(S, merge(M));
+  // Baeume + Zaun hinten
+  const T = []; for (let k = 0; k < 14; k++) T.push(...leafy(BX - 26 + k * 4 + G.hash(k) * 2, -14 - G.hash(k, 1) * 4, .9 + G.hash(k, 2) * .4, k % 2 ? '#3a7a3a' : '#4a8a3a'));
+  mk(S, merge(T));
+  // Schmuckkiste auf dem gelben Tisch
+  mk(S, merge([at(G.box(.8, .14, .55, '#6a3a2a', { base: true }), [0, 0, 0]), at(G.box(.72, .04, .47, '#b8323a', { base: true }), [0, .12, 0]),
+    ...[...Array(9)].map((_, k) => at(G.ico(.04, 1, ['#e0303a', '#60a5fa', '#35e08a', '#ffd166'][k % 4]), [-.3 + (k % 5) * .15, .17, -.12 + Math.floor(k / 5) * .2]))]), { pos: [BX + 3.6, 1.0, -1.0] });
+  // Wohnzimmer
+  mk(S, merge([at(G.box(12, .3, 9, '#8a6a4a', { base: true }), [BH[0], -.3, BH[2]]), at(G.box(12, 5, .3, '#e8d8b8', { base: true }), [BH[0], 0, BH[2] - 4.5]),
+    at(G.box(.3, 5, 9, '#dcc8a4', { base: true }), [BH[0] - 6, 0, BH[2]]), at(G.box(3.4, .9, 1.2, '#5a7ab0', { base: true }), [BH[0] - 2, 0, BH[2] - 3.4]), at(G.box(3.4, 1, .3, '#4a6aa0', { base: true }), [BH[0] - 2, .6, BH[2] - 3.9]),
+    at(G.box(1.2, 1.6, .1, '#f4efe2', { base: true }), [BH[0] + 2.4, 1.6, BH[2] - 4.32]), at(G.box(1.2, .3, .1, '#e0303a', { base: true }), [BH[0] + 2.4, 2.9, BH[2] - 4.32]),
+    at(G.box(1.8, 1.2, .1, '#6a9ad6', { base: true }), [BH[0] - 2, 2.2, BH[2] - 4.32]), at(G.box(4, .05, 3, '#c0606a', { base: true }), [BH[0], 0, BH[2] - 1])]), { outline: false });
+  // Juwelier
+  mk(S, merge([at(G.box(12, .3, 9, '#3a2a22', { base: true }), [BJ[0], -.3, BJ[2]]), at(G.box(12, 5, .3, '#2a3a32', { base: true }), [BJ[0], 0, BJ[2] - 4.5]), at(G.box(.3, 5, 9, '#26342c', { base: true }), [BJ[0] - 6, 0, BJ[2]]),
+    at(G.box(3, 1.0, 1.2, '#5a3a26', { base: true }), [BJ[0], 0, BJ[2] - 1.2]), at(G.box(.9, .3, .9, '#1a1a2a', { base: true }), [BJ[0], 1.0, BJ[2] - 1.2]),
+    ...[-4, 4].map(x => at(G.box(2.4, 2.4, .6, '#4a3a2a', { base: true }), [BJ[0] + x, 0, BJ[2] - 4]))]), { outline: false });
+})();
+const BRING = mk('BOOT', ringGeo(), { pos: [BX + 3.6, 1.24, -1.0], spec: 1, emis: .2, outline: false });
+const BSPARK = mk('BOOT', G.ico(.06, 1, '#ffffff'), { pos: [BX + 3.6, 1.38, -1.0], emis: 1, outline: false, cast: false });
+CHAP.push({ line: 'n6', n: 6, title: 'THE £10 RING', year: 'late 1980s', place: '🇬🇧 West London' });
+function rgUpd(t, i, where = 'boot') {
+  BRING.vis = true; BSPARK.vis = true; BRING.scl = [1, 1, 1]; BRING.rot = [0, t * .6, 0];
+  if (where == 'boot') BRING.pos = [BX + 3.6, 1.24, -1.0];
+  if (where == 'jew') { BRING.pos = [BJ[0], 1.42, BJ[2] - 1.2]; BRING.scl = [1.4, 1.4, 1.4] }
+  if (where == 'none') BRING.vis = false;
+  BSPARK.pos = X(BRING.pos, .02, .1 * BRING.scl[0], 0); BSPARK.vis = BRING.vis; const s = .5 + 1.2 * Math.max(0, Math.sin(t * 5)) ** 6; BSPARK.scl = [s, s, s];
+}
+const sellers = (t, k = 0) => fig([BX + 4.6, 0, -1.6], 'seller2', { mouth: 'smile', blink: bl(t, 3), look: [-4, 2], hL: [40, 140] }) + fig([BX - 5.4, 0, -1.4], 'seller', { mouth: 'smile', blink: bl(t, 5), look: [4, 2] });
+SHOT.r_boot = { set: 'BOOT', light: 'day',
+  cam: i => mv(cm([BX + 12, 7, 14], [BX, 1, -1], 50), cm([BX + 8, 5.4, 11], [BX, 1, -1], 48)),
+  upd: (t, i) => rgUpd(t, i),
+  figs: (t, i) => sellers(t) + fig([BX - 1, 0, 1.6 - (t - Lt(i).start) * .2], 'lady', Object.assign(walk(t, 6), { mouth: 'smile', blink: bl(t, 0), look: [2, 2] })),
+  ui: (t, i) => pillAt(960, 930 - 110, t, Lt(i).start + 2.7, nextStart(i), '🚗 CAR BOOT SALE · WEST LONDON', '#232838', '#fff', 44),
+  sfx: i => [{ k: 'bell', t: Lt(i).start + .4 }] };
+SHOT.r_browse = { set: 'BOOT', light: 'day',
+  cam: i => mv(cm([BX - 4, 2.4, 6], [BX + 1, 1.3, -1], 46), cm([BX - 1, 2.3, 5.4], [BX + 2.6, 1.3, -1], 46)),
+  upd: (t, i) => rgUpd(t, i),
+  figs: (t, i) => { const u = cl((t - Lt(i).start) / (nextStart(i) - Lt(i).start), 0, 1); return sellers(t) + fig([BX - 2 + u * 4.4, 0, .3], 'lady', Object.assign(walk(t, 6), { mouth: 'smile', talk: 0, blink: bl(t, 0), look: [4, 3] })) },
+  ui: (t, i) => pillAt(960, 170, t, wt(i, /flea/) - .1, nextStart(i), '= A FLEA MARKET 🚗🧺', '#2a8fd6', '#fff', 54),
+  sfx: i => [{ k: 'pop', t: wt(i, /flea/) }] };
+SHOT.r_haggle = { set: 'BOOT', light: 'day',
+  cam: i => cut2(i, /seller/, cm([BX + 3.7, 2.4, .5], [BX + 3.6, 1.1, -1.0], 40), cm([BX + 3.65, 2.2, .2], [BX + 3.6, 1.1, -1.0], 36),
+    cm([BX + 3.2, 2.2, 4.2], [BX + 3.6, 1.4, -1.2], 46), cm([BX + 3.4, 2.1, 3.6], [BX + 3.7, 1.4, -1.2], 44)),
+  upd: (t, i) => rgUpd(t, i),
+  figs: (t, i) => t < wt(i, /seller/) - .15 ? '' : fig([BX + 4.6, 0, -1.6], 'seller2', { mouth: t < wt(i, /haggles/) ? 'grin' : 'sad', talk: t < wt(i, /haggles/) ? tk(t, i) * .5 : 0, blink: bl(t, 3), look: [-4, 2], hL: [40, 140] }) +
+    fig([BX + 2.4, 0, -.2], 'lady', { mouth: t > wt(i, /haggles/) ? 'grin' : 'hmm', blink: bl(t, 0), look: [4, 1], prop: PROP.ring, hR: [175, 120] }),
+  ui: (t, i) => { const a = wt(i, /twelve/), b = wt(i, /haggles/); let h = pillAt(960, 170, t, wt(i, /costume/) - .1, wt(i, /seller/) - .2, '💍 COSTUME JEWELRY', '#232838', '#fff', 54);
+    if (t > a - .1) h += bigText(1400, 300, t, a - .1, nextStart(i), `<span style="${t > b ? 'text-decoration:line-through;text-decoration-color:#e0303a;text-decoration-thickness:12px;opacity:.6' : ''}">£12</span>`, 130, '#fff');
+    h += stampAt(1400, 470, t, wt(i, /ten/) - .05, '£10', '#35a862', 130, -8); return h },
+  sfx: i => [{ k: 'shimmer', t: wt(i, /sparkly/) }, { k: 'pop', t: wt(i, /twelve/) }, { k: 'cash', t: wt(i, /ten/) }] };
+SHOT.r_wear = { set: 'BOOT', light: 'indoorWarm',
+  cam: i => mv(cm([BH[0] + 3, 2.6, BH[2] + 6.4], [BH[0], 1.4, BH[2] - 2], 48), cm([BH[0] + 2, 2.3, BH[2] + 4.6], [BH[0] + .4, 1.4, BH[2] - 2], 46)),
+  upd: (t, i) => rgUpd(t, i, 'none'),
+  figs: (t, i) => fig([BH[0] + .6, 0, BH[2] - 1], 'lady', { mouth: 'smile', blink: bl(t, 0), look: [2, 2], prop: PROP.ring, hR: [200, 100 + 8 * Math.sin(t * 3)] }),
+  ui: (t, i) => pillAt(960, 170, t, wt(i, /glass/) - .1, nextStart(i), '🔍 "JUST GLASS"', '#232838', '#fff', 54) +
+    counter(1460, 330, t, wt(i, /wears/) - .1, nextStart(i), wt(i, /wears/), wt(i, /years/), 1988, 2017, v => '📅 ' + Math.round(v), '#2a8fd6', '#fff', 70) +
+    stampAt(1460, 480, t, wt(i, /years/) - .05, '~30 YEARS', '#e0303a', 90, -6),
+  sfx: i => [{ k: 'tick', t: wt(i, /wears/) }, { k: 'tick', t: wt(i, /wears/) + .5 }, { k: 'tick', t: wt(i, /wears/) + 1 }, { k: 'impact', t: wt(i, /years/), g: .4 }] };
+SHOT.r_jeweler = { set: 'BOOT', light: 'indoorWarm',
+  cam: i => mv(cm([BJ[0] + 2.6, 2.6, BJ[2] + 4.6], [BJ[0], 1.5, BJ[2] - 1.2], 48), cm([BJ[0] + 1.6, 2.2, BJ[2] + 3.4], [BJ[0], 1.5, BJ[2] - 1.2], 44)),
+  upd: (t, i) => rgUpd(t, i, 'jew'),
+  figs: (t, i) => fig([BJ[0] - 1.8, 0, BJ[2] - .6], 'jeweler', { mouth: 'hmm', blink: bl(t, 0), look: [5, 1], prop: PROP.magnifier, hR: [200, 120] }) + fig([BJ[0] + 1.9, 0, BJ[2] - .2], 'lady', { mouth: 'smile', blink: bl(t, 2), look: [-4, 1] }),
+  ui: (t, i) => pillAt(960, 170, t, wt(i, /2017/) - .1, nextStart(i), '📅 2017 · A JEWELER', '#232838', '#fff', 54),
+  sfx: i => [{ k: 'ding', t: wt(i, /jeweler/) }] };
+SHOT.r_real = { set: 'BOOT', light: 'indoorWarm',
+  cam: i => mv(cm([BJ[0] + .5, 1.8, BJ[2] + .3], [BJ[0], 1.5, BJ[2] - 1.2], 36), cm([BJ[0] + .25, 1.7, BJ[2] - .2], [BJ[0], 1.5, BJ[2] - 1.2], 30)),
+  upd: (t, i) => rgUpd(t, i, 'jew'),
+  ui: (t, i) => stampAt(960, 250, t, wt(i, /real/) - .05, '💎 REAL DIAMOND', '#35a862', 100, -5) + pillAt(960, 760, t, wt(i, /carats/) - .1, nextStart(i), '26.27 CARATS · 1800s', '#ffd166', OL, 60),
+  sfx: i => [{ k: 'error', t: wt(i, /glass/), g: .5 }, { k: 'impact', t: wt(i, /real/) }, { k: 'shimmer', t: wt(i, /carats/) }] };
+SHOT.r_estimate = { set: 'AUC', light: 'indoorWarm',
+  cam: i => mv(...CAM_POD),
+  upd: (t, i) => aucUpd(t, i, 0),
+  figs: (t, i) => auctioneer(t, i),
+  ui: (t, i) => pillAt(960, 170, t, Lt(i).start + .1, nextStart(i), "🔨 SOTHEBY'S · LONDON", '#232838', '#fff', 54) + screenPrice(t, wt(i, /expected/), nextStart(i), 'EST. £350,000'),
+  sfx: i => [{ k: 'whoosh', t: Lt(i).start + .2, d: .8 }, { k: 'ding', t: wt(i, /pounds/) }] };
+SHOT.r_sold = { set: 'AUC', light: 'indoorWarm',
+  cam: i => cut2(i, /tenner/, ...CAM_AUD, ...CAM_POD),
+  upd: (t, i) => aucUpd(t, i, 0),
+  figs: (t, i) => t < wt(i, /tenner/) - .15 ? audience(t, i, 1) : auctioneer(t, i),
+  ui: (t, i) => counter(960, 180, t, Lt(i).start + .1, nextStart(i), Lt(i).start + .2, wt(i, /pounds/), 350000, 656750, v => '£' + Math.round(v).toLocaleString('en-US'), '#35a862', '#fff', 84) +
+    stampAt(1450, 420, t, wt(i, /pounds/) + .1, 'SOLD!', '#e0303a', 120, -8) + bigText(960, 330, t, wt(i, /tenner/) - .1, nextStart(i), '£10 ➜ £656,750', 90, '#ffd166'),
+  sfx: i => [{ k: 'tick', t: Lt(i).start + .4 }, { k: 'tick', t: Lt(i).start + .9 }, { k: 'impact', t: wt(i, /pounds/) }, { k: 'cash', t: wt(i, /pounds/) + .2 }] };
+// ===================== #5 Set FLEA: Flohmarkt Adamstown 1989 / Werkbank zu Hause =====================
+const DX = 1200, DM = [DX, 0, 0], DH = [DX, 0, -90];
+LOOK.analyst = { sw: '#6a8ab0', swd: '#5a7aa0', pa: '#3a3f55', mid: MID.tie };
+LOOK.vendor = { sw: '#a05a3a', swd: '#8a4a2e', pa: '#3a3f55', hat: HAT.cap };
+PROP.frame = `<g transform="translate(-46,-70)"><rect x="0" y="0" width="92" height="72" rx="3" fill="#8a9a80" stroke="#a87a3a" stroke-width="10"/><path d="M6,52 Q30,30 50,48 Q66,36 86,52 L86,66 L6,66Z" fill="#5a6a4a"/></g>`;
+(function flea() {
+  const S = 'FLEA';
+  mk(S, G.box(120, .4, 80, '#a8b890', { base: true }), { pos: [DX, -.4, 0], outline: false, cast: false });
+  mk(S, G.box(30, .05, 6, '#c8b490', { base: true }), { pos: [DX, 0, 1], outline: false, cast: false });
+  const M = []; [[-8, -3, '#e0303a'], [-2.5, -3.4, '#2a8fd6'], [3, -3, '#f2b21c'], [8.5, -3.2, '#35a862'], [-5, 5.6, '#8a5ab0'], [3, 5.8, '#e07a5a']].forEach(([x, z, c], k) => {
+    const f = z > 0 ? -1 : 1;
+    M.push(at(G.box(3.6, .12, 1.4, '#8a6a46', { base: true }), [DX + x, 1, z]), ...[[-1.6, -.6], [1.6, -.6], [-1.6, .6], [1.6, .6]].map(([a, b]) => at(G.box(.12, 1, .12, '#6b4226', { base: true }), [DX + x + a, 0, z + b])),
+      at(G.box(4, .12, 2.4, c, { base: true }), [DX + x, 2.8, z - f * .3]), ...[-1.9, 1.9].map(a => at(G.cyl(.05, .05, 2.8, 6, '#3a3a44'), [DX + x + a, 0, z + f * .9])), ...[-1.9, 1.9].map(a => at(G.cyl(.05, .05, 2.8, 6, '#3a3a44'), [DX + x + a, 0, z - f * 1.2])));
+    for (let j = 0; j < 5; j++) M.push(at(j % 2 ? G.box(.3 + G.hash(j, k) * .3, .2 + G.hash(j, k + 1) * .4, .3, ['#c9ccd4', '#8a5a32', '#6a8acb', '#d8c8a8'][j % 4], { base: true }) : G.cyl(.15, .1, .35, 8, '#9aa0ac'), [DX + x - 1.3 + j * .6, 1.12, z]));
+    // Bilder an der Rueckseite des Standes
+    M.push(...[-1, 0, 1].map(j => at(G.box(.8, .65, .06, ['#6a7a5a', '#8a6a4a', '#5a6a8a'][(j + k + 3) % 3], { base: true }), [DX + x + j * 1.1, 1.5, z - f * 1.1])));
+  });
+  mk(S, merge(M));
+  const T = []; for (let k = 0; k < 14; k++) T.push(...leafy(DX - 26 + k * 4 + G.hash(k) * 2, -12 - G.hash(k, 1) * 4, .9 + G.hash(k, 2) * .4));
+  mk(S, merge(T));
+  // Werkbank / Kellerraum
+  mk(S, merge([at(G.box(12, .3, 9, '#6a5a4a', { base: true }), [DH[0], -.3, DH[2]]), at(G.box(12, 5, .3, '#9a8a74', { base: true }), [DH[0], 0, DH[2] - 4.5]), at(G.box(.3, 5, 9, '#8a7a64', { base: true }), [DH[0] - 6, 0, DH[2]]),
+    at(G.box(3.6, .14, 1.6, '#a0703a', { base: true }), [DH[0], 1.0, DH[2] - 1.4]), at(G.box(3.4, 1.0, 1.4, '#7a5226', { base: true }), [DH[0], 0, DH[2] - 1.4]),
+    at(G.box(3, 1.6, .1, '#c9b48a', { base: true }), [DH[0], 1.8, DH[2] - 4.32]), ...[-1, -.4, .3, 1].map(x => at(G.box(.08, .5, .08, '#5a5e6a', { base: true }), [DH[0] + x, 2.2, DH[2] - 4.25]))]), { outline: false });
+})();
+// Das 4-Dollar-Bild (Landschaft) + Rahmenleisten + gefaltetes Papier
+const DP0 = [DX + 3, 1.62, -3.3];           // am Stand
+const DPH = [DH[0], 1.45, DH[2] - 1.5];      // auf der Werkbank (liegt schraeg)
+const DPIC = texPlane('FLEA', .72, .56, paintLand, { pos: DP0 });
+const DFR = [[0, .32, .9, .08], [0, -.32, .9, .08], [-.41, 0, .08, .56], [.41, 0, .08, .56]].map(([x, y, wd, ht]) => mk('FLEA', G.box(wd, ht, .07, '#a87a3a', { base: false }), { pos: [0, 0, 0], spec: .3 }));
+const DPAPER = mk('FLEA', merge([at(G.box(.34, .02, .44, '#efe2c0', { base: true }), [0, 0, 0]), at(G.box(.34, .005, .006, '#c9b48a', { base: true }), [0, .022, 0])]), { pos: DPH, outline: true });
+const DDECL = texPlane('FLEA', .6, .76, paintDecl, { pos: [DH[0], 1.6, DH[2] - 1.2] });
+CHAP.push({ line: 'n5', n: 5, title: 'THE $4 PAINTING', year: '1989', place: '🇺🇸 Pennsylvania' });
+function dpPlace(p, tilt, burst = 0, drop = 0) {
+  DPIC.pos = p; DPIC.rot = [-tilt, 0, 0];
+  DFR.forEach((m, j) => { const [dx, dy] = [[0, .32], [0, -.32], [-.41, 0], [.41, 0]][j]; const b = burst;
+    m.pos = [p[0] + dx * (1 + b * 1.4) + (j > 1 ? Math.sign(dx) * b * .2 : 0), p[1] + dy * Math.cos(tilt) * (1 + b * 1.2) - drop * b * .3 * (j + 1) * .5, p[2] + dy * Math.sin(tilt) + .02 + b * .2];
+    m.rot = [-tilt, b * (j - 1.5) * .4, b * (j % 2 ? .6 : -.5)] });
+}
+function dpUpd(t, i, mode) {
+  DPIC.vis = true; DFR.forEach(m => m.vis = true); DPAPER.vis = false; DDECL.vis = false;
+  if (mode == 'stall') dpPlace(DP0, 0);
+  if (mode == 'bench') dpPlace(DPH, .35);
+  if (mode == 'break') { const a = wt(i, /falls/) - .2, u = ez(cl((t - a) / .7, 0, 1)); dpPlace(DPH, .35, u, 1) }
+  if (mode == 'paper') { dpPlace(X(DPH, .9, -.1, .2), .35, 1, 1); DFR.forEach(m => m.vis = false); DPAPER.vis = true; const u = ez(cl((t - wt(i, /folded/) + .3) / .8, 0, 1)); DPAPER.pos = X(DPH, -.1, -.2 + u * .25, .15 * u); DPAPER.rot = [-.35 * (1 - u), 0, 0] }
+  if (mode == 'decl') { DPIC.vis = false; DFR.forEach(m => m.vis = false); DDECL.vis = true; const u = ez(cl((t - Lt(i).start) / .9, 0, 1)); DDECL.scl = [lerp(.5, 1, u), lerp(.08, 1, u), 1]; DDECL.rot = [-.12, 0, 0] }
+}
+SHOT.d_market = { set: 'FLEA', light: 'day',
+  cam: i => mv(cm([DX + 12, 7, 14], [DX, 1.2, -1], 50), cm([DX + 7, 5, 10], [DX + 1, 1.2, -1.5], 48)),
+  upd: (t, i) => dpUpd(t, i, 'stall'),
+  figs: (t, i) => fig([DX + 4.8, 0, -2.2], 'vendor', { mouth: 'smile', blink: bl(t, 2), look: [-3, 2] }) + fig([DX - 2 + (t - Lt(i).start) * .5, 0, .8], 'analyst', Object.assign(walk(t, 6), { mouth: 'smile', blink: bl(t, 0), look: [3, 2] })),
+  ui: (t, i) => pillAt(960, 930 - 110, t, Lt(i).start + 2.7, nextStart(i), '🛒 FLEA MARKET · ADAMSTOWN, PA', '#232838', '#fff', 44),
+  sfx: i => [{ k: 'bell', t: Lt(i).start + .4 }] };
+SHOT.d_buy = { set: 'FLEA', light: 'day',
+  cam: i => cut2(i, /picture/, cm([DX + 3.4, 2.2, -.4], [DX + 3, 1.55, -3.3], 40), cm([DX + 3.2, 2, -1.2], [DX + 3, 1.6, -3.3], 34),
+    cm([DX + 1.6, 2.2, 2.8], [DX + 2.4, 1.5, -1], 44), cm([DX + 1.8, 2.1, 2.2], [DX + 2.4, 1.5, -1], 42)),
+  upd: (t, i) => { dpUpd(t, i, 'stall'); if (t > wt(i, /picture/) - .15) { DPIC.vis = false; DFR.forEach(m => m.vis = false) } },
+  figs: (t, i) => t < wt(i, /picture/) - .15 ? '' : fig([DX + 4.4, 0, -2.2], 'vendor', { mouth: 'grin', blink: bl(t, 2), look: [-4, 2] }) + fig([DX + 1.6, 0, -.6], 'analyst', { mouth: 'grin', blink: bl(t, 0), look: [4, 1], prop: PROP.frame, hR: [185, 110] }),
+  ui: (t, i) => stampAt(1450, 300, t, wt(i, /dollars/) - .05, '$4', '#35a862', 140, -8) + pillAt(960, 170, t, wt(i, /frame/) - .1, nextStart(i), '🖼️ HE WANTS THE FRAME', '#232838', '#fff', 56),
+  sfx: i => [{ k: 'cash', t: wt(i, /dollars/) }, { k: 'pop', t: wt(i, /frame/) }] };
+SHOT.d_break = { set: 'FLEA', light: 'indoorWarm',
+  cam: i => mv(cm([DH[0] + 1.4, 2.4, DH[2] + 1.6], [DH[0], 1.4, DH[2] - 1.5], 44), cm([DH[0] + .9, 2.2, DH[2] + 1], [DH[0], 1.4, DH[2] - 1.5], 40)),
+  upd: (t, i) => dpUpd(t, i, 'break'),
+  figs: (t, i) => fig([DH[0] - 1.6, 0, DH[2] - .7], 'analyst', { mouth: t > wt(i, /falls/) ? 'o' : 'smile', blink: bl(t, 0), look: [5, 3], hR: [190, 160] }),
+  ui: (t, i) => pillAt(960, 170, t, wt(i, /home/) - .1, wt(i, /falls/) - .2, '🏠 AT HOME', '#232838', '#fff', 54) + stampAt(1400, 300, t, wt(i, /pieces/) - .05, 'CRACK!', '#e0303a', 100, -6),
+  sfx: i => [{ k: 'thud', t: wt(i, /falls/) }, { k: 'impact', t: wt(i, /pieces/), g: .5 }] };
+SHOT.d_paper = { set: 'FLEA', light: 'indoorWarm',
+  cam: i => mv(cm([DH[0] + .5, 2.2, DH[2] + .5], [DH[0] - .1, 1.3, DH[2] - 1.4], 38), cm([DH[0] + .3, 2, DH[2] + .1], [DH[0] - .1, 1.32, DH[2] - 1.4], 34)),
+  upd: (t, i) => dpUpd(t, i, 'paper'),
+  ui: (t, i) => pillAt(960, 170, t, wt(i, /folded/) - .1, nextStart(i), '📄 HIDDEN BEHIND THE PICTURE', '#232838', '#fff', 54) + bigText(1450, 380, t, wt(i, /paper/) + .2, nextStart(i), '?', 220, '#ffd166'),
+  sfx: i => [{ k: 'swish', t: wt(i, /folded/) }, { k: 'pop', t: wt(i, /paper/) + .2 }] };
+SHOT.d_decl = { set: 'FLEA', light: 'indoorWarm',
+  cam: i => mv(cm([DH[0], 1.9, DH[2] + .4], [DH[0], 1.6, DH[2] - 1.2], 44), cm([DH[0], 1.85, DH[2] + .1], [DH[0], 1.62, DH[2] - 1.2], 40)),
+  upd: (t, i) => dpUpd(t, i, 'decl'),
+  ui: (t, i) => pillAt(960, 120, t, wt(i, /declaration/i) - .1, nextStart(i), '📜 THE DECLARATION OF INDEPENDENCE', '#232838', '#fff', 52) +
+    stampAt(1500, 360, t, wt(i, /souvenir/) - .05, '❌ SOUVENIR', '#e0303a', 70, 6, wt(i, /first/) - .1) + stampAt(1500, 380, t, wt(i, /first/) - .05, 'JULY 1776', '#35a862', 100, -6),
+  sfx: i => [{ k: 'shimmer', t: Lt(i).start + .2 }, { k: 'error', t: wt(i, /souvenir/), g: .4 }, { k: 'impact', t: wt(i, /first/) }] };
+SHOT.d_rare = { set: 'FLEA', light: 'indoorWarm',
+  cam: i => mv(cm([DH[0] + 2.2, 2.4, DH[2] + 2.6], [DH[0], 1.6, DH[2] - 1.2], 46), cm([DH[0] + 1.6, 2.2, DH[2] + 2], [DH[0], 1.6, DH[2] - 1.2], 44)),
+  upd: (t, i) => dpUpd(t, i, 'decl'),
+  figs: (t, i) => fig([DH[0] - 1.4, 0, DH[2] - .4], 'analyst', { mouth: 'o', blink: bl(t, 0), look: [4, 2], sweat: true }),
+  ui: (t, i) => { const a = wt(i, /dozen/) - .2; if (t < a) return ''; let g = ''; for (let k = 0; k < 24; k++) g += `<span style="display:inline-block;transform:scale(${pop(t, a + k * .04)})">📜</span>`;
+    return `<div style="position:absolute;left:1150px;top:230px;width:620px;font-size:70px;line-height:1.1;z-index:2200">${g}</div>` + pillAt(1460, 120, t, a, nextStart(i), 'ONLY ~2 DOZEN KNOWN', '#ffd166', OL, 46) },
+  sfx: i => [{ k: 'pop', t: wt(i, /dozen/) }, { k: 'pop', t: wt(i, /dozen/) + .4 }, { k: 'ding', t: wt(i, /exist/) }] };
+SHOT.d_sold = { set: 'AUC', light: 'indoorWarm',
+  cam: i => mv(...CAM_POD),
+  upd: (t, i) => aucUpd(t, i, 1),
+  figs: (t, i) => auctioneer(t, i),
+  ui: (t, i) => pillAt(960, 170, t, Lt(i).start + .1, nextStart(i), '🔨 AUCTION · 1991', '#232838', '#fff', 54) + screenPrice(t, wt(i, /auction/) - .1, nextStart(i), `$${(lerp(4, 2420000, ez(cl(t, wt(i, /auction/), wt(i, /dollars/)))) / 1e6).toFixed(2)}M`) +
+    stampAt(1450, 470, t, wt(i, /dollars/), 'SOLD!', '#e0303a', 110, -8),
+  sfx: i => [{ k: 'impact', t: wt(i, /dollars/) }, { k: 'cash', t: wt(i, /dollars/) + .2 }] };
+SHOT.d_resold = { set: 'AUC', light: 'indoorWarm',
+  cam: i => mv(...CAM_AUD),
+  upd: (t, i) => aucUpd(t, i, 1),
+  figs: (t, i) => audience(t, i, 1),
+  ui: (t, i) => pillAt(960, 170, t, wt(i, /nine/) - .1, nextStart(i), '📅 2000', '#232838', '#fff', 54) +
+    counter(960, 300, t, wt(i, /time/) - .1, nextStart(i), wt(i, /time/), wt(i, /million/), 2.42, 8.14, v => '$' + v.toFixed(2) + ' MILLION', '#35a862', '#fff', 84) + bigText(960, 470, t, wt(i, /million/) + .2, nextStart(i), '$4 ➜ $8,140,000', 80, '#ffd166'),
+  sfx: i => [{ k: 'tick', t: wt(i, /time/) }, { k: 'impact', t: wt(i, /million/) }, { k: 'cash', t: wt(i, /million/) + .2 }] };
+// ===================== #4 Set HILL: Grundstueck in Nordkalifornien (Saddle Ridge) / Holzstapel mit Kuehlbox =====================
+const SX = 1800, SH = [SX, 0, 0], SW = [SX, 0, -90];
+LOOK.john = { sw: '#4a7ab0', swd: '#3a6aa0', pa: '#5a4a3a', hat: HAT.cap };
+LOOK.mary = { sw: '#e07a5a', swd: '#c8644a', pa: '#3a3f55', hat: `<path d="M44,60 Q30,0 100,-2 Q170,0 156,60 Q150,30 100,26 Q50,30 44,60Z" fill="#c9a06a" stroke="${OL}" stroke-width="5"/>` };
+function dog(p, t, o = {}) {
+  const q = w.project(p); if (!q.vis) return ''; const s = q.s * .62 / 350 * 240 / 240 * 1.2, wag = Math.sin(t * 14) * 18, lg = o.walk ? Math.sin(t * 12) * 14 : 0, f = o.flip ? -1 : 1;
+  return `<div style="position:absolute;left:${q.x}px;top:${q.y}px;transform:translate(-50%,-100%) scale(${s * f},${s});transform-origin:50% 100%;z-index:${Math.round(1000 - q.z)}"><svg width="240" height="200" viewBox="0 0 240 200" style="display:block">
+   <path d="M44,96 Q20,${70 - wag * .6} 14,${60 - wag}" stroke="${OL}" stroke-width="18" stroke-linecap="round" fill="none"/><path d="M44,96 Q20,${70 - wag * .6} 14,${60 - wag}" stroke="#c98a4a" stroke-width="10" stroke-linecap="round" fill="none"/>
+   ${[[64, lg], [92, -lg], [140, -lg], [168, lg]].map(([x, a]) => `<path d="M${x},120 L${x + a * .4},182" stroke="${OL}" stroke-width="20" stroke-linecap="round"/><path d="M${x},120 L${x + a * .4},182" stroke="#c98a4a" stroke-width="12" stroke-linecap="round"/>`).join('')}
+   <ellipse cx="116" cy="112" rx="78" ry="40" fill="#c98a4a" stroke="${OL}" stroke-width="7"/>
+   <circle cx="186" cy="70" r="40" fill="#c98a4a" stroke="${OL}" stroke-width="7"/><path d="M166,40 Q150,30 154,74 Q166,72 172,50Z" fill="#8a5a2a" stroke="${OL}" stroke-width="5"/>
+   <ellipse cx="218" cy="80" rx="18" ry="13" fill="#e8c8a0" stroke="${OL}" stroke-width="5"/><circle cx="230" cy="76" r="6" fill="${OL}"/><circle cx="194" cy="62" r="6" fill="${OL}"/>
+   ${o.bark ? `<path d="M222,94 Q232,104 240,96" stroke="${OL}" stroke-width="5" fill="#e5767a"/>` : ''}</svg></div>`;
+}
+(function hill() {
+  const S = 'HILL';
+  mk(S, G.box(200, .4, 140, '#c9b46a', { base: true }), { pos: [SX, -.4, 0], outline: false, cast: false });
+  // sanfte Huegel (goldenes Gras) + Eichen
+  mk(S, merge([[-40, -50, 30, 8], [10, -60, 36, 11], [55, -48, 28, 7], [-80, -40, 26, 6], [90, -70, 40, 12]].map(([x, z, r, h]) => at(G.ico(r, 2, '#c4a85a', 0, 1, h / r), [SX + x, -1, z]))).smooth(), { cast: false, outline: false });
+  const T = []; [[-14, -10], [-8, -16], [6, -12], [16, -9], [24, -18], [-22, -6], [-16, 10]].forEach(([x, z], k) => T.push(...leafy(SX + x, z, 1 + G.hash(k) * .4, k % 2 ? '#4a7a3a' : '#5a8a3a')));
+  mk(S, merge(T));
+  // Weg + Felsen
+  mk(S, G.box(60, .04, 1.6, '#b89a6a', { base: true }), { pos: [SX, 0, 1.2], outline: false, cast: false });
+  mk(S, merge([...Array(10)].map((_, k) => at(G.ico(.3 + G.hash(k) * .5, 1, '#9a9488', .25, k), [SX - 12 + k * 2.6 + G.hash(k, 2) * 1.5, 0, -2.2 - G.hash(k, 1) * 2]))).smooth());
+  // Haus in der Ferne
+  mk(S, merge([at(G.box(6, 3, 5, '#e8d8b8', { base: true }), [SX + 18, 0, -26]), at(G.cyl(4.6, 0, 2.2, 4, '#8a4a3a', { rot: .785 }), [SX + 18, 3, -26])]));
+  // Holzstapel + Schuppen
+  mk(S, G.box(60, .4, 40, '#8a9a5a', { base: true }), { pos: [SW[0], -.38, SW[2]], outline: false, cast: false });
+  mk(S, merge([at(G.box(6, 3.2, 4, '#9a6a4a', { base: true }), [SW[0] - 4, 0, SW[2] - 4]), at(G.box(6.6, .3, 4.6, '#6a4a3a', { base: true }), [SW[0] - 4, 3.2, SW[2] - 4]),
+    ...[...Array(24)].map((_, k) => at(G.cyl(.16, .16, 2.2, 8, k % 3 ? '#a8784a' : '#8a6038'), [SW[0] + .2 + (k % 8) * .34 + (Math.floor(k / 8) % 2) * .17, .16 + Math.floor(k / 8) * .3, SW[2] - 1.6], [PI / 2, 0, 0]))]));
+})();
+// Dosen: 8 Stueck; Dose 0 steckt schraeg im Boden am Weg
+const SC0 = [SX + 1.2, 0, -.3];
+const SCANS = [...Array(8)].map((_, k) => mk('HILL', canGeo(), { pos: [SX - 1.4 + k * .5, 0, -1.2] }));
+const SLID = mk('HILL', G.cyl(.17, .17, .04, 14, '#6a3a1e'), { pos: [0, 0, 0] });
+const SGOLD = mk('HILL', coinPile(70, .45, 3), { pos: [SX + 1.8, .02, -.1], spec: 1, emis: .2, outline: false });
+const SCOOL = mk('HILL', merge([at(G.box(1.1, .6, .6, '#2a8fd6', { base: true }), [0, 0, 0]), at(G.box(1.14, .08, .64, '#f4efe2', { base: true }), [0, .6, 0])]), { pos: [SW[0] + 3.6, 0, SW[2] - .9] });
+const SHOLES = mk('HILL', merge([...Array(8)].map((_, k) => at(G.cyl(.26, .26, .03, 12, '#5a4028'), [k * .5, 0, 0]))), { pos: [SX - 1.4, .01, -1.2], outline: false, cast: false });
+CHAP.push({ line: 'n4', n: 4, title: 'THE RUSTY CAN', year: '2013', place: '🇺🇸 Northern California' });
+function sUpd(t, i, mode) {
+  SCANS.forEach(m => { m.vis = false; m.rot = [0, 0, 0] }); SLID.vis = false; SGOLD.vis = false; SCOOL.vis = true; SHOLES.vis = false;
+  if (mode == 'one') { const c = SCANS[0]; c.vis = true; c.pos = X(SC0, 0, -.12, 0); c.rot = [.5, 0, .3] }
+  if (mode == 'open') { const c = SCANS[0], u = ez(cl((t - Lt(i).start) / .8, 0, 1)); c.vis = true; c.pos = X(SC0, 0, lerp(-.12, 0, u), 0); c.rot = [lerp(.5, 0, u), 0, lerp(.3, 1.45, ez(cl((t - wt(i, /inside/i) + .4) / .4, 0, 1)))];
+    SGOLD.vis = t > wt(i, /inside/i) - .1; SGOLD.scl = [1, ez(cl((t - wt(i, /inside/i)) / .5, 0, 1)) + .01, 1] }
+  if (mode == 'eight') { SCANS.forEach((m, k) => { const a = wt(i, /eight/) + k * .12; m.vis = t > a || k == 0; m.pos = [SX - 1.4 + k * .5, 0, -1.2]; m.scl = [1, k ? bo(cl(t, a, a + .3)) : 1, 1] }); SGOLD.vis = true }
+  if (mode == 'pile') { SCANS.forEach((m, k) => { m.vis = true; m.pos = [SX - 1.4 + k * .5, 0, -1.2] }); SGOLD.vis = true }
+  if (mode == 'holes') { SHOLES.vis = true }
+}
+SHOT.s_hill = { set: 'HILL', light: 'dusk',
+  cam: i => mv(cm([SX + 5, 5, 15], [SX - 4, 1, 0], 50), cm([SX + 3, 3.8, 11], [SX - 4, 1, 0], 48)),
+  upd: (t, i) => sUpd(t, i, 'one'),
+  figs: (t, i) => { const x = SX - 8 + (t - Lt(i).start) * .8; return fig([x, 0, 1.2], 'john', Object.assign(walk(t, 6), { mouth: 'smile', blink: bl(t, 0), look: [3, 2] })) + fig([x - 1.1, 0, 1.5], 'mary', Object.assign(walk(t + .3, 6), { mouth: 'smile', blink: bl(t, 1), look: [3, 2] })) + dog([x + 1.4, 0, 1.4], t, { walk: 1 }) },
+  ui: (t, i) => pillAt(960, 930 - 110, t, Lt(i).start + 2.7, nextStart(i), '🌄 SIERRA NEVADA · CALIFORNIA', '#232838', '#fff', 44),
+  sfx: i => [{ k: 'bell', t: Lt(i).start + .4 }] };
+SHOT.s_walk = { set: 'HILL', light: 'dusk',
+  cam: i => mv(cm([SX - 4, 2.2, 6], [SX - 3, 1.2, 1], 46), cm([SX - 1, 2.2, 6], [SX - .4, 1.2, 1], 46)),
+  upd: (t, i) => sUpd(t, i, 'one'),
+  figs: (t, i) => { const u = cl((t - Lt(i).start) / (nextStart(i) - Lt(i).start), 0, 1), x = SX - 4.6 + u * 3.6; return fig([x, 0, 1.2], 'john', Object.assign(walk(t, 6), { mouth: 'smile', talk: 0, blink: bl(t, 0), look: [3, 2] })) + fig([x - 1.1, 0, 1.5], 'mary', Object.assign(walk(t + .3, 6), { mouth: 'smile', blink: bl(t, 1), look: [3, 2] })) + dog([x + 1.3, 0, 1.6], t, { walk: 1 }) },
+  ui: (t, i) => pillAt(960, 170, t, wt(i, /land/) - .1, nextStart(i), '🐕 A WALK ON THEIR OWN LAND', '#232838', '#fff', 54),
+  sfx: i => [{ k: 'pop', t: wt(i, /dog/) }] };
+SHOT.s_can = { set: 'HILL', light: 'dusk',
+  cam: i => cut2(i, /rusty/, cm([SX - 1, 2, 4.4], [SX + .6, 1, .2], 44), cm([SX - .4, 1.9, 4], [SX + .8, 1, .2], 42), cm([SX + 2.6, 1.1, 1.8], [SX + 1.2, .1, -.3], 38), cm([SX + 2.3, 1, 1.4], [SX + 1.2, .1, -.3], 36)),
+  upd: (t, i) => sUpd(t, i, 'one'),
+  figs: (t, i) => t > wt(i, /rusty/) - .15 ? '' : fig([SX - .2, 0, 1.2], 'john', { mouth: 'o', blink: bl(t, 0), look: [4, 4] }) + fig([SX - 1.2, 0, 1.5], 'mary', { mouth: 'o', blink: bl(t, 1), look: [4, 4] }) + dog([SX + .9, 0, 1], t, { bark: Math.sin(t * 8) > 0 }),
+  ui: (t, i) => pillAt(960, 170, t, wt(i, /rusty/) - .1, nextStart(i), '🥫 AN OLD, RUSTY CAN', '#a0582a', '#fff', 56),
+  sfx: i => [{ k: 'ding', t: wt(i, /notice/) }, { k: 'pop', t: wt(i, /rusty/) }] };
+SHOT.s_open = { set: 'HILL', light: 'dusk',
+  cam: i => mv(cm([SX + 2.4, 1.6, 2.2], [SX + 1.4, .2, -.2], 40), cm([SX + 2.2, 1.3, 1.6], [SX + 1.5, .2, -.2], 36)),
+  upd: (t, i) => sUpd(t, i, 'open'),
+  figs: (t, i) => fig([SX + .2, 0, .6], 'john', { mouth: t > wt(i, /gold/) ? 'o' : 'hmm', blink: bl(t, 0), look: [4, 4], hR: [170, 200] }),
+  ui: (t, i) => stampAt(1400, 300, t, wt(i, /gold/) - .05, '🪙 GOLD!', '#e8a800', 120, -8),
+  sfx: i => [{ k: 'thud', t: Lt(i).start + .3 }, { k: 'shimmer', t: wt(i, /inside/i) }, { k: 'impact', t: wt(i, /gold/) }] };
+SHOT.s_cans = { set: 'HILL', light: 'dusk',
+  cam: i => mv(cm([SX + .4, 2.6, 4.4], [SX + .2, .3, -.9], 44), cm([SX + .2, 2.4, 3.8], [SX + .2, .3, -.9], 42)),
+  upd: (t, i) => sUpd(t, i, 'eight'),
+  figs: (t, i) => fig([SX + 3.3, 0, -.4], 'mary', { mouth: 'grin', blink: bl(t, 1), look: [-4, 3] }) + dog([SX + 2.6, 0, .6], t, { flip: 1 }),
+  ui: (t, i) => pillAt(960, 160, t, wt(i, /eight/) - .1, nextStart(i), '🥫 × 8 CANS', '#a0582a', '#fff', 60) +
+    counter(960, 290, t, wt(i, /fourteen/) - .1, nextStart(i), wt(i, /fourteen/), wt(i, /coins/), 0, 1427, v => Math.round(v).toLocaleString('en-US') + ' GOLD COINS', '#e8a800', OL, 70),
+  sfx: i => [...[0, 1, 2, 3, 4, 5, 6, 7].map(k => ({ k: 'pop', t: wt(i, /eight/) + k * .12 })), { k: 'cash', t: wt(i, /coins/) }] };
+SHOT.s_dates = { set: 'HILL', light: 'dusk',
+  cam: i => mv(cm([SX + 3, 1.6, 1.8], [SX + 1.6, .1, -.3], 40), cm([SX + 2.8, 1.4, 1.5], [SX + 1.6, .1, -.3], 38)),
+  upd: (t, i) => sUpd(t, i, 'pile'),
+  ui: (t, i) => pillAt(960, 140, t, wt(i, /1847/) - .1, nextStart(i), '📅 1847 – 1894', '#232838', '#fff', 60) + pillAt(960, 270, t, wt(i, /san/i) - .1, nextStart(i), '🏛️ SAN FRANCISCO', '#2a8fd6', '#fff', 50) +
+    counter(960, 760, t, wt(i, /face/) - .1, nextStart(i), wt(i, /face/), wt(i, /dollars/), 0, 27980, v => 'FACE VALUE: $' + Math.round(v).toLocaleString('en-US'), '#35a862', '#fff', 64),
+  sfx: i => [{ k: 'tick', t: wt(i, /1847/) }, { k: 'pop', t: wt(i, /san/i) }, { k: 'cash', t: wt(i, /dollars/) }] };
+SHOT.s_value = { set: 'HILL', light: 'dusk',
+  cam: i => mv(cm([SX + 1, 2.2, 4.6], [SX + .6, 1, -.4], 44), cm([SX + .8, 2, 3.6], [SX + .6, 1.1, -.4], 40)),
+  upd: (t, i) => sUpd(t, i, 'pile'),
+  figs: (t, i) => fig([SX - .6, 0, .2], 'john', { mouth: 'o', blink: bl(t, 0), look: [2, 1], hR: [175, 40], hL: [25, 40] }) + fig([SX + 2.9, 0, .2], 'mary', { mouth: 'o', blink: bl(t, 1), look: [-2, 1], hR: [175, 40], hL: [25, 40] }) + dog([SX + 1.3, 0, 1.2], t, { bark: Math.sin(t * 8) > 0 }),
+  ui: (t, i) => counter(960, 200, t, wt(i, /collectors/) - .1, nextStart(i), wt(i, /collectors/), wt(i, /million/), 27980, 1e7, v => '~$' + Math.round(v).toLocaleString('en-US'), '#35a862', '#fff', 92),
+  sfx: i => [{ k: 'tick', t: wt(i, /collectors/) }, { k: 'impact', t: wt(i, /million/) }, { k: 'cash', t: wt(i, /million/) + .2 }] };
+SHOT.s_mint = { set: 'HILL', light: 'dusk',
+  cam: i => mv(cm([SX + 3.2, 1.7, 2], [SX + 1.6, .1, -.3], 40), cm([SX + 3, 1.6, 1.8], [SX + 1.6, .1, -.3], 38)),
+  upd: (t, i) => sUpd(t, i, 'pile'),
+  ui: (t, i) => { const a = wt(i, /stolen/) - .2; if (t < a) return '';
+    return `<div style="position:absolute;left:960px;top:120px;transform:translate(-50%,0) scale(${pop(t, a)}) rotate(-2deg);width:860px;background:#f4efe2;border:8px solid ${OL};border-radius:12px;padding:20px 30px;box-shadow:0 14px 0 #0005;z-index:2200;text-align:center">
+      <div style="font:900 30px IB;color:#6a5a4a">THEORY · 1901</div><div style="font:900 62px/1.05 IB;color:${OL}">STOLEN FROM THE<br>SAN FRANCISCO MINT?</div></div>` + stampAt(1450, 560, t, wt(i, /link/) - .05, 'NO LINK', '#e0303a', 110, -8) },
+  sfx: i => [{ k: 'pop', t: wt(i, /stolen/) }, { k: 'impact', t: wt(i, /link/) }] };
+SHOT.s_cooler = { set: 'HILL', light: 'dusk',
+  cam: i => mv(cm([SW[0] + 4, 2.4, SW[2] + 4.4], [SW[0] + 1, .9, SW[2] - 1], 46), cm([SW[0] + 3, 2, SW[2] + 3.2], [SW[0] + 1.2, .8, SW[2] - .8], 44)),
+  upd: (t, i) => sUpd(t, i, 'none'),
+  figs: (t, i) => fig([SW[0] + .6, 0, SW[2] + .6], 'john', { mouth: 'hmm', blink: bl(t, 0), look: [4, 2], hR: [180, 80] }) + dog([SW[0] + 1.8, 0, SW[2] + 1.2], t, {}),
+  ui: (t, i) => pillAt(960, 170, t, wt(i, /cooler/) - .1, nextStart(i), '🧊 AN OLD COOLER', '#2a8fd6', '#fff', 56) + pillAt(960, 290, t, wt(i, /firewood/) - .1, nextStart(i), '🪵 UNDER THE FIREWOOD', '#a0582a', '#fff', 50),
+  sfx: i => [{ k: 'pop', t: wt(i, /cooler/) }, { k: 'thud', t: wt(i, /firewood/) }] };
+SHOT.s_mystery = { set: 'HILL', light: 'night',
+  cam: i => mv(cm([SX + .2, 3.4, 5.6], [SX - .2, .2, -1.2], 46), cm([SX + .2, 2.6, 4], [SX - .2, .2, -1.2], 44)),
+  upd: (t, i) => sUpd(t, i, 'holes'),
+  ui: (t, i) => bigText(960, 230, t, wt(i, /buried/) - .1, nextStart(i), 'WHO BURIED THEM?', 100, '#ffd166', -3) + bigText(960, 420, t, wt(i, /nobody/) - .1, nextStart(i), '❓', 160),
+  sfx: i => [{ k: 'impact', t: wt(i, /buried/), g: .5 }, { k: 'shimmer', t: wt(i, /nobody/) }] };
+// ===================== #3 Set FIELD: Acker in Suffolk 1992 / British Museum =====================
+const HX = 2400, HF = [HX, 0, 0], HM = [HX, 0, -90];
+LOOK.farmer = { sw: '#4a6a3a', swd: '#3a5a2e', pa: '#3a3f55', hat: HAT.cap };
+LOOK.eric = { sw: '#b8744a', swd: '#9a5e3a', pa: '#4a4a3a', hat: HAT.grey };
+LOOK.arch = { sw: '#f2b21c', swd: '#d49a10', pa: '#4a5a3a', hat: `<path d="M38,50 Q38,8 100,6 Q162,8 162,50 Q100,40 38,50Z" fill="#f4efe2" stroke="${OL}" stroke-width="6"/><path d="M20,50 Q100,36 180,50 Q180,60 100,58 Q20,60 20,50Z" fill="#e8e0c8" stroke="${OL}" stroke-width="5"/>` };
+LOOK.ukcop = { sw: '#1b2236', swd: '#141a2a', pa: '#1b2236', hat: `<path d="M50,52 Q46,-20 100,-24 Q154,-20 150,52Z" fill="#1b2236" stroke="${OL}" stroke-width="6"/><circle cx="100" cy="20" r="10" fill="#c9ccd4" stroke="${OL}" stroke-width="3"/>`, mid: `<rect x="56" y="170" width="88" height="22" fill="#e8f060" stroke="${OL}" stroke-width="3"/>` };
+LOOK.curator = { sw: '#3a3f55', swd: '#2c3044', pa: '#2c3044', mid: MID.tie };
+PROP.detector = a => `<g transform="rotate(${a})"><rect x="-4" y="-10" width="8" height="110" rx="3" fill="#5a5e6a" stroke="${OL}" stroke-width="3"/><rect x="-12" y="4" width="24" height="16" rx="4" fill="#2a2a33" stroke="${OL}" stroke-width="3"/><ellipse cx="0" cy="104" rx="30" ry="10" fill="#e0303a" stroke="${OL}" stroke-width="4"/></g>`;
+PROP.phone = `<g transform="translate(-10,-26)"><rect x="0" y="0" width="22" height="40" rx="5" fill="#2a2a33" stroke="${OL}" stroke-width="4"/><rect x="4" y="5" width="14" height="22" fill="#60a5fa"/></g>`;
+PROP.trowel = `<g transform="rotate(30)"><rect x="-4" y="-34" width="8" height="30" rx="3" fill="#8a5a32" stroke="${OL}" stroke-width="3"/><path d="M-12,-4 L12,-4 L0,30Z" fill="#c9ccd4" stroke="${OL}" stroke-width="4"/></g>`;
+(function field() {
+  const S = 'FIELD';
+  mk(S, G.box(200, .4, 140, '#7a8a4a', { base: true }), { pos: [HX, -.4, 0], outline: false, cast: false });
+  // gepfluegter Acker: Furchen
+  mk(S, merge([...Array(40)].map((_, k) => at(G.box(60, .14, .45, k % 2 ? '#7a5a3a' : '#8a6a46', { base: true }), [HX, 0, -18 + k * .9]))), { outline: false, cast: false });
+  // Hecken + Bauernhof
+  mk(S, merge([...Array(20)].map((_, k) => at(G.ico(1.4 + G.hash(k) * .6, 2, '#3a6a3a', .1, k), [HX - 30 + k * 3.2, .8, -20]))).smooth(), { cast: false });
+  mk(S, merge([at(G.box(7, 3.4, 5, '#e8d8c0', { base: true }), [HX - 14, 0, -26]), at(G.cyl(5, 0, 2.4, 4, '#6a3a2a', { rot: .785 }), [HX - 14, 3.4, -26]), at(G.box(9, 4, 6, '#a03a2a', { base: true }), [HX - 2, 0, -28]), at(G.cyl(.6, .6, 9, 10, '#c9ccd4'), [HX + 4, 0, -26])]));
+  // Polizeiauto (UK, Streifen)
+  mk(S, merge([at(G.box(3.8, .8, 1.7, '#f4f6fb', { base: true }), [0, .35, 0]), at(G.box(2.2, .7, 1.56, '#f4f6fb', { base: true }), [-.2, 1.15, 0]), at(G.box(2.0, .5, 1.58, '#a8d8f0', { base: true }), [-.2, 1.2, 0]),
+    at(G.box(3.82, .22, 1.72, '#2a5ad6', { base: true }), [0, .62, 0]), at(G.box(.5, .16, .3, '#2a8fff', { base: true }), [-.2, 1.85, 0]),
+    ...[[-1.2, .86], [1.2, .86], [-1.2, -.86], [1.2, -.86]].map(([a, b]) => at(G.cyl(.34, .34, .24, 14, '#22242c'), [a, .34, b], [PI / 2, 0, 0]))]), { pos: [HX + 7, 0, -5], rot: [0, .5, 0] });
+  // British Museum: Saal mit Saeulen + Vitrine
+  mk(S, merge([at(G.box(16, .3, 12, '#d8d0c0', { base: true }), [HM[0], -.3, HM[2]]), at(G.box(16, 7, .3, '#e8e0d0', { base: true }), [HM[0], 0, HM[2] - 6]), at(G.box(.3, 7, 12, '#ded6c6', { base: true }), [HM[0] - 8, 0, HM[2]]),
+    ...[-6, -2, 2, 6].map(x => at(G.cyl(.4, .4, 7, 14, '#f2ece0'), [HM[0] + x, 0, HM[2] - 5.4])),
+    at(G.box(3.2, 1.0, 1.6, '#3a3f55', { base: true }), [HM[0], 0, HM[2] - 1.4]), at(G.box(1.4, 1.0, 1.0, '#3a3f55', { base: true }), [HM[0] + 3.4, 0, HM[2] - 1.4])]), { outline: false });
+  mk(S, merge([at(G.box(3.2, 1.2, 1.6, '#d8f0ff'), [HM[0], 1.6, HM[2] - 1.4]), at(G.box(1.4, 1.0, 1.0, '#d8f0ff'), [HM[0] + 3.4, 1.5, HM[2] - 1.4])]), { alpha: .16, spec: 1, outline: false, cast: false, recv: false });
+  mk(S, merge([at(coinPile(60, .7, 7, "#e8eaf0"), [0, 0, 0]), ...[...Array(8)].map((_, k) => at(G.box(.06, .02, .4, '#d8dde6', { base: true }), [-1.2 + k * .34, .02, .45], [0, .3, 0]))]), { pos: [HM[0], 1.02, HM[2] - 1.5], spec: 1, emis: .15, outline: false });
+  mk(S, coinPile(25, .4, 9), { pos: [HM[0] + .9, 1.02, HM[2] - 1.3], spec: 1, emis: .2, outline: false });
+})();
+const HHAM = mk('FIELD', hammerGeo(), { pos: [HM[0] + 3.4, 1.06, HM[2] - 1.4], rot: [0, .4, 0], scl: [1.4, 1.4, 1.4] });
+const HHOLE = mk('FIELD', G.cyl(.7, .7, .04, 18, '#4a3020'), { pos: [HX + 1, .15, 0], outline: false, cast: false });
+const HFIND = mk('FIELD', merge([at(coinPile(40, .5, 11, "#e8eaf0"), [0, 0, 0]), at(coinPile(14, .35, 12), [0, 0, 0]), ...[0, 1, 2].map(k => at(G.box(.06, .02, .4, '#d8dde6', { base: true }), [-.2 + k * .2, .06, .1], [0, .5 * k, 0]))]), { pos: [HX + 1, .17, 0], spec: 1, emis: .2, outline: false });
+const HBLOCK = mk('FIELD', merge([at(G.box(1.4, .8, 1.2, '#6a4a2e', { base: true }), [0, 0, 0]), at(G.box(1.5, .06, 1.3, '#c9ccd4', { base: true }), [0, -.06, 0])]), { pos: [HX + 1, 0, 0] });
+const HTAPE = mk('FIELD', merge([[-2, -2], [2, -2], [2, 2], [-2, 2]].map(([a, b]) => at(G.cyl(.04, .04, 1, 6, '#e8e8ee'), [a, 0, b]))), { pos: [HX + 1, 0, 0] });
+CHAP.push({ line: 'n3', n: 3, title: 'THE LOST HAMMER', year: '1992', place: '🇬🇧 Suffolk, England' });
+function hUpd(t, i, mode) {
+  HHOLE.vis = false; HFIND.vis = false; HBLOCK.vis = false; HTAPE.vis = false;
+  if (mode == 'find') { const a = wt(i, /coins/) - .3; HHOLE.vis = t > a; HFIND.vis = t > a; HFIND.scl = [1, ez(cl((t - a) / .5, 0, 1)) + .01, 1] }
+  if (mode == 'found') { HHOLE.vis = true; HFIND.vis = true; HTAPE.vis = true }
+  if (mode == 'block') { HTAPE.vis = true; HBLOCK.vis = true; const u = ez(cl((t - wt(i, /whole/) + .3) / 1.2, 0, 1)); HBLOCK.pos = [HX + 1, u * .9, 0] }
+}
+const detSweep = t => PROP.detector(-20 + 22 * Math.sin(t * 2.4));
+SHOT.x_field = { set: 'FIELD', light: 'day',
+  cam: i => mv(cm([HX + 14, 7, 14], [HX, 1, -2], 50), cm([HX + 9, 5, 10], [HX, 1, -1.5], 48)),
+  upd: (t, i) => hUpd(t, i, ''),
+  figs: (t, i) => fig([HX - 1.5 + (t - Lt(i).start) * .4, 0, .4], 'farmer', Object.assign(walk(t, 5), { mouth: 'hmm', blink: bl(t, 0), look: [2, 4] })),
+  ui: (t, i) => pillAt(960, 930 - 110, t, Lt(i).start + 2.7, nextStart(i), '🌾 A FIELD IN SUFFOLK', '#232838', '#fff', 44),
+  sfx: i => [{ k: 'bell', t: Lt(i).start + .4 }] };
+SHOT.x_hammer = { set: 'FIELD', light: 'day',
+  cam: i => mv(cm([HX + 1.4, 2.4, 5.6], [HX - .4, 1.2, 0], 46), cm([HX + .9, 2.2, 4.6], [HX - .4, 1.2, 0], 44)),
+  upd: (t, i) => hUpd(t, i, ''),
+  figs: (t, i) => fig([HX - .8, 0, .4], 'farmer', { mouth: 'sad', blink: bl(t, 0), look: [Math.sin(t * 2) * 5, 4], hR: [170, 40], hL: [30, 40], sweat: true }) +
+    (t > wt(i, /friend/) - .1 ? fig([HX + 2.4 - Math.max(0, 1 - (t - wt(i, /friend/)) * .7) * 2, 0, .8], 'eric', Object.assign(walk(t, 6), { mouth: 'smile', blink: bl(t, 2), look: [-4, 2] })) : ''),
+  ui: (t, i) => pillAt(960, 170, t, wt(i, /hammer/) - .1, nextStart(i), '🔨 LOST: ONE HAMMER', '#e0303a', '#fff', 58),
+  sfx: i => [{ k: 'error', t: wt(i, /hammer/), g: .4 }, { k: 'pop', t: wt(i, /friend/) }] };
+SHOT.x_detector = { set: 'FIELD', light: 'day',
+  cam: i => mv(cm([HX + 3, 2, 4.2], [HX + 1.6, 1.2, .4], 44), cm([HX + 2.6, 1.9, 3.4], [HX + 1.6, 1.2, .4], 40)),
+  upd: (t, i) => hUpd(t, i, ''),
+  figs: (t, i) => fig([HX + 1.8, 0, .6], 'eric', { mouth: 'grin', talk: 0, blink: bl(t, 2), look: [2, 2], prop: detSweep(t), hR: [170, 140] }) + fig([HX - .4, 0, .2], 'farmer', { mouth: 'smile', blink: bl(t, 0), look: [4, 2] }),
+  ui: (t, i) => pillAt(960, 170, t, wt(i, /detector/) - .1, nextStart(i), '📡 A METAL DETECTOR', '#232838', '#fff', 56) + pillAt(960, 290, t, wt(i, /retirement/) - .1, nextStart(i), '🎁 A RETIREMENT PRESENT', '#35a862', '#fff', 50),
+  sfx: i => [{ k: 'pop', t: wt(i, /detector/) }, { k: 'ding', t: wt(i, /retirement/) }] };
+SHOT.x_beep = { set: 'FIELD', light: 'day',
+  cam: i => cut2(i, /coins/, cm([HX + 3.6, 2, 3.6], [HX + 1.2, .7, 0], 44), cm([HX + 3.2, 1.8, 3], [HX + 1.2, .7, 0], 42), cm([HX + 1.9, 1.3, 1.3], [HX + 1, .15, 0], 38), cm([HX + 1.7, 1.1, 1], [HX + 1, .15, 0], 34)),
+  upd: (t, i) => hUpd(t, i, 'find'),
+  figs: (t, i) => t > wt(i, /coins/) - .15 ? '' : fig([HX + 1.6, 0, .9], 'eric', { mouth: 'o', blink: bl(t, 2), look: [-2, 4], prop: PROP.detector(-30), hR: [160, 150] }),
+  ui: (t, i) => { const P4 = [[/silver/i, '🪙 SILVER', '#9aa0ac'], [/gold/i, '🪙 GOLD', '#e8a800'], [/spoons/i, '🥄 SPOONS', '#2a8fd6'], [/jewelry/i, '💍 JEWELRY', '#c0508a']];
+    return P4.map(([re, tx, bg], k) => pillAt(330 + k * 420, 170, t, wt(i, re) - .1, nextStart(i), tx, bg, '#fff', 52)).join('') + stampAt(1450, 420, t, wt(i, /beeps/) - .05, 'BEEP!', '#e0303a', 100, -8, wt(i, /coins/) - .2) },
+  sfx: i => [{ k: 'beep', t: wt(i, /beeps/), f: 1200 }, { k: 'beep', t: wt(i, /beeps/) + .18, f: 1200 }, { k: 'shimmer', t: wt(i, /coins/) }, ...[/silver/i, /gold/i, /spoons/i, /jewelry/i].map(r => ({ k: 'pop', t: wt(i, r) }))] };
+SHOT.x_stop = { set: 'FIELD', light: 'day',
+  cam: i => cut2(i, /calls/, cm([HX + 4.2, 2.4, 5], [HX + 1.4, 1, 0], 46), cm([HX + 3.8, 2.3, 4.4], [HX + 1.4, 1, 0], 44), cm([HX + 4, 3, 7], [HX + 4.4, 1, -3], 48), cm([HX + 3.4, 2.8, 6], [HX + 4.4, 1, -3], 46)),
+  upd: (t, i) => hUpd(t, i, 'found'),
+  figs: (t, i) => t < wt(i, /calls/) - .15 ? fig([HX + 2.1, 0, .7], 'eric', { mouth: 'hmm', blink: bl(t, 2), look: [-3, 3], hR: [190, 60], hL: [10, 60] }) :
+    fig([HX + 2.1, 0, .9], 'eric', { mouth: 'smile', talk: .4 * Math.abs(Math.sin(t * 9)), blink: bl(t, 2), look: [2, 1], prop: PROP.phone, hR: [150, 70] }) + fig([HX + 5.8, 0, -3.2], 'ukcop', { mouth: 'o', blink: bl(t, 4), look: [-4, 2] }),
+  ui: (t, i) => stampAt(1400, 300, t, wt(i, /stops/) - .05, '✋ STOP DIGGING', '#e0303a', 90, -6, wt(i, /calls/) - .15) + pillAt(960, 170, t, wt(i, /police/) - .1, nextStart(i), '🚓 CALLS THE POLICE', '#2a5ad6', '#fff', 56),
+  sfx: i => [{ k: 'impact', t: wt(i, /stops/), g: .5 }, { k: 'ding', t: wt(i, /police/) }] };
+SHOT.x_dig = { set: 'FIELD', light: 'day',
+  cam: i => mv(cm([HX + 4.4, 3, 5.6], [HX + 1, .8, 0], 46), cm([HX + 3.6, 2.6, 4.4], [HX + 1, .9, 0], 44)),
+  upd: (t, i) => hUpd(t, i, 'block'),
+  figs: (t, i) => [[-.9, .2, 0], [2.4, .1, 1], [-1.8, 1.4, 2]].map(([dx, dz, k]) => fig([HX + 1 + dx, 0, dz], 'arch', { mouth: 'smile', blink: bl(t, k), look: [dx < 0 ? 4 : -4, 3], prop: k == 1 ? PROP.trowel : null, hR: [170, 120] })).join(''),
+  ui: (t, i) => pillAt(960, 170, t, Lt(i).start + .1, nextStart(i), '📅 THE NEXT DAY: ARCHAEOLOGISTS', '#232838', '#fff', 54),
+  sfx: i => [{ k: 'whoosh', t: Lt(i).start + .2, d: .8 }, { k: 'thud', t: wt(i, /whole/) }] };
+SHOT.x_count = { set: 'FIELD', light: 'day',
+  cam: i => mv(cm([HX + 1.9, 1.2, 1.4], [HX + 1, .3, 0], 38), cm([HX + 1.6, 1.0, 1], [HX + 1, .25, 0], 34)),
+  upd: (t, i) => hUpd(t, i, 'found'),
+  ui: (t, i) => counter(960, 160, t, Lt(i).start + .1, nextStart(i), Lt(i).start + .2, wt(i, /coins/), 0, 14865, v => Math.round(v).toLocaleString('en-US') + ' ROMAN COINS', '#e8a800', OL, 72) +
+    pillAt(960, 290, t, wt(i, /objects/) - .1, nextStart(i), '+ ~200 SILVER & GOLD OBJECTS', '#232838', '#fff', 52) + stampAt(1500, 760, t, wt(i, /sixteen/) - .05, '≈ 1,600 YEARS OLD', '#2a5ad6', 64, -6),
+  sfx: i => [{ k: 'cash', t: wt(i, /coins/) }, { k: 'pop', t: wt(i, /objects/) }, { k: 'impact', t: wt(i, /sixteen/), g: .5 }] };
+SHOT.x_reward = { set: 'FIELD', light: 'vault',
+  cam: i => mv(cm([HM[0] + 3, 3, HM[2] + 5.4], [HM[0] + .6, 1.4, HM[2] - 2], 48), cm([HM[0] + 2, 2.6, HM[2] + 4], [HM[0] + .4, 1.4, HM[2] - 2], 46)),
+  upd: (t, i) => hUpd(t, i, ''),
+  figs: (t, i) => fig([HM[0] - 2.4, 0, HM[2] - .6], 'curator', { mouth: 'smile', blink: bl(t, 0), look: [4, 1] }),
+  ui: (t, i) => pillAt(960, 150, t, wt(i, /british/i) - .1, nextStart(i), '🏛️ BRITISH MUSEUM', '#232838', '#fff', 56) +
+    counter(960, 280, t, wt(i, /reward/) - .1, nextStart(i), wt(i, /reward/), wt(i, /pounds/), 0, 1.75, v => '💷 £' + v.toFixed(2) + ' MILLION', '#35a862', '#fff', 76) + pillAt(960, 420, t, wt(i, /shared/) - .1, nextStart(i), '🤝 SHARED WITH THE FARMER', '#ffd166', OL, 50),
+  sfx: i => [{ k: 'ding', t: wt(i, /british/i) }, { k: 'cash', t: wt(i, /pounds/) }, { k: 'pop', t: wt(i, /shared/) }] };
+SHOT.x_hammer2 = { set: 'FIELD', light: 'vault',
+  cam: i => mv(cm([HM[0] + 4.4, 2, HM[2] + 1.4], [HM[0] + 3.4, 1.2, HM[2] - 1.4], 40), cm([HM[0] + 4, 1.9, HM[2] + .8], [HM[0] + 3.4, 1.2, HM[2] - 1.4], 36)),
+  upd: (t, i) => { hUpd(t, i, ''); HHAM.rot = [0, .4 + Math.sin(t) * .2, 0] },
+  ui: (t, i) => stampAt(960, 230, t, wt(i, /too/) - .05, '🔨 FOUND IT!', '#35a862', 110, -6) + pillAt(960, 800, t, wt(i, /museum/i) - .1, nextStart(i), 'ON DISPLAY TOO 😄', '#ffd166', OL, 54),
+  sfx: i => [{ k: 'ding', t: wt(i, /too/) }, { k: 'pop', t: wt(i, /museum/i) }] };
+// ===================== #2 Set ATTIC: Toulouse (rosa Backstein) / Dachboden mit Leck =====================
+const CX = 3000, CA = [CX, 0, 0], CT = [CX, 0, 90];
+LOOK.frauct = { sw: '#5a3a6a', swd: '#4a2e5a', pa: '#2c3044', mid: MID.tie };
+LOOK.owner = { sw: '#d8c8a8', swd: '#c0b090', pa: '#4a5a7a', hat: HAT.grey };
+PROP.torch = `<g transform="rotate(-70)"><rect x="-6" y="-10" width="12" height="34" rx="4" fill="#2a2a33" stroke="${OL}" stroke-width="3"/><path d="M-9,-10 L9,-10 L40,-110 L-40,-110Z" fill="#fff6c0" opacity=".35"/></g>`;
+(function attic() {
+  const S = 'ATTIC';
+  // Dachboden: Holzboden, schraege Dachflaechen, Balken, Kram
+  mk(S, merge([at(G.box(14, .3, 10, '#7a5a3a', { base: true, top: '#8a6a46' }), [CX, -.3, 0]), at(G.box(14, 5, .3, '#b07a5a', { base: true }), [CX, 0, -5]),
+    at(G.box(14, .2, 9, '#6a4a32', { base: true }), [CX, 3.7, -.6], [-.25, 0, 0]), at(G.box(.3, 5, 10, '#a06a4a', { base: true }), [CX - 7, 0, 0]),
+    ...[-5, -2.5, 0, 2.5, 5].map(x => at(G.box(.25, .25, 9, '#5a3a22', { base: true }), [CX + x, 3.5, -.6], [-.25, 0, 0])), at(G.box(14, .3, .3, '#5a3a22', { base: true }), [CX, 2.5, -4.6])]), { outline: false });
+  const J = []; [[-5, -3.6, 1.2, .8], [-3.6, -3.8, .9, 1.2], [-5.2, -2.2, .8, .6], [4.2, -3.6, 1.4, .9], [5.4, -3.4, .8, 1.4], [3.8, -2, .7, .5]].forEach(([x, z, s, h], k) =>
+    J.push(at(G.box(s, h, s * .8, ['#a07a4a', '#8a6a4a', '#c9b48a'][k % 3], { base: true }), [CX + x, 0, z], [0, k * .3, 0])));
+  J.push(at(G.cyl(.4, .35, .9, 12, '#6a7a8a'), [CX + 2.6, 0, -3.8]), at(G.box(1.2, .9, .6, '#5a3a22', { base: true }), [CX - 2, 0, -4.2]));
+  mk(S, merge(J));
+  // Eimer unter dem Leck
+  mk(S, G.cyl(.25, .2, .4, 12, '#9aa0ac', { open: true }), { pos: [CX + 1.4, 0, -1.2] });
+  // Toulouse: Strasse mit rosa Backsteinhaeusern
+  mk(S, G.box(160, .4, 80, '#b8a890', { base: true }), { pos: [CX, -.4, CT[2]], outline: false, cast: false });
+  const Hh = []; for (let k = 0; k < 9; k++) { const x = CX - 20 + k * 5, hh = 6 + (k % 3) * 1.6;
+    Hh.push(at(G.box(4.8, hh, 5, ['#d98a6a', '#e0a07a', '#c97a5a'][k % 3], { base: true }), [x, 0, CT[2] - 6]), at(G.cyl(3.6, 0, 1.8, 4, '#a0503a', { rot: .785 }), [x, hh, CT[2] - 6]));
+    for (let r = 0; r < 2; r++) for (let j = 0; j < 2; j++) Hh.push(at(G.box(.9, 1.3, .1, '#3a5a7a', { base: true }), [x - 1.1 + j * 2.2, 1.6 + r * 2.6, CT[2] - 3.46])) }
+  Hh.push(at(G.box(1.2, 2.2, .1, '#5a3a22', { base: true }), [CX, 0, CT[2] - 3.45]));
+  mk(S, merge(Hh).vary(.03, 5));
+})();
+const CPIC = texPlane('ATTIC', 2.2, 1.76, paintBaroque, { pos: [CX - .2, 1.15, -3.3], rot: [-.18, 0, 0] });
+const CFR = mk('ATTIC', G.box(2.36, 1.9, .06, '#3a2a1e', { base: false }), { pos: [CX - .2, 1.15, -3.34], rot: [-.18, 0, 0] });
+const CDROPS = [0, 1, 2].map(k => mk('ATTIC', G.ico(.05, 1, '#8fd3ff'), { pos: [CX + 1.4, 3, -1.2], emis: .4, outline: false, cast: false }));
+const CSHEET = mk('ATTIC', G.box(2.5, 2.0, .2, '#e8e4dc', { base: false }), { pos: [CX - .2, 1.15, -3.2], rot: [-.18, 0, 0] });
+CHAP.push({ line: 'n2', n: 2, title: 'THE LEAKY ATTIC', year: '2014', place: '🇫🇷 Toulouse' });
+function cUpd(t, i, sheet = false) {
+  CPIC.vis = !sheet; CFR.vis = true; CSHEET.vis = sheet;
+  CDROPS.forEach((m, k) => { const u = ((t * .9 + k / 3) % 1); m.pos = [CX + 1.4, 3 - u * 2.7, -1.2]; m.scl = [1, 1.5, 1] });
+}
+SHOT.c_house = { set: 'ATTIC', light: 'day',
+  cam: i => mv(cm([CX + 8, 5, CT[2] + 12], [CX, 3, CT[2] - 4], 50), cm([CX + 4, 3.4, CT[2] + 7], [CX, 2.4, CT[2] - 4], 48)),
+  upd: (t, i) => cUpd(t, i),
+  figs: (t, i) => fig([CX + 4 - (t - Lt(i).start) * .9, 0, CT[2] - 1.6], 'frauct', Object.assign(walk(t, 6), { mouth: 'smile', blink: bl(t, 0), look: [-3, 2] })),
+  ui: (t, i) => pillAt(960, 930 - 110, t, Lt(i).start + 2.7, nextStart(i), '🌸 TOULOUSE · "LA VILLE ROSE"', '#232838', '#fff', 44),
+  sfx: i => [{ k: 'bell', t: Lt(i).start + .4 }] };
+SHOT.c_attic = { set: 'ATTIC', light: 'indoorDark',
+  cam: i => mv(cm([CX + 4.6, 2.6, 4.4], [CX, 1.4, -2.4], 50), cm([CX + 3.4, 2.4, 3.4], [CX, 1.4, -2.4], 48)),
+  upd: (t, i) => cUpd(t, i),
+  figs: (t, i) => fig([CX + 2.6, 0, .2], 'frauct', { mouth: 'o', blink: bl(t, 0), look: [-4, 1], prop: PROP.torch, hR: [190, 80] }) + fig([CX + 3.8, 0, 1], 'owner', { mouth: 'smile', talk: tk(t, i) * .4, blink: bl(t, 1), look: [-4, 1] }),
+  ui: (t, i) => pillAt(960, 160, t, wt(i, /auctioneer/) - .1, nextStart(i), '🔨 A LOCAL AUCTIONEER', '#232838', '#fff', 52) + pillAt(1420, 300, t, wt(i, /leaking/) - .1, nextStart(i), '💧 LEAKY ROOF', '#2a8fd6', '#fff', 48),
+  sfx: i => [{ k: 'thud', t: Lt(i).start + .3 }, { k: 'pop', t: wt(i, /leaking/) }] };
+SHOT.c_canvas = { set: 'ATTIC', light: 'indoorWarm',
+  cam: i => mv(cm([CX + .4, 1.8, 1.2], [CX - .2, 1.2, -3.3], 46), cm([CX + .2, 1.6, .4], [CX - .2, 1.2, -3.3], 42)),
+  upd: (t, i) => cUpd(t, i),
+  ui: (t, i) => pillAt(960, 140, t, wt(i, /huge/) - .1, nextStart(i), '🖼️ A HUGE, OLD PAINTING', '#232838', '#fff', 54) + pillAt(960, 800, t, wt(i, /cutting/) - .1, nextStart(i), '⚔️ JUDITH & HOLOFERNES', '#8a1a1a', '#fff', 46),
+  sfx: i => [{ k: 'shimmer', t: wt(i, /huge/) }, { k: 'impact', t: wt(i, /head/), g: .4 }] };
+SHOT.c_expert = { set: 'ATTIC', light: 'indoorWarm',
+  cam: i => cut2(i, /caravaggio/i, cm([CX + 2.6, 2.2, 2.4], [CX - .2, 1.3, -3], 46), cm([CX + 2, 2, 1.8], [CX - .2, 1.3, -3], 44), cm([CX - .2, 1.5, -.6], [CX - .2, 1.2, -3.3], 46), cm([CX - .2, 1.4, -1.2], [CX - .2, 1.2, -3.3], 44)),
+  upd: (t, i) => cUpd(t, i),
+  figs: (t, i) => t > wt(i, /caravaggio/i) - .15 ? '' : fig([CX + 1.5, 0, -1.6], 'expert', { mouth: 'hmm', blink: bl(t, 0), look: [-5, 1], prop: PROP.magnifier, hR: [200, 110] }),
+  ui: (t, i) => pillAt(960, 160, t, wt(i, /paris/i) - .1, wt(i, /caravaggio/i) - .2, '🇫🇷 AN EXPERT FROM PARIS', '#232838', '#fff', 52) + bigText(960, 200, t, wt(i, /caravaggio/i) - .1, nextStart(i), 'CARAVAGGIO?!', 120, '#ffd166', -4) +
+    pillAt(960, 340, t, wt(i, /famous/) - .1, nextStart(i), '⭐ ONE OF THE MOST FAMOUS PAINTERS', '#232838', '#fff', 46),
+  sfx: i => [{ k: 'ding', t: wt(i, /studies/) }, { k: 'impact', t: wt(i, /caravaggio/i) }] };
+SHOT.c_estimate = { set: 'ATTIC', light: 'indoorWarm',
+  cam: i => mv(cm([CX + 1.6, 1.6, .8], [CX - .2, 1.2, -3.3], 44), cm([CX + 1.2, 1.5, .2], [CX - .2, 1.2, -3.3], 42)),
+  upd: (t, i) => cUpd(t, i),
+  ui: (t, i) => stampAt(1450, 250, t, wt(i, /bans/) - .05, '🇫🇷 STAYS IN FRANCE', '#2a5ad6', 64, -6) + pillAt(1450, 400, t, wt(i, /years/) - .1, nextStart(i), '🔬 TESTS FOR 2+ YEARS', '#232838', '#fff', 46) +
+    counter(960, 820, t, wt(i, /estimates/i) - .1, nextStart(i), wt(i, /estimates/i), wt(i, /euros/), 0, 150, v => 'UP TO €' + Math.round(v) + ' MILLION', '#35a862', '#fff', 72),
+  sfx: i => [{ k: 'impact', t: wt(i, /bans/), g: .5 }, { k: 'tick', t: wt(i, /years/) }, { k: 'cash', t: wt(i, /euros/) }] };
+SHOT.c_cancel = { set: 'AUC', light: 'indoorDark',
+  cam: i => mv(...CAM_POD),
+  upd: (t, i) => aucUpd(t, i, -1),
+  ui: (t, i) => pillAt(960, 170, t, wt(i, /june/i) - .1, nextStart(i), '📅 AUCTION: JUNE 2019', '#232838', '#fff', 54) + screenPrice(t, wt(i, /june/i), nextStart(i), '€100–150M?', '#ffd166') +
+    stampAt(1000, 520, t, wt(i, /off/) - .05, 'CANCELLED', '#e0303a', 120, -8),
+  sfx: i => [{ k: 'tick', t: wt(i, /june/i) }, { k: 'impact', t: wt(i, /off/) }] };
+SHOT.c_secret = { set: 'ATTIC', light: 'indoorDark',
+  cam: i => mv(cm([CX + 2.4, 2, 2.6], [CX - .2, 1.2, -3.2], 46), cm([CX + 1.8, 1.9, 1.8], [CX - .2, 1.2, -3.2], 44)),
+  upd: (t, i) => cUpd(t, i, t > wt(i, /secret/) - .1),
+  ui: (t, i) => pillAt(960, 160, t, wt(i, /private/) - .1, nextStart(i), '🕴️ A PRIVATE COLLECTOR', '#232838', '#fff', 52) + stampAt(1450, 340, t, wt(i, /secret/) - .05, 'PRICE: SECRET 🤫', '#e0303a', 72, -6) +
+    pillAt(960, 820, t, wt(i, /doubt/) - .1, nextStart(i), '🤔 REAL CARAVAGGIO? SOME DOUBT IT', '#ffd166', OL, 48),
+  sfx: i => [{ k: 'cash', t: wt(i, /bought/) }, { k: 'impact', t: wt(i, /secret/), g: .5 }, { k: 'pop', t: wt(i, /doubt/) }] };
+// ===================== #1 Set KIT: Haus bei Compiegne / Kueche mit Kochplatte / Louvre =====================
+const KX = 3600, KK = [KX, 0, 0], KH = [KX, 0, 90], KL = [KX, 0, -90];
+LOOK.granny = { sw: '#8a7ab0', swd: '#7a6aa0', pa: '#5a4a6a', hat: `<path d="M40,64 Q30,4 100,2 Q170,4 160,64 Q150,26 100,24 Q50,26 40,64Z" fill="#e8e8ee" stroke="${OL}" stroke-width="5"/><circle cx="100" cy="8" r="20" fill="#e8e8ee" stroke="${OL}" stroke-width="5"/>`, mid: `<path d="M70,160 Q100,190 130,160 L134,240 L66,240Z" fill="#f2d0e0" stroke="${OL}" stroke-width="3"/>` };
+LOOK.wolf = { sw: '#2a6a6a', swd: '#205a5a', pa: '#2c3044', hat: `<path d="M44,70 Q26,0 100,-4 Q174,0 156,70 Q150,26 100,22 Q50,26 44,70Z" fill="#3a2a22" stroke="${OL}" stroke-width="5"/>` };
+LOOK.visitor = { sw: '#e07a5a', swd: '#c8644a', pa: '#3a3f55', hat: HAT.cap };
+(function kit() {
+  const S = 'KIT';
+  // Kueche (offen): Fliesenboden, Wand, Arbeitsplatte mit Kochplatte, Fenster, Tisch
+  mk(S, merge([at(G.box(14, .3, 10, '#c9b8a0', { base: true, top: '#d8c8b0' }), [KX, -.3, 0]), at(G.box(14, 5, .3, '#f0e2c4', { base: true }), [KX, 0, -4]), at(G.box(.3, 5, 10, '#e8d8b8', { base: true }), [KX - 7, 0, 0]),
+    at(G.box(5, .95, 1.1, '#8a6a46', { base: true }), [KX, 0, -3.3]), at(G.box(5.1, .1, 1.2, '#e8e0d0', { base: true }), [KX, .95, -3.3]),
+    at(G.box(.9, .04, .6, '#2a2a33', { base: true }), [KX, 1.05, -3.3]), ...[-.22, .22].map(x => at(G.cyl(.16, .16, .015, 16, '#c0303a'), [KX + x, 1.09, -3.3])),
+    at(G.box(1.6, 1.4, .1, '#bfe0f6', { base: true }), [KX - 3.4, 1.6, -3.84]), at(G.box(1.7, .1, .14, '#f4efe2', { base: true }), [KX - 3.4, 1.55, -3.8]),
+    at(G.box(1.6, .5, .5, '#a07a4a', { base: true }), [KX + 3.2, 2.6, -3.6]), ...[...Array(6)].map((_, k) => at(G.box(.18, .26, .18, ['#e07a5a', '#60a5fa', '#f2b21c'][k % 3], { base: true }), [KX + 2.6 + k * .24, 1.05, -3.4])),
+    at(G.box(2, .08, 1.2, '#a8784a', { base: true }), [KX + .4, .85, -.4]), ...[[-.9, -.5], [.9, -.5], [-.9, .5], [.9, .5]].map(([a, b]) => at(G.box(.08, .85, .08, '#7a5226', { base: true }), [KX + .4 + a, 0, -.4 + b]))]), { outline: false });
+  mk(S, G.cyl(.15, .15, .2, 14, '#9aa0ac'), { pos: [KX + .22, 1.1, -3.3] });
+  // Haus von aussen (1960er, Garten, Zaun, Verkaufsschild)
+  mk(S, G.box(160, .4, 80, '#7aa05a', { base: true }), { pos: [KX, -.4, KH[2]], outline: false, cast: false });
+  mk(S, merge([at(G.box(9, 4.2, 7, '#f0e8d8', { base: true }), [KX, 0, KH[2] - 6]), at(G.cyl(6.6, 0, 2.6, 4, '#7a4a3a', { rot: .785 }), [KX, 4.2, KH[2] - 6]),
+    at(G.box(1.2, 2.2, .1, '#5a7a9a', { base: true }), [KX, 0, KH[2] - 2.45]), ...[-2.8, 2.8].map(x => at(G.box(1.4, 1.2, .1, '#3a5a7a', { base: true }), [KX + x, 1.4, KH[2] - 2.45])),
+    ...[...Array(14)].map((_, k) => at(G.box(.1, .9, .1, '#f4efe2', { base: true }), [KX - 7 + k * 1.08, 0, KH[2] + 2])), at(G.box(14, .08, .06, '#f4efe2', { base: true }), [KX, .7, KH[2] + 2]),
+    at(G.box(.1, 1.6, .1, '#8a5a32', { base: true }), [KX + 4, 0, KH[2] + 1.4]), at(G.box(1.4, .8, .06, '#e0303a', { base: true }), [KX + 4, 1.3, KH[2] + 1.44]),
+    ...leafy(KX - 9, KH[2] - 4, 1.1), ...leafy(KX + 9, KH[2] - 3, 1)]).vary(.02, 6));
+  // Louvre-Saal
+  mk(S, merge([at(G.box(16, .3, 12, '#a87a4a', { base: true, top: '#b88a5a' }), [KL[0], -.3, KL[2]]), at(G.box(16, 7, .3, '#8a3a3a', { base: true }), [KL[0], 0, KL[2] - 5]), at(G.box(.3, 7, 12, '#7a3434', { base: true }), [KL[0] - 8, 0, KL[2]]),
+    at(G.box(16, .4, .4, '#e8c060', { base: true }), [KL[0], 6.4, KL[2] - 4.8]), at(G.box(3, .45, .9, '#5a3a2a', { base: true }), [KL[0], 0, KL[2] + 1]),
+    ...[-5.4, 5.4].map(x => at(G.box(2.4, 1.8, .1, ['#3a5a3a', '#5a4a2a'][x > 0 ? 1 : 0], { base: true }), [KL[0] + x, 1.6, KL[2] - 4.8]))]), { outline: false });
+})();
+const KPIC = texPlane('KIT', .26, .34, paintIcon, { pos: [KX, 1.7, -3.82] });
+const KFRAME = mk('KIT', G.box(.32, .4, .03, '#c9a23c', { base: false }), { pos: [KX, 1.7, -3.84] });
+const KSTEAM = [0, 1, 2, 3].map(k => mk('KIT', G.ico(.06, 1, '#ffffff'), { pos: [KX + .22, 1.3, -3.3], alpha: .3, emis: .7, outline: false, cast: false, recv: false }));
+const KLOUV = texPlane('KIT', .52, .68, paintIcon, { pos: [KL[0], 1.9, KL[2] - 4.82] });
+const KLFR = mk('KIT', G.box(.66, .82, .05, '#c9a23c', { base: false }), { pos: [KL[0], 1.9, KL[2] - 4.86] });
+CHAP.push({ line: 'n1', n: 1, title: 'THE KITCHEN PAINTING', year: '2019', place: '🇫🇷 Near Paris' });
+function kUpd(t, i) { KSTEAM.forEach((m, k) => { const u = (t * .4 + k / 4) % 1; m.pos = [KX + .22 + Math.sin(t + k) * .04, 1.24 + u * .22, -3.3]; m.alpha = .3 * (1 - u); const s = .35 + u * .4; m.scl = [s, s, s] }) }
+const granny = (t, o = {}) => fig([KX - .8, 0, -2.4], 'granny', Object.assign({ mouth: 'smile', blink: bl(t, 0), look: [3, 1] }, o));
+// Hook: Kamera beginnt nah am kleinen Bild ueber der Kochplatte und faehrt zurueck
+SHOT.h_kitchen = { set: 'KIT', light: 'indoorWarm',
+  cam: i => [{ t0: 0, a: cm([KX + .3, 1.72, -2.5], [KX, 1.62, -3.82], 40), b: cm([KX + 1.6, 2.1, .2], [KX - .2, 1.4, -3.4], 46) }],
+  upd: kUpd,
+  figs: (t, i) => granny(t, { hR: [175, 190] }),
+  ui: (t, i) => labelAt([KX, 2.0, -3.8], PILL('🖼️ TINY PAINTING', '#ffd166', OL, 40), t, wt(i, /tiny/) - .1, wt(i, /worthless/) - .2) + stampAt(1460, 560, t, wt(i, /worthless/) - .05, '"WORTHLESS"', '#e0303a', 80, -6),
+  sfx: i => [{ k: 'pop', t: wt(i, /tiny/) }, { k: 'impact', t: wt(i, /worthless/), g: .4 }] };
+SHOT.h_sold = { set: 'AUC', light: 'indoorWarm',
+  cam: i => cut2(i, /months/, ...CAM_POD, ...CAM_AUD),
+  upd: (t, i) => aucUpd(t, i, 2),
+  figs: (t, i) => t < wt(i, /months/) - .15 ? fig([AX - .9, 0, -4.2], 'expert', { mouth: 'o', blink: bl(t, 0), look: [3, 0], prop: PROP.magnifier, hR: [200, 110] }) : audience(t, i, 1),
+  ui: (t, i) => counter(960, 600, t, wt(i, /sold/) - .1, nextStart(i), wt(i, /sold/), wt(i, /euros/), 0, 24e6, v => '€' + Math.round(v).toLocaleString('en-US'), '#35a862', '#fff', 92) + stampAt(1460, 780, t, wt(i, /euros/) + .1, 'SOLD!', '#e0303a', 110, -8),
+  sfx: i => [{ k: 'ding', t: wt(i, /closer/) }, { k: 'tick', t: wt(i, /sold/) }, { k: 'impact', t: wt(i, /euros/) }, { k: 'cash', t: wt(i, /euros/) + .2 }] };
+SHOT.k_house = { set: 'KIT', light: 'day',
+  cam: i => mv(cm([KX + 9, 4, KH[2] + 12], [KX, 2.2, KH[2] - 4], 50), cm([KX + 5, 3, KH[2] + 8], [KX, 2, KH[2] - 4], 48)),
+  upd: kUpd,
+  ui: (t, i) => pillAt(960, 930 - 110, t, Lt(i).start + 2.7, nextStart(i), '🏠 NEAR COMPIÈGNE, NORTH OF PARIS', '#232838', '#fff', 44) + labelAt([KX + 4, 1.8, KH[2] + 1.5], PILL('FOR SALE', '#e0303a', '#fff', 34), t, Lt(i).start + 1, nextStart(i)),
+  sfx: i => [{ k: 'bell', t: Lt(i).start + .4 }] };
+SHOT.k_value = { set: 'KIT', light: 'indoorWarm',
+  cam: i => mv(cm([KX + 3.6, 2.6, 4], [KX, 1.3, -1.8], 48), cm([KX + 2.6, 2.3, 3], [KX, 1.3, -1.8], 46)),
+  upd: kUpd,
+  figs: (t, i) => granny(t, { talk: 0 }) + fig([KX + 2.2, 0, -1], 'wolf', { mouth: 'smile', blink: bl(t, 2), look: [-3, 1], hR: [180, 140] }),
+  ui: (t, i) => pillAt(960, 160, t, wt(i, /nineties/) - .1, nextStart(i), '👵 IN HER NINETIES', '#232838', '#fff', 52) + pillAt(960, 280, t, wt(i, /auctioneer/) - .1, nextStart(i), '🔨 AN AUCTIONEER VALUES EVERYTHING', '#2a8fd6', '#fff', 46),
+  sfx: i => [{ k: 'pop', t: wt(i, /nineties/) }, { k: 'pop', t: wt(i, /auctioneer/) }] };
+SHOT.k_tiny = { set: 'KIT', light: 'indoorWarm',
+  cam: i => mv(cm([KX + .6, 1.7, -2.2], [KX, 1.45, -3.6], 40), cm([KX + .25, 1.68, -2.8], [KX, 1.6, -3.8], 36)),
+  upd: kUpd,
+  ui: (t, i) => labelAt([KX, 1.92, -3.8], PILL('26 × 20 CM', '#ffd166', OL, 40), t, wt(i, /tiny/) - .1, nextStart(i)) + pillAt(960, 160, t, wt(i, /hot/) - .1, nextStart(i), '🍳 ABOVE THE HOT PLATE', '#e0303a', '#fff', 52) +
+    pillAt(960, 860, t, wt(i, /smaller/i) - .1, nextStart(i), '📄 SMALLER THAN A SHEET OF PAPER', '#232838', '#fff', 46),
+  sfx: i => [{ k: 'pop', t: wt(i, /tiny/) }, { k: 'swish', t: wt(i, /smaller/i) }] };
+SHOT.k_icon = { set: 'KIT', light: 'indoorWarm',
+  cam: i => mv(cm([KX + 1.4, 2, -.4], [KX - .4, 1.4, -3.2], 44), cm([KX + 1.1, 1.9, -.9], [KX - .4, 1.45, -3.2], 42)),
+  upd: kUpd,
+  figs: (t, i) => granny(t, { mouth: 'smile', look: [4, 0], hR: [170, 60], hL: [30, 60] }),
+  ui: (t, i) => pillAt(1300, 300, t, wt(i, /icon/) - .1, nextStart(i), '"JUST AN OLD ICON"', '#232838', '#fff', 50) + pillAt(1300, 420, t, wt(i, /nothing/i) - .1, nextStart(i), '🤷 NOTHING SPECIAL', '#9aa0ac', '#fff', 46),
+  sfx: i => [{ k: 'pop', t: wt(i, /icon/) }, { k: 'pop', t: wt(i, /nothing/i) }] };
+SHOT.k_spot = { set: 'KIT', light: 'indoorWarm',
+  cam: i => cut2(i, /italian/i, cm([KX + 2.6, 2.2, .2], [KX + .3, 1.4, -3.2], 46), cm([KX + 2.3, 2.1, -.3], [KX + .3, 1.45, -3.2], 44), cm([KX + .3, 1.75, -2.6], [KX, 1.68, -3.8], 36), cm([KX + .2, 1.72, -3], [KX, 1.7, -3.8], 32)),
+  upd: kUpd,
+  figs: (t, i) => t > wt(i, /italian/i) - .15 ? '' : fig([KX + .9, 0, -2.6], 'wolf', { mouth: 'o', blink: bl(t, 2), look: [-4, -1], prop: PROP.magnifier, hR: [170, 70] }),
+  ui: (t, i) => stampAt(1450, 300, t, wt(i, /italian/i) - .05, '🇮🇹 EARLY ITALIAN?', '#2a5ad6', 70, -6) + pillAt(960, 860, t, wt(i, /three/) - .1, nextStart(i), 'FIRST GUESS: €300,000–400,000', '#35a862', '#fff', 50),
+  sfx: i => [{ k: 'ding', t: wt(i, /recognizes/) }, { k: 'impact', t: wt(i, /italian/i), g: .5 }, { k: 'cash', t: wt(i, /three/) }] };
+SHOT.k_expert = { set: 'KIT', light: 'indoorWarm',
+  cam: i => mv(cm([KX + 3, 2.2, 1.4], [KX + .6, 1.4, -2.6], 46), cm([KX + 2.4, 2, .6], [KX + .6, 1.4, -2.6], 44)),
+  upd: kUpd,
+  figs: (t, i) => fig([KX + 1.2, 0, -2.2], 'expert', { mouth: 'hmm', blink: bl(t, 0), look: [-4, -1], prop: PROP.magnifier, hR: [180, 80] }) + fig([KX + 2.4, 0, -1.4], 'wolf', { mouth: 'smile', blink: bl(t, 2), look: [-4, 1] }),
+  ui: (t, i) => stampAt(1300, 300, t, wt(i, /same/) - .05, 'SAME EXPERT AS #2 👀', '#e0303a', 64, -5),
+  sfx: i => [{ k: 'impact', t: wt(i, /same/), g: .5 }] };
+SHOT.k_scan = { set: 'KIT', light: 'indoorDark',
+  cam: i => mv(cm([KX + .1, 1.72, -3.0], [KX, 1.7, -3.82], 36), cm([KX + .05, 1.71, -3.2], [KX, 1.7, -3.82], 32)),
+  upd: kUpd,
+  ui: (t, i) => { const a = wt(i, /infrared/) - .2; let h = pillAt(960, 140, t, a, nextStart(i), '🔬 INFRARED SCAN', '#8a3ad6', '#fff', 54);
+    if (t > a) { const y = 200 + ((t - a) * 260) % 700; h += `<div style="position:absolute;left:0;right:0;top:0;bottom:0;background:#8a3ad633;z-index:1500"></div><div style="position:absolute;left:0;right:0;top:${y}px;height:10px;background:#d6a0ff;box-shadow:0 0 30px #c080ff;z-index:1600"></div>` }
+    return h + pillAt(960, 860, t, wt(i, /compares/) - .1, nextStart(i), '🔍 COMPARED TO OTHER WORKS', '#232838', '#fff', 46) },
+  sfx: i => [{ k: 'beep', t: wt(i, /infrared/), f: 900 }, { k: 'swish', t: wt(i, /compares/) }] };
+SHOT.k_cimabue = { set: 'KIT', light: 'indoorWarm',
+  cam: i => mv(cm([KX + .35, 1.75, -2.6], [KX, 1.68, -3.82], 38), cm([KX + .2, 1.72, -2.9], [KX, 1.7, -3.82], 34)),
+  upd: kUpd,
+  ui: (t, i) => bigText(960, 200, t, wt(i, /cimabue/i) - .1, nextStart(i), 'CIMABUE', 140, '#ffd166', -3) + stampAt(1500, 470, t, wt(i, /1280/) - .05, '≈ 1280', '#2a5ad6', 100, -6) +
+    pillAt(960, 860, t, wt(i, /handful/) - .1, nextStart(i), '✋ ONLY A HANDFUL SURVIVE', '#232838', '#fff', 50),
+  sfx: i => [{ k: 'impact', t: wt(i, /cimabue/i) }, { k: 'pop', t: wt(i, /1280/) }, { k: 'ding', t: wt(i, /handful/) }] };
+SHOT.k_auction = { set: 'AUC', light: 'indoorWarm',
+  cam: i => mv(...CAM_AUD),
+  upd: (t, i) => aucUpd(t, i, 2),
+  figs: (t, i) => audience(t, i, t > wt(i, /bids/) - .2),
+  ui: (t, i) => pillAt(960, 160, t, wt(i, /october/i) - .1, nextStart(i), '📅 OCTOBER 2019 · SENLIS', '#232838', '#fff', 52) + pillAt(960, 280, t, wt(i, /eight/) - .1, nextStart(i), '👥 ~800 PEOPLE', '#2a8fd6', '#fff', 50) +
+    counter(960, 830, t, wt(i, /bids/) - .1, nextStart(i), wt(i, /bids/), nextStart(i) + 1, 4e6, 15e6, v => '€' + Math.round(v / 1e5) / 10 + ' MILLION…', '#35a862', '#fff', 64),
+  sfx: i => [{ k: 'pop', t: wt(i, /eight/) }, { k: 'tick', t: wt(i, /bids/) }, { k: 'tick', t: wt(i, /bids/) + .4 }, { k: 'tick', t: wt(i, /bids/) + .8 }] };
+SHOT.k_sold = { set: 'AUC', light: 'indoorWarm',
+  cam: i => cut2(i, /painting/, ...CAM_POD, cm([AX + .3, 1.9, -3.6], [AX, 1.68, -4.86], 40), cm([AX + .2, 1.8, -3.9], [AX, 1.68, -4.86], 36)),
+  upd: (t, i) => aucUpd(t, i, 2),
+  figs: (t, i) => t < wt(i, /painting/) - .15 ? auctioneer(t, i) : '',
+  ui: (t, i) => counter(960, 170, t, Lt(i).start + .05, nextStart(i), Lt(i).start + .1, wt(i, /euros/), 15e6, 24e6, v => '€' + Math.round(v).toLocaleString('en-US'), '#35a862', '#fff', 90) +
+    stampAt(1460, 400, t, wt(i, /euros/), 'SOLD!', '#e0303a', 120, -8, wt(i, /painting/) - .15) + pillAt(960, 860, t, wt(i, /stove/) - .1, nextStart(i), '🍳 IT HUNG OVER THE STOVE', '#ffd166', OL, 54),
+  sfx: i => [{ k: 'impact', t: wt(i, /euros/) }, { k: 'cash', t: wt(i, /euros/) + .2 }, { k: 'pop', t: wt(i, /stove/) }] };
+SHOT.k_louvre = { set: 'KIT', light: 'indoorWarm',
+  cam: i => cut2(i, /louvre/i, cm([AX + 0, 0, 0], [AX, 0, -1], 40), cm([AX, 0, 0], [AX, 0, -1], 40), cm([KL[0] + 2.4, 2.2, KL[2] + 2.6], [KL[0], 1.8, KL[2] - 4.6], 44), cm([KL[0] + 1.2, 2, KL[2] + 1.2], [KL[0], 1.85, KL[2] - 4.6], 40)),
+  upd: kUpd,
+  figs: (t, i) => t < wt(i, /louvre/i) - .15 ? '' : fig([KL[0] - 1.6, 0, KL[2] - 1.4], 'visitor', { mouth: 'o', blink: bl(t, 0), look: [3, -2] }) + fig([KL[0] + 1.8, 0, KL[2] - 1], 'lady', { mouth: 'smile', blink: bl(t, 1), look: [-3, -2] }),
+  ui: (t, i) => (t < wt(i, /louvre/i) - .15 ? `<div style="position:absolute;inset:0;background:#2a3044;z-index:1400"></div>` + stampAt(960, 420, t, wt(i, /blocked/) - .05, '🇫🇷 EXPORT BLOCKED', '#2a5ad6', 100, -5) : '') +
+    pillAt(960, 160, t, wt(i, /louvre/i) - .1, nextStart(i), '🏛️ THE LOUVRE · 2023', '#232838', '#fff', 56),
+  sfx: i => [{ k: 'impact', t: wt(i, /blocked/), g: .5 }, { k: 'ding', t: wt(i, /louvre/i) }] };
+SHOT.k_grandma = { set: 'KIT', light: 'indoorWarm',
+  cam: i => mv(cm([KX + 2.4, 2.2, .8], [KX + .3, 1.45, -3], 46), cm([KX + 1.8, 2, 0], [KX + .3, 1.5, -3], 44)),
+  upd: kUpd,
+  figs: (t, i) => fig([KX + 1.4, 0, -2.2], 'sam', { mouth: 'grin', talk: tk(t, i) * .6, blink: bl(t, 0), look: [-4, -2], prop: PROP.magnifier, hR: [170, 70] }),
+  ui: (t, i) => pillAt(960, 160, t, wt(i, /grandma/) - .1, nextStart(i), "👵 CHECK GRANDMA'S KITCHEN!", '#ffd166', OL, 54),
+  sfx: i => [{ k: 'pop', t: wt(i, /grandma/) }] };
+// ===================== Draw =====================
+let LASTSET = null;
+window.setTimeline = tl => {
+  MG.TL = tl; CAMS = [];
+  for (let i = 0; i < NL(); i++) CAMS.push(camOf(i));
+  CHAP.forEach(c => { c.i = MG.TL.lines.findIndex(l => (l.spec || {}).ui == c.line); });
+  for (let k = CHAP.length - 1; k >= 0; k--) if (CHAP[k].i < 0) CHAP.splice(k, 1);
+};
+window.ready = false;
+Promise.all(['900 40px IB', '700 40px P'].map(f => document.fonts.load(f))).then(() => { TEXQ.forEach(f => f()); window.ready = true }).catch(() => { TEXQ.forEach(f => f()); window.ready = true });
+window.draw = function (t) {
+  const i = lineAt(t), sh = SHOT[SPEC(i).shot] || { set: 'INT', light: 'indoorWarm' };
+  showSet(sh.set); setLight((typeof sh.light == 'function' ? sh.light(t, i) : sh.light) || 'night');
+  const c = camAt(t); w.cam.pos = c.pos; w.cam.at = c.at; w.cam.fov = c.fov;
+  w.shadowCenter = [c.at[0], 0, c.at[2]]; w.shadowSize = Math.min(60, 10 + Math.hypot(...G.v.sub(c.pos, c.at)) * .7);
+  if (sh.upd) sh.upd(t, i);
+  w.render(t);
+  $('ov').innerHTML = sh.figs ? sh.figs(t, i) : '';
+  let fx = '';
+  const cuts = cutTimes(); let fl = 0; cuts.forEach(x => { const f = cl(t, x - .06, x + .16); if (f > 0 && f < 1) fl = Math.max(fl, Math.sin(f * PI) * .5) });
+  if (fl > 0) fx += `<div style="position:absolute;inset:0;background:#fff;opacity:${fl}"></div>`;
+  $('fx').innerHTML = fx;
+  let ui = chapterUI(t) + (sh.ui ? sh.ui(t, i) : '') + hookTitle(t);
+  ui += MG.captions(t, { y: 900, size: 78, maxWords: 2, hl: '#ffd166', stageW: 1920 }).replace(/'Arial Black',Arial/, 'IB,Arial');
+  $('ui').innerHTML = ui;
+};
+// Hook-Text ab Frame 0 (stumm verstaendlich)
+function hookTitle(t) {
+  const t1 = Lt(2).start; if (t > t1) return '';
+  const o = fade(t, t1 - .25, t1);
+  return `<div style="position:absolute;left:0;right:0;top:40px;text-align:center;opacity:${o};z-index:2350">
+   <div style="display:inline-block;font:900 96px/1.02 IB,Arial;color:#fff;text-shadow:${shadowTxt(OL, 7)},0 12px 24px #0007"><span style="color:#ffd166">€24 MILLION</span><br><span style="font-size:66px">HUNG IN HER KITCHEN</span></div></div>`;
+}
+window.sfxEvents = function () {
+  const E = [{ k: 'whoosh', t: .05, d: .8 }];
+  cutTimes().forEach(x => E.push({ k: 'whoosh', t: x - .12, d: .45 }));
+  CHAP.forEach(c => E.push({ k: 'impact', t: Lt(c.i).start + .1, g: .6 }));
+  for (let i = 0; i < NL(); i++) { const s = SHOT[SPEC(i).shot]; if (s && s.sfx) s.sfx(i).forEach(e => { if (isFinite(e.t)) E.push(e) }) }
+  return E;
+};
+</script></body></html>

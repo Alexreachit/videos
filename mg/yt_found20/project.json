@@ -1,0 +1,454 @@
+{
+ "title": "YouTube 20: 6 People Who Found a Fortune by Accident",
+ "_sources": "Sources (checked 2026-11-27):\n- Cimabue \"The Mocking of Christ\": Wikipedia \"The Mocking of Christ (Cimabue)\" (house near Compiegne, 2019, hung above the hotplate, owner in her nineties,\n  thought it an old religious icon of little value, 25.8 x 20.3 cm, c. 1280, auctioneer Philomene Wolf noticed it, Eric Turquin attributed it, sold 27 Oct 2019 at\n  Acteon Senlis, EUR 24 million with fees, export ban, acquired by the Louvre Nov 2023); Irish Times 27 Oct 2019 (\"hung for decades above a cooking hotplate\",\n  \"simply an old icon from Russia\", 26 x 20 cm, over EUR 24 million); The Art Newspaper 6 Nov 2023 (Louvre, EUR 24.1m).\n- Caravaggio \"Judith Beheading Holofernes\" (Toulouse): The Art Newspaper 1 Mar 2019 timeline (April 2014 auctioneer Marc Labarbe called to a house in Toulouse,\n  Eric Turquin, national treasure, 30-month export ban); artnet News June 2019 (\"dark, cluttered, leaky attic\", estimate EUR 100-150 million, auction 27 June 2019\n  cancelled at the eleventh hour, sold privately, buyer and price confidential, some experts doubt the attribution); Wikipedia (undisclosed amount).\n- Hoxne Hoard: Wikipedia \"Hoxne Hoard\" (16 Nov 1992, farmer Peter Whatling lost a hammer, friend Eric Lawes with metal detector, notified police without digging\n  further, archaeologists excavated next day, 14,865 Roman coins: 569 gold, 14,272 silver, 24 bronze, ~200 items of tableware and jewellery, buried after AD 407,\n  valued GBP 1.75 million paid to Lawes and shared with Whatling, hammer also recovered and given to the British Museum); Smithsonian Magazine 2017.\n- Saddle Ridge Hoard: Wikipedia \"Saddle Ridge Hoard\" (Feb 2013, couple \"John and Mary\" walking their dog on their property in Northern California, rusty can\n  poking out of the ground, 8 cans, 1,427 gold coins dated 1847-1894, face value $27,980, hid them in an old cooler under a woodpile, Mint-theft theory ruled out);\n  NPR 26 Feb 2014 (Sierra Nevada property, Kagin's: about $10 million).\n- Declaration of Independence (Adamstown): Snopes; Philadelphia Inquirer (1991, reprint 2009: bought a painting for $4 because he liked the frame, folded document\n  between painting and backing); History.com (1989, Adamstown, Pennsylvania, printed by John Dunlap); Christian Science Monitor 3 Jul 2000 (sold 1991 for $2.42 million,\n  2000 for about $8.1 million to TV producer Norman Lear and a partner).\n- \"Tenner\" diamond: Sotheby's editorial (late 1980s, car boot sale in Isleworth, West London, haggled from GBP 12 to GBP 10, thought it was costume jewellery,\n  wore it regularly, appraised in 2017, cushion-cut 26.27 carats, 19th century); ITV News 7 Jun 2017 (estimate GBP 250,000-350,000, sold at Sotheby's London for GBP 656,750).",
+ "size": [
+  1920,
+  1080
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+4%",
+ "lead": 0.3,
+ "gap": 0.42,
+ "tail": 3.0,
+ "crf": 21,
+ "music": {
+  "style": "suspense",
+  "bpm": 96,
+  "gain": 0.13,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.42,
+ "lines": [
+  {
+   "text": "For decades, this tiny painting hung above a hot plate in an old woman's kitchen. She thought it was worthless.",
+   "spec": {
+    "shot": "h_kitchen",
+    "ui": "hook"
+   }
+  },
+  {
+   "text": "Then someone took a closer look. A few months later, it sold for twenty-four million euros.",
+   "spec": {
+    "shot": "h_sold",
+    "ui": "sold"
+   }
+  },
+  {
+   "text": "That's number one on this list. But first, five other people who found a fortune completely by accident.",
+   "spec": {
+    "shot": "list",
+    "ui": "list"
+   }
+  },
+  {
+   "text": "A ring from a car boot sale. A four-dollar painting. A rusty can. A lost hammer. And a leaky attic.",
+   "spec": {
+    "shot": "list2",
+    "ui": "teaser"
+   }
+  },
+  {
+   "text": "Number six. West London, the late 1980s.",
+   "spec": {
+    "shot": "r_boot",
+    "cut": true,
+    "mood": "calm",
+    "ui": "n6"
+   }
+  },
+  {
+   "text": "A woman is browsing a car boot sale. That's like a flea market, out of the trunks of cars.",
+   "spec": {
+    "shot": "r_browse",
+    "ui": "boot"
+   }
+  },
+  {
+   "text": "In a box of cheap costume jewelry, she spots a big, sparkly ring. The seller wants twelve pounds. She haggles him down to ten.",
+   "spec": {
+    "shot": "r_haggle",
+    "ui": "gbp10"
+   }
+  },
+  {
+   "text": "She thinks it's glass. So she just wears it. For about thirty years.",
+   "spec": {
+    "shot": "r_wear",
+    "ui": "yrs30"
+   }
+  },
+  {
+   "text": "Then, in 2017, she finally asks a jeweler to take a look.",
+   "spec": {
+    "shot": "r_jeweler",
+    "ui": "jeweler"
+   }
+  },
+  {
+   "text": "It's not glass. It's a real diamond, over twenty-six carats, from the eighteen-hundreds.",
+   "spec": {
+    "shot": "r_real",
+    "ui": "ct26"
+   }
+  },
+  {
+   "text": "Sotheby's expected up to three hundred and fifty thousand pounds.",
+   "spec": {
+    "shot": "r_estimate",
+    "ui": "est"
+   }
+  },
+  {
+   "text": "It sold for six hundred and fifty-six thousand pounds. Not bad for a tenner.",
+   "spec": {
+    "shot": "r_sold",
+    "ui": "gbp656k"
+   }
+  },
+  {
+   "text": "Number five. Adamstown, Pennsylvania, 1989.",
+   "spec": {
+    "shot": "d_market",
+    "cut": true,
+    "mood": "calm",
+    "ui": "n5"
+   }
+  },
+  {
+   "text": "A man at a flea market buys an old painting for four dollars. He doesn't care about the picture. He just wants the frame.",
+   "spec": {
+    "shot": "d_buy",
+    "ui": "usd4"
+   }
+  },
+  {
+   "text": "At home, he takes it apart. The old frame falls to pieces.",
+   "spec": {
+    "shot": "d_break",
+    "ui": "break"
+   }
+  },
+  {
+   "text": "And hidden behind the painting, he finds a folded piece of paper.",
+   "spec": {
+    "shot": "d_paper",
+    "ui": "paper"
+   }
+  },
+  {
+   "text": "It's a copy of the Declaration of Independence. Not a souvenir. One of the very first printings, from July 1776.",
+   "spec": {
+    "shot": "d_decl",
+    "ui": "y1776"
+   }
+  },
+  {
+   "text": "Only a couple of dozen copies of that printing were known to still exist.",
+   "spec": {
+    "shot": "d_rare",
+    "ui": "rare"
+   }
+  },
+  {
+   "text": "In 1991, it sold at auction for two point four million dollars.",
+   "spec": {
+    "shot": "d_sold",
+    "ui": "usd242"
+   }
+  },
+  {
+   "text": "And nine years later, it sold again. This time for more than eight million.",
+   "spec": {
+    "shot": "d_resold",
+    "ui": "usd8m"
+   }
+  },
+  {
+   "text": "Number four. Northern California, 2013.",
+   "spec": {
+    "shot": "s_hill",
+    "cut": true,
+    "mood": "bright",
+    "ui": "n4"
+   }
+  },
+  {
+   "text": "A couple is walking their dog on their own land.",
+   "spec": {
+    "shot": "s_walk",
+    "ui": "walk"
+   }
+  },
+  {
+   "text": "Then, they notice an old rusty can, sticking out of the ground.",
+   "spec": {
+    "shot": "s_can",
+    "ui": "can"
+   }
+  },
+  {
+   "text": "They dig it out. Inside: gold coins.",
+   "spec": {
+    "shot": "s_open",
+    "ui": "gold"
+   }
+  },
+  {
+   "text": "They keep digging. In the end, they find eight cans, with fourteen hundred and twenty-seven gold coins.",
+   "spec": {
+    "shot": "s_cans",
+    "ui": "coins1427"
+   }
+  },
+  {
+   "text": "The coins are from 1847 to 1894, most of them minted in San Francisco. Their face value: about twenty-eight thousand dollars.",
+   "spec": {
+    "shot": "s_dates",
+    "ui": "face"
+   }
+  },
+  {
+   "text": "But to collectors, they're worth around ten million.",
+   "spec": {
+    "shot": "s_value",
+    "ui": "usd10m"
+   }
+  },
+  {
+   "text": "Some people guessed they were stolen from the San Francisco Mint in 1901. But the Mint said it found no link.",
+   "spec": {
+    "shot": "s_mint",
+    "ui": "mint"
+   }
+  },
+  {
+   "text": "At first, the couple hid them in an old cooler, under a pile of firewood.",
+   "spec": {
+    "shot": "s_cooler",
+    "ui": "cooler"
+   }
+  },
+  {
+   "text": "And who buried them? To this day, nobody knows.",
+   "spec": {
+    "shot": "s_mystery",
+    "ui": "mystery"
+   }
+  },
+  {
+   "text": "Number three. Suffolk, England, November 1992.",
+   "spec": {
+    "shot": "x_field",
+    "cut": true,
+    "mood": "calm",
+    "ui": "n3"
+   }
+  },
+  {
+   "text": "A farmer loses his hammer somewhere in a field. So he asks a friend for help.",
+   "spec": {
+    "shot": "x_hammer",
+    "ui": "hammer"
+   }
+  },
+  {
+   "text": "His friend has a metal detector. He got it as a retirement present.",
+   "spec": {
+    "shot": "x_detector",
+    "ui": "detector"
+   }
+  },
+  {
+   "text": "The detector beeps. But it's not the hammer. It's coins. Silver coins. Gold coins. Spoons. Jewelry.",
+   "spec": {
+    "shot": "x_beep",
+    "ui": "beep"
+   }
+  },
+  {
+   "text": "And here's the smart part. He stops digging, and calls the police.",
+   "spec": {
+    "shot": "x_stop",
+    "ui": "police"
+   }
+  },
+  {
+   "text": "The next day, archaeologists dig out the whole find.",
+   "spec": {
+    "shot": "x_dig",
+    "ui": "dig"
+   }
+  },
+  {
+   "text": "Almost fifteen thousand Roman coins, plus about two hundred silver and gold objects. Buried around sixteen hundred years ago.",
+   "spec": {
+    "shot": "x_count",
+    "ui": "coins15k"
+   }
+  },
+  {
+   "text": "It's now in the British Museum. The reward: one point seven five million pounds, shared with the farmer.",
+   "spec": {
+    "shot": "x_reward",
+    "ui": "gbp175m"
+   }
+  },
+  {
+   "text": "Oh, and the hammer? They found that too. It's in the British Museum as well.",
+   "spec": {
+    "shot": "x_hammer2",
+    "mood": "bright",
+    "ui": "hammer2"
+   }
+  },
+  {
+   "text": "Number two. Toulouse, France, 2014.",
+   "spec": {
+    "shot": "c_house",
+    "cut": true,
+    "mood": "tense",
+    "ui": "n2"
+   }
+  },
+  {
+   "text": "A family calls a local auctioneer to look at something in their attic. It's dark, cluttered, and the roof is leaking.",
+   "spec": {
+    "shot": "c_attic",
+    "ui": "attic"
+   }
+  },
+  {
+   "text": "Leaning against a wall is a huge, old painting. A woman is cutting off a man's head.",
+   "spec": {
+    "shot": "c_canvas",
+    "ui": "canvas"
+   }
+  },
+  {
+   "text": "An expert from Paris studies it, and makes a bold claim. He thinks it was painted by Caravaggio, one of the most famous painters of all time.",
+   "spec": {
+    "shot": "c_expert",
+    "ui": "expert"
+   }
+  },
+  {
+   "text": "France bans the painting from leaving the country for more than two years, while experts examine it. Estimates go up to one hundred and fifty million euros.",
+   "spec": {
+    "shot": "c_estimate",
+    "ui": "eur150m"
+   }
+  },
+  {
+   "text": "An auction is set for June 2019. But just days before, it's suddenly called off.",
+   "spec": {
+    "shot": "c_cancel",
+    "ui": "cancel"
+   }
+  },
+  {
+   "text": "A private collector bought it. The price is a secret. And some experts still doubt it's a real Caravaggio.",
+   "spec": {
+    "shot": "c_secret",
+    "ui": "secret"
+   }
+  },
+  {
+   "text": "And number one. A small town north of Paris, 2019.",
+   "spec": {
+    "shot": "k_house",
+    "cut": true,
+    "mood": "calm",
+    "ui": "n1"
+   }
+  },
+  {
+   "text": "A woman in her nineties is selling her house. An auctioneer comes by to value everything inside.",
+   "spec": {
+    "shot": "k_value",
+    "ui": "nineties"
+   }
+  },
+  {
+   "text": "In the kitchen, above the hot plate, hangs a tiny painting on wood. Smaller than a sheet of paper.",
+   "spec": {
+    "shot": "k_tiny",
+    "ui": "tiny"
+   }
+  },
+  {
+   "text": "The family thinks it's an old religious icon. Nothing special.",
+   "spec": {
+    "shot": "k_icon",
+    "ui": "icon"
+   }
+  },
+  {
+   "text": "But the auctioneer recognizes it right away. It looks like early Italian art. Maybe worth three or four hundred thousand euros.",
+   "spec": {
+    "shot": "k_spot",
+    "ui": "spot"
+   }
+  },
+  {
+   "text": "And the expert who checks it? The same man from the Caravaggio story.",
+   "spec": {
+    "shot": "k_expert",
+    "ui": "same"
+   }
+  },
+  {
+   "text": "His team scans it with infrared light, and compares it to other works.",
+   "spec": {
+    "shot": "k_scan",
+    "ui": "scan"
+   }
+  },
+  {
+   "text": "The verdict: it's by Cimabue, a master from around 1280. Only a handful of his paintings still exist.",
+   "spec": {
+    "shot": "k_cimabue",
+    "ui": "y1280"
+   }
+  },
+  {
+   "text": "In October 2019, about eight hundred people pack into the auction room. The bids keep climbing.",
+   "spec": {
+    "shot": "k_auction",
+    "mood": "tense",
+    "ui": "auction"
+   }
+  },
+  {
+   "text": "Twenty-four million euros. For a painting that hung over the stove.",
+   "spec": {
+    "shot": "k_sold",
+    "ui": "eur24m"
+   }
+  },
+  {
+   "text": "France blocked the buyer from taking it abroad. In 2023, the Louvre bought it.",
+   "spec": {
+    "shot": "k_louvre",
+    "mood": "bright",
+    "ui": "louvre"
+   }
+  },
+  {
+   "text": "So maybe go and check what's hanging in your grandma's kitchen.",
+   "spec": {
+    "shot": "k_grandma",
+    "ui": "grandma"
+   }
+  },
+  {
+   "text": "Which find would you most like to make? Tell me in the comments. And subscribe to Roundhead Stories for more true money stories.",
+   "spec": {
+    "shot": "outro",
+    "ui": "end"
+   }
+  }
+ ]
+}
