@@ -352,7 +352,7 @@
 
 ## AUTOMATIK-PLAN (Alex 2026-11-16 ~12:00: voll automatisch, keine Rückfragen)
 - Short alle 2 Tage, Langvideo alle 3 Tage; selbst auswählen, bauen, hochladen, öffentlich 19:00 planen.
-- Short-Termine (Stand 27.11.): … Brinks 25.11. | Brink's-Mat 27.11. (geplant) -> nächster fällig 29.11. (noch nicht gebaut), dann 01.12. …
+- Short-Termine (Stand 27.11. abends): … Brinks 25.11. | Brink's-Mat 27.11. (geplant) | ys_fyre 29.11. (GEBAUT, Upload ausstehend – Chrome weg) -> dann 01.12. …
 - Langvideo-Termine (Stand 27.11.): yt_heists18 25.11. | yt_treasure19 28.11. (geplant) | yt_found20 01.12. (geplant) -> nächstes fällig 04.12. Langvideo in Arbeit: –
 - Ideen-Vorrat Shorts: Fyre Festival 2017 | Ronaldo/Coca-Cola-Flaschen 2021 (-$4 Mrd. Börsenwert) | Mt. Gox | Lustig-ähnliche Betrüger.
 - Animations-Test: ys_pizza = komplett Code-gezeichnete Objekte (Pizza, Bitcoin-Münze, Röhrenmonitor, Handy) im Sky-Stil, kein Gemini (PC-Downloads nicht erreichbar). Mit Blockbuster (ebenfalls Code-Objekte) vergleichen.
@@ -591,3 +591,19 @@
 - Technik-Lehre: file_upload erlaubt max. 10,4 MB PRO AUFRUF – auch in browser_batch zählt die Summe -> jeden Teil einzeln hochladen. Lokaler Abschnitts-Render: /tmp-Skript seg.js (setTimeline(echte timeline.json) + draw(f/30) + Screenshot) + ffmpeg trim/concat.
 - NÄCHSTE TERMINE: Short fällig 29.11. 19:00 – noch NICHT gebaut -> im nächsten Lauf (27.11. nachmittags oder 28.11.) bauen (Figurenstil; Ideen: Lufthansa-Raub 1978 (Jahrestag 11.12.) | Fyre Festival | Jahrestage prüfen). Nächstes Langvideo fällig 04.12. (Start 02./03.12.).
 - Auswertung nächster Lauf: Brink's-Mat-Short (27.11.), yt_treasure19 (28.11.), Heists-CTR.
+
+## Lauf 2026-11-27 ~16:50–17:50 MEZ (Routine, Automatik)
+- Chrome anfangs erreichbar: Zahlen unverändert (Brinks 272 | Cooper 1.180 | Brücke 378 | Louvre 36 | Pizza 30 | Blockbuster 584; Langform: Heists 3 | Fortune 3 | Ponzi 23).
+  Geplant: Brink's-Mat Q7XNnqpo0uc 27.11. 19:00, yt_treasure19 WgWYMxHVjIc 28.11. 19:00, yt_found20 xsshCNLTbnM 01.12. 19:00 (alle "Geplant").
+- Erkenntnis: nichts Neues (Brink's-Mat erst ab 19:00 live).
+- SHORT GEBAUT (Upload AUSSTEHEND): ys_fyre "They Paid $12,000 for a Luxury Festival – and Got This 🥪" für 29.11.2026 19:00. 33,8 s, Ø -20,1 dB / max -3,9 dB.
+  Hook "Why you should never buy a festival ticket from an Instagram ad" + Hook-Text "$12,000 TICKET …FOR THIS CHEESE SANDWICH?". Figurenstil, modular (p0/p1/p2_fyre/p9 + build.sh):
+  Zeltlager am Strand (Katastrophen-Zelte, nasse Matratzen, Pfützen, Palmen, Meer), Handy-Post mit orangem Quadrat + Like-Zähler, Villa mit Pool/Liegen/Yacht im Abendlicht ("THE PROMISE"),
+  VIP-Ticket-Karte mit Zähler $12,000 + Flugzeug über der Insel, Styropor-Box mit Käsesandwich (Deckel klappt auf, cut), Flughafen "DEPARTURES" + CANCELLED + BACK TO MIAMI, Gefängnis "GUILTY: FRAUD" + "6 YEARS", Ende YES/NO (Loop).
+  Fakten: Wikipedia "Fyre Festival", CBS News, NBC News (Quellen in mg/ys_fyre/mk_project.py). Nicht verwendet: Likes/Followerzahlen, Investorensumme.
+  Sichtprüfung: Fake-TTS-Standbilder 3 Runden (Meer drückte durch den Sand -> Meeresspiegel tiefer, Kamera zu nah an Held/Sandwich/Matratzen, Säule vor DEPARTURES-Schild, Label-Überlappung, Flugzeug außerhalb des Bildes, Salat auf dem Brot) korrigiert;
+  Render v1 Run 46029852449 -> Kontaktblätter 2 Bilder/s komplett angesehen: Handy erschien erst nach 2 s ohne neue Bewegung (3–5 s) -> v2 Run 46033744213 (Handy ab Zeilenstart), Kontaktblätter erneut komplett angesehen: ok.
+  UPLOAD: ab ~17:45 Chrome-Erweiterung nicht erreichbar (2 Versuche). Titel/Beschreibung/Planung fertig in mg/ys_fyre/upload_meta.txt.
+  -> NÄCHSTER LAUF ZUERST: renders/ys_fyre/ys_fyre_final.mp4 holen, 2-Pass 2050k kodieren (9,2 MB), hochladen, öffentlich 29.11. 19:00 planen (falls 29.11. 19:00 schon vorbei: nächster 19:00-Termin).
+- NÄCHSTE TERMINE: Short ys_fyre 29.11. (Upload offen), nächster Short fällig 01.12. (Ideen: Lufthansa-Raub 1978 (Jahrestag 11.12. -> evtl. auf 11.12. legen) | Mt. Gox | Jahrestage prüfen). Langvideo fällig 04.12. (Start 02./03.12.).
+- Auswertung nächster Lauf: Brink's-Mat (27.11.), yt_treasure19 (28.11.), Heists-CTR.
