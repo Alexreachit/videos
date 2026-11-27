@@ -1,1 +1,1 @@
-erd12/scene.py stills=354,637,656,716,874 samples=20 pct=50 hrot=90
+erd12/scene.py stills=874,890 samples=20 pct=50 hrot=90

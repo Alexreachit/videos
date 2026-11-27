@@ -346,7 +346,7 @@ _hs = [md, ms] + [o for o in RIG.children if o.type == 'MESH' and (abs(o.locatio
 _hs0 = {o.name: tuple(o.scale) for o in _hs}
 for f in range(SH.NF):
     t = f / FPS; z = SH.rig_z(t); RIG.location = (DX, DY, z); RIG.keyframe_insert("location", frame=f)
-    g = SH.big(t); PIPE.scale = (g, g, L_FULL); PIPE.keyframe_insert("scale", frame=f); BIT.scale = (g, g, g); BIT.keyframe_insert("scale", frame=f)
+    g = SH.big(t); PIPE.scale = (g, g, L_FULL); PIPE.keyframe_insert("scale", frame=f); gb = 1 + (g - 1) * .58; BIT.scale = (gb, gb, gb); BIT.keyframe_insert("scale", frame=f)
     for o in _hs: b_ = _hs0[o.name]; k_ = 1 + (g - 1) * .09; o.scale = (b_[0] * k_, b_[1] * k_, b_[2]); o.keyframe_insert("scale", frame=f)
     a = SH.spin(t); PIPE.rotation_euler = (0, 0, a); PIPE.keyframe_insert("rotation_euler", frame=f)
     BIT.rotation_euler = (0, 0, a); BIT.keyframe_insert("rotation_euler", frame=f)
@@ -518,7 +518,7 @@ for i_, (x_, y_, yaw_, s_) in enumerate(SH.POS):
     e = bpy.data.objects.new("crew%d" % i_, None); e.instance_type = 'COLLECTION'; e.instance_collection = VARS[i_ % 4][1]; link(e)
     e.location = (x_, y_, 0); e.rotation_euler = (0, 0, yaw_); e.scale = (s_, s_, s_)
 
-BOT = [(-1.1, .8, .99), (1.15, .75, 2.15), (-.55, 1.75, 1.2), (1.4, 1.5, 2.6)]     # Bohrkopf bei SH.DRILL (0,41 / 1,55)
+BOT = [(-1.1, .8, .99), (1.45, .5, 2.15), (-.95, 1.85, 1.2), (1.65, 1.3, 2.6)]   # Tag 10: weiter weg vom Riesenbohrkopf (Bohrkopf bei SH.DRILL (0,41 / 1,55)
 for i_, (x_, y_, yaw_) in enumerate(BOT):
     e = bpy.data.objects.new("bot%d" % i_, None); e.instance_type = 'COLLECTION'; e.instance_collection = VARS[(i_ + 1) % 4][1]; link(e)
     e.location = (x_, y_, -SH.DEPTH); e.rotation_euler = (0, 0, yaw_)
