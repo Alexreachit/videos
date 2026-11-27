@@ -1,0 +1,82 @@
+{
+ "title": "Short: Fyre Festival 2017 (3D+2D style)",
+ "_sources": "Short \"Fyre Festival\" (Bahamas, April 2017) -> project.json\nStil: 3D-Toon-Welt (gl3d) + 2D-Rundkopf-Figuren (samrig) wie ys_brinks/ys_brinksmat (Referenz R-mWVMM-LAs).\nSources (checked 2026-11-27):\nWikipedia \"Fyre Festival\" (en.wikipedia.org/wiki/Fyre_Festival): dates April 28-30 / May 5-7 2017 (cancelled), Exuma, The Bahamas;\n  promoted by posts from Kendall Jenner, Bella Hadid, Hailey Baldwin, Emily Ratajkowski and other models/influencers;\n  advertised \"gourmet meals and luxury villas\"; day tickets $500-$1,500, VIP packages \"including airfare and luxury tent\n  accommodation for $12,000\"; guests found \"scattered disaster relief tents with dirt floors\", some mattresses \"soaking wet\";\n  \"cheese sandwiches served in foam containers\"; \"In the early morning, it was announced that the festival would be postponed,\n  and the attendees would be returned to Miami\"; March 2018 McFarland pleaded guilty to wire fraud; October 2018 sentenced to\n  six years in prison (and ordered to forfeit $26 million).\nCBS News Philadelphia \"Fyre Festival: When A $12,000 Luxury Festival In Paradise Turns Into Chaos\" (2017).\nVICE News 2017: attendees \"stranded on an island in disaster relief tents\".\nNBC News / NPR (Oct 11, 2018): Fyre Festival organizer Billy McFarland sentenced to 6 years on fraud charges.\nNot used: exact number of guests, likes/followers, investor totals.",
+ "size": [
+  1080,
+  1920
+ ],
+ "fps": 30,
+ "scene": "scene.html",
+ "voice": "en-US-AndrewMultilingualNeural",
+ "rate": "+16%",
+ "lead": 0.05,
+ "gap": 0.1,
+ "tail": 0.4,
+ "crf": 20,
+ "music": {
+  "style": "suspense",
+  "bpm": 140,
+  "gain": 0.24,
+  "duck_ratio": 2
+ },
+ "sfx_vary": true,
+ "sfx_gain": 0.5,
+ "lines": [
+  {
+   "text": "Why you should never buy a festival ticket from an Instagram ad.",
+   "spec": {
+    "shot": "hero"
+   }
+  },
+  {
+   "text": "In 2017, famous models promoted Fyre Festival, a luxury party in the Bahamas.",
+   "spec": {
+    "shot": "phone"
+   }
+  },
+  {
+   "text": "It promised luxury villas and gourmet meals.",
+   "spec": {
+    "shot": "promise"
+   }
+  },
+  {
+   "text": "VIP packages with flights cost twelve thousand dollars.",
+   "spec": {
+    "shot": "price"
+   }
+  },
+  {
+   "text": "But when the guests arrived, they found disaster-relief tents and soaking-wet mattresses.",
+   "spec": {
+    "shot": "tents"
+   }
+  },
+  {
+   "text": "And dinner was a cheese sandwich in a foam box!",
+   "spec": {
+    "shot": "sandwich",
+    "cut": true
+   }
+  },
+  {
+   "text": "By the next morning, the festival was called off, and guests were sent back to Miami.",
+   "spec": {
+    "shot": "airport"
+   }
+  },
+  {
+   "text": "Its founder pleaded guilty to fraud and got six years in prison.",
+   "spec": {
+    "shot": "prison"
+   }
+  },
+  {
+   "text": "Would you have bought a ticket?",
+   "spec": {
+    "shot": "end",
+    "choice": true
+   }
+  }
+ ]
+}
