@@ -609,3 +609,14 @@
 - Auswertung nächster Lauf: Brink's-Mat (27.11.), yt_treasure19 (28.11.), Heists-CTR.
 - NACHTRAG ~18:05 (Alex live "jetzt"): Chrome wieder da -> ys_fyre hochgeladen: ID v1QJSStIPnE, öffentlich 29.11.2026 19:00 geplant ("Veröffentlichungszeitpunkt festgelegt"),
   nicht für Kinder, Titel + Beschreibung (3 Quellen, #fyrefestival #scam #truestory #history #shorts) per JS geprüft. Upload-Punkt oben damit erledigt.
+
+## Lauf 2026-11-28 ~09:00 MEZ (Routine, Automatik)
+- Chrome erreichbar. 14 Abos (unverändert). 28 T (30.10.–26.11.): 5.558 Aufrufe, 15,7 h; Traffic 28 T: Suche 90 %, Videovorschläge 4 %. 48 h: 1.229 Aufrufe (fast nur Brink's-Mat).
+- Shorts: BRINK'S-MAT Q7XNnqpo0uc nach ~14 h: 1.207 Aufrufe (typische Leistung ~410), 50,4 % angesehen / 49,6 % weggewischt, Ø Wiedergabedauer 77 %, 21 Likes (Kanal-Rekord), 4,3 h, 0 Abos
+  -> stärkster Short neben Cooper/Eiffel/Felicity. | Brinks 271 | Cooper 1.179 | Brücke 378 | Louvre 36 | Pizza 30 | Blockbuster 584. Fyre v1QJSStIPnE 29.11. 19:00 geplant (geprüft).
+- Langform: Heists 3 | Said-No 3 | Con Artists 1 | Never-age 3 | Ponzi 23 | Supermarkt 2 | Mistakes 20. yt_treasure19 WgWYMxHVjIc heute 28.11. 19:00 geplant, yt_found20 xsshCNLTbnM 01.12. 19:00 geplant (beide geprüft).
+- Erkenntnis: Figurenstil + Gold/Schatz-Objekt (Barrenberg, Zähler £26 Mio.) + Jahrestag-Veröffentlichung (Brink's-Mat 26.11.) zündet wie Cooper (Jahrestag 24.11.). Brinks (ohne Jahrestag, Geld-Säcke, Nacht) blieb bei 271.
+  -> Jahrestage weiter nutzen; Hook-Bild mit glänzendem Gold/großer Summe bevorzugen. Nächster Short-Kandidat: Lufthansa-Raub 1978 (Jahrestag 11.12.) – für 01.12. ein anderes Thema mit Jahrestag Anfang Dez. prüfen (z. B. Mt. Gox nein = Bildschirm-Story; besser greifbares Objekt).
+- Takt: nichts fällig (Short 29.11. geplant, Langvideos 28.11./01.12. geplant). Keine Korrekturen, nichts hochgeladen.
+- NÄCHSTE TERMINE: Short fällig 01.12. -> im Lauf 29.11./30.11. bauen. Langvideo fällig 04.12. (Start 02./03.12.).
+- Auswertung nächster Lauf: yt_treasure19 (28.11.) CTR/Aufrufe, Fyre-Short (29.11.), Brink's-Mat-Verlauf.
